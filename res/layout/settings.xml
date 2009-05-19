@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_"></TextView>
+<EditText android:layout_height="wrap_content" android:id="@+id/user" android:layout_width="fill_parent" android:inputType="number" android:hint="@string/user_hint"></EditText>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_"></TextView>
+<EditText android:layout_height="wrap_content" android:id="@+id/password" android:layout_width="fill_parent" android:inputType="textPassword" android:hint="@string/password_hint"></EditText>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_"></TextView>
+<EditText android:layout_height="wrap_content" android:id="@+id/sender" android:layout_width="fill_parent" android:inputType="phone" android:hint="@string/sender_hint"></EditText>
+<Button android:layout_height="wrap_content" android:text="@string/help" android:id="@+id/help" android:layout_width="fill_parent"></Button>
+</LinearLayout>

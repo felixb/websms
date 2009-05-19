@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+<string name="app_name">GMX sms</string>
+<string name="app_version">0.2</string>
+<string name="compose">compose</string>
+<string name="get_free">refresh free sms</string>
+<string name="logs_">logs:</string>
+<string name="settings">preferences</string>
+<string name="about">about</string>
+<string name="user_">username:</string>
+<string name="password_">gmx sms key:</string>
+<string name="sender_">your phone number:</string>
+<string name="author_">author:</string>
+<string name="version_">version:</string>
+<string name="license_">license:</string>
+<string name="author">Felix Bechstein &lt;f@ub0r.de&gt; (ask mee for source)</string>
+<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
+<string name="to_">to:</string>
+<string name="text_">text:</string>
+
+<string name="clearlog">clear log</string>
+<string name="send">send</string>
+<string name="cancel">cancel</string>
+<string name="sender_hint">int. phonenumber</string>
+<string name="password_hint">GMX SMS-Manager Freischaltcode</string>
+<string name="user_hint">customer id (see help)</string>
+<string name="help">help</string>
+<string name="password_help">the sms key is found on the download page of the GMX SMS Manager (for windows) download page</string>
+<string name="user_help">the user id is found at the end of the url of the WEB GMX SMS Manager</string>
+<string name="sender_help">your full international phone number is needed</string>
+<string name="log_error_http">&quot;FAILURE: HTTP &quot;</string>
+<string name="log_sending">sending message..</string>
+<string name="log_error">ERROR</string>
+<string name="log_done">done</string>
+<string name="log_http_header_missing">Header: Content-Length is missing!</string>
+<string name="log_error_server">FAILURE: Serverresponse: </string>
+<string name="log_empty_settings">you need to fill the preferences. press menu button.</string>
+</resources>

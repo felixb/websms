@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="de.ub0r.android.andGMXsms"
+      android:versionName="0.2" android:versionCode="2">
+    <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
+        <activity android:label="@string/app_name" android:name=".AndGMXsms">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    <activity android:name="About"></activity>
+<activity android:name="Settings" android:windowSoftInputMode="adjustResize"></activity>
+<activity android:name="Composer" android:windowSoftInputMode="adjustResize"></activity>
+<activity android:name="Help"></activity>
+</application>
+    <uses-sdk android:minSdkVersion="3" />
+
+<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+<uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+</manifest> 

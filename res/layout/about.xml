@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name"></TextView>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/version_" android:paddingTop="10sp"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_version"></TextView>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingTop="10sp"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license"></TextView>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author_" android:paddingTop="10sp"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author"></TextView>
+</LinearLayout>

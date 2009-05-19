@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="fill_parent" android:layout_width="fill_parent">
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="10sp" android:layout_width="fill_parent">
+	<Button android:layout_height="wrap_content" android:text="@string/compose" android:id="@+id/composer" android:layout_width="fill_parent"  android:layout_weight="1"></Button>
+	<Button android:layout_height="wrap_content" android:text="@string/get_free" android:id="@+id/getfree" android:layout_width="fill_parent"  android:layout_weight="1"></Button>
+</LinearLayout>
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/logs_" android:paddingTop="10sp"/>
+<TextView android:layout_width="fill_parent" android:id="@+id/log" android:layout_height="fill_parent" android:scrollbars="vertical"/>
+
+</LinearLayout>

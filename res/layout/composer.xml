@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/to_"></TextView><LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal"><ImageButton android:id="@+id/contacts" android:src="@drawable/ic_menu_friendslist" android:layout_height="fill_parent" android:layout_width="wrap_content" android:adjustViewBounds="true" android:scaleType="fitXY" android:maxWidth="50sp"></ImageButton><EditText android:layout_height="wrap_content" android:id="@+id/to" android:layout_width="fill_parent" android:inputType="phone"></EditText>
+
+</LinearLayout>
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/text_"></TextView>
+<EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/text" android:layout_weight="5" android:layout_gravity="top"></EditText>
+
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="5">
+<Button android:text="@string/send" android:id="@+id/send" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+<Button android:id="@+id/cancel" android:text="@string/cancel" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+</LinearLayout>
+
+
+
+</LinearLayout>
