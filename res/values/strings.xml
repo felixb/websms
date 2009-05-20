@@ -37,4 +37,5 @@
 <string name="log_error_server">FAILURE: Serverresponse: </string>
 <string name="log_empty_settings">you need to fill the preferences. press menu button.</string>
 <string name="ok">ok</string>
+<string name="free_">free sms:</string>
 </resources>

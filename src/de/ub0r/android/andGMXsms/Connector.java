@@ -172,10 +172,15 @@ public class Connector extends Thread {
 					resultIndex = outp.indexOf("free_rem_month=");
 					if (resultIndex > 0) {
 						int resIndex = outp.indexOf("\n", resultIndex);
-						Message.obtain(AndGMXsms.me.messageHandler,
-								MessageHandler.WHAT_LOG,
-								outp.substring(resultIndex, resIndex))
-								.sendToTarget();
+						String freecount = outp.substring(resultIndex + "free_rem_month=".length(), resIndex);
+						
+						resultIndex = outp.indexOf("free_max_month=");
+						if (resultIndex > 0) {
+							resIndex = outp.indexOf("\n", resultIndex);
+							freecount += " / " +outp.substring(resultIndex + "free_max_month=".length(), resIndex);
+						}
+						
+						Message.obtain(AndGMXsms.me.messageHandler, MessageHandler.WHAT_FREECOUNT, freecount).sendToTarget();
 					}
 				}
 			} else {

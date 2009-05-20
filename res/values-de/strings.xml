@@ -34,4 +34,5 @@
 <string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 <string name="log_error_server">FEHLER: Serverantwort: </string>
 <string name="log_empty_settings">du musst die einstellungen füllen. drücke den menü knopf.</string>
+<string name="free_">frei sms:</string>
 </resources>
