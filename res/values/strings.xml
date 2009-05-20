@@ -36,4 +36,5 @@
 <string name="log_http_header_missing">Header: Content-Length is missing!</string>
 <string name="log_error_server">FAILURE: Serverresponse: </string>
 <string name="log_empty_settings">you need to fill the preferences. press menu button.</string>
+<string name="ok">ok</string>
 </resources>
