@@ -16,7 +16,6 @@ public class Composer extends Activity {
 
 	public static String lastMsg = null;
 	public static String lastTo = null;
-	private static Composer me = null;
 
 	static final int PICK_CONTACT_REQUEST = 0;
 
@@ -25,8 +24,6 @@ public class Composer extends Activity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.composer);
-
-		me = this;
 
 		Button button = (Button) this.findViewById(R.id.send);
 		button.setOnClickListener(this.runSend);
@@ -75,7 +72,7 @@ public class Composer extends Activity {
 
 				AndGMXsms.connector = new Connector(to, text);
 				AndGMXsms.connector.start();
-				me.finish();
+				Composer.this.finish();
 			}
 		}
 	};
@@ -87,7 +84,7 @@ public class Composer extends Activity {
 			et.setText("");
 			et = (EditText) Composer.this.findViewById(R.id.to);
 			et.setText("");
-			me.finish();
+			Composer.this.finish();
 			lastMsg = null;
 			lastTo = null;
 		}

@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class Settings extends Activity {
-	Settings me;
-
 	private static String pr_user;
 	private static String pr_password;
 	private static String pr_sender;
@@ -20,8 +18,6 @@ public class Settings extends Activity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.settings);
-
-		this.me = this;
 
 		Button button = (Button) this.findViewById(R.id.help);
 		button.setOnClickListener(this.help);
@@ -68,8 +64,7 @@ public class Settings extends Activity {
 	// Create an anonymous implementation of OnClickListener
 	private OnClickListener help = new OnClickListener() {
 		public void onClick(final View v) {
-			Settings.this.me.startActivity(new Intent(Settings.this.me,
-					Help.class));
+			Settings.this.startActivity(new Intent(Settings.this, Help.class));
 		}
 	};
 

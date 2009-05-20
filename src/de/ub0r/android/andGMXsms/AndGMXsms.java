@@ -102,7 +102,7 @@ public class AndGMXsms extends Activity {
 	// Create an anonymous implementation of OnClickListener
 	private OnClickListener openComposer = new OnClickListener() {
 		public void onClick(final View v) {
-			AndGMXsms.this.startActivity(new Intent(me, Composer.class));
+			AndGMXsms.this.startActivity(new Intent(AndGMXsms.this, Composer.class));
 		}
 	};
 
