@@ -12,7 +12,7 @@
 <string name="author_">autor:</string>
 <string name="version_">version:</string>
 <string name="license_">lizens:</string>
-<string name="author">Felix Bechstein &lt;f@ub0r.de&gt; (frag mich für die quellen)</string>
+<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 <string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">an:</string>
 <string name="text_">text:</string>
@@ -35,4 +35,5 @@
 <string name="log_error_server">FEHLER: Serverantwort: </string>
 <string name="log_empty_settings">du musst die einstellungen füllen. drücke den menü knopf.</string>
 <string name="free_">frei sms:</string>
+
 </resources>

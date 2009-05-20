@@ -2,7 +2,7 @@
 <resources>
     
 <string name="app_name">GMX sms</string>
-<string name="app_version">0.2</string>
+<string name="app_version">0.3</string>
 <string name="compose">compose</string>
 <string name="get_free">refresh free sms</string>
 <string name="logs_">logs:</string>
@@ -14,7 +14,7 @@
 <string name="author_">author:</string>
 <string name="version_">version:</string>
 <string name="license_">license:</string>
-<string name="author">Felix Bechstein &lt;f@ub0r.de&gt; (ask mee for source)</string>
+<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 <string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">to:</string>
 <string name="text_">text:</string>
@@ -38,4 +38,6 @@
 <string name="log_empty_settings">you need to fill the preferences. press menu button.</string>
 <string name="ok">ok</string>
 <string name="free_">free sms:</string>
+<string name="source_">sourcescode:</string>
+<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 </resources>
