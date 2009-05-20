@@ -83,11 +83,8 @@ public class AndGMXsms extends Activity {
 		button = (Button) this.findViewById(R.id.getfree);
 		button.setEnabled(prefs_ready);
 	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-
+	
+	void saveSettings() {
 		// Save user preferences. We need an Editor object to
 		// make changes. All objects are from android.context.Context
 		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
