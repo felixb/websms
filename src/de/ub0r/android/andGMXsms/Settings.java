@@ -81,7 +81,7 @@ public class Settings extends Activity {
 			AndGMXsms.prefs_user = pr_user;
 			AndGMXsms.prefs_password = pr_password;
 			AndGMXsms.prefs_sender = pr_sender;
-			
+
 			AndGMXsms.me.saveSettings();
 
 			Settings.this.finish();

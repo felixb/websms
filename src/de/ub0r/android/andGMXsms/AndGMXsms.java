@@ -83,7 +83,7 @@ public class AndGMXsms extends Activity {
 		button = (Button) this.findViewById(R.id.getfree);
 		button.setEnabled(prefs_ready);
 	}
-	
+
 	void saveSettings() {
 		// Save user preferences. We need an Editor object to
 		// make changes. All objects are from android.context.Context
@@ -99,7 +99,8 @@ public class AndGMXsms extends Activity {
 	// Create an anonymous implementation of OnClickListener
 	private OnClickListener openComposer = new OnClickListener() {
 		public void onClick(final View v) {
-			AndGMXsms.this.startActivity(new Intent(AndGMXsms.this, Composer.class));
+			AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
+					Composer.class));
 		}
 	};
 

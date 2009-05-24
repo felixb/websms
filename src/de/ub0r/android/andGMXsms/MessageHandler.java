@@ -19,7 +19,8 @@ public class MessageHandler extends Handler {
 		case WHAT_FREECOUNT:
 			String c = (String) msg.obj;
 			TextView tw = (TextView) AndGMXsms.me.findViewById(R.id.freecount);
-			tw.setText(AndGMXsms.me.getResources().getString(R.string.free_) + " " + c);
+			tw.setText(AndGMXsms.me.getResources().getString(R.string.free_)
+					+ " " + c);
 			return;
 		}
 	}
