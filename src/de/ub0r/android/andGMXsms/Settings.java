@@ -8,17 +8,31 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Simple Activity for setting preferences.
+ * 
+ * @author flx
+ */
 public class Settings extends Activity {
-	private static String pr_user;
-	private static String pr_password;
-	private static String pr_sender;
+	/** Local pref. for user. */
+	private static String prUser;
+	/** Local pref. for user's password. */
+	private static String prPassword;
+	/** Local pref. for user's phonenumber. */
+	private static String prSender;
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 * 
+	 * @param savedInstanceState
+	 *            default param
+	 */
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// inflate XML
 		this.setContentView(R.layout.settings);
-
+		// register Listener
 		Button button = (Button) this.findViewById(R.id.help);
 		button.setOnClickListener(this.help);
 		button = (Button) this.findViewById(R.id.ok);
@@ -27,80 +41,88 @@ public class Settings extends Activity {
 		button.setOnClickListener(this.cancel);
 	}
 
+	/** Called on activity resume. */
 	@Override
-	public void onResume() {
+	public final void onResume() {
 		super.onResume();
+		// load global prefs if local prefs are empty
+		if (prUser == null) {
+			prUser = AndGMXsms.prefsUser;
+		}
+		if (prPassword == null) {
+			prPassword = AndGMXsms.prefsPassword;
+		}
+		if (prSender == null) {
+			prSender = AndGMXsms.prefsSender;
+		}
 
-		if (pr_user == null) {
-			pr_user = AndGMXsms.prefs_user;
-		}
-		if (pr_password == null) {
-			pr_password = AndGMXsms.prefs_password;
-		}
-		if (pr_sender == null) {
-			pr_sender = AndGMXsms.prefs_sender;
-		}
-
+		// reload EditTexts' text from local prefs
 		EditText et = (EditText) this.findViewById(R.id.user);
-		et.setText(pr_user);
+		et.setText(prUser);
 		et = (EditText) this.findViewById(R.id.password);
-		et.setText(pr_password);
+		et.setText(prPassword);
 		et = (EditText) this.findViewById(R.id.sender);
-		et.setText(pr_sender);
+		et.setText(prSender);
 	}
 
+	/** Called on activity pause. */
 	@Override
-	public void onPause() {
+	public final void onPause() {
 		super.onPause();
-
+		// save TextEdits' text to local prefs
 		EditText et = (EditText) this.findViewById(R.id.user);
-		pr_user = et.getText().toString();
+		prUser = et.getText().toString();
 		et = (EditText) this.findViewById(R.id.password);
-		pr_password = et.getText().toString();
+		prPassword = et.getText().toString();
 		et = (EditText) this.findViewById(R.id.sender);
-		pr_sender = et.getText().toString();
+		prSender = et.getText().toString();
 	}
 
-	// Create an anonymous implementation of OnClickListener
+	/** OnClickListener for launching 'help'. */
 	private OnClickListener help = new OnClickListener() {
 		public void onClick(final View v) {
 			Settings.this.startActivity(new Intent(Settings.this, Help.class));
 		}
 	};
 
-	// Create an anonymous implementation of OnClickListener
+	/** OnClickListener listening for 'ok'. */
 	private OnClickListener ok = new OnClickListener() {
 		public void onClick(final View v) {
+			// save prefs from TextEdits
 			EditText et = (EditText) Settings.this.findViewById(R.id.user);
-			pr_user = et.getText().toString();
+			prUser = et.getText().toString();
 			et = (EditText) Settings.this.findViewById(R.id.password);
-			pr_password = et.getText().toString();
+			prPassword = et.getText().toString();
 			et = (EditText) Settings.this.findViewById(R.id.sender);
-			pr_sender = et.getText().toString();
+			prSender = et.getText().toString();
 
-			AndGMXsms.prefs_user = pr_user;
-			AndGMXsms.prefs_password = pr_password;
-			AndGMXsms.prefs_sender = pr_sender;
-
+			// save prefs to global
+			AndGMXsms.prefsUser = prUser;
+			AndGMXsms.prefsPassword = prPassword;
+			AndGMXsms.prefsSender = prSender;
+			// save prefs
 			AndGMXsms.me.saveSettings();
-
+			// exit activity
 			Settings.this.finish();
 		}
 	};
 
-	// Create an anonymous implementation of OnClickListener
+	/** OnClickListener listening for 'cancel'. */
 	private OnClickListener cancel = new OnClickListener() {
 		public void onClick(final View v) {
-			pr_user = AndGMXsms.prefs_user;
-			pr_password = AndGMXsms.prefs_password;
-			pr_sender = AndGMXsms.prefs_sender;
+			// reload prefs from global
+			prUser = AndGMXsms.prefsUser;
+			prPassword = AndGMXsms.prefsPassword;
+			prSender = AndGMXsms.prefsSender;
 
+			// reload prefs into TextEdits
 			EditText et = (EditText) Settings.this.findViewById(R.id.user);
-			et.setText(pr_user);
+			et.setText(prUser);
 			et = (EditText) Settings.this.findViewById(R.id.password);
-			et.setText(pr_password);
+			et.setText(prPassword);
 			et = (EditText) Settings.this.findViewById(R.id.sender);
-			et.setText(pr_sender);
+			et.setText(prSender);
+			// exit activity
 			Settings.this.finish();
 		}
 	};

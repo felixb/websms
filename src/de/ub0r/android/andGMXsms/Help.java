@@ -3,10 +3,20 @@ package de.ub0r.android.andGMXsms;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * Simple Activity to open "help".
+ * 
+ * @author flx
+ */
 public class Help extends Activity {
-	/** Called when the activity is first created. */
+	/**
+	 * called on create.
+	 * 
+	 * @param savedInstanceState
+	 *            default param
+	 */
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.help);
 	}

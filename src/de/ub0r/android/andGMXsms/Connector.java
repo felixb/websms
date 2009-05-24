@@ -12,27 +12,49 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Message;
 
+/**
+ * Thread to manage IO to GMX API.
+ * 
+ * @author flx
+ */
 public class Connector extends Thread {
-	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
+	/** Target host. */
 	private static final String TARGET_HOST = "app0.wr-gmbh.de";
+	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
+	/** Target path on host. */
 	private static final String TARGET_PATH = "/WRServer/WRServer.dll/WR";
+	/** Target mime encoding. */
 	private static final String TARGET_ENCODING = "wr-cs";
+	/** Target mime type. */
 	private static final String TARGET_CONTENT = "text/plain";
+	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/3.0 (compatible)";
+	/** Target version of protocol. */
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
+	/** Max Buffer size. */
 	private static final int MAX_BUFSIZE = 4096;
 
-	public static final String ADDRESS = "address";
-	public static final String PERSON = "person";
-	public static final String DATE = "date";
-	public static final String READ = "read";
-	public static final String STATUS = "status";
-	public static final String TYPE = "type";
-	public static final String BODY = "body";
-	public static final int MESSAGE_TYPE_SENT = 2;
+	/** SMS DB: address. */
+	private static final String ADDRESS = "address";
+	/** SMS DB: person. */
+	// private static final String PERSON = "person";
+	/** SMS DB: date. */
+	// private static final String DATE = "date";
+	/** SMS DB: read. */
+	private static final String READ = "read";
+	/** SMS DB: status. */
+	// private static final String STATUS = "status";
+	/** SMS DB: type. */
+	private static final String TYPE = "type";
+	/** SMS DB: body. */
+	private static final String BODY = "body";
+	/** SMS DB: type - sent. */
+	private static final int MESSAGE_TYPE_SENT = 2;
 
+	/** receiver. */
 	private final String to;
+	/** text. */
 	private final String text;
 
 	/**
@@ -46,25 +68,25 @@ public class Connector extends Thread {
 	/**
 	 * Create send_sms Connector.
 	 * 
-	 * @param to
+	 * @param aTo
 	 *            receiver
-	 * @param text
+	 * @param aText
 	 *            text
 	 */
-	public Connector(final String to, final String text) {
-		this.to = to;
-		this.text = text;
+	public Connector(final String aTo, final String aText) {
+		this.to = aTo;
+		this.text = aText;
 	}
 
 	/**
 	 * Create default data hashtable.
 	 * 
-	 * @return ht
+	 * @return Hashtable filled with customer_id and password.
 	 */
-	private static final Hashtable<String, Object> getBaseData() {
+	private static Hashtable<String, Object> getBaseData() {
 		Hashtable<String, Object> ret = new Hashtable<String, Object>();
-		ret.put("customer_id", AndGMXsms.prefs_user);
-		ret.put("password", AndGMXsms.prefs_password);
+		ret.put("customer_id", AndGMXsms.prefsUser);
+		ret.put("password", AndGMXsms.prefsPassword);
 		return ret;
 	}
 
@@ -83,15 +105,16 @@ public class Connector extends Thread {
 			final String packetVersion,
 			final Hashtable<String, Object> packetData) {
 		try {
+			// get Connection
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
 					+ TARGET_HOST + TARGET_PATH)).openConnection();
-
+			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
 			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
 			c.setRequestProperty("Content-Type", TARGET_CONTENT);
 			c.setRequestMethod("POST");
-
 			c.setDoOutput(true);
+			// push post data
 			OutputStream os = c.getOutputStream();
 			os.write("<WR TYPE=\"RQST\" NAME=\"".getBytes());
 			os.write(packetName.getBytes());
@@ -126,6 +149,7 @@ public class Connector extends Thread {
 			os.close();
 			os = null;
 
+			// send data
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				Message.obtain(
@@ -134,6 +158,7 @@ public class Connector extends Thread {
 						AndGMXsms.me.getResources().getString(
 								R.string.log_error_http + resp)).sendToTarget();
 			}
+			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			StringBuffer data = null;
 			if (bufsize > 0) {
@@ -157,6 +182,7 @@ public class Connector extends Thread {
 				is = null;
 				String resultString = data.toString();
 				if (resultString.startsWith("The truth")) {
+					// wrong data sent!
 					Message.obtain(
 							AndGMXsms.me.messageHandler,
 							MessageHandler.WHAT_LOG,
@@ -165,7 +191,7 @@ public class Connector extends Thread {
 									+ resultString).sendToTarget();
 					return false;
 				}
-
+				// get result code
 				int resultIndex = resultString.indexOf("rslt=");
 				if (resultIndex < 0) {
 					return false;
@@ -180,6 +206,8 @@ public class Connector extends Thread {
 							MessageHandler.WHAT_LOG, outp).sendToTarget();
 					return false;
 				} else {
+					// result: ok
+					// fetch additional info
 					resultIndex = outp.indexOf("free_rem_month=");
 					if (resultIndex > 0) {
 						int resIndex = outp.indexOf("\n", resultIndex);
@@ -217,12 +245,19 @@ public class Connector extends Thread {
 		return true;
 	}
 
+	/**
+	 * Get free sms count.
+	 */
 	private void getFree() {
 		this.sendData("GET_SMS_CREDITS", "1.00", getBaseData());
 	}
 
+	/**
+	 * Send sms.
+	 */
 	private void send() {
 		Hashtable<String, Object> packetData = getBaseData();
+		// fill Hashtable
 		packetData.put("sms_text", this.text);
 		// table: <id>, <name>, <number>
 		String receivers = "<TBL ROWS=\"1\" COLS=\"3\">"
@@ -230,20 +265,23 @@ public class Connector extends Thread {
 				+ "1\\;null\\;" + this.to + "\\;" + "</TBL>";
 		packetData.put("receivers", receivers);
 		packetData.put("send_option", "sms");
-		packetData.put("sms_sender", AndGMXsms.prefs_sender);
+		packetData.put("sms_sender", AndGMXsms.prefsSender);
 		// if date!='': data['send_date'] = date
 		Message.obtain(AndGMXsms.me.messageHandler, MessageHandler.WHAT_LOG,
 				AndGMXsms.me.getResources().getString(R.string.log_sending))
 				.sendToTarget();
+		// push data
 		if (!this.sendData("SEND_SMS", "1.01", packetData)) {
+			// failed!
 			Message.obtain(AndGMXsms.me.messageHandler,
 					MessageHandler.WHAT_LOG,
 					AndGMXsms.me.getResources().getString(R.string.log_error))
 					.sendToTarget();
 		} else {
-			Composer.lastMsg = null;
-			Composer.lastTo = null;
+			// result: ok
+			Composer.reset();
 
+			// save sms to content://sms/sent
 			ContentValues values = new ContentValues();
 			values.put(ADDRESS, this.to);
 			// values.put(DATE, "1237080365055");
@@ -251,9 +289,11 @@ public class Connector extends Thread {
 			// values.put(STATUS, -1);
 			values.put(TYPE, MESSAGE_TYPE_SENT);
 			values.put(BODY, this.text);
-			Uri inserted = AndGMXsms.me.getContentResolver().insert(
+			// Uri inserted =
+			AndGMXsms.me.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 
+			// log result
 			Message.obtain(AndGMXsms.me.messageHandler,
 					MessageHandler.WHAT_LOG,
 					AndGMXsms.me.getResources().getString(R.string.log_done))
@@ -261,8 +301,9 @@ public class Connector extends Thread {
 		}
 	}
 
+	/** Run this Thread. */
 	@Override
-	public void run() {
+	public final void run() {
 		if (this.to == null) {
 			this.getFree();
 		} else {
