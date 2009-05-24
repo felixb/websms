@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Message;
 
 public class Connector extends Thread {
@@ -20,6 +22,15 @@ public class Connector extends Thread {
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
 	private static final int MAX_BUFSIZE = 4096;
+
+	public static final String ADDRESS = "address";
+	public static final String PERSON = "person";
+	public static final String DATE = "date";
+	public static final String READ = "read";
+	public static final String STATUS = "status";
+	public static final String TYPE = "type";
+	public static final String BODY = "body";
+	public static final int MESSAGE_TYPE_SENT = 2;
 
 	private final String to;
 	private final String text;
@@ -172,15 +183,21 @@ public class Connector extends Thread {
 					resultIndex = outp.indexOf("free_rem_month=");
 					if (resultIndex > 0) {
 						int resIndex = outp.indexOf("\n", resultIndex);
-						String freecount = outp.substring(resultIndex + "free_rem_month=".length(), resIndex);
-						
+						String freecount = outp.substring(resultIndex
+								+ "free_rem_month=".length(), resIndex);
+
 						resultIndex = outp.indexOf("free_max_month=");
 						if (resultIndex > 0) {
 							resIndex = outp.indexOf("\n", resultIndex);
-							freecount += " / " +outp.substring(resultIndex + "free_max_month=".length(), resIndex);
+							freecount += " / "
+									+ outp.substring(resultIndex
+											+ "free_max_month=".length(),
+											resIndex);
 						}
-						
-						Message.obtain(AndGMXsms.me.messageHandler, MessageHandler.WHAT_FREECOUNT, freecount).sendToTarget();
+
+						Message.obtain(AndGMXsms.me.messageHandler,
+								MessageHandler.WHAT_FREECOUNT, freecount)
+								.sendToTarget();
 					}
 				}
 			} else {
@@ -226,6 +243,17 @@ public class Connector extends Thread {
 		} else {
 			Composer.lastMsg = null;
 			Composer.lastTo = null;
+
+			ContentValues values = new ContentValues();
+			values.put(ADDRESS, this.to);
+			// values.put(DATE, "1237080365055");
+			values.put(READ, 1);
+			// values.put(STATUS, -1);
+			values.put(TYPE, MESSAGE_TYPE_SENT);
+			values.put(BODY, this.text);
+			Uri inserted = AndGMXsms.me.getContentResolver().insert(
+					Uri.parse("content://sms/sent"), values);
+
 			Message.obtain(AndGMXsms.me.messageHandler,
 					MessageHandler.WHAT_LOG,
 					AndGMXsms.me.getResources().getString(R.string.log_done))
