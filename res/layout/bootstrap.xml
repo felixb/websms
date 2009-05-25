@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/dialog_bootstrap" android:padding="10dp">
+
+<TextView android:text="@string/mail_" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/bootstrap_mail_"></TextView>
+<EditText android:id="@+id/bootstrap_mail" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/mail_hint" android:layout_below="@id/bootstrap_mail_"></EditText>
+
+<TextView android:text="@string/password_" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/bootstrap_pw_" android:layout_below="@id/bootstrap_mail"></TextView>
+<EditText android:id="@+id/bootstrap_pw" android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textPassword" android:hint="@string/password_hint" android:layout_below="@id/bootstrap_pw_">></EditText>
+
+<Button android:layout_height="wrap_content" android:text="@string/ok" android:layout_below="@id/bootstrap_pw" android:id="@+id/bootstrap_ok" android:layout_width="wrap_content" android:layout_centerInParent="false"></Button>
+<Button android:layout_height="wrap_content" android:text="@string/cancel" android:layout_below="@id/bootstrap_pw" android:id="@+id/bootstrap_cancel" android:layout_toRightOf="@id/bootstrap_ok" android:layout_width="wrap_content" android:layout_centerInParent="false"></Button>
+</RelativeLayout>
+

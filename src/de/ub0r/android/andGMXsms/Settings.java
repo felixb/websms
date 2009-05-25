@@ -1,6 +1,7 @@
 package de.ub0r.android.andGMXsms;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,9 @@ public class Settings extends Activity {
 	/** Local pref. for user's phonenumber. */
 	private static String prSender;
 
+	/** Dialog: bootstrap. */
+	private static final int DIALOG_BOOTSTRAP = 0;
+
 	/**
 	 * Called when the activity is first created.
 	 * 
@@ -39,6 +43,8 @@ public class Settings extends Activity {
 		button.setOnClickListener(this.ok);
 		button = (Button) this.findViewById(R.id.cancel);
 		button.setOnClickListener(this.cancel);
+		button = (Button) this.findViewById(R.id.bootstrap);
+		button.setOnClickListener(this.bootstrap);
 	}
 
 	/** Called on activity resume. */
@@ -78,8 +84,31 @@ public class Settings extends Activity {
 		prSender = et.getText().toString();
 	}
 
+	/**
+	 * Called to create dialog.
+	 * 
+	 * @param id
+	 *            Dialog id
+	 * @return dialog
+	 */
+	@Override
+	protected final Dialog onCreateDialog(final int id) {
+		Dialog dialog;
+		switch (id) {
+		case DIALOG_BOOTSTRAP:
+			dialog = new Dialog(this);
+			dialog.setContentView(R.layout.bootstrap);
+			dialog.setTitle(this.getResources().getString(R.string.bootstrap_));
+			break;
+		default:
+			dialog = null;
+		}
+		return dialog;
+	}
+
 	/** OnClickListener for launching 'help'. */
 	private OnClickListener help = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			Settings.this.startActivity(new Intent(Settings.this, Help.class));
 		}
@@ -87,6 +116,7 @@ public class Settings extends Activity {
 
 	/** OnClickListener listening for 'ok'. */
 	private OnClickListener ok = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			// save prefs from TextEdits
 			EditText et = (EditText) Settings.this.findViewById(R.id.user);
@@ -109,6 +139,7 @@ public class Settings extends Activity {
 
 	/** OnClickListener listening for 'cancel'. */
 	private OnClickListener cancel = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			// reload prefs from global
 			prUser = AndGMXsms.prefsUser;
@@ -125,5 +156,14 @@ public class Settings extends Activity {
 			// exit activity
 			Settings.this.finish();
 		}
+	};
+
+	/** OnClickListener listening for 'bootstrap'. */
+	private OnClickListener bootstrap = new OnClickListener() {
+		@Override
+		public void onClick(final View v) {
+			Settings.this.showDialog(DIALOG_BOOTSTRAP);
+		}
+
 	};
 }

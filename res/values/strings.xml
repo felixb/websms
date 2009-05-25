@@ -42,4 +42,8 @@
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 <string name="log_update">update free sms counter</string>
 <string name="text__">text</string>
+<string name="bootstrap_">init</string>
+<string name="help_bootstrap">init prefs with help of gmx</string>
+<string name="mail_">mail:</string>
+<string name="mail_hint">user@gmx.tld</string>
 </resources>
