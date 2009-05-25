@@ -6,11 +6,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 /**
  * Simple Activity for sms input.
@@ -26,6 +29,12 @@ public class Composer extends Activity {
 
 	/** Intent id. */
 	static final int PICK_CONTACT_REQUEST = 0;
+
+	/** Text's label. */
+	private TextView textLabel;
+
+	/** Resource @string/text__. */
+	private String textLabelRef;
 
 	/**
 	 * Called when the activity is first created.
@@ -45,6 +54,11 @@ public class Composer extends Activity {
 		button.setOnClickListener(this.cancel);
 		ImageButton ibtn = (ImageButton) this.findViewById(R.id.contacts);
 		ibtn.setOnClickListener(this.contacts);
+
+		this.textLabelRef = this.getResources().getString(R.string.text__);
+		this.textLabel = (TextView) this.findViewById(R.id.text_);
+		EditText et = (EditText) this.findViewById(R.id.text);
+		et.addTextChangedListener(this.textWatcher);
 	}
 
 	/** Called on activity resume. */
@@ -65,6 +79,33 @@ public class Composer extends Activity {
 			et.setText("");
 		}
 	}
+
+	/** TextWatcher updating char count on writing. */
+	private TextWatcher textWatcher = new TextWatcher() {
+		/**
+		 * Called after Text is changed.
+		 * 
+		 * @param s
+		 *            text
+		 */
+		@Override
+		public void afterTextChanged(final Editable s) {
+			Composer.this.textLabel.setText(Composer.this.textLabelRef + " ("
+					+ s.length() + "):");
+		}
+
+		/** Needed dummy. */
+		@Override
+		public void beforeTextChanged(final CharSequence s, final int start,
+				final int count, final int after) {
+		}
+
+		/** Needed dummy. */
+		@Override
+		public void onTextChanged(final CharSequence s, final int start,
+				final int before, final int count) {
+		}
+	};
 
 	/** OnClickListener for sending the sms. */
 	private OnClickListener runSend = new OnClickListener() {
