@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -61,9 +60,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	private String to;
 	/** text. */
 	private String text;
-
-	/** Dialog ref. */
-	private Dialog dialog;
 
 	/**
 	 * Create default data hashtable.
@@ -324,12 +320,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
 		if (this.to == null) {
-			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
-					.getResources().getString(R.string.log_update), true);
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_update);
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
 		} else {
-			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
-					.getResources().getString(R.string.log_sending)
-					+ " (" + this.to + ")", true);
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_sending)
+					+ " (" + this.to + ")";
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
 		}
 	}
 
@@ -341,8 +341,14 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onPostExecute(final Boolean result) {
-		if (this.dialog != null) {
-			this.dialog.dismiss();
+		AndGMXsms.dialogString = null;
+		if (AndGMXsms.dialog != null) {
+			try {
+				AndGMXsms.dialog.dismiss();
+				AndGMXsms.dialog = null;
+			} catch (Exception e) {
+				// nothing to do
+			}
 		}
 	}
 }

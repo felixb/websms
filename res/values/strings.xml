@@ -2,7 +2,7 @@
 <resources>
     
 <string name="app_name">GMX sms</string>
-<string name="app_version">0.4</string>
+<string name="app_version">0.5</string>
 <string name="compose">compose</string>
 <string name="get_free">refresh free sms</string>
 <string name="logs_">logs:</string>

@@ -1,6 +1,8 @@
 package de.ub0r.android.andGMXsms;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,9 +40,16 @@ public class AndGMXsms extends Activity {
 	public static String prefsSender;
 	/** Preferences ready? */
 	public static boolean prefsReady = false;
+	/** Remaining free sms. */
+	public static String remFree = null;
 
 	/** Length of a prefix. */
 	private static final int PREFIX_LEN = 3;
+
+	/** Public Dialog ref. */
+	public static Dialog dialog = null;
+	/** Dialog String. */
+	public static String dialogString = null;
 
 	/**
 	 * Preferences: user's default prefix.
@@ -99,6 +108,19 @@ public class AndGMXsms extends Activity {
 		// restore log
 		if (this.log != null && logString != null) {
 			this.log.setText(logString);
+		}
+
+		// set free sms count
+		if (remFree != null) {
+			TextView tw = (TextView) AndGMXsms.me.findViewById(R.id.freecount);
+			tw.setText(AndGMXsms.me.getResources().getString(R.string.free_)
+					+ " " + remFree);
+		}
+
+		// restart dialog
+		if (dialogString != null) {
+			dialog = ProgressDialog.show(AndGMXsms.me, null, this
+					.getResources().getString(R.string.log_update), true);
 		}
 
 		// check prefs

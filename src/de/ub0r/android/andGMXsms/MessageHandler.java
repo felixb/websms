@@ -30,10 +30,10 @@ public class MessageHandler extends Handler {
 			AndGMXsms.me.lognl(l);
 			return;
 		case WHAT_FREECOUNT:
-			String c = (String) msg.obj;
+			AndGMXsms.remFree = (String) msg.obj;
 			TextView tw = (TextView) AndGMXsms.me.findViewById(R.id.freecount);
 			tw.setText(AndGMXsms.me.getResources().getString(R.string.free_)
-					+ " " + c);
+					+ " " + AndGMXsms.remFree);
 			return;
 		default:
 			return;
