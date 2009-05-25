@@ -119,8 +119,15 @@ public class AndGMXsms extends Activity {
 
 		// restart dialog
 		if (dialogString != null) {
-			dialog = ProgressDialog.show(AndGMXsms.me, null, this
-					.getResources().getString(R.string.log_update), true);
+			if (dialog != null) {
+				try {
+					dialog.dismiss();
+				} catch (Exception e) {
+					// nothing to do
+				}
+			}
+			dialog = ProgressDialog
+					.show(AndGMXsms.me, null, dialogString, true);
 		}
 
 		// check prefs

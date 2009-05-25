@@ -282,14 +282,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
-	 * Run before execution.
-	 */
-	@Override
-	protected final void onPreExecute() {
-
-	}
-
-	/**
 	 * Run IO in background.
 	 * 
 	 * @param textTo
