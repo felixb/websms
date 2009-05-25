@@ -58,8 +58,6 @@ public class AndGMXsms extends Activity {
 	private TextView log;
 	/** Local log store. */
 	private static String logString = "";
-	/** Connector. */
-	public static Connector connector = null;
 	/** MessageHandler. */
 	Handler messageHandler;
 
@@ -146,8 +144,7 @@ public class AndGMXsms extends Activity {
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
 		public void onClick(final View v) {
-			connector = new Connector();
-			connector.start();
+			new Connector().execute((String) null);
 		}
 	};
 

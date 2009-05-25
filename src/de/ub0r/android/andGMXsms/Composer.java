@@ -86,8 +86,10 @@ public class Composer extends Activity {
 					}
 				}
 				// start a Connector Thread
-				AndGMXsms.connector = new Connector(to, text);
-				AndGMXsms.connector.start();
+				String[] params = new String[2];
+				params[0] = text;
+				params[1] = to;
+				new Connector().execute(params);
 				// exit activity
 				Composer.this.finish();
 			}

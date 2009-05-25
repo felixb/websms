@@ -8,16 +8,21 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Message;
 
 /**
- * Thread to manage IO to GMX API.
+ * AsyncTask to manage IO to GMX API.
  * 
  * @author flx
  */
-public class Connector extends Thread {
+public class Connector extends AsyncTask<String, Boolean, Boolean> {
+	/** Dialog ID. */
+	public static final int DIALOG_IO = 0;
 	/** Target host. */
 	private static final String TARGET_HOST = "app0.wr-gmbh.de";
 	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
@@ -53,30 +58,12 @@ public class Connector extends Thread {
 	private static final int MESSAGE_TYPE_SENT = 2;
 
 	/** receiver. */
-	private final String to;
+	private String to;
 	/** text. */
-	private final String text;
+	private String text;
 
-	/**
-	 * Create get_free Connector.
-	 */
-	public Connector() {
-		this.to = null;
-		this.text = null;
-	}
-
-	/**
-	 * Create send_sms Connector.
-	 * 
-	 * @param aTo
-	 *            receiver
-	 * @param aText
-	 *            text
-	 */
-	public Connector(final String aTo, final String aText) {
-		this.to = aTo;
-		this.text = aText;
-	}
+	/** Dialog ref. */
+	private Dialog dialog;
 
 	/**
 	 * Create default data hashtable.
@@ -247,15 +234,19 @@ public class Connector extends Thread {
 
 	/**
 	 * Get free sms count.
+	 * 
+	 * @return ok?
 	 */
-	private void getFree() {
-		this.sendData("GET_SMS_CREDITS", "1.00", getBaseData());
+	private boolean getFree() {
+		return this.sendData("GET_SMS_CREDITS", "1.00", getBaseData());
 	}
 
 	/**
 	 * Send sms.
+	 * 
+	 * @return ok?
 	 */
-	private void send() {
+	private boolean send() {
 		Hashtable<String, Object> packetData = getBaseData();
 		// fill Hashtable
 		packetData.put("sms_text", this.text);
@@ -267,9 +258,6 @@ public class Connector extends Thread {
 		packetData.put("send_option", "sms");
 		packetData.put("sms_sender", AndGMXsms.prefsSender);
 		// if date!='': data['send_date'] = date
-		Message.obtain(AndGMXsms.me.messageHandler, MessageHandler.WHAT_LOG,
-				AndGMXsms.me.getResources().getString(R.string.log_sending))
-				.sendToTarget();
 		// push data
 		if (!this.sendData("SEND_SMS", "1.01", packetData)) {
 			// failed!
@@ -277,6 +265,7 @@ public class Connector extends Thread {
 					MessageHandler.WHAT_LOG,
 					AndGMXsms.me.getResources().getString(R.string.log_error))
 					.sendToTarget();
+			return false;
 		} else {
 			// result: ok
 			Composer.reset();
@@ -292,22 +281,68 @@ public class Connector extends Thread {
 			// Uri inserted =
 			AndGMXsms.me.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
-
-			// log result
-			Message.obtain(AndGMXsms.me.messageHandler,
-					MessageHandler.WHAT_LOG,
-					AndGMXsms.me.getResources().getString(R.string.log_done))
-					.sendToTarget();
+			return true;
 		}
 	}
 
-	/** Run this Thread. */
+	/**
+	 * Run before execution.
+	 */
 	@Override
-	public final void run() {
+	protected final void onPreExecute() {
+
+	}
+
+	/**
+	 * Run IO in background.
+	 * 
+	 * @param textTo
+	 *            (text,receiver)
+	 * @return ok?
+	 */
+	@Override
+	protected final Boolean doInBackground(final String... textTo) {
+		boolean ret = false;
+		if (textTo == null || textTo[0] == null) {
+			this.publishProgress((Boolean) null);
+			ret = this.getFree();
+		} else if (textTo.length >= 2) {
+			this.text = textTo[0];
+			this.to = textTo[1];
+			this.publishProgress((Boolean) null);
+			ret = this.send();
+		}
+		return new Boolean(ret);
+	}
+
+	/**
+	 * Update progress. Only ran once on startup to display progress dialog.
+	 * 
+	 * @param progress
+	 *            finished?
+	 */
+	@Override
+	protected final void onProgressUpdate(final Boolean... progress) {
 		if (this.to == null) {
-			this.getFree();
+			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
+					.getResources().getString(R.string.log_update), true);
 		} else {
-			this.send();
+			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
+					.getResources().getString(R.string.log_sending)
+					+ " (" + this.to + ")", true);
+		}
+	}
+
+	/**
+	 * Push data back to GUI. Close progress dialog.
+	 * 
+	 * @param result
+	 *            result
+	 */
+	@Override
+	protected final void onPostExecute(final Boolean result) {
+		if (this.dialog != null) {
+			this.dialog.dismiss();
 		}
 	}
 }

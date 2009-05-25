@@ -40,4 +40,5 @@
 <string name="free_">free sms:</string>
 <string name="source_">sourcescode:</string>
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
+<string name="log_update">update free sms counter</string>
 </resources>

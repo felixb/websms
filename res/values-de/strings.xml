@@ -36,4 +36,5 @@
 <string name="log_empty_settings">du musst die einstellungen füllen. drücke den menü knopf.</string>
 <string name="free_">frei sms:</string>
 
+<string name="log_update">update frei sms</string>
 </resources>
