@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -50,6 +51,9 @@ public class AndGMXsms extends Activity {
 	public static Dialog dialog = null;
 	/** Dialog String. */
 	public static String dialogString = null;
+
+	/** Public Connector. */
+	public static AsyncTask<String, Boolean, Boolean> connector;
 
 	/**
 	 * Preferences: user's default prefix.
@@ -173,7 +177,7 @@ public class AndGMXsms extends Activity {
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
 		public void onClick(final View v) {
-			new Connector().execute((String) null);
+			connector = new Connector().execute((String) null);
 		}
 	};
 

@@ -130,7 +130,7 @@ public class Composer extends Activity {
 				String[] params = new String[2];
 				params[0] = text;
 				params[1] = to;
-				new Connector().execute(params);
+				AndGMXsms.connector = new Connector().execute(params);
 				// exit activity
 				Composer.this.finish();
 			}
