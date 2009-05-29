@@ -59,10 +59,22 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** ID of receiver in array. */
 	public static final int ID_TO = 1;
 
+	/** ID of mail in array. */
+	public static final int ID_MAIL = 0;
+	/** ID of password in array. */
+	public static final int ID_PW = 1;
+	/** ID of null in array. */
+	public static final int ID_BOOTSTRAP_NULL = 2;
+
 	/** receiver. */
 	private String to;
 	/** text. */
 	private String text;
+
+	/** mail. */
+	private String mail;
+	/** password. */
+	private String pw;
 
 	/**
 	 * Write key,value to StringBuffer.
@@ -293,6 +305,19 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Bootstrap: Get preferences.
+	 * 
+	 * @return ok?
+	 */
+	private boolean bootstrap() {
+		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10");
+		writePair(packetData, "email_address", this.mail);
+		writePair(packetData, "password", this.pw);
+		writePair(packetData, "gmx", "1");
+		return this.sendData(closeBuffer(packetData));
+	}
+
+	/**
 	 * Run IO in background.
 	 * 
 	 * @param textTo
@@ -305,11 +330,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (textTo == null || textTo[0] == null) {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
-		} else if (textTo.length >= 2) {
+		} else if (textTo.length == 2) {
 			this.text = textTo[ID_TEXT];
 			this.to = textTo[ID_TO];
 			this.publishProgress((Boolean) null);
 			ret = this.send();
+		} else {
+			this.mail = textTo[ID_MAIL];
+			this.pw = textTo[ID_PW];
+			this.publishProgress((Boolean) null);
+			ret = this.bootstrap();
 		}
 		return new Boolean(ret);
 	}
@@ -323,10 +353,17 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
 		if (this.to == null) {
-			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.log_update);
-			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-					AndGMXsms.dialogString, true);
+			if (this.mail == null) {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.log_update);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			} else {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.bootstrap_);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			}
 		} else {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.log_sending)

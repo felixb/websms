@@ -66,6 +66,8 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_FREECOUNT = 1;
 	/** Message to send. */
 	public static final int MESSAGE_SEND = 2;
+	/** Message to bootstrap. */
+	public static final int MESSAGE_BOOTSTRAP = 3;
 
 	/**
 	 * Preferences: user's default prefix.
@@ -313,6 +315,10 @@ public class AndGMXsms extends Activity {
 						+ " " + AndGMXsms.remFree);
 				return;
 			case MESSAGE_SEND:
+				AndGMXsms.connector = new Connector()
+						.execute((String[]) msg.obj);
+				return;
+			case MESSAGE_BOOTSTRAP:
 				AndGMXsms.connector = new Connector()
 						.execute((String[]) msg.obj);
 				return;
