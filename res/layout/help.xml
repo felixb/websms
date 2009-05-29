@@ -2,16 +2,12 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_"></TextView>
-
-
-<TextView android:id="@+id/TextView04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_help" android:paddingLeft="10sp"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_" android:paddingTop="10sp"></TextView>
-
-
-<TextView android:id="@+id/TextView05" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_help" android:paddingLeft="10sp"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_" android:paddingTop="10sp"></TextView>
-
-
-
-
-<TextView android:id="@+id/TextView06" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_help" android:paddingLeft="10sp"></TextView>
+  
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_help" android:paddingLeft="10sp"></TextView>
+  
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_" android:paddingTop="10sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_help" android:paddingLeft="10sp"></TextView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_" android:paddingTop="10sp"></TextView>
+  
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_help" android:paddingLeft="10sp"></TextView>
 </LinearLayout>
