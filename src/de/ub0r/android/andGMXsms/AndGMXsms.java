@@ -127,9 +127,9 @@ public class AndGMXsms extends Activity {
 
 		// set free sms count
 		if (remFree != null) {
-			TextView tw = (TextView) AndGMXsms.me.findViewById(R.id.freecount);
-			tw.setText(AndGMXsms.me.getResources().getString(R.string.free_)
-					+ " " + remFree);
+			TextView tw = (TextView) this.findViewById(R.id.freecount);
+			tw.setText(this.getResources().getString(R.string.free_) + " "
+					+ remFree);
 		}
 
 		// restart dialog
@@ -141,8 +141,7 @@ public class AndGMXsms extends Activity {
 					// nothing to do
 				}
 			}
-			dialog = ProgressDialog
-					.show(AndGMXsms.me, null, dialogString, true);
+			dialog = ProgressDialog.show(this, null, dialogString, true);
 		}
 
 		// check prefs
