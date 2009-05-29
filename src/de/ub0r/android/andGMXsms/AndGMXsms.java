@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,6 +59,13 @@ public class AndGMXsms extends Activity {
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
 
+	/** Message for logging. **/
+	public static final int MESSAGE_LOG = 0;
+	/** Message for update free sms count. **/
+	public static final int MESSAGE_FREECOUNT = 1;
+	/** Message to send. */
+	public static final int MESSAGE_SEND = 2;
+
 	/**
 	 * Preferences: user's default prefix.
 	 * 
@@ -93,7 +101,7 @@ public class AndGMXsms extends Activity {
 		// save ref to log
 		this.log = (TextView) this.findViewById(R.id.log);
 		// register MessageHandler
-		this.messageHandler = new MessageHandler();
+		this.messageHandler = new AndGMXsms.MessageHandler();
 
 		// Restore preferences
 		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
@@ -265,6 +273,44 @@ public class AndGMXsms extends Activity {
 	public final void lognl(final String text) {
 		this.log.append(text + "\n");
 		logString += text + "\n";
+	}
+
+	/**
+	 * AndGMXsms's MessageHandler.
+	 * 
+	 * @author flx
+	 */
+	private class MessageHandler extends Handler {
+
+		/**
+		 * Handles incoming messages.
+		 * 
+		 * @param msg
+		 *            message
+		 */
+		@Override
+		public final void handleMessage(final Message msg) {
+			switch (msg.what) {
+			case MESSAGE_LOG:
+				String l = (String) msg.obj;
+				AndGMXsms.this.lognl(l);
+				return;
+			case MESSAGE_FREECOUNT:
+				AndGMXsms.remFree = (String) msg.obj;
+				TextView tw = (TextView) AndGMXsms.this
+						.findViewById(R.id.freecount);
+				tw.setText(AndGMXsms.this.getResources().getString(
+						R.string.free_)
+						+ " " + AndGMXsms.remFree);
+				return;
+			case MESSAGE_SEND:
+				AndGMXsms.connector = new Connector()
+						.execute((String[]) msg.obj);
+				return;
+			default:
+				return;
+			}
+		}
 	}
 
 }
