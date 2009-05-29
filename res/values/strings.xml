@@ -42,4 +42,6 @@
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 <string name="log_update">update free sms counter</string>
 <string name="text__">text</string>
+<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
+<string name="donate_">donate</string>
 </resources>

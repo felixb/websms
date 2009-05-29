@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -245,6 +246,15 @@ public class AndGMXsms extends Activity {
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.about);
 			myDialog.setTitle(this.getResources().getString(R.string.about));
+			Button button = (Button) myDialog.findViewById(R.id.btn_donate);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					Uri uri = Uri.parse(AndGMXsms.this
+							.getString(R.string.donate_url));
+					AndGMXsms.this.startActivity(new Intent(Intent.ACTION_VIEW,
+							uri));
+				}
+			});
 			break;
 		default:
 			myDialog = null;
