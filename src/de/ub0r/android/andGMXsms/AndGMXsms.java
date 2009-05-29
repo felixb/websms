@@ -55,6 +55,9 @@ public class AndGMXsms extends Activity {
 	/** Public Connector. */
 	public static AsyncTask<String, Boolean, Boolean> connector;
 
+	/** Dialog: about. */
+	private static final int DIALOG_ABOUT = 0;
+
 	/**
 	 * Preferences: user's default prefix.
 	 * 
@@ -209,8 +212,8 @@ public class AndGMXsms extends Activity {
 			tw.setText("");
 			logString = "";
 			return true;
-		case R.id.item_about: // start about activity
-			this.startActivity(new Intent(this, About.class));
+		case R.id.item_about: // start about dialog
+			this.showDialog(DIALOG_ABOUT);
 			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Settings.class));
@@ -218,6 +221,28 @@ public class AndGMXsms extends Activity {
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Called to create dialog.
+	 * 
+	 * @param id
+	 *            Dialog id
+	 * @return dialog
+	 */
+	@Override
+	protected final Dialog onCreateDialog(final int id) {
+		Dialog myDialog;
+		switch (id) {
+		case DIALOG_ABOUT:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.about);
+			myDialog.setTitle(this.getResources().getString(R.string.about));
+			break;
+		default:
+			myDialog = null;
+		}
+		return myDialog;
 	}
 
 	/**

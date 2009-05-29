@@ -1,7 +1,7 @@
 package de.ub0r.android.andGMXsms;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +20,9 @@ public class Settings extends Activity {
 	private static String prPassword;
 	/** Local pref. for user's phonenumber. */
 	private static String prSender;
+
+	/** Dialog: help. */
+	private static final int DIALOG_HELP = 0;
 
 	/**
 	 * Called when the activity is first created.
@@ -78,10 +81,32 @@ public class Settings extends Activity {
 		prSender = et.getText().toString();
 	}
 
+	/**
+	 * Called to create dialog.
+	 * 
+	 * @param id
+	 *            Dialog id
+	 * @return dialog
+	 */
+	@Override
+	protected final Dialog onCreateDialog(final int id) {
+		Dialog myDialog;
+		switch (id) {
+		case DIALOG_HELP:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.help);
+			myDialog.setTitle(this.getResources().getString(R.string.help));
+			break;
+		default:
+			myDialog = null;
+		}
+		return myDialog;
+	}
+
 	/** OnClickListener for launching 'help'. */
 	private OnClickListener help = new OnClickListener() {
 		public void onClick(final View v) {
-			Settings.this.startActivity(new Intent(Settings.this, Help.class));
+			Settings.this.showDialog(DIALOG_HELP);
 		}
 	};
 
