@@ -38,4 +38,6 @@
 
 <string name="log_update">update frei sms</string>
 <string name="donate_">spende</string>
+<string name="log_error_mail">falsche mail oder passwort</string>
+<string name="log_error_pw">falsches passwort</string>
 </resources>

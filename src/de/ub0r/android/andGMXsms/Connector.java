@@ -196,8 +196,33 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						"\\p", "\n");
 				outp = outp.replace("</WR>", "");
 				if (!resultValue.equals("0")) {
-					Message.obtain(AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG, outp).sendToTarget();
+					try {
+						int rslt = Integer.parseInt(resultValue);
+						switch (rslt) {
+						case 11: // 11 wrong pw
+							Message.obtain(
+									AndGMXsms.me.messageHandler,
+									AndGMXsms.MESSAGE_LOG,
+									AndGMXsms.me.getResources().getString(
+											R.string.log_error_pw))
+									.sendToTarget();
+							break;
+						case 25: // 25 wrong mail/pw
+							Message.obtain(
+									AndGMXsms.me.messageHandler,
+									AndGMXsms.MESSAGE_LOG,
+									AndGMXsms.me.getResources().getString(
+											R.string.log_error_mail))
+									.sendToTarget();
+						default:
+							Message.obtain(AndGMXsms.me.messageHandler,
+									AndGMXsms.MESSAGE_LOG, outp).sendToTarget();
+						}
+					} catch (Exception e) {
+						Message.obtain(AndGMXsms.me.messageHandler,
+								AndGMXsms.MESSAGE_LOG, e.toString())
+								.sendToTarget();
+					}
 					return false;
 				} else {
 					// result: ok

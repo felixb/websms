@@ -44,4 +44,6 @@
 <string name="text__">text</string>
 <string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 <string name="donate_">donate</string>
+<string name="log_error_mail">wrong mail or password</string>
+<string name="log_error_pw">wrong password</string>
 </resources>
