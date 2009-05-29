@@ -5,10 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -57,40 +54,79 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** SMS DB: type - sent. */
 	private static final int MESSAGE_TYPE_SENT = 2;
 
+	/** ID of text in array. */
+	public static final int ID_TEXT = 0;
+	/** ID of receiver in array. */
+	public static final int ID_TO = 1;
+
 	/** receiver. */
 	private String to;
 	/** text. */
 	private String text;
 
-	/** Dialog ref. */
-	private Dialog dialog;
-
 	/**
-	 * Create default data hashtable.
+	 * Write key,value to StringBuffer.
 	 * 
-	 * @return Hashtable filled with customer_id and password.
+	 * @param buffer
+	 *            buffer
+	 * @param key
+	 *            key
+	 * @param value
+	 *            value
 	 */
-	private static Hashtable<String, Object> getBaseData() {
-		Hashtable<String, Object> ret = new Hashtable<String, Object>();
-		ret.put("customer_id", AndGMXsms.prefsUser);
-		ret.put("password", AndGMXsms.prefsPassword);
-		return ret;
+	private static void writePair(final StringBuffer buffer, final String key,
+			final String value) {
+		buffer.append(key);
+		buffer.append('=');
+		buffer.append(value.replace("\\", "\\\\").replace(">", "\\>").replace(
+				"<", "\\<"));
+		buffer.append("\\p");
 	}
 
 	/**
-	 * Send data.
+	 * Create default data hashtable.
 	 * 
 	 * @param packetName
 	 *            packetName
 	 * @param packetVersion
 	 *            packetVersion
+	 * @return Hashtable filled with customer_id and password.
+	 */
+	private static StringBuffer openBuffer(final String packetName,
+			final String packetVersion) {
+		StringBuffer ret = new StringBuffer();
+		ret.append("<WR TYPE=\"RQST\" NAME=\"");
+		ret.append(packetName);
+		ret.append("\" VER=\"");
+		ret.append(packetVersion);
+		ret.append("\" PROGVER=\"");
+		ret.append(TARGET_PROTOVERSION);
+		ret.append("\">");
+		writePair(ret, "customer_id", AndGMXsms.prefsUser);
+		writePair(ret, "password", AndGMXsms.prefsPassword);
+		return ret;
+	}
+
+	/**
+	 * Close Buffer.
+	 * 
+	 * @param buffer
+	 *            buffer
+	 * @return buffer
+	 */
+	private static StringBuffer closeBuffer(final StringBuffer buffer) {
+		buffer.append("</WR>");
+		return buffer;
+	}
+
+	/**
+	 * Send data.
+	 * 
 	 * @param packetData
 	 *            packetData
 	 * @return successful?
 	 */
-	private boolean sendData(final String packetName,
-			final String packetVersion,
-			final Hashtable<String, Object> packetData) {
+	private boolean sendData(final StringBuffer packetData) {
 		try {
 			// get Connection
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
@@ -103,36 +139,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c.setDoOutput(true);
 			// push post data
 			OutputStream os = c.getOutputStream();
-			os.write("<WR TYPE=\"RQST\" NAME=\"".getBytes());
-			os.write(packetName.getBytes());
-			os.write("\" VER=\"".getBytes());
-			os.write(packetVersion.getBytes());
-			os.write("\" PROGVER=\"".getBytes());
-			os.write(TARGET_PROTOVERSION.getBytes());
-			os.write("\">".getBytes());
-
-			for (Enumeration<String> keys = packetData.keys(); keys
-					.hasMoreElements();) {
-				String key = keys.nextElement();
-				Object value = packetData.get(key);
-				os.write(key.getBytes());
-				os.write("=".getBytes());
-				if (value instanceof String) {
-					String v = ((String) value).replace("\\", "\\\\");
-					v = v.replace(">", "\\>");
-					v = v.replace("<", "\\<");
-					os.write(v.getBytes());
-				} else if (value instanceof byte[]) {
-					os.write((byte[]) value);
-				}
-				os.write("\\p".getBytes());
-			}
-			// add packetData
-			// for key in data:
-			// payload +=
-			// key+"="+str(data[key]).replace("\\","\\\\").replace(">"
-			// ,"\\>").replace("<","\\<")+"\\p"
-			os.write("</WR>".getBytes());
+			os.write(packetData.toString().getBytes());
 			os.close();
 			os = null;
 
@@ -141,7 +148,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				Message.obtain(
 						AndGMXsms.me.messageHandler,
-						MessageHandler.WHAT_LOG,
+						AndGMXsms.MESSAGE_LOG,
 						AndGMXsms.me.getResources().getString(
 								R.string.log_error_http + resp)).sendToTarget();
 			}
@@ -172,7 +179,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					// wrong data sent!
 					Message.obtain(
 							AndGMXsms.me.messageHandler,
-							MessageHandler.WHAT_LOG,
+							AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
 									R.string.log_error_server)
 									+ resultString).sendToTarget();
@@ -190,7 +197,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				outp = outp.replace("</WR>", "");
 				if (!resultValue.equals("0")) {
 					Message.obtain(AndGMXsms.me.messageHandler,
-							MessageHandler.WHAT_LOG, outp).sendToTarget();
+							AndGMXsms.MESSAGE_LOG, outp).sendToTarget();
 					return false;
 				} else {
 					// result: ok
@@ -211,22 +218,22 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						}
 
 						Message.obtain(AndGMXsms.me.messageHandler,
-								MessageHandler.WHAT_FREECOUNT, freecount)
+								AndGMXsms.MESSAGE_FREECOUNT, freecount)
 								.sendToTarget();
 					}
 				}
 			} else {
 				Message.obtain(
 						AndGMXsms.me.messageHandler,
-						MessageHandler.WHAT_LOG,
+						AndGMXsms.MESSAGE_LOG,
 						AndGMXsms.me.getResources().getString(
 								R.string.log_http_header_missing))
 						.sendToTarget();
 				return false;
 			}
 		} catch (IOException e) {
-			Message.obtain(AndGMXsms.me.messageHandler,
-					MessageHandler.WHAT_LOG, e.toString()).sendToTarget();
+			Message.obtain(AndGMXsms.me.messageHandler, AndGMXsms.MESSAGE_LOG,
+					e.toString()).sendToTarget();
 			return false;
 		}
 		return true;
@@ -238,7 +245,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean getFree() {
-		return this.sendData("GET_SMS_CREDITS", "1.00", getBaseData());
+		return this
+				.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00")));
 	}
 
 	/**
@@ -247,22 +255,21 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean send() {
-		Hashtable<String, Object> packetData = getBaseData();
-		// fill Hashtable
-		packetData.put("sms_text", this.text);
+		StringBuffer packetData = openBuffer("SEND_SMS", "1.01");
+		// fill buffer
+		writePair(packetData, "sms_text", this.text);
 		// table: <id>, <name>, <number>
 		String receivers = "<TBL ROWS=\"1\" COLS=\"3\">"
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
 				+ "1\\;null\\;" + this.to + "\\;" + "</TBL>";
-		packetData.put("receivers", receivers);
-		packetData.put("send_option", "sms");
-		packetData.put("sms_sender", AndGMXsms.prefsSender);
+		writePair(packetData, "receivers", receivers);
+		writePair(packetData, "send_option", "sms");
+		writePair(packetData, "sms_sender", AndGMXsms.prefsSender);
 		// if date!='': data['send_date'] = date
 		// push data
-		if (!this.sendData("SEND_SMS", "1.01", packetData)) {
+		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			Message.obtain(AndGMXsms.me.messageHandler,
-					MessageHandler.WHAT_LOG,
+			Message.obtain(AndGMXsms.me.messageHandler, AndGMXsms.MESSAGE_LOG,
 					AndGMXsms.me.getResources().getString(R.string.log_error))
 					.sendToTarget();
 			return false;
@@ -286,14 +293,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
-	 * Run before execution.
-	 */
-	@Override
-	protected final void onPreExecute() {
-
-	}
-
-	/**
 	 * Run IO in background.
 	 * 
 	 * @param textTo
@@ -307,8 +306,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
 		} else if (textTo.length >= 2) {
-			this.text = textTo[0];
-			this.to = textTo[1];
+			this.text = textTo[ID_TEXT];
+			this.to = textTo[ID_TO];
 			this.publishProgress((Boolean) null);
 			ret = this.send();
 		}
@@ -324,12 +323,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
 		if (this.to == null) {
-			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
-					.getResources().getString(R.string.log_update), true);
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_update);
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
 		} else {
-			this.dialog = ProgressDialog.show(AndGMXsms.me, null, AndGMXsms.me
-					.getResources().getString(R.string.log_sending)
-					+ " (" + this.to + ")", true);
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_sending)
+					+ " (" + this.to + ")";
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
 		}
 	}
 
@@ -341,8 +344,14 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onPostExecute(final Boolean result) {
-		if (this.dialog != null) {
-			this.dialog.dismiss();
+		AndGMXsms.dialogString = null;
+		if (AndGMXsms.dialog != null) {
+			try {
+				AndGMXsms.dialog.dismiss();
+				AndGMXsms.dialog = null;
+			} catch (Exception e) {
+				// nothing to do
+			}
 		}
 	}
 }

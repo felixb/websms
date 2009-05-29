@@ -1,10 +1,15 @@
 package de.ub0r.android.andGMXsms;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,9 +43,29 @@ public class AndGMXsms extends Activity {
 	public static String prefsSender;
 	/** Preferences ready? */
 	public static boolean prefsReady = false;
+	/** Remaining free sms. */
+	public static String remFree = null;
 
 	/** Length of a prefix. */
 	private static final int PREFIX_LEN = 3;
+
+	/** Public Dialog ref. */
+	public static Dialog dialog = null;
+	/** Dialog String. */
+	public static String dialogString = null;
+
+	/** Public Connector. */
+	public static AsyncTask<String, Boolean, Boolean> connector;
+
+	/** Dialog: about. */
+	private static final int DIALOG_ABOUT = 0;
+
+	/** Message for logging. **/
+	public static final int MESSAGE_LOG = 0;
+	/** Message for update free sms count. **/
+	public static final int MESSAGE_FREECOUNT = 1;
+	/** Message to send. */
+	public static final int MESSAGE_SEND = 2;
 
 	/**
 	 * Preferences: user's default prefix.
@@ -77,7 +102,7 @@ public class AndGMXsms extends Activity {
 		// save ref to log
 		this.log = (TextView) this.findViewById(R.id.log);
 		// register MessageHandler
-		this.messageHandler = new MessageHandler();
+		this.messageHandler = new AndGMXsms.MessageHandler();
 
 		// Restore preferences
 		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
@@ -99,6 +124,25 @@ public class AndGMXsms extends Activity {
 		// restore log
 		if (this.log != null && logString != null) {
 			this.log.setText(logString);
+		}
+
+		// set free sms count
+		if (remFree != null) {
+			TextView tw = (TextView) this.findViewById(R.id.freecount);
+			tw.setText(this.getResources().getString(R.string.free_) + " "
+					+ remFree);
+		}
+
+		// restart dialog
+		if (dialogString != null) {
+			if (dialog != null) {
+				try {
+					dialog.dismiss();
+				} catch (Exception e) {
+					// nothing to do
+				}
+			}
+			dialog = ProgressDialog.show(this, null, dialogString, true);
 		}
 
 		// check prefs
@@ -144,7 +188,7 @@ public class AndGMXsms extends Activity {
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
 		public void onClick(final View v) {
-			new Connector().execute((String) null);
+			connector = new Connector().execute((String) null);
 		}
 	};
 
@@ -176,8 +220,8 @@ public class AndGMXsms extends Activity {
 			tw.setText("");
 			logString = "";
 			return true;
-		case R.id.item_about: // start about activity
-			this.startActivity(new Intent(this, About.class));
+		case R.id.item_about: // start about dialog
+			this.showDialog(DIALOG_ABOUT);
 			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Settings.class));
@@ -185,6 +229,37 @@ public class AndGMXsms extends Activity {
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Called to create dialog.
+	 * 
+	 * @param id
+	 *            Dialog id
+	 * @return dialog
+	 */
+	@Override
+	protected final Dialog onCreateDialog(final int id) {
+		Dialog myDialog;
+		switch (id) {
+		case DIALOG_ABOUT:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.about);
+			myDialog.setTitle(this.getResources().getString(R.string.about));
+			Button button = (Button) myDialog.findViewById(R.id.btn_donate);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					Uri uri = Uri.parse(AndGMXsms.this
+							.getString(R.string.donate_url));
+					AndGMXsms.this.startActivity(new Intent(Intent.ACTION_VIEW,
+							uri));
+				}
+			});
+			break;
+		default:
+			myDialog = null;
+		}
+		return myDialog;
 	}
 
 	/**
@@ -207,6 +282,44 @@ public class AndGMXsms extends Activity {
 	public final void lognl(final String text) {
 		this.log.append(text + "\n");
 		logString += text + "\n";
+	}
+
+	/**
+	 * AndGMXsms's MessageHandler.
+	 * 
+	 * @author flx
+	 */
+	private class MessageHandler extends Handler {
+
+		/**
+		 * Handles incoming messages.
+		 * 
+		 * @param msg
+		 *            message
+		 */
+		@Override
+		public final void handleMessage(final Message msg) {
+			switch (msg.what) {
+			case MESSAGE_LOG:
+				String l = (String) msg.obj;
+				AndGMXsms.this.lognl(l);
+				return;
+			case MESSAGE_FREECOUNT:
+				AndGMXsms.remFree = (String) msg.obj;
+				TextView tw = (TextView) AndGMXsms.this
+						.findViewById(R.id.freecount);
+				tw.setText(AndGMXsms.this.getResources().getString(
+						R.string.free_)
+						+ " " + AndGMXsms.remFree);
+				return;
+			case MESSAGE_SEND:
+				AndGMXsms.connector = new Connector()
+						.execute((String[]) msg.obj);
+				return;
+			default:
+				return;
+			}
+		}
 	}
 
 }

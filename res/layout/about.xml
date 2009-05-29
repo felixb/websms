@@ -2,17 +2,18 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name"></TextView>
 
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/version_" android:paddingTop="10sp"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_version"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/version_"></TextView>
+  <TextView android:layout_height="wrap_content" android:text="@string/app_version" android:paddingLeft="10sp" android:layout_width="fill_parent"></TextView>
 
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingTop="10sp"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingTop="10sp"></TextView>
+  <TextView android:layout_height="wrap_content" android:text="@string/license" android:paddingLeft="10sp" android:layout_width="wrap_content" android:autoLink="web"></TextView>
 
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author_" android:paddingTop="10sp"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author_" android:paddingTop="10sp"></TextView>
+  <TextView android:layout_height="wrap_content" android:text="@string/author" android:paddingLeft="10sp" android:layout_width="wrap_content" android:autoLink="email"></TextView>
 
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/source_" android:paddingTop="10sp"></TextView>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/source"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/source_" android:paddingTop="10sp"></TextView>
+  <TextView android:layout_height="wrap_content" android:text="@string/source" android:paddingLeft="10sp" android:layout_width="wrap_content" android:autoLink="web"></TextView>
+
+  <Button android:layout_height="wrap_content" android:id="@+id/btn_donate" android:text="@string/donate_" android:layout_marginTop="10sp" android:layout_width="fill_parent"></Button>
 </LinearLayout>

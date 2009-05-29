@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
 import android.text.Editable;
@@ -128,9 +129,10 @@ public class Composer extends Activity {
 				}
 				// start a Connector Thread
 				String[] params = new String[2];
-				params[0] = text;
-				params[1] = to;
-				new Connector().execute(params);
+				params[Connector.ID_TEXT] = text;
+				params[Connector.ID_TO] = to;
+				Message.obtain(AndGMXsms.me.messageHandler,
+						AndGMXsms.MESSAGE_SEND, params).sendToTarget();
 				// exit activity
 				Composer.this.finish();
 			}

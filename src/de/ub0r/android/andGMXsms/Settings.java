@@ -2,7 +2,6 @@ package de.ub0r.android.andGMXsms;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +21,10 @@ public class Settings extends Activity {
 	/** Local pref. for user's phonenumber. */
 	private static String prSender;
 
+	/** Dialog: help. */
+	private static final int DIALOG_HELP = 0;
 	/** Dialog: bootstrap. */
-	private static final int DIALOG_BOOTSTRAP = 0;
+	private static final int DIALOG_BOOTSTRAP = 1;
 
 	/**
 	 * Called when the activity is first created.
@@ -93,24 +94,30 @@ public class Settings extends Activity {
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
-		Dialog dialog;
+		Dialog myDialog;
 		switch (id) {
 		case DIALOG_BOOTSTRAP:
-			dialog = new Dialog(this);
-			dialog.setContentView(R.layout.bootstrap);
-			dialog.setTitle(this.getResources().getString(R.string.bootstrap_));
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.bootstrap);
+			myDialog.setTitle(this.getResources()
+					.getString(R.string.bootstrap_));
+			break;
+		case DIALOG_HELP:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.help);
+			myDialog.setTitle(this.getResources().getString(R.string.help));
 			break;
 		default:
-			dialog = null;
+			myDialog = null;
 		}
-		return dialog;
+		return myDialog;
 	}
 
 	/** OnClickListener for launching 'help'. */
 	private OnClickListener help = new OnClickListener() {
 		@Override
 		public void onClick(final View v) {
-			Settings.this.startActivity(new Intent(Settings.this, Help.class));
+			Settings.this.showDialog(DIALOG_HELP);
 		}
 	};
 
