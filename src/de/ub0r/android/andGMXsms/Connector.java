@@ -56,6 +56,11 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** SMS DB: type - sent. */
 	private static final int MESSAGE_TYPE_SENT = 2;
 
+	/** ID of text in array. */
+	public static final int ID_TEXT = 0;
+	/** ID of receiver in array. */
+	public static final int ID_TO = 1;
+
 	/** receiver. */
 	private String to;
 	/** text. */
@@ -295,8 +300,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
 		} else if (textTo.length >= 2) {
-			this.text = textTo[0];
-			this.to = textTo[1];
+			this.text = textTo[ID_TEXT];
+			this.to = textTo[ID_TO];
 			this.publishProgress((Boolean) null);
 			ret = this.send();
 		}
