@@ -102,10 +102,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            packetName
 	 * @param packetVersion
 	 *            packetVersion
+	 * @param addCustomer
+	 *            add customer id/password
 	 * @return Hashtable filled with customer_id and password.
 	 */
 	private static StringBuffer openBuffer(final String packetName,
-			final String packetVersion) {
+			final String packetVersion, final boolean addCustomer) {
 		StringBuffer ret = new StringBuffer();
 		ret.append("<WR TYPE=\"RQST\" NAME=\"");
 		ret.append(packetName);
@@ -114,8 +116,10 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		ret.append("\" PROGVER=\"");
 		ret.append(TARGET_PROTOVERSION);
 		ret.append("\">");
-		writePair(ret, "customer_id", AndGMXsms.prefsUser);
-		writePair(ret, "password", AndGMXsms.prefsPassword);
+		if (addCustomer) {
+			writePair(ret, "customer_id", AndGMXsms.prefsUser);
+			writePair(ret, "password", AndGMXsms.prefsPassword);
+		}
 		return ret;
 	}
 
@@ -257,8 +261,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean getFree() {
-		return this
-				.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00")));
+		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
+				true)));
 	}
 
 	/**
@@ -267,7 +271,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean send() {
-		StringBuffer packetData = openBuffer("SEND_SMS", "1.01");
+		StringBuffer packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
 		// table: <id>, <name>, <number>
@@ -310,7 +314,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean bootstrap() {
-		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10");
+		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10", false);
 		writePair(packetData, "email_address", this.mail);
 		writePair(packetData, "password", this.pw);
 		writePair(packetData, "gmx", "1");
