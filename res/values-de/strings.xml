@@ -16,10 +16,9 @@
 <string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">an:</string>
 <string name="text_">text:</string>
-
 <string name="clearlog">log löschen</string>
 <string name="send">senden</string>
-<string name="cancel">abbrechen</string>
+<string name="cancel">abbr.</string>
 <string name="sender_hint">int. mobilnummer</string>
 <string name="password_hint">GMX SMS-Manager Freischaltcode</string>
 <string name="user_hint">benutzer id (siehe hilfe)</string>
@@ -35,9 +34,10 @@
 <string name="log_error_server">FEHLER: Serverantwort: </string>
 <string name="log_empty_settings">du musst die einstellungen füllen. drücke den menü knopf.</string>
 <string name="free_">frei sms:</string>
-
 <string name="log_update">update frei sms</string>
+<string name="help_bootstrap">daten mit hilfe von gmx füllen</string>
 <string name="donate_">spende</string>
 <string name="log_error_mail">falsche mail oder passwort</string>
 <string name="log_error_pw">falsches passwort</string>
+
 </resources>

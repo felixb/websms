@@ -3,10 +3,12 @@ package de.ub0r.android.andGMXsms;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Simple Activity for setting preferences.
@@ -23,6 +25,11 @@ public class Settings extends Activity {
 
 	/** Dialog: help. */
 	private static final int DIALOG_HELP = 0;
+	/** Dialog: bootstrap. */
+	private static final int DIALOG_BOOTSTRAP = 1;
+
+	/** Open dialog. */
+	private Dialog dialog;
 
 	/**
 	 * Called when the activity is first created.
@@ -42,6 +49,8 @@ public class Settings extends Activity {
 		button.setOnClickListener(this.ok);
 		button = (Button) this.findViewById(R.id.cancel);
 		button.setOnClickListener(this.cancel);
+		button = (Button) this.findViewById(R.id.bootstrap);
+		button.setOnClickListener(this.bootstrap);
 	}
 
 	/** Called on activity resume. */
@@ -92,6 +101,40 @@ public class Settings extends Activity {
 	protected final Dialog onCreateDialog(final int id) {
 		Dialog myDialog;
 		switch (id) {
+		case DIALOG_BOOTSTRAP:
+			myDialog = new Dialog(this);
+			Settings.this.dialog = myDialog;
+			myDialog.setContentView(R.layout.bootstrap);
+			myDialog.setTitle(this.getResources()
+					.getString(R.string.bootstrap_));
+			Button button = (Button) myDialog
+					.findViewById(R.id.bootstrap_cancel);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					Settings.this.dialog.dismiss();
+					Settings.this.dialog = null;
+				}
+			});
+			button = (Button) myDialog.findViewById(R.id.bootstrap_ok);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					String[] params = new String[3];
+					params[Connector.ID_MAIL] = ((TextView) Settings.this.dialog
+							.findViewById(R.id.bootstrap_mail)).getText()
+							.toString();
+					params[Connector.ID_PW] = ((TextView) Settings.this.dialog
+							.findViewById(R.id.bootstrap_pw)).getText()
+							.toString();
+					params[Connector.ID_BOOTSTRAP_NULL] = null;
+					Settings.this.dialog.dismiss();
+					Settings.this.dialog = null;
+					Message.obtain(AndGMXsms.me.messageHandler,
+							AndGMXsms.MESSAGE_BOOTSTRAP, params).sendToTarget();
+					AndGMXsms.prefsPassword = params[Connector.ID_PW];
+					Settings.this.finish();
+				}
+			});
+			break;
 		case DIALOG_HELP:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.help);
@@ -105,6 +148,7 @@ public class Settings extends Activity {
 
 	/** OnClickListener for launching 'help'. */
 	private OnClickListener help = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			Settings.this.showDialog(DIALOG_HELP);
 		}
@@ -112,6 +156,7 @@ public class Settings extends Activity {
 
 	/** OnClickListener listening for 'ok'. */
 	private OnClickListener ok = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			// save prefs from TextEdits
 			EditText et = (EditText) Settings.this.findViewById(R.id.user);
@@ -134,6 +179,7 @@ public class Settings extends Activity {
 
 	/** OnClickListener listening for 'cancel'. */
 	private OnClickListener cancel = new OnClickListener() {
+		@Override
 		public void onClick(final View v) {
 			// reload prefs from global
 			prUser = AndGMXsms.prefsUser;
@@ -151,4 +197,22 @@ public class Settings extends Activity {
 			Settings.this.finish();
 		}
 	};
+
+	/** OnClickListener listening for 'bootstrap'. */
+	private OnClickListener bootstrap = new OnClickListener() {
+		@Override
+		public void onClick(final View v) {
+			Settings.this.showDialog(DIALOG_BOOTSTRAP);
+		}
+
+	};
+
+	/**
+	 * Reset inner pref. store.
+	 */
+	public static void reset() {
+		prUser = null;
+		prPassword = null;
+		prSender = null;
+	}
 }

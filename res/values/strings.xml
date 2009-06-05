@@ -18,7 +18,6 @@
 <string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">to:</string>
 <string name="text_">text:</string>
-
 <string name="clearlog">clear log</string>
 <string name="send">send</string>
 <string name="cancel">cancel</string>
@@ -42,6 +41,10 @@
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 <string name="log_update">update free sms counter</string>
 <string name="text__">text</string>
+<string name="bootstrap_">init</string>
+<string name="help_bootstrap">init prefs with help of gmx</string>
+<string name="mail_">mail:</string>
+<string name="mail_hint">user@gmx.tld</string>
 <string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 <string name="donate_">donate</string>
 <string name="log_error_mail">wrong mail or password</string>

@@ -59,10 +59,22 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** ID of receiver in array. */
 	public static final int ID_TO = 1;
 
+	/** ID of mail in array. */
+	public static final int ID_MAIL = 0;
+	/** ID of password in array. */
+	public static final int ID_PW = 1;
+	/** ID of null in array. */
+	public static final int ID_BOOTSTRAP_NULL = 2;
+
 	/** receiver. */
 	private String to;
 	/** text. */
 	private String text;
+
+	/** mail. */
+	private String mail;
+	/** password. */
+	private String pw;
 
 	/**
 	 * Write key,value to StringBuffer.
@@ -90,10 +102,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            packetName
 	 * @param packetVersion
 	 *            packetVersion
+	 * @param addCustomer
+	 *            add customer id/password
 	 * @return Hashtable filled with customer_id and password.
 	 */
 	private static StringBuffer openBuffer(final String packetName,
-			final String packetVersion) {
+			final String packetVersion, final boolean addCustomer) {
 		StringBuffer ret = new StringBuffer();
 		ret.append("<WR TYPE=\"RQST\" NAME=\"");
 		ret.append(packetName);
@@ -102,8 +116,10 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		ret.append("\" PROGVER=\"");
 		ret.append(TARGET_PROTOVERSION);
 		ret.append("\">");
-		writePair(ret, "customer_id", AndGMXsms.prefsUser);
-		writePair(ret, "password", AndGMXsms.prefsPassword);
+		if (addCustomer) {
+			writePair(ret, "customer_id", AndGMXsms.prefsUser);
+			writePair(ret, "password", AndGMXsms.prefsPassword);
+		}
 		return ret;
 	}
 
@@ -117,6 +133,28 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	private static StringBuffer closeBuffer(final StringBuffer buffer) {
 		buffer.append("</WR>");
 		return buffer;
+	}
+
+	/**
+	 * Parse returned packet. Search for name=(.*)\n and return (.*)
+	 * 
+	 * @param packet
+	 *            packet
+	 * @param name
+	 *            parma's name
+	 * @return param's value
+	 */
+	private String getParam(final String packet, final String name) {
+		int i = packet.indexOf(name + '=');
+		if (i < 0) {
+			return null;
+		}
+		int j = packet.indexOf("\n", i);
+		if (j < 0) {
+			return packet.substring(i + name.length() + 1);
+		} else {
+			return packet.substring(i + name.length() + 1, j);
+		}
 	}
 
 	/**
@@ -232,24 +270,25 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				} else {
 					// result: ok
 					// fetch additional info
-					resultIndex = outp.indexOf("free_rem_month=");
-					if (resultIndex > 0) {
-						int resIndex = outp.indexOf("\n", resultIndex);
-						String freecount = outp.substring(resultIndex
-								+ "free_rem_month=".length(), resIndex);
-
-						resultIndex = outp.indexOf("free_max_month=");
-						if (resultIndex > 0) {
-							resIndex = outp.indexOf("\n", resultIndex);
-							freecount += " / "
-									+ outp.substring(resultIndex
-											+ "free_max_month=".length(),
-											resIndex);
+					String p = this.getParam(outp, "free_rem_month");
+					if (p != null) {
+						String freecount = p;
+						p = this.getParam(outp, "free_max_month");
+						if (p != null) {
+							freecount += " / " + p;
 						}
-
 						Message.obtain(AndGMXsms.me.messageHandler,
 								AndGMXsms.MESSAGE_FREECOUNT, freecount)
 								.sendToTarget();
+					}
+					p = this.getParam(outp, "customer_id");
+					if (p != null) {
+						AndGMXsms.prefsUser = p;
+						AndGMXsms.prefsSender = this.getParam(outp,
+								"cell_phone");
+						Settings.reset();
+						Message.obtain(AndGMXsms.me.messageHandler,
+								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
 					}
 				}
 			} else {
@@ -275,8 +314,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean getFree() {
-		return this
-				.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00")));
+		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
+				true)));
 	}
 
 	/**
@@ -285,7 +324,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean send() {
-		StringBuffer packetData = openBuffer("SEND_SMS", "1.01");
+		StringBuffer packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
 		// table: <id>, <name>, <number>
@@ -323,6 +362,19 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Bootstrap: Get preferences.
+	 * 
+	 * @return ok?
+	 */
+	private boolean bootstrap() {
+		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10", false);
+		writePair(packetData, "email_address", this.mail);
+		writePair(packetData, "password", this.pw);
+		writePair(packetData, "gmx", "1");
+		return this.sendData(closeBuffer(packetData));
+	}
+
+	/**
 	 * Run IO in background.
 	 * 
 	 * @param textTo
@@ -335,11 +387,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (textTo == null || textTo[0] == null) {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
-		} else if (textTo.length >= 2) {
+		} else if (textTo.length == 2) {
 			this.text = textTo[ID_TEXT];
 			this.to = textTo[ID_TO];
 			this.publishProgress((Boolean) null);
 			ret = this.send();
+		} else {
+			this.mail = textTo[ID_MAIL];
+			this.pw = textTo[ID_PW];
+			this.publishProgress((Boolean) null);
+			ret = this.bootstrap();
 		}
 		return new Boolean(ret);
 	}
@@ -353,10 +410,17 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
 		if (this.to == null) {
-			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.log_update);
-			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-					AndGMXsms.dialogString, true);
+			if (this.mail == null) {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.log_update);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			} else {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.bootstrap_);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			}
 		} else {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.log_sending)
