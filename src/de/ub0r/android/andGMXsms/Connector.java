@@ -66,6 +66,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** ID of null in array. */
 	public static final int ID_BOOTSTRAP_NULL = 2;
 
+	/** Result: ok. */
+	private static final int RSLT_OK = 0;
+
+	/** Result: wrong customerid/password. */
+	private static final int RSLT_WRONG_CUSTOMER = 11;
+
+	/** Result: wrong mail/password. */
+	private static final int RSLT_WRONG_MAIL = 25;
+
+
 	/** receiver. */
 	private String to;
 	/** text. */
@@ -241,7 +251,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					return false;
 				}
 				switch (rslt) {
-				case 0: // OK
+				case RSLT_OK: // ok
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
@@ -264,21 +274,20 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
 					}
 					return true;
-				case 11: // 11 wrong mail/pw
+				case RSLT_WRONG_CUSTOMER: // wrong user/pw
+					Message.obtain(
+							AndGMXsms.me.messageHandler,
+							AndGMXsms.MESSAGE_LOG,
+							AndGMXsms.me.getResources().getString(
+									R.string.log_error_user)).sendToTarget();
+					return false;
+				case RSLT_WRONG_MAIL: // wrong mail/pw
 					Message.obtain(
 							AndGMXsms.me.messageHandler,
 							AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
 									R.string.log_error_mail)).sendToTarget();
 					return false;
-					// case 25: // 25 wrong mail/pw
-					// Message.obtain(
-					// AndGMXsms.me.messageHandler,
-					// AndGMXsms.MESSAGE_LOG,
-					// AndGMXsms.me.getResources().getString(
-					// R.string.log_error_mail))
-					// .sendToTarget();
-					// return false;
 				default:
 					Message.obtain(AndGMXsms.me.messageHandler,
 							AndGMXsms.MESSAGE_LOG, outp + "#" + rslt)

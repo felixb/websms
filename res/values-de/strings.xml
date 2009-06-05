@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
 <string name="compose">neue SMS</string>
 <string name="get_free">frei sms neu laden</string>
 <string name="logs_">logs:</string>
@@ -38,6 +37,5 @@
 <string name="help_bootstrap">daten mit hilfe von gmx füllen</string>
 <string name="donate_">spende</string>
 <string name="log_error_mail">falsche mail oder passwort</string>
-<string name="log_error_pw">falsches passwort</string>
-
+<string name="log_error_pw">falscher benutzer oder passwort</string>
 </resources>
