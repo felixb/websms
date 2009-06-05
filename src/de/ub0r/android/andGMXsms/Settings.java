@@ -130,6 +130,8 @@ public class Settings extends Activity {
 					Settings.this.dialog = null;
 					Message.obtain(AndGMXsms.me.messageHandler,
 							AndGMXsms.MESSAGE_BOOTSTRAP, params).sendToTarget();
+					AndGMXsms.prefsPassword = params[Connector.ID_PW];
+					Settings.this.finish();
 				}
 			});
 			break;
@@ -204,4 +206,13 @@ public class Settings extends Activity {
 		}
 
 	};
+
+	/**
+	 * Reset inner pref. store.
+	 */
+	public static void reset() {
+		prUser = null;
+		prPassword = null;
+		prSender = null;
+	}
 }

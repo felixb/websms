@@ -136,6 +136,28 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Parse returned packet. Search for name=(.*)\n and return (.*)
+	 * 
+	 * @param packet
+	 *            packet
+	 * @param name
+	 *            parma's name
+	 * @return param's value
+	 */
+	private String getParam(final String packet, final String name) {
+		int i = packet.indexOf(name + '=');
+		if (i < 0) {
+			return null;
+		}
+		int j = packet.indexOf("\n", i);
+		if (j < 0) {
+			return packet.substring(i + name.length() + 1);
+		} else {
+			return packet.substring(i + name.length() + 1, j);
+		}
+	}
+
+	/**
 	 * Send data.
 	 * 
 	 * @param packetData
@@ -218,24 +240,25 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				} else {
 					// result: ok
 					// fetch additional info
-					resultIndex = outp.indexOf("free_rem_month=");
-					if (resultIndex > 0) {
-						int resIndex = outp.indexOf("\n", resultIndex);
-						String freecount = outp.substring(resultIndex
-								+ "free_rem_month=".length(), resIndex);
-
-						resultIndex = outp.indexOf("free_max_month=");
-						if (resultIndex > 0) {
-							resIndex = outp.indexOf("\n", resultIndex);
-							freecount += " / "
-									+ outp.substring(resultIndex
-											+ "free_max_month=".length(),
-											resIndex);
+					String p = this.getParam(outp, "free_rem_month");
+					if (p != null) {
+						String freecount = p;
+						p = this.getParam(outp, "free_max_month");
+						if (p != null) {
+							freecount += " / " + p;
 						}
-
 						Message.obtain(AndGMXsms.me.messageHandler,
 								AndGMXsms.MESSAGE_FREECOUNT, freecount)
 								.sendToTarget();
+					}
+					p = this.getParam(outp, "customer_id");
+					if (p != null) {
+						AndGMXsms.prefsUser = p;
+						AndGMXsms.prefsSender = this.getParam(outp,
+								"cell_phone");
+						Settings.reset();
+						Message.obtain(AndGMXsms.me.messageHandler,
+								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
 					}
 				}
 			} else {

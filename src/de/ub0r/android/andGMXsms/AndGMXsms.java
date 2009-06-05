@@ -68,6 +68,8 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_SEND = 2;
 	/** Message to bootstrap. */
 	public static final int MESSAGE_BOOTSTRAP = 3;
+	/** Message to open settings. */
+	public static final int MESSAGE_SETTINGS = 4;
 
 	/**
 	 * Preferences: user's default prefix.
@@ -322,6 +324,9 @@ public class AndGMXsms extends Activity {
 				AndGMXsms.connector = new Connector()
 						.execute((String[]) msg.obj);
 				return;
+			case MESSAGE_SETTINGS:
+				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
+						Settings.class));
 			default:
 				return;
 			}
