@@ -75,7 +75,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Result: wrong mail/password. */
 	private static final int RSLT_WRONG_MAIL = 25;
 
-
 	/** receiver. */
 	private String to;
 	/** text. */
@@ -279,7 +278,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 							AndGMXsms.me.messageHandler,
 							AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
-									R.string.log_error_user)).sendToTarget();
+									R.string.log_error_pw)).sendToTarget();
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					Message.obtain(
