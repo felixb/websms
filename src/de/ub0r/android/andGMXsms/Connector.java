@@ -223,52 +223,25 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 									+ resultString).sendToTarget();
 					return false;
 				}
-				// get result code
+
+				// strip packet
 				int resultIndex = resultString.indexOf("rslt=");
-				if (resultIndex < 0) {
-					return false;
-				}
-				int resultIndexEnd = resultString.indexOf('\\', resultIndex);
-				String resultValue = resultString.substring(resultIndex + 5,
-						resultIndexEnd);
-				if (resultIndexEnd < 0) {
-					resultIndexEnd = resultIndex + 7;
-				}
 				String outp = resultString.substring(resultIndex).replace(
 						"\\p", "\n");
 				outp = outp.replace("</WR>", "");
-				if (!resultValue.equals("0")) {
-					try {
-						int rslt = Integer.parseInt(resultValue);
-						switch (rslt) {
-						case 11: // 11 wrong mail/pw
-							Message.obtain(
-									AndGMXsms.me.messageHandler,
-									AndGMXsms.MESSAGE_LOG,
-									AndGMXsms.me.getResources().getString(
-											R.string.log_error_mail))
-									.sendToTarget();
-							break;
-						// case 25: // 25 wrong mail/pw
-						// Message.obtain(
-						// AndGMXsms.me.messageHandler,
-						// AndGMXsms.MESSAGE_LOG,
-						// AndGMXsms.me.getResources().getString(
-						// R.string.log_error_mail))
-						// .sendToTarget();
-						default:
-							Message.obtain(AndGMXsms.me.messageHandler,
-									AndGMXsms.MESSAGE_LOG, outp + "#" + rslt)
-									.sendToTarget();
-						}
-					} catch (Exception e) {
-						Message.obtain(AndGMXsms.me.messageHandler,
-								AndGMXsms.MESSAGE_LOG, e.toString())
-								.sendToTarget();
-					}
+
+				// get result code
+				String resultValue = this.getParam(outp, "rslt");
+				int rslt;
+				try {
+					rslt = Integer.parseInt(resultValue);
+				} catch (Exception e) {
+					Message.obtain(AndGMXsms.me.messageHandler,
+							AndGMXsms.MESSAGE_LOG, e.toString()).sendToTarget();
 					return false;
-				} else {
-					// result: ok
+				}
+				switch (rslt) {
+				case 0: // OK
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
@@ -290,6 +263,27 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						Message.obtain(AndGMXsms.me.messageHandler,
 								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
 					}
+					return true;
+				case 11: // 11 wrong mail/pw
+					Message.obtain(
+							AndGMXsms.me.messageHandler,
+							AndGMXsms.MESSAGE_LOG,
+							AndGMXsms.me.getResources().getString(
+									R.string.log_error_mail)).sendToTarget();
+					return false;
+					// case 25: // 25 wrong mail/pw
+					// Message.obtain(
+					// AndGMXsms.me.messageHandler,
+					// AndGMXsms.MESSAGE_LOG,
+					// AndGMXsms.me.getResources().getString(
+					// R.string.log_error_mail))
+					// .sendToTarget();
+					// return false;
+				default:
+					Message.obtain(AndGMXsms.me.messageHandler,
+							AndGMXsms.MESSAGE_LOG, outp + "#" + rslt)
+							.sendToTarget();
+					return false;
 				}
 			} else {
 				Message.obtain(
@@ -305,7 +299,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					e.toString()).sendToTarget();
 			return false;
 		}
-		return true;
 	}
 
 	/**
