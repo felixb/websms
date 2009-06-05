@@ -125,6 +125,10 @@ public class Settings extends Activity {
 					params[Connector.ID_PW] = ((TextView) Settings.this.dialog
 							.findViewById(R.id.bootstrap_pw)).getText()
 							.toString();
+					if (params[Connector.ID_MAIL].length() < 1
+							|| params[Connector.ID_PW].length() < 1) {
+						return;
+					}
 					params[Connector.ID_BOOTSTRAP_NULL] = null;
 					Settings.this.dialog.dismiss();
 					Settings.this.dialog = null;
@@ -132,6 +136,13 @@ public class Settings extends Activity {
 							AndGMXsms.MESSAGE_BOOTSTRAP, params).sendToTarget();
 					AndGMXsms.prefsPassword = params[Connector.ID_PW];
 					Settings.this.finish();
+				}
+			});
+			button = (Button) myDialog.findViewById(R.id.bootstrap_cancel);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					Settings.this.dialog.dismiss();
+					Settings.this.dialog = null;
 				}
 			});
 			break;

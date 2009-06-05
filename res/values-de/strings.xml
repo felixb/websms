@@ -34,7 +34,7 @@
 <string name="log_empty_settings">du musst die einstellungen füllen. drücke den menü knopf.</string>
 <string name="free_">frei sms:</string>
 <string name="log_update">update frei sms</string>
-<string name="help_bootstrap">daten mit hilfe von gmx füllen</string>
+<string name="bootstrap_help">daten mit hilfe von gmx füllen. mail und freischaltcode ist nötig</string>
 <string name="donate_">spende</string>
 <string name="log_error_mail">falsche mail oder passwort</string>
 <string name="log_error_pw">falscher benutzer oder passwort</string>
