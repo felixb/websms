@@ -9,7 +9,9 @@
 <TextView android:text="@string/password_" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/bootstrap_pw_" android:layout_below="@id/bootstrap_mail"></TextView>
 <EditText android:id="@+id/bootstrap_pw" android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textPassword" android:hint="@string/password_hint" android:layout_below="@id/bootstrap_pw_">></EditText>
 
-<Button android:layout_height="wrap_content" android:text="@string/cancel" android:id="@+id/bootstrap_cancel" android:layout_width="wrap_content" android:layout_centerInParent="false" android:layout_below="@id/bootstrap_pw" android:layout_alignParentRight="true" android:width="75sp"></Button><Button android:layout_height="wrap_content" android:text="@string/ok" android:layout_below="@id/bootstrap_pw" android:id="@+id/bootstrap_ok" android:layout_centerInParent="false" android:width="75sp" android:layout_toLeftOf="@id/bootstrap_cancel" android:layout_width="wrap_content"></Button>
+<Button android:layout_below="@id/bootstrap_pw" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/bootstrap_help" android:layout_alignParentRight="true" android:width="75sp" android:text="@string/help"></Button>
+<Button android:layout_height="wrap_content" android:text="@string/cancel" android:id="@+id/bootstrap_cancel" android:layout_width="wrap_content" android:layout_centerInParent="false" android:layout_below="@id/bootstrap_pw" android:width="75sp" android:layout_toLeftOf="@id/bootstrap_help"></Button>
+<Button android:layout_height="wrap_content" android:text="@string/ok" android:layout_below="@id/bootstrap_pw" android:id="@+id/bootstrap_ok" android:layout_centerInParent="false" android:width="75sp" android:layout_toLeftOf="@id/bootstrap_cancel" android:layout_width="wrap_content"></Button>
 
 </RelativeLayout>
 

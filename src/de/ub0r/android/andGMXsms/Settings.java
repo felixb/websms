@@ -28,9 +28,6 @@ public class Settings extends Activity {
 	/** Dialog: bootstrap. */
 	private static final int DIALOG_BOOTSTRAP = 1;
 
-	/** Open dialog. */
-	private Dialog dialog;
-
 	/**
 	 * Called when the activity is first created.
 	 * 
@@ -75,6 +72,12 @@ public class Settings extends Activity {
 		et.setText(prPassword);
 		et = (EditText) this.findViewById(R.id.sender);
 		et.setText(prSender);
+
+		// Start bootstrap if needed.
+		if (prUser.length() < 1 && prPassword.length() < 1
+				&& prSender.length() < 1) {
+			this.showDialog(DIALOG_BOOTSTRAP);
+		}
 	}
 
 	/** Called on activity pause. */
@@ -103,46 +106,40 @@ public class Settings extends Activity {
 		switch (id) {
 		case DIALOG_BOOTSTRAP:
 			myDialog = new Dialog(this);
-			Settings.this.dialog = myDialog;
 			myDialog.setContentView(R.layout.bootstrap);
 			myDialog.setTitle(this.getResources()
 					.getString(R.string.bootstrap_));
-			Button button = (Button) myDialog
-					.findViewById(R.id.bootstrap_cancel);
+			Button button = (Button) myDialog.findViewById(R.id.bootstrap_ok);
 			button.setOnClickListener(new OnClickListener() {
 				public void onClick(final View view) {
-					Settings.this.dialog.dismiss();
-					Settings.this.dialog = null;
-				}
-			});
-			button = (Button) myDialog.findViewById(R.id.bootstrap_ok);
-			button.setOnClickListener(new OnClickListener() {
-				public void onClick(final View view) {
-					String[] params = new String[3];
-					params[Connector.ID_MAIL] = ((TextView) Settings.this.dialog
-							.findViewById(R.id.bootstrap_mail)).getText()
-							.toString();
-					params[Connector.ID_PW] = ((TextView) Settings.this.dialog
-							.findViewById(R.id.bootstrap_pw)).getText()
-							.toString();
+					String[] params = new String[Connector.IDS_BOOTSTRAP];
+					params[Connector.ID_MAIL] = ((TextView) ((View) view
+							.getParent()).findViewById(R.id.bootstrap_mail))
+							.getText().toString();
+					params[Connector.ID_PW] = ((TextView) ((View) view
+							.getParent()).findViewById(R.id.bootstrap_pw))
+							.getText().toString();
 					if (params[Connector.ID_MAIL].length() < 1
 							|| params[Connector.ID_PW].length() < 1) {
 						return;
 					}
 					params[Connector.ID_BOOTSTRAP_NULL] = null;
-					Settings.this.dialog.dismiss();
-					Settings.this.dialog = null;
 					Message.obtain(AndGMXsms.me.messageHandler,
 							AndGMXsms.MESSAGE_BOOTSTRAP, params).sendToTarget();
-					AndGMXsms.prefsPassword = params[Connector.ID_PW];
+					Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
 					Settings.this.finish();
 				}
 			});
 			button = (Button) myDialog.findViewById(R.id.bootstrap_cancel);
 			button.setOnClickListener(new OnClickListener() {
 				public void onClick(final View view) {
-					Settings.this.dialog.dismiss();
-					Settings.this.dialog = null;
+					Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
+				}
+			});
+			button = (Button) myDialog.findViewById(R.id.bootstrap_help);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					Settings.this.showDialog(DIALOG_HELP);
 				}
 			});
 			break;

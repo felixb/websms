@@ -66,6 +66,11 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** ID of null in array. */
 	public static final int ID_BOOTSTRAP_NULL = 2;
 
+	/** Number of IDs in array for sms send. */
+	public static final int IDS_SEND = 2;
+	/** Number of IDs in array for bootstrap. */
+	public static final int IDS_BOOTSTRAP = 3;
+
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
 
@@ -268,6 +273,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						AndGMXsms.prefsUser = p;
 						AndGMXsms.prefsSender = this.getParam(outp,
 								"cell_phone");
+						if (this.pw != null) {
+							AndGMXsms.prefsPassword = this.pw;
+						}
 						Settings.reset();
 						Message.obtain(AndGMXsms.me.messageHandler,
 								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
@@ -388,7 +396,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (textTo == null || textTo[0] == null) {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
-		} else if (textTo.length == 2) {
+		} else if (textTo.length == IDS_SEND) {
 			this.text = textTo[ID_TEXT];
 			this.to = textTo[ID_TO];
 			this.publishProgress((Boolean) null);
