@@ -6,12 +6,12 @@
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bootstrap_" android:paddingLeft="5sp"></TextView>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bootstrap_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
   
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/user_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
   
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
   
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sender_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
 </LinearLayout>

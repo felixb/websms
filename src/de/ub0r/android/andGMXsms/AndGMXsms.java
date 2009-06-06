@@ -121,6 +121,17 @@ public class AndGMXsms extends Activity {
 		button.setOnClickListener(this.runGetFree);
 	}
 
+	/** Called on activity pause. */
+	@Override
+	protected final void onPause() {
+		super.onPause();
+		if (this.log != null) {
+			logString = this.log.getText().toString();
+		} else {
+			logString = null;
+		}
+	}
+
 	/** Called on activity resume. */
 	@Override
 	protected final void onResume() {

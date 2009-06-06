@@ -6,13 +6,13 @@
   
   <TextView android:layout_height="wrap_content" android:text="@string/about" android:layout_width="wrap_content" android:autoLink="web" android:paddingLeft="5sp" android:paddingRight="5sp"></TextView>
 
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_height="wrap_content" android:text="@string/license" android:layout_width="wrap_content" android:autoLink="web" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
 
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/author_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_height="wrap_content" android:text="@string/author" android:layout_width="wrap_content" android:autoLink="email" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
 
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/source_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/source_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_height="wrap_content" android:text="@string/source" android:layout_width="wrap_content" android:autoLink="web" android:paddingRight="5sp" android:paddingLeft="15sp"></TextView>
 
   <Button android:layout_height="wrap_content" android:id="@+id/btn_donate" android:text="@string/donate_" android:layout_marginTop="10sp" android:layout_width="fill_parent" android:layout_marginLeft="5sp" android:layout_marginRight="5sp"></Button>
