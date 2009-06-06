@@ -3,10 +3,21 @@
     android:orientation="vertical"
     android:layout_height="fill_parent" android:layout_width="fill_parent">
 
-  <LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingTop="10sp" android:layout_width="fill_parent">
-	<Button android:layout_height="wrap_content" android:text="@string/compose" android:id="@+id/composer" android:layout_width="fill_parent"  android:layout_weight="1"></Button>
-	<Button android:layout_height="wrap_content" android:text="@string/get_free" android:id="@+id/getfree" android:layout_width="fill_parent"  android:layout_weight="1"></Button>
-  </LinearLayout>
+  <Button android:layout_height="wrap_content" android:text="@string/get_free" android:id="@+id/getfree" android:layout_width="fill_parent"></Button>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/free_" android:id="@+id/freecount"></TextView>
+  
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/to_"></TextView>
+  <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">
+	<ImageButton android:id="@+id/contacts" android:src="@drawable/ic_menu_friendslist" android:layout_height="fill_parent" android:layout_width="wrap_content" android:adjustViewBounds="true" android:scaleType="fitXY" android:maxWidth="50sp"></ImageButton>
+	<EditText android:layout_height="wrap_content" android:id="@+id/to" android:layout_width="fill_parent" android:inputType="phone"></EditText>
+  </LinearLayout>
+
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/text_" android:id="@+id/text_"></TextView>
+  <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/text" android:layout_gravity="top" android:layout_weight="1"></EditText>
+
+  <LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="0">
+	<Button android:text="@string/send" android:id="@+id/send" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+	<Button android:id="@+id/cancel" android:text="@string/cancel" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+  </LinearLayout>
   
 </LinearLayout>

@@ -353,7 +353,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			return false;
 		} else {
 			// result: ok
-			Composer.reset();
+			AndGMXsms.me.reset();
 
 			// save sms to content://sms/sent
 			ContentValues values = new ContentValues();

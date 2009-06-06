@@ -5,17 +5,24 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Contacts.Phones;
+import android.provider.Contacts.PhonesColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +79,20 @@ public class AndGMXsms extends Activity {
 	/** Message to open settings. */
 	public static final int MESSAGE_SETTINGS = 4;
 
+	/** Persistent Message store. */
+	private static String lastMsg = null;
+	/** Persistent Receiver store. */
+	private static String lastTo = null;
+
+	/** Intent id. */
+	static final int PICK_CONTACT_REQUEST = 0;
+
+	/** Text's label. */
+	private TextView textLabel;
+
+	/** Resource @string/text__. */
+	private String textLabelRef;
+
 	/**
 	 * Preferences: user's default prefix.
 	 * 
@@ -110,10 +131,19 @@ public class AndGMXsms extends Activity {
 		prefsSender = settings.getString(PREFS_SENDER, "");
 
 		// register Listener
-		Button button = (Button) this.findViewById(R.id.composer);
-		button.setOnClickListener(this.openComposer);
-		button = (Button) this.findViewById(R.id.getfree);
+		Button button = (Button) this.findViewById(R.id.getfree);
 		button.setOnClickListener(this.runGetFree);
+		button = (Button) this.findViewById(R.id.send);
+		button.setOnClickListener(this.runSend);
+		button = (Button) this.findViewById(R.id.cancel);
+		button.setOnClickListener(this.cancel);
+		ImageButton ibtn = (ImageButton) this.findViewById(R.id.contacts);
+		ibtn.setOnClickListener(this.contacts);
+
+		this.textLabelRef = this.getResources().getString(R.string.text__);
+		this.textLabel = (TextView) this.findViewById(R.id.text_);
+		EditText et = (EditText) this.findViewById(R.id.text);
+		et.addTextChangedListener(this.textWatcher);
 	}
 
 	/** Called on activity resume. */
@@ -152,10 +182,45 @@ public class AndGMXsms extends Activity {
 		}
 
 		// enable/disable buttons
-		Button button = (Button) this.findViewById(R.id.composer);
+		Button button = (Button) this.findViewById(R.id.send);
 		button.setEnabled(prefsReady);
 		button = (Button) this.findViewById(R.id.getfree);
 		button.setEnabled(prefsReady);
+
+		// reload text/receiver from local store
+		EditText et = (EditText) this.findViewById(R.id.text);
+		if (lastMsg != null) {
+			et.setText(lastMsg);
+		} else {
+			et.setText("");
+		}
+		et = (EditText) this.findViewById(R.id.to);
+		if (lastTo != null) {
+			et.setText(lastTo);
+		} else {
+			et.setText("");
+		}
+	}
+
+	/** Called on activity pause. */
+	@Override
+	public final void onPause() {
+		super.onPause();
+		// store input data to persitent stores
+		EditText et = (EditText) this.findViewById(R.id.text);
+		lastMsg = et.getText().toString();
+		et = (EditText) this.findViewById(R.id.to);
+		lastTo = et.getText().toString();
+	}
+
+	/**
+	 * Resets persistent store.
+	 */
+	public final void reset() {
+		((EditText) this.findViewById(R.id.text)).setText("");
+		((EditText) this.findViewById(R.id.to)).setText("");
+		lastMsg = null;
+		lastTo = null;
 	}
 
 	/** Save prefs. */
@@ -169,14 +234,6 @@ public class AndGMXsms extends Activity {
 		// commit changes
 		editor.commit();
 	}
-
-	/** Listener for launching Composer. */
-	private OnClickListener openComposer = new OnClickListener() {
-		public void onClick(final View v) {
-			AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
-					Composer.class));
-		}
-	};
 
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
@@ -304,6 +361,119 @@ public class AndGMXsms extends Activity {
 						Settings.class));
 			default:
 				return;
+			}
+		}
+	}
+
+	/** TextWatcher updating char count on writing. */
+	private TextWatcher textWatcher = new TextWatcher() {
+		/**
+		 * Called after Text is changed.
+		 * 
+		 * @param s
+		 *            text
+		 */
+		@Override
+		public void afterTextChanged(final Editable s) {
+			AndGMXsms.this.textLabel.setText(AndGMXsms.this.textLabelRef + " ("
+					+ s.length() + "):");
+		}
+
+		/** Needed dummy. */
+		@Override
+		public void beforeTextChanged(final CharSequence s, final int start,
+				final int count, final int after) {
+		}
+
+		/** Needed dummy. */
+		@Override
+		public void onTextChanged(final CharSequence s, final int start,
+				final int before, final int count) {
+		}
+	};
+
+	/** OnClickListener for sending the sms. */
+	private OnClickListener runSend = new OnClickListener() {
+		public void onClick(final View v) {
+			// fetch text/receiver
+			EditText et = (EditText) AndGMXsms.this.findViewById(R.id.to);
+			String to = et.getText().toString();
+			et = (EditText) AndGMXsms.this.findViewById(R.id.text);
+			String text = et.getText().toString();
+			// fix number prefix
+			if (to != null && text != null && to.length() > 2
+					&& !text.equals("")) {
+
+				if (!to.startsWith("+")) {
+					if (to.startsWith("00")) {
+						to = "+" + to.substring(2);
+					} else if (to.startsWith("0")) {
+						to = AndGMXsms.prefsPrefix() + to.substring(1);
+					}
+				}
+				// start a Connector Thread
+				String[] params = new String[2];
+				params[Connector.ID_TEXT] = text;
+				params[Connector.ID_TO] = to;
+				Message.obtain(AndGMXsms.me.messageHandler,
+						AndGMXsms.MESSAGE_SEND, params).sendToTarget();
+			}
+		}
+	};
+
+	/** OnClickListener for cancel. */
+	private OnClickListener cancel = new OnClickListener() {
+		public void onClick(final View v) {
+			// reset input fields
+			AndGMXsms.this.reset();
+			AndGMXsms.this.reset();
+		}
+	};
+
+	/** OnClickListener for launching phonebook. */
+	private OnClickListener contacts = new OnClickListener() {
+		public void onClick(final View v) {
+			AndGMXsms.this.startActivityForResult(new Intent(
+					Intent.ACTION_PICK, Phones.CONTENT_URI),
+					PICK_CONTACT_REQUEST);
+		}
+	};
+
+	/**
+	 * Handles ActivityResults from Phonebook.
+	 * 
+	 * @param requestCode
+	 *            Intent id
+	 * @param resultCode
+	 *            result code
+	 * @param data
+	 *            data
+	 */
+	protected final void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
+		if (requestCode == PICK_CONTACT_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				// get cursor
+				Cursor cur = this
+						.managedQuery(data.getData(),
+								new String[] { PhonesColumns.NUMBER }, null,
+								null, null);
+				// get EditText
+				EditText et = (EditText) this.findViewById(R.id.to);
+				// fill EditText if data is available
+				if (cur.moveToFirst()) {
+					String targetNumber = cur.getString(cur
+							.getColumnIndex(PhonesColumns.NUMBER));
+					// cleanup number
+					targetNumber = targetNumber.replace(" ", "").replace("-",
+							"").replace(".", "").replace("(", "").replace(")",
+							"");
+					et.setText(targetNumber);
+					lastTo = targetNumber;
+				} else {
+					et.setText("");
+					lastTo = "";
+				}
 			}
 		}
 	}
