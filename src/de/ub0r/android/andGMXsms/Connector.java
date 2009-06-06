@@ -69,7 +69,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Number of IDs in array for sms send. */
 	public static final int IDS_SEND = 2;
 	/** Number of IDs in array for bootstrap. */
-	public static final int IDS_BOOTSTRAP = 3;
+	public static final int IDS_BOOTSTR = 3;
 
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
@@ -453,7 +453,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				AndGMXsms.dialog.dismiss();
 				AndGMXsms.dialog = null;
 			} catch (Exception e) {
-				// nothing to do
+				System.gc();
 			}
 		}
 	}

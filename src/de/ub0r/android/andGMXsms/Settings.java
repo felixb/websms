@@ -40,14 +40,12 @@ public class Settings extends Activity {
 		// inflate XML
 		this.setContentView(R.layout.settings);
 		// register Listener
-		Button button = (Button) this.findViewById(R.id.help);
-		button.setOnClickListener(this.help);
-		button = (Button) this.findViewById(R.id.ok);
-		button.setOnClickListener(this.ok);
-		button = (Button) this.findViewById(R.id.cancel);
-		button.setOnClickListener(this.cancel);
-		button = (Button) this.findViewById(R.id.bootstrap);
-		button.setOnClickListener(this.bootstrap);
+		((Button) this.findViewById(R.id.help)).setOnClickListener(this.help);
+		((Button) this.findViewById(R.id.ok)).setOnClickListener(this.ok);
+		((Button) this.findViewById(R.id.cancel))
+				.setOnClickListener(this.cancel);
+		((Button) this.findViewById(R.id.bootstrap))
+				.setOnClickListener(this.bootstrap);
 	}
 
 	/** Called on activity resume. */
@@ -66,12 +64,9 @@ public class Settings extends Activity {
 		}
 
 		// reload EditTexts' text from local prefs
-		EditText et = (EditText) this.findViewById(R.id.user);
-		et.setText(prUser);
-		et = (EditText) this.findViewById(R.id.password);
-		et.setText(prPassword);
-		et = (EditText) this.findViewById(R.id.sender);
-		et.setText(prSender);
+		((EditText) this.findViewById(R.id.user)).setText(prUser);
+		((EditText) this.findViewById(R.id.password)).setText(prPassword);
+		((EditText) this.findViewById(R.id.sender)).setText(prSender);
 
 		// Start bootstrap if needed.
 		if (prUser.length() < 1 && prPassword.length() < 1
@@ -85,12 +80,11 @@ public class Settings extends Activity {
 	public final void onPause() {
 		super.onPause();
 		// save TextEdits' text to local prefs
-		EditText et = (EditText) this.findViewById(R.id.user);
-		prUser = et.getText().toString();
-		et = (EditText) this.findViewById(R.id.password);
-		prPassword = et.getText().toString();
-		et = (EditText) this.findViewById(R.id.sender);
-		prSender = et.getText().toString();
+		prUser = ((EditText) this.findViewById(R.id.user)).getText().toString();
+		prPassword = ((EditText) this.findViewById(R.id.password)).getText()
+				.toString();
+		prSender = ((EditText) this.findViewById(R.id.sender)).getText()
+				.toString();
 	}
 
 	/**
@@ -109,39 +103,42 @@ public class Settings extends Activity {
 			myDialog.setContentView(R.layout.bootstrap);
 			myDialog.setTitle(this.getResources()
 					.getString(R.string.bootstrap_));
-			Button button = (Button) myDialog.findViewById(R.id.bootstrap_ok);
-			button.setOnClickListener(new OnClickListener() {
-				public void onClick(final View view) {
-					String[] params = new String[Connector.IDS_BOOTSTRAP];
-					params[Connector.ID_MAIL] = ((TextView) ((View) view
-							.getParent()).findViewById(R.id.bootstrap_mail))
-							.getText().toString();
-					params[Connector.ID_PW] = ((TextView) ((View) view
-							.getParent()).findViewById(R.id.bootstrap_pw))
-							.getText().toString();
-					if (params[Connector.ID_MAIL].length() < 1
-							|| params[Connector.ID_PW].length() < 1) {
-						return;
-					}
-					params[Connector.ID_BOOTSTRAP_NULL] = null;
-					Message.obtain(AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_BOOTSTRAP, params).sendToTarget();
-					Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
-					Settings.this.finish();
-				}
-			});
-			button = (Button) myDialog.findViewById(R.id.bootstrap_cancel);
-			button.setOnClickListener(new OnClickListener() {
-				public void onClick(final View view) {
-					Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
-				}
-			});
-			button = (Button) myDialog.findViewById(R.id.bootstrap_help);
-			button.setOnClickListener(new OnClickListener() {
-				public void onClick(final View view) {
-					Settings.this.showDialog(DIALOG_HELP);
-				}
-			});
+			((Button) myDialog.findViewById(R.id.bootstrap_ok))
+					.setOnClickListener(new OnClickListener() {
+						public void onClick(final View view) {
+							String[] params = new String[Connector.IDS_BOOTSTR];
+							params[Connector.ID_MAIL] = ((TextView) ((View) view
+									.getParent())
+									.findViewById(R.id.bootstrap_mail))
+									.getText().toString();
+							params[Connector.ID_PW] = ((TextView) ((View) view
+									.getParent())
+									.findViewById(R.id.bootstrap_pw)).getText()
+									.toString();
+							if (params[Connector.ID_MAIL].length() < 1
+									|| params[Connector.ID_PW].length() < 1) {
+								return;
+							}
+							params[Connector.ID_BOOTSTRAP_NULL] = null;
+							Message.obtain(AndGMXsms.me.messageHandler,
+									AndGMXsms.MESSAGE_BOOTSTRAP, params)
+									.sendToTarget();
+							Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
+							Settings.this.finish();
+						}
+					});
+			((Button) myDialog.findViewById(R.id.bootstrap_cancel))
+					.setOnClickListener(new OnClickListener() {
+						public void onClick(final View view) {
+							Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
+						}
+					});
+			((Button) myDialog.findViewById(R.id.bootstrap_help))
+					.setOnClickListener(new OnClickListener() {
+						public void onClick(final View view) {
+							Settings.this.showDialog(DIALOG_HELP);
+						}
+					});
 			break;
 		case DIALOG_HELP:
 			myDialog = new Dialog(this);
@@ -167,12 +164,12 @@ public class Settings extends Activity {
 		@Override
 		public void onClick(final View v) {
 			// save prefs from TextEdits
-			EditText et = (EditText) Settings.this.findViewById(R.id.user);
-			prUser = et.getText().toString();
-			et = (EditText) Settings.this.findViewById(R.id.password);
-			prPassword = et.getText().toString();
-			et = (EditText) Settings.this.findViewById(R.id.sender);
-			prSender = et.getText().toString();
+			prUser = ((EditText) Settings.this.findViewById(R.id.user))
+					.getText().toString();
+			prPassword = ((EditText) Settings.this.findViewById(R.id.password))
+					.getText().toString();
+			prSender = ((EditText) Settings.this.findViewById(R.id.sender))
+					.getText().toString();
 
 			// save prefs to global
 			AndGMXsms.prefsUser = prUser;
@@ -195,12 +192,11 @@ public class Settings extends Activity {
 			prSender = AndGMXsms.prefsSender;
 
 			// reload prefs into TextEdits
-			EditText et = (EditText) Settings.this.findViewById(R.id.user);
-			et.setText(prUser);
-			et = (EditText) Settings.this.findViewById(R.id.password);
-			et.setText(prPassword);
-			et = (EditText) Settings.this.findViewById(R.id.sender);
-			et.setText(prSender);
+			((EditText) Settings.this.findViewById(R.id.user)).setText(prUser);
+			((EditText) Settings.this.findViewById(R.id.password))
+					.setText(prPassword);
+			((EditText) Settings.this.findViewById(R.id.sender))
+					.setText(prSender);
 			// exit activity
 			Settings.this.finish();
 		}

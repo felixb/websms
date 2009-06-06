@@ -131,17 +131,17 @@ public class AndGMXsms extends Activity {
 		prefsSender = settings.getString(PREFS_SENDER, "");
 
 		// register Listener
-		Button button = (Button) this.findViewById(R.id.send);
-		button.setOnClickListener(this.runSend);
-		button = (Button) this.findViewById(R.id.cancel);
-		button.setOnClickListener(this.cancel);
-		ImageButton ibtn = (ImageButton) this.findViewById(R.id.contacts);
-		ibtn.setOnClickListener(this.contacts);
+		((Button) this.findViewById(R.id.send))
+				.setOnClickListener(this.runSend);
+		((Button) this.findViewById(R.id.cancel))
+				.setOnClickListener(this.cancel);
+		((ImageButton) this.findViewById(R.id.contacts))
+				.setOnClickListener(this.contacts);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
-		EditText et = (EditText) this.findViewById(R.id.text);
-		et.addTextChangedListener(this.textWatcher);
+		((EditText) this.findViewById(R.id.text))
+				.addTextChangedListener(this.textWatcher);
 
 		TextView tw = (TextView) this.findViewById(R.id.freecount);
 		tw.setOnClickListener(this.runGetFree);
@@ -155,7 +155,6 @@ public class AndGMXsms extends Activity {
 	@Override
 	protected final void onResume() {
 		super.onResume();
-
 		// set free sms count
 		if (remFree != null) {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
@@ -209,10 +208,9 @@ public class AndGMXsms extends Activity {
 	public final void onPause() {
 		super.onPause();
 		// store input data to persitent stores
-		EditText et = (EditText) this.findViewById(R.id.text);
-		lastMsg = et.getText().toString();
-		et = (EditText) this.findViewById(R.id.to);
-		lastTo = et.getText().toString();
+		lastMsg = ((EditText) this.findViewById(R.id.text)).getText()
+				.toString();
+		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
 	}
 
 	/**
@@ -328,7 +326,6 @@ public class AndGMXsms extends Activity {
 	 * @author flx
 	 */
 	private class MessageHandler extends Handler {
-
 		/**
 		 * Handles incoming messages.
 		 * 
@@ -418,7 +415,7 @@ public class AndGMXsms extends Activity {
 					}
 				}
 				// start a Connector Thread
-				String[] params = new String[2];
+				String[] params = new String[Connector.IDS_SEND];
 				params[Connector.ID_TEXT] = text;
 				params[Connector.ID_TO] = to;
 				Message.obtain(AndGMXsms.me.messageHandler,
@@ -431,7 +428,6 @@ public class AndGMXsms extends Activity {
 	private OnClickListener cancel = new OnClickListener() {
 		public void onClick(final View v) {
 			// reset input fields
-			AndGMXsms.this.reset();
 			AndGMXsms.this.reset();
 		}
 	};
@@ -483,5 +479,4 @@ public class AndGMXsms extends Activity {
 			}
 		}
 	}
-
 }
