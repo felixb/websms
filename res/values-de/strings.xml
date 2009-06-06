@@ -35,4 +35,5 @@
 <string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
 <string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 <string name="about">Mit GMX sms kannst du kostenlos SMS via GMX SMS-Manager senden.</string>
+<string name="click_for_update">(klick mich zum updaten)</string>
 </resources>

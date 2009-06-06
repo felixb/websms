@@ -45,4 +45,5 @@
 <string name="log_error_mail">Wrong mail address or password given!</string>
 <string name="log_error_pw">Wrong customer ID or password given!</string>
 <string name="about">GMX sms enables you to send free SMS via GMX SMS-Manager.</string>
+<string name="click_for_update">(click me for update)</string>
 </resources>

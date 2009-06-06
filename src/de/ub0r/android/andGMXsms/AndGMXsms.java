@@ -131,9 +131,7 @@ public class AndGMXsms extends Activity {
 		prefsSender = settings.getString(PREFS_SENDER, "");
 
 		// register Listener
-		Button button = (Button) this.findViewById(R.id.getfree);
-		button.setOnClickListener(this.runGetFree);
-		button = (Button) this.findViewById(R.id.send);
+		Button button = (Button) this.findViewById(R.id.send);
 		button.setOnClickListener(this.runSend);
 		button = (Button) this.findViewById(R.id.cancel);
 		button.setOnClickListener(this.cancel);
@@ -144,6 +142,13 @@ public class AndGMXsms extends Activity {
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		EditText et = (EditText) this.findViewById(R.id.text);
 		et.addTextChangedListener(this.textWatcher);
+
+		TextView tw = (TextView) this.findViewById(R.id.freecount);
+		tw.setOnClickListener(this.runGetFree);
+		tw.setText(tw.getText()
+				+ " "
+				+ AndGMXsms.this.getResources().getString(
+						R.string.click_for_update));
 	}
 
 	/** Called on activity resume. */
@@ -182,10 +187,7 @@ public class AndGMXsms extends Activity {
 		}
 
 		// enable/disable buttons
-		Button button = (Button) this.findViewById(R.id.send);
-		button.setEnabled(prefsReady);
-		button = (Button) this.findViewById(R.id.getfree);
-		button.setEnabled(prefsReady);
+		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);
 
 		// reload text/receiver from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
@@ -346,7 +348,11 @@ public class AndGMXsms extends Activity {
 						.findViewById(R.id.freecount);
 				tw.setText(AndGMXsms.this.getResources().getString(
 						R.string.free_)
-						+ " " + AndGMXsms.remFree);
+						+ " "
+						+ AndGMXsms.remFree
+						+ " "
+						+ AndGMXsms.this.getResources().getString(
+								R.string.click_for_update));
 				return;
 			case MESSAGE_SEND:
 				AndGMXsms.connector = new Connector()

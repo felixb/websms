@@ -3,11 +3,11 @@
     android:orientation="vertical"
     android:layout_height="fill_parent" android:layout_width="fill_parent">
 
-  <Button android:layout_height="wrap_content" android:text="@string/get_free" android:id="@+id/getfree" android:layout_width="fill_parent"></Button>
+  
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/free_" android:id="@+id/freecount"></TextView>
   
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/to_"></TextView>
-  <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">
+  
+  <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/to_"></TextView>
 	<ImageButton android:id="@+id/contacts" android:src="@drawable/ic_menu_friendslist" android:layout_height="fill_parent" android:layout_width="wrap_content" android:adjustViewBounds="true" android:scaleType="fitXY" android:maxWidth="50sp"></ImageButton>
 	<EditText android:layout_height="wrap_content" android:id="@+id/to" android:layout_width="fill_parent" android:inputType="phone"></EditText>
   </LinearLayout>
