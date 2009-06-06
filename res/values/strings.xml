@@ -4,7 +4,6 @@
 <string name="app_version">0.8</string>
 <string name="compose">Compose</string>
 <string name="get_free">Refresh free sms</string>
-<string name="logs_">Logs:</string>
 <string name="settings">Preferences</string>
 <string name="about_">About GMX sms</string>
 <string name="user_">Username:</string>
@@ -16,7 +15,6 @@
 <string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">To:</string>
 <string name="text_">Text:</string>
-<string name="clearlog">Clear log</string>
 <string name="send">Send</string>
 <string name="cancel">Cancel</string>
 <string name="sender_hint">Int. phonenumber</string>

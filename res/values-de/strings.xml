@@ -2,7 +2,6 @@
 <resources>
 <string name="compose">Neue SMS</string>
 <string name="get_free">Frei SMS neu laden</string>
-<string name="logs_">Logs:</string>
 <string name="settings">Einstellungen</string>
 <string name="about_">Über GMX sms</string>
 <string name="user_">Benutzer:</string>
@@ -13,7 +12,6 @@
 <string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 <string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 <string name="to_">An:</string>
-<string name="clearlog">Log löschen</string>
 <string name="send">Senden</string>
 <string name="cancel">Abbr.</string>
 <string name="sender_hint">Deine int. Mobilnummer</string>

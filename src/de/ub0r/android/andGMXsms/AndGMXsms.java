@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Main Activity.
@@ -83,10 +84,6 @@ public class AndGMXsms extends Activity {
 		return AndGMXsms.prefsSender.substring(0, PREFIX_LEN);
 	}
 
-	/** Log. */
-	private TextView log;
-	/** Local log store. */
-	private static String logString = "";
 	/** MessageHandler. */
 	Handler messageHandler;
 
@@ -103,8 +100,6 @@ public class AndGMXsms extends Activity {
 		me = this;
 		// inflate XML
 		this.setContentView(R.layout.main);
-		// save ref to log
-		this.log = (TextView) this.findViewById(R.id.log);
 		// register MessageHandler
 		this.messageHandler = new AndGMXsms.MessageHandler();
 
@@ -121,25 +116,10 @@ public class AndGMXsms extends Activity {
 		button.setOnClickListener(this.runGetFree);
 	}
 
-	/** Called on activity pause. */
-	@Override
-	protected final void onPause() {
-		super.onPause();
-		if (this.log != null) {
-			logString = this.log.getText().toString();
-		} else {
-			logString = null;
-		}
-	}
-
 	/** Called on activity resume. */
 	@Override
 	protected final void onResume() {
 		super.onResume();
-		// restore log
-		if (this.log != null && logString != null) {
-			this.log.setText(logString);
-		}
 
 		// set free sms count
 		if (remFree != null) {
@@ -164,12 +144,10 @@ public class AndGMXsms extends Activity {
 		if (prefsUser.equals("") || prefsPassword.equals("")
 				|| prefsSender.equals("")) {
 			prefsReady = false;
-			this.lognl(this.getResources().getString(
-					R.string.log_empty_settings));
+			this
+					.log(this.getResources().getString(
+							R.string.log_empty_settings));
 		} else {
-			if (!prefsReady) {
-				this.log.setText("");
-			}
 			prefsReady = true;
 		}
 
@@ -230,11 +208,6 @@ public class AndGMXsms extends Activity {
 	 */
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.item_clearlog: // clear logs
-			TextView tw = (TextView) this.findViewById(R.id.log);
-			tw.setText("");
-			logString = "";
-			return true;
 		case R.id.item_about: // start about dialog
 			this.showDialog(DIALOG_ABOUT);
 			return true;
@@ -286,19 +259,8 @@ public class AndGMXsms extends Activity {
 	 *            text
 	 */
 	public final void log(final String text) {
-		this.log.append(text);
-		logString += text;
-	}
-
-	/**
-	 * Log text + \n.
-	 * 
-	 * @param text
-	 *            text
-	 */
-	public final void lognl(final String text) {
-		this.log.append(text + "\n");
-		logString += text + "\n";
+		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG)
+				.show();
 	}
 
 	/**
@@ -319,7 +281,7 @@ public class AndGMXsms extends Activity {
 			switch (msg.what) {
 			case MESSAGE_LOG:
 				String l = (String) msg.obj;
-				AndGMXsms.this.lognl(l);
+				AndGMXsms.this.log(l);
 				return;
 			case MESSAGE_FREECOUNT:
 				AndGMXsms.remFree = (String) msg.obj;
