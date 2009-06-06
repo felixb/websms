@@ -6,7 +6,7 @@
 <string name="get_free">refresh free sms</string>
 <string name="logs_">logs:</string>
 <string name="settings">preferences</string>
-<string name="about">about</string>
+<string name="about_">about</string>
 <string name="user_">username:</string>
 <string name="password_">gmx sms key:</string>
 <string name="sender_">your phone number:</string>
@@ -48,4 +48,5 @@
 <string name="donate_">donate</string>
 <string name="log_error_mail">wrong mail or password</string>
 <string name="log_error_pw">wrong user or password</string>
+<string name="about">GMX sms enables you to send free sms via gmx sms manager</string>
 </resources>

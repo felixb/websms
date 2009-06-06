@@ -4,7 +4,7 @@
 <string name="get_free">frei sms neu laden</string>
 <string name="logs_">logs:</string>
 <string name="settings">einstellungen</string>
-<string name="about">über GMX sms</string>
+<string name="about_">über GMX sms</string>
 <string name="user_">benutzer:</string>
 <string name="password_">gmx sms key:</string>
 <string name="sender_">mobilnummer:</string>
@@ -38,4 +38,5 @@
 <string name="donate_">spende</string>
 <string name="log_error_mail">falsche mail oder passwort</string>
 <string name="log_error_pw">falscher benutzer oder passwort</string>
+<string name="about">GMXsms erlaubt es dir freissms via gmx sms manager zu senden</string>
 </resources>

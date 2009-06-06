@@ -2,6 +2,6 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:enabled="true" android:menuCategory="secondary" android:checkable="false" android:titleCondensed="@string/settings" android:checked="false" android:visible="true" android:title="@string/settings" android:id="@+id/item_settings" android:icon="@android:drawable/ic_menu_preferences"></item>
-<item android:enabled="true" android:menuCategory="secondary" android:checkable="false" android:titleCondensed="@string/about" android:checked="false" android:visible="true" android:title="@string/about" android:id="@+id/item_about" android:icon="@android:drawable/ic_menu_info_details"></item>
+<item android:enabled="true" android:menuCategory="secondary" android:checkable="false" android:checked="false" android:visible="true" android:id="@+id/item_about" android:icon="@android:drawable/ic_menu_info_details" android:title="@string/about_" android:titleCondensed="@string/about_"></item>
 <item android:menuCategory="secondary" android:checkable="false" android:checked="false" android:visible="true" android:enabled="true" android:title="@string/clearlog" android:titleCondensed="@string/clearlog" android:id="@+id/item_clearlog" android:icon="@android:drawable/ic_menu_revert"></item>
 </menu>

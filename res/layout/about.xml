@@ -3,8 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/version_" android:paddingLeft="5sp"></TextView>
-  <TextView android:layout_height="wrap_content" android:text="@string/app_version" android:layout_width="fill_parent" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
+  
+  <TextView android:layout_height="wrap_content" android:text="@string/about" android:layout_width="wrap_content" android:autoLink="web" android:paddingLeft="5sp" android:paddingRight="5sp"></TextView>
 
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/license_" android:paddingTop="10sp" android:paddingLeft="5sp"></TextView>
   <TextView android:layout_height="wrap_content" android:text="@string/license" android:layout_width="wrap_content" android:autoLink="web" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>

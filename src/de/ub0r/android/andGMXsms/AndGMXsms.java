@@ -249,7 +249,9 @@ public class AndGMXsms extends Activity {
 		case DIALOG_ABOUT:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.about);
-			myDialog.setTitle(this.getResources().getString(R.string.about));
+			myDialog.setTitle(this.getResources().getString(R.string.about_)
+					+ " v"
+					+ this.getResources().getString(R.string.app_version));
 			Button button = (Button) myDialog.findViewById(R.id.btn_donate);
 			button.setOnClickListener(new OnClickListener() {
 				public void onClick(final View view) {
