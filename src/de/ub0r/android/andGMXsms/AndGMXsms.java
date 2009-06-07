@@ -149,6 +149,23 @@ public class AndGMXsms extends Activity {
 				+ " "
 				+ AndGMXsms.this.getResources().getString(
 						R.string.click_for_update));
+
+		Intent intend = this.getIntent();
+		String action = intend.getAction();
+		if (action.equals(Intent.ACTION_SENDTO)) {
+			// launched by clicking a sms: link, target number is in URI.
+			Uri uri = intend.getData();
+			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
+				String receiver = uri.getSchemeSpecificPart();
+				if (receiver != null) {
+					receiver = this.cleanReceiver(receiver);
+					((EditText) this.findViewById(R.id.to)).setText(receiver);
+					lastTo = receiver;
+					Toast.makeText(this.getApplicationContext(), receiver,
+							Toast.LENGTH_LONG).show();
+				}
+			}
+		}
 	}
 
 	/** Called on activity resume. */
@@ -442,6 +459,18 @@ public class AndGMXsms extends Activity {
 	};
 
 	/**
+	 * Clean receiver's phone number from [ -.()].
+	 * 
+	 * @param receiver
+	 *            receiver's mobile number
+	 * @return clean number
+	 */
+	private final String cleanReceiver(final String receiver) {
+		return receiver.replace(" ", "").replace("-", "").replace(".", "")
+				.replace("(", "").replace(")", "").trim();
+	}
+
+	/**
 	 * Handles ActivityResults from Phonebook.
 	 * 
 	 * @param requestCode
@@ -467,9 +496,7 @@ public class AndGMXsms extends Activity {
 					String targetNumber = cur.getString(cur
 							.getColumnIndex(PhonesColumns.NUMBER));
 					// cleanup number
-					targetNumber = targetNumber.replace(" ", "").replace("-",
-							"").replace(".", "").replace("(", "").replace(")",
-							"");
+					targetNumber = this.cleanReceiver(targetNumber);
 					et.setText(targetNumber);
 					lastTo = targetNumber;
 				} else {
