@@ -161,8 +161,6 @@ public class AndGMXsms extends Activity {
 					receiver = this.cleanReceiver(receiver);
 					((EditText) this.findViewById(R.id.to)).setText(receiver);
 					lastTo = receiver;
-					Toast.makeText(this.getApplicationContext(), receiver,
-							Toast.LENGTH_LONG).show();
 				}
 			}
 		}
