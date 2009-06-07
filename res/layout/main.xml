@@ -11,7 +11,10 @@
 	<EditText android:layout_height="wrap_content" android:id="@+id/to" android:layout_width="fill_parent" android:inputType="phone"></EditText>
   </LinearLayout>
 
+  <MultiAutoCompleteTextView android:text="" android:id="@+id/to1" android:layout_width="fill_parent" android:layout_height="wrap_content"></MultiAutoCompleteTextView>
+  
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/text_" android:id="@+id/text_"></TextView>
+  
   <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/text" android:layout_gravity="top" android:layout_weight="1"></EditText>
 
   <LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="0">
@@ -19,4 +22,5 @@
 	<Button android:id="@+id/cancel" android:text="@string/cancel" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"></Button>
   </LinearLayout>
   
+
 </LinearLayout>
