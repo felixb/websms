@@ -3,7 +3,6 @@ package de.ub0r.android.andGMXsms;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -120,9 +119,8 @@ public class Settings extends Activity {
 								return;
 							}
 							params[Connector.ID_BOOTSTRAP_NULL] = null;
-							Message.obtain(AndGMXsms.me.messageHandler,
-									AndGMXsms.MESSAGE_BOOTSTRAP, params)
-									.sendToTarget();
+							AndGMXsms.me.sendMessage(
+									AndGMXsms.MESSAGE_BOOTSTRAP, params);
 							Settings.this.dismissDialog(DIALOG_BOOTSTRAP);
 							Settings.this.finish();
 						}

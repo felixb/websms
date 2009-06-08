@@ -78,6 +78,8 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_BOOTSTRAP = 3;
 	/** Message to open settings. */
 	public static final int MESSAGE_SETTINGS = 4;
+	/** Message to reset data. */
+	public static final int MESSAGE_RESET = 5;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -106,7 +108,7 @@ public class AndGMXsms extends Activity {
 	}
 
 	/** MessageHandler. */
-	Handler messageHandler;
+	private Handler messageHandler;
 
 	/**
 	 * Called when the activity is first created.
@@ -152,7 +154,7 @@ public class AndGMXsms extends Activity {
 
 		Intent intend = this.getIntent();
 		String action = intend.getAction();
-		if (action.equals(Intent.ACTION_SENDTO)) {
+		if (action != null && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
 			Uri uri = intend.getData();
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
@@ -231,7 +233,7 @@ public class AndGMXsms extends Activity {
 	/**
 	 * Resets persistent store.
 	 */
-	public final void reset() {
+	private void reset() {
 		((EditText) this.findViewById(R.id.text)).setText("");
 		((EditText) this.findViewById(R.id.to)).setText("");
 		lastMsg = null;
@@ -377,6 +379,9 @@ public class AndGMXsms extends Activity {
 			case MESSAGE_SETTINGS:
 				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
 						Settings.class));
+			case MESSAGE_RESET:
+				AndGMXsms.this.reset();
+				return;
 			default:
 				return;
 			}
@@ -433,8 +438,7 @@ public class AndGMXsms extends Activity {
 				String[] params = new String[Connector.IDS_SEND];
 				params[Connector.ID_TEXT] = text;
 				params[Connector.ID_TO] = to;
-				Message.obtain(AndGMXsms.me.messageHandler,
-						AndGMXsms.MESSAGE_SEND, params).sendToTarget();
+				AndGMXsms.this.sendMessage(AndGMXsms.MESSAGE_SEND, params);
 			}
 		}
 	};
@@ -463,7 +467,7 @@ public class AndGMXsms extends Activity {
 	 *            receiver's mobile number
 	 * @return clean number
 	 */
-	private final String cleanReceiver(final String receiver) {
+	private String cleanReceiver(final String receiver) {
 		return receiver.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
 	}
@@ -503,5 +507,9 @@ public class AndGMXsms extends Activity {
 				}
 			}
 		}
+	}
+
+	public final void sendMessage(final int messageType, final Object data) {
+		Message.obtain(this.messageHandler, messageType, data).sendToTarget();
 	}
 }

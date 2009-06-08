@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Message;
 
 /**
  * AsyncTask to manage IO to GMX API.
@@ -198,11 +197,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			// send data
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				Message.obtain(
-						AndGMXsms.me.messageHandler,
-						AndGMXsms.MESSAGE_LOG,
-						AndGMXsms.me.getResources().getString(
-								R.string.log_error_http + resp)).sendToTarget();
+				AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(
+								R.string.log_error_http + resp));
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
@@ -229,12 +226,11 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				String resultString = data.toString();
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-					Message.obtain(
-							AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG,
+
+					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
 									R.string.log_error_server)
-									+ resultString).sendToTarget();
+									+ resultString);
 					return false;
 				}
 
@@ -250,8 +246,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				try {
 					rslt = Integer.parseInt(resultValue);
 				} catch (Exception e) {
-					Message.obtain(AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG, e.toString()).sendToTarget();
+					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, e
+							.toString());
 					return false;
 				}
 				switch (rslt) {
@@ -264,9 +260,8 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						if (p != null) {
 							freecount += " / " + p;
 						}
-						Message.obtain(AndGMXsms.me.messageHandler,
-								AndGMXsms.MESSAGE_FREECOUNT, freecount)
-								.sendToTarget();
+						AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_FREECOUNT,
+								freecount);
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
@@ -277,42 +272,35 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 							AndGMXsms.prefsPassword = this.pw;
 						}
 						Settings.reset();
-						Message.obtain(AndGMXsms.me.messageHandler,
-								AndGMXsms.MESSAGE_SETTINGS).sendToTarget();
+						AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_SETTINGS,
+								null);
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					Message.obtain(
-							AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG,
+
+					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
-									R.string.log_error_pw)).sendToTarget();
+									R.string.log_error_pw));
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
-					Message.obtain(
-							AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG,
+					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
-									R.string.log_error_mail)).sendToTarget();
+									R.string.log_error_mail));
 					return false;
 				default:
-					Message.obtain(AndGMXsms.me.messageHandler,
-							AndGMXsms.MESSAGE_LOG, outp + "#" + rslt)
-							.sendToTarget();
+					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#"
+							+ rslt);
 					return false;
 				}
 			} else {
-				Message.obtain(
-						AndGMXsms.me.messageHandler,
-						AndGMXsms.MESSAGE_LOG,
-						AndGMXsms.me.getResources().getString(
-								R.string.log_http_header_missing))
-						.sendToTarget();
+				AndGMXsms.me.sendMessage(
+
+				AndGMXsms.MESSAGE_LOG, AndGMXsms.me.getResources().getString(
+						R.string.log_http_header_missing));
 				return false;
 			}
 		} catch (IOException e) {
-			Message.obtain(AndGMXsms.me.messageHandler, AndGMXsms.MESSAGE_LOG,
-					e.toString()).sendToTarget();
+			AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
 	}
@@ -347,13 +335,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			Message.obtain(AndGMXsms.me.messageHandler, AndGMXsms.MESSAGE_LOG,
-					AndGMXsms.me.getResources().getString(R.string.log_error))
-					.sendToTarget();
+			AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+					.getResources().getString(R.string.log_error));
 			return false;
 		} else {
 			// result: ok
-			AndGMXsms.me.reset();
+			AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
 			// save sms to content://sms/sent
 			ContentValues values = new ContentValues();
