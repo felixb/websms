@@ -20,7 +20,7 @@
 <string name="sender_hint">Int. phonenumber</string>
 <string name="password_hint">GMX SMS-Manager Keycode</string>
 <string name="user_hint">Customer ID (see help)</string>
-<string name="help">help</string>
+<string name="help">Help</string>
 <string name="password_help">The SMS Key can be found on the download page of the GMX SMS Manager (for windows).</string>
 <string name="user_help">The customer ID can be found at the end of the URL of the WEB GMX SMS Manager. This is filled automatically when bootstrapping with init.</string>
 <string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>

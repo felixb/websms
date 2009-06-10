@@ -89,6 +89,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** password. */
 	private String pw;
 
+	/** Connector is bootstrapping. */
+	public static boolean inBootstrap = false;
+
 	/**
 	 * Write key,value to StringBuffer.
 	 * 
@@ -271,8 +274,13 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 						if (this.pw != null) {
 							AndGMXsms.prefsPassword = this.pw;
 						}
+						if (this.mail != null) {
+							AndGMXsms.prefsMail = this.mail;
+						}
+						AndGMXsms.me.saveSettings();
 						Settings.reset();
-						AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_SETTINGS,
+						inBootstrap = false;
+						AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
 								null);
 					}
 					return true;
@@ -283,9 +291,13 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 									R.string.log_error_pw));
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
+					inBootstrap = false;
+					Settings.reset();
 					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG,
 							AndGMXsms.me.getResources().getString(
 									R.string.log_error_mail));
+					AndGMXsms.me
+							.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					return false;
 				default:
 					AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#"
@@ -293,10 +305,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					return false;
 				}
 			} else {
-				AndGMXsms.me.sendMessage(
-
-				AndGMXsms.MESSAGE_LOG, AndGMXsms.me.getResources().getString(
-						R.string.log_http_header_missing));
+				AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(
+								R.string.log_http_header_missing));
 				return false;
 			}
 		} catch (IOException e) {
@@ -363,6 +374,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean bootstrap() {
+		inBootstrap = true;
 		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10", false);
 		writePair(packetData, "email_address", this.mail);
 		writePair(packetData, "password", this.pw);
