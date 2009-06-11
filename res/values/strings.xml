@@ -40,6 +40,7 @@
 <string name="bootstrap_help">Bootstrap preferences automatically with help of GMX. Your mail address ans SMS Keycode is needed.</string>
 <string name="mail_">Mail address:</string>
 <string name="mail_hint">user@gmx.tld</string>
+<string name="mail_help">Your GMX eMail Address is needed.</string>
 <string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 <string name="donate_">Donate</string>
 <string name="log_error_mail">Wrong mail address or password given!</string>
