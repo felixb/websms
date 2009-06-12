@@ -16,12 +16,9 @@
 <string name="cancel">Abbr.</string>
 <string name="sender_hint">Deine int. Mobilnummer</string>
 <string name="password_hint">GMX SMS-Manager Freischaltcode</string>
-<string name="user_hint">Customer ID (siehe Hilfe)</string>
 <string name="help_">Hilfe</string>
 <string name="help">Um diese App. nutzen zu können brauchst du einen GMX SMS Account! Ab GMX ProMail ist der SMS Account mit dabei.</string>
 <string name="password_help">Der GMX SMS Freischaltcode befindet sich auf der Downloadseite des GMX SMS Managers für Windows. Das normale GMX Passwort geht hier nicht!</string>
-<string name="user_help">Die Benutzer ID befindet sich am Ende der URL vom WEB GMX SMS Manager. Das ist nicht die GMX Kundennummer!</string>
-<string name="sender_help">Deine volle internationale mobilnummer (+49..) ist hier nötig.</string>
 <string name="log_error_http">&quot;FEHLER: HTTP &quot;</string>
 <string name="log_sending">Sende SMS..</string>
 <string name="log_error">FEHLER</string>

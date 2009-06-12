@@ -19,7 +19,6 @@
 <string name="cancel">Cancel</string>
 <string name="sender_hint">Int. phonenumber</string>
 <string name="password_hint">GMX SMS-Manager Keycode</string>
-<string name="user_hint">Customer ID (see help)</string>
 <string name="help_">Help</string>
 <string name="help">You need a GMX SMS Account (e.g. GMX ProMail) to use this app.</string>
 <string name="password_help">The SMS Key can be found on the download page of the GMX SMS Manager (for windows).</string>
