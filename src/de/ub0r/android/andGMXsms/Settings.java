@@ -34,7 +34,7 @@ public class Settings extends Activity {
 		// inflate XML
 		this.setContentView(R.layout.settings);
 		// register Listener
-		((Button) this.findViewById(R.id.help)).setOnClickListener(this.help);
+		((Button) this.findViewById(R.id.help_)).setOnClickListener(this.help);
 		((Button) this.findViewById(R.id.ok)).setOnClickListener(this.ok);
 		((Button) this.findViewById(R.id.cancel))
 				.setOnClickListener(this.cancel);

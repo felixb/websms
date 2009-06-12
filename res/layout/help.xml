@@ -3,9 +3,11 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
   
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/help" android:paddingLeft="5sp" android:paddingTop="5sp" android:paddingRight="5sp"></TextView>
+
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mail_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mail_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
   
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_" android:paddingLeft="5sp" android:paddingTop="5sp"></TextView>
-  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_help" android:paddingLeft="15sp" android:paddingRight="5sp"></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_help" android:paddingLeft="15sp" android:paddingRight="5sp" android:paddingBottom="5sp"></TextView>
 </LinearLayout>

@@ -9,13 +9,10 @@
   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/password_"></TextView>
   <EditText android:layout_height="wrap_content" android:id="@+id/password" android:layout_width="fill_parent" android:inputType="textPassword" android:hint="@string/password_hint"></EditText>
 
-  
-  
-
   <LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent">
 	<Button android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/ok" android:text="@string/ok"></Button>
 	<Button android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/cancel" android:text="@string/cancel"></Button>
 	
-	<Button android:layout_height="wrap_content" android:text="@string/help" android:id="@+id/help" android:layout_width="fill_parent" android:layout_weight="1"></Button>
+	<Button android:layout_height="wrap_content" android:text="@string/help_" android:id="@+id/help" android:layout_width="fill_parent" android:layout_weight="1"></Button>
   </LinearLayout>
 </LinearLayout>
