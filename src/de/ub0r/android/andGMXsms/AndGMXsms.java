@@ -152,13 +152,6 @@ public class AndGMXsms extends Activity {
 		((EditText) this.findViewById(R.id.text))
 				.addTextChangedListener(this.textWatcher);
 
-		TextView tw = (TextView) this.findViewById(R.id.freecount);
-		tw.setOnClickListener(this.runGetFree);
-		tw.setText(tw.getText()
-				+ " "
-				+ AndGMXsms.this.getResources().getString(
-						R.string.click_for_update));
-
 		Intent intend = this.getIntent();
 		String action = intend.getAction();
 		if (action != null && action.equals(Intent.ACTION_SENDTO)) {
@@ -182,8 +175,18 @@ public class AndGMXsms extends Activity {
 		// set free sms count
 		if (remFree != null) {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
-			tw.setText(this.getResources().getString(R.string.free_) + " "
-					+ remFree);
+			tw.setText(this.getResources().getString(R.string.free_)
+					+ " "
+					+ remFree
+					+ " "
+					+ AndGMXsms.this.getResources().getString(
+							R.string.click_for_update));
+		} else {
+			TextView tw = (TextView) this.findViewById(R.id.freecount);
+			tw.setText(this.getResources().getString(R.string.free_)
+					+ " "
+					+ AndGMXsms.this.getResources().getString(
+							R.string.click_for_update));
 		}
 
 		// restart dialog
