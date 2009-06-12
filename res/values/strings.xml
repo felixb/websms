@@ -37,8 +37,7 @@
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 <string name="log_update">Update free SMS..</string>
 <string name="text__">Text</string>
-<string name="bootstrap_">Init</string>
-<string name="bootstrap_help">Bootstrap preferences automatically with help of GMX. Your mail address ans SMS Keycode is needed.</string>
+<string name="bootstrap_">Checking prefs...</string>
 <string name="mail_">Mail address:</string>
 <string name="mail_hint">user@gmx.tld</string>
 <string name="mail_help">Your GMX eMail Address is needed.</string>

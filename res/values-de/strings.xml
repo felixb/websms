@@ -30,7 +30,6 @@
 <string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke den Menüknopf.</string>
 <string name="free_">Frei SMS:</string>
 <string name="log_update">Update frei SMS..</string>
-<string name="bootstrap_help">Automatisches setzen der richtigen Einstellungen mit der Hilfe von GMX. Mailadresse und Freischaltcode sind nötig.</string>
 <string name="mail_">Mail Adresse:</string>
 <string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.</string>
 <string name="donate_">Spenden</string>
@@ -38,4 +37,5 @@
 <string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 <string name="about">Mit GMX sms kannst du kostenlos SMS via GMX SMS-Manager senden.</string>
 <string name="click_for_update">(klick mich zum updaten)</string>
+<string name="bootstrap_">Überprüfe Einstellungen...</string>
 </resources>
