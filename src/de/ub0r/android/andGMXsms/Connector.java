@@ -193,7 +193,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c.setDoOutput(true);
 			// push post data
 			OutputStream os = c.getOutputStream();
-			os.write(packetData.toString().getBytes());
+			os.write(packetData.toString().getBytes("ISO-8859-1"));
 			os.close();
 			os = null;
 
