@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_name">GMX sms</string>
-<string name="app_version">0.9</string>
+<string name="app_version">1.0</string>
 <string name="compose">Compose</string>
 <string name="get_free">Refresh free sms</string>
 <string name="settings">Preferences</string>
