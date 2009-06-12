@@ -152,6 +152,9 @@ public class AndGMXsms extends Activity {
 		((EditText) this.findViewById(R.id.text))
 				.addTextChangedListener(this.textWatcher);
 
+		((TextView) this.findViewById(R.id.freecount))
+				.setOnClickListener(runGetFree);
+
 		Intent intend = this.getIntent();
 		String action = intend.getAction();
 		if (action != null && action.equals(Intent.ACTION_SENDTO)) {
