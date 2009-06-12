@@ -457,7 +457,7 @@ public class AndGMXsms extends Activity {
 				String[] params = new String[Connector.IDS_SEND];
 				params[Connector.ID_TEXT] = text;
 				params[Connector.ID_TO] = to;
-				AndGMXsms.this.sendMessage(AndGMXsms.MESSAGE_SEND, params);
+				AndGMXsms.connector = new Connector().execute(params);
 			}
 		}
 	};
@@ -528,7 +528,17 @@ public class AndGMXsms extends Activity {
 		}
 	}
 
-	public final void sendMessage(final int messageType, final Object data) {
-		Message.obtain(this.messageHandler, messageType, data).sendToTarget();
+	/**
+	 * Send AndGMXsms a Message.
+	 * 
+	 * @param messageType
+	 *            type
+	 * @param data
+	 *            data
+	 */
+	public static final void sendMessage(final int messageType,
+			final Object data) {
+		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
+				.sendToTarget();
 	}
 }

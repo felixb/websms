@@ -115,7 +115,7 @@ public class Settings extends Activity {
 				return;
 			}
 			params[Connector.ID_BOOTSTRAP_NULL] = null;
-			AndGMXsms.me.sendMessage(AndGMXsms.MESSAGE_BOOTSTRAP, params);
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_BOOTSTRAP, params);
 
 			// exit activity
 			Settings.this.finish();
