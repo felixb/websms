@@ -22,8 +22,8 @@
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
-	<string name="log_sending">Sende SMS..</string>
-	<string name="log_update">Update frei SMS..</string>
+	<string name="log_sending">Sende SMS...</string>
+	<string name="log_update">Update frei SMS...</string>
 	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.</string>
 	<string name="mail_">Mail Adresse:</string>
 	<string name="password_">GMX SMS Key:</string>

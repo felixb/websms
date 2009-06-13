@@ -25,8 +25,8 @@
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
-	<string name="log_sending">Sending message..</string>
-	<string name="log_update">Update free SMS..</string>
+	<string name="log_sending">Sending message...</string>
+	<string name="log_update">Update free SMS...</string>
 	<string name="mail_help">Your GMX eMail Address is needed.</string>
 	<string name="mail_hint">user@gmx.tld</string>
 	<string name="mail_">Mail address:</string>
