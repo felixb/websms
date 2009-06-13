@@ -5,14 +5,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Contacts.Phones;
-import android.provider.Contacts.PhonesColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -22,7 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,9 +89,6 @@ public class AndGMXsms extends Activity {
 	/** Persistent Receiver store. */
 	private static String lastTo = null;
 
-	/** Intent id. */
-	static final int PICK_CONTACT_REQUEST = 0;
-
 	/** Text's label. */
 	private TextView textLabel;
 
@@ -144,8 +138,6 @@ public class AndGMXsms extends Activity {
 				.setOnClickListener(this.runSend);
 		((Button) this.findViewById(R.id.cancel))
 				.setOnClickListener(this.cancel);
-		((ImageButton) this.findViewById(R.id.contacts))
-				.setOnClickListener(this.contacts);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
@@ -154,6 +146,11 @@ public class AndGMXsms extends Activity {
 
 		((TextView) this.findViewById(R.id.freecount))
 				.setOnClickListener(this.runGetFree);
+
+		MultiAutoCompleteTextView to = (MultiAutoCompleteTextView) this
+				.findViewById(R.id.to);
+		to.setAdapter(new MobilePhoneAdapter(this));
+		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
 		Intent intend = this.getIntent();
 		String action = intend.getAction();
@@ -473,15 +470,6 @@ public class AndGMXsms extends Activity {
 		}
 	};
 
-	/** OnClickListener for launching phonebook. */
-	private OnClickListener contacts = new OnClickListener() {
-		public void onClick(final View v) {
-			AndGMXsms.this.startActivityForResult(new Intent(
-					Intent.ACTION_PICK, Phones.CONTENT_URI),
-					PICK_CONTACT_REQUEST);
-		}
-	};
-
 	/**
 	 * Clean receiver's phone number from [ -.()].
 	 * 
@@ -492,43 +480,6 @@ public class AndGMXsms extends Activity {
 	private String cleanReceiver(final String receiver) {
 		return receiver.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
-	}
-
-	/**
-	 * Handles ActivityResults from Phonebook.
-	 * 
-	 * @param requestCode
-	 *            Intent id
-	 * @param resultCode
-	 *            result code
-	 * @param data
-	 *            data
-	 */
-	protected final void onActivityResult(final int requestCode,
-			final int resultCode, final Intent data) {
-		if (requestCode == PICK_CONTACT_REQUEST) {
-			if (resultCode == RESULT_OK) {
-				// get cursor
-				Cursor cur = this
-						.managedQuery(data.getData(),
-								new String[] { PhonesColumns.NUMBER }, null,
-								null, null);
-				// get EditText
-				EditText et = (EditText) this.findViewById(R.id.to);
-				// fill EditText if data is available
-				if (cur.moveToFirst()) {
-					String targetNumber = cur.getString(cur
-							.getColumnIndex(PhonesColumns.NUMBER));
-					// cleanup number
-					targetNumber = this.cleanReceiver(targetNumber);
-					et.setText(targetNumber);
-					lastTo = targetNumber;
-				} else {
-					et.setText("");
-					lastTo = "";
-				}
-			}
-		}
 	}
 
 	/**
