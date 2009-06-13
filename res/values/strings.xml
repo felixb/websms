@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_name">GMX sms</string>
-<string name="app_version">0.8</string>
+<string name="app_version">1.0</string>
 <string name="compose">Compose</string>
 <string name="get_free">Refresh free sms</string>
 <string name="settings">Preferences</string>
@@ -19,8 +19,8 @@
 <string name="cancel">Cancel</string>
 <string name="sender_hint">Int. phonenumber</string>
 <string name="password_hint">GMX SMS-Manager Keycode</string>
-<string name="user_hint">Customer ID (see help)</string>
-<string name="help">help</string>
+<string name="help_">Help</string>
+<string name="help">You need a GMX SMS Account (e.g. GMX ProMail) to use this app.</string>
 <string name="password_help">The SMS Key can be found on the download page of the GMX SMS Manager (for windows).</string>
 <string name="user_help">The customer ID can be found at the end of the URL of the WEB GMX SMS Manager. This is filled automatically when bootstrapping with init.</string>
 <string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
@@ -36,10 +36,10 @@
 <string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 <string name="log_update">Update free SMS..</string>
 <string name="text__">Text</string>
-<string name="bootstrap_">Init</string>
-<string name="bootstrap_help">Bootstrap preferences automatically with help of GMX. Your mail address ans SMS Keycode is needed.</string>
+<string name="bootstrap_">Checking prefs...</string>
 <string name="mail_">Mail address:</string>
 <string name="mail_hint">user@gmx.tld</string>
+<string name="mail_help">Your GMX eMail Address is needed.</string>
 <string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 <string name="donate_">Donate</string>
 <string name="log_error_mail">Wrong mail address or password given!</string>

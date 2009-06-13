@@ -37,12 +37,16 @@ public class AndGMXsms extends Activity {
 	static AndGMXsms me;
 	/** Preference's name. */
 	public static final String PREFS_NAME = "andGMXsmsPrefs";
+	/** Preference's name: mail. */
+	private static final String PREFS_MAIL = "mail";
 	/** Preference's name: username. */
 	private static final String PREFS_USER = "user";
 	/** Preference's name: user's password. */
 	private static final String PREFS_PASSWORD = "password";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
+	/** Preferences: mail. */
+	public static String prefsMail;
 	/** Preferences: username. */
 	public static String prefsUser;
 	/** Preferences: user's password. */
@@ -78,6 +82,10 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_BOOTSTRAP = 3;
 	/** Message to open settings. */
 	public static final int MESSAGE_SETTINGS = 4;
+	/** Message to reset data. */
+	public static final int MESSAGE_RESET = 5;
+	/** Message check prefsReady. */
+	public static final int MESSAGE_PREFSREADY = 6;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -106,7 +114,7 @@ public class AndGMXsms extends Activity {
 	}
 
 	/** MessageHandler. */
-	Handler messageHandler;
+	private Handler messageHandler;
 
 	/**
 	 * Called when the activity is first created.
@@ -126,6 +134,7 @@ public class AndGMXsms extends Activity {
 
 		// Restore preferences
 		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
+		prefsMail = settings.getString(PREFS_MAIL, "");
 		prefsUser = settings.getString(PREFS_USER, "");
 		prefsPassword = settings.getString(PREFS_PASSWORD, "");
 		prefsSender = settings.getString(PREFS_SENDER, "");
@@ -143,16 +152,12 @@ public class AndGMXsms extends Activity {
 		((EditText) this.findViewById(R.id.text))
 				.addTextChangedListener(this.textWatcher);
 
-		TextView tw = (TextView) this.findViewById(R.id.freecount);
-		tw.setOnClickListener(this.runGetFree);
-		tw.setText(tw.getText()
-				+ " "
-				+ AndGMXsms.this.getResources().getString(
-						R.string.click_for_update));
+		((TextView) this.findViewById(R.id.freecount))
+				.setOnClickListener(this.runGetFree);
 
 		Intent intend = this.getIntent();
 		String action = intend.getAction();
-		if (action.equals(Intent.ACTION_SENDTO)) {
+		if (action != null && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
 			Uri uri = intend.getData();
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
@@ -161,8 +166,6 @@ public class AndGMXsms extends Activity {
 					receiver = this.cleanReceiver(receiver);
 					((EditText) this.findViewById(R.id.to)).setText(receiver);
 					lastTo = receiver;
-					Toast.makeText(this.getApplicationContext(), receiver,
-							Toast.LENGTH_LONG).show();
 				}
 			}
 		}
@@ -175,8 +178,18 @@ public class AndGMXsms extends Activity {
 		// set free sms count
 		if (remFree != null) {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
-			tw.setText(this.getResources().getString(R.string.free_) + " "
-					+ remFree);
+			tw.setText(this.getResources().getString(R.string.free_)
+					+ " "
+					+ remFree
+					+ " "
+					+ AndGMXsms.this.getResources().getString(
+							R.string.click_for_update));
+		} else {
+			TextView tw = (TextView) this.findViewById(R.id.freecount);
+			tw.setText(this.getResources().getString(R.string.free_)
+					+ " "
+					+ AndGMXsms.this.getResources().getString(
+							R.string.click_for_update));
 		}
 
 		// restart dialog
@@ -191,19 +204,7 @@ public class AndGMXsms extends Activity {
 			dialog = ProgressDialog.show(this, null, dialogString, true);
 		}
 
-		// check prefs
-		if (prefsUser.equals("") || prefsPassword.equals("")
-				|| prefsSender.equals("")) {
-			prefsReady = false;
-			this
-					.log(this.getResources().getString(
-							R.string.log_empty_settings));
-		} else {
-			prefsReady = true;
-		}
-
-		// enable/disable buttons
-		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);
+		this.checkReady();
 
 		// reload text/receiver from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
@@ -230,10 +231,27 @@ public class AndGMXsms extends Activity {
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
 	}
 
+	private void checkReady() {
+		// check prefs
+		if (prefsMail.length() == 0 || prefsUser.length() == 0
+				|| prefsPassword.length() == 0 || prefsSender.length() == 0) {
+			prefsReady = false;
+			if (!Connector.inBootstrap) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+		} else {
+			prefsReady = true;
+		}
+
+		// enable/disable buttons
+		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);
+	}
+
 	/**
 	 * Resets persistent store.
 	 */
-	public final void reset() {
+	private void reset() {
 		((EditText) this.findViewById(R.id.text)).setText("");
 		((EditText) this.findViewById(R.id.to)).setText("");
 		lastMsg = null;
@@ -245,6 +263,7 @@ public class AndGMXsms extends Activity {
 		// save user preferences
 		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(PREFS_MAIL, prefsMail);
 		editor.putString(PREFS_USER, prefsUser);
 		editor.putString(PREFS_PASSWORD, prefsPassword);
 		editor.putString(PREFS_SENDER, prefsSender);
@@ -379,6 +398,12 @@ public class AndGMXsms extends Activity {
 			case MESSAGE_SETTINGS:
 				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
 						Settings.class));
+			case MESSAGE_RESET:
+				AndGMXsms.this.reset();
+				return;
+			case MESSAGE_PREFSREADY:
+				AndGMXsms.this.checkReady();
+				return;
 			default:
 				return;
 			}
@@ -435,8 +460,7 @@ public class AndGMXsms extends Activity {
 				String[] params = new String[Connector.IDS_SEND];
 				params[Connector.ID_TEXT] = text;
 				params[Connector.ID_TO] = to;
-				Message.obtain(AndGMXsms.me.messageHandler,
-						AndGMXsms.MESSAGE_SEND, params).sendToTarget();
+				AndGMXsms.connector = new Connector().execute(params);
 			}
 		}
 	};
@@ -465,7 +489,7 @@ public class AndGMXsms extends Activity {
 	 *            receiver's mobile number
 	 * @return clean number
 	 */
-	private final String cleanReceiver(final String receiver) {
+	private String cleanReceiver(final String receiver) {
 		return receiver.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
 	}
@@ -505,5 +529,19 @@ public class AndGMXsms extends Activity {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Send AndGMXsms a Message.
+	 * 
+	 * @param messageType
+	 *            type
+	 * @param data
+	 *            data
+	 */
+	public static final void sendMessage(final int messageType,
+			final Object data) {
+		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
+				.sendToTarget();
 	}
 }
