@@ -434,31 +434,101 @@ public class AndGMXsms extends Activity {
 		}
 	};
 
+	/**
+	 * Parse a String of "name (number), name (number), number, ..." to
+	 * addresses.
+	 * 
+	 * @param reciepients
+	 * @return array of reciepients
+	 */
+	private String[] parseReciepients(final String reciepients) {
+		int i = 0;
+		int p = reciepients.indexOf(',');
+		while (p >= 0) {
+			++i;
+			if (p == reciepients.length()) {
+				p = -1;
+			} else {
+				p = reciepients.indexOf(',', p + 1);
+			}
+		}
+		String[] ret = new String[i + 1];
+		p = 0;
+		int p2 = reciepients.indexOf(',', p + 1);
+		i = 0;
+		while (p >= 0) {
+			if (p == 0) {
+				p--;
+			}
+			if (p2 > 0) {
+				ret[i] = reciepients.substring(p + 1, p2).trim();
+			} else {
+				ret[i] = reciepients.substring(p + 1).trim();
+			}
+			if (p == -1) {
+				p++;
+			}
+
+			if (p == reciepients.length()) {
+				p = -1;
+			} else {
+				p = reciepients.indexOf(',', p + 1);
+				if (p == reciepients.length()) {
+					p2 = -1;
+				} else {
+					p2 = reciepients.indexOf(',', p + 1);
+				}
+				++i;
+			}
+		}
+
+		for (i = 0; i < ret.length; i++) {
+			p = ret[i].lastIndexOf('(');
+			if (p >= 0) {
+				p2 = ret[i].indexOf(')', p);
+				if (p2 < 0) {
+					ret[i] = null;
+				} else {
+					ret[i] = ret[i].substring(p + 1, p2);
+				}
+			}
+		}
+
+		return ret;
+	}
+
 	/** OnClickListener for sending the sms. */
 	private OnClickListener runSend = new OnClickListener() {
 		public void onClick(final View v) {
 			// fetch text/receiver
-			EditText et = (EditText) AndGMXsms.this.findViewById(R.id.to);
-			String to = et.getText().toString();
-			et = (EditText) AndGMXsms.this.findViewById(R.id.text);
-			String text = et.getText().toString();
+			String to = ((EditText) AndGMXsms.this.findViewById(R.id.to))
+					.getText().toString();
+			String text = ((EditText) AndGMXsms.this.findViewById(R.id.text))
+					.getText().toString();
+			if (to.length() == 0 || text.length() == 0) {
+				return;
+			}
+			String[] numbers = AndGMXsms.this.parseReciepients(to);
+			String[] params = new String[numbers.length + 1];
+			params[Connector.ID_TEXT] = text;
 			// fix number prefix
-			if (to != null && text != null && to.length() > 2
-					&& !text.equals("")) {
-
-				if (!to.startsWith("+")) {
-					if (to.startsWith("00")) {
-						to = "+" + to.substring(2);
-					} else if (to.startsWith("0")) {
-						to = AndGMXsms.prefsPrefix() + to.substring(1);
+			for (int i = 0; i < numbers.length; i++) {
+				String t = numbers[i];
+				if (t != null) {
+					if (!t.startsWith("+")) {
+						if (t.startsWith("00")) {
+							t = "+" + t.substring(2);
+						} else if (t.startsWith("0")) {
+							t = AndGMXsms.prefsPrefix() + t.substring(1);
+						}
 					}
 				}
-				// start a Connector Thread
-				String[] params = new String[Connector.IDS_SEND];
-				params[Connector.ID_TEXT] = text;
-				params[Connector.ID_TO] = to;
-				AndGMXsms.connector = new Connector().execute(params);
+				t = AndGMXsms.this.cleanReceiver(t);
+				params[i + 1] = t;
+				numbers[i] = null;
 			}
+			// start a Connector Thread
+			AndGMXsms.connector = new Connector().execute(params);
 		}
 	};
 

@@ -62,13 +62,11 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	public static final int ID_MAIL = 0;
 	/** ID of password in array. */
 	public static final int ID_PW = 1;
-	/** ID of null in array. */
-	public static final int ID_BOOTSTRAP_NULL = 2;
 
 	/** Number of IDs in array for sms send. */
-	public static final int IDS_SEND = 2;
+	public static final int IDS_SEND = 3;
 	/** Number of IDs in array for bootstrap. */
-	public static final int IDS_BOOTSTR = 3;
+	public static final int IDS_BOOTSTR = 2;
 
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
@@ -80,7 +78,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	private static final int RSLT_WRONG_MAIL = 25;
 
 	/** receiver. */
-	private String to;
+	private String[] to;
+	/** receivers list. */
+	private String tos = "";
 	/** text. */
 	private String text;
 
@@ -331,11 +331,27 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		StringBuffer packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
+		StringBuilder receivers = new StringBuilder();
 		// table: <id>, <name>, <number>
-		String receivers = "<TBL ROWS=\"1\" COLS=\"3\">"
+		int j = 0;
+		for (int i = 1; i < this.to.length; i++) {
+			if (this.to[i] != null && this.to[i].length() > 1) {
+				receivers.append(++j);
+				receivers.append("\\;null\\;");
+				receivers.append(this.to[i]);
+				receivers.append("\\;");
+				if (j > 1) {
+					this.tos += ", ";
+				}
+				this.tos += this.to[i];
+			}
+		}
+		receivers.append("</TBL>");
+		String receiversString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
-				+ "1\\;null\\;" + this.to + "\\;" + "</TBL>";
-		writePair(packetData, "receivers", receivers);
+				+ receivers.toString();
+		receivers = null;
+		writePair(packetData, "receivers", receiversString);
 		writePair(packetData, "send_option", "sms");
 		writePair(packetData, "sms_sender", AndGMXsms.prefsSender);
 		// if date!='': data['send_date'] = date
@@ -349,17 +365,19 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
-			// save sms to content://sms/sent
-			ContentValues values = new ContentValues();
-			values.put(ADDRESS, this.to);
-			// values.put(DATE, "1237080365055");
-			values.put(READ, 1);
-			// values.put(STATUS, -1);
-			values.put(TYPE, MESSAGE_TYPE_SENT);
-			values.put(BODY, this.text);
-			// Uri inserted =
-			AndGMXsms.me.getContentResolver().insert(
-					Uri.parse("content://sms/sent"), values);
+			for (int i = 1; i < this.to.length; i++) {
+				// save sms to content://sms/sent
+				ContentValues values = new ContentValues();
+				values.put(ADDRESS, this.to[i]);
+				// values.put(DATE, "1237080365055");
+				values.put(READ, 1);
+				// values.put(STATUS, -1);
+				values.put(TYPE, MESSAGE_TYPE_SENT);
+				values.put(BODY, this.text);
+				// Uri inserted =
+				AndGMXsms.me.getContentResolver().insert(
+						Uri.parse("content://sms/sent"), values);
+			}
 			return true;
 		}
 	}
@@ -391,16 +409,16 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (textTo == null || textTo[0] == null) {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
-		} else if (textTo.length == IDS_SEND) {
-			this.text = textTo[ID_TEXT];
-			this.to = textTo[ID_TO];
-			this.publishProgress((Boolean) null);
-			ret = this.send();
-		} else {
+		} else if (textTo.length == IDS_BOOTSTR) {
 			this.mail = textTo[ID_MAIL];
 			this.pw = textTo[ID_PW];
 			this.publishProgress((Boolean) null);
 			ret = this.bootstrap();
+		} else {
+			this.text = textTo[ID_TEXT];
+			this.to = textTo;
+			this.publishProgress((Boolean) null);
+			ret = this.send();
 		}
 		return new Boolean(ret);
 	}
@@ -428,7 +446,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		} else {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.log_sending)
-					+ " (" + this.to + ")";
+					+ " (" + this.tos + ")";
 			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
 					AndGMXsms.dialogString, true);
 		}

@@ -114,7 +114,6 @@ public class Settings extends Activity {
 					|| params[Connector.ID_PW].length() < 1) {
 				return;
 			}
-			params[Connector.ID_BOOTSTRAP_NULL] = null;
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_BOOTSTRAP, params);
 
 			// exit activity
