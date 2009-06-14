@@ -34,5 +34,6 @@
 	<string name="send">Senden</string>
 	<string name="settings">Einstellungen</string>
 	<string name="to_">An:</string>
+	<string name="to_hint">Name oder Nummer</string>
 	<string name="user_">Benutzer:</string>
 </resources>

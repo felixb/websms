@@ -44,6 +44,7 @@
 	<string name="text__">Text</string>
 	<string name="text_">Text:</string>
 	<string name="to_">To:</string>
+	<string name="to_hint">Name or Number</string>
 	<string name="user_help">The customer ID can be found at the end of the URL of the WEB GMX SMS Manager. This is filled automatically when bootstrapping with init.</string>
 	<string name="user_">Username:</string>
 </resources>

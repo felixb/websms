@@ -13,13 +13,14 @@
 	></TextView>
 
 	<TextView
+		android:text="@string/to_"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/to_"
 	></TextView>
 	<MultiAutoCompleteTextView
 		android:text=""
 		android:id="@+id/to"
+		android:hint="@string/to_hint"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 	></MultiAutoCompleteTextView>
