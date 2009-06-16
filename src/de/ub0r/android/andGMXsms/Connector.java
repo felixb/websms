@@ -366,6 +366,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
 			for (int i = 1; i < this.to.length; i++) {
+				if (this.to[i] == null || this.to[i].length() == 0) {
+					continue; // skip empty receivers
+				}
 				// save sms to content://sms/sent
 				ContentValues values = new ContentValues();
 				values.put(ADDRESS, this.to[i]);
