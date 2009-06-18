@@ -346,6 +346,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.tos += this.to[i];
 			}
 		}
+		this.publishProgress((Boolean) null);
 		receivers.append("</TBL>");
 		String receiversString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
@@ -434,6 +435,13 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
+		if (AndGMXsms.dialog != null) {
+			try {
+				AndGMXsms.dialog.dismiss();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
 		if (this.to == null) {
 			if (this.mail == null) {
 				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
@@ -448,8 +456,10 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			}
 		} else {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.log_sending)
-					+ " (" + this.tos + ")";
+					R.string.log_sending);
+			if (this.tos != null && this.tos.length() > 0) {
+				AndGMXsms.dialogString += " (" + this.tos + ")";
+			}
 			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
 					AndGMXsms.dialogString, true);
 		}
