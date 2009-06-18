@@ -7,7 +7,6 @@
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
-	<string name="cancel">Cancel</string>
 	<string name="click_for_update">(click me for update)</string>
 	<string name="compose">Compose</string>
 	<string name="donate_">Donate</string>
@@ -30,7 +29,6 @@
 	<string name="mail_help">Your GMX eMail Address is needed.</string>
 	<string name="mail_hint">user@gmx.tld</string>
 	<string name="mail_">Mail address:</string>
-	<string name="ok">Ok</string>
 	<string name="password_">GMX SMS Key:</string>
 	<string name="password_help">The SMS Key can be found on the download page of the GMX SMS Manager (for windows).</string>
 	<string name="password_hint">GMX SMS-Manager Keycode</string>
