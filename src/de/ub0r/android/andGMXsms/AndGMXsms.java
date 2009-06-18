@@ -452,6 +452,9 @@ public class AndGMXsms extends Activity {
 				p = reciepients.indexOf(',', p + 1);
 			}
 		}
+		if (i < 2) {
+			i = 2;
+		}
 		String[] ret = new String[i + 1];
 		p = 0;
 		int p2 = reciepients.indexOf(',', p + 1);
@@ -483,6 +486,9 @@ public class AndGMXsms extends Activity {
 		}
 
 		for (i = 0; i < ret.length; i++) {
+			if (ret[i] == null) {
+				continue;
+			}
 			p = ret[i].lastIndexOf('(');
 			if (p >= 0) {
 				p2 = ret[i].indexOf(')', p);
@@ -548,6 +554,9 @@ public class AndGMXsms extends Activity {
 	 * @return clean number
 	 */
 	private String cleanReceiver(final String receiver) {
+		if (receiver == null) {
+			return null;
+		}
 		return receiver.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
 	}
