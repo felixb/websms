@@ -160,7 +160,7 @@ public class AndGMXsms extends Activity {
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
 				String receiver = uri.getSchemeSpecificPart();
 				if (receiver != null) {
-					receiver = this.cleanReceiver(receiver);
+					receiver = AndGMXsms.cleanReceiver(receiver);
 					((EditText) this.findViewById(R.id.to)).setText(receiver);
 					lastTo = receiver;
 				}
@@ -228,6 +228,9 @@ public class AndGMXsms extends Activity {
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
 	}
 
+	/**
+	 * Check if prefs are set.
+	 */
 	private void checkReady() {
 		// check prefs
 		if (prefsMail.length() == 0 || prefsUser.length() == 0
@@ -439,9 +442,10 @@ public class AndGMXsms extends Activity {
 	 * addresses.
 	 * 
 	 * @param reciepients
+	 *            reciepients
 	 * @return array of reciepients
 	 */
-	private String[] parseReciepients(final String reciepients) {
+	private static String[] parseReciepients(final String reciepients) {
 		int i = 0;
 		int p = reciepients.indexOf(',');
 		while (p >= 0) {
@@ -514,7 +518,7 @@ public class AndGMXsms extends Activity {
 			if (to.length() == 0 || text.length() == 0) {
 				return;
 			}
-			String[] numbers = AndGMXsms.this.parseReciepients(to);
+			String[] numbers = AndGMXsms.parseReciepients(to);
 			String[] params = new String[numbers.length + 1];
 			params[Connector.ID_TEXT] = text;
 			// fix number prefix
@@ -529,7 +533,7 @@ public class AndGMXsms extends Activity {
 						}
 					}
 				}
-				t = AndGMXsms.this.cleanReceiver(t);
+				t = AndGMXsms.cleanReceiver(t);
 				params[i + 1] = t;
 				numbers[i] = null;
 			}
@@ -553,7 +557,7 @@ public class AndGMXsms extends Activity {
 	 *            receiver's mobile number
 	 * @return clean number
 	 */
-	private String cleanReceiver(final String receiver) {
+	private static String cleanReceiver(final String receiver) {
 		if (receiver == null) {
 			return null;
 		}
