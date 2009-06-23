@@ -23,6 +23,13 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	public static final int NAME_INDEX = 1;
 	/** INDEX: number. */
 	public static final int NUMBER_INDEX = 2;
+	/** INDEX: type. */
+	public static final int NUMBER_TYPE = 3;
+
+	/** Sort Order. */
+	private static final String SORT_ORDER = PeopleColumns.STARRED + " DESC, "
+			+ PeopleColumns.TIMES_CONTACTED + " DESC, " + PeopleColumns.NAME
+			+ " ASC, " + PhonesColumns.TYPE;
 
 	/** Global ContentResolver. */
 	private ContentResolver mContentResolver;
@@ -31,7 +38,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	private static final String[] PROJECTION = { //  
 	BaseColumns._ID, // 0
 			PeopleColumns.NAME, // 1
-			PhonesColumns.NUMBER // 2
+			PhonesColumns.NUMBER, // 2
+			PhonesColumns.TYPE // 3
 	};
 
 	/**
@@ -62,6 +70,9 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 				.getString(NAME_INDEX));
 		((TextView) view.findViewById(R.id.text2)).setText(cursor
 				.getString(NUMBER_INDEX));
+		((TextView) view.findViewById(R.id.text3))
+				.setText(context.getResources().getStringArray(
+						android.R.array.phoneTypes)[cursor.getInt(NUMBER_TYPE)]);
 	}
 
 	/**
@@ -107,6 +118,6 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		}
 
 		return this.mContentResolver.query(Phones.CONTENT_URI, PROJECTION,
-				where, null, null);
+				where, null, SORT_ORDER);
 	}
 }
