@@ -12,6 +12,11 @@ import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
+/**
+ * CursorAdapter getting Name, Phone from DB.
+ * 
+ * @author flx
+ */
 public class MobilePhoneAdapter extends ResourceCursorAdapter {
 
 	/** INDEX: name. */
@@ -29,13 +34,29 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			PhonesColumns.NUMBER // 2
 	};
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param context
+	 *            context
+	 */
 	public MobilePhoneAdapter(final Context context) {
 		super(context, R.layout.recipient_dropdown_item, null);
 		this.mContentResolver = context.getContentResolver();
 	}
 
+	/**
+	 * Run when View is binded.
+	 * 
+	 * @param view
+	 *            view to bind to
+	 * @param context
+	 *            context
+	 * @param cursor
+	 *            cursor
+	 */
 	@Override
-	public void bindView(final View view, final Context context,
+	public final void bindView(final View view, final Context context,
 			final Cursor cursor) {
 		((TextView) view.findViewById(R.id.text1)).setText(cursor
 				.getString(NAME_INDEX));
@@ -43,6 +64,13 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 				.getString(NUMBER_INDEX));
 	}
 
+	/**
+	 * Convert cursors data to String.
+	 * 
+	 * @param cursor
+	 *            cursor
+	 * @return string
+	 */
 	@Override
 	public final String convertToString(final Cursor cursor) {
 		String name = cursor.getString(NAME_INDEX);
@@ -53,8 +81,15 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		return name + " (" + number + ')';
 	}
 
+	/**
+	 * Run Query to update data.
+	 * 
+	 * @param constraint
+	 *            filter string
+	 * @return cursor
+	 */
 	@Override
-	public Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
+	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
 		String where = null;
 
 		if (constraint != null) {
