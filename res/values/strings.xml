@@ -3,7 +3,7 @@
 	<string name="about_">About GMX sms</string>
 	<string name="about">GMX sms enables you to send free SMS via GMX SMS-Manager.</string>
 	<string name="app_name">GMX sms</string>
-	<string name="app_version">1.2</string>
+	<string name="app_version">1.2.1</string>
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
