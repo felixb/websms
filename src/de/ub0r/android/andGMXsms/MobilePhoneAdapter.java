@@ -72,7 +72,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 				.getString(NUMBER_INDEX));
 		((TextView) view.findViewById(R.id.text3))
 				.setText(context.getResources().getStringArray(
-						android.R.array.phoneTypes)[cursor.getInt(NUMBER_TYPE)]);
+						android.R.array.phoneTypes)[cursor.getInt(NUMBER_TYPE) - 1]);
 	}
 
 	/**
