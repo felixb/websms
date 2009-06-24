@@ -55,7 +55,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** ID of text in array. */
 	public static final int ID_TEXT = 0;
-	/** ID of receiver in array. */
+	/** ID of recipient in array. */
 	public static final int ID_TO = 1;
 
 	/** ID of mail in array. */
@@ -77,9 +77,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Result: wrong mail/password. */
 	private static final int RSLT_WRONG_MAIL = 25;
 
-	/** receiver. */
+	/** recipient. */
 	private String[] to;
-	/** receivers list. */
+	/** recipients list. */
 	private String tos = "";
 	/** text. */
 	private String text;
@@ -331,15 +331,15 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
-		StringBuilder receivers = new StringBuilder();
+		StringBuilder recipients = new StringBuilder();
 		// table: <id>, <name>, <number>
 		int j = 0;
 		for (int i = 1; i < this.to.length; i++) {
 			if (this.to[i] != null && this.to[i].length() > 1) {
-				receivers.append(++j);
-				receivers.append("\\;null\\;");
-				receivers.append(this.to[i]);
-				receivers.append("\\;");
+				recipients.append(++j);
+				recipients.append("\\;null\\;");
+				recipients.append(this.to[i]);
+				recipients.append("\\;");
 				if (j > 1) {
 					this.tos += ", ";
 				}
@@ -347,12 +347,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			}
 		}
 		this.publishProgress((Boolean) null);
-		receivers.append("</TBL>");
-		String receiversString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
+		recipients.append("</TBL>");
+		String recipientsString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
-				+ receivers.toString();
-		receivers = null;
-		writePair(packetData, "receivers", receiversString);
+				+ recipients.toString();
+		recipients = null;
+		writePair(packetData, "receivers", recipientsString);
 		writePair(packetData, "send_option", "sms");
 		writePair(packetData, "sms_sender", AndGMXsms.prefsSender);
 		// if date!='': data['send_date'] = date
@@ -368,7 +368,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 			for (int i = 1; i < this.to.length; i++) {
 				if (this.to[i] == null || this.to[i].length() == 0) {
-					continue; // skip empty receivers
+					continue; // skip empty recipients
 				}
 				// save sms to content://sms/sent
 				ContentValues values = new ContentValues();
@@ -404,7 +404,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * Run IO in background.
 	 * 
 	 * @param textTo
-	 *            (text,receiver)
+	 *            (text,recipient)
 	 * @return ok?
 	 */
 	@Override

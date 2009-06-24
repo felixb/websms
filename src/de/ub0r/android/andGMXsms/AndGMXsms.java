@@ -86,7 +86,7 @@ public class AndGMXsms extends Activity {
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
-	/** Persistent Receiver store. */
+	/** Persistent Recipient store. */
 	private static String lastTo = null;
 
 	/** Text's label. */
@@ -158,11 +158,11 @@ public class AndGMXsms extends Activity {
 			// launched by clicking a sms: link, target number is in URI.
 			Uri uri = intend.getData();
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
-				String receiver = uri.getSchemeSpecificPart();
-				if (receiver != null) {
-					receiver = AndGMXsms.cleanReceiver(receiver);
-					((EditText) this.findViewById(R.id.to)).setText(receiver);
-					lastTo = receiver;
+				String recipient = uri.getSchemeSpecificPart();
+				if (recipient != null) {
+					recipient = AndGMXsms.cleanRecipient(recipient);
+					((EditText) this.findViewById(R.id.to)).setText(recipient);
+					lastTo = recipient;
 				}
 			}
 		}
@@ -203,7 +203,7 @@ public class AndGMXsms extends Activity {
 
 		this.checkReady();
 
-		// reload text/receiver from local store
+		// reload text/recipient from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
 		if (lastMsg != null) {
 			et.setText(lastMsg);
@@ -510,7 +510,7 @@ public class AndGMXsms extends Activity {
 	/** OnClickListener for sending the sms. */
 	private OnClickListener runSend = new OnClickListener() {
 		public void onClick(final View v) {
-			// fetch text/receiver
+			// fetch text/recipient
 			String to = ((EditText) AndGMXsms.this.findViewById(R.id.to))
 					.getText().toString();
 			String text = ((EditText) AndGMXsms.this.findViewById(R.id.text))
@@ -533,7 +533,7 @@ public class AndGMXsms extends Activity {
 						}
 					}
 				}
-				t = AndGMXsms.cleanReceiver(t);
+				t = AndGMXsms.cleanRecipient(t);
 				params[i + 1] = t;
 				numbers[i] = null;
 			}
@@ -551,17 +551,17 @@ public class AndGMXsms extends Activity {
 	};
 
 	/**
-	 * Clean receiver's phone number from [ -.()].
+	 * Clean recipient's phone number from [ -.()].
 	 * 
-	 * @param receiver
-	 *            receiver's mobile number
+	 * @param recipient
+	 *            recipient's mobile number
 	 * @return clean number
 	 */
-	private static String cleanReceiver(final String receiver) {
-		if (receiver == null) {
+	private static String cleanRecipient(final String recipient) {
+		if (recipient == null) {
 			return null;
 		}
-		return receiver.replace(" ", "").replace("-", "").replace(".", "")
+		return recipient.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
 	}
 
