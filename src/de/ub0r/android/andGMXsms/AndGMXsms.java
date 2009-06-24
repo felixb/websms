@@ -557,7 +557,7 @@ public class AndGMXsms extends Activity {
 	 *            recipient's mobile number
 	 * @return clean number
 	 */
-	private static String cleanRecipient(final String recipient) {
+	public final static String cleanRecipient(final String recipient) {
 		if (recipient == null) {
 			return null;
 		}

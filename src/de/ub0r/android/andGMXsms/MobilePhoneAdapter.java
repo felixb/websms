@@ -87,9 +87,9 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		String name = cursor.getString(NAME_INDEX);
 		String number = cursor.getString(NUMBER_INDEX);
 		if (name == null || name.length() == 0) {
-			return number;
+			return AndGMXsms.cleanRecipient(number);
 		}
-		return name + " (" + number + ')';
+		return name + " (" + AndGMXsms.cleanRecipient(number) + ')';
 	}
 
 	/**
