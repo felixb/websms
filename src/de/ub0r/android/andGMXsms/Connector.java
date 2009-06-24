@@ -93,7 +93,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	public static boolean inBootstrap = false;
 
 	/**
-	 * Write key,value to StringBuffer.
+	 * Write key,value to StringBuilder.
 	 * 
 	 * @param buffer
 	 *            buffer
@@ -102,7 +102,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param value
 	 *            value
 	 */
-	private static void writePair(final StringBuffer buffer, final String key,
+	private static void writePair(final StringBuilder buffer, final String key,
 			final String value) {
 		buffer.append(key);
 		buffer.append('=');
@@ -122,9 +122,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            add customer id/password
 	 * @return Hashtable filled with customer_id and password.
 	 */
-	private static StringBuffer openBuffer(final String packetName,
+	private static StringBuilder openBuffer(final String packetName,
 			final String packetVersion, final boolean addCustomer) {
-		StringBuffer ret = new StringBuffer();
+		StringBuilder ret = new StringBuilder();
 		ret.append("<WR TYPE=\"RQST\" NAME=\"");
 		ret.append(packetName);
 		ret.append("\" VER=\"");
@@ -146,7 +146,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            buffer
 	 * @return buffer
 	 */
-	private static StringBuffer closeBuffer(final StringBuffer buffer) {
+	private static StringBuilder closeBuffer(final StringBuilder buffer) {
 		buffer.append("</WR>");
 		return buffer;
 	}
@@ -180,7 +180,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            packetData
 	 * @return successful?
 	 */
-	private boolean sendData(final StringBuffer packetData) {
+	private boolean sendData(final StringBuilder packetData) {
 		try {
 			// get Connection
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
@@ -206,9 +206,9 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
-			StringBuffer data = null;
+			StringBuilder data = null;
 			if (bufsize > 0) {
-				data = new StringBuffer();
+				data = new StringBuilder();
 				InputStream is = c.getInputStream();
 				byte[] buf;
 				if (bufsize > MAX_BUFSIZE) {
@@ -328,7 +328,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean send() {
-		StringBuffer packetData = openBuffer("SEND_SMS", "1.01", true);
+		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
 		StringBuilder receivers = new StringBuilder();
@@ -393,7 +393,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean bootstrap() {
 		inBootstrap = true;
-		StringBuffer packetData = openBuffer("GET_CUSTOMER", "1.10", false);
+		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
 		writePair(packetData, "email_address", this.mail);
 		writePair(packetData, "password", this.pw);
 		writePair(packetData, "gmx", "1");
