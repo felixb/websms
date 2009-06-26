@@ -559,7 +559,7 @@ public class AndGMXsms extends Activity {
 	 */
 	public final static String cleanRecipient(final String recipient) {
 		if (recipient == null) {
-			return null;
+			return "";
 		}
 		return recipient.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
