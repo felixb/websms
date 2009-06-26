@@ -15,10 +15,14 @@
             </intent-filter>
         </activity>
         <activity android:name="Settings" android:windowSoftInputMode="adjustResize"></activity>
+	<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
     </application>
     <uses-sdk android:minSdkVersion="3" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_SMS"></uses-permission>
     <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+    <!-- AdMob SDK permissions -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest> 

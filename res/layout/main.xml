@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/de.ub0r.android.andGMXsms"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
+	
+	<!-- Place an AdMob ad at the bottom of the screen. -->
+	<!-- It has white text on a black background. -->
+	<!-- The description of the surrounding context is 'Android game'. -->
+	<com.admob.android.ads.AdView
+		android:id="@+id/ad"
+		android:visibility="gone"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
 
+		app:keywords="android mobile handy cellphone google htc market app free sms"
+	/>
+	<!-- We could append app:testing="true" above to always get the test ad back -->
+	
 	<TextView
 		android:text="@string/free_"
 		android:id="@+id/freecount"

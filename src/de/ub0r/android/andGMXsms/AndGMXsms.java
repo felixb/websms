@@ -23,6 +23,8 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.admob.android.ads.AdView;
+
 /**
  * Main Activity.
  * 
@@ -172,6 +174,9 @@ public class AndGMXsms extends Activity {
 	@Override
 	protected final void onResume() {
 		super.onResume();
+		// display ads
+		((AdView) this.findViewById(R.id.ad)).setVisibility(View.VISIBLE);
+		
 		// set free sms count
 		if (remFree != null) {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
