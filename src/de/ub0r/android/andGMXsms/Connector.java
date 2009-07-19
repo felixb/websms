@@ -328,6 +328,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean send() {
+		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
@@ -364,7 +365,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			return false;
 		} else {
 			// result: ok
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
 			for (int i = 1; i < this.to.length; i++) {
