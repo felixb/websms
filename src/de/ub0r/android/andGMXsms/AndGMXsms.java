@@ -85,6 +85,8 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_RESET = 5;
 	/** Message check prefsReady. */
 	public static final int MESSAGE_PREFSREADY = 6;
+	/** Message display ads */
+	public static final int MESSAGE_DISPLAY_ADS = 7;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -174,9 +176,6 @@ public class AndGMXsms extends Activity {
 	@Override
 	protected final void onResume() {
 		super.onResume();
-		// display ads
-		((AdView) this.findViewById(R.id.ad)).setVisibility(View.VISIBLE);
-		
 		// set free sms count
 		if (remFree != null) {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
@@ -409,6 +408,11 @@ public class AndGMXsms extends Activity {
 			case MESSAGE_PREFSREADY:
 				AndGMXsms.this.checkReady();
 				return;
+			case MESSAGE_DISPLAY_ADS:
+				// display ads
+				((AdView) AndGMXsms.this.findViewById(R.id.ad))
+						.setVisibility(View.VISIBLE);
+				return;
 			default:
 				return;
 			}
@@ -562,7 +566,7 @@ public class AndGMXsms extends Activity {
 	 *            recipient's mobile number
 	 * @return clean number
 	 */
-	public final static String cleanRecipient(final String recipient) {
+	public static final String cleanRecipient(final String recipient) {
 		if (recipient == null) {
 			return "";
 		}

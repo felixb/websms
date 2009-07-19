@@ -364,6 +364,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 			return false;
 		} else {
 			// result: ok
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
 			for (int i = 1; i < this.to.length; i++) {
