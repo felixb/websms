@@ -70,9 +70,14 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 				.getString(NAME_INDEX));
 		((TextView) view.findViewById(R.id.text2)).setText(cursor
 				.getString(NUMBER_INDEX));
-		((TextView) view.findViewById(R.id.text3))
-				.setText(context.getResources().getStringArray(
-						android.R.array.phoneTypes)[cursor.getInt(NUMBER_TYPE) - 1]);
+		int i = cursor.getInt(NUMBER_TYPE) - 1;
+		String[] types = context.getResources().getStringArray(
+				android.R.array.phoneTypes);
+		if (i >= 0 && i < types.length) {
+			((TextView) view.findViewById(R.id.text3)).setText(types[i]);
+		} else {
+			((TextView) view.findViewById(R.id.text3)).setText("");
+		}
 	}
 
 	/**
