@@ -7,9 +7,11 @@
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
 	<string name="click_for_update">(klick mich zum updaten)</string>
 	<string name="compose">Neue SMS</string>
+	<string name="defprefix_">Standard int. Prefix</string> 
 	<string name="donate_">Spenden</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
+	<string name="gmxsender_">Nutze die bei GMX hinterlegte Nummer</string>
 	<string name="help_">Hilfe</string>
 	<string name="help">Um diese App. nutzen zu können brauchst du einen GMX SMS Account! Ab GMX ProMail ist der SMS Account mit dabei.</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
@@ -24,8 +26,8 @@
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>
 	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.</string>
-	<string name="mail_">Mail Adresse:</string>
-	<string name="password_">GMX SMS Key:</string>
+	<string name="mail_">Mail Adresse</string>
+	<string name="password_">GMX SMS Key</string>
 	<string name="password_help">Der GMX SMS Freischaltcode befindet sich auf der Downloadseite des GMX SMS Managers für Windows. Das normale GMX Passwort geht hier nicht!</string>
 	<string name="password_hint">GMX SMS-Manager Freischaltcode</string>
 	<string name="sender_">Deine Mobilnummer:</string>
@@ -34,5 +36,4 @@
 	<string name="settings">Einstellungen</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
-	<string name="user_">Benutzer:</string>
 </resources>
