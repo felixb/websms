@@ -22,4 +22,15 @@
 		android:title="@string/about_"
 		android:titleCondensed="@string/about_"
 	></item>
+	<item
+		android:enabled="true"
+		android:menuCategory="secondary"
+		android:checkable="false"
+		android:checked="false"
+		android:visible="true"
+		android:id="@+id/item_help"
+		android:icon="@android:drawable/ic_menu_help"
+		android:title="@string/help_"
+		android:titleCondensed="@string/help_"
+	></item>
 </menu>

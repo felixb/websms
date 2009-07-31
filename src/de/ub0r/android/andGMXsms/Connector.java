@@ -267,9 +267,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
+						System.out.println("customer_id " + p);
 						AndGMXsms.prefsUser = p;
-						AndGMXsms.prefsSender = this.getParam(outp,
-								"cell_phone");
+						if (AndGMXsms.prefsGMXsender) {
+							AndGMXsms.prefsSender = this.getParam(outp,
+									"cell_phone");
+						}
 						if (this.pw != null) {
 							AndGMXsms.prefsPassword = this.pw;
 						}
@@ -277,7 +280,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 							AndGMXsms.prefsMail = this.mail;
 						}
 						AndGMXsms.me.saveSettings();
-						Settings.reset();
+						// Settings.reset(); // FIXME
 						inBootstrap = false;
 						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
 								null);
@@ -290,7 +293,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					Settings.reset();
+					// Settings.reset(); // FIXME
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_mail));
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);

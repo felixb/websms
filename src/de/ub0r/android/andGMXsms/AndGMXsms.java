@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -34,8 +35,6 @@ public class AndGMXsms extends Activity {
 
 	/** Static reference to running Activity. */
 	static AndGMXsms me;
-	/** Preference's name. */
-	public static final String PREFS_NAME = "andGMXsmsPrefs";
 	/** Preference's name: mail. */
 	private static final String PREFS_MAIL = "mail";
 	/** Preference's name: username. */
@@ -44,6 +43,10 @@ public class AndGMXsms extends Activity {
 	private static final String PREFS_PASSWORD = "password";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
+	/** Prefernece's name: use gmx sender. */
+	private static final String PREFS_GMXSENDER = "gmxsender";
+	/** Prefernece's name: default prefix. */
+	private static final String PREFS_DEFPREFIX = "defprefix";
 	/** Preferences: mail. */
 	public static String prefsMail;
 	/** Preferences: username. */
@@ -52,6 +55,10 @@ public class AndGMXsms extends Activity {
 	public static String prefsPassword;
 	/** Preferences: user's phonenumber. */
 	public static String prefsSender;
+	/** Preferences: use gmx sender. */
+	public static boolean prefsGMXsender;
+	/** Preferences: default prefix. */
+	public static String prefsDefPrefix;
 	/** Preferences ready? */
 	public static boolean prefsReady = false;
 	/** Remaining free sms. */
@@ -65,11 +72,16 @@ public class AndGMXsms extends Activity {
 	/** Dialog String. */
 	public static String dialogString = null;
 
+	/** true if preferences got opened. */
+	static boolean doPreferences = false;
+
 	/** Public Connector. */
 	public static AsyncTask<String, Boolean, Boolean> connector;
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
+	/** Dialog: help. */
+	private static final int DIALOG_HELP = 1;
 
 	/** Message for logging. **/
 	public static final int MESSAGE_LOG = 0;
@@ -99,17 +111,8 @@ public class AndGMXsms extends Activity {
 	/** Resource @string/text__. */
 	private String textLabelRef;
 
-	/**
-	 * Preferences: user's default prefix.
-	 * 
-	 * @return user's default prefix
-	 */
-	public static String prefsPrefix() {
-		if (prefsSender.length() < PREFIX_LEN) {
-			return prefsSender;
-		}
-		return AndGMXsms.prefsSender.substring(0, PREFIX_LEN);
-	}
+	/** Shared Preferences. */
+	private SharedPreferences preferences;
 
 	/** MessageHandler. */
 	private Handler messageHandler;
@@ -131,11 +134,8 @@ public class AndGMXsms extends Activity {
 		this.messageHandler = new AndGMXsms.MessageHandler();
 
 		// Restore preferences
-		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
-		prefsMail = settings.getString(PREFS_MAIL, "");
-		prefsUser = settings.getString(PREFS_USER, "");
-		prefsPassword = settings.getString(PREFS_PASSWORD, "");
-		prefsSender = settings.getString(PREFS_SENDER, "");
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.reloadPrefs();
 
 		// register Listener
 		((Button) this.findViewById(R.id.send))
@@ -205,7 +205,16 @@ public class AndGMXsms extends Activity {
 			dialog = ProgressDialog.show(this, null, dialogString, true);
 		}
 
-		this.checkReady();
+		if (doPreferences) {
+			this.reloadPrefs();
+			doPreferences = false;
+			System.out.println("do bootstrap");
+			String[] params = new String[Connector.IDS_BOOTSTR];
+			params[Connector.ID_MAIL] = prefsMail;
+			params[Connector.ID_PW] = prefsPassword;
+			AndGMXsms.connector = new Connector().execute(params);
+		}
+		this.checkPrefs();
 
 		// reload text/recipient from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
@@ -233,9 +242,23 @@ public class AndGMXsms extends Activity {
 	}
 
 	/**
+	 * Read static vars holding preferences.
+	 */
+	private final void reloadPrefs() {
+		prefsMail = this.preferences.getString(PREFS_MAIL, "");
+		prefsUser = this.preferences.getString(PREFS_USER, "");
+		prefsPassword = this.preferences.getString(PREFS_PASSWORD, "");
+		prefsSender = this.preferences.getString(PREFS_SENDER, "");
+		prefsGMXsender = this.preferences.getBoolean(PREFS_GMXSENDER, true);
+		if (!prefsGMXsender) {
+			prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
+		}
+	}
+
+	/**
 	 * Check if prefs are set.
 	 */
-	private void checkReady() {
+	private void checkPrefs() {
 		// check prefs
 		if (prefsMail.length() == 0 || prefsUser.length() == 0
 				|| prefsPassword.length() == 0 || prefsSender.length() == 0) {
@@ -247,6 +270,21 @@ public class AndGMXsms extends Activity {
 		} else {
 			prefsReady = true;
 		}
+
+		if (prefsGMXsender) {
+			if (prefsSender.length() < PREFIX_LEN) {
+				prefsDefPrefix = prefsSender;
+			} else {
+				prefsDefPrefix = prefsSender.substring(0, PREFIX_LEN);
+			}
+		}
+
+		System.out.println("u" + AndGMXsms.prefsUser);
+		System.out.println("p" + AndGMXsms.prefsPassword);
+		System.out.println("s" + AndGMXsms.prefsSender);
+		System.out.println("m" + AndGMXsms.prefsMail);
+		System.out.println("pre" + AndGMXsms.prefsDefPrefix);
+		System.out.println("ready" + AndGMXsms.prefsReady);
 
 		// enable/disable buttons
 		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);
@@ -265,13 +303,12 @@ public class AndGMXsms extends Activity {
 	/** Save prefs. */
 	final void saveSettings() {
 		// save user preferences
-		SharedPreferences settings = this.getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences.Editor editor = this.preferences.edit();
 		editor.putString(PREFS_MAIL, prefsMail);
 		editor.putString(PREFS_USER, prefsUser);
 		editor.putString(PREFS_PASSWORD, prefsPassword);
-		editor.putString(PREFS_SENDER, prefsSender);
-		// commit changes
+		editor.putString(PREFS_SENDER, prefsSender); // commit changes
+		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
 		editor.commit();
 	}
 
@@ -309,7 +346,10 @@ public class AndGMXsms extends Activity {
 			this.showDialog(DIALOG_ABOUT);
 			return true;
 		case R.id.item_settings: // start settings activity
-			this.startActivity(new Intent(this, Settings.class));
+			this.startActivity(new Intent(this, Preferences.class));
+			return true;
+		case R.id.item_help: // start help dialog
+			this.showDialog(DIALOG_HELP);
 			return true;
 		default:
 			return false;
@@ -342,6 +382,11 @@ public class AndGMXsms extends Activity {
 							uri));
 				}
 			});
+			break;
+		case DIALOG_HELP:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.help);
+			myDialog.setTitle(this.getResources().getString(R.string.help));
 			break;
 		default:
 			myDialog = null;
@@ -401,12 +446,12 @@ public class AndGMXsms extends Activity {
 				return;
 			case MESSAGE_SETTINGS:
 				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
-						Settings.class));
+						Preferences.class));
 			case MESSAGE_RESET:
 				AndGMXsms.this.reset();
 				return;
 			case MESSAGE_PREFSREADY:
-				AndGMXsms.this.checkReady();
+				AndGMXsms.this.checkPrefs();
 				return;
 			case MESSAGE_DISPLAY_ADS:
 				// display ads
@@ -538,7 +583,7 @@ public class AndGMXsms extends Activity {
 						if (t.startsWith("00")) {
 							t = "+" + t.substring(2);
 						} else if (t.startsWith("0")) {
-							t = AndGMXsms.prefsPrefix() + t.substring(1);
+							t = AndGMXsms.prefsDefPrefix + t.substring(1);
 						}
 					}
 				}

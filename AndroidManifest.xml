@@ -14,7 +14,7 @@
                 <data android:scheme="sms"></data>
             </intent-filter>
         </activity>
-        <activity android:name="Settings" android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:windowSoftInputMode="adjustResize" android:name="Preferences"></activity>
 	<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
     </application>
     <uses-sdk android:minSdkVersion="3" />
