@@ -207,14 +207,16 @@ public class AndGMXsms extends Activity {
 
 		if (doPreferences) {
 			this.reloadPrefs();
+			this.checkPrefs();
 			doPreferences = false;
 			System.out.println("do bootstrap");
 			String[] params = new String[Connector.IDS_BOOTSTR];
 			params[Connector.ID_MAIL] = prefsMail;
 			params[Connector.ID_PW] = prefsPassword;
 			AndGMXsms.connector = new Connector().execute(params);
+		} else {
+			this.checkPrefs();
 		}
-		this.checkPrefs();
 
 		// reload text/recipient from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
@@ -244,7 +246,7 @@ public class AndGMXsms extends Activity {
 	/**
 	 * Read static vars holding preferences.
 	 */
-	private final void reloadPrefs() {
+	private void reloadPrefs() {
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
 		prefsUser = this.preferences.getString(PREFS_USER, "");
 		prefsPassword = this.preferences.getString(PREFS_PASSWORD, "");
@@ -278,13 +280,6 @@ public class AndGMXsms extends Activity {
 				prefsDefPrefix = prefsSender.substring(0, PREFIX_LEN);
 			}
 		}
-
-		System.out.println("u" + AndGMXsms.prefsUser);
-		System.out.println("p" + AndGMXsms.prefsPassword);
-		System.out.println("s" + AndGMXsms.prefsSender);
-		System.out.println("m" + AndGMXsms.prefsMail);
-		System.out.println("pre" + AndGMXsms.prefsDefPrefix);
-		System.out.println("ready" + AndGMXsms.prefsReady);
 
 		// enable/disable buttons
 		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);

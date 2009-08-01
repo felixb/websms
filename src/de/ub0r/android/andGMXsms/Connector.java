@@ -280,20 +280,18 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 							AndGMXsms.prefsMail = this.mail;
 						}
 						AndGMXsms.me.saveSettings();
-						// Settings.reset(); // FIXME
 						inBootstrap = false;
 						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
 								null);
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_pw));
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					// Settings.reset(); // FIXME
+					AndGMXsms.prefsPassword = "";
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_mail));
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
