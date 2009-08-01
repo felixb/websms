@@ -7,24 +7,28 @@
 			android:key="mail"
 			android:title="@string/mail_"
 			android:dialogTitle="@string/mail_"
+			android:summary="@string/mail_hint"
 			android:inputType="textEmailAddress"
 		/>
 		<EditTextPreference
 			android:key="password"
 			android:title="@string/password_"
 			android:dialogTitle="@string/password_"
+			android:summary="@string/password_hint"
 			android:inputType="textPassword"
 		/>
 		<CheckBoxPreference
 			android:key="gmxsender"
 			android:disableDependentsState="true"
 			android:title="@string/gmxsender_"
+			android:summary="@string/gmxsender_hint"
 		/>
 		<EditTextPreference
 			android:dependency="gmxsender"
 			android:key="sender"
 			android:title="@string/sender_"
 			android:dialogTitle="@string/sender_"
+			android:summary="@string/sender_hint"
 			android:inputType="text"
 		/>
 		<EditTextPreference
@@ -32,6 +36,7 @@
 			android:key="defprefix"
 			android:title="@string/defprefix_"
 			android:dialogTitle="@string/defprefix_"
+			android:summary="@string/defprefix_hint"
 			android:inputType="text"
 		/>
 	</PreferenceCategory>

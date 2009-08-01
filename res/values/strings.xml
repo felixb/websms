@@ -9,12 +9,14 @@
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="click_for_update">(click me for update)</string>
 	<string name="compose">Compose</string>
-	<string name="defprefix_">Default int. prefix</string> 
+	<string name="defprefix_">Default int. prefix</string>
+	<string name="defprefix_hint">e.g. +49</string>
 	<string name="donate_">Donate</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
-	<string name="gmxsender_">Use number set at GMX as sender</string>
+	<string name="gmxsender_">Auto sender</string>
+	<string name="gmxsender_hint">Use number set at GMX as sender</string>
 	<string name="help_">Help</string>
 	<string name="help">You need a GMX SMS Account (e.g. GMX ProMail) to use this app.</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
