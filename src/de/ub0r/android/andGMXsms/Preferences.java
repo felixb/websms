@@ -9,6 +9,12 @@ import android.preference.PreferenceActivity;
  * @author flx
  */
 public class Preferences extends PreferenceActivity {
+	/**
+	 * Called on Create.
+	 * 
+	 * @param savedInstanceState
+	 *            saved Instance
+	 */
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndGMXsms.doPreferences = true;

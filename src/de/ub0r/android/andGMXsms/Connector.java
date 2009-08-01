@@ -267,7 +267,6 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
-						System.out.println("customer_id " + p);
 						AndGMXsms.prefsUser = p;
 						if (AndGMXsms.prefsGMXsender) {
 							AndGMXsms.prefsSender = this.getParam(outp,

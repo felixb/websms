@@ -76,7 +76,7 @@ public class AndGMXsms extends Activity {
 	static boolean doPreferences = false;
 
 	/** Public Connector. */
-	public static AsyncTask<String, Boolean, Boolean> connector;
+	private static AsyncTask<String, Boolean, Boolean> connector;
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
@@ -97,7 +97,7 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_RESET = 5;
 	/** Message check prefsReady. */
 	public static final int MESSAGE_PREFSREADY = 6;
-	/** Message display ads */
+	/** Message display ads. */
 	public static final int MESSAGE_DISPLAY_ADS = 7;
 
 	/** Persistent Message store. */
@@ -209,7 +209,6 @@ public class AndGMXsms extends Activity {
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			System.out.println("do bootstrap");
 			String[] params = new String[Connector.IDS_BOOTSTR];
 			params[Connector.ID_MAIL] = prefsMail;
 			params[Connector.ID_PW] = prefsPassword;
