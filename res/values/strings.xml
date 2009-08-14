@@ -41,6 +41,8 @@
 	<string name="sender_">Your mobile number</string>
 	<string name="send">Send</string>
 	<string name="settings">Preferences</string>
+	<string name="softkeyboard_">Touchscreen</string>
+	<string name="softkeyboard_hint">Reduce GUI for touch keys</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="text__">Text</string>

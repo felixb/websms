@@ -36,6 +36,8 @@
 	<string name="sender_hint">Deine int. Mobilnummer</string>
 	<string name="send">Senden</string>
 	<string name="settings">Einstellungen</string>
+	<string name="softkeyboard_">Touchscreen</string>
+	<string name="softkeyboard_hint">Einfache GUI für touch keys</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
 </resources>

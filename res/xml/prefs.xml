@@ -39,5 +39,10 @@
 			android:summary="@string/defprefix_hint"
 			android:inputType="text"
 		/>
+		<CheckBoxPreference
+			android:key="softkeyboard"
+			android:title="@string/softkeyboard_"
+			android:summary="@string/softkeyboard_hint"
+		/>
 	</PreferenceCategory>
 </PreferenceScreen>

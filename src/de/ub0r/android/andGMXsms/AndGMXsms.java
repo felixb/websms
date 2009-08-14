@@ -43,10 +43,12 @@ public class AndGMXsms extends Activity {
 	private static final String PREFS_PASSWORD = "password";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
-	/** Prefernece's name: use gmx sender. */
+	/** Preference's name: use gmx sender. */
 	private static final String PREFS_GMXSENDER = "gmxsender";
-	/** Prefernece's name: default prefix. */
+	/** Preference's name: default prefix. */
 	private static final String PREFS_DEFPREFIX = "defprefix";
+	/** Preference's name: touch keyboard. */
+	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preferences: mail. */
 	public static String prefsMail;
 	/** Preferences: username. */
@@ -59,10 +61,12 @@ public class AndGMXsms extends Activity {
 	public static boolean prefsGMXsender;
 	/** Preferences: default prefix. */
 	public static String prefsDefPrefix;
-	/** Preferences ready? */
+	/** Preferences: ready? */
 	public static boolean prefsReady = false;
 	/** Remaining free sms. */
 	public static String remFree = null;
+	/** Preferences: use softkeys. */
+	public static boolean prefsSoftKeys = false;
 
 	/** Length of a prefix. */
 	private static final int PREFIX_LEN = 3;
@@ -99,6 +103,11 @@ public class AndGMXsms extends Activity {
 	public static final int MESSAGE_PREFSREADY = 6;
 	/** Message display ads. */
 	public static final int MESSAGE_DISPLAY_ADS = 7;
+
+	/** Menu: send. */
+	private static final int MENU_SEND = 1;
+	/** Menu: cancel. */
+	private static final int MENU_CANCEL = 2;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -217,6 +226,15 @@ public class AndGMXsms extends Activity {
 			this.checkPrefs();
 		}
 
+		// display/hide buttons etc.
+		int v = View.VISIBLE;
+		if (prefsSoftKeys) {
+			v = View.GONE;
+		}
+
+		((Button) this.findViewById(R.id.send)).setVisibility(v);
+		((Button) this.findViewById(R.id.cancel)).setVisibility(v);
+
 		// reload text/recipient from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
 		if (lastMsg != null) {
@@ -254,6 +272,7 @@ public class AndGMXsms extends Activity {
 		if (!prefsGMXsender) {
 			prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
 		}
+		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
 	}
 
 	/**
@@ -321,6 +340,34 @@ public class AndGMXsms extends Activity {
 	 * @return ok/fail?
 	 */
 	@Override
+	public final boolean onPrepareOptionsMenu(final Menu menu) {
+		if (menu.findItem(MENU_SEND) == null) {
+			if (prefsSoftKeys) {
+				// add menu to send text
+				menu.add(0, MENU_SEND, 0,
+						this.getResources().getString(R.string.send)).setIcon(
+						android.R.drawable.ic_menu_send);
+				menu.add(0, MENU_CANCEL, 0,
+						this.getResources().getString(android.R.string.cancel))
+						.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+			}
+		} else {
+			if (!prefsSoftKeys) {
+				menu.removeItem(MENU_SEND);
+				menu.removeItem(MENU_CANCEL);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Create menu.
+	 * 
+	 * @param menu
+	 *            menu to inflate
+	 * @return ok/fail?
+	 */
+	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
 		MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
@@ -344,6 +391,12 @@ public class AndGMXsms extends Activity {
 			return true;
 		case R.id.item_help: // start help dialog
 			this.showDialog(DIALOG_HELP);
+			return true;
+		case MENU_SEND:
+			this.send();
+			return true;
+		case MENU_CANCEL:
+			this.reset();
 			return true;
 		default:
 			return false;
@@ -555,38 +608,45 @@ public class AndGMXsms extends Activity {
 		return ret;
 	}
 
+	/**
+	 * Send Text.
+	 */
+	private void send() {
+		// fetch text/recipient
+		String to = ((EditText) this.findViewById(R.id.to)).getText()
+				.toString();
+		String text = ((EditText) this.findViewById(R.id.text)).getText()
+				.toString();
+		if (to.length() == 0 || text.length() == 0) {
+			return;
+		}
+		String[] numbers = AndGMXsms.parseReciepients(to);
+		String[] params = new String[numbers.length + 1];
+		params[Connector.ID_TEXT] = text;
+		// fix number prefix
+		for (int i = 0; i < numbers.length; i++) {
+			String t = numbers[i];
+			if (t != null) {
+				if (!t.startsWith("+")) {
+					if (t.startsWith("00")) {
+						t = "+" + t.substring(2);
+					} else if (t.startsWith("0")) {
+						t = AndGMXsms.prefsDefPrefix + t.substring(1);
+					}
+				}
+			}
+			t = AndGMXsms.cleanRecipient(t);
+			params[i + 1] = t;
+			numbers[i] = null;
+		}
+		// start a Connector Thread
+		AndGMXsms.connector = new Connector().execute(params);
+	}
+
 	/** OnClickListener for sending the sms. */
 	private OnClickListener runSend = new OnClickListener() {
 		public void onClick(final View v) {
-			// fetch text/recipient
-			String to = ((EditText) AndGMXsms.this.findViewById(R.id.to))
-					.getText().toString();
-			String text = ((EditText) AndGMXsms.this.findViewById(R.id.text))
-					.getText().toString();
-			if (to.length() == 0 || text.length() == 0) {
-				return;
-			}
-			String[] numbers = AndGMXsms.parseReciepients(to);
-			String[] params = new String[numbers.length + 1];
-			params[Connector.ID_TEXT] = text;
-			// fix number prefix
-			for (int i = 0; i < numbers.length; i++) {
-				String t = numbers[i];
-				if (t != null) {
-					if (!t.startsWith("+")) {
-						if (t.startsWith("00")) {
-							t = "+" + t.substring(2);
-						} else if (t.startsWith("0")) {
-							t = AndGMXsms.prefsDefPrefix + t.substring(1);
-						}
-					}
-				}
-				t = AndGMXsms.cleanRecipient(t);
-				params[i + 1] = t;
-				numbers[i] = null;
-			}
-			// start a Connector Thread
-			AndGMXsms.connector = new Connector().execute(params);
+			AndGMXsms.this.send();
 		}
 	};
 
