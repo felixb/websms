@@ -35,14 +35,14 @@ public class RFC2965CookieParser implements CookieParser {
 				.getVersionCookies("0"));
 
 		Header headers = new Header();
-		headers.add("Cookie2", "1");
+		//headers.add("Cookie2", "1");
 
-		StringBuffer sb;
+		StringBuilder sb;
 		boolean bFirstElement;
 		Iterator iter;
 
 		if (!eligibleV1Cookies.isEmpty()) {
-			sb = new StringBuffer();
+			sb = new StringBuilder();
 			bFirstElement = true;
 			iter = eligibleV1Cookies.iterator();
 
@@ -62,7 +62,7 @@ public class RFC2965CookieParser implements CookieParser {
 		}
 
 		if (!eligibleV0Cookies.isEmpty()) {
-			sb = new StringBuffer();
+			sb = new StringBuilder();
 			bFirstElement = true;
 			iter = eligibleV0Cookies.iterator();
 
@@ -525,13 +525,13 @@ public class RFC2965CookieParser implements CookieParser {
 					"Cookie is null OR cookie is invalid");
 		}
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
-		if ("0".equals(c.getVersion())) {
+		//if ("0".equals(c.getVersion())) {
 			sb.append(c.getName());
 			sb.append("=");
 			sb.append(c.getValue());
-		} else {
+		/*} else {
 			if (bIncludeVersion) {
 				sb.append("$Version=");
 				sb.append(c.getVersion());
@@ -563,7 +563,7 @@ public class RFC2965CookieParser implements CookieParser {
 				}
 			}
 		}
-
+		*/
 		return (sb.toString());
 	}
 
