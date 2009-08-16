@@ -257,13 +257,13 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
-						String freecount = p;
+						AndGMXsms.smsGMXfree = Integer.parseInt(p);
 						p = this.getParam(outp, "free_max_month");
 						if (p != null) {
-							freecount += " / " + p;
+							AndGMXsms.smsGMXlimit = Integer.parseInt(p);
 						}
-						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT,
-								freecount);
+						AndGMXsms
+								.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {

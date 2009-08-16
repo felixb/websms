@@ -124,6 +124,15 @@ public class AndGMXsms extends Activity {
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
 
+	/** Remaining free sms at gmx. */
+	public static int smsGMXfree = 0;
+	/** Free sms / month at gmx. */
+	public static int smsGMXlimit = 0;
+	/** Remaining free sms at o2. */
+	public static int smsO2free = 0;
+	/** Free sms / month at o2. */
+	public static int smsO2limit = 0;
+
 	/** Text's label. */
 	private TextView textLabel;
 
@@ -487,7 +496,21 @@ public class AndGMXsms extends Activity {
 				AndGMXsms.this.log(l);
 				return;
 			case MESSAGE_FREECOUNT:
-				AndGMXsms.remFree = (String) msg.obj;
+				AndGMXsms.remFree = "";
+				if (AndGMXsms.prefsEnableGMX) {
+					AndGMXsms.remFree = AndGMXsms.smsGMXfree + " / "
+							+ AndGMXsms.smsGMXlimit;
+				}
+				if (AndGMXsms.prefsEnableO2) {
+					if (AndGMXsms.remFree.length() > 0) {
+						AndGMXsms.remFree += " - ";
+					}
+					AndGMXsms.remFree += AndGMXsms.smsO2free + " / "
+							+ AndGMXsms.smsO2limit;
+				}
+				if (AndGMXsms.remFree.length() == 0) {
+					AndGMXsms.remFree = "---";
+				}
 				TextView tw = (TextView) AndGMXsms.this
 						.findViewById(R.id.freecount);
 				tw.setText(AndGMXsms.this.getResources().getString(
