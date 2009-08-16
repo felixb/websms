@@ -355,13 +355,13 @@ public abstract class Utils {
 		String format = null;
 
 		if (iNumTokens == 5) // Its an asctime date ... wkday SP month SP (
-								// 2DIGIT | ( SP 1DIGIT )) SP time SP 4DIGIT
+		// 2DIGIT | ( SP 1DIGIT )) SP time SP 4DIGIT
 		{ // ; month day (e.g., Jun 2)
 			// Sun Nov 6 08:49:37 1994
 			format = "EEE MMM dd HH:mm:ss yyyy";
 		} else if (iNumTokens == 4) // Its an RFC850 date ... weekday "," SP
-									// 2DIGIT "-" month "-" 2DIGIT SP time SP
-									// "GMT"
+		// 2DIGIT "-" month "-" 2DIGIT SP time SP
+		// "GMT"
 		{ // ; day-month-year (e.g., 02-Jun-82)
 			String dtok = null; // may have 2 or 4-digit year
 			st.nextToken();
@@ -378,8 +378,8 @@ public abstract class Utils {
 				return (null);
 			}
 		} else if (iNumTokens == 6) // Its an RFC1123 date ... wkday "," SP
-									// 2DIGIT SP month SP 4DIGIT SP time SP
-									// "GMT"
+		// 2DIGIT SP month SP 4DIGIT SP time SP
+		// "GMT"
 		{ // ; day-month-year (e.g., 02 Jun 1982)
 			// Sun, 06 Nov 1994 08:49:37 GMT
 			format = "EEE, dd MMM yyyy HH:mm:ss zzz";

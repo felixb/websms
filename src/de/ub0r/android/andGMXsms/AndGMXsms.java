@@ -759,8 +759,11 @@ public class AndGMXsms extends Activity {
 
 	/**
 	 * Read in data from Stream into String.
-	 * @param is stream
-	 * @param length length to read
+	 * 
+	 * @param is
+	 *            stream
+	 * @param length
+	 *            length to read
 	 * @return String
 	 */
 	public static final String stream2String(final InputStream is,
