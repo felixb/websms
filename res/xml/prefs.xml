@@ -1,7 +1,39 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
-		android:title="@string/settings"
+		android:title="@string/settings_common"
+	>
+		<CheckBoxPreference
+			android:key="enable_gmx"
+			android:title="@string/enable_gmx"
+		/>
+		<CheckBoxPreference
+			android:key="enable_o2"
+			android:title="@string/enable_o2"
+		/>
+		<EditTextPreference
+			android:key="sender"
+			android:title="@string/sender_"
+			android:dialogTitle="@string/sender_"
+			android:summary="@string/sender_hint"
+			android:inputType="text"
+		/>
+		<EditTextPreference
+			android:key="defprefix"
+			android:title="@string/defprefix_"
+			android:dialogTitle="@string/defprefix_"
+			android:summary="@string/defprefix_hint"
+			android:inputType="text"
+		/>
+		<CheckBoxPreference
+			android:key="softkeyboard"
+			android:title="@string/softkeyboard_"
+			android:summary="@string/softkeyboard_hint"
+		/>
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/settings_gmx"
+		android:dependency="enable_gmx"
 	>    
 		<EditTextPreference
 			android:key="mail"
@@ -17,32 +49,17 @@
 			android:summary="@string/password_hint"
 			android:inputType="textPassword"
 		/>
-		<CheckBoxPreference
-			android:key="gmxsender"
-			android:disableDependentsState="true"
-			android:title="@string/gmxsender_"
-			android:summary="@string/gmxsender_hint"
-		/>
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="@string/settings_o2"
+		android:dependency="enable_o2"
+	>
 		<EditTextPreference
-			android:dependency="gmxsender"
-			android:key="sender"
-			android:title="@string/sender_"
-			android:dialogTitle="@string/sender_"
-			android:summary="@string/sender_hint"
-			android:inputType="text"
-		/>
-		<EditTextPreference
-			android:dependency="gmxsender"
-			android:key="defprefix"
-			android:title="@string/defprefix_"
-			android:dialogTitle="@string/defprefix_"
-			android:summary="@string/defprefix_hint"
-			android:inputType="text"
-		/>
-		<CheckBoxPreference
-			android:key="softkeyboard"
-			android:title="@string/softkeyboard_"
-			android:summary="@string/softkeyboard_hint"
+			android:key="password_o2"
+			android:title="@string/password_o2_"
+			android:dialogTitle="@string/password_o2_"
+			android:summary="@string/password_o2_hint"
+			android:inputType="textPassword"
 		/>
 	</PreferenceCategory>
 </PreferenceScreen>
