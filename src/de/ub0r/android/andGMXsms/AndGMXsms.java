@@ -237,10 +237,10 @@ public class AndGMXsms extends Activity {
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			String[] params = new String[Connector.IDS_BOOTSTR];
-			params[Connector.ID_MAIL] = prefsMail;
-			params[Connector.ID_PW] = prefsPasswordGMX;
-			AndGMXsms.connector = new Connector().execute(params);
+			String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
+			params[ConnectorGMX.ID_MAIL] = prefsMail;
+			params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
+			AndGMXsms.connector = new ConnectorGMX().execute(params);
 		} else {
 			this.checkPrefs();
 		}
@@ -304,7 +304,7 @@ public class AndGMXsms extends Activity {
 		if (prefsMail.length() == 0 || prefsUser.length() == 0
 				|| prefsPasswordGMX.length() == 0 || prefsSender.length() == 0) {
 			prefsReady = false;
-			if (!Connector.inBootstrap) {
+			if (!ConnectorGMX.inBootstrap) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
@@ -352,7 +352,7 @@ public class AndGMXsms extends Activity {
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
 		public void onClick(final View v) {
-			connector = new Connector().execute((String) null);
+			connector = new ConnectorGMX().execute((String) null);
 		}
 	};
 
@@ -522,11 +522,11 @@ public class AndGMXsms extends Activity {
 								R.string.click_for_update));
 				return;
 			case MESSAGE_SEND:
-				AndGMXsms.connector = new Connector()
+				AndGMXsms.connector = new ConnectorGMX()
 						.execute((String[]) msg.obj);
 				return;
 			case MESSAGE_BOOTSTRAP:
-				AndGMXsms.connector = new Connector()
+				AndGMXsms.connector = new ConnectorGMX()
 						.execute((String[]) msg.obj);
 				return;
 			case MESSAGE_SETTINGS:
@@ -660,7 +660,7 @@ public class AndGMXsms extends Activity {
 		}
 		String[] numbers = AndGMXsms.parseReciepients(to);
 		String[] params = new String[numbers.length + 1];
-		params[Connector.ID_TEXT] = text;
+		params[ConnectorGMX.ID_TEXT] = text;
 		// fix number prefix
 		for (int i = 0; i < numbers.length; i++) {
 			String t = numbers[i];
@@ -678,7 +678,7 @@ public class AndGMXsms extends Activity {
 			numbers[i] = null;
 		}
 		// start a Connector Thread
-		AndGMXsms.connector = new Connector().execute(params);
+		AndGMXsms.connector = new ConnectorGMX().execute(params);
 	}
 
 	/** OnClickListener for sending the sms. */

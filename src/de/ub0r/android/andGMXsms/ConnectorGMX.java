@@ -16,7 +16,7 @@ import android.os.AsyncTask;
  * 
  * @author flx
  */
-public class Connector extends AsyncTask<String, Boolean, Boolean> {
+public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	/** Dialog ID. */
 	public static final int DIALOG_IO = 0;
 	/** Target host. */
