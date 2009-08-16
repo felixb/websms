@@ -12,11 +12,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 /**
- * AsyncTask to manage IO to GMX API.
+ * AsyncTask to manage IO to O2 API.
  * 
  * @author flx
  */
-public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
+public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** Target host. */
 	private static final String TARGET_HOST = "app0.wr-gmbh.de";
 	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
@@ -63,17 +63,9 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Number of IDs in array for sms send. */
 	public static final int IDS_SEND = 3;
-	/** Number of IDs in array for bootstrap. */
-	public static final int IDS_BOOTSTR = 2;
 
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
-
-	/** Result: wrong customerid/password. */
-	private static final int RSLT_WRONG_CUSTOMER = 11;
-
-	/** Result: wrong mail/password. */
-	private static final int RSLT_WRONG_MAIL = 25;
 
 	/** recipient. */
 	private String[] to;
@@ -87,90 +79,6 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	/** password. */
 	private String pw;
 
-	/** Connector is bootstrapping. */
-	public static boolean inBootstrap = false;
-
-	/**
-	 * Write key,value to StringBuilder.
-	 * 
-	 * @param buffer
-	 *            buffer
-	 * @param key
-	 *            key
-	 * @param value
-	 *            value
-	 */
-	private static void writePair(final StringBuilder buffer, final String key,
-			final String value) {
-		buffer.append(key);
-		buffer.append('=');
-		buffer.append(value.replace("\\", "\\\\").replace(">", "\\>").replace(
-				"<", "\\<"));
-		buffer.append("\\p");
-	}
-
-	/**
-	 * Create default data hashtable.
-	 * 
-	 * @param packetName
-	 *            packetName
-	 * @param packetVersion
-	 *            packetVersion
-	 * @param addCustomer
-	 *            add customer id/password
-	 * @return Hashtable filled with customer_id and password.
-	 */
-	private static StringBuilder openBuffer(final String packetName,
-			final String packetVersion, final boolean addCustomer) {
-		StringBuilder ret = new StringBuilder();
-		ret.append("<WR TYPE=\"RQST\" NAME=\"");
-		ret.append(packetName);
-		ret.append("\" VER=\"");
-		ret.append(packetVersion);
-		ret.append("\" PROGVER=\"");
-		ret.append(TARGET_PROTOVERSION);
-		ret.append("\">");
-		if (addCustomer) {
-			writePair(ret, "customer_id", AndGMXsms.prefsUser);
-			writePair(ret, "password", AndGMXsms.prefsPasswordGMX);
-		}
-		return ret;
-	}
-
-	/**
-	 * Close Buffer.
-	 * 
-	 * @param buffer
-	 *            buffer
-	 * @return buffer
-	 */
-	private static StringBuilder closeBuffer(final StringBuilder buffer) {
-		buffer.append("</WR>");
-		return buffer;
-	}
-
-	/**
-	 * Parse returned packet. Search for name=(.*)\n and return (.*)
-	 * 
-	 * @param packet
-	 *            packet
-	 * @param name
-	 *            parma's name
-	 * @return param's value
-	 */
-	private String getParam(final String packet, final String name) {
-		int i = packet.indexOf(name + '=');
-		if (i < 0) {
-			return null;
-		}
-		int j = packet.indexOf("\n", i);
-		if (j < 0) {
-			return packet.substring(i + name.length() + 1);
-		} else {
-			return packet.substring(i + name.length() + 1, j);
-		}
-	}
-
 	/**
 	 * Send data.
 	 * 
@@ -179,6 +87,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	 * @return successful?
 	 */
 	private boolean sendData(final StringBuilder packetData) {
+		/*
 		try {
 			// get Connection
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
@@ -308,6 +217,8 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
+		*/
+		return false;
 	}
 
 	/**
@@ -316,8 +227,9 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean getFree() {
-		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
-				true)));
+		//return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
+		//		true)));
+		return false;
 	}
 
 	/**
@@ -327,9 +239,9 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean send() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
-		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
+		//StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
-		writePair(packetData, "sms_text", this.text);
+		//writePair(packetData, "sms_text", this.text);
 		StringBuilder recipients = new StringBuilder();
 		// table: <id>, <name>, <number>
 		int j = 0;
@@ -351,17 +263,16 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
 				+ recipients.toString();
 		recipients = null;
-		writePair(packetData, "receivers", recipientsString);
-		writePair(packetData, "send_option", "sms");
-		writePair(packetData, "sms_sender", AndGMXsms.prefsSender);
+		
+		
 		// if date!='': data['send_date'] = date
 		// push data
-		if (!this.sendData(closeBuffer(packetData))) {
-			// failed!
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-					.getResources().getString(R.string.log_error));
-			return false;
-		} else {
+		//if (!this.sendData(closeBuffer(packetData))) {
+		//	// failed!
+		//	AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+		//			.getResources().getString(R.string.log_error));
+		//	return false;
+		//} else {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 
@@ -382,21 +293,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 						Uri.parse("content://sms/sent"), values);
 			}
 			return true;
-		}
-	}
-
-	/**
-	 * Bootstrap: Get preferences.
-	 * 
-	 * @return ok?
-	 */
-	private boolean bootstrap() {
-		inBootstrap = true;
-		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
-		writePair(packetData, "email_address", this.mail);
-		writePair(packetData, "password", this.pw);
-		writePair(packetData, "gmx", "1");
-		return this.sendData(closeBuffer(packetData));
+		//}
 	}
 
 	/**
@@ -412,11 +309,6 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 		if (textTo == null || textTo[0] == null) {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
-		} else if (textTo.length == IDS_BOOTSTR) {
-			this.mail = textTo[ID_MAIL];
-			this.pw = textTo[ID_PW];
-			this.publishProgress((Boolean) null);
-			ret = this.bootstrap();
 		} else {
 			this.text = textTo[ID_TEXT];
 			this.to = textTo;

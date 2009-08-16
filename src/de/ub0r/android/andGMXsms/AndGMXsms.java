@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -88,9 +87,6 @@ public class AndGMXsms extends Activity {
 
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
-
-	/** Public Connector. */
-	private static AsyncTask<String, Boolean, Boolean> connector;
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
@@ -237,10 +233,12 @@ public class AndGMXsms extends Activity {
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
-			params[ConnectorGMX.ID_MAIL] = prefsMail;
-			params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
-			AndGMXsms.connector = new ConnectorGMX().execute(params);
+			if (prefsEnableGMX) {
+				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
+				params[ConnectorGMX.ID_MAIL] = prefsMail;
+				params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
+				new ConnectorGMX().execute(params);
+			}
 		} else {
 			this.checkPrefs();
 		}
@@ -302,7 +300,8 @@ public class AndGMXsms extends Activity {
 	private void checkPrefs() {
 		// check prefs
 		if (prefsMail.length() == 0 || prefsUser.length() == 0
-				|| prefsPasswordGMX.length() == 0 || prefsSender.length() == 0) {
+				|| prefsPasswordGMX.length() == 0 || prefsSender.length() == 0
+				|| (!prefsEnableGMX && !prefsEnableO2)) {
 			prefsReady = false;
 			if (!ConnectorGMX.inBootstrap) {
 				this.log(this.getResources().getString(
@@ -352,7 +351,12 @@ public class AndGMXsms extends Activity {
 	/** Listener for launching a get-free-sms-count-thread. */
 	private OnClickListener runGetFree = new OnClickListener() {
 		public void onClick(final View v) {
-			connector = new ConnectorGMX().execute((String) null);
+			if (prefsEnableGMX) {
+				new ConnectorGMX().execute((String) null);
+			}
+			if (prefsEnableO2) {
+				new ConnectorO2().execute((String) null);
+			}
 		}
 	};
 
@@ -522,12 +526,12 @@ public class AndGMXsms extends Activity {
 								R.string.click_for_update));
 				return;
 			case MESSAGE_SEND:
-				AndGMXsms.connector = new ConnectorGMX()
-						.execute((String[]) msg.obj);
+				new ConnectorGMX().execute((String[]) msg.obj);
 				return;
 			case MESSAGE_BOOTSTRAP:
-				AndGMXsms.connector = new ConnectorGMX()
-						.execute((String[]) msg.obj);
+				if (prefsEnableGMX) {
+					new ConnectorGMX().execute((String[]) msg.obj);
+				}
 				return;
 			case MESSAGE_SETTINGS:
 				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
@@ -678,7 +682,11 @@ public class AndGMXsms extends Activity {
 			numbers[i] = null;
 		}
 		// start a Connector Thread
-		AndGMXsms.connector = new ConnectorGMX().execute(params);
+		if (prefsEnableGMX) {
+			new ConnectorGMX().execute(params);
+		} else if (prefsEnableO2) {
+			new ConnectorO2().execute(params);
+		}
 	}
 
 	/** OnClickListener for sending the sms. */
