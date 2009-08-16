@@ -134,7 +134,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 		ret.append("\">");
 		if (addCustomer) {
 			writePair(ret, "customer_id", AndGMXsms.prefsUser);
-			writePair(ret, "password", AndGMXsms.prefsPassword);
+			writePair(ret, "password", AndGMXsms.prefsPasswordGMX);
 		}
 		return ret;
 	}
@@ -273,12 +273,12 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 									"cell_phone");
 						}
 						if (this.pw != null) {
-							AndGMXsms.prefsPassword = this.pw;
+							AndGMXsms.prefsPasswordGMX = this.pw;
 						}
 						if (this.mail != null) {
 							AndGMXsms.prefsMail = this.mail;
 						}
-						AndGMXsms.me.saveSettings();
+						AndGMXsms.me.savePreferences();
 						inBootstrap = false;
 						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
 								null);
@@ -290,7 +290,7 @@ public class Connector extends AsyncTask<String, Boolean, Boolean> {
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					AndGMXsms.prefsPassword = "";
+					AndGMXsms.prefsPasswordGMX = "";
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_mail));
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);

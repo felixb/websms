@@ -39,22 +39,28 @@ public class AndGMXsms extends Activity {
 	private static final String PREFS_MAIL = "mail";
 	/** Preference's name: username. */
 	private static final String PREFS_USER = "user";
-	/** Preference's name: user's password. */
-	private static final String PREFS_PASSWORD = "password";
+	/** Preference's name: user's password - gmx. */
+	private static final String PREFS_PASSWORD_GMX = "password";
+	/** Preference's name: user's password - o2. */
+	private static final String PREFS_PASSWORD_O2 = "password_o2";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
-	/** Preference's name: use gmx sender. */
-	private static final String PREFS_GMXSENDER = "gmxsender";
 	/** Preference's name: default prefix. */
 	private static final String PREFS_DEFPREFIX = "defprefix";
 	/** Preference's name: touch keyboard. */
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
+	/** Preference's name: enable gmx. */
+	private static final String PREFS_ENABLE_GMX = "enable_gmx";
+	/** Preference's name: enable o2. */
+	private static final String PREFS_ENABLE_O2 = "enable_o2";
 	/** Preferences: mail. */
 	public static String prefsMail;
 	/** Preferences: username. */
 	public static String prefsUser;
-	/** Preferences: user's password. */
-	public static String prefsPassword;
+	/** Preferences: user's password - gmx. */
+	public static String prefsPasswordGMX;
+	/** Preferences: user's password - o2. */
+	public static String prefsPasswordO2;
 	/** Preferences: user's phonenumber. */
 	public static String prefsSender;
 	/** Preferences: use gmx sender. */
@@ -67,6 +73,10 @@ public class AndGMXsms extends Activity {
 	public static String remFree = null;
 	/** Preferences: use softkeys. */
 	public static boolean prefsSoftKeys = false;
+	/** Preferences: enable gmx. */
+	public static boolean prefsEnableGMX = false;
+	/** Preferences: enable o2. */
+	public static boolean prefsEnableO2 = false;
 
 	/** Length of a prefix. */
 	private static final int PREFIX_LEN = 3;
@@ -220,7 +230,7 @@ public class AndGMXsms extends Activity {
 			doPreferences = false;
 			String[] params = new String[Connector.IDS_BOOTSTR];
 			params[Connector.ID_MAIL] = prefsMail;
-			params[Connector.ID_PW] = prefsPassword;
+			params[Connector.ID_PW] = prefsPasswordGMX;
 			AndGMXsms.connector = new Connector().execute(params);
 		} else {
 			this.checkPrefs();
@@ -264,15 +274,17 @@ public class AndGMXsms extends Activity {
 	 * Read static vars holding preferences.
 	 */
 	private void reloadPrefs() {
+		prefsSender = this.preferences.getString(PREFS_SENDER, "");
+		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
+		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
+
+		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, true);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
 		prefsUser = this.preferences.getString(PREFS_USER, "");
-		prefsPassword = this.preferences.getString(PREFS_PASSWORD, "");
-		prefsSender = this.preferences.getString(PREFS_SENDER, "");
-		prefsGMXsender = this.preferences.getBoolean(PREFS_GMXSENDER, true);
-		if (!prefsGMXsender) {
-			prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
-		}
-		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
+		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
+
+		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
+		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
 	}
 
 	/**
@@ -281,7 +293,7 @@ public class AndGMXsms extends Activity {
 	private void checkPrefs() {
 		// check prefs
 		if (prefsMail.length() == 0 || prefsUser.length() == 0
-				|| prefsPassword.length() == 0 || prefsSender.length() == 0) {
+				|| prefsPasswordGMX.length() == 0 || prefsSender.length() == 0) {
 			prefsReady = false;
 			if (!Connector.inBootstrap) {
 				this.log(this.getResources().getString(
@@ -314,14 +326,17 @@ public class AndGMXsms extends Activity {
 	}
 
 	/** Save prefs. */
-	final void saveSettings() {
+	final void savePreferences() {
 		// save user preferences
 		SharedPreferences.Editor editor = this.preferences.edit();
+		// common
+		editor.putString(PREFS_SENDER, prefsSender);
+		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
+		// gmx
 		editor.putString(PREFS_MAIL, prefsMail);
 		editor.putString(PREFS_USER, prefsUser);
-		editor.putString(PREFS_PASSWORD, prefsPassword);
-		editor.putString(PREFS_SENDER, prefsSender); // commit changes
-		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
+		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
+		// commit changes
 		editor.commit();
 	}
 
