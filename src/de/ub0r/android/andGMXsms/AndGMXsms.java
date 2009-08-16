@@ -1,8 +1,11 @@
 package de.ub0r.android.andGMXsms;
 
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -62,8 +65,6 @@ public class AndGMXsms extends Activity {
 	public static String prefsPasswordO2;
 	/** Preferences: user's phonenumber. */
 	public static String prefsSender;
-	/** Preferences: use gmx sender. */
-	public static boolean prefsGMXsender;
 	/** Preferences: default prefix. */
 	public static String prefsDefPrefix;
 	/** Preferences: ready? */
@@ -114,6 +115,9 @@ public class AndGMXsms extends Activity {
 	private static final int MENU_SEND = 1;
 	/** Menu: cancel. */
 	private static final int MENU_CANCEL = 2;
+
+	/** Max Buffer size. */
+	private static final int MAX_BUFSIZE = 4096;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -309,14 +313,6 @@ public class AndGMXsms extends Activity {
 			}
 		} else {
 			prefsReady = true;
-		}
-
-		if (prefsGMXsender) {
-			if (prefsSender.length() < PREFIX_LEN) {
-				prefsDefPrefix = prefsSender;
-			} else {
-				prefsDefPrefix = prefsSender.substring(0, PREFIX_LEN);
-			}
 		}
 
 		// enable/disable buttons
@@ -731,5 +727,71 @@ public class AndGMXsms extends Activity {
 			final Object data) {
 		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
 				.sendToTarget();
+	}
+
+	/**
+	 * Save Message to internal database.
+	 * 
+	 * @param reciepients
+	 *            reciepients. first entry is skipped!
+	 * @param text
+	 *            text of message.
+	 */
+	public static final void saveMessage(final String[] reciepients,
+			final String text) {
+		for (int i = 1; i < reciepients.length; i++) {
+			if (reciepients[i] == null || reciepients[i].length() == 0) {
+				continue; // skip empty recipients
+			}
+			// save sms to content://sms/sent
+			ContentValues values = new ContentValues();
+			values.put(ConnectorGMX.ADDRESS, reciepients[i]);
+			// values.put(DATE, "1237080365055");
+			values.put(ConnectorGMX.READ, 1);
+			// values.put(STATUS, -1);
+			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
+			values.put(ConnectorGMX.BODY, text);
+			// Uri inserted =
+			AndGMXsms.me.getContentResolver().insert(
+					Uri.parse("content://sms/sent"), values);
+		}
+	}
+
+	/**
+	 * Read in data from Stream into String.
+	 * @param is stream
+	 * @param length length to read
+	 * @return String
+	 */
+	public static final String stream2String(final InputStream is,
+			final int length) {
+		// read received data
+		final int bufsize = length;
+		StringBuilder data = null;
+		if (bufsize > 0) {
+			data = new StringBuilder();
+			byte[] buf;
+			if (bufsize > MAX_BUFSIZE) {
+				buf = new byte[MAX_BUFSIZE];
+			} else {
+				buf = new byte[bufsize];
+			}
+			try {
+				int read = is.read(buf, 0, buf.length);
+				int count = read;
+				while (read > 0) {
+					data.append(new String(buf, 0, read, "ASCII"));
+					read = is.read(buf, 0, buf.length);
+					count += read;
+				}
+				buf = null;
+				is.close();
+			} catch (Exception e) {
+				// nothing to do
+			}
+			return data.toString();
+		} else {
+			return "";
+		}
 	}
 }

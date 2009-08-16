@@ -35,21 +35,21 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	private static final int MAX_BUFSIZE = 4096;
 
 	/** SMS DB: address. */
-	private static final String ADDRESS = "address";
+	public static final String ADDRESS = "address";
 	/** SMS DB: person. */
 	// private static final String PERSON = "person";
 	/** SMS DB: date. */
 	// private static final String DATE = "date";
 	/** SMS DB: read. */
-	private static final String READ = "read";
+	public static final String READ = "read";
 	/** SMS DB: status. */
 	// private static final String STATUS = "status";
 	/** SMS DB: type. */
-	private static final String TYPE = "type";
+	public static final String TYPE = "type";
 	/** SMS DB: body. */
-	private static final String BODY = "body";
+	public static final String BODY = "body";
 	/** SMS DB: type - sent. */
-	private static final int MESSAGE_TYPE_SENT = 2;
+	public static final int MESSAGE_TYPE_SENT = 2;
 
 	/** ID of text in array. */
 	public static final int ID_TEXT = 0;
@@ -204,27 +204,9 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
-			StringBuilder data = null;
 			if (bufsize > 0) {
-				data = new StringBuilder();
-				InputStream is = c.getInputStream();
-				byte[] buf;
-				if (bufsize > MAX_BUFSIZE) {
-					buf = new byte[MAX_BUFSIZE];
-				} else {
-					buf = new byte[bufsize];
-				}
-				int read = is.read(buf, 0, buf.length);
-				int count = read;
-				while (read > 0) {
-					data.append(new String(buf, 0, read, "ASCII"));
-					read = is.read(buf, 0, buf.length);
-					count += read;
-				}
-				buf = null;
-				is.close();
-				is = null;
-				String resultString = data.toString();
+				String resultString = AndGMXsms.stream2String(c
+						.getInputStream(), bufsize);
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 
@@ -266,10 +248,6 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
 						AndGMXsms.prefsUser = p;
-						if (AndGMXsms.prefsGMXsender) {
-							AndGMXsms.prefsSender = this.getParam(outp,
-									"cell_phone");
-						}
 						if (this.pw != null) {
 							AndGMXsms.prefsPasswordGMX = this.pw;
 						}
@@ -364,23 +342,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 		} else {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
-
-			for (int i = 1; i < this.to.length; i++) {
-				if (this.to[i] == null || this.to[i].length() == 0) {
-					continue; // skip empty recipients
-				}
-				// save sms to content://sms/sent
-				ContentValues values = new ContentValues();
-				values.put(ADDRESS, this.to[i]);
-				// values.put(DATE, "1237080365055");
-				values.put(READ, 1);
-				// values.put(STATUS, -1);
-				values.put(TYPE, MESSAGE_TYPE_SENT);
-				values.put(BODY, this.text);
-				// Uri inserted =
-				AndGMXsms.me.getContentResolver().insert(
-						Uri.parse("content://sms/sent"), values);
-			}
+			AndGMXsms.saveMessage(this.to, this.text);
 			return true;
 		}
 	}

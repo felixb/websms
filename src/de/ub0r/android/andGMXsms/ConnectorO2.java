@@ -1,14 +1,17 @@
 package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import com.sonalb.net.http.cookie.Client;
+import com.sonalb.net.http.cookie.CookieJar;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 /**
@@ -18,10 +21,16 @@ import android.os.AsyncTask;
  */
 public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** Target host. */
-	private static final String TARGET_HOST = "app0.wr-gmbh.de";
+	private static final String TARGET_HOST = "login.o2online.de";
 	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
 	/** Target path on host. */
-	private static final String TARGET_PATH = "/WRServer/WRServer.dll/WR";
+	private static final String TARGET_PATH = "https://login.o2online.de"
+			+ "/loginRegistration/loginAction" + ".do?_flowId="
+			+ "login&o2_type=asp&o2_label=login/co"
+			+ "mcenter-login&scheme=http&" + "port=80&server=email."
+			+ "o2online.de&url=%2Fssomanager.osp%3FAPIID" + "%3DAUT"
+			+ "H-WEBSSO%26TargetApp%3D%2Fsms_new.osp%3F%26o2_type%3" + "Durl"
+			+ "%26o2_label%3Dweb2sms-o2online";
 	/** Target mime encoding. */
 	private static final String TARGET_ENCODING = "wr-cs";
 	/** Target mime type. */
@@ -51,19 +60,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** SMS DB: type - sent. */
 	private static final int MESSAGE_TYPE_SENT = 2;
 
-	/** ID of text in array. */
-	public static final int ID_TEXT = 0;
-	/** ID of recipient in array. */
-	public static final int ID_TO = 1;
-
-	/** ID of mail in array. */
-	public static final int ID_MAIL = 0;
-	/** ID of password in array. */
-	public static final int ID_PW = 1;
-
-	/** Number of IDs in array for sms send. */
-	public static final int IDS_SEND = 3;
-
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
 
@@ -74,38 +70,182 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** text. */
 	private String text;
 
-	/** mail. */
-	private String mail;
-	/** password. */
-	private String pw;
+	/**
+	 * Read in Cookies from returned HttpURLConnection.
+	 * 
+	 * @param c
+	 *            connection
+	 * @param cookies
+	 *            old cookies
+	 * @return cookies as a string
+	 */
+	private String getCookies(final HttpURLConnection c, final String cookies) {
+		String ret = "";
+		String s;
+		for (int i = 0; c.getHeaderField(i) != null; i++) {
+			if (c.getHeaderFieldKey(i) != null) {
+				if (c.getHeaderFieldKey(i).equalsIgnoreCase("set-cookie")) {
+					s = c.getHeaderField(i);
+					if (s.indexOf(';') > 0) {
+						s = s.substring(0, s.indexOf(';')) + ";";
+					} else {
+						s = s + ";";
+					}
+					ret += s;
+				}
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * Extract _flowExecutionKey from HTML output.
+	 * 
+	 * @param html
+	 *            input
+	 * @return _flowExecutionKey
+	 */
+	private String getFlowExecutionkey(final String html) {
+		String ret = null;
+		int i = html.indexOf("name=\"_flowExecutionKey\" value=\"");
+		if (i > 0) {
+			int j = html.indexOf("\"", i + 35);
+			if (j >= 0) {
+				ret = html.substring(i + 32, j);
+			}
+		}
+		return ret;
+	}
 
 	/**
 	 * Send data.
 	 * 
-	 * @param packetData
-	 *            packetData
 	 * @return successful?
 	 */
-	private boolean sendData(final StringBuilder packetData) {
-		/*
-		try {
-			// get Connection
-			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST + TARGET_PATH)).openConnection();
+	private boolean sendData() {
+		try { // get Connection
+			Client client = new Client();
+			String url = "https://login.o2online.de"
+					+ "/loginRegistration/loginAction.do?_flowId="
+					+ "login&o2_type=asp&o2_label=login/co"
+					+ "mcenter-login&scheme=http&" + "port=80&server=email."
+					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID" + "%3DAUT"
+					+ "H-WEBSSO%26TargetApp%3D%2Fsms_new.osp%3F%26o2_type%3"
+					+ "Durl" + "%26o2_label%3Dweb2sms-o2online";
+			HttpURLConnection c = (HttpURLConnection) (new URL(url))
+					.openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
-			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
-			c.setRequestProperty("Content-Type", TARGET_CONTENT);
+			int resp = c.getResponseCode();
+			if (resp != HttpURLConnection.HTTP_OK) {
+				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				// .getResources().getString(
+				// R.string.log_error_http + resp));
+				return false;
+			}
+			CookieJar cj = client.getCookies(c);
+			String htmlText = AndGMXsms.stream2String(c.getInputStream(), c
+					.getHeaderFieldInt("Content-Length", -1));
+			String flowExecutionKey = getFlowExecutionkey(htmlText);
+
+			url = "https://login.o2online.de/loginRegistration/loginAction.do";
+			c = (HttpURLConnection) (new URL(url)).openConnection();
+			// set prefs
+			c.setRequestProperty("User-Agent", TARGET_AGENT);
+			client.setCookies(c, cj);
+			c.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
 			c.setRequestMethod("POST");
 			c.setDoOutput(true);
 			// push post data
 			OutputStream os = c.getOutputStream();
-			os.write(packetData.toString().getBytes("ISO-8859-1"));
+			os
+					.write(("_flowExecutionKey="
+							+ URLEncoder.encode(flowExecutionKey)
+							+ "&loginName="
+							+ URLEncoder.encode("0"
+									+ AndGMXsms.prefsSender.substring(3))
+							+ "&password="
+							+ URLEncoder.encode(AndGMXsms.prefsPasswordO2) + "&_eventId=login")
+							.getBytes("ISO-8859-1"));
 			os.close();
 			os = null;
+			c.connect();
+			resp = c.getResponseCode();
+			if (resp != HttpURLConnection.HTTP_OK) {
+				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				// .getResources().getString(
+				// R.string.log_error_http + resp));
+				return false;
+			}
+			cj.addAll(client.getCookies(c));
+			htmlText = AndGMXsms.stream2String(c.getInputStream(), c
+					.getHeaderFieldInt("Content-Length", -1));
+
+			// url =
+			// "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
+			// +
+			// "TargetApp=/smscenter_new.osp%3FAutocompletion%3D1%26SID%3D76254760_akfokdox%26MsgContentID%2520%3D%2520-1%26REF%3D1250431146"
+			// ;
+			url = "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
+					+ "TargetApp=/sms_new.osp%3f&o2_type=url&o2_label=web2sms-o2online";
+			// url =
+			// "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
+			// +
+			// "TargetApp=/smscenter_new.osp%3f&o2_type=url&o2_label=web2sms-o2online"
+			// ;
+			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&"
+					+ "TargetApp=/sms_new.osp?&o2_type=url&o2_label=web2sms-o2online";
+			c = (HttpURLConnection) (new URL(url)).openConnection();
+			c.setRequestProperty("User-Agent", TARGET_AGENT);
+			client.setCookies(c, cj);
+			resp = c.getResponseCode();
+			if (resp != HttpURLConnection.HTTP_OK) {
+				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				// .getResources().getString(
+				// R.string.log_error_http + resp));
+				return false;
+			}
+			cj.addAll(client.getCookies(c));
+			htmlText = AndGMXsms.stream2String(c.getInputStream(), c
+					.getHeaderFieldInt("Content-Length", -1));
+			/*
+			 * if (cookies.equalsIgnoreCase(oldCookies)) { AndGMXsms
+			 * .sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+			 * .getResources().getString( R.string.log_error_pw + resp)); return
+			 * false; }
+			 */
+			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
+			c = (HttpURLConnection) (new URL(url)).openConnection();
+			c.setRequestProperty("User-Agent", TARGET_AGENT);
+			resp = c.getResponseCode();
+			if (resp != HttpURLConnection.HTTP_OK) {
+				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				// .getResources().getString(
+				// R.string.log_error_http + resp));
+				return false;
+			}
+			cj.addAll(client.getCookies(c));
+			htmlText = AndGMXsms.stream2String(c.getInputStream(), c
+					.getHeaderFieldInt("Content-Length", -1));
+			/*
+			 * url = "https://email.o2online.de/smscenter_send.osp"; c =
+			 * (HttpURLConnection) (new URL(url)).openConnection();
+			 * c.setRequestProperty("User-Agent", TARGET_AGENT);
+			 * client.setCookies(c, cj); resp = c.getResponseCode(); if (resp !=
+			 * HttpURLConnection.HTTP_OK) { //
+			 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me //
+			 * .getResources().getString( // R.string.log_error_http + resp));
+			 * return false; } cj.addAll(client.getCookies(c));
+			 */htmlText = AndGMXsms.stream2String(c.getInputStream(), c
+					.getHeaderFieldInt("Content-Length", -1));
+			System.out.println(htmlText);
+			System.out.println(cj);
+
+			if (1 == 1) return false;
 
 			// send data
-			int resp = c.getResponseCode();
+			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(
@@ -113,29 +253,10 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
-			StringBuilder data = null;
 			if (bufsize > 0) {
-				data = new StringBuilder();
-				InputStream is = c.getInputStream();
-				byte[] buf;
-				if (bufsize > MAX_BUFSIZE) {
-					buf = new byte[MAX_BUFSIZE];
-				} else {
-					buf = new byte[bufsize];
-				}
-				int read = is.read(buf, 0, buf.length);
-				int count = read;
-				while (read > 0) {
-					data.append(new String(buf, 0, read, "ASCII"));
-					read = is.read(buf, 0, buf.length);
-					count += read;
-				}
-				buf = null;
-				is.close();
-				is = null;
-				String resultString = data.toString();
-				if (resultString.startsWith("The truth")) {
-					// wrong data sent!
+				String resultString = AndGMXsms.stream2String(c
+						.getInputStream(), bufsize);
+				if (resultString.startsWith("The truth")) { // wrong data sent!
 
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources()
@@ -144,80 +265,53 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					return false;
 				}
 
-				// strip packet
-				int resultIndex = resultString.indexOf("rslt=");
-				String outp = resultString.substring(resultIndex).replace(
-						"\\p", "\n");
-				outp = outp.replace("</WR>", "");
-
-				// get result code
-				String resultValue = this.getParam(outp, "rslt");
-				int rslt;
-				try {
-					rslt = Integer.parseInt(resultValue);
-				} catch (Exception e) {
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
-					return false;
-				}
-				switch (rslt) {
-				case RSLT_OK: // ok
-					// fetch additional info
-					String p = this.getParam(outp, "free_rem_month");
-					if (p != null) {
-						AndGMXsms.smsGMXfree = Integer.parseInt(p);
-						p = this.getParam(outp, "free_max_month");
-						if (p != null) {
-							AndGMXsms.smsGMXlimit = Integer.parseInt(p);
-						}
-						AndGMXsms
-								.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
-					}
-					p = this.getParam(outp, "customer_id");
-					if (p != null) {
-						AndGMXsms.prefsUser = p;
-						if (AndGMXsms.prefsGMXsender) {
-							AndGMXsms.prefsSender = this.getParam(outp,
-									"cell_phone");
-						}
-						if (this.pw != null) {
-							AndGMXsms.prefsPasswordGMX = this.pw;
-						}
-						if (this.mail != null) {
-							AndGMXsms.prefsMail = this.mail;
-						}
-						AndGMXsms.me.savePreferences();
-						inBootstrap = false;
-						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
-								null);
-					}
-					return true;
-				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_pw));
-					return false;
-				case RSLT_WRONG_MAIL: // wrong mail/pw
-					inBootstrap = false;
-					AndGMXsms.prefsPasswordGMX = "";
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_mail));
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
-					return false;
-				default:
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#"
-							+ rslt);
-					return false;
-				}
+				/*
+				 * // strip packet int resultIndex =
+				 * resultString.indexOf("rslt="); String outp =
+				 * resultString.substring(resultIndex).replace( "\\p", "\n");
+				 * outp = outp.replace("</WR>", "");
+				 * 
+				 * // get result code String resultValue = this.getParam(outp,
+				 * // "rslt"); int rslt; try { rslt =
+				 * Integer.parseInt(resultValue); } catch (Exception e) {
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+				 * return false; } switch (rslt) { case RSLT_OK: // ok // fetch
+				 * additional info String p = this.getParam(outp,
+				 * "free_rem_month"); if (p != null) { AndGMXsms.smsGMXfree =
+				 * Integer.parseInt(p); p = this.getParam(outp,
+				 * "free_max_month"); if (p != null) { AndGMXsms.smsGMXlimit =
+				 * Integer.parseInt(p); } AndGMXsms
+				 * .sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null); } p =
+				 * this.getParam(outp, "customer_id"); if (p != null) {
+				 * AndGMXsms.prefsUser = p; if (AndGMXsms.prefsGMXsender) {
+				 * AndGMXsms.prefsSender = this.getParam(outp, "cell_phone"); }
+				 * if (this.pw != null) { AndGMXsms.prefsPasswordGMX = this.pw;
+				 * } if (this.mail != null) { AndGMXsms.prefsMail = this.mail; }
+				 * AndGMXsms.me.savePreferences(); inBootstrap = false;
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null); }
+				 * return true; case RSLT_WRONG_CUSTOMER: // wrong user/pw
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				 * .getResources().getString(R.string.log_error_pw)); return
+				 * false; case RSLT_WRONG_MAIL: // wrong mail/pw inBootstrap =
+				 * false; AndGMXsms.prefsPasswordGMX = "";
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+				 * .getResources().getString(R.string.log_error_mail));
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
+				 * return false; default:
+				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#" +
+				 * rslt); return false; }
+				 */
 			} else {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(
 								R.string.log_http_header_missing));
 				return false;
 			}
+
 		} catch (IOException e) {
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
-		*/
 		return false;
 	}
 
@@ -227,9 +321,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * @return ok?
 	 */
 	private boolean getFree() {
-		//return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
-		//		true)));
-		return false;
+		return this.sendData();
 	}
 
 	/**
@@ -239,9 +331,9 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean send() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
-		//StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
+		// StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
-		//writePair(packetData, "sms_text", this.text);
+		// writePair(packetData, "sms_text", this.text);
 		StringBuilder recipients = new StringBuilder();
 		// table: <id>, <name>, <number>
 		int j = 0;
@@ -263,37 +355,21 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
 				+ recipients.toString();
 		recipients = null;
-		
-		
+
 		// if date!='': data['send_date'] = date
 		// push data
-		//if (!this.sendData(closeBuffer(packetData))) {
-		//	// failed!
-		//	AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-		//			.getResources().getString(R.string.log_error));
-		//	return false;
-		//} else {
+		// if (!this.sendData(closeBuffer(packetData))) {
+		if (!this.sendData()) {
+			// // failed!
+			// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+			// .getResources().getString(R.string.log_error));
+			return false;
+		} else {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
-
-			for (int i = 1; i < this.to.length; i++) {
-				if (this.to[i] == null || this.to[i].length() == 0) {
-					continue; // skip empty recipients
-				}
-				// save sms to content://sms/sent
-				ContentValues values = new ContentValues();
-				values.put(ADDRESS, this.to[i]);
-				// values.put(DATE, "1237080365055");
-				values.put(READ, 1);
-				// values.put(STATUS, -1);
-				values.put(TYPE, MESSAGE_TYPE_SENT);
-				values.put(BODY, this.text);
-				// Uri inserted =
-				AndGMXsms.me.getContentResolver().insert(
-						Uri.parse("content://sms/sent"), values);
-			}
+			AndGMXsms.saveMessage(this.to, this.text);
 			return true;
-		//}
+		}
 	}
 
 	/**
@@ -310,7 +386,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			this.publishProgress((Boolean) null);
 			ret = this.getFree();
 		} else {
-			this.text = textTo[ID_TEXT];
+			this.text = textTo[ConnectorGMX.ID_TEXT];
 			this.to = textTo;
 			this.publishProgress((Boolean) null);
 			ret = this.send();
@@ -334,17 +410,10 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			}
 		}
 		if (this.to == null) {
-			if (this.mail == null) {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.log_update);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			} else {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.bootstrap_);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			}
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_update);
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
 		} else {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.log_sending);
