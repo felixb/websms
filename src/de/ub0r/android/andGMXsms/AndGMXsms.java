@@ -1,6 +1,9 @@
 package de.ub0r.android.andGMXsms;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -762,39 +765,20 @@ public class AndGMXsms extends Activity {
 	 * 
 	 * @param is
 	 *            stream
-	 * @param length
-	 *            length to read
 	 * @return String
+	 * @throws IOException
+	 *             IOException
 	 */
-	public static final String stream2String(final InputStream is,
-			final int length) {
-		// read received data
-		final int bufsize = length;
-		StringBuilder data = null;
-		if (bufsize > 0) {
-			data = new StringBuilder();
-			byte[] buf;
-			if (bufsize > MAX_BUFSIZE) {
-				buf = new byte[MAX_BUFSIZE];
-			} else {
-				buf = new byte[bufsize];
-			}
-			try {
-				int read = is.read(buf, 0, buf.length);
-				int count = read;
-				while (read > 0) {
-					data.append(new String(buf, 0, read, "ASCII"));
-					read = is.read(buf, 0, buf.length);
-					count += read;
-				}
-				buf = null;
-				is.close();
-			} catch (Exception e) {
-				// nothing to do
-			}
-			return data.toString();
-		} else {
-			return "";
+	public static final String stream2String(final InputStream is)
+			throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(is));
+		StringBuilder data = new StringBuilder();
+		String line = null;
+		while ((line = bufferedReader.readLine()) != null) {
+			data.append(line + "\n");
 		}
+		bufferedReader.close();
+		return data.toString();
 	}
 }

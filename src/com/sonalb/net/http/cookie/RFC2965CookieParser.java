@@ -35,7 +35,7 @@ public class RFC2965CookieParser implements CookieParser {
 				.getVersionCookies("0"));
 
 		Header headers = new Header();
-		//headers.add("Cookie2", "1");
+		// headers.add("Cookie2", "1");
 
 		StringBuilder sb;
 		boolean bFirstElement;
@@ -527,43 +527,27 @@ public class RFC2965CookieParser implements CookieParser {
 
 		StringBuilder sb = new StringBuilder();
 
-		//if ("0".equals(c.getVersion())) {
-			sb.append(c.getName());
-			sb.append("=");
-			sb.append(c.getValue());
-		/*} else {
-			if (bIncludeVersion) {
-				sb.append("$Version=");
-				sb.append(c.getVersion());
-				sb.append(";");
-			}
-
-			sb.append(c.getName());
-			sb.append("=");
-			sb.append("\"");
-			sb.append(c.getValue());
-			sb.append("\"");
-
-			if (c.explicitPath()) {
-				sb.append(";$Path=");
-				sb.append(c.getPath());
-			}
-
-			if (c.explicitDomain()) {
-				sb.append(";$Domain=");
-				sb.append(c.getDomain());
-			}
-
-			if (c.explicitPort()) {
-				sb.append(";$Port");
-				if (c.portListSpecified()) {
-					sb.append("=\"");
-					sb.append(c.getPortList());
-					sb.append("\"");
-				}
-			}
-		}
-		*/
+		// if ("0".equals(c.getVersion())) {
+		sb.append(c.getName());
+		sb.append("=");
+		sb.append(c.getValue());
+		/*
+		 * } else { if (bIncludeVersion) { sb.append("$Version=");
+		 * sb.append(c.getVersion()); sb.append(";"); }
+		 * 
+		 * sb.append(c.getName()); sb.append("="); sb.append("\"");
+		 * sb.append(c.getValue()); sb.append("\"");
+		 * 
+		 * if (c.explicitPath()) { sb.append(";$Path="); sb.append(c.getPath());
+		 * }
+		 * 
+		 * if (c.explicitDomain()) { sb.append(";$Domain=");
+		 * sb.append(c.getDomain()); }
+		 * 
+		 * if (c.explicitPort()) { sb.append(";$Port"); if
+		 * (c.portListSpecified()) { sb.append("=\"");
+		 * sb.append(c.getPortList()); sb.append("\""); } } }
+		 */
 		return (sb.toString());
 	}
 

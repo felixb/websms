@@ -203,7 +203,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
 				String resultString = AndGMXsms.stream2String(c
-						.getInputStream(), bufsize);
+						.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 

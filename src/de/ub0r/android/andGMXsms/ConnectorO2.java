@@ -1,7 +1,7 @@
 package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -52,33 +52,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** text. */
 	private String text;
 
-	/**
-	 * Read in Cookies from returned HttpURLConnection.
-	 * 
-	 * @param c
-	 *            connection
-	 * @param cookies
-	 *            old cookies
-	 * @return cookies as a string
-	 */
-	private String getCookies(final HttpURLConnection c, final String cookies) {
-		String ret = "";
-		String s;
-		for (int i = 0; c.getHeaderField(i) != null; i++) {
-			if (c.getHeaderFieldKey(i) != null) {
-				if (c.getHeaderFieldKey(i).equalsIgnoreCase("set-cookie")) {
-					s = c.getHeaderField(i);
-					if (s.indexOf(';') > 0) {
-						s = s.substring(0, s.indexOf(';')) + ";";
-					} else {
-						s = s + ";";
-					}
-					ret += s;
-				}
-			}
-		}
-		return ret;
-	}
+	/** Cookies Client. */
+	private Client client = new Client();
 
 	/**
 	 * Extract _flowExecutionKey from HTML output.
@@ -100,13 +75,49 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Get a fresh HTTP-Connection.
+	 * 
+	 * @param url
+	 *            url to open
+	 * @param cookies
+	 *            cookies to transmit
+	 * @param post
+	 *            post data?
+	 * @return the connection
+	 * @throws IOException
+	 *             IOException
+	 */
+	private HttpURLConnection getConnection(final String url,
+			final CookieJar cookies, final boolean post) throws IOException {
+		HttpURLConnection c = (HttpURLConnection) (new URL(url))
+				.openConnection();
+		c.setRequestProperty("User-Agent", TARGET_AGENT);
+		c.setRequestProperty("Accept", TARGET_ACCEPT);
+		c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
+		c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
+		c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
+		c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
+		c.setAllowUserInteraction(false);
+		c.setUseCaches(false);
+		if (cookies != null) {
+			this.client.setCookies(c, cookies);
+		}
+		if (post) {
+			c.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
+			c.setRequestMethod("POST");
+			c.setDoOutput(true);
+		}
+		return c;
+	}
+
+	/**
 	 * Send data.
 	 * 
 	 * @return successful?
 	 */
 	private boolean sendData() {
 		try { // get Connection
-			Client client = new Client();
 			String url = "https://login.o2online.de"
 					+ "/loginRegistration/loginAction.do?_flowId="
 					+ "login&o2_type=asp&o2_label=login/co"
@@ -114,16 +125,13 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID" + "%3DAUT"
 					+ "H-WEBSSO%26TargetApp%3D%2Fsms_new.osp%3F%26o2_type%3"
 					+ "Durl" + "%26o2_label%3Dweb2sms-o2online";
-			HttpURLConnection c = (HttpURLConnection) (new URL(url))
-					.openConnection();
-			// set prefs
-			c.setRequestProperty("User-Agent", TARGET_AGENT);
-			c.setRequestProperty("Accept", TARGET_ACCEPT);
-			c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
-			c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
-			c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
-			c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
-			c.setUseCaches(false);
+			url = "https://login.o2online.de/loginRegistration/loginAction.do"
+					+ "?_flowId=login&o2_type=asp&o2_label=login/"
+					+ "comcenter-login&scheme=http&port=80&server=email."
+					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID%3DAUTH"
+					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
+					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
+			HttpURLConnection c = this.getConnection(url, null, false);
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -131,41 +139,27 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			CookieJar cj = client.getCookies(c);
-			String htmlText = AndGMXsms.stream2String(c.getInputStream(), c
-					.getHeaderFieldInt("Content-Length", -1));
+			CookieJar cj = this.client.getCookies(c);
+			String htmlText = AndGMXsms.stream2String(c.getInputStream());
 			String flowExecutionKey = this.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
 			url = "https://login.o2online.de/loginRegistration/loginAction.do";
-			c = (HttpURLConnection) (new URL(url)).openConnection();
-			// set prefs
-			c.setRequestProperty("User-Agent", TARGET_AGENT);
-			c.setRequestProperty("Accept", TARGET_ACCEPT);
-			c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
-			c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
-			c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
-			c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
-			c.setUseCaches(false);
-			client.setCookies(c, cj);
-			c.setRequestProperty("cookie2", "");
-			c.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
-			c.setRequestMethod("POST");
-			c.setDoOutput(true);
+			c = this.getConnection(url, cj, true);
+
 			// push post data
-			OutputStream os = c.getOutputStream();
-			os
-					.write(("_flowExecutionKey="
-							+ URLEncoder.encode(flowExecutionKey)
-							+ "&loginName="
-							+ URLEncoder.encode("0"
-									+ AndGMXsms.prefsSender.substring(3))
-							+ "&password="
-							+ URLEncoder.encode(AndGMXsms.prefsPasswordO2) + "&_eventId=login")
-							.getBytes("ISO-8859-1"));
-			os.close();
-			os = null;
+			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
+			wr.write("_flowExecutionKey="
+					+ URLEncoder.encode(flowExecutionKey)
+					+ "&loginName="
+					+ URLEncoder.encode("0"
+							+ AndGMXsms.prefsSender.substring(3))
+					+ "&password="
+					+ URLEncoder.encode(AndGMXsms.prefsPasswordO2)
+					+ "&_eventId=login");
+			wr.flush();
+			wr.close();
+			wr = null;
 			System.gc();
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -174,8 +168,10 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(client.getCookies(c));
-
+			cj.addAll(this.client.getCookies(c));
+			htmlText = AndGMXsms.stream2String(c.getInputStream());
+			System.out.println(htmlText);
+			System.out.println(cj);
 			// url =
 			// "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
 			// +
@@ -190,16 +186,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			// ;
 			url = "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
 					+ "TargetApp=/sms_new.osp?&o2_type=url&o2_label=web2sms-o2online";
-			c = (HttpURLConnection) (new URL(url)).openConnection();
-			c.setRequestProperty("User-Agent", TARGET_AGENT);
-			c.setRequestProperty("Accept", TARGET_ACCEPT);
-			c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
-			c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
-			c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
-			c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
-			c.setUseCaches(false);
-			client.setCookies(c, cj);
-			c.setRequestProperty("cookie2", "");
+			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp?&o2_type=url&o2_label=web2sms-o2online";
+			c = this.getConnection(url, cj, false);
 			System.gc();
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -208,7 +196,10 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(client.getCookies(c));
+			cj.addAll(this.client.getCookies(c));
+			htmlText = AndGMXsms.stream2String(c.getInputStream());
+			System.out.println(htmlText);
+			System.out.println(cj);
 			/*
 			 * if (cookies.equalsIgnoreCase(oldCookies)) { AndGMXsms
 			 * .sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -216,16 +207,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			 * false; }
 			 */
 			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
-			c = (HttpURLConnection) (new URL(url)).openConnection();
-			c.setRequestProperty("User-Agent", TARGET_AGENT);
-			c.setRequestProperty("Accept", TARGET_ACCEPT);
-			c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
-			c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
-			c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
-			c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
-			c.setUseCaches(false);
-			client.setCookies(c, cj);
-			c.setRequestProperty("cookie2", "");
+			c = this.getConnection(url, cj, false);
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -233,7 +215,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(client.getCookies(c));
+			cj.addAll(this.client.getCookies(c));
 			/*
 			 * url = "https://email.o2online.de/smscenter_send.osp"; c =
 			 * (HttpURLConnection) (new URL(url)).openConnection();
@@ -243,8 +225,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me //
 			 * .getResources().getString( // R.string.log_error_http + resp));
 			 * return false; } cj.addAll(client.getCookies(c));
-			 */htmlText = AndGMXsms.stream2String(c.getInputStream(), c
-					.getHeaderFieldInt("Content-Length", -1));
+			 */htmlText = AndGMXsms.stream2String(c.getInputStream());
 			System.out.println(htmlText);
 			System.out.println(cj);
 
@@ -263,7 +244,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
 				String resultString = AndGMXsms.stream2String(c
-						.getInputStream(), bufsize);
+						.getInputStream());
 				if (resultString.startsWith("The truth")) { // wrong data sent!
 
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
