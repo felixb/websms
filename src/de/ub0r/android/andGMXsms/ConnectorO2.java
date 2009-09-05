@@ -1,15 +1,10 @@
 package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -19,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieOrigin;
 import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -28,10 +24,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-
-import com.sonalb.net.http.cookie.Client;
-import com.sonalb.net.http.cookie.Cookie;
-import com.sonalb.net.http.cookie.CookieJar;
 
 /**
  * AsyncTask to manage IO to O2 API.
@@ -73,9 +65,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	/** text. */
 	private String text;
 
-	/** Cookies Client. */
-	private Client client = new Client();
-
 	/**
 	 * Extract _flowExecutionKey from HTML output.
 	 * 
@@ -102,43 +91,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 *            url to open
 	 * @param cookies
 	 *            cookies to transmit
-	 * @param post
-	 *            post data?
-	 * @return the connection
-	 * @throws IOException
-	 *             IOException
-	 */
-	private HttpURLConnection getConnection(final String url,
-			final CookieJar cookies, final boolean post) throws IOException {
-		HttpURLConnection c = (HttpURLConnection) (new URL(url))
-				.openConnection();
-		c.setRequestProperty("User-Agent", TARGET_AGENT);
-		c.setRequestProperty("Accept", TARGET_ACCEPT);
-		c.setRequestProperty("Accept-Language", TARGET_ACCEPT_LANGUAGE);
-		c.setRequestProperty("Accept-Encoding", TARGET_ACCEPT_ENCODING);
-		c.setRequestProperty("Accept-Charset", TARGET_ACCEPT_CHARSET);
-		c.setRequestProperty("Keep-Alive", TARGET_KEEP_ALIVE);
-		c.setAllowUserInteraction(false);
-		c.setUseCaches(false);
-		if (cookies != null) {
-			this.client.setCookies(c, cookies);
-		}
-		if (post) {
-			c.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
-			c.setRequestMethod("POST");
-			c.setDoOutput(true);
-		}
-		return c;
-	}
-
-	/**
-	 * Get a fresh HTTP-Connection.
-	 * 
-	 * @param url
-	 *            url to open
-	 * @param cookies
-	 *            cookies to transmit
 	 * @param postData
 	 *            post data
 	 * @return the connection
@@ -146,7 +98,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * @throws ClientProtocolException
 	 */
 	private HttpResponse getHttpClient(final String url,
-			final ArrayList<org.apache.http.cookie.Cookie> cookies,
+			final ArrayList<Cookie> cookies,
 			final ArrayList<BasicNameValuePair> postData)
 			throws ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();
@@ -183,10 +135,9 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * @throws MalformedCookieException
 	 *             malformed cookie
 	 */
-	private void updateCookies(
-			final ArrayList<org.apache.http.cookie.Cookie> cookies,
-			Header[] headers, final String url) throws URISyntaxException,
-			MalformedCookieException {
+	private void updateCookies(final ArrayList<Cookie> cookies,
+			final Header[] headers, final String url)
+			throws URISyntaxException, MalformedCookieException {
 		final URI uri = new URI(url);
 		int port = uri.getPort();
 		if (port < 0) {
@@ -200,15 +151,14 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				.getPath(), false);
 		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
 		for (Header header : headers) {
-			for (org.apache.http.cookie.Cookie cookie : cookieSpecBase.parse(
-					header, origin)) {
+			for (Cookie cookie : cookieSpecBase.parse(header, origin)) {
 				// THE cookie
 				String name = cookie.getName();
 				String value = cookie.getValue();
 				if (value == null || value.equals("")) {
 					continue;
 				}
-				for (org.apache.http.cookie.Cookie c : cookies) {
+				for (Cookie c : cookies) {
 					if (name.equals(c.getName())) {
 						cookies.remove(c);
 						cookies.add(cookie);
@@ -245,7 +195,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			this.updateCookies(cookies, response.getAllHeaders(), url);
 			String htmlText = AndGMXsms.stream2String(response.getEntity()
 					.getContent());
 			String flowExecutionKey = this.getFlowExecutionkey(htmlText);
@@ -272,7 +222,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			this.updateCookies(cookies, response.getAllHeaders(), url);
 
 			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp?&o2_type=url&o2_label=web2sms-o2online";
 			response = this.getHttpClient(url, cookies, null);
@@ -284,7 +234,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			this.updateCookies(cookies, response.getAllHeaders(), url);
 
 			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
 			response = this.getHttpClient(url, cookies, null);
@@ -295,7 +245,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			this.updateCookies(cookies, response.getAllHeaders(), url);
 			htmlText = AndGMXsms.stream2String(response.getEntity()
 					.getContent());
 			int i = htmlText.indexOf("Frei-SMS: ");
