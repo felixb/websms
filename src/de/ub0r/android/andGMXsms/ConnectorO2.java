@@ -2,14 +2,32 @@ package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.cookie.CookieOrigin;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.cookie.BrowserCompatSpec;
+import org.apache.http.impl.cookie.CookieSpecBase;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.sonalb.net.http.cookie.Client;
+import com.sonalb.net.http.cookie.Cookie;
 import com.sonalb.net.http.cookie.CookieJar;
 
 /**
@@ -109,6 +127,72 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			c.setDoOutput(true);
 		}
 		return c;
+	}
+
+	/**
+	 * Get a fresh HTTP-Connection.
+	 * 
+	 * @param url
+	 *            url to open
+	 * @param cookies
+	 *            cookies to transmit
+	 * @param postData
+	 *            post data
+	 * @return the connection
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 */
+	private HttpResponse getHttpClient(final String url,
+			final ArrayList<org.apache.http.cookie.Cookie> cookies,
+			final ArrayList<BasicNameValuePair> postData)
+			throws ClientProtocolException, IOException {
+		HttpClient client = new DefaultHttpClient();
+		HttpRequestBase request;
+		if (postData == null) {
+			request = new HttpGet(url);
+		} else {
+			request = new HttpPost(url);
+			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
+		}
+		request.setHeader("User-Agent", TARGET_AGENT);
+
+		if (cookies != null) {
+			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
+			for (Header cookieHeader : cookieSpecBase.formatCookies(cookies)) {
+				// Setting the cookie
+				request.setHeader(cookieHeader);
+			}
+		}
+		return client.execute(request);
+	}
+
+	private void updateCookies(
+			final ArrayList<org.apache.http.cookie.Cookie> cookies,
+			Header[] headers) {
+		CookieOrigin origin = new CookieOrigin(host, port, path, false);
+		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
+		for (Header header : headers) {
+			for (org.apache.http.cookie.Cookie cookie : cookieSpecBase.parse(
+					header, origin)) {
+				// THE cookie
+				String name = cookie.getName();
+				String value = cookie.getValue();
+				if (value == null || value.equals("")) {
+					continue;
+				}
+				for (org.apache.http.cookie.Cookie c : cookies) {
+					if (name.equals(c.getName())) {
+						cookies.remove(c);
+						cookies.add(cookie);
+						name = null;
+						break;
+					}
+				}
+				if (name != null) {
+					cookies.add(cookie);
+				}
+			}
+		}
 	}
 
 	/**
