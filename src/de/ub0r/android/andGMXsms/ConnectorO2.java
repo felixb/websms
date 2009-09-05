@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.cookie.CookieOrigin;
+import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.CookieSpecBase;
@@ -139,8 +142,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * @param postData
 	 *            post data
 	 * @return the connection
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 */
 	private HttpResponse getHttpClient(final String url,
 			final ArrayList<org.apache.http.cookie.Cookie> cookies,
@@ -156,7 +159,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 		}
 		request.setHeader("User-Agent", TARGET_AGENT);
 
-		if (cookies != null) {
+		if (cookies != null && cookies.size() > 0) {
 			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
 			for (Header cookieHeader : cookieSpecBase.formatCookies(cookies)) {
 				// Setting the cookie
@@ -166,10 +169,35 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 		return client.execute(request);
 	}
 
+	/**
+	 * Update cookies from response.
+	 * 
+	 * @param cookies
+	 *            old cookie list
+	 * @param headers
+	 *            headers from response
+	 * @param url
+	 *            requested url
+	 * @throws URISyntaxException
+	 *             malformed uri
+	 * @throws MalformedCookieException
+	 *             malformed cookie
+	 */
 	private void updateCookies(
 			final ArrayList<org.apache.http.cookie.Cookie> cookies,
-			Header[] headers) {
-		CookieOrigin origin = new CookieOrigin(host, port, path, false);
+			Header[] headers, final String url) throws URISyntaxException,
+			MalformedCookieException {
+		final URI uri = new URI(url);
+		int port = uri.getPort();
+		if (port < 0) {
+			if (url.startsWith("https")) {
+				port = 443;
+			} else {
+				port = 80;
+			}
+		}
+		CookieOrigin origin = new CookieOrigin(uri.getHost(), port, uri
+				.getPath(), false);
 		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
 		for (Header header : headers) {
 			for (org.apache.http.cookie.Cookie cookie : cookieSpecBase.parse(
@@ -202,190 +230,112 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean sendData() {
 		try { // get Connection
-			String url = "https://login.o2online.de"
-					+ "/loginRegistration/loginAction.do?_flowId="
-					+ "login&o2_type=asp&o2_label=login/co"
-					+ "mcenter-login&scheme=http&" + "port=80&server=email."
-					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID" + "%3DAUT"
-					+ "H-WEBSSO%26TargetApp%3D%2Fsms_new.osp%3F%26o2_type%3"
-					+ "Durl" + "%26o2_label%3Dweb2sms-o2online";
-			url = "https://login.o2online.de/loginRegistration/loginAction.do"
+			String url = "https://login.o2online.de/loginRegistration/loginAction.do"
 					+ "?_flowId=login&o2_type=asp&o2_label=login/"
 					+ "comcenter-login&scheme=http&port=80&server=email."
 					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID%3DAUTH"
 					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
 					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
-			HttpURLConnection c = this.getConnection(url, null, false);
-			int resp = c.getResponseCode();
+			ArrayList<org.apache.http.cookie.Cookie> cookies = new ArrayList<org.apache.http.cookie.Cookie>();
+			HttpResponse response = this.getHttpClient(url, cookies, null);
+			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			CookieJar cj = this.client.getCookies(c);
-			String htmlText = AndGMXsms.stream2String(c.getInputStream());
+			updateCookies(cookies, response.getAllHeaders(), url);
+			String htmlText = AndGMXsms.stream2String(response.getEntity()
+					.getContent());
 			String flowExecutionKey = this.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
 			url = "https://login.o2online.de/loginRegistration/loginAction.do";
-			c = this.getConnection(url, cj, true);
-
-			// push post data
-			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
-			wr.write("_flowExecutionKey="
-					+ URLEncoder.encode(flowExecutionKey)
-					+ "&loginName="
-					+ URLEncoder.encode("0"
-							+ AndGMXsms.prefsSender.substring(3))
-					+ "&password="
-					+ URLEncoder.encode(AndGMXsms.prefsPasswordO2)
-					+ "&_eventId=login");
-			wr.flush();
-			wr.close();
-			wr = null;
+			// post data
+			ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
+					4);
+			postData.add(new BasicNameValuePair("_flowExecutionKey",
+					flowExecutionKey));
+			postData.add(new BasicNameValuePair("loginName", "0"
+					+ AndGMXsms.prefsSender.substring(3)));
+			postData.add(new BasicNameValuePair("password",
+					AndGMXsms.prefsPasswordO2));
+			postData.add(new BasicNameValuePair("_eventId", "login"));
+			response = this.getHttpClient(url, cookies, postData);
+			postData = null;
+			resp = response.getStatusLine().getStatusCode();
 			System.gc();
-			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(this.client.getCookies(c));
-			htmlText = AndGMXsms.stream2String(c.getInputStream());
-			System.out.println(htmlText);
-			System.out.println(cj);
-			// url =
-			// "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
-			// +
-			// "TargetApp=/smscenter_new.osp%3FAutocompletion%3D1%26SID%3D76254760_akfokdox%26MsgContentID%2520%3D%2520-1%26REF%3D1250431146"
-			// ;
-			url = "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
-					+ "TargetApp=/sms_new.osp%3f&o2_type=url&o2_label=web2sms-o2online";
-			// url =
-			// "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
-			// +
-			// "TargetApp=/smscenter_new.osp%3f&o2_type=url&o2_label=web2sms-o2online"
-			// ;
-			url = "https://email.o2online.de/ssomanager.osp?APIID=AUTH-WEBSSO&"
-					+ "TargetApp=/sms_new.osp?&o2_type=url&o2_label=web2sms-o2online";
+			updateCookies(cookies, response.getAllHeaders(), url);
+
 			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp?&o2_type=url&o2_label=web2sms-o2online";
-			c = this.getConnection(url, cj, false);
+			response = this.getHttpClient(url, cookies, null);
+			resp = response.getStatusLine().getStatusCode();
 			System.gc();
-			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(this.client.getCookies(c));
-			htmlText = AndGMXsms.stream2String(c.getInputStream());
-			System.out.println(htmlText);
-			System.out.println(cj);
-			/*
-			 * if (cookies.equalsIgnoreCase(oldCookies)) { AndGMXsms
-			 * .sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-			 * .getResources().getString( R.string.log_error_pw + resp)); return
-			 * false; }
-			 */
+			updateCookies(cookies, response.getAllHeaders(), url);
+
 			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
-			c = this.getConnection(url, cj, false);
-			resp = c.getResponseCode();
+			response = this.getHttpClient(url, cookies, null);
+			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			cj.addAll(this.client.getCookies(c));
-			/*
-			 * url = "https://email.o2online.de/smscenter_send.osp"; c =
-			 * (HttpURLConnection) (new URL(url)).openConnection();
-			 * c.setRequestProperty("User-Agent", TARGET_AGENT);
-			 * client.setCookies(c, cj); resp = c.getResponseCode(); if (resp !=
-			 * HttpURLConnection.HTTP_OK) { //
-			 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me //
-			 * .getResources().getString( // R.string.log_error_http + resp));
-			 * return false; } cj.addAll(client.getCookies(c));
-			 */htmlText = AndGMXsms.stream2String(c.getInputStream());
-			System.out.println(htmlText);
-			System.out.println(cj);
-
-			if (1 == 1) {
-				return false;
+			updateCookies(cookies, response.getAllHeaders(), url);
+			htmlText = AndGMXsms.stream2String(response.getEntity()
+					.getContent());
+			int i = htmlText.indexOf("Frei-SMS: ");
+			if (i > 0) {
+				int j = htmlText.indexOf("Web2SMS", i);
+				if (j > 0) {
+					AndGMXsms.smsO2free = Integer.parseInt(htmlText.substring(
+							i + 9, j).trim());
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+				}
 			}
 
-			// send data
-			resp = c.getResponseCode();
-			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(
-								R.string.log_error_http + resp));
-			}
-			// read received data
-			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
-			if (bufsize > 0) {
-				String resultString = AndGMXsms.stream2String(c
-						.getInputStream());
-				if (resultString.startsWith("The truth")) { // wrong data sent!
-
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources()
-							.getString(R.string.log_error_server)
-							+ resultString);
+			if (this.text != null && this.tos != null) {
+				url = "https://email.o2online.de/smscenter_send.osp";
+				postData = new ArrayList<BasicNameValuePair>(4);
+				postData.add(new BasicNameValuePair("SMSTo", this.tos));
+				postData.add(new BasicNameValuePair("SMSText", this.text));
+				postData.add(new BasicNameValuePair("SMSFrom", ""));
+				postData.add(new BasicNameValuePair("Frequency", "5"));
+				response = this.getHttpClient(url, cookies, postData);
+				postData = null;
+				resp = response.getStatusLine().getStatusCode();
+				if (resp != HttpURLConnection.HTTP_OK) {
+					// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+					// .getResources().getString(
+					// R.string.log_error_http + resp));
 					return false;
 				}
-
-				/*
-				 * // strip packet int resultIndex =
-				 * resultString.indexOf("rslt="); String outp =
-				 * resultString.substring(resultIndex).replace( "\\p", "\n");
-				 * outp = outp.replace("</WR>", "");
-				 * 
-				 * // get result code String resultValue = this.getParam(outp,
-				 * // "rslt"); int rslt; try { rslt =
-				 * Integer.parseInt(resultValue); } catch (Exception e) {
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
-				 * return false; } switch (rslt) { case RSLT_OK: // ok // fetch
-				 * additional info String p = this.getParam(outp,
-				 * "free_rem_month"); if (p != null) { AndGMXsms.smsGMXfree =
-				 * Integer.parseInt(p); p = this.getParam(outp,
-				 * "free_max_month"); if (p != null) { AndGMXsms.smsGMXlimit =
-				 * Integer.parseInt(p); } AndGMXsms
-				 * .sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null); } p =
-				 * this.getParam(outp, "customer_id"); if (p != null) {
-				 * AndGMXsms.prefsUser = p; if (AndGMXsms.prefsGMXsender) {
-				 * AndGMXsms.prefsSender = this.getParam(outp, "cell_phone"); }
-				 * if (this.pw != null) { AndGMXsms.prefsPasswordGMX = this.pw;
-				 * } if (this.mail != null) { AndGMXsms.prefsMail = this.mail; }
-				 * AndGMXsms.me.savePreferences(); inBootstrap = false;
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null); }
-				 * return true; case RSLT_WRONG_CUSTOMER: // wrong user/pw
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				 * .getResources().getString(R.string.log_error_pw)); return
-				 * false; case RSLT_WRONG_MAIL: // wrong mail/pw inBootstrap =
-				 * false; AndGMXsms.prefsPasswordGMX = "";
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				 * .getResources().getString(R.string.log_error_mail));
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
-				 * return false; default:
-				 * AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#" +
-				 * rslt); return false; }
-				 */
-			} else {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(
-								R.string.log_http_header_missing));
-				return false;
 			}
-
 		} catch (IOException e) {
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
+		} catch (URISyntaxException e) {
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
+		} catch (MalformedCookieException e) {
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -404,18 +354,9 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean send() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
-		// StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
-		// fill buffer
-		// writePair(packetData, "sms_text", this.text);
-		StringBuilder recipients = new StringBuilder();
-		// table: <id>, <name>, <number>
 		int j = 0;
 		for (int i = 1; i < this.to.length; i++) {
 			if (this.to[i] != null && this.to[i].length() > 1) {
-				recipients.append(++j);
-				recipients.append("\\;null\\;");
-				recipients.append(this.to[i]);
-				recipients.append("\\;");
 				if (j > 1) {
 					this.tos += ", ";
 				}
@@ -423,19 +364,10 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			}
 		}
 		this.publishProgress((Boolean) null);
-		recipients.append("</TBL>");
-		String recipientsString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
-				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
-				+ recipients.toString();
-		recipients = null;
-
-		// if date!='': data['send_date'] = date
-		// push data
-		// if (!this.sendData(closeBuffer(packetData))) {
 		if (!this.sendData()) {
-			// // failed!
-			// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-			// .getResources().getString(R.string.log_error));
+			// failed!
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+					.getResources().getString(R.string.log_error));
 			return false;
 		} else {
 			// result: ok

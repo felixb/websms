@@ -508,8 +508,10 @@ public class AndGMXsms extends Activity {
 					if (AndGMXsms.remFree.length() > 0) {
 						AndGMXsms.remFree += " - ";
 					}
-					AndGMXsms.remFree += AndGMXsms.smsO2free + " / "
-							+ AndGMXsms.smsO2limit;
+					AndGMXsms.remFree += AndGMXsms.smsO2free;
+					if (AndGMXsms.smsO2limit > 0) {
+						AndGMXsms.remFree += " / " + AndGMXsms.smsO2limit;
+					}
 				}
 				if (AndGMXsms.remFree.length() == 0) {
 					AndGMXsms.remFree = "---";
