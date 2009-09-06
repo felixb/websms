@@ -18,18 +18,7 @@ import android.os.AsyncTask;
  * @author flx
  */
 public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
-	/** Target mime type. */
-	private static final String TARGET_CONTENT = "text/plain";
-	/** Target mime encoding. */
-	private static final String TARGET_ACCEPT_ENCODING = "deflate";
-	private static final String TARGET_ACCEPT = "text/html,application"
-			+ "/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-	private static final String TARGET_ACCEPT_LANGUAGE = "de-de";
-	private static final String TARGET_ACCEPT_CHARSET = "ISO-8859-15"
-			+ ",utf-8;q=0.7,*;q=0.7";
-	private static final String TARGET_KEEP_ALIVE = "300";
 	/** HTTP Useragent. */
-	// private static final String TARGET_AGENT = "Mozilla/3.0 (compatible)";
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
