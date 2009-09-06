@@ -2,24 +2,11 @@ package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.cookie.CookieOrigin;
 import org.apache.http.cookie.MalformedCookieException;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BrowserCompatSpec;
-import org.apache.http.impl.cookie.CookieSpecBase;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
@@ -31,17 +18,6 @@ import android.os.AsyncTask;
  * @author flx
  */
 public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
-	/** Target host. */
-	private static final String TARGET_HOST = "login.o2online.de";
-	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
-	/** Target path on host. */
-	private static final String TARGET_PATH = "https://login.o2online.de"
-			+ "/loginRegistration/loginAction" + ".do?_flowId="
-			+ "login&o2_type=asp&o2_label=login/co"
-			+ "mcenter-login&scheme=http&" + "port=80&server=email."
-			+ "o2online.de&url=%2Fssomanager.osp%3FAPIID" + "%3DAUT"
-			+ "H-WEBSSO%26TargetApp%3D%2Fsms_new.osp%3F%26o2_type%3" + "Durl"
-			+ "%26o2_label%3Dweb2sms-o2online";
 	/** Target mime type. */
 	private static final String TARGET_CONTENT = "text/plain";
 	/** Target mime encoding. */
@@ -85,95 +61,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
-	 * Get a fresh HTTP-Connection.
-	 * 
-	 * @param url
-	 *            url to open
-	 * @param cookies
-	 *            cookies to transmit
-	 * @param postData
-	 *            post data
-	 * @return the connection
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 */
-	private HttpResponse getHttpClient(final String url,
-			final ArrayList<Cookie> cookies,
-			final ArrayList<BasicNameValuePair> postData)
-			throws ClientProtocolException, IOException {
-		HttpClient client = new DefaultHttpClient();
-		HttpRequestBase request;
-		if (postData == null) {
-			request = new HttpGet(url);
-		} else {
-			request = new HttpPost(url);
-			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
-		}
-		request.setHeader("User-Agent", TARGET_AGENT);
-
-		if (cookies != null && cookies.size() > 0) {
-			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
-			for (Header cookieHeader : cookieSpecBase.formatCookies(cookies)) {
-				// Setting the cookie
-				request.setHeader(cookieHeader);
-			}
-		}
-		return client.execute(request);
-	}
-
-	/**
-	 * Update cookies from response.
-	 * 
-	 * @param cookies
-	 *            old cookie list
-	 * @param headers
-	 *            headers from response
-	 * @param url
-	 *            requested url
-	 * @throws URISyntaxException
-	 *             malformed uri
-	 * @throws MalformedCookieException
-	 *             malformed cookie
-	 */
-	private void updateCookies(final ArrayList<Cookie> cookies,
-			final Header[] headers, final String url)
-			throws URISyntaxException, MalformedCookieException {
-		final URI uri = new URI(url);
-		int port = uri.getPort();
-		if (port < 0) {
-			if (url.startsWith("https")) {
-				port = 443;
-			} else {
-				port = 80;
-			}
-		}
-		CookieOrigin origin = new CookieOrigin(uri.getHost(), port, uri
-				.getPath(), false);
-		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
-		for (Header header : headers) {
-			for (Cookie cookie : cookieSpecBase.parse(header, origin)) {
-				// THE cookie
-				String name = cookie.getName();
-				String value = cookie.getValue();
-				if (value == null || value.equals("")) {
-					continue;
-				}
-				for (Cookie c : cookies) {
-					if (name.equals(c.getName())) {
-						cookies.remove(c);
-						cookies.add(cookie);
-						name = null;
-						break;
-					}
-				}
-				if (name != null) {
-					cookies.add(cookie);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Send data.
 	 * 
 	 * @return successful?
@@ -187,7 +74,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
 					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
 			ArrayList<org.apache.http.cookie.Cookie> cookies = new ArrayList<org.apache.http.cookie.Cookie>();
-			HttpResponse response = this.getHttpClient(url, cookies, null);
+			HttpResponse response = AndGMXsms.getHttpClient(url, cookies, null,
+					TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -195,7 +83,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			this.updateCookies(cookies, response.getAllHeaders(), url);
+			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 			String htmlText = AndGMXsms.stream2String(response.getEntity()
 					.getContent());
 			String flowExecutionKey = this.getFlowExecutionkey(htmlText);
@@ -212,7 +100,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			postData.add(new BasicNameValuePair("password",
 					AndGMXsms.prefsPasswordO2));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = this.getHttpClient(url, cookies, postData);
+			response = AndGMXsms.getHttpClient(url, cookies, postData,
+					TARGET_AGENT);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			System.gc();
@@ -222,10 +111,11 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			this.updateCookies(cookies, response.getAllHeaders(), url);
+			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 
 			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp?&o2_type=url&o2_label=web2sms-o2online";
-			response = this.getHttpClient(url, cookies, null);
+			response = AndGMXsms
+					.getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			System.gc();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -234,10 +124,11 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			this.updateCookies(cookies, response.getAllHeaders(), url);
+			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 
 			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
-			response = this.getHttpClient(url, cookies, null);
+			response = AndGMXsms
+					.getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -245,7 +136,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				// R.string.log_error_http + resp));
 				return false;
 			}
-			this.updateCookies(cookies, response.getAllHeaders(), url);
+			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 			htmlText = AndGMXsms.stream2String(response.getEntity()
 					.getContent());
 			int i = htmlText.indexOf("Frei-SMS: ");
@@ -265,13 +156,14 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				postData.add(new BasicNameValuePair("SMSText", this.text));
 				postData.add(new BasicNameValuePair("SMSFrom", ""));
 				postData.add(new BasicNameValuePair("Frequency", "5"));
-				response = this.getHttpClient(url, cookies, postData);
+				response = AndGMXsms.getHttpClient(url, cookies, postData,
+						TARGET_AGENT);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
-					// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-					// .getResources().getString(
-					// R.string.log_error_http + resp));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+							.getResources().getString(
+									R.string.log_error_http + resp));
 					return false;
 				}
 			}

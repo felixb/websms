@@ -4,6 +4,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.cookie.CookieOrigin;
+import org.apache.http.cookie.MalformedCookieException;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.cookie.BrowserCompatSpec;
+import org.apache.http.impl.cookie.CookieSpecBase;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -782,5 +801,96 @@ public class AndGMXsms extends Activity {
 		}
 		bufferedReader.close();
 		return data.toString();
+	}
+
+	/**
+	 * Get a fresh HTTP-Connection.
+	 * 
+	 * @param url
+	 *            url to open
+	 * @param cookies
+	 *            cookies to transmit
+	 * @param postData
+	 *            post data
+	 * @param userAgent
+	 *            user agent
+	 * @return the connection
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	static HttpResponse getHttpClient(final String url,
+			final ArrayList<Cookie> cookies,
+			final ArrayList<BasicNameValuePair> postData, final String userAgent)
+			throws ClientProtocolException, IOException {
+		HttpClient client = new DefaultHttpClient();
+		HttpRequestBase request;
+		if (postData == null) {
+			request = new HttpGet(url);
+		} else {
+			request = new HttpPost(url);
+			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
+		}
+		request.setHeader("User-Agent", userAgent);
+
+		if (cookies != null && cookies.size() > 0) {
+			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
+			for (Header cookieHeader : cookieSpecBase.formatCookies(cookies)) {
+				// Setting the cookie
+				request.setHeader(cookieHeader);
+			}
+		}
+		return client.execute(request);
+	}
+
+	/**
+	 * Update cookies from response.
+	 * 
+	 * @param cookies
+	 *            old cookie list
+	 * @param headers
+	 *            headers from response
+	 * @param url
+	 *            requested url
+	 * @throws URISyntaxException
+	 *             malformed uri
+	 * @throws MalformedCookieException
+	 *             malformed cookie
+	 */
+	static void updateCookies(final ArrayList<Cookie> cookies,
+			final Header[] headers, final String url)
+			throws URISyntaxException, MalformedCookieException {
+		final URI uri = new URI(url);
+		int port = uri.getPort();
+		if (port < 0) {
+			if (url.startsWith("https")) {
+				port = 443;
+			} else {
+				port = 80;
+			}
+		}
+		CookieOrigin origin = new CookieOrigin(uri.getHost(), port, uri
+				.getPath(), false);
+		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
+		for (Header header : headers) {
+			for (Cookie cookie : cookieSpecBase.parse(header, origin)) {
+				// THE cookie
+				String name = cookie.getName();
+				String value = cookie.getValue();
+				if (value == null || value.equals("")) {
+					continue;
+				}
+				for (Cookie c : cookies) {
+					if (name.equals(c.getName())) {
+						cookies.remove(c);
+						cookies.add(cookie);
+						name = null;
+						break;
+					}
+				}
+				if (name != null) {
+					cookies.add(cookie);
+				}
+			}
+		}
 	}
 }
