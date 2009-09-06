@@ -133,13 +133,20 @@ public class AndGMXsms extends Activity {
 	/** Message display ads. */
 	public static final int MESSAGE_DISPLAY_ADS = 7;
 
-	/** Menu: send. */
-	private static final int MENU_SEND = 1;
+	/** Menu: send via GMX. */
+	private static final int MENU_SEND_GMX = 1;
+	/** Menu: send via O2. */
+	private static final int MENU_SEND_O2 = 2;
 	/** Menu: cancel. */
-	private static final int MENU_CANCEL = 2;
+	private static final int MENU_CANCEL = 3;
 
 	/** Max Buffer size. */
 	private static final int MAX_BUFSIZE = 4096;
+
+	/** Connector type: GMX. */
+	private static final short CONNECTOR_GMX = 0;
+	/** Connector type: O2. */
+	private static final short CONNECTOR_O2 = 1;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -188,8 +195,10 @@ public class AndGMXsms extends Activity {
 		this.reloadPrefs();
 
 		// register Listener
-		((Button) this.findViewById(R.id.send))
-				.setOnClickListener(this.runSend);
+		((Button) this.findViewById(R.id.send_gmx))
+				.setOnClickListener(this.runSendGMX);
+		((Button) this.findViewById(R.id.send_o2))
+				.setOnClickListener(this.runSendO2);
 		((Button) this.findViewById(R.id.cancel))
 				.setOnClickListener(this.cancel);
 
@@ -269,14 +278,7 @@ public class AndGMXsms extends Activity {
 			this.checkPrefs();
 		}
 
-		// display/hide buttons etc.
-		int v = View.VISIBLE;
-		if (prefsSoftKeys) {
-			v = View.GONE;
-		}
-
-		((Button) this.findViewById(R.id.send)).setVisibility(v);
-		((Button) this.findViewById(R.id.cancel)).setVisibility(v);
+		this.setButtons();
 
 		// reload text/recipient from local store
 		EditText et = (EditText) this.findViewById(R.id.text);
@@ -321,6 +323,33 @@ public class AndGMXsms extends Activity {
 	}
 
 	/**
+	 * Show/hide, enable/disable send buttons.
+	 */
+	private void setButtons() {
+		Button btn = (Button) this.findViewById(R.id.send_gmx);
+		// show/hide buttons
+		if (prefsEnableGMX && !prefsSoftKeys) {
+			btn.setEnabled(prefsReady);
+			btn.setVisibility(View.VISIBLE);
+		} else {
+			btn.setVisibility(View.GONE);
+		}
+		btn = (Button) this.findViewById(R.id.send_o2);
+		if (prefsEnableO2 && !prefsSoftKeys) {
+			btn.setEnabled(prefsReady);
+			btn.setVisibility(View.VISIBLE);
+		} else {
+			btn.setVisibility(View.GONE);
+		}
+		btn = (Button) this.findViewById(R.id.cancel);
+		if (prefsSoftKeys) {
+			btn.setVisibility(View.GONE);
+		} else {
+			btn.setVisibility(View.VISIBLE);
+		}
+	}
+
+	/**
 	 * Check if prefs are set.
 	 */
 	private void checkPrefs() {
@@ -337,8 +366,7 @@ public class AndGMXsms extends Activity {
 			prefsReady = true;
 		}
 
-		// enable/disable buttons
-		((Button) this.findViewById(R.id.send)).setEnabled(prefsReady);
+		this.setButtons();
 	}
 
 	/**
@@ -387,21 +415,37 @@ public class AndGMXsms extends Activity {
 	 */
 	@Override
 	public final boolean onPrepareOptionsMenu(final Menu menu) {
-		if (menu.findItem(MENU_SEND) == null) {
-			if (prefsSoftKeys) {
-				// add menu to send text
-				menu.add(0, MENU_SEND, 0,
-						this.getResources().getString(R.string.send)).setIcon(
-						android.R.drawable.ic_menu_send);
-				menu.add(0, MENU_CANCEL, 0,
+		if (prefsSoftKeys) {
+			if (menu.findItem(MENU_CANCEL) == null) {
+				menu.add(0, MENU_CANCEL, 1,
 						this.getResources().getString(android.R.string.cancel))
 						.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 			}
-		} else {
-			if (!prefsSoftKeys) {
-				menu.removeItem(MENU_SEND);
-				menu.removeItem(MENU_CANCEL);
+			if (prefsEnableGMX) {
+				if (menu.findItem(MENU_SEND_GMX) == null) {
+					// add menu to send text
+					menu.add(0, MENU_SEND_GMX, 0,
+							this.getResources().getString(R.string.send_gmx))
+							.setIcon(android.R.drawable.ic_menu_send);
+				}
+			} else {
+				menu.removeItem(MENU_SEND_GMX);
 			}
+			if (prefsEnableO2) {
+				if (menu.findItem(MENU_SEND_O2) == null) {
+					// add menu to send text
+					menu.add(0, MENU_SEND_O2, 0,
+							this.getResources().getString(R.string.send_o2))
+							.setIcon(android.R.drawable.ic_menu_send);
+				}
+			} else {
+				menu.removeItem(MENU_SEND_O2);
+			}
+		} else {
+			menu.removeItem(MENU_SEND_GMX);
+			menu.removeItem(MENU_SEND_O2);
+			menu.removeItem(MENU_CANCEL);
+
 		}
 		return true;
 	}
@@ -438,8 +482,11 @@ public class AndGMXsms extends Activity {
 		case R.id.item_help: // start help dialog
 			this.showDialog(DIALOG_HELP);
 			return true;
-		case MENU_SEND:
-			this.send();
+		case MENU_SEND_GMX:
+			this.send(CONNECTOR_GMX);
+			return true;
+		case MENU_SEND_O2:
+			this.send(CONNECTOR_O2);
 			return true;
 		case MENU_CANCEL:
 			this.reset();
@@ -672,8 +719,11 @@ public class AndGMXsms extends Activity {
 
 	/**
 	 * Send Text.
+	 * 
+	 * @param connector
+	 *            which connector should be used.
 	 */
-	private void send() {
+	private void send(final short connector) {
 		// fetch text/recipient
 		String to = ((EditText) this.findViewById(R.id.to)).getText()
 				.toString();
@@ -702,17 +752,29 @@ public class AndGMXsms extends Activity {
 			numbers[i] = null;
 		}
 		// start a Connector Thread
-		if (prefsEnableGMX) {
+		switch (connector) {
+		case CONNECTOR_GMX:
 			new ConnectorGMX().execute(params);
-		} else if (prefsEnableO2) {
+			break;
+		case CONNECTOR_O2:
 			new ConnectorO2().execute(params);
+			break;
+		default:
+			break;
 		}
 	}
 
 	/** OnClickListener for sending the sms. */
-	private OnClickListener runSend = new OnClickListener() {
+	private OnClickListener runSendGMX = new OnClickListener() {
 		public void onClick(final View v) {
-			AndGMXsms.this.send();
+			AndGMXsms.this.send(CONNECTOR_GMX);
+		}
+	};
+
+	/** OnClickListener for sending the sms. */
+	private OnClickListener runSendO2 = new OnClickListener() {
+		public void onClick(final View v) {
+			AndGMXsms.this.send(CONNECTOR_O2);
 		}
 	};
 
