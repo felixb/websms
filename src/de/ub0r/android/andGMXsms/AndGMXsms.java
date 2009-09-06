@@ -100,9 +100,6 @@ public class AndGMXsms extends Activity {
 	/** Preferences: enable o2. */
 	public static boolean prefsEnableO2 = false;
 
-	/** Length of a prefix. */
-	private static final int PREFIX_LEN = 3;
-
 	/** Public Dialog ref. */
 	public static Dialog dialog = null;
 	/** Dialog String. */
@@ -139,9 +136,6 @@ public class AndGMXsms extends Activity {
 	private static final int MENU_SEND_O2 = 2;
 	/** Menu: cancel. */
 	private static final int MENU_CANCEL = 3;
-
-	/** Max Buffer size. */
-	private static final int MAX_BUFSIZE = 4096;
 
 	/** Connector type: GMX. */
 	private static final short CONNECTOR_GMX = 0;

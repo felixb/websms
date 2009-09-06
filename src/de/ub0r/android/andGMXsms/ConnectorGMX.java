@@ -28,9 +28,6 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	/** Target version of protocol. */
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
-	/** Max Buffer size. */
-	private static final int MAX_BUFSIZE = 4096;
-
 	/** SMS DB: address. */
 	public static final String ADDRESS = "address";
 	/** SMS DB: person. */
