@@ -104,7 +104,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					TARGET_AGENT);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
-			System.gc();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
@@ -117,7 +116,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			response = AndGMXsms
 					.getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
-			System.gc();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 				// .getResources().getString(
