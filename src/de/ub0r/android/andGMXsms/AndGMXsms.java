@@ -520,7 +520,7 @@ public class AndGMXsms extends Activity {
 		case DIALOG_HELP:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.help);
-			myDialog.setTitle(this.getResources().getString(R.string.help));
+			myDialog.setTitle(this.getResources().getString(R.string.help_));
 			break;
 		default:
 			myDialog = null;

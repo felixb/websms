@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="about">Mit WebSMS kannst du kostenlos SMS via GMX SMS-Manager oder O2 web2sms senden.</string>
+	<string name="about">Mit WebSMS kannst du kostenlos SMS via GMX SMS-Manager oder Communication Center (web2sms) senden.</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>

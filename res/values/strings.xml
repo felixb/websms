@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and paid SMS via GMX SMS-Manager or O2 web2sms.</string>
+	<string name="about">WebSMS enables you to send free and paid SMS via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.0</string>
 	<string name="author_">Author:</string>
