@@ -142,11 +142,25 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 
 			if (this.text != null && this.tos != null) {
 				url = "https://email.o2online.de/smscenter_send.osp";
-				postData = new ArrayList<BasicNameValuePair>(4);
+				postData = new ArrayList<BasicNameValuePair>(15);
 				postData.add(new BasicNameValuePair("SMSTo", this.tos));
 				postData.add(new BasicNameValuePair("SMSText", this.text));
 				postData.add(new BasicNameValuePair("SMSFrom", ""));
 				postData.add(new BasicNameValuePair("Frequency", "5"));
+
+				String[] st = htmlText.split("<input type=\"Hidden\" ");
+				htmlText = null;
+				for (String s : st) {
+					if (s.startsWith("name=")) {
+						String[] subst = s.split("\"", 5);
+						if (subst.length >= 4) {
+							postData.add(new BasicNameValuePair(subst[1],
+									subst[3]));
+						}
+					}
+				}
+				st = null;
+
 				response = AndGMXsms.getHttpClient(url, cookies, postData,
 						TARGET_AGENT);
 				postData = null;
