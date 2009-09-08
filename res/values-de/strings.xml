@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="about">Mit GMX sms kannst du kostenlos SMS via GMX SMS-Manager senden.</string>
-	<string name="about_">Über GMX sms</string>
+	<string name="about">Mit WebSMS kannst du kostenlos SMS via GMX SMS-Manager oder O2 web2sms senden.</string>
+	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
@@ -14,15 +14,13 @@
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
-	<string name="gmxsender_">Autoconfig</string>
-	<string name="gmxsender_hint">Nutze die bei GMX hinterlegte Nummer</string>
 	<string name="help_">Hilfe</string>
-	<string name="help">Um diese App. nutzen zu können brauchst du einen GMX SMS Account! Ab GMX ProMail ist der SMS Account mit dabei.</string>
+	<string name="help">Um diese App. nutzen zu können brauchst du entweder einen GMX SMS Account (GMX Freemail Plus, Promail, Topmail) oder O2 als Provider!</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
 	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke den Menüknopf.</string>
 	<string name="log_error">FEHLER</string>
-	<string name="log_error_http">&quot;FEHLER: HTTP &quot;</string>
+	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>

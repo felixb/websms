@@ -194,7 +194,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_http)
-						+ " " + resp);
+						+ resp);
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
@@ -207,7 +207,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources()
 							.getString(R.string.log_error_server)
-							+ " " + resultString);
+							+ resultString);
 					return false;
 				}
 

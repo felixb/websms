@@ -70,7 +70,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_http)
-						+ " " + resp);
+						+ resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
@@ -111,7 +111,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_http)
-						+ " " + resp);
+						+ resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
@@ -124,7 +124,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_http)
-						+ " " + resp);
+						+ resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
@@ -168,7 +168,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				if (resp != HttpURLConnection.HTTP_OK) {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_http)
-							+ " " + resp);
+							+ resp);
 					return false;
 				}
 			}
