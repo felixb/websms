@@ -65,21 +65,21 @@
 			android:text="@string/send_gmx"
 			android:id="@+id/send_gmx"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 		></Button>
 		<Button
 			android:text="@string/send_o2"
 			android:id="@+id/send_o2"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 		></Button>
 		<Button
 			android:id="@+id/cancel"
 			android:text="@android:string/cancel"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_weight="1"
 		></Button>
 	</LinearLayout>
