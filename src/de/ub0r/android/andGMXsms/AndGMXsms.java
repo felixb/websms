@@ -325,6 +325,11 @@ public class AndGMXsms extends Activity {
 		if (prefsEnableGMX && !prefsSoftKeys) {
 			btn.setEnabled(prefsReady);
 			btn.setVisibility(View.VISIBLE);
+			if (prefsEnableO2) {
+				btn.setText(this.getResources().getString(R.string.send_gmx));
+			} else {
+				btn.setText(this.getResources().getString(R.string.send_));
+			}
 		} else {
 			btn.setVisibility(View.GONE);
 		}
@@ -332,6 +337,11 @@ public class AndGMXsms extends Activity {
 		if (prefsEnableO2 && !prefsSoftKeys) {
 			btn.setEnabled(prefsReady);
 			btn.setVisibility(View.VISIBLE);
+			if (prefsEnableGMX) {
+				btn.setText(this.getResources().getString(R.string.send_o2));
+			} else {
+				btn.setText(this.getResources().getString(R.string.send_));
+			}
 		} else {
 			btn.setVisibility(View.GONE);
 		}
@@ -418,9 +428,15 @@ public class AndGMXsms extends Activity {
 			if (prefsEnableGMX) {
 				if (menu.findItem(MENU_SEND_GMX) == null) {
 					// add menu to send text
-					menu.add(0, MENU_SEND_GMX, 0,
-							this.getResources().getString(R.string.send_gmx))
-							.setIcon(android.R.drawable.ic_menu_send);
+					MenuItem m;
+					if (prefsEnableO2) {
+						m = menu.add(0, MENU_SEND_GMX, 0, this.getResources()
+								.getString(R.string.send_gmx));
+					} else {
+						m = menu.add(0, MENU_SEND_GMX, 0, this.getResources()
+								.getString(R.string.send_));
+					}
+					m.setIcon(android.R.drawable.ic_menu_send);
 				}
 			} else {
 				menu.removeItem(MENU_SEND_GMX);
@@ -428,9 +444,15 @@ public class AndGMXsms extends Activity {
 			if (prefsEnableO2) {
 				if (menu.findItem(MENU_SEND_O2) == null) {
 					// add menu to send text
-					menu.add(0, MENU_SEND_O2, 0,
-							this.getResources().getString(R.string.send_o2))
-							.setIcon(android.R.drawable.ic_menu_send);
+					MenuItem m;
+					if (prefsEnableGMX) {
+						m = menu.add(0, MENU_SEND_O2, 0, this.getResources()
+								.getString(R.string.send_o2));
+					} else {
+						m = menu.add(0, MENU_SEND_O2, 0, this.getResources()
+								.getString(R.string.send_));
+					}
+					m.setIcon(android.R.drawable.ic_menu_send);
 				}
 			} else {
 				menu.removeItem(MENU_SEND_O2);
@@ -439,7 +461,6 @@ public class AndGMXsms extends Activity {
 			menu.removeItem(MENU_SEND_GMX);
 			menu.removeItem(MENU_SEND_O2);
 			menu.removeItem(MENU_CANCEL);
-
 		}
 		return true;
 	}

@@ -41,6 +41,7 @@
 	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
 	<string name="sender_hint">Int. phonenumber</string>
 	<string name="sender_">Your mobile number</string>
+	<string name="send_">Send</string>
 	<string name="send_gmx">Send (GMX)</string>
 	<string name="send_o2">Send (O2)</string>
 	<string name="settings">Preferences</string>
