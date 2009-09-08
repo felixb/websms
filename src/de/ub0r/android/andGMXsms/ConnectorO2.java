@@ -56,7 +56,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private boolean sendData() {
 		try { // get Connection
-			String url = "https://login.o2online.de/loginRegistration/loginAction.do"
+			String url = "https://login.o2online.de/loginRegistration"
+					+ "/loginAction.do"
 					+ "?_flowId=login&o2_type=asp&o2_label=login/"
 					+ "comcenter-login&scheme=http&port=80&server=email."
 					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID%3DAUTH"
@@ -67,9 +68,9 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				// .getResources().getString(
-				// R.string.log_error_http + resp));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(R.string.log_error_http)
+						+ " " + resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
@@ -94,33 +95,36 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				// .getResources().getString(
-				// R.string.log_error_http + resp));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(R.string.log_error_http)
+						+ " " + resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 
-			url = "http://email.o2online.de:80/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp?&o2_type=url&o2_label=web2sms-o2online";
+			url = "http://email.o2online.de:80/ssomanager.osp"
+					+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
+					+ "?&o2_type=url&o2_label=web2sms-o2online";
 			response = AndGMXsms
 					.getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				// .getResources().getString(
-				// R.string.log_error_http + resp));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(R.string.log_error_http)
+						+ " " + resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 
-			url = "https://email.o2online.de/smscenter_new.osp?Autocompletion=1&MsgContentID=-1";
+			url = "https://email.o2online.de/smscenter_new.osp"
+					+ "?Autocompletion=1&MsgContentID=-1";
 			response = AndGMXsms
 					.getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				// AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-				// .getResources().getString(
-				// R.string.log_error_http + resp));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(R.string.log_error_http)
+						+ " " + resp);
 				return false;
 			}
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
@@ -149,8 +153,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(
-									R.string.log_error_http + resp));
+							.getResources().getString(R.string.log_error_http)
+							+ " " + resp);
 					return false;
 				}
 			}
