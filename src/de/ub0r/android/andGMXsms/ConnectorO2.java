@@ -97,11 +97,16 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_http)
-						+ " " + resp);
+						+ resp);
 				return false;
 			}
+			resp = cookies.size();
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
-
+			if (resp == cookies.size()) {
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+						.getResources().getString(R.string.log_error_pw));
+				return false;
+			}
 			url = "http://email.o2online.de:80/ssomanager.osp"
 					+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
 					+ "?&o2_type=url&o2_label=web2sms-o2online";

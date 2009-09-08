@@ -89,8 +89,10 @@ public class AndGMXsms extends Activity {
 	public static String prefsSender;
 	/** Preferences: default prefix. */
 	public static String prefsDefPrefix;
-	/** Preferences: ready? */
-	public static boolean prefsReady = false;
+	/** Preferences: ready for gmx? */
+	public static boolean prefsReadyGMX = false;
+	/** Preferences: ready for o2? */
+	public static boolean prefsReadyO2 = false;
 	/** Remaining free sms. */
 	public static String remFree = null;
 	/** Preferences: use softkeys. */
@@ -323,7 +325,7 @@ public class AndGMXsms extends Activity {
 		Button btn = (Button) this.findViewById(R.id.send_gmx);
 		// show/hide buttons
 		if (prefsEnableGMX && !prefsSoftKeys) {
-			btn.setEnabled(prefsReady);
+			btn.setEnabled(prefsReadyGMX);
 			btn.setVisibility(View.VISIBLE);
 			if (prefsEnableO2) {
 				btn.setText(this.getResources().getString(R.string.send_gmx));
@@ -335,7 +337,7 @@ public class AndGMXsms extends Activity {
 		}
 		btn = (Button) this.findViewById(R.id.send_o2);
 		if (prefsEnableO2 && !prefsSoftKeys) {
-			btn.setEnabled(prefsReady);
+			btn.setEnabled(prefsReadyO2);
 			btn.setVisibility(View.VISIBLE);
 			if (prefsEnableGMX) {
 				btn.setText(this.getResources().getString(R.string.send_o2));
@@ -358,16 +360,26 @@ public class AndGMXsms extends Activity {
 	 */
 	private void checkPrefs() {
 		// check prefs
-		if (prefsMail.length() == 0 || prefsUser.length() == 0
-				|| prefsPasswordGMX.length() == 0 || prefsSender.length() == 0
-				|| (!prefsEnableGMX && !prefsEnableO2)) {
-			prefsReady = false;
-			if (!ConnectorGMX.inBootstrap) {
+		if (prefsEnableGMX && prefsMail.length() != 0
+				&& prefsUser.length() != 0 && prefsPasswordGMX.length() != 0
+				&& prefsSender.length() != 0) {
+			prefsReadyGMX = true;
+		} else {
+			if (prefsEnableGMX && !ConnectorGMX.inBootstrap) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
+			prefsReadyGMX = false;
+		}
+		if (prefsEnableO2 && prefsSender.length() != 0
+				&& prefsPasswordO2.length() != 0) {
+			prefsReadyO2 = true;
 		} else {
-			prefsReady = true;
+			if (prefsEnableO2) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			prefsReadyO2 = false;
 		}
 
 		this.setButtons();
