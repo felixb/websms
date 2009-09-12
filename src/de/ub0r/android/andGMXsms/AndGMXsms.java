@@ -309,7 +309,7 @@ public class AndGMXsms extends Activity {
 		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
 		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
 
-		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, true);
+		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, false);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
 		prefsUser = this.preferences.getString(PREFS_USER, "");
 		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
