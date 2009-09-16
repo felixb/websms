@@ -11,7 +11,7 @@
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
-	<string name="donate_">Donate</string>
+	<string name="donate_">Donate (and remove ads)</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>

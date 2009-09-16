@@ -9,7 +9,7 @@
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
-	<string name="donate_">Spenden</string>
+	<string name="donate_">Spenden (und Werbung entfernen)</string>
 	<string name="enable_gmx">Aktiviere GMX</string>
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="free_">Frei SMS:</string>
