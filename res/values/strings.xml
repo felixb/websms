@@ -3,7 +3,7 @@
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and paid SMS via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.1</string>
+	<string name="app_version">2.2</string>
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
