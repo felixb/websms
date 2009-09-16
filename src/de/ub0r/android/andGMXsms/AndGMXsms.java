@@ -79,6 +79,10 @@ public class AndGMXsms extends Activity {
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
+	/** Preference's name: to. */
+	private static final String PREFS_TO = "to";
+	/** Preference's name: text. */
+	private static final String PREFS_TEXT = "text";
 	/** Preferences: mail. */
 	public static String prefsMail;
 	/** Preferences: username. */
@@ -200,6 +204,9 @@ public class AndGMXsms extends Activity {
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		this.reloadPrefs();
 
+		lastTo = this.preferences.getString(PREFS_TO, "");
+		lastMsg = this.preferences.getString(PREFS_TEXT, "");
+
 		// register Listener
 		((Button) this.findViewById(R.id.send_gmx))
 				.setOnClickListener(this.runSendGMX);
@@ -309,6 +316,14 @@ public class AndGMXsms extends Activity {
 		lastMsg = ((EditText) this.findViewById(R.id.text)).getText()
 				.toString();
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
+
+		// store input data to preferences
+		SharedPreferences.Editor editor = this.preferences.edit();
+		// common
+		editor.putString(PREFS_TO, lastTo);
+		editor.putString(PREFS_TEXT, lastMsg);
+		// commit changes
+		editor.commit();
 	}
 
 	/**
@@ -412,6 +427,12 @@ public class AndGMXsms extends Activity {
 		((EditText) this.findViewById(R.id.to)).setText("");
 		lastMsg = null;
 		lastTo = null;
+		// save user preferences
+		SharedPreferences.Editor editor = this.preferences.edit();
+		editor.putString(PREFS_TO, "");
+		editor.putString(PREFS_TEXT, "");
+		// commit changes
+		editor.commit();
 	}
 
 	/** Save prefs. */
