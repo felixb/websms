@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import org.apache.http.Header;
@@ -101,6 +103,14 @@ public class AndGMXsms extends Activity {
 	public static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
 	public static boolean prefsEnableO2 = false;
+	/** Preferences: hide ads. */
+	public static boolean prefsNoAds = false;
+
+	/** Array of md5(prefsSender) for which no ads should be displayed. */
+	private static final String[] noAdHash = {
+			"2986b6d93053a53ff13008b3015a77ff", // me
+			"f6b3b72300e918436b4c4c9fdf909e8c" // jörg s.
+	};
 
 	/** Public Dialog ref. */
 	public static Dialog dialog = null;
@@ -316,6 +326,15 @@ public class AndGMXsms extends Activity {
 
 		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
 		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
+
+		prefsNoAds = false;
+		String hash = md5(prefsSender);
+		for (String h : noAdHash) {
+			if (hash.equals(h)) {
+				prefsNoAds = true;
+				break;
+			}
+		}
 	}
 
 	/**
@@ -637,6 +656,9 @@ public class AndGMXsms extends Activity {
 				AndGMXsms.this.checkPrefs();
 				return;
 			case MESSAGE_DISPLAY_ADS:
+				if (prefsNoAds) {
+					return; // do not display any ads
+				}
 				// display ads
 				((AdView) AndGMXsms.this.findViewById(R.id.ad))
 						.setVisibility(View.VISIBLE);
@@ -983,18 +1005,28 @@ public class AndGMXsms extends Activity {
 		}
 	}
 
-	public static String md5(String s) {      
-	     try { 
-	              // Create MD5 Hash      
-		       MessageDigest digest = java.security.MessageDigest.getInstance("MD5");      
-		       digest.update(s.getBytes());      
-		       byte messageDigest[] = digest.digest();
-		       // Create Hex String      
-		       StringBuffer hexString = new StringBuffer();     
-		       for (int i=0; i<messageDigest.length; i++)     
-		       hexString.append(Integer.toHexString(0xFF & messageDigest[i]));     
-		       return hexString.toString();                   
-		       } catch (NoSuchAlgorithmException e) {             e.printStackTrace();        }     
-		      return "";     
-		      }  
+	public static String md5(final String s) {
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = java.security.MessageDigest
+					.getInstance("MD5");
+			digest.update(s.getBytes());
+			byte messageDigest[] = digest.digest();
+			// Create Hex String
+			StringBuilder hexString = new StringBuilder(32);
+			int b;
+			for (int i = 0; i < messageDigest.length; i++) {
+				b = 0xFF & messageDigest[i];
+				if (b < 0x10) {
+					hexString.append('0' + Integer.toHexString(b));
+				} else {
+					hexString.append(Integer.toHexString(b));
+				}
+			}
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 }
