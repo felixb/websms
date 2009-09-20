@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -122,7 +123,7 @@ public class AndGMXsms extends Activity {
 	public static String dialogString = null;
 
 	/** true if preferences got opened. */
-	static boolean doPreferences = false;
+	private static boolean doPreferences = false;
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
@@ -610,6 +611,25 @@ public class AndGMXsms extends Activity {
 	public final void log(final String text) {
 		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG)
 				.show();
+	}
+
+	/**
+	 * Preferences.
+	 * 
+	 * @author flx
+	 */
+	public static class Preferences extends PreferenceActivity {
+		/**
+		 * Called on Create.
+		 * 
+		 * @param savedInstanceState
+		 *            saved Instance
+		 */
+		public final void onCreate(final Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			AndGMXsms.doPreferences = true;
+			this.addPreferencesFromResource(R.xml.prefs);
+		}
 	}
 
 	/**
