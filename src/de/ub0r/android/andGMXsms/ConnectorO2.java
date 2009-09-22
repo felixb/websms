@@ -37,7 +37,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 *            input
 	 * @return _flowExecutionKey
 	 */
-	private String getFlowExecutionkey(final String html) {
+	private static String getFlowExecutionkey(final String html) {
 		String ret = "";
 		int i = html.indexOf("name=\"_flowExecutionKey\" value=\"");
 		if (i > 0) {
@@ -76,7 +76,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
 			String htmlText = AndGMXsms.stream2String(response.getEntity()
 					.getContent());
-			String flowExecutionKey = this.getFlowExecutionkey(htmlText);
+			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
 			url = "https://login.o2online.de/loginRegistration/loginAction.do";

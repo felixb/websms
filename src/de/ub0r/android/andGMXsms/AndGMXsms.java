@@ -85,31 +85,31 @@ public class AndGMXsms extends Activity {
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
 	/** Preferences: mail. */
-	public static String prefsMail;
+	static String prefsMail;
 	/** Preferences: username. */
-	public static String prefsUser;
+	static String prefsUser;
 	/** Preferences: user's password - gmx. */
-	public static String prefsPasswordGMX;
+	static String prefsPasswordGMX;
 	/** Preferences: user's password - o2. */
-	public static String prefsPasswordO2;
+	static String prefsPasswordO2;
 	/** Preferences: user's phonenumber. */
-	public static String prefsSender;
+	static String prefsSender;
 	/** Preferences: default prefix. */
-	public static String prefsDefPrefix;
+	static String prefsDefPrefix;
 	/** Preferences: ready for gmx? */
-	public static boolean prefsReadyGMX = false;
+	static boolean prefsReadyGMX = false;
 	/** Preferences: ready for o2? */
-	public static boolean prefsReadyO2 = false;
+	static boolean prefsReadyO2 = false;
 	/** Remaining free sms. */
-	public static String remFree = null;
+	static String remFree = null;
 	/** Preferences: use softkeys. */
-	public static boolean prefsSoftKeys = false;
+	static boolean prefsSoftKeys = false;
 	/** Preferences: enable gmx. */
-	public static boolean prefsEnableGMX = false;
+	static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
-	public static boolean prefsEnableO2 = false;
+	static boolean prefsEnableO2 = false;
 	/** Preferences: hide ads. */
-	public static boolean prefsNoAds = false;
+	static boolean prefsNoAds = false;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] noAdHash = {
@@ -120,9 +120,9 @@ public class AndGMXsms extends Activity {
 	};
 
 	/** Public Dialog ref. */
-	public static Dialog dialog = null;
+	static Dialog dialog = null;
 	/** Dialog String. */
-	public static String dialogString = null;
+	static String dialogString = null;
 
 	/** true if preferences got opened. */
 	private static boolean doPreferences = false;
@@ -133,21 +133,21 @@ public class AndGMXsms extends Activity {
 	private static final int DIALOG_HELP = 1;
 
 	/** Message for logging. **/
-	public static final int MESSAGE_LOG = 0;
+	static final int MESSAGE_LOG = 0;
 	/** Message for update free sms count. **/
-	public static final int MESSAGE_FREECOUNT = 1;
+	static final int MESSAGE_FREECOUNT = 1;
 	/** Message to send. */
-	public static final int MESSAGE_SEND = 2;
+	static final int MESSAGE_SEND = 2;
 	/** Message to bootstrap. */
-	public static final int MESSAGE_BOOTSTRAP = 3;
+	static final int MESSAGE_BOOTSTRAP = 3;
 	/** Message to open settings. */
-	public static final int MESSAGE_SETTINGS = 4;
+	static final int MESSAGE_SETTINGS = 4;
 	/** Message to reset data. */
-	public static final int MESSAGE_RESET = 5;
+	static final int MESSAGE_RESET = 5;
 	/** Message check prefsReady. */
-	public static final int MESSAGE_PREFSREADY = 6;
+	static final int MESSAGE_PREFSREADY = 6;
 	/** Message display ads. */
-	public static final int MESSAGE_DISPLAY_ADS = 7;
+	static final int MESSAGE_DISPLAY_ADS = 7;
 
 	/** Menu: send via GMX. */
 	private static final int MENU_SEND_GMX = 1;
@@ -167,13 +167,13 @@ public class AndGMXsms extends Activity {
 	private static String lastTo = null;
 
 	/** Remaining free sms at gmx. */
-	public static int smsGMXfree = 0;
+	static int smsGMXfree = 0;
 	/** Free sms / month at gmx. */
-	public static int smsGMXlimit = 0;
+	static int smsGMXlimit = 0;
 	/** Remaining free sms at o2. */
-	public static int smsO2free = 0;
+	static int smsO2free = 0;
 	/** Free sms / month at o2. */
-	public static int smsO2limit = 0;
+	static int smsO2limit = 0;
 
 	/** Text's label. */
 	private TextView textLabel;
