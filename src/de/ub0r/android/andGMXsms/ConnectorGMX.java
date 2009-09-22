@@ -29,45 +29,45 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
 	/** SMS DB: address. */
-	public static final String ADDRESS = "address";
+	static final String ADDRESS = "address";
 	/** SMS DB: person. */
 	// private static final String PERSON = "person";
 	/** SMS DB: date. */
 	// private static final String DATE = "date";
 	/** SMS DB: read. */
-	public static final String READ = "read";
+	static final String READ = "read";
 	/** SMS DB: status. */
 	// private static final String STATUS = "status";
 	/** SMS DB: type. */
-	public static final String TYPE = "type";
+	static final String TYPE = "type";
 	/** SMS DB: body. */
-	public static final String BODY = "body";
+	static final String BODY = "body";
 	/** SMS DB: type - sent. */
-	public static final int MESSAGE_TYPE_SENT = 2;
+	static final int MESSAGE_TYPE_SENT = 2;
 
 	/** ID of text in array. */
-	public static final int ID_TEXT = 0;
+	static final int ID_TEXT = 0;
 	/** ID of recipient in array. */
-	public static final int ID_TO = 1;
+	static final int ID_TO = 1;
 
 	/** ID of mail in array. */
-	public static final int ID_MAIL = 0;
+	static final int ID_MAIL = 0;
 	/** ID of password in array. */
-	public static final int ID_PW = 1;
+	static final int ID_PW = 1;
 
 	/** Number of IDs in array for sms send. */
-	public static final int IDS_SEND = 3;
+	static final int IDS_SEND = 3;
 	/** Number of IDs in array for bootstrap. */
-	public static final int IDS_BOOTSTR = 2;
+	static final int IDS_BOOTSTR = 2;
 
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
-
 	/** Result: wrong customerid/password. */
 	private static final int RSLT_WRONG_CUSTOMER = 11;
-
 	/** Result: wrong mail/password. */
 	private static final int RSLT_WRONG_MAIL = 25;
+	/** Result: wrong sender. */
+	private static final int RSLT_WRONG_SENDER = 8;
 
 	/** recipient. */
 	private String[] to;
@@ -82,7 +82,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	private String pw;
 
 	/** Connector is bootstrapping. */
-	public static boolean inBootstrap = false;
+	static boolean inBootstrap = false;
 
 	/**
 	 * Write key,value to StringBuilder.
@@ -265,8 +265,13 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 							.getResources().getString(R.string.log_error_mail));
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					return false;
+				case RSLT_WRONG_SENDER: // wrong sender
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+							.getResources()
+							.getString(R.string.log_error_sender));
+					return false;
 				default:
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + "#"
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + " #"
 							+ rslt);
 					return false;
 				}

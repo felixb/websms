@@ -26,6 +26,7 @@
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
+	<string name="log_error_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
 	<string name="log_sending">Sending message...</string>
