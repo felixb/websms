@@ -231,10 +231,12 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
-						AndGMXsms.smsGMXfree = Integer.parseInt(p);
+						AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX] = Integer
+								.parseInt(p);
 						p = this.getParam(outp, "free_max_month");
 						if (p != null) {
-							AndGMXsms.smsGMXlimit = Integer.parseInt(p);
+							AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX_LIMIT] = Integer
+									.parseInt(p);
 						}
 						AndGMXsms
 								.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);

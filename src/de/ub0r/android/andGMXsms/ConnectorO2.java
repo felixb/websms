@@ -139,8 +139,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			if (i > 0) {
 				int j = htmlText.indexOf("Web2SMS", i);
 				if (j > 0) {
-					AndGMXsms.smsO2free = Integer.parseInt(htmlText.substring(
-							i + 9, j).trim());
+					AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2] = Integer
+							.parseInt(htmlText.substring(i + 9, j).trim());
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 				}
 			}

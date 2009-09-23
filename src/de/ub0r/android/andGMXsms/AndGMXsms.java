@@ -167,14 +167,16 @@ public class AndGMXsms extends Activity {
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
 
+	/** Remaining free sms. */
+	static final int[] SMS_FREE = { 0, 0, 0, 0 };
 	/** Remaining free sms at gmx. */
-	static int smsGMXfree = 0;
+	static final int SMS_FREE_GMX = 0;
 	/** Free sms / month at gmx. */
-	static int smsGMXlimit = 0;
+	static final int SMS_FREE_GMX_LIMIT = 1;
 	/** Remaining free sms at o2. */
-	static int smsO2free = 0;
+	static final int SMS_FREE_O2 = 2;
 	/** Free sms / month at o2. */
-	static int smsO2limit = 0;
+	static final int SMS_FREE_O2_LIMIT = 3;
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -657,16 +659,20 @@ public class AndGMXsms extends Activity {
 			case MESSAGE_FREECOUNT:
 				AndGMXsms.remFree = "";
 				if (AndGMXsms.prefsEnableGMX) {
-					AndGMXsms.remFree = AndGMXsms.smsGMXfree + " / "
-							+ AndGMXsms.smsGMXlimit;
+					AndGMXsms.remFree = "GMX: "
+							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX]
+							+ " / "
+							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX_LIMIT];
 				}
 				if (AndGMXsms.prefsEnableO2) {
 					if (AndGMXsms.remFree.length() > 0) {
 						AndGMXsms.remFree += " - ";
 					}
-					AndGMXsms.remFree += AndGMXsms.smsO2free;
-					if (AndGMXsms.smsO2limit > 0) {
-						AndGMXsms.remFree += " / " + AndGMXsms.smsO2limit;
+					AndGMXsms.remFree += "O2: "
+							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2];
+					if (AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2_LIMIT] > 0) {
+						AndGMXsms.remFree += " / "
+								+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2_LIMIT];
 					}
 				}
 				if (AndGMXsms.remFree.length() == 0) {
