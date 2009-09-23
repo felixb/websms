@@ -5,7 +5,7 @@
 	<string name="author_">Autor:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
-	<string name="click_for_update">(klick mich zum updaten)</string>
+	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>

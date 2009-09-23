@@ -7,7 +7,7 @@
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
-	<string name="click_for_update">(click me for update)</string>
+	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
