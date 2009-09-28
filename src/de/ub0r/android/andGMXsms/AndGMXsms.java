@@ -58,7 +58,7 @@ import com.admob.android.ads.AdView;
  * 
  * @author flx
  */
-public class AndGMXsms extends Activity {
+public class AndGMXsms extends Activity implements OnClickListener {
 
 	/** Static reference to running Activity. */
 	static AndGMXsms me;
@@ -214,20 +214,16 @@ public class AndGMXsms extends Activity {
 		lastMsg = this.preferences.getString(PREFS_TEXT, "");
 
 		// register Listener
-		((Button) this.findViewById(R.id.send_gmx))
-				.setOnClickListener(this.runSendGMX);
-		((Button) this.findViewById(R.id.send_o2))
-				.setOnClickListener(this.runSendO2);
-		((Button) this.findViewById(R.id.cancel))
-				.setOnClickListener(this.cancel);
+		((Button) this.findViewById(R.id.send_gmx)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.send_o2)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		((EditText) this.findViewById(R.id.text))
 				.addTextChangedListener(this.textWatcher);
 
-		((TextView) this.findViewById(R.id.freecount))
-				.setOnClickListener(this.runGetFree);
+		((TextView) this.findViewById(R.id.freecount)).setOnClickListener(this);
 
 		MultiAutoCompleteTextView to = (MultiAutoCompleteTextView) this
 				.findViewById(R.id.to);
@@ -456,17 +452,37 @@ public class AndGMXsms extends Activity {
 		editor.commit();
 	}
 
-	/** Listener for launching a get-free-sms-count-thread. */
-	private OnClickListener runGetFree = new OnClickListener() {
-		public void onClick(final View v) {
+	/**
+	 * OnClick.
+	 * 
+	 * @param v
+	 *            View
+	 */
+	public final void onClick(final View v) {
+		switch (v.getId()) {
+		case R.id.freecount:
 			if (prefsEnableGMX) {
 				new ConnectorGMX().execute((String) null);
 			}
 			if (prefsEnableO2) {
 				new ConnectorO2().execute((String) null);
 			}
+			break;
+		case R.id.btn_donate:
+			Uri uri = Uri.parse(this.getString(R.string.donate_url));
+			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+			break;
+		case R.id.send_gmx:
+			this.send(CONNECTOR_GMX);
+			break;
+		case R.id.send_o2:
+			this.send(CONNECTOR_O2);
+		case R.id.cancel:
+			this.reset();
+		default:
+			break;
 		}
-	};
+	}
 
 	/**
 	 * Open menu.
@@ -586,15 +602,8 @@ public class AndGMXsms extends Activity {
 			myDialog.setTitle(this.getResources().getString(R.string.about_)
 					+ " v"
 					+ this.getResources().getString(R.string.app_version));
-			Button button = (Button) myDialog.findViewById(R.id.btn_donate);
-			button.setOnClickListener(new OnClickListener() {
-				public void onClick(final View view) {
-					Uri uri = Uri.parse(AndGMXsms.this
-							.getString(R.string.donate_url));
-					AndGMXsms.this.startActivity(new Intent(Intent.ACTION_VIEW,
-							uri));
-				}
-			});
+			((Button) myDialog.findViewById(R.id.btn_donate))
+					.setOnClickListener(this);
 			break;
 		case DIALOG_HELP:
 			myDialog = new Dialog(this);
@@ -863,28 +872,6 @@ public class AndGMXsms extends Activity {
 		}
 	}
 
-	/** OnClickListener for sending the sms. */
-	private OnClickListener runSendGMX = new OnClickListener() {
-		public void onClick(final View v) {
-			AndGMXsms.this.send(CONNECTOR_GMX);
-		}
-	};
-
-	/** OnClickListener for sending the sms. */
-	private OnClickListener runSendO2 = new OnClickListener() {
-		public void onClick(final View v) {
-			AndGMXsms.this.send(CONNECTOR_O2);
-		}
-	};
-
-	/** OnClickListener for cancel. */
-	private OnClickListener cancel = new OnClickListener() {
-		public void onClick(final View v) {
-			// reset input fields
-			AndGMXsms.this.reset();
-		}
-	};
-
 	/**
 	 * Clean recipient's phone number from [ -.()].
 	 * 
@@ -1055,7 +1042,7 @@ public class AndGMXsms extends Activity {
 		}
 	}
 
-	public static String md5(final String s) {
+	private static String md5(final String s) {
 		try {
 			// Create MD5 Hash
 			MessageDigest digest = java.security.MessageDigest
