@@ -13,7 +13,7 @@
 		android:paddingLeft="5sp"
 		android:paddingRight="5sp"
 		android:autoLink="web"
-	></TextView>
+	/>
 
 	<TextView
 		android:text="@string/license_"
@@ -21,7 +21,7 @@
 		android:layout_height="wrap_content"
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
-	></TextView>
+	/>
 	<TextView
 		android:text="@string/license"
 		android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
 		android:paddingLeft="15sp"
 		android:paddingRight="5sp"
 		android:autoLink="web"
-	></TextView>
+	/>
 
 	<TextView
 		android:text="@string/author_"
@@ -37,7 +37,7 @@
 		android:layout_height="wrap_content"
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
-	></TextView>
+	/>
 	<TextView
 		android:text="@string/author"
 		android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 		android:paddingLeft="15sp"
 		android:paddingRight="5sp"
 		android:autoLink="email"
-	></TextView>
+	/>
 
 	<TextView
 		android:text="@string/source_"
@@ -53,7 +53,7 @@
 		android:layout_height="wrap_content"
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
-	></TextView>
+	/>
 	<TextView
 		android:text="@string/source"
 		android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
 		android:paddingLeft="15sp"
 		android:paddingRight="5sp"
 		android:autoLink="web"
-	></TextView>
+	/>
 
 	<Button
 		android:id="@+id/btn_donate"
@@ -71,5 +71,5 @@
 		android:layout_marginTop="10sp"
 		android:layout_marginLeft="5sp"
 		android:layout_marginRight="5sp"
-	></Button>
+	/>
 </LinearLayout>

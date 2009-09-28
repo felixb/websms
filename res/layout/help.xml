@@ -13,7 +13,7 @@
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
 		android:paddingRight="5sp"
-	></TextView>
+	/>
 	
 	<TextView
 		android:text="@string/mail_"
@@ -21,14 +21,14 @@
 		android:layout_height="wrap_content"
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
-	></TextView>
+	/>
 	<TextView
 		android:text="@string/mail_help"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:paddingLeft="15sp"
 		android:paddingRight="5sp"
-	></TextView>
+	/>
 	  
 	<TextView
 		android:text="@string/password_"
@@ -36,7 +36,7 @@
 		android:layout_height="wrap_content"
 		android:paddingTop="5sp"
 		android:paddingLeft="5sp"
-	></TextView>
+	/>
 	<TextView
 		android:text="@string/password_help"
 		android:layout_width="wrap_content"
@@ -44,5 +44,5 @@
 		android:paddingLeft="15sp"
 		android:paddingRight="5sp"
 		android:paddingBottom="5sp"
-	></TextView>
+	/>
 </LinearLayout>

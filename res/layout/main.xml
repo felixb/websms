@@ -26,27 +26,27 @@
 		android:id="@+id/freecount"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-	></TextView>
+	/>
 
 	<TextView
 		android:text="@string/to_"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-	></TextView>
+	/>
 	<MultiAutoCompleteTextView
 		android:text=""
 		android:id="@+id/to"
 		android:hint="@string/to_hint"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-	></MultiAutoCompleteTextView>
+	/>
   
 	<TextView
 		android:text="@string/text_"
 		android:id="@+id/text_"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-	></TextView>
+	/>
   
 	<EditText
 		android:id="@+id/text"
@@ -54,7 +54,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="top"
 		android:layout_weight="1"
-		></EditText>
+	/>
 
 	<LinearLayout
 		android:layout_width="fill_parent"
@@ -67,20 +67,20 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:layout_weight="1"
-		></Button>
+		/>
 		<Button
 			android:text="@string/send_o2"
 			android:id="@+id/send_o2"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:layout_weight="1"
-		></Button>
+		/>
 		<Button
 			android:id="@+id/cancel"
 			android:text="@android:string/cancel"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:layout_weight="1"
-		></Button>
+		/>
 	</LinearLayout>
 </LinearLayout>
