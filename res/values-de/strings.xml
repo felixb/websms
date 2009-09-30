@@ -47,11 +47,14 @@
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_sender">Falscher Absender! Das Format muss im
 		internationalen Format sein. z.B. +4917012345678</string>
+	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und
+		bestätigt sein.</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>
-	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.</string>
+	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.
+	</string>
 	<string name="mail_">Mail Adresse</string>
 	<string name="password_">GMX SMS Key</string>
 	<string name="password_help">Der GMX SMS Freischaltcode befindet sich auf der

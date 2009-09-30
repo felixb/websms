@@ -90,6 +90,8 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	private static final int RSLT_WRONG_MAIL = 25;
 	/** Result: wrong sender. */
 	private static final int RSLT_WRONG_SENDER = 8;
+	/** Result: sender is unregistered by gmx. */
+	private static final int RSLT_UNREGISTERED_SENDER = 71;
 
 	/** recipient. */
 	private String[] to;
@@ -294,6 +296,11 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources()
 							.getString(R.string.log_error_sender));
+					return false;
+				case RSLT_UNREGISTERED_SENDER: // unregistered sender
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+							.getResources().getString(
+									R.string.log_error_sender_unregistered));
 					return false;
 				default:
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + " #"
