@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009 Felix Bechstein
+	-->
+	<!--
+		This file is part of AndGMXsms. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:enabled="true"
-		android:menuCategory="secondary"
-		android:checkable="false"
-		android:titleCondensed="@string/settings"
-		android:checked="false"
-		android:visible="true"
-		android:title="@string/settings"
-		android:id="@+id/item_settings"
-		android:icon="@android:drawable/ic_menu_preferences"
-	></item>
-	<item
-		android:enabled="true"
-		android:menuCategory="secondary"
-		android:checkable="false"
-		android:checked="false"
-		android:visible="true"
-		android:id="@+id/item_about"
-		android:icon="@android:drawable/ic_menu_info_details"
-		android:title="@string/about_"
-		android:titleCondensed="@string/about_"
-	></item>
-	<item
-		android:enabled="true"
-		android:menuCategory="secondary"
-		android:checkable="false"
-		android:checked="false"
-		android:visible="true"
-		android:id="@+id/item_help"
-		android:icon="@android:drawable/ic_menu_help"
-		android:title="@string/help_"
-		android:titleCondensed="@string/help_"
-	></item>
+	<item android:enabled="true" android:menuCategory="secondary"
+		android:checkable="false" android:titleCondensed="@string/settings"
+		android:checked="false" android:visible="true" android:title="@string/settings"
+		android:id="@+id/item_settings" android:icon="@android:drawable/ic_menu_preferences" />
+	<item android:enabled="true" android:menuCategory="secondary"
+		android:checkable="false" android:checked="false" android:visible="true"
+		android:id="@+id/item_about" android:icon="@android:drawable/ic_menu_info_details"
+		android:title="@string/about_" android:titleCondensed="@string/about_" />
+	<item android:enabled="true" android:menuCategory="secondary"
+		android:checkable="false" android:checked="false" android:visible="true"
+		android:id="@+id/item_help" android:icon="@android:drawable/ic_menu_help"
+		android:title="@string/help_" android:titleCondensed="@string/help_" />
 </menu>

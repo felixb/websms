@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009 Felix Bechstein
+	-->
+	<!--
+		This file is part of AndGMXsms. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
 <resources>
 	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and paid SMS via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
+	<string name="about">WebSMS enables you to send free and paid SMS
+		via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.2.3</string>
 	<string name="author_">Author:</string>
@@ -12,21 +30,26 @@
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
 	<string name="donate_">Donate (and remove ads)</string>
-	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
+	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152
+	</string>
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
-	<string name="help">You need either a GMX SMS Account (e.g. GMX ProMail) or O2 as provider to use this app.</string>
-	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
+	<string name="help">You need either a GMX SMS Account (e.g. GMX
+		ProMail) or O2 as provider to use this app.</string>
+	<string name="license">GPLv3 - see
+		http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
-	<string name="log_empty_settings">You need to set your preferences. Please press the menu button.</string>
+	<string name="log_empty_settings">You need to set your preferences. Please press
+		the menu button.</string>
 	<string name="log_error">ERROR</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
-	<string name="log_error_sender">Wrong sender! Set it in international form like +4917012345678.</string>
+	<string name="log_error_sender">Wrong sender! Set it in international form
+		like +4917012345678.</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
 	<string name="log_sending">Sending message...</string>
@@ -35,11 +58,14 @@
 	<string name="mail_hint">user@gmx.tld</string>
 	<string name="mail_">Mail address</string>
 	<string name="password_">GMX SMS Key</string>
-	<string name="password_help">The SMS Key can be found on the download page of the GMX SMS Manager (for windows).</string>
+	<string name="password_help">The SMS Key can be found on the download page of
+		the GMX SMS Manager (for windows).</string>
 	<string name="password_hint">GMX SMS-Manager Keycode</string>
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
-	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
+	<string name="sender_help">Your full international mobile phone number is
+		needed here. This is filled automatically when bootstrapping with
+		init.</string>
 	<string name="sender_hint">Int. phonenumber</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
@@ -51,7 +77,8 @@
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="softkeyboard_">Touchscreen</string>
 	<string name="softkeyboard_hint">Reduce GUI for touch keys</string>
-	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
+	<string name="source">http://repo.or.cz/w/andGMXsms.git
+	</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="text__">Text</string>
 	<string name="text_">Text:</string>

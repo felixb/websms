@@ -1,65 +1,49 @@
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory
-		android:title="@string/settings_common"
-	>
-		<CheckBoxPreference
-			android:key="enable_gmx"
-			android:title="@string/enable_gmx"
-		/>
-		<CheckBoxPreference
-			android:key="enable_o2"
-			android:title="@string/enable_o2"
-		/>
-		<EditTextPreference
-			android:key="sender"
-			android:title="@string/sender_"
-			android:dialogTitle="@string/sender_"
-			android:summary="@string/sender_hint"
-			android:inputType="text"
-		/>
-		<EditTextPreference
-			android:key="defprefix"
-			android:title="@string/defprefix_"
-			android:dialogTitle="@string/defprefix_"
-			android:summary="@string/defprefix_hint"
-			android:inputType="text"
-		/>
-		<CheckBoxPreference
-			android:key="softkeyboard"
-			android:title="@string/softkeyboard_"
-			android:summary="@string/softkeyboard_hint"
-		/>
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009 Felix Bechstein
+	-->
+	<!--
+		This file is part of AndGMXsms. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/settings_common">
+		<CheckBoxPreference android:key="enable_gmx"
+			android:title="@string/enable_gmx" />
+		<CheckBoxPreference android:key="enable_o2"
+			android:title="@string/enable_o2" />
+		<EditTextPreference android:key="sender"
+			android:title="@string/sender_" android:dialogTitle="@string/sender_"
+			android:summary="@string/sender_hint" android:inputType="text" />
+		<EditTextPreference android:key="defprefix"
+			android:title="@string/defprefix_" android:dialogTitle="@string/defprefix_"
+			android:summary="@string/defprefix_hint" android:inputType="text" />
+		<CheckBoxPreference android:key="softkeyboard"
+			android:title="@string/softkeyboard_" android:summary="@string/softkeyboard_hint" />
 	</PreferenceCategory>
-	<PreferenceCategory
-		android:title="@string/settings_gmx"
-		android:dependency="enable_gmx"
-	>    
-		<EditTextPreference
-			android:key="mail"
-			android:title="@string/mail_"
-			android:dialogTitle="@string/mail_"
-			android:summary="@string/mail_hint"
-			android:inputType="textEmailAddress"
-		/>
-		<EditTextPreference
-			android:key="password"
-			android:title="@string/password_"
-			android:dialogTitle="@string/password_"
-			android:summary="@string/password_hint"
-			android:inputType="textPassword"
-		/>
+	<PreferenceCategory android:title="@string/settings_gmx"
+		android:dependency="enable_gmx">
+		<EditTextPreference android:key="mail"
+			android:title="@string/mail_" android:dialogTitle="@string/mail_"
+			android:summary="@string/mail_hint" android:inputType="textEmailAddress" />
+		<EditTextPreference android:key="password"
+			android:title="@string/password_" android:dialogTitle="@string/password_"
+			android:summary="@string/password_hint" android:inputType="textPassword" />
 	</PreferenceCategory>
-	<PreferenceCategory
-		android:title="@string/settings_o2"
-		android:dependency="enable_o2"
-	>
-		<EditTextPreference
-			android:key="password_o2"
-			android:title="@string/password_o2_"
-			android:dialogTitle="@string/password_o2_"
-			android:summary="@string/password_o2_hint"
-			android:inputType="textPassword"
-		/>
+	<PreferenceCategory android:title="@string/settings_o2"
+		android:dependency="enable_o2">
+		<EditTextPreference android:key="password_o2"
+			android:title="@string/password_o2_" android:dialogTitle="@string/password_o2_"
+			android:summary="@string/password_o2_hint" android:inputType="textPassword" />
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -1,86 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+	<!--
+		Copyright (C) 2009 Felix Bechstein
+	-->
+	<!--
+		This file is part of AndGMXsms. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res/de.ub0r.android.andGMXsms"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
-	
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
 	<!-- Place an AdMob ad at the bottom of the screen. -->
 	<!-- It has white text on a black background. -->
 	<!-- The description of the surrounding context is 'Android game'. -->
-	<com.admob.android.ads.AdView
-		android:id="@+id/ad"
-		android:visibility="gone"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+	<com.admob.android.ads.AdView android:id="@+id/ad"
+		android:visibility="gone" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" app:isGoneWithoutAd="true"
+		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2" />
+	<!--
+		We could append app:testing="true" above to always get the test ad
+		back
+	-->
 
-		app:isGoneWithoutAd="true"
-		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2"
-	/>
-	<!-- We could append app:testing="true" above to always get the test ad back -->
-	
-	<TextView
-		android:text="@string/free_"
-		android:id="@+id/freecount"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-	/>
+	<TextView android:text="@string/free_" android:id="@+id/freecount"
+		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-	<TextView
-		android:text="@string/to_"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-	/>
-	<MultiAutoCompleteTextView
-		android:text=""
-		android:id="@+id/to"
-		android:hint="@string/to_hint"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-	/>
-  
-	<TextView
-		android:text="@string/text_"
-		android:id="@+id/text_"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-	/>
-  
-	<EditText
-		android:id="@+id/text"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_gravity="top"
-		android:layout_weight="1"
-	/>
+	<TextView android:text="@string/to_" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" />
+	<MultiAutoCompleteTextView android:text=""
+		android:id="@+id/to" android:hint="@string/to_hint"
+		android:layout_width="fill_parent" android:layout_height="wrap_content" />
 
-	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-		>
-		<Button
-			android:text="@string/send_gmx"
-			android:id="@+id/send_gmx"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_weight="1"
-		/>
-		<Button
-			android:text="@string/send_o2"
-			android:id="@+id/send_o2"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_weight="1"
-		/>
-		<Button
-			android:id="@+id/cancel"
-			android:text="@android:string/cancel"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_weight="1"
-		/>
+	<TextView android:text="@string/text_" android:id="@+id/text_"
+		android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+	<EditText android:id="@+id/text" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="top"
+		android:layout_weight="1" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="0">
+		<Button android:text="@string/send_gmx" android:id="@+id/send_gmx"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" />
+		<Button android:text="@string/send_o2" android:id="@+id/send_o2"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" />
+		<Button android:id="@+id/cancel" android:text="@android:string/cancel"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" />
 	</LinearLayout>
 </LinearLayout>
