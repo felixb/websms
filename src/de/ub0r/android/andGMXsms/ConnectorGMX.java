@@ -25,6 +25,7 @@ import java.net.URL;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * AsyncTask to manage IO to GMX API.
@@ -32,6 +33,9 @@ import android.os.AsyncTask;
  * @author flx
  */
 public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.GMX";
+
 	/** Target host. */
 	private static final String TARGET_HOST = "app0.wr-gmbh.de";
 	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
@@ -241,6 +245,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 				try {
 					rslt = Integer.parseInt(resultValue);
 				} catch (Exception e) {
+					Log.e(TAG, null, e);
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 					return false;
 				}
@@ -302,6 +307,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 				return false;
 			}
 		} catch (IOException e) {
+			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}

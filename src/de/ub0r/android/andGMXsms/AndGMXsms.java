@@ -58,6 +58,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -77,6 +78,8 @@ import com.admob.android.ads.AdView;
  * @author flx
  */
 public class AndGMXsms extends Activity implements OnClickListener {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS";
 
 	/** Static reference to running Activity. */
 	static AndGMXsms me;
@@ -1080,7 +1083,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			}
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			Log.e(TAG, null, e);
 		}
 		return "";
 	}

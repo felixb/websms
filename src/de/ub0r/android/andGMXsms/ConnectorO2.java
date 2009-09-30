@@ -24,11 +24,13 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * AsyncTask to manage IO to O2 API.
@@ -36,6 +38,9 @@ import android.os.AsyncTask;
  * @author flx
  */
 public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.o2de";
+
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
@@ -81,7 +86,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID%3DAUTH"
 					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
 					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
-			ArrayList<org.apache.http.cookie.Cookie> cookies = new ArrayList<org.apache.http.cookie.Cookie>();
+			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 			HttpResponse response = AndGMXsms.getHttpClient(url, cookies, null,
 					TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
@@ -196,12 +201,15 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				}
 			}
 		} catch (IOException e) {
+			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (URISyntaxException e) {
+			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (MalformedCookieException e) {
+			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
