@@ -469,6 +469,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			break;
 		case R.id.cancel:
 			this.reset();
+			break;
 		default:
 			break;
 		}
