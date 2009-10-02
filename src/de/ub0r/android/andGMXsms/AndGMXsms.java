@@ -195,6 +195,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		// TODO: set prefsOnChangeListener
 		this.reloadPrefs();
 
 		lastTo = this.preferences.getString(PREFS_TO, "");
@@ -270,7 +271,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			if (prefsEnableGMX) {
+			if (prefsEnableGMX
+					&& this.prefsOnChangeListener.wasChanged(Connector.O2)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				params[ConnectorGMX.ID_MAIL] = prefsMail;
@@ -618,9 +620,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * Preferences.
+	 * Main Preferences as PreferencesActivity.
 	 * 
-	 * @author flx
+	 * @author Felix Bechstein
 	 */
 	public static class Preferences extends PreferenceActivity {
 		/**
@@ -637,9 +639,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * AndGMXsms's MessageHandler.
+	 * AndGMXsms's Handler to fetch MEssages from other Threads..
 	 * 
-	 * @author flx
+	 * @author Felix Bechstein
 	 */
 	private class MessageHandler extends Handler {
 		/**
@@ -736,6 +738,42 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				final int before, final int count) {
 		}
 	};
+
+	/** Preferences onChangeListener. */
+	private myPreferencesOnChangeListener prefsOnChangeListener = new myPreferencesOnChangeListener();
+
+	private class myPreferencesOnChangeListener implements
+			SharedPreferences.OnSharedPreferenceChangeListener {
+		private boolean[] changed = { false, false };
+
+		/**
+		 * Called when prefs are changed, added or removed.
+		 * 
+		 * @param prefs
+		 *            Preferences
+		 * @param key
+		 *            key
+		 */
+		@Override
+		public void onSharedPreferenceChanged(final SharedPreferences prefs,
+				final String key) {
+			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
+					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
+				this.changed[Connector.GMX] = true;
+			}
+		}
+
+		/**
+		 * Were preferences changed since last call for connector?
+		 * 
+		 * @return was changed?
+		 */
+		public boolean wasChanged(final short connector) {
+			boolean ret = this.changed[connector];
+			this.changed[connector] = false;
+			return ret;
+		}
+	}
 
 	/**
 	 * Parse a String of "name (number), name (number), number, ..." to
