@@ -195,7 +195,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		// TODO: set prefsOnChangeListener
+		this.preferences
+				.registerOnSharedPreferenceChangeListener(this.prefsOnChangeListener);
 		this.reloadPrefs();
 
 		lastTo = this.preferences.getString(PREFS_TO, "");
@@ -272,7 +273,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			this.checkPrefs();
 			doPreferences = false;
 			if (prefsEnableGMX
-					&& this.prefsOnChangeListener.wasChanged(Connector.O2)) {
+					&& this.prefsOnChangeListener.wasChanged(Connector.GMX)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				params[ConnectorGMX.ID_MAIL] = prefsMail;
