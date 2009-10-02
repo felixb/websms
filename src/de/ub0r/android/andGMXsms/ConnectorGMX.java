@@ -240,11 +240,11 @@ public class ConnectorGMX extends Connector {
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
-						AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX] = Integer
+						AndGMXsms.SMS_FREE[GMX][AndGMXsms.SMS_FREE_COUNT] = Integer
 								.parseInt(p);
 						p = this.getParam(outp, "free_max_month");
 						if (p != null) {
-							AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX_LIMIT] = Integer
+							AndGMXsms.SMS_FREE[GMX][AndGMXsms.SMS_FREE_LIMIT] = Integer
 									.parseInt(p);
 						}
 						AndGMXsms

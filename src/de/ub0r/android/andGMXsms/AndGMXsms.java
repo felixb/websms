@@ -144,9 +144,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static final int MESSAGE_DISPLAY_ADS = 7;
 
 	/** Menu: send via GMX. */
-	private static final int MENU_SEND_GMX = 1;
+	private static final int MENU_SEND_GMX = Connector.GMX + 1;
 	/** Menu: send via O2. */
-	private static final int MENU_SEND_O2 = 2;
+	private static final int MENU_SEND_O2 = Connector.O2 + 1;
 	/** Menu: cancel. */
 	private static final int MENU_CANCEL = 3;
 
@@ -155,21 +155,20 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
 
-	/** Remaining free sms. */
-	static final int[] SMS_FREE = { 0, 0, 0, 0 };
-	/** Remaining free sms at gmx. */
-	static final int SMS_FREE_GMX = 0;
-	/** Free sms / month at gmx. */
-	static final int SMS_FREE_GMX_LIMIT = 1;
-	/** Remaining free sms at o2. */
-	static final int SMS_FREE_O2 = 2;
-	/** Free sms / month at o2. */
-	static final int SMS_FREE_O2_LIMIT = 3;
+	/**
+	 * Remaining free sms. First dimension is the Connector, second is the
+	 * free/limit.
+	 */
+	static final int[][] SMS_FREE = { { 0, 0 }, { 0, 0 } };
+	/** ID of sms free count in array SMS_FREE. */
+	static final int SMS_FREE_COUNT = 0;
+	/** ID of sms limit in array SMS_FREE. */
+	static final int SMS_FREE_LIMIT = 1;
 
 	/** Text's label. */
 	private TextView textLabel;
 
-	/** Resource @string/text__. */
+	/** Resource @@string/text__. */
 	private String textLabelRef;
 
 	/** Shared Preferences. */
@@ -660,19 +659,19 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				AndGMXsms.remFree = "";
 				if (AndGMXsms.prefsEnableGMX) {
 					AndGMXsms.remFree = "GMX: "
-							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX]
+							+ AndGMXsms.SMS_FREE[Connector.GMX][AndGMXsms.SMS_FREE_COUNT]
 							+ " / "
-							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_GMX_LIMIT];
+							+ AndGMXsms.SMS_FREE[Connector.GMX][AndGMXsms.SMS_FREE_LIMIT];
 				}
 				if (AndGMXsms.prefsEnableO2) {
 					if (AndGMXsms.remFree.length() > 0) {
 						AndGMXsms.remFree += " - ";
 					}
 					AndGMXsms.remFree += "O2: "
-							+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2];
-					if (AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2_LIMIT] > 0) {
+							+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_COUNT];
+					if (AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT] > 0) {
 						AndGMXsms.remFree += " / "
-								+ AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2_LIMIT];
+								+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT];
 					}
 				}
 				if (AndGMXsms.remFree.length() == 0) {

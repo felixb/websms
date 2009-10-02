@@ -149,7 +149,7 @@ public class ConnectorO2 extends Connector {
 			if (i > 0) {
 				int j = htmlText.indexOf("Web2SMS", i);
 				if (j > 0) {
-					AndGMXsms.SMS_FREE[AndGMXsms.SMS_FREE_O2] = Integer
+					AndGMXsms.SMS_FREE[O2][AndGMXsms.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 				}
