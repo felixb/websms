@@ -29,7 +29,6 @@ import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.util.Log;
 
 /**
@@ -37,7 +36,7 @@ import android.util.Log;
  * 
  * @author flx
  */
-public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
+public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2de";
 
@@ -45,13 +44,6 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
-
-	/** recipient. */
-	private String[] to;
-	/** recipients list. */
-	private String tos = "";
-	/** text. */
-	private String text;
 
 	/**
 	 * Extract _flowExecutionKey from HTML output.
@@ -87,7 +79,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
 					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
 			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
-			HttpResponse response = AndGMXsms.getHttpClient(url, cookies, null,
+			HttpResponse response = getHttpClient(url, cookies, null,
 					TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -96,9 +88,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 						+ resp);
 				return false;
 			}
-			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
-			String htmlText = AndGMXsms.stream2String(response.getEntity()
-					.getContent());
+			updateCookies(cookies, response.getAllHeaders(), url);
+			String htmlText = stream2String(response.getEntity().getContent());
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
@@ -113,8 +104,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			postData.add(new BasicNameValuePair("password",
 					AndGMXsms.prefsPasswordO2));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = AndGMXsms.getHttpClient(url, cookies, postData,
-					TARGET_AGENT);
+			response = getHttpClient(url, cookies, postData, TARGET_AGENT);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -124,7 +114,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				return false;
 			}
 			resp = cookies.size();
-			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), url);
 			if (resp == cookies.size()) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_pw));
@@ -133,8 +123,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 			url = "http://email.o2online.de:80/ssomanager.osp"
 					+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
 					+ "?&o2_type=url&o2_label=web2sms-o2online";
-			response = AndGMXsms
-					.getHttpClient(url, cookies, null, TARGET_AGENT);
+			response = getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -142,12 +131,11 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 						+ resp);
 				return false;
 			}
-			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), url);
 
 			url = "https://email.o2online.de/smscenter_new.osp"
 					+ "?Autocompletion=1&MsgContentID=-1";
-			response = AndGMXsms
-					.getHttpClient(url, cookies, null, TARGET_AGENT);
+			response = getHttpClient(url, cookies, null, TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -155,9 +143,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 						+ resp);
 				return false;
 			}
-			AndGMXsms.updateCookies(cookies, response.getAllHeaders(), url);
-			htmlText = AndGMXsms.stream2String(response.getEntity()
-					.getContent());
+			updateCookies(cookies, response.getAllHeaders(), url);
+			htmlText = stream2String(response.getEntity().getContent());
 			int i = htmlText.indexOf("Frei-SMS: ");
 			if (i > 0) {
 				int j = htmlText.indexOf("Web2SMS", i);
@@ -189,8 +176,7 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 				}
 				st = null;
 
-				response = AndGMXsms.getHttpClient(url, cookies, postData,
-						TARGET_AGENT);
+				response = getHttpClient(url, cookies, postData, TARGET_AGENT);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
@@ -221,7 +207,8 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	private boolean getFree() {
+	@Override
+	protected boolean updateMessages() {
 		return this.sendData();
 	}
 
@@ -230,10 +217,11 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	private boolean send() {
+	@Override
+	protected boolean sendMessage() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		int j = 0;
-		for (int i = 1; i < this.to.length; i++) {
+		for (int i = 0; i < this.to.length; i++) {
 			if (this.to[i] != null && this.to[i].length() > 1) {
 				if (j > 1) {
 					this.tos += ", ";
@@ -250,31 +238,9 @@ public class ConnectorO2 extends AsyncTask<String, Boolean, Boolean> {
 		} else {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
-			AndGMXsms.saveMessage(this.to, this.text);
+			saveMessage(this.to, this.text);
 			return true;
 		}
-	}
-
-	/**
-	 * Run IO in background.
-	 * 
-	 * @param textTo
-	 *            (text,recipient)
-	 * @return ok?
-	 */
-	@Override
-	protected final Boolean doInBackground(final String... textTo) {
-		boolean ret = false;
-		if (textTo == null || textTo[0] == null) {
-			this.publishProgress((Boolean) null);
-			ret = this.getFree();
-		} else {
-			this.text = textTo[ConnectorGMX.ID_TEXT];
-			this.to = textTo;
-			this.publishProgress((Boolean) null);
-			ret = this.send();
-		}
-		return new Boolean(ret);
 	}
 
 	/**

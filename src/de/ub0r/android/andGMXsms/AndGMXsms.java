@@ -18,36 +18,12 @@
  */
 package de.ub0r.android.andGMXsms;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.cookie.CookieOrigin;
-import org.apache.http.cookie.MalformedCookieException;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.cookie.BrowserCompatSpec;
-import org.apache.http.impl.cookie.CookieSpecBase;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -158,10 +134,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static final int MESSAGE_LOG = 0;
 	/** Message for update free sms count. **/
 	static final int MESSAGE_FREECOUNT = 1;
-	/** Message to send. */
-	static final int MESSAGE_SEND = 2;
-	/** Message to bootstrap. */
-	static final int MESSAGE_BOOTSTRAP = 3;
 	/** Message to open settings. */
 	static final int MESSAGE_SETTINGS = 4;
 	/** Message to reset data. */
@@ -177,11 +149,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final int MENU_SEND_O2 = 2;
 	/** Menu: cancel. */
 	private static final int MENU_CANCEL = 3;
-
-	/** Connector type: GMX. */
-	private static final short CONNECTOR_GMX = 0;
-	/** Connector type: O2. */
-	private static final short CONNECTOR_O2 = 1;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -306,9 +273,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			doPreferences = false;
 			if (prefsEnableGMX) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
+				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				params[ConnectorGMX.ID_MAIL] = prefsMail;
 				params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
-				new ConnectorGMX().execute(params);
+				Connector.bootstrap(Connector.GMX, params);
 			}
 		} else {
 			this.checkPrefs();
@@ -483,10 +451,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.freecount:
 			if (prefsEnableGMX) {
-				new ConnectorGMX().execute((String) null);
+				Connector.update(Connector.GMX);
 			}
 			if (prefsEnableO2) {
-				new ConnectorO2().execute((String) null);
+				Connector.update(Connector.O2);
 			}
 			break;
 		case R.id.btn_donate:
@@ -494,10 +462,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			break;
 		case R.id.send_gmx:
-			this.send(CONNECTOR_GMX);
+			this.send(Connector.GMX);
 			break;
 		case R.id.send_o2:
-			this.send(CONNECTOR_O2);
+			this.send(Connector.O2);
 		case R.id.cancel:
 			this.reset();
 		default:
@@ -593,10 +561,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			this.showDialog(DIALOG_HELP);
 			return true;
 		case MENU_SEND_GMX:
-			this.send(CONNECTOR_GMX);
+			this.send(Connector.GMX);
 			return true;
 		case MENU_SEND_O2:
-			this.send(CONNECTOR_O2);
+			this.send(Connector.O2);
 			return true;
 		case MENU_CANCEL:
 			this.reset();
@@ -717,14 +685,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 						+ " "
 						+ AndGMXsms.this.getResources().getString(
 								R.string.click_for_update));
-				return;
-			case MESSAGE_SEND:
-				new ConnectorGMX().execute((String[]) msg.obj);
-				return;
-			case MESSAGE_BOOTSTRAP:
-				if (prefsEnableGMX) {
-					new ConnectorGMX().execute((String[]) msg.obj);
-				}
 				return;
 			case MESSAGE_SETTINGS:
 				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
@@ -862,8 +822,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			return;
 		}
 		String[] numbers = AndGMXsms.parseReciepients(to);
-		String[] params = new String[numbers.length + 1];
-		params[ConnectorGMX.ID_TEXT] = text;
 		// fix number prefix
 		for (int i = 0; i < numbers.length; i++) {
 			String t = numbers[i];
@@ -876,21 +834,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 					}
 				}
 			}
-			t = AndGMXsms.cleanRecipient(t);
-			params[i + 1] = t;
-			numbers[i] = null;
+			numbers[i] = AndGMXsms.cleanRecipient(t);
 		}
 		// start a Connector Thread
-		switch (connector) {
-		case CONNECTOR_GMX:
-			new ConnectorGMX().execute(params);
-			break;
-		case CONNECTOR_O2:
-			new ConnectorO2().execute(params);
-			break;
-		default:
-			break;
-		}
+		Connector.send(connector, numbers, text);
 	}
 
 	/**
@@ -920,147 +867,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			final Object data) {
 		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
 				.sendToTarget();
-	}
-
-	/**
-	 * Save Message to internal database.
-	 * 
-	 * @param reciepients
-	 *            reciepients. first entry is skipped!
-	 * @param text
-	 *            text of message.
-	 */
-	public static final void saveMessage(final String[] reciepients,
-			final String text) {
-		for (int i = 1; i < reciepients.length; i++) {
-			if (reciepients[i] == null || reciepients[i].length() == 0) {
-				continue; // skip empty recipients
-			}
-			// save sms to content://sms/sent
-			ContentValues values = new ContentValues();
-			values.put(ConnectorGMX.ADDRESS, reciepients[i]);
-			// values.put(DATE, "1237080365055");
-			values.put(ConnectorGMX.READ, 1);
-			// values.put(STATUS, -1);
-			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
-			values.put(ConnectorGMX.BODY, text);
-			// Uri inserted =
-			AndGMXsms.me.getContentResolver().insert(
-					Uri.parse("content://sms/sent"), values);
-		}
-	}
-
-	/**
-	 * Read in data from Stream into String.
-	 * 
-	 * @param is
-	 *            stream
-	 * @return String
-	 * @throws IOException
-	 *             IOException
-	 */
-	public static final String stream2String(final InputStream is)
-			throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(is));
-		StringBuilder data = new StringBuilder();
-		String line = null;
-		while ((line = bufferedReader.readLine()) != null) {
-			data.append(line + "\n");
-		}
-		bufferedReader.close();
-		return data.toString();
-	}
-
-	/**
-	 * Get a fresh HTTP-Connection.
-	 * 
-	 * @param url
-	 *            url to open
-	 * @param cookies
-	 *            cookies to transmit
-	 * @param postData
-	 *            post data
-	 * @param userAgent
-	 *            user agent
-	 * @return the connection
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 */
-	static HttpResponse getHttpClient(final String url,
-			final ArrayList<Cookie> cookies,
-			final ArrayList<BasicNameValuePair> postData, final String userAgent)
-			throws ClientProtocolException, IOException {
-		HttpClient client = new DefaultHttpClient();
-		HttpRequestBase request;
-		if (postData == null) {
-			request = new HttpGet(url);
-		} else {
-			request = new HttpPost(url);
-			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
-		}
-		request.setHeader("User-Agent", userAgent);
-
-		if (cookies != null && cookies.size() > 0) {
-			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
-			for (Header cookieHeader : cookieSpecBase.formatCookies(cookies)) {
-				// Setting the cookie
-				request.setHeader(cookieHeader);
-			}
-		}
-		return client.execute(request);
-	}
-
-	/**
-	 * Update cookies from response.
-	 * 
-	 * @param cookies
-	 *            old cookie list
-	 * @param headers
-	 *            headers from response
-	 * @param url
-	 *            requested url
-	 * @throws URISyntaxException
-	 *             malformed uri
-	 * @throws MalformedCookieException
-	 *             malformed cookie
-	 */
-	static void updateCookies(final ArrayList<Cookie> cookies,
-			final Header[] headers, final String url)
-			throws URISyntaxException, MalformedCookieException {
-		final URI uri = new URI(url);
-		int port = uri.getPort();
-		if (port < 0) {
-			if (url.startsWith("https")) {
-				port = 443;
-			} else {
-				port = 80;
-			}
-		}
-		CookieOrigin origin = new CookieOrigin(uri.getHost(), port, uri
-				.getPath(), false);
-		CookieSpecBase cookieSpecBase = new BrowserCompatSpec();
-		for (Header header : headers) {
-			for (Cookie cookie : cookieSpecBase.parse(header, origin)) {
-				// THE cookie
-				String name = cookie.getName();
-				String value = cookie.getValue();
-				if (value == null || value.equals("")) {
-					continue;
-				}
-				for (Cookie c : cookies) {
-					if (name.equals(c.getName())) {
-						cookies.remove(c);
-						cookies.add(cookie);
-						name = null;
-						break;
-					}
-				}
-				if (name != null) {
-					cookies.add(cookie);
-				}
-			}
-		}
 	}
 
 	private static String md5(final String s) {

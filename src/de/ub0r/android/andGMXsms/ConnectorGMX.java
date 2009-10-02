@@ -24,7 +24,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.util.Log;
 
 /**
@@ -32,7 +31,7 @@ import android.util.Log;
  * 
  * @author flx
  */
-public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
+public class ConnectorGMX extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.GMX";
 
@@ -67,20 +66,13 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	/** SMS DB: type - sent. */
 	static final int MESSAGE_TYPE_SENT = 2;
 
-	/** ID of text in array. */
-	static final int ID_TEXT = 0;
-	/** ID of recipient in array. */
-	static final int ID_TO = 1;
-
 	/** ID of mail in array. */
-	static final int ID_MAIL = 0;
+	static final int ID_MAIL = 1;
 	/** ID of password in array. */
-	static final int ID_PW = 1;
+	static final int ID_PW = 2;
 
-	/** Number of IDs in array for sms send. */
-	static final int IDS_SEND = 3;
 	/** Number of IDs in array for bootstrap. */
-	static final int IDS_BOOTSTR = 2;
+	static final int IDS_BOOTSTR = 3;
 
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
@@ -92,13 +84,6 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	private static final int RSLT_WRONG_SENDER = 8;
 	/** Result: sender is unregistered by gmx. */
 	private static final int RSLT_UNREGISTERED_SENDER = 71;
-
-	/** recipient. */
-	private String[] to;
-	/** recipients list. */
-	private String tos = "";
-	/** text. */
-	private String text;
 
 	/** mail. */
 	private String mail;
@@ -223,8 +208,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
-				String resultString = AndGMXsms.stream2String(c
-						.getInputStream());
+				String resultString = stream2String(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 
@@ -325,7 +309,8 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	private boolean getFree() {
+	@Override
+	protected boolean updateMessages() {
 		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
 				true)));
 	}
@@ -335,7 +320,8 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	private boolean send() {
+	@Override
+	protected boolean sendMessage() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
@@ -343,7 +329,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 		StringBuilder recipients = new StringBuilder();
 		// table: <id>, <name>, <number>
 		int j = 0;
-		for (int i = 1; i < this.to.length; i++) {
+		for (int i = 0; i < this.to.length; i++) {
 			if (this.to[i] != null && this.to[i].length() > 1) {
 				recipients.append(++j);
 				recipients.append("\\;null\\;");
@@ -374,7 +360,7 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 		} else {
 			// result: ok
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
-			AndGMXsms.saveMessage(this.to, this.text);
+			saveMessage(this.to, this.text);
 			return true;
 		}
 	}
@@ -382,42 +368,18 @@ public class ConnectorGMX extends AsyncTask<String, Boolean, Boolean> {
 	/**
 	 * Bootstrap: Get preferences.
 	 * 
-	 * @return ok?
-	 */
-	private boolean bootstrap() {
-		inBootstrap = true;
-		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
-		writePair(packetData, "email_address", this.mail);
-		writePair(packetData, "password", this.pw);
-		writePair(packetData, "gmx", "1");
-		return this.sendData(closeBuffer(packetData));
-	}
-
-	/**
-	 * Run IO in background.
-	 * 
-	 * @param textTo
-	 *            (text,recipient)
+	 * @param params
+	 *            Paramterters
 	 * @return ok?
 	 */
 	@Override
-	protected final Boolean doInBackground(final String... textTo) {
-		boolean ret = false;
-		if (textTo == null || textTo[0] == null) {
-			this.publishProgress((Boolean) null);
-			ret = this.getFree();
-		} else if (textTo.length == IDS_BOOTSTR) {
-			this.mail = textTo[ID_MAIL];
-			this.pw = textTo[ID_PW];
-			this.publishProgress((Boolean) null);
-			ret = this.bootstrap();
-		} else {
-			this.text = textTo[ID_TEXT];
-			this.to = textTo;
-			this.publishProgress((Boolean) null);
-			ret = this.send();
-		}
-		return new Boolean(ret);
+	protected boolean doBootstrap(final String[] params) {
+		inBootstrap = true;
+		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
+		writePair(packetData, "email_address", params[ID_MAIL]);
+		writePair(packetData, "password", params[ID_PW]);
+		writePair(packetData, "gmx", "1");
+		return this.sendData(closeBuffer(packetData));
 	}
 
 	/**
