@@ -102,7 +102,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param text
 	 *            Text which should be sent.
 	 */
-	public final static void send(final short connector,
+	public static final void send(final short connector,
 			final String[] receivers, final String text) {
 		String[] params = new String[receivers.length + 2];
 		params[ID_ID] = ID_SEND;
@@ -149,7 +149,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param params
 	 *            Parameters the Connector expects
 	 */
-	public final static void bootstrap(final short connector,
+	public static final void bootstrap(final short connector,
 			final String[] params) {
 		switch (connector) {
 		case GMX:
@@ -167,7 +167,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            parameters
 	 * @return receivers of a message
 	 */
-	protected final static String[] getReceivers(final String[] params) {
+	protected static final String[] getReceivers(final String[] params) {
 		String[] ret = new String[params.length - 2];
 		for (int i = 2; i < params.length; i++) {
 			ret[i - 2] = params[i];
@@ -321,7 +321,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	abstract protected boolean updateMessages();
+	protected abstract boolean updateMessages();
 
 	/**
 	 * Bootstrap: Get preferences. This default implementation odes nothing!
@@ -339,7 +339,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @return ok?
 	 */
-	abstract protected boolean sendMessage();
+	protected abstract boolean sendMessage();
 
 	/**
 	 * Run IO in background.

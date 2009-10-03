@@ -310,7 +310,7 @@ public class ConnectorGMX extends Connector {
 	 * @return ok?
 	 */
 	@Override
-	protected boolean updateMessages() {
+	protected final boolean updateMessages() {
 		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
 				true)));
 	}
@@ -321,7 +321,7 @@ public class ConnectorGMX extends Connector {
 	 * @return ok?
 	 */
 	@Override
-	protected boolean sendMessage() {
+	protected final boolean sendMessage() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
@@ -373,7 +373,7 @@ public class ConnectorGMX extends Connector {
 	 * @return ok?
 	 */
 	@Override
-	protected boolean doBootstrap(final String[] params) {
+	protected final boolean doBootstrap(final String[] params) {
 		inBootstrap = true;
 		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
 		writePair(packetData, "email_address", params[ID_MAIL]);
@@ -398,7 +398,7 @@ public class ConnectorGMX extends Connector {
 			}
 		}
 		if (this.to == null) {
-			if (this.mail == null) {
+			if (!inBootstrap) {
 				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 						R.string.log_update);
 				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,

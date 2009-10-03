@@ -741,10 +741,16 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	};
 
 	/** Preferences onChangeListener. */
-	private myPreferencesOnChangeListener prefsOnChangeListener = new myPreferencesOnChangeListener();
+	private MyPreferencesOnChangeListener prefsOnChangeListener = new MyPreferencesOnChangeListener();
 
-	private class myPreferencesOnChangeListener implements
+	/**
+	 * PreferencesOnChangeListener.
+	 * 
+	 * @author Felix Bechstein
+	 */
+	private class MyPreferencesOnChangeListener implements
 			SharedPreferences.OnSharedPreferenceChangeListener {
+		/** Changed? */
 		private boolean[] changed = { false, false };
 
 		/**
@@ -767,6 +773,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		/**
 		 * Were preferences changed since last call for connector?
 		 * 
+		 * @param connector
+		 *            Connector
 		 * @return was changed?
 		 */
 		public boolean wasChanged(final short connector) {
@@ -909,13 +917,20 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				.sendToTarget();
 	}
 
+	/**
+	 * Calc MD5 Hash from String.
+	 * 
+	 * @param s
+	 *            input
+	 * @return hash
+	 */
 	private static String md5(final String s) {
 		try {
 			// Create MD5 Hash
 			MessageDigest digest = java.security.MessageDigest
 					.getInstance("MD5");
 			digest.update(s.getBytes());
-			byte messageDigest[] = digest.digest();
+			byte[] messageDigest = digest.digest();
 			// Create Hex String
 			StringBuilder hexString = new StringBuilder(32);
 			int b;

@@ -208,7 +208,7 @@ public class ConnectorO2 extends Connector {
 	 * @return ok?
 	 */
 	@Override
-	protected boolean updateMessages() {
+	protected final boolean updateMessages() {
 		return this.sendData();
 	}
 
@@ -218,7 +218,7 @@ public class ConnectorO2 extends Connector {
 	 * @return ok?
 	 */
 	@Override
-	protected boolean sendMessage() {
+	protected final boolean sendMessage() {
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		int j = 0;
 		for (int i = 0; i < this.to.length; i++) {
