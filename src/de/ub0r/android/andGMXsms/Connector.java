@@ -298,19 +298,16 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected static final void saveMessage(final String[] reciepients,
 			final String text) {
-		for (int i = 1; i < reciepients.length; i++) {
+		for (int i = 0; i < reciepients.length; i++) {
 			if (reciepients[i] == null || reciepients[i].length() == 0) {
 				continue; // skip empty recipients
 			}
 			// save sms to content://sms/sent
 			ContentValues values = new ContentValues();
 			values.put(ConnectorGMX.ADDRESS, reciepients[i]);
-			// values.put(DATE, "1237080365055");
 			values.put(ConnectorGMX.READ, 1);
-			// values.put(STATUS, -1);
 			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
 			values.put(ConnectorGMX.BODY, text);
-			// Uri inserted =
 			AndGMXsms.me.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 		}
