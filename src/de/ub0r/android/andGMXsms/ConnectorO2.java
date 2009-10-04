@@ -38,7 +38,44 @@ import android.util.Log;
  */
 public class ConnectorO2 extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.o2de";
+	private static final String TAG = "WebSMS.o2";
+
+	/** Index in some arrays for o2online.de. */
+	private static final int O2_DE = 0;
+	/** Index in some arrays for o2Online.ie. */
+	private static final int O2_IE = 1;
+
+	/**
+	 * URLs for this Connector. First dimension: DE/IE/..? Second dimension:
+	 * urls.
+	 */
+	private static final String[][] URLS = { { // .de
+					"https://login.o2online.de/loginRegistration"
+							+ "/loginAction.do"
+							+ "?_flowId=login&o2_type=asp&o2_label=login/"
+							+ "comcenter-login&scheme=http&port=80&server=email"
+							+ ".o2online.de&url=%2Fssomanager.osp%3FAPIID%3D"
+							+ "AUTH-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp"
+							+ "%253f%26o2_type"
+							+ "%3Durl%26o2_label%3Dweb2sms-o2online",
+					"https://login.o2online.de/loginRegistration/loginAction.do",
+					"http://email.o2online.de:80/ssomanager.osp"
+							+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
+							+ "?&o2_type=url&o2_label=web2sms-o2online",
+					"https://email.o2online.de/smscenter_new.osp"
+							+ "?Autocompletion=1&MsgContentID=-1",
+					"https://email.o2online.de/smscenter_send.osp" }, // end .de
+			{ // ie
+			"???1", "???2", "???3", "???4", "???5" } };
+
+	/**
+	 * Strings for this Connector. First dimension: DE/IE/..? Second dimension:
+	 * string.
+	 */
+	private static final String[][] STRINGS = { { // .de
+			"Frei-SMS: ", "Web2SMS" }, // end .de
+			{ // .ie
+			"???", "Web2SMS" } };
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -71,16 +108,9 @@ public class ConnectorO2 extends Connector {
 	 */
 	private boolean sendData() {
 		try { // get Connection
-			String url = "https://login.o2online.de/loginRegistration"
-					+ "/loginAction.do"
-					+ "?_flowId=login&o2_type=asp&o2_label=login/"
-					+ "comcenter-login&scheme=http&port=80&server=email."
-					+ "o2online.de&url=%2Fssomanager.osp%3FAPIID%3DAUTH"
-					+ "-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp%253f%"
-					+ "26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
 			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
-			HttpResponse response = getHttpClient(url, cookies, null,
-					TARGET_AGENT);
+			HttpResponse response = getHttpClient(URLS[O2_DE][0], cookies,
+					null, TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -88,12 +118,11 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][0]);
 			String htmlText = stream2String(response.getEntity().getContent());
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
-			url = "https://login.o2online.de/loginRegistration/loginAction.do";
 			// post data
 			ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 					4);
@@ -104,7 +133,8 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("password",
 					AndGMXsms.prefsPasswordO2));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = getHttpClient(url, cookies, postData, TARGET_AGENT);
+			response = getHttpClient(URLS[O2_DE][1], cookies, postData,
+					TARGET_AGENT);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -114,16 +144,14 @@ public class ConnectorO2 extends Connector {
 				return false;
 			}
 			resp = cookies.size();
-			updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][1]);
 			if (resp == cookies.size()) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_pw));
 				return false;
 			}
-			url = "http://email.o2online.de:80/ssomanager.osp"
-					+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
-					+ "?&o2_type=url&o2_label=web2sms-o2online";
-			response = getHttpClient(url, cookies, null, TARGET_AGENT);
+			response = getHttpClient(URLS[O2_DE][2], cookies, null,
+					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -131,11 +159,10 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][2]);
 
-			url = "https://email.o2online.de/smscenter_new.osp"
-					+ "?Autocompletion=1&MsgContentID=-1";
-			response = getHttpClient(url, cookies, null, TARGET_AGENT);
+			response = getHttpClient(URLS[O2_DE][3], cookies, null,
+					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -143,11 +170,11 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), url);
+			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][3]);
 			htmlText = stream2String(response.getEntity().getContent());
-			int i = htmlText.indexOf("Frei-SMS: ");
+			int i = htmlText.indexOf(STRINGS[O2_DE][0]);
 			if (i > 0) {
-				int j = htmlText.indexOf("Web2SMS", i);
+				int j = htmlText.indexOf(STRINGS[O2_DE][1], i);
 				if (j > 0) {
 					AndGMXsms.SMS_FREE[O2][AndGMXsms.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
@@ -156,7 +183,6 @@ public class ConnectorO2 extends Connector {
 			}
 
 			if (this.text != null && this.tos != null) {
-				url = "https://email.o2online.de/smscenter_send.osp";
 				postData = new ArrayList<BasicNameValuePair>(15);
 				postData.add(new BasicNameValuePair("SMSTo", this.tos));
 				postData.add(new BasicNameValuePair("SMSText", this.text));
@@ -176,7 +202,8 @@ public class ConnectorO2 extends Connector {
 				}
 				st = null;
 
-				response = getHttpClient(url, cookies, postData, TARGET_AGENT);
+				response = getHttpClient(URLS[O2_DE][4], cookies, postData,
+						TARGET_AGENT);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
