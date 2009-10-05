@@ -57,6 +57,9 @@
 		<Button android:text="@string/send_o2" android:id="@+id/send_o2"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />
+		<Button android:text="@string/send_sipgate" android:id="@+id/send_sipgate"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" />
 		<Button android:id="@+id/cancel" android:text="@android:string/cancel"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />

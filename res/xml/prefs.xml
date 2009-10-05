@@ -22,7 +22,7 @@
 			android:title="@string/enable_gmx" />
 		<CheckBoxPreference android:key="enable_o2"
 			android:title="@string/enable_o2" />
-		<EditTextPreference android:key="sender"
+		<CheckBoxPreference android:key="enable_sipgate" android:title="@string/enable_sipgate"></CheckBoxPreference><EditTextPreference android:key="sender"
 			android:title="@string/sender_" android:dialogTitle="@string/sender_"
 			android:summary="@string/sender_hint" android:inputType="text" />
 		<EditTextPreference android:key="defprefix"
@@ -30,7 +30,8 @@
 			android:summary="@string/defprefix_hint" android:inputType="text" />
 		<CheckBoxPreference android:key="softkeyboard"
 			android:title="@string/softkeyboard_" android:summary="@string/softkeyboard_hint" />
-	</PreferenceCategory>
+	
+</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_gmx"
 		android:dependency="enable_gmx">
 		<EditTextPreference android:key="mail"
@@ -46,4 +47,7 @@
 			android:title="@string/password_o2_" android:dialogTitle="@string/password_o2_"
 			android:summary="@string/password_o2_hint" android:inputType="textPassword" />
 	</PreferenceCategory>
+<PreferenceCategory android:dependency="enable_sipgate"><EditTextPreference android:key="username_sipgate" android:title="Benutzername" android:summary="Onlinebenutzername für Sipgate"></EditTextPreference>
+<EditTextPreference android:key="password_sipgate" android:title="Passwort" android:summary="Onlinepasswort für sipgate"></EditTextPreference>
+</PreferenceCategory>
 </PreferenceScreen>

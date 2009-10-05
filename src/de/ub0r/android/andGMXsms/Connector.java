@@ -59,6 +59,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short GMX = 0;
 	/** Connector type: O2. */
 	static final short O2 = 1;
+	/** Connector type: Sipgate. */
+	static final short SIPGATE = 2;	
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;

@@ -29,7 +29,7 @@
 	<string name="defprefix_hint">z.B. +49</string>
 	<string name="donate_">Spenden (und Werbung entfernen)</string>
 	<string name="enable_gmx">Aktiviere GMX</string>
-	<string name="enable_o2">Aktiviere o2</string>
+	<string name="enable_o2">Aktiviere o2</string><string name="enable_sipgate">Aktiviere Sipgate</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
 	<string name="help_">Hilfe</string>
@@ -68,12 +68,14 @@
 	<string name="send_">Senden</string>
 	<string name="send_gmx">Senden (GMX)</string>
 	<string name="send_o2">Senden (O2)</string>
-	<string name="settings">Einstellungen</string>
+	<string name="send_sipgate">Senden (Sipgate)</string><string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="settings_gmx">Einstellungen - GMX</string>
-	<string name="settings_o2">Einstellungen - o2</string>
+	<string name="settings_o2">Einstellungen - o2</string><string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
 	<string name="softkeyboard_hint">Einfache GUI für touch keys</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
+
+
 </resources>

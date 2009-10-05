@@ -67,6 +67,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final String PREFS_PASSWORD_GMX = "password";
 	/** Preference's name: user's password - o2. */
 	private static final String PREFS_PASSWORD_O2 = "password_o2";
+	/** Preference's name: sipgate username. */
+	private static final String PREFS_USER_SIPGATE = "user_sipgate";
+	/** Preference's name: user's password - sipgate. */
+	private static final String PREFS_PASSWORD_SIPGATE = "password_sipgate";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -77,6 +81,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
+	/** Preference's name: enable sipgate. */
+	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
@@ -88,6 +94,11 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	/** Preferences: user's password - gmx. */
 	static String prefsPasswordGMX;
 	/** Preferences: user's password - o2. */
+	/** Preferences: username sipgate. */
+	static String prefsUserSipgate;
+	/** Preferences: user's password - sipgate. */
+	static String prefsPasswordSipgate;
+	/** Preferences: user's password - o2. */
 	static String prefsPasswordO2;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
@@ -97,6 +108,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static boolean prefsReadyGMX = false;
 	/** Preferences: ready for o2? */
 	static boolean prefsReadyO2 = false;
+	/** Preferences: ready for sipgate? */
+	static boolean prefsReadySipgate = false;
 	/** Remaining free sms. */
 	static String remFree = null;
 	/** Preferences: use softkeys. */
@@ -105,6 +118,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
 	static boolean prefsEnableO2 = false;
+	/** Preferences: enable o2. */
+	static boolean prefsEnableSipgate = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
 
@@ -205,6 +220,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		// register Listener
 		((Button) this.findViewById(R.id.send_gmx)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.send_o2)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.send_sipgate)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
@@ -334,6 +350,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
 		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
+		
+		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE, false);		
+		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
+		prefsPasswordSipgate = this.preferences.getString(PREFS_PASSWORD_SIPGATE, "");
 
 		prefsNoAds = false;
 		String hash = md5(prefsSender);
@@ -349,6 +369,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
+		
 		Button btn = (Button) this.findViewById(R.id.send_gmx);
 		// show/hide buttons
 		if (prefsEnableGMX && !prefsSoftKeys) {
@@ -371,6 +392,14 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			} else {
 				btn.setText(this.getResources().getString(R.string.send_));
 			}
+		} else {
+			btn.setVisibility(View.GONE);
+		}
+		btn = (Button) this.findViewById(R.id.send_sipgate);
+		if (prefsEnableSipgate && !prefsSoftKeys) {
+			btn.setEnabled(prefsReadySipgate);
+			btn.setVisibility(View.VISIBLE);
+			btn.setText(this.getResources().getString(R.string.send_sipgate));
 		} else {
 			btn.setVisibility(View.GONE);
 		}
@@ -407,6 +436,16 @@ public class AndGMXsms extends Activity implements OnClickListener {
 						R.string.log_empty_settings));
 			}
 			prefsReadyO2 = false;
+		}
+		if (prefsEnableSipgate && prefsUserSipgate.length() != 0
+				&& prefsPasswordSipgate.length() != 0) {
+			prefsReadySipgate = true;
+		} else {
+			if (prefsEnableSipgate) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			prefsReadySipgate = false;
 		}
 
 		this.setButtons();
@@ -469,6 +508,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		case R.id.send_o2:
 			this.send(Connector.O2);
 			break;
+		case R.id.send_sipgate:
+			this.send(Connector.SIPGATE);
+			break;		
 		case R.id.cancel:
 			this.reset();
 			break;
