@@ -77,8 +77,8 @@ public class ConnectorO2 extends Connector {
 					"Web2SMS", // web2sms
 					"SMS wurde erfolgreich versendet" // successful send
 			}, // end .de
-			{ // .ie
-			"???", "Web2SMS", "???" } };
+			{ // .ie 
+			"Number of free text messages remaining this month: ", "Web2SMS", "???" } };
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
