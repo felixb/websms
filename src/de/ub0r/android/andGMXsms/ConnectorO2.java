@@ -40,10 +40,13 @@ public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2";
 
+	/** Operator of user. Selected by countrycode. */
+	private short operator;
+
 	/** Index in some arrays for o2online.de. */
-	private static final int O2_DE = 0;
+	private static final short O2_DE = 0;
 	/** Index in some arrays for o2Online.ie. */
-	private static final int O2_IE = 1;
+	private static final short O2_IE = 1;
 
 	/**
 	 * URLs for this Connector. First dimension: DE/IE/..? Second dimension:
@@ -107,9 +110,20 @@ public class ConnectorO2 extends Connector {
 	 * @return successful?
 	 */
 	private boolean sendData() {
+		// switch operator
+		if (AndGMXsms.prefsSender.startsWith("+49")) {
+			this.operator = O2_DE;
+		} else if (AndGMXsms.prefsSender.startsWith("+353")) {
+			this.operator = O2_IE;
+		} else {
+			// TODO: output some sane message to the user.
+			return false;
+		}
+
+		// do IO
 		try { // get Connection
 			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
-			HttpResponse response = getHttpClient(URLS[O2_DE][0], cookies,
+			HttpResponse response = getHttpClient(URLS[operator][0], cookies,
 					null, TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -118,7 +132,7 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][0]);
+			updateCookies(cookies, response.getAllHeaders(), URLS[operator][0]);
 			String htmlText = stream2String(response.getEntity().getContent());
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
@@ -133,7 +147,7 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("password",
 					AndGMXsms.prefsPasswordO2));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = getHttpClient(URLS[O2_DE][1], cookies, postData,
+			response = getHttpClient(URLS[operator][1], cookies, postData,
 					TARGET_AGENT);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
@@ -144,13 +158,13 @@ public class ConnectorO2 extends Connector {
 				return false;
 			}
 			resp = cookies.size();
-			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][1]);
+			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
 			if (resp == cookies.size()) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 						.getResources().getString(R.string.log_error_pw));
 				return false;
 			}
-			response = getHttpClient(URLS[O2_DE][2], cookies, null,
+			response = getHttpClient(URLS[operator][2], cookies, null,
 					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -159,9 +173,9 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][2]);
+			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
 
-			response = getHttpClient(URLS[O2_DE][3], cookies, null,
+			response = getHttpClient(URLS[operator][3], cookies, null,
 					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -170,11 +184,11 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[O2_DE][3]);
+			updateCookies(cookies, response.getAllHeaders(), URLS[operator][3]);
 			htmlText = stream2String(response.getEntity().getContent());
-			int i = htmlText.indexOf(STRINGS[O2_DE][0]);
+			int i = htmlText.indexOf(STRINGS[operator][0]);
 			if (i > 0) {
-				int j = htmlText.indexOf(STRINGS[O2_DE][1], i);
+				int j = htmlText.indexOf(STRINGS[operator][1], i);
 				if (j > 0) {
 					AndGMXsms.SMS_FREE[O2][AndGMXsms.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
@@ -202,7 +216,7 @@ public class ConnectorO2 extends Connector {
 				}
 				st = null;
 
-				response = getHttpClient(URLS[O2_DE][4], cookies, postData,
+				response = getHttpClient(URLS[operator][4], cookies, postData,
 						TARGET_AGENT);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
@@ -212,6 +226,7 @@ public class ConnectorO2 extends Connector {
 							+ resp);
 					return false;
 				}
+				// TODO: is this enough? check output html for success message
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
