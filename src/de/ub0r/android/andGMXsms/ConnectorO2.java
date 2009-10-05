@@ -40,9 +40,6 @@ public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2";
 
-	/** Operator of user. Selected by countrycode. */
-	private short operator;
-
 	/** Index in some arrays for o2online.de. */
 	private static final short O2_DE = 0;
 	/** Index in some arrays for o2Online.ie. */
@@ -76,9 +73,12 @@ public class ConnectorO2 extends Connector {
 	 * string.
 	 */
 	private static final String[][] STRINGS = { { // .de
-			"Frei-SMS: ", "Web2SMS" }, // end .de
+			"Frei-SMS: ", // free sms
+					"Web2SMS", // web2sms
+					"SMS wurde erfolgreich versendet" // successful send
+			}, // end .de
 			{ // .ie
-			"???", "Web2SMS" } };
+			"???", "Web2SMS", "???" } };
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -110,11 +110,13 @@ public class ConnectorO2 extends Connector {
 	 * @return successful?
 	 */
 	private boolean sendData() {
+		// Operator of user. Selected by countrycode.
+		short operator;
 		// switch operator
 		if (AndGMXsms.prefsSender.startsWith("+49")) {
-			this.operator = O2_DE;
+			operator = O2_DE;
 		} else if (AndGMXsms.prefsSender.startsWith("+353")) {
-			this.operator = O2_IE;
+			operator = O2_IE;
 		} else {
 			// TODO: output some sane message to the user.
 			return false;
@@ -226,7 +228,11 @@ public class ConnectorO2 extends Connector {
 							+ resp);
 					return false;
 				}
-				// TODO: is this enough? check output html for success message
+				htmlText = stream2String(response.getEntity().getContent());
+				if (htmlText.indexOf(STRINGS[operator][2]) < 0) {
+					// check output html for success message
+					return false;
+				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
