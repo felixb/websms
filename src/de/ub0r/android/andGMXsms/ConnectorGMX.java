@@ -201,9 +201,10 @@ public class ConnectorGMX extends Connector {
 			// send data
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				if (resp == 503) {
+				if (resp == HTTP_SERVICE_UNAVAILABLE) {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_service));
+							.getResources().getString(
+									R.string.log_error_service));
 				} else {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_http)
