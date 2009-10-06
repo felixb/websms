@@ -764,6 +764,14 @@ public class AndGMXsms extends Activity implements OnClickListener {
 					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
 				this.changed[Connector.GMX] = true;
 			}
+			if (key.equals(PREFS_SENDER)) {
+				// check for wrong sender format. people can't read..
+				String p = prefs.getString(PREFS_SENDER, "");
+				if (!p.startsWith("+")) {
+					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
+							R.string.log_error_sender));
+				}
+			}
 		}
 
 		/**
