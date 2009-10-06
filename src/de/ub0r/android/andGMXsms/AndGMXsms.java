@@ -696,9 +696,15 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		@Override
 		public final void handleMessage(final Message msg) {
 			switch (msg.what) {
-			case MESSAGE_LOG:
-				String l = (String) msg.obj;
-				AndGMXsms.this.log(l);
+			case MESSAGE_LOG: // msg is String or Resource StringID
+				if (msg.obj instanceof String) {
+					AndGMXsms.this.log((String) msg.obj);
+				} else if (msg.obj instanceof Integer) {
+					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
+							((Integer) msg.obj).intValue()));
+				} else {
+					AndGMXsms.this.log(msg.obj.toString());
+				}
 				return;
 			case MESSAGE_FREECOUNT:
 				AndGMXsms.remFree = "";
@@ -763,20 +769,17 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		 * @param s
 		 *            text
 		 */
-		
 		public void afterTextChanged(final Editable s) {
 			AndGMXsms.this.textLabel.setText(AndGMXsms.this.textLabelRef + " ("
 					+ s.length() + "):");
 		}
 
 		/** Needed dummy. */
-		
 		public void beforeTextChanged(final CharSequence s, final int start,
 				final int count, final int after) {
 		}
 
 		/** Needed dummy. */
-		
 		public void onTextChanged(final CharSequence s, final int start,
 				final int before, final int count) {
 		}
@@ -803,12 +806,19 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		 * @param key
 		 *            key
 		 */
-		
 		public void onSharedPreferenceChanged(final SharedPreferences prefs,
 				final String key) {
 			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
 					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
 				this.changed[Connector.GMX] = true;
+			}
+			if (key.equals(PREFS_SENDER)) {
+				// check for wrong sender format. people can't read..
+				String p = prefs.getString(PREFS_SENDER, "");
+				if (!p.startsWith("+")) {
+					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
+							R.string.log_error_sender));
+				}
 			}
 		}
 

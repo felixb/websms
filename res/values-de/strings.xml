@@ -44,12 +44,14 @@
 	<string name="log_error">FEHLER</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
+	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde dich bei mir, wenn dein O2 auch WebSMS unterstützt.</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_sender">Falscher Absender! Das Format muss im
 		internationalen Format sein. z.B. +4917012345678</string>
 	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und
 		bestätigt sein.</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
+	<string name="log_error_service">Service ist down!</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>

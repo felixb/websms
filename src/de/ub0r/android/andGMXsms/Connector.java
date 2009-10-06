@@ -54,6 +54,8 @@ import android.os.AsyncTask;
  * @author Felix Bechstein
  */
 public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
+	/** HTTP Response 503. */
+	static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
 	/** Connector type: GMX. */
 	static final short GMX = 0;

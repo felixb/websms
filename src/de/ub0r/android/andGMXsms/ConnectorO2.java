@@ -77,8 +77,9 @@ public class ConnectorO2 extends Connector {
 					"Web2SMS", // web2sms
 					"SMS wurde erfolgreich versendet" // successful send
 			}, // end .de
-			{ // .ie 
-			"Number of free text messages remaining this month: ", "Web2SMS", "???" } };
+			{ // .ie
+			"Number of free text messages remaining this month: ", "Web2SMS",
+					"???" } };
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -118,7 +119,8 @@ public class ConnectorO2 extends Connector {
 		} else if (AndGMXsms.prefsSender.startsWith("+353")) {
 			operator = O2_IE;
 		} else {
-			// TODO: output some sane message to the user.
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					R.string.log_error_prefix);
 			return false;
 		}
 
@@ -162,8 +164,8 @@ public class ConnectorO2 extends Connector {
 			resp = cookies.size();
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
 			if (resp == cookies.size()) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_pw));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_pw);
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,
