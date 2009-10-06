@@ -50,6 +50,7 @@
 	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und
 		bestätigt sein.</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
+	<string name="log_error_service">Service ist down!</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>

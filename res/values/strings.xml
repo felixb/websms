@@ -53,6 +53,7 @@
 	<string name="log_error_sender_unregistered">Sender must be registered and confirmed by
 	GMX.</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
+	<string name="log_error_service">Service is down!</string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
 	<string name="log_sending">Sending message...</string>
 	<string name="log_update">Update free SMS...</string>

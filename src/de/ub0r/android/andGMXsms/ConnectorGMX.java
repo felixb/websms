@@ -201,9 +201,15 @@ public class ConnectorGMX extends Connector {
 			// send data
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_http)
-						+ resp);
+				if (resp == 503) {
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+							.getResources().getString(R.string.log_error_service));
+				} else {
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
+							.getResources().getString(R.string.log_error_http)
+							+ resp);
+				}
+				return false;
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
