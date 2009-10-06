@@ -721,20 +721,17 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		 * @param s
 		 *            text
 		 */
-		
 		public void afterTextChanged(final Editable s) {
 			AndGMXsms.this.textLabel.setText(AndGMXsms.this.textLabelRef + " ("
 					+ s.length() + "):");
 		}
 
 		/** Needed dummy. */
-		
 		public void beforeTextChanged(final CharSequence s, final int start,
 				final int count, final int after) {
 		}
 
 		/** Needed dummy. */
-		
 		public void onTextChanged(final CharSequence s, final int start,
 				final int before, final int count) {
 		}
@@ -761,7 +758,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		 * @param key
 		 *            key
 		 */
-		
 		public void onSharedPreferenceChanged(final SharedPreferences prefs,
 				final String key) {
 			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
