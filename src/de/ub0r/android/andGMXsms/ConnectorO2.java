@@ -164,8 +164,8 @@ public class ConnectorO2 extends Connector {
 			resp = cookies.size();
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
 			if (resp == cookies.size()) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_pw));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_pw);
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,

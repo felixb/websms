@@ -202,9 +202,8 @@ public class ConnectorGMX extends Connector {
 			int resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == HTTP_SERVICE_UNAVAILABLE) {
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(
-									R.string.log_error_service));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_service);
 				} else {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
 							.getResources().getString(R.string.log_error_http)
@@ -273,25 +272,23 @@ public class ConnectorGMX extends Connector {
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_pw));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_pw);
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
 					AndGMXsms.prefsPasswordGMX = "";
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_mail));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_mail);
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					return false;
 				case RSLT_WRONG_SENDER: // wrong sender
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources()
-							.getString(R.string.log_error_sender));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_sender);
 					return false;
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(
-									R.string.log_error_sender_unregistered));
+					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_sender_unregistered);
 					return false;
 				default:
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + " #"
@@ -299,9 +296,8 @@ public class ConnectorGMX extends Connector {
 					return false;
 				}
 			} else {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(
-								R.string.log_http_header_missing));
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_http_header_missing);
 				return false;
 			}
 		} catch (IOException e) {
@@ -361,8 +357,7 @@ public class ConnectorGMX extends Connector {
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-					.getResources().getString(R.string.log_error));
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
 			return false;
 		} else {
 			// result: ok
