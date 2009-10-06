@@ -654,9 +654,15 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		@Override
 		public final void handleMessage(final Message msg) {
 			switch (msg.what) {
-			case MESSAGE_LOG:
-				String l = (String) msg.obj;
-				AndGMXsms.this.log(l);
+			case MESSAGE_LOG: // msg is String or Resource StringID
+				if (msg.obj instanceof String) {
+					AndGMXsms.this.log((String) msg.obj);
+				} else if (msg.obj instanceof Integer) {
+					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
+							((Integer) msg.obj).intValue()));
+				} else {
+					AndGMXsms.this.log(msg.obj.toString());
+				}
 				return;
 			case MESSAGE_FREECOUNT:
 				AndGMXsms.remFree = "";

@@ -47,6 +47,7 @@
 	<string name="log_error">ERROR</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
+	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your O2 supports Web2SMS.</string>
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
 	<string name="log_error_sender">Wrong sender! Set it in international form
 		like +4917012345678.</string>

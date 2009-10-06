@@ -44,6 +44,7 @@
 	<string name="log_error">FEHLER</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
+	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde dich bei mir, wenn dein O2 auch WebSMS unterstützt.</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_sender">Falscher Absender! Das Format muss im
 		internationalen Format sein. z.B. +4917012345678</string>
