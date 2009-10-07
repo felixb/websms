@@ -36,8 +36,8 @@ public class ConnectorGMX extends Connector {
 	private static final String TAG = "WebSMS.GMX";
 
 	/** Target host. */
-	private static final String TARGET_HOST = "app0.wr-gmbh.de";
-	// private static final String TARGET_HOST = "app5.wr-gmbh.de";
+	// private static final String TARGET_HOST = "app0.wr-gmbh.de";
+	private static final String TARGET_HOST = "app5.wr-gmbh.de";
 	/** Target path on host. */
 	private static final String TARGET_PATH = "/WRServer/WRServer.dll/WR";
 	/** Target mime encoding. */
