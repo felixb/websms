@@ -21,10 +21,11 @@
 	<string name="about">WebSMS enables you to send free and paid SMS
 		via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.2.7</string>
+	<string name="app_version">2.2.8</string>
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
+	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
@@ -70,7 +71,7 @@
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
-	<string name="sender_hint">Int. phonenumber</string>
+	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
 	<string name="send_gmx">Send (GMX)</string>
