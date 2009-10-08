@@ -66,7 +66,7 @@
 	<string name="password_o2_">o2 Passwort</string>
 	<string name="password_o2_hint">Passwort für o2online</string>
 	<string name="sender_">Mobilnummer</string>
-	<string name="sender_hint">Deine int. Mobilnummer</string>
+	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
 	<string name="send_gmx">Senden (GMX)</string>
 	<string name="send_o2">Senden (O2)</string>
