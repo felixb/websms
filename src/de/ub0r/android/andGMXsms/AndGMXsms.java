@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 	/** Static reference to running Activity. */
 	static AndGMXsms me;
+	/** Preference's name: last version run. */
+	private static final String PREFS_LAST_RUN = "lastrun";
 	/** Preference's name: mail. */
 	private static final String PREFS_MAIL = "mail";
 	/** Preference's name: username. */
@@ -129,6 +132,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final int DIALOG_ABOUT = 0;
 	/** Dialog: help. */
 	private static final int DIALOG_HELP = 1;
+	/** Dialog: updates. */
+	private static final int DIALOG_UPDATE = 2;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -195,6 +200,16 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		// display changelog?
+		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
+		String v1 = this.getResources().getString(R.string.app_version);
+		if (!v0.equals(v1)) {
+			SharedPreferences.Editor editor = this.preferences.edit();
+			editor.putString(PREFS_LAST_RUN, v1);
+			editor.commit();
+			this.showDialog(DIALOG_UPDATE);
+		}
+		// listen on changes to prefs
 		this.preferences
 				.registerOnSharedPreferenceChangeListener(this.prefsOnChangeListener);
 		this.reloadPrefs();
@@ -602,6 +617,21 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.help);
 			myDialog.setTitle(this.getResources().getString(R.string.help_));
+			break;
+		case DIALOG_UPDATE:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.update);
+			myDialog.setTitle(R.string.changelog_);
+			LinearLayout layout = (LinearLayout) myDialog
+					.findViewById(R.id.base_view);
+			TextView tw;
+			String[] changes = this.getResources().getStringArray(
+					R.array.updates);
+			for (String c : changes) {
+				tw = new TextView(this);
+				tw.setText(c);
+				layout.addView(tw);
+			}
 			break;
 		default:
 			myDialog = null;

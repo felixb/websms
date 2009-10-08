@@ -25,6 +25,7 @@
 	<string name="author_">Author:</string>
 	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
+	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
