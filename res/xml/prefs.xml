@@ -47,7 +47,7 @@
 			android:title="@string/password_o2_" android:dialogTitle="@string/password_o2_"
 			android:summary="@string/password_o2_hint" android:inputType="textPassword" />
 	</PreferenceCategory>
-<PreferenceCategory android:dependency="enable_sipgate"><EditTextPreference android:key="username_sipgate" android:title="Benutzername" android:summary="Onlinebenutzername für Sipgate"></EditTextPreference>
+<PreferenceCategory android:dependency="enable_sipgate"><EditTextPreference android:title="Benutzername" android:summary="Onlinebenutzername für Sipgate" android:key="user_sipgate"></EditTextPreference>
 <EditTextPreference android:key="password_sipgate" android:title="Passwort" android:summary="Onlinepasswort für sipgate"></EditTextPreference>
 </PreferenceCategory>
 </PreferenceScreen>

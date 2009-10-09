@@ -36,8 +36,8 @@ public class ConnectorGMX extends Connector {
 	private static final String TAG = "WebSMS.GMX";
 
 	/** Target host. */
-	// private static final String TARGET_HOST = "app0.wr-gmbh.de";
-	private static final String TARGET_HOST = "app5.wr-gmbh.de";
+	private static final String[] TARGET_HOST = { "app0.wr-gmbh.de",
+			"app5.wr-gmbh.de" };
 	/** Target path on host. */
 	private static final String TARGET_PATH = "/WRServer/WRServer.dll/WR";
 	/** Target mime encoding. */
@@ -183,9 +183,24 @@ public class ConnectorGMX extends Connector {
 	 */
 	private boolean sendData(final StringBuilder packetData) {
 		try {
-			// get Connection
+			// check connection:
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST + TARGET_PATH)).openConnection();
+					+ TARGET_HOST[AndGMXsms.prefsGMXhostname] + TARGET_PATH))
+					.openConnection();
+			// set prefs
+			c.setRequestProperty("User-Agent", TARGET_AGENT);
+			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
+			c.setRequestProperty("Content-Type", TARGET_CONTENT);
+			int resp = c.getResponseCode();
+			if (resp == HTTP_SERVICE_UNAVAILABLE) {
+				// switch hostname
+				AndGMXsms.prefsGMXhostname = (AndGMXsms.prefsGMXhostname + 1) % 2;
+			}
+
+			// get Connection
+			c = (HttpURLConnection) (new URL("http://"
+					+ TARGET_HOST[AndGMXsms.prefsGMXhostname] + TARGET_PATH))
+					.openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
 			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
@@ -199,7 +214,7 @@ public class ConnectorGMX extends Connector {
 			os = null;
 
 			// send data
-			int resp = c.getResponseCode();
+			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == HTTP_SERVICE_UNAVAILABLE) {
 					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
