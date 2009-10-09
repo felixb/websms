@@ -80,6 +80,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
+	/** Preference's name: gmx hostname id. */
+	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
@@ -110,6 +112,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static boolean prefsEnableO2 = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
+	/** Preferences: gmx hostname id. */
+	static int prefsGMXhostname = 0;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -358,6 +362,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				break;
 			}
 		}
+
+		prefsGMXhostname = this.preferences.getInt(PREFS_GMX_HOST,
+				prefsGMXhostname);
 	}
 
 	/**
@@ -454,6 +461,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		editor.putString(PREFS_MAIL, prefsMail);
 		editor.putString(PREFS_USER, prefsUser);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
+		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
 		// commit changes
 		editor.commit();
 	}
