@@ -1,6 +1,7 @@
 package de.ub0r.android.andGMXsms;
 
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import org.xmlrpc.android.XMLRPCClient;
@@ -17,15 +18,17 @@ public class ConnectorSipgate extends Connector {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean sendMessage() {
+		Log.d(TAG, "sendMessage()");
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
-		String  VERSION = "0.1";
-		String	VENDOR = "mirko.weber@gmail.com";
+		String VERSION = AndGMXsms.me.getResources().getString(R.string.app_version);
+		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author);
 		this.publishProgress((Boolean) null);
 
 	    XMLRPCClient client = new XMLRPCClient("https://samurai.sipgate.net/RPC2");
 	    client.setBasicAuthentication(AndGMXsms.prefsUserSipgate, AndGMXsms.prefsPasswordSipgate);
 		Object back;
 		try {
+			this.publishProgress((Boolean) null);
 		    Hashtable<String, String> ident = new Hashtable<String, String>();
 		    ident.put("ClientName", TAG);
 		    ident.put("ClientVersion", VERSION);
@@ -57,10 +60,39 @@ public class ConnectorSipgate extends Connector {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean updateMessages() {
-		// TODO Auto-generated method stub
-		return false;
+		Log.d(TAG, "updateMessage()");	
+		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
+		String VERSION = AndGMXsms.me.getResources().getString(R.string.app_version);
+		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author);
+		this.publishProgress((Boolean) null);
+
+	    XMLRPCClient client = new XMLRPCClient("https://samurai.sipgate.net/RPC2");
+	    client.setBasicAuthentication(AndGMXsms.prefsUserSipgate, AndGMXsms.prefsPasswordSipgate);
+		Map back = null;
+		try {
+			this.publishProgress((Boolean) null);
+		    Hashtable<String, String> ident = new Hashtable<String, String>();
+		    ident.put("ClientName", TAG);
+		    ident.put("ClientVersion", VERSION);
+		    ident.put("ClientVendor", VENDOR);
+			back = (Map) client.call( "samurai.ClientIdentify", ident );
+
+            back =  (Map)client.call("samurai.BalanceGet");
+            Log.d(TAG, back.toString());
+            if(back.get("StatusCode").equals(new Integer(200)) ){
+            	AndGMXsms.BALANCE_SIPGATE = ((Double)((Map)back.get("CurrentBalance")).get("TotalIncludingVat"));
+            }         			
+    		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+		} catch (XMLRPCException e) {
+			Log.e(TAG, null, e);
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
+		}		
+
+		return true;
 	}
 
 }

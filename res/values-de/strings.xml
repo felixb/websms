@@ -18,10 +18,10 @@
 	-->
 <resources>
 	<string name="about">Mit WebSMS kannst du kostenlos SMS via GMX
-		SMS-Manager oder Communication Center (web2sms) senden.</string>
+		SMS-Manager, O2 Communication Center (web2sms) oder  sipgate.de senden.</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
-	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;,Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
@@ -65,6 +65,10 @@
 	<string name="password_hint">GMX SMS-Manager Freischaltcode</string>
 	<string name="password_o2_">o2 Passwort</string>
 	<string name="password_o2_hint">Passwort für o2online</string>
+	<string name="user_sipgate_">Sipgate Benutzername</string>
+	<string name="user_sipgate_hint">Onlinebenutzername für sipgate.de</string>
+	<string name="password_sipgate_">Sipgate Passwort</string>
+	<string name="password_sipgate_hint">Onlinepasswort für sipgate.de</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>

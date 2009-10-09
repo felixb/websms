@@ -142,6 +142,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			break;
 		case O2:
 			new ConnectorO2().execute(PARAMS_UPDATE);
+			break;
+		case SIPGATE:
+			new ConnectorSipgate().execute(PARAMS_UPDATE);
 		default:
 			break;
 		}

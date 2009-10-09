@@ -19,11 +19,11 @@
 <resources>
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and paid SMS
-		via GMX SMS-Manager or O2 Communication Center (Web2SMS).</string>
+		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.2.8</string>
 	<string name="author_">Author:</string>
-	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;,Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
@@ -68,6 +68,10 @@
 	<string name="password_hint">GMX SMS-Manager Keycode</string>
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
+	<string name="user_sipgate_">Sipgate Username</string>
+	<string name="user_sipgate_hint">Onlineusername for sipgate.de</string>
+	<string name="password_sipgate_">Sipgate Password</string>
+	<string name="password_sipgate_hint">Onlinepassword for sipgate.de</string>
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
@@ -89,7 +93,4 @@
 	<string name="text_">Text:</string>
 	<string name="to_">To:</string>
 	<string name="to_hint">Name or Number</string>
-
-
-
 </resources>

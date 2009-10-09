@@ -188,6 +188,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static final int SMS_FREE_COUNT = 0;
 	/** ID of sms limit in array SMS_FREE. */
 	static final int SMS_FREE_LIMIT = 1;
+	// balance of sipgate.de 
+	static double BALANCE_SIPGATE = 0.0;
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -520,6 +522,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			if (prefsEnableO2) {
 				Connector.update(Connector.O2);
 			}
+			if (prefsEnableSipgate) {
+				Connector.update(Connector.SIPGATE);
+			}
 			break;
 		case R.id.btn_donate:
 			Uri uri = Uri.parse(this.getString(R.string.donate_url));
@@ -762,6 +767,13 @@ public class AndGMXsms extends Activity implements OnClickListener {
 						AndGMXsms.remFree += " / "
 								+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT];
 					}
+				}
+				if (AndGMXsms.prefsEnableSipgate){
+					if (AndGMXsms.remFree.length() > 0) {
+						AndGMXsms.remFree += " - ";
+					}
+					AndGMXsms.remFree += "Sipgate: ";
+					AndGMXsms.remFree += String.format("%.2f", BALANCE_SIPGATE)+" €";
 				}
 				if (AndGMXsms.remFree.length() == 0) {
 					AndGMXsms.remFree = "---";
