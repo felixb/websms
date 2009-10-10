@@ -20,7 +20,7 @@
       package="de.ub0r.android.andGMXsms"
       android:versionName="2.2.8" android:versionCode="228">
     <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
-        <activity android:label="@string/app_name" android:configChanges="orientation" android:windowSoftInputMode="adjustResize" android:name=".AndGMXsms">
+        <activity android:label="@string/app_name" android:configChanges="orientation" android:windowSoftInputMode="adjustResize" android:name="AndGMXsms">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
