@@ -19,22 +19,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:orientation="horizontal">
-	<TextView android:id="@+id/text1" android:textColor="?android:attr/textColorPrimaryInverse"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-		android:paddingLeft="3sp" android:paddingTop="40sp"
-		android:singleLine="true" android:ellipsize="end" />
 	<TextView android:id="@+id/text2" android:textColor="?android:attr/textColorSecondaryInverse"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_toRightOf="@id/text1" android:layout_centerVertical="true"
-		android:layout_alignParentTop="true" android:paddingLeft="3sp"
-		android:singleLine="true" android:ellipsize="end" />
+		android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+		android:singleLine="true" android:paddingRight="10dip" />
 	<TextView android:id="@+id/text3" android:textColor="?android:attr/textColorSecondaryInverse"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@id/text2" android:layout_alignLeft="@id/text2"
-		android:layout_centerVertical="true" android:paddingLeft="3sp"
-		android:singleLine="true" android:ellipsize="end" />
+		android:layout_below="@id/text2" android:layout_alignParentRight="true"
+		android:singleLine="true" android:paddingRight="10dip" />
+	<TextView android:id="@+id/text1" android:textColor="?android:attr/textColorPrimaryInverse"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true" android:paddingLeft="5dip"
+		android:singleLine="true" />
 </RelativeLayout>
