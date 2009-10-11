@@ -133,7 +133,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
 			"2986b6d93053a53ff13008b3015a77ff", // me
-			"f6b3b72300e918436b4c4c9fdf909e8c", // jörg s.
+			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
 			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
 			"7684154558d19383552388d9bc92d446", // henning k.
 			"64c7414288e9a9b57a33e034f384ed30" // dominik l.

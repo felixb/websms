@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>v2.3: Add Changelog, auto follow GMX hostchange</item>
+		<item>v2.3: Add Changelog, auto follow GMX hostchange, fix for 1.6</item>
 		<item>v2.2.8: Follow GMX hostname change</item>
 		<item>v2.2.7: Better hint on sender preference, add service-down message</item>
 		<item>v2.2.6: Fix save messages after send</item>
