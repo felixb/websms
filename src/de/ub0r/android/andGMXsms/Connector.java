@@ -165,6 +165,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		case GMX:
 			new ConnectorGMX().execute(params);
 			break;
+		case SIPGATE:
+			new ConnectorSipgate().execute(params);
 		default:
 			break;
 		}
