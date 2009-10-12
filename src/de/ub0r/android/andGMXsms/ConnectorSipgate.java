@@ -28,13 +28,26 @@ import org.xmlrpc.android.XMLRPCFault;
 
 import android.util.Log;
 
-public class ConnectorSipgate extends Connector {
-
+/**
+ * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API
+ * 
+ * @author mirweb
+ */
+public class ConnectorSipgate extends Connector { 
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.Sipgate";
 
+	/**
+	 * sipgate.de API URL
+	 */
 	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
 
+	/**
+	 * Send sms
+	 * 
+	 * @return ok?
+	 * @see de.ub0r.android.andGMXsms.Connector#sendMessage()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean sendMessage() {
@@ -78,6 +91,12 @@ public class ConnectorSipgate extends Connector {
 		return true;
 	}
 
+	/**
+	 * get balance of account in euro
+	 * 
+	 * @return ok?
+	 * @see de.ub0r.android.andGMXsms.Connector#updateMessages()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean updateMessages() {
@@ -111,6 +130,12 @@ public class ConnectorSipgate extends Connector {
 		return true;
 	}
 
+	/**
+	 * sets up and instance of XMLRPCClient
+	 * 
+	 * @return the initialized XMLRPCClient
+	 * @throws XMLRPCException
+	 */
 	private XMLRPCClient init() throws XMLRPCException {
 		Log.d(TAG, "updateMessage()");
 		String VERSION = AndGMXsms.me.getResources().getString(
