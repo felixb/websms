@@ -34,7 +34,10 @@
 	<TextView android:text="@string/author_" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:paddingTop="5sp"
 		android:paddingLeft="5sp" />
-	<TextView android:text="@string/author" android:layout_width="wrap_content"
+	<TextView android:text="@string/author0" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:paddingLeft="15sp"
+		android:paddingRight="5sp" android:autoLink="email" />
+	<TextView android:text="@string/author1" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:paddingLeft="15sp"
 		android:paddingRight="5sp" android:autoLink="email" />
 

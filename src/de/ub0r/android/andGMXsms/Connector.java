@@ -43,6 +43,7 @@ import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.CookieSpecBase;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -95,6 +96,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected String tos = "";
 	/** text. */
 	protected String text;
+
+	/** Connector is bootstrapping. */
+	static boolean inBootstrap = false;
 
 	/**
 	 * Send a message to one or more receivers. This is done in background!
@@ -372,5 +376,62 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			ret = this.sendMessage();
 		}
 		return ret;
+	}
+
+	/**
+	 * Update progress. Only ran once on startup to display progress dialog.
+	 * 
+	 * @param progress
+	 *            finished?
+	 */
+	@Override
+	protected final void onProgressUpdate(final Boolean... progress) {
+		if (AndGMXsms.dialog != null) {
+			try {
+				AndGMXsms.dialog.dismiss();
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		if (this.to == null) {
+			if (!inBootstrap) {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.log_update);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			} else {
+				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+						R.string.bootstrap_);
+				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+						AndGMXsms.dialogString, true);
+			}
+		} else {
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.log_sending);
+			if (this.tos != null && this.tos.length() > 0) {
+				AndGMXsms.dialogString += " (" + this.tos + ")";
+			}
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
+		}
+	}
+
+	/**
+	 * Push data back to GUI. Close progress dialog.
+	 * 
+	 * @param result
+	 *            result
+	 */
+	@Override
+	protected final void onPostExecute(final Boolean result) {
+		AndGMXsms.dialogString = null;
+		if (AndGMXsms.dialog != null) {
+			try {
+				AndGMXsms.dialog.dismiss();
+				AndGMXsms.dialog = null;
+			} catch (Exception e) {
+				System.gc();
+			}
+		}
 	}
 }

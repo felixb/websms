@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.app.ProgressDialog;
 import android.util.Log;
 
 /**
@@ -89,9 +88,6 @@ public class ConnectorGMX extends Connector {
 	private String mail;
 	/** password. */
 	private String pw;
-
-	/** Connector is bootstrapping. */
-	static boolean inBootstrap = false;
 
 	/**
 	 * Write key,value to StringBuilder.
@@ -397,62 +393,5 @@ public class ConnectorGMX extends Connector {
 		writePair(packetData, "password", params[ID_PW]);
 		writePair(packetData, "gmx", "1");
 		return this.sendData(closeBuffer(packetData));
-	}
-
-	/**
-	 * Update progress. Only ran once on startup to display progress dialog.
-	 * 
-	 * @param progress
-	 *            finished?
-	 */
-	@Override
-	protected final void onProgressUpdate(final Boolean... progress) {
-		if (AndGMXsms.dialog != null) {
-			try {
-				AndGMXsms.dialog.dismiss();
-			} catch (Exception e) {
-				// do nothing
-			}
-		}
-		if (this.to == null) {
-			if (!inBootstrap) {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.log_update);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			} else {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.bootstrap_);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			}
-		} else {
-			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.log_sending);
-			if (this.tos != null && this.tos.length() > 0) {
-				AndGMXsms.dialogString += " (" + this.tos + ")";
-			}
-			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-					AndGMXsms.dialogString, true);
-		}
-	}
-
-	/**
-	 * Push data back to GUI. Close progress dialog.
-	 * 
-	 * @param result
-	 *            result
-	 */
-	@Override
-	protected final void onPostExecute(final Boolean result) {
-		AndGMXsms.dialogString = null;
-		if (AndGMXsms.dialog != null) {
-			try {
-				AndGMXsms.dialog.dismiss();
-				AndGMXsms.dialog = null;
-			} catch (Exception e) {
-				System.gc();
-			}
-		}
 	}
 }

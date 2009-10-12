@@ -21,7 +21,7 @@ public class ConnectorSipgate extends Connector {
 		Log.d(TAG, "sendMessage()");
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		String VERSION = AndGMXsms.me.getResources().getString(R.string.app_version);
-		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author);
+		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author1);
 		this.publishProgress((Boolean) null);
 
 	    XMLRPCClient client = new XMLRPCClient("https://samurai.sipgate.net/RPC2");
@@ -66,7 +66,7 @@ public class ConnectorSipgate extends Connector {
 		Log.d(TAG, "updateMessage()");	
 		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		String VERSION = AndGMXsms.me.getResources().getString(R.string.app_version);
-		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author);
+		String	VENDOR =  AndGMXsms.me.getResources().getString(R.string.author1);
 		this.publishProgress((Boolean) null);
 
 	    XMLRPCClient client = new XMLRPCClient("https://samurai.sipgate.net/RPC2");

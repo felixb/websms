@@ -188,7 +188,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	static final int SMS_FREE_COUNT = 0;
 	/** ID of sms limit in array SMS_FREE. */
 	static final int SMS_FREE_LIMIT = 1;
-	// balance of sipgate.de 
+	// balance of sipgate.de
 	static double BALANCE_SIPGATE = 0.0;
 
 	/** Text's label. */
@@ -393,7 +393,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		
 		Button btn = (Button) this.findViewById(R.id.send_gmx);
 		// show/hide buttons
 		if (prefsEnableGMX && !prefsSoftKeys) {

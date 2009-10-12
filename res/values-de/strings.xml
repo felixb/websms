@@ -17,11 +17,10 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about">Mit WebSMS kannst du kostenlos SMS via GMX
-		SMS-Manager, O2 Communication Center (web2sms) oder  sipgate.de senden.</string>
+	<string name="about">Mit WebSMS kannst du SMS via GMX
+		SMS-Manager, O2 Communication Center (web2sms) oder sipgate.de senden. Ggf. kannst du dort deine FreiSMS nutzen!</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
-	<string name="author">Felix Bechstein &lt;f@ub0r.de&gt;,Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
@@ -29,7 +28,8 @@
 	<string name="defprefix_hint">z.B. +49</string>
 	<string name="donate_">Spenden (und Werbung entfernen)</string>
 	<string name="enable_gmx">Aktiviere GMX</string>
-	<string name="enable_o2">Aktiviere o2</string><string name="enable_sipgate">Aktiviere Sipgate</string>
+	<string name="enable_o2">Aktiviere o2</string>
+	<string name="enable_sipgate">Aktiviere Sipgate</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
 	<string name="help_">Hilfe</string>
@@ -74,14 +74,14 @@
 	<string name="send_">Senden</string>
 	<string name="send_gmx">Senden (GMX)</string>
 	<string name="send_o2">Senden (O2)</string>
-	<string name="send_sipgate">Senden (Sipgate)</string><string name="settings">Einstellungen</string>
+	<string name="send_sipgate">Senden (Sipgate)</string>
+	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="settings_gmx">Einstellungen - GMX</string>
-	<string name="settings_o2">Einstellungen - o2</string><string name="settings_sipgate">Einstellungen - Sipgate</string>
+	<string name="settings_o2">Einstellungen - o2</string>
+	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
 	<string name="softkeyboard_hint">Einfache GUI für touch keys</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
-
-
 </resources>
