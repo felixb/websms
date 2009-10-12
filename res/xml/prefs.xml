@@ -17,11 +17,13 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/settings_common">
+	<PreferenceCategory android:title="@string/settings_connectors">
 		<CheckBoxPreference android:key="enable_gmx"
 			android:title="@string/enable_gmx" />
 		<CheckBoxPreference android:key="enable_o2"
 			android:title="@string/enable_o2" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/settings_common">
 		<EditTextPreference android:key="sender"
 			android:title="@string/sender_" android:dialogTitle="@string/sender_"
 			android:summary="@string/sender_hint" android:inputType="text" />

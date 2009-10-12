@@ -72,6 +72,7 @@
 	<string name="send_o2">Senden (O2)</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
+	<string name="settings_connectors">Einstellungen - Anbindungen</string>
 	<string name="settings_gmx">Einstellungen - GMX</string>
 	<string name="settings_o2">Einstellungen - o2</string>
 	<string name="softkeyboard_">Touchscreen</string>
