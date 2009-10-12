@@ -24,6 +24,7 @@ import java.util.Vector;
 
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
+import org.xmlrpc.android.XMLRPCFault;
 
 import android.util.Log;
 
@@ -60,6 +61,15 @@ public class ConnectorSipgate extends Connector {
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
 			saveMessage(this.to, this.text);
 
+		} catch (XMLRPCFault e) {
+			Log.e(TAG, null, e);
+			if(e.getFaultCode() == 401){
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_pw);
+				return false;
+			}
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
@@ -83,6 +93,15 @@ public class ConnectorSipgate extends Connector {
 						.get("CurrentBalance")).get("TotalIncludingVat"));
 			}
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+		} catch (XMLRPCFault e) {
+			Log.e(TAG, null, e);
+			if(e.getFaultCode() == 401){
+				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_pw);
+				return false;
+			}
+			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());

@@ -231,8 +231,8 @@ public class XMLRPCClient {
 			// check status code
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
-				throw new XMLRPCException("HTTP status code: " + statusCode
-						+ " != " + HttpStatus.SC_OK);
+				throw new XMLRPCFault("HTTP status code: " + statusCode
+						+ " != " + HttpStatus.SC_OK,statusCode);
 			}
 
 			// parse response stuff
