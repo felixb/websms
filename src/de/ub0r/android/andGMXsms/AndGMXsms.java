@@ -241,7 +241,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		// register Listener
 		((Button) this.findViewById(R.id.send_gmx)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.send_o2)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.send_sipgate)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.send_sipgate))
+				.setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
@@ -371,10 +372,12 @@ public class AndGMXsms extends Activity implements OnClickListener {
 
 		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
 		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
-		
-		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE, false);		
+
+		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE,
+				false);
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
-		prefsPasswordSipgate = this.preferences.getString(PREFS_PASSWORD_SIPGATE, "");
+		prefsPasswordSipgate = this.preferences.getString(
+				PREFS_PASSWORD_SIPGATE, "");
 
 		prefsNoAds = false;
 		String hash = md5(prefsSender);
@@ -444,7 +447,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				&& prefsSender.length() != 0) {
 			prefsReadyGMX = true;
 		} else {
-			if (prefsEnableGMX && !ConnectorGMX.inBootstrap) {
+			if (prefsEnableGMX && !Connector.inBootstrap) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
@@ -537,7 +540,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			break;
 		case R.id.send_sipgate:
 			this.send(Connector.SIPGATE);
-			break;		
+			break;
 		case R.id.cancel:
 			this.reset();
 			break;
@@ -767,12 +770,13 @@ public class AndGMXsms extends Activity implements OnClickListener {
 								+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT];
 					}
 				}
-				if (AndGMXsms.prefsEnableSipgate){
+				if (AndGMXsms.prefsEnableSipgate) {
 					if (AndGMXsms.remFree.length() > 0) {
 						AndGMXsms.remFree += " - ";
 					}
 					AndGMXsms.remFree += "Sipgate: ";
-					AndGMXsms.remFree += String.format("%.2f", BALANCE_SIPGATE)+" \u20AC";
+					AndGMXsms.remFree += String.format("%.2f", BALANCE_SIPGATE)
+							+ " \u20AC";
 				}
 				if (AndGMXsms.remFree.length() == 0) {
 					AndGMXsms.remFree = "---";

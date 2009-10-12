@@ -18,7 +18,8 @@
 	-->
 <resources>
 	<string name="about">Mit WebSMS kannst du SMS via GMX
-		SMS-Manager, O2 Communication Center (web2sms) oder sipgate.de senden. Ggf. kannst du dort deine FreiSMS nutzen!</string>
+		SMS-Manager, O2	Communication Center (web2sms) oder sipgate.de senden.
+		Ggf. kannst du dort deine FreiSMS nutzen!</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
@@ -44,14 +45,16 @@
 	<string name="log_error">FEHLER</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
-	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde dich bei mir, wenn dein O2 auch WebSMS unterstützt.</string>
+	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde
+		dich bei mir, wenn dein O2 auch WebSMS unterstützt.</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_sender">Falscher Absender! Das Format muss im
 		internationalen Format sein. z.B. +4917012345678</string>
 	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und
 		bestätigt sein.</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
-	<string name="log_error_service">Service ist down! Bitte versuch es später noch einmal.</string>
+	<string name="log_error_service">Service ist down! Bitte versuch es später
+		noch einmal.</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>
@@ -66,11 +69,14 @@
 	<string name="password_o2_">o2 Passwort</string>
 	<string name="password_o2_hint">Passwort für o2online</string>
 	<string name="user_sipgate_">Sipgate Benutzername</string>
-	<string name="user_sipgate_hint">Onlinebenutzername für sipgate.de</string>
+	<string name="user_sipgate_hint">Onlinebenutzername für sipgate.de
+	</string>
 	<string name="password_sipgate_">Sipgate Passwort</string>
-	<string name="password_sipgate_hint">Onlinepasswort für sipgate.de</string>
+	<string name="password_sipgate_hint">Onlinepasswort für sipgate.de
+	</string>
 	<string name="sender_">Mobilnummer</string>
-	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
+	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567
+	</string>
 	<string name="send_">Senden</string>
 	<string name="send_gmx">Senden (GMX)</string>
 	<string name="send_o2">Senden (O2)</string>

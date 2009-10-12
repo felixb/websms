@@ -2,18 +2,15 @@ package org.xmlrpc.android;
 
 /**
  * A Base64 Encoder/Decoder.
- * 
  * <p>
  * This class is used to encode and decode data in Base64 format as described in
  * RFC 1521.
- * 
  * <p>
  * This is "Open Source" software and released under the <a
  * href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a> license.<br>
  * It is provided "as is" without warranty of any kind.<br>
  * Copyright 2003: Christian d'Heureuse, Inventec Informatik AG, Switzerland.<br>
  * Home page: <a href="http://www.source-code.biz">www.source-code.biz</a><br>
- * 
  * <p>
  * Version history:<br>
  * 2003-07-22 Christian d'Heureuse (chdh): Module created.<br>
@@ -63,7 +60,7 @@ class Base64Coder {
 	 *            a String to be encoded.
 	 * @return A String with the Base64 encoded data.
 	 */
-	static String encodeString(String s) {
+	static String encodeString(final String s) {
 		return new String(encode(s.getBytes()));
 	}
 
@@ -75,7 +72,7 @@ class Base64Coder {
 	 *            an array containing the data bytes to be encoded.
 	 * @return A character array with the Base64 encoded data.
 	 */
-	static char[] encode(byte[] in) {
+	static char[] encode(final byte[] in) {
 		return encode(in, in.length);
 	}
 
@@ -89,7 +86,7 @@ class Base64Coder {
 	 *            number of bytes to process in <code>in</code>.
 	 * @return A character array with the Base64 encoded data.
 	 */
-	static char[] encode(byte[] in, int iLen) {
+	static char[] encode(final byte[] in, final int iLen) {
 		int oDataLen = (iLen * 4 + 2) / 3; // output length without padding
 		int oLen = ((iLen + 2) / 3) * 4; // output length including padding
 		char[] out = new char[oLen];
@@ -122,7 +119,7 @@ class Base64Coder {
 	 * @throws IllegalArgumentException
 	 *             if the input is not valid Base64 encoded data.
 	 */
-	static String decodeString(String s) {
+	static String decodeString(final String s) {
 		return new String(decode(s));
 	}
 
@@ -135,7 +132,7 @@ class Base64Coder {
 	 * @throws IllegalArgumentException
 	 *             if the input is not valid Base64 encoded data.
 	 */
-	static byte[] decode(String s) {
+	static byte[] decode(final String s) {
 		return decode(s.toCharArray());
 	}
 
@@ -149,7 +146,7 @@ class Base64Coder {
 	 * @throws IllegalArgumentException
 	 *             if the input is not valid Base64 encoded data.
 	 */
-	static byte[] decode(char[] in) {
+	static byte[] decode(final char[] in) {
 		int iLen = in.length;
 		if (iLen % 4 != 0) {
 			throw new IllegalArgumentException(
