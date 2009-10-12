@@ -85,6 +85,7 @@
 	<string name="send_sipgate">Send (Sipgate)</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
+	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="settings_gmx">Preferences - GMX</string>
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
