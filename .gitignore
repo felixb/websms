@@ -2,3 +2,4 @@ bin
 gen
 .ant-targets-build.xml
 local.properties
+wiki
