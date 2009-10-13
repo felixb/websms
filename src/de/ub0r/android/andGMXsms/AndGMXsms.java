@@ -190,7 +190,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	/** ID of sms limit in array SMS_FREE. */
 	static final int SMS_FREE_LIMIT = 1;
 	// balance of sipgate.de
-	static double BALANCE_SIPGATE = 0.0;
+	static String BALANCE_SIPGATE = "0.00";
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -776,8 +776,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 						AndGMXsms.remFree += " - ";
 					}
 					AndGMXsms.remFree += "Sipgate: ";
-					AndGMXsms.remFree += String.format("%.2f", BALANCE_SIPGATE)
-							+ " \u20AC";
+					AndGMXsms.remFree +=  BALANCE_SIPGATE + " \u20AC";
 				}
 				if (AndGMXsms.remFree.length() == 0) {
 					AndGMXsms.remFree = "---";

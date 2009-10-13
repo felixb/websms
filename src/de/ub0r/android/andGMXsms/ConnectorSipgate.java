@@ -108,8 +108,8 @@ public class ConnectorSipgate extends Connector {
 			back = (Map) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
 			if (back.get("StatusCode").equals(new Integer(200))) {
-				AndGMXsms.BALANCE_SIPGATE = ((Double) ((Map) back
-						.get("CurrentBalance")).get("TotalIncludingVat"));
+				AndGMXsms.BALANCE_SIPGATE =String.format("%.2f", ((Double) ((Map) back
+						.get("CurrentBalance")).get("TotalIncludingVat")));
 			}
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCFault e) {
