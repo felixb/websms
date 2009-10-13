@@ -19,21 +19,59 @@
 package de.ub0r.android.andGMXsms;
 
 import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
-public class Proxy extends Service {
+/**
+ * IOService handles all IO as a service. Call it with RPC!
+ * 
+ * @author flx
+ */
+public class IOService extends Service {
 	/** Notification for failed message. */
 	private static final int ID_FAILED = 0;
 
+	/** The IBinder RPC Interface. */
+	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
+		public void sendMessage(final int connector, final String[] params) {
+		}
+
+		public String getFailedMessage(final int id, final String[] params) {
+			return null;
+		}
+	};
+
+	/**
+	 * Called on bind().
+	 * 
+	 * @param intent
+	 *            intend called
+	 * @return RPC callback
+	 */
+	@Override
 	public final IBinder onBind(final Intent intent) {
-		return null;
+		return this.mBinder;
 	}
 
+	/**
+	 * Called on Service start.
+	 * 
+	 * @param intent
+	 *            intent called
+	 * @param startId
+	 *            start id
+	 */
+	@Override
 	public final void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
 		// Don't kill me!
 		this.setForeground(true);
 	}
 
+	/**
+	 * Called on Service destroy.
+	 */
+	@Override
 	public final void onDestroy() {
 		super.onDestroy();
 		// TODO fill me
