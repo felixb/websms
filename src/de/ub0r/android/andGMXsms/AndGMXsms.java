@@ -136,7 +136,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
 			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
 			"7684154558d19383552388d9bc92d446", // henning k.
-			"64c7414288e9a9b57a33e034f384ed30" // dominik l.
+			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
+			"c479a2e701291c751f0f91426bcaabf3" // bernhard g.
 	};
 
 	/** Public Dialog ref. */
@@ -183,7 +184,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	 * Remaining free sms. First dimension is the Connector, second is the
 	 * free/limit.
 	 */
-	static final int[][] SMS_FREE = { { 0, 0 }, { 0, 0 } };
+	static final int[][] SMS_FREE = { { 0, 0 }, { 0, 0 }, { 0, 0 } };
 	/** ID of sms free count in array SMS_FREE. */
 	static final int SMS_FREE_COUNT = 0;
 	/** ID of sms limit in array SMS_FREE. */
