@@ -29,8 +29,13 @@ public class Proxy extends Service {
 	}
 
 	public final void onStart(final Intent intent, final int startId) {
+		super.onStart(intent, startId);
+		// Don't kill me!
+		this.setForeground(true);
 	}
 
 	public final void onDestroy() {
+		super.onDestroy();
+		// TODO fill me
 	}
 }
