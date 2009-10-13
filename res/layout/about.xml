@@ -40,6 +40,14 @@
 	<TextView android:text="@string/author1" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:paddingLeft="15sp"
 		android:paddingRight="5sp" android:autoLink="email" />
+	
+	<TextView android:text="@string/website_"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingTop="5dip" android:paddingLeft="5dip" />
+	<TextView android:text="@string/website"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingLeft="15dip" android:paddingRight="5dip"
+		android:autoLink="web" />
 
 	<TextView android:text="@string/source_" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:paddingTop="5sp"
