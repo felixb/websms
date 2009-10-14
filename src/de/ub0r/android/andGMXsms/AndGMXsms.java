@@ -172,8 +172,10 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	private static final int MENU_SEND_GMX = Connector.GMX + 1;
 	/** Menu: send via O2. */
 	private static final int MENU_SEND_O2 = Connector.O2 + 1;
+	/** Menu: send via Sipgate. */
+	private static final int MENU_SEND_SIPGATE = Connector.SIPGATE + 1;
 	/** Menu: cancel. */
-	private static final int MENU_CANCEL = 3;
+	private static final int MENU_CANCEL = 4;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -573,7 +575,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				if (menu.findItem(MENU_SEND_GMX) == null) {
 					// add menu to send text
 					MenuItem m;
-					if (prefsEnableO2) {
+					if (prefsEnableO2 || prefsEnableSipgate) {
 						m = menu.add(0, MENU_SEND_GMX, 0, this.getResources()
 								.getString(R.string.send_gmx));
 					} else {
@@ -589,7 +591,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				if (menu.findItem(MENU_SEND_O2) == null) {
 					// add menu to send text
 					MenuItem m;
-					if (prefsEnableGMX) {
+					if (prefsEnableGMX || prefsEnableSipgate) {
 						m = menu.add(0, MENU_SEND_O2, 0, this.getResources()
 								.getString(R.string.send_o2));
 					} else {
@@ -601,9 +603,26 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			} else {
 				menu.removeItem(MENU_SEND_O2);
 			}
+			if (prefsEnableSipgate) {
+				if (menu.findItem(MENU_SEND_SIPGATE) == null) {
+					// add menu to send text
+					MenuItem m;
+					if (prefsEnableO2 || prefsEnableGMX) {
+						m = menu.add(0, MENU_SEND_SIPGATE, 0, this.getResources()
+								.getString(R.string.send_sipgate));
+					} else {
+						m = menu.add(0, MENU_SEND_SIPGATE, 0, this.getResources()
+								.getString(R.string.send_));
+					}
+					m.setIcon(android.R.drawable.ic_menu_send);
+				}
+			} else {
+				menu.removeItem(MENU_SEND_SIPGATE);
+			}
 		} else {
 			menu.removeItem(MENU_SEND_GMX);
 			menu.removeItem(MENU_SEND_O2);
+			menu.removeItem(MENU_SEND_SIPGATE);
 			menu.removeItem(MENU_CANCEL);
 		}
 		return true;
@@ -646,6 +665,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			return true;
 		case MENU_SEND_O2:
 			this.send(Connector.O2);
+			return true;
+		case MENU_SEND_SIPGATE:
+			this.send(Connector.SIPGATE);
 			return true;
 		case MENU_CANCEL:
 			this.reset();
