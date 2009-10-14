@@ -100,6 +100,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Connector is bootstrapping. */
 	static boolean inBootstrap = false;
 
+	/** Type of IO Op. */
+	protected String type;
+
 	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
@@ -364,14 +367,20 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final Boolean doInBackground(final String... params) {
 		boolean ret = false;
-		if (params == null || params[ID_ID] == null
-				|| params[ID_ID] == ID_UPDATE) {
+		String t;
+		if (params == null || params[ID_ID] == null) {
+			t = ID_UPDATE;
+		} else {
+			t = params[ID_ID];
+		}
+		this.type = t;
+		if (t == ID_UPDATE) {
 			this.publishProgress((Boolean) null);
 			ret = this.updateMessages();
-		} else if (params[ID_ID] == ID_BOOSTR) {
+		} else if (t == ID_BOOSTR) {
 			this.publishProgress((Boolean) null);
 			ret = this.doBootstrap(params);
-		} else if (params[ID_ID] == ID_SEND) {
+		} else if (t == ID_SEND) {
 			this.text = params[ID_TEXT];
 			this.to = getReceivers(params);
 			this.publishProgress((Boolean) null);
@@ -395,19 +404,15 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				// do nothing
 			}
 		}
-		if (this.to == null) {
-			if (!inBootstrap) {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.log_update);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			} else {
-				AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-						R.string.bootstrap_);
-				AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-						AndGMXsms.dialogString, true);
-			}
-		} else {
+		final String t = this.type;
+		if (t == ID_UPDATE) {
+			AndGMXsms.me.setProgressBarIndeterminateVisibility(true);
+		} else if (t == ID_BOOSTR) {
+			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
+					R.string.bootstrap_);
+			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+					AndGMXsms.dialogString, true);
+		} else if (t == ID_SEND) {
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.log_sending);
 			if (this.tos != null && this.tos.length() > 0) {
@@ -426,13 +431,18 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onPostExecute(final Boolean result) {
-		AndGMXsms.dialogString = null;
-		if (AndGMXsms.dialog != null) {
-			try {
-				AndGMXsms.dialog.dismiss();
-				AndGMXsms.dialog = null;
-			} catch (Exception e) {
-				System.gc();
+		final String t = this.type;
+		if (t == ID_UPDATE) {
+			AndGMXsms.me.setProgressBarIndeterminateVisibility(false);
+		} else {
+			AndGMXsms.dialogString = null;
+			if (AndGMXsms.dialog != null) {
+				try {
+					AndGMXsms.dialog.dismiss();
+					AndGMXsms.dialog = null;
+				} catch (Exception e) {
+					System.gc();
+				}
 			}
 		}
 	}
