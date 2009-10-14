@@ -402,7 +402,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		if (prefsEnableGMX && !prefsSoftKeys) {
 			btn.setEnabled(prefsReadyGMX);
 			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableO2) {
+			if (prefsEnableO2 || prefsEnableSipgate) {
 				btn.setText(this.getResources().getString(R.string.send_gmx));
 			} else {
 				btn.setText(this.getResources().getString(R.string.send_));
@@ -414,7 +414,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		if (prefsEnableO2 && !prefsSoftKeys) {
 			btn.setEnabled(prefsReadyO2);
 			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableGMX) {
+			if (prefsEnableGMX || prefsEnableSipgate) {
 				btn.setText(this.getResources().getString(R.string.send_o2));
 			} else {
 				btn.setText(this.getResources().getString(R.string.send_));
@@ -426,7 +426,11 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		if (prefsEnableSipgate && !prefsSoftKeys) {
 			btn.setEnabled(prefsReadySipgate);
 			btn.setVisibility(View.VISIBLE);
-			btn.setText(this.getResources().getString(R.string.send_sipgate));
+			if (prefsEnableGMX || prefsEnableO2) {
+				btn.setText(this.getResources().getString(R.string.send_sipgate));
+			} else {
+				btn.setText(this.getResources().getString(R.string.send_));
+			}
 		} else {
 			btn.setVisibility(View.GONE);
 		}
