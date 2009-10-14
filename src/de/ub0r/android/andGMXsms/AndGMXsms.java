@@ -24,12 +24,17 @@ import java.security.NoSuchAlgorithmException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -39,8 +44,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -55,7 +60,8 @@ import com.admob.android.ads.AdView;
  * 
  * @author flx
  */
-public class AndGMXsms extends Activity implements OnClickListener {
+public class AndGMXsms extends Activity implements OnClickListener,
+		ServiceConnection {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
 
@@ -205,6 +211,9 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	/** MessageHandler. */
 	private Handler messageHandler;
 
+	/** Bound service. */
+	private IIOOp mIOOp;
+
 	/**
 	 * Called when the activity is first created.
 	 * 
@@ -260,20 +269,38 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		to.setAdapter(new MobilePhoneAdapter(this));
 		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-		Intent intend = this.getIntent();
-		String action = intend.getAction();
-		if (action != null && action.equals(Intent.ACTION_SENDTO)) {
+		Intent intent = this.getIntent();
+		String action = intent.getAction();
+		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
-			Uri uri = intend.getData();
+			Uri uri = intent.getData();
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
 				String recipient = uri.getSchemeSpecificPart();
 				if (recipient != null) {
-					recipient = AndGMXsms.cleanRecipient(recipient);
+					// recipient = AndGMXsms.cleanRecipient(recipient);
 					((EditText) this.findViewById(R.id.to)).setText(recipient);
 					lastTo = recipient;
 				}
 			}
 		}
+		Uri data = intent.getData();
+		// reload sms from notification
+		if (data != null) {
+			String recipient = data.getHost();
+			String text = data.getPath();
+			if (recipient != null) {
+				((EditText) this.findViewById(R.id.to)).setText(recipient);
+				lastTo = recipient;
+			}
+			if (text != null && text.length() > 0) {
+				text = text.substring(1);
+				((EditText) this.findViewById(R.id.to)).setText(text);
+				lastMsg = text;
+			}
+		}
+
+		this.bindService(new Intent(this, IOService.class), this,
+				Context.BIND_AUTO_CREATE);
 	}
 
 	/** Called on activity resume. */
@@ -700,6 +727,33 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	}
 
 	/**
+	 * Called when a connection to the Service has been established, with the
+	 * IBinder of the communication channel to the Service.
+	 * 
+	 * @param name
+	 *            The concrete component name of the service that has been
+	 *            connected.
+	 * @param service
+	 *            The IBinder of the Service's communication channel, which you
+	 *            can now make calls on.
+	 */
+	public final void onServiceConnected(final ComponentName name,
+			final IBinder service) {
+		this.mIOOp = IIOOp.Stub.asInterface(service);
+	}
+
+	/**
+	 * Called when a connection to the Service has been lost.
+	 * 
+	 * @param name
+	 *            The concrete component name of the service that has been
+	 *            connected.
+	 */
+	public final void onServiceDisconnected(final ComponentName name) {
+		this.mIOOp = null;
+	}
+
+	/**
 	 * Log text.
 	 * 
 	 * @param text
@@ -893,76 +947,6 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * Parse a String of "name (number), name (number), number, ..." to
-	 * addresses.
-	 * 
-	 * @param reciepients
-	 *            reciepients
-	 * @return array of reciepients
-	 */
-	private static String[] parseReciepients(final String reciepients) {
-		int i = 0;
-		int p = reciepients.indexOf(',');
-		while (p >= 0) {
-			++i;
-			if (p == reciepients.length()) {
-				p = -1;
-			} else {
-				p = reciepients.indexOf(',', p + 1);
-			}
-		}
-		if (i < 2) {
-			i = 2;
-		}
-		String[] ret = new String[i + 1];
-		p = 0;
-		int p2 = reciepients.indexOf(',', p + 1);
-		i = 0;
-		while (p >= 0) {
-			if (p == 0) {
-				p--;
-			}
-			if (p2 > 0) {
-				ret[i] = reciepients.substring(p + 1, p2).trim();
-			} else {
-				ret[i] = reciepients.substring(p + 1).trim();
-			}
-			if (p == -1) {
-				p++;
-			}
-
-			if (p == reciepients.length()) {
-				p = -1;
-			} else {
-				p = reciepients.indexOf(',', p + 1);
-				if (p == reciepients.length()) {
-					p2 = -1;
-				} else {
-					p2 = reciepients.indexOf(',', p + 1);
-				}
-				++i;
-			}
-		}
-
-		for (i = 0; i < ret.length; i++) {
-			if (ret[i] == null) {
-				continue;
-			}
-			p = ret[i].lastIndexOf('(');
-			if (p >= 0) {
-				p2 = ret[i].indexOf(')', p);
-				if (p2 < 0) {
-					ret[i] = null;
-				} else {
-					ret[i] = ret[i].substring(p + 1, p2);
-				}
-			}
-		}
-
-		return ret;
-	}
-
-	/**
 	 * Send Text.
 	 * 
 	 * @param connector
@@ -970,45 +954,32 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	 */
 	private void send(final short connector) {
 		// fetch text/recipient
-		String to = ((EditText) this.findViewById(R.id.to)).getText()
+		final String to = ((EditText) this.findViewById(R.id.to)).getText()
 				.toString();
-		String text = ((EditText) this.findViewById(R.id.text)).getText()
+		final String text = ((EditText) this.findViewById(R.id.text)).getText()
 				.toString();
 		if (to.length() == 0 || text.length() == 0) {
 			return;
 		}
-		String[] numbers = AndGMXsms.parseReciepients(to);
-		// fix number prefix
-		for (int i = 0; i < numbers.length; i++) {
-			String t = numbers[i];
-			if (t != null) {
-				if (!t.startsWith("+")) {
-					if (t.startsWith("00")) {
-						t = "+" + t.substring(2);
-					} else if (t.startsWith("0")) {
-						t = AndGMXsms.prefsDefPrefix + t.substring(1);
-					}
-				}
-			}
-			numbers[i] = AndGMXsms.cleanRecipient(t);
-		}
-		// start a Connector Thread
-		Connector.send(connector, numbers, text);
-	}
 
-	/**
-	 * Clean recipient's phone number from [ -.()].
-	 * 
-	 * @param recipient
-	 *            recipient's mobile number
-	 * @return clean number
-	 */
-	public static final String cleanRecipient(final String recipient) {
-		if (recipient == null) {
-			return "";
+		if (this.mIOOp == null) {
+			Log.e(TAG, "mIOOp == null");
+			return;
 		}
-		return recipient.replace(" ", "").replace("-", "").replace(".", "")
-				.replace("(", "").replace(")", "").trim();
+
+		// start a Connector Thread
+		// Connector.send(connector, to, text);
+		String[] params = new String[Connector.IDS_SEND];
+		params[Connector.ID_ID] = Connector.ID_SEND;
+		params[Connector.ID_TO] = to;
+		params[Connector.ID_TEXT] = text;
+		try {
+			this.mIOOp.sendMessage(connector, params);
+		} catch (RemoteException e) {
+			Log.e(TAG, null, e);
+		} finally {
+			this.reset();
+		}
 	}
 
 	/**
@@ -1019,7 +990,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 	 * @param data
 	 *            data
 	 */
-	public static final void sendMessage(final int messageType,
+	public static final void pushMessage(final int messageType,
 			final Object data) {
 		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
 				.sendToTarget();

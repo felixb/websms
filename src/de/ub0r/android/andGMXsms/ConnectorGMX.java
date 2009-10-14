@@ -213,12 +213,11 @@ public class ConnectorGMX extends Connector {
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == HTTP_SERVICE_UNAVAILABLE) {
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
 							R.string.log_error_service);
 				} else {
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_http)
-							+ resp);
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_http, "" + +resp);
 				}
 				return false;
 			}
@@ -228,11 +227,8 @@ public class ConnectorGMX extends Connector {
 				String resultString = stream2String(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources()
-							.getString(R.string.log_error_server)
-							+ resultString);
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_server, "" + resultString);
 					return false;
 				}
 
@@ -249,7 +245,7 @@ public class ConnectorGMX extends Connector {
 					rslt = Integer.parseInt(resultValue);
 				} catch (Exception e) {
 					Log.e(TAG, null, e);
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+					this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 					return false;
 				}
 				switch (rslt) {
@@ -264,8 +260,7 @@ public class ConnectorGMX extends Connector {
 							AndGMXsms.SMS_FREE[GMX][AndGMXsms.SMS_FREE_LIMIT] = Integer
 									.parseInt(p);
 						}
-						AndGMXsms
-								.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+						this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
@@ -278,42 +273,40 @@ public class ConnectorGMX extends Connector {
 						}
 						AndGMXsms.me.savePreferences();
 						inBootstrap = false;
-						AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY,
-								null);
+						this.pushMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
 							R.string.log_error_pw);
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
 					AndGMXsms.prefsPasswordGMX = "";
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
 							R.string.log_error_mail);
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
+					this.pushMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					return false;
 				case RSLT_WRONG_SENDER: // wrong sender
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
 							R.string.log_error_sender);
 					return false;
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
 							R.string.log_error_sender_unregistered);
 					return false;
 				default:
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, outp + " #"
-							+ rslt);
+					this.pushMessage(AndGMXsms.MESSAGE_LOG, outp + " #" + rslt);
 					return false;
 				}
 			} else {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(AndGMXsms.MESSAGE_LOG,
 						R.string.log_http_header_missing);
 				return false;
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
 	}
@@ -336,7 +329,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
+		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
@@ -368,11 +361,11 @@ public class ConnectorGMX extends Connector {
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
 			return false;
 		} else {
 			// result: ok
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
 			saveMessage(this.to, this.text);
 			return true;
 		}

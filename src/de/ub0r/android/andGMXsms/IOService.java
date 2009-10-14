@@ -21,6 +21,7 @@ package de.ub0r.android.andGMXsms;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * IOService handles all IO as a service. Call it with RPC!
@@ -28,12 +29,28 @@ import android.os.IBinder;
  * @author flx
  */
 public class IOService extends Service {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.IO";
+
 	/** Notification for failed message. */
 	private static final int ID_FAILED = 0;
+
+	/** Number of jobs running. */
+	static int currentIOOps = 0;
+
+	/** Reference to running Service. */
+	static IOService me;
+
+	/**
+	 * Is some client bound to this service? IO Tasks can kill this service, if
+	 * no Client is bound and all IO is done.
+	 */
+	static boolean isBound = false;
 
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
 		public void sendMessage(final int connector, final String[] params) {
+			Connector.send((short) connector, params);
 		}
 
 		public String getFailedMessage(final int id, final String[] params) {
@@ -50,7 +67,46 @@ public class IOService extends Service {
 	 */
 	@Override
 	public final IBinder onBind(final Intent intent) {
+		Log.d(TAG, "onBind()");
+		isBound = true;
 		return this.mBinder;
+	}
+
+	/**
+	 * Called when all clients have disconnected from a particular interface
+	 * published by the service.
+	 * 
+	 * @param intent
+	 *            The Intent that was used to bind to this service, as given to
+	 *            Context.bindService. Note that any extras that were included
+	 *            with the Intent at that point will not be seen here.
+	 * @return Return true if you would like to have the service's
+	 *         onRebind(Intent) method later called when new clients bind to it.
+	 */
+	@Override
+	public final boolean onUnbind(final Intent intent) {
+		Log.d(TAG, "onUnbind()");
+		isBound = false;
+		if (currentIOOps <= 0) {
+			this.stopSelf();
+		}
+		return true;
+	}
+
+	/**
+	 * Called when new clients have connected to the service, after it had
+	 * previously been notified that all had disconnected in its
+	 * onUnbind(Intent). This will only be called if the implementation of
+	 * onUnbind(Intent) was overridden to return true.
+	 * 
+	 * @param The
+	 *            Intent that was used to bind to this service, as given to
+	 *            Context.bindService. Note that any extras that were included
+	 *            with the Intent at that point will not be seen here.
+	 */
+	@Override
+	public final void onRebind(final Intent intent) {
+		isBound = true;
 	}
 
 	/**
@@ -62,10 +118,11 @@ public class IOService extends Service {
 	 *            start id
 	 */
 	@Override
-	public final void onStart(final Intent intent, final int startId) {
-		super.onStart(intent, startId);
+	public final void onCreate() {
+		super.onCreate();
 		// Don't kill me!
 		this.setForeground(true);
+		me = this;
 	}
 
 	/**
@@ -74,6 +131,6 @@ public class IOService extends Service {
 	@Override
 	public final void onDestroy() {
 		super.onDestroy();
-		// TODO fill me
+		me = null;
 	}
 }

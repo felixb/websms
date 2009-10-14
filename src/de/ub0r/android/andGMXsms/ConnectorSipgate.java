@@ -38,7 +38,7 @@ public class ConnectorSipgate extends Connector {
 	@Override
 	protected boolean sendMessage() {
 		Log.d(TAG, "sendMessage()");
-		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
+		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		Object back;
 		try {
 			XMLRPCClient client = this.init();
@@ -57,12 +57,11 @@ public class ConnectorSipgate extends Connector {
 			params.put("Content", this.text);
 			back = client.call("samurai.SessionInitiateMulti", params);
 			Log.d(TAG, back.toString());
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
 			saveMessage(this.to, this.text);
-
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
 		return true;
@@ -82,10 +81,10 @@ public class ConnectorSipgate extends Connector {
 				AndGMXsms.BALANCE_SIPGATE = ((Double) ((Map) back
 						.get("CurrentBalance")).get("TotalIncludingVat"));
 			}
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+			this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
 
@@ -117,5 +116,4 @@ public class ConnectorSipgate extends Connector {
 			throw e;
 		}
 	}
-
 }

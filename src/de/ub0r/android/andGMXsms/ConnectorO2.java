@@ -118,8 +118,7 @@ public class ConnectorO2 extends Connector {
 		} else if (AndGMXsms.prefsSender.startsWith("+353")) {
 			operator = O2_IE;
 		} else {
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
-					R.string.log_error_prefix);
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_prefix);
 			return false;
 		}
 
@@ -130,9 +129,8 @@ public class ConnectorO2 extends Connector {
 					null, TARGET_AGENT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_http)
-						+ resp);
+				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_http, "" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][0]);
@@ -155,25 +153,22 @@ public class ConnectorO2 extends Connector {
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_http)
-						+ resp);
+				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_http, "" + resp);
 				return false;
 			}
 			resp = cookies.size();
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
 			if (resp == cookies.size()) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
-						R.string.log_error_pw);
+				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,
 					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_http)
-						+ resp);
+				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_http, "" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
@@ -182,9 +177,8 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-						.getResources().getString(R.string.log_error_http)
-						+ resp);
+				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+						R.string.log_error_http, "" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][3]);
@@ -195,7 +189,7 @@ public class ConnectorO2 extends Connector {
 				if (j > 0) {
 					AndGMXsms.SMS_FREE[O2][AndGMXsms.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+					this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 				}
 			}
 
@@ -224,9 +218,8 @@ public class ConnectorO2 extends Connector {
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
-					AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-							.getResources().getString(R.string.log_error_http)
-							+ resp);
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_http, "" + resp);
 					return false;
 				}
 				htmlText = stream2String(response.getEntity().getContent());
@@ -237,15 +230,15 @@ public class ConnectorO2 extends Connector {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (URISyntaxException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (MalformedCookieException e) {
 			Log.e(TAG, null, e);
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
 			return false;
 		}
 		return true;
@@ -268,25 +261,15 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		AndGMXsms.sendMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
-		int j = 0;
-		for (int i = 0; i < this.to.length; i++) {
-			if (this.to[i] != null && this.to[i].length() > 1) {
-				if (j > 1) {
-					this.tos += ", ";
-				}
-				this.tos += this.to[i];
-			}
-		}
+		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		this.publishProgress((Boolean) null);
 		if (!this.sendData()) {
 			// failed!
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
-					.getResources().getString(R.string.log_error));
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
 			return false;
 		} else {
 			// result: ok
-			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
 			saveMessage(this.to, this.text);
 			return true;
 		}

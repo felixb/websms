@@ -43,10 +43,16 @@ import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.CookieSpecBase;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * Connector is the basic Connector. Implement other real Connectors as extend.
@@ -55,6 +61,9 @@ import android.os.AsyncTask;
  * @author Felix Bechstein
  */
 public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.con";
+
 	/** HTTP Response 503. */
 	static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
@@ -103,24 +112,22 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Type of IO Op. */
 	protected String type;
 
+	/** ID of my notification. */
+	private int notificationID = 0;
+	/** Next notification ID. */
+	private static int nextNotificationID = 0;
+
+	protected String failedMessage = null;
+
 	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
 	 * @param connector
 	 *            Connector which should be used.
-	 * @param receivers
-	 *            Receivers of the message.
-	 * @param text
-	 *            Text which should be sent.
+	 * @param params
+	 *            Sending parameters.
 	 */
-	public static final void send(final short connector,
-			final String[] receivers, final String text) {
-		String[] params = new String[receivers.length + 2];
-		params[ID_ID] = ID_SEND;
-		params[ID_TEXT] = text;
-		for (int i = 0; i < receivers.length; i++) {
-			params[i + 2] = receivers[i];
-		}
+	public static final void send(final short connector, final String[] params) {
 		switch (connector) {
 		case GMX:
 			new ConnectorGMX().execute(params);
@@ -134,6 +141,25 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * Send a message to one or more receivers. This is done in background!
+	 * 
+	 * @param connector
+	 *            Connector which should be used.
+	 * @param recipients
+	 *            Receivers of the message.
+	 * @param text
+	 *            Text which should be sent.
+	 */
+	public static final void send(final short connector,
+			final String recipients, final String text) {
+		String[] params = new String[IDS_SEND];
+		params[ID_ID] = ID_SEND;
+		params[ID_TEXT] = text;
+		params[ID_TO] = recipients;
+		Connector.send(connector, params);
 	}
 
 	/**
@@ -358,6 +384,31 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected abstract boolean sendMessage();
 
 	/**
+	 * Prepare reciepients before sending.
+	 */
+	private void prepareSend() {
+		// fetch text/recipient
+		String to = this.tos;
+		String[] numbers = Connector.parseReciepients(to);
+		final String defPrefix = AndGMXsms.prefsDefPrefix;
+		// fix number prefix
+		for (int i = 0; i < numbers.length; i++) {
+			String t = numbers[i];
+			if (t != null) {
+				if (!t.startsWith("+")) {
+					if (t.startsWith("00")) {
+						t = "+" + t.substring(2);
+					} else if (t.startsWith("0")) {
+						t = defPrefix + t.substring(1);
+					}
+				}
+			}
+			numbers[i] = Connector.cleanRecipient(t);
+		}
+		this.to = numbers;
+	}
+
+	/**
 	 * Run IO in background.
 	 * 
 	 * @param params
@@ -381,9 +432,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			this.publishProgress((Boolean) null);
 			ret = this.doBootstrap(params);
 		} else if (t == ID_SEND) {
+			this.notificationID = getNotificationID();
 			this.text = params[ID_TEXT];
-			this.to = getReceivers(params);
-			this.publishProgress((Boolean) null);
+			this.tos = params[ID_TO];
+			// this.to = getReceivers(params);
+			this.prepareSend();
+			this.publishProgress(true);
 			ret = this.sendMessage();
 		}
 		return ret;
@@ -397,6 +451,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
+		boolean p;
+		if (progress == null || progress.length == 0 || progress[0] == null) {
+			p = false;
+		} else {
+			p = progress[0];
+		}
 		if (AndGMXsms.dialog != null) {
 			try {
 				AndGMXsms.dialog.dismiss();
@@ -413,14 +473,50 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
 					AndGMXsms.dialogString, true);
 		} else if (t == ID_SEND) {
-			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.log_sending);
-			if (this.tos != null && this.tos.length() > 0) {
-				AndGMXsms.dialogString += " (" + this.tos + ")";
-			}
-			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
-					AndGMXsms.dialogString, true);
+			this.displayNotification(!p);
 		}
+	}
+
+	/**
+	 * Display a notification for this mesage.
+	 * 
+	 * @param failed
+	 *            send failed?
+	 */
+	private void displayNotification(final boolean failed) {
+		NotificationManager mNotificationMgr = (NotificationManager) IOService.me
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = null;
+		String rcvs = this.tos.trim();
+		if (rcvs.endsWith(",")) {
+			rcvs = rcvs.substring(0, rcvs.length() - 1);
+		}
+		if (failed) {
+			notification = new Notification(
+					android.R.drawable.stat_notify_error, "failed", System
+							.currentTimeMillis());
+			final Intent i = new Intent(IOService.me, AndGMXsms.class);
+			i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
+					+ Uri.encode(this.text)));
+			final PendingIntent contentIntent = PendingIntent.getActivity(
+					IOService.me, 0, i, 0);
+			if (this.failedMessage == null) {
+				this.failedMessage = "";
+			}
+			notification.setLatestEventInfo(IOService.me, "failed send: "
+					+ this.failedMessage, rcvs + "\n" + this.text,
+					contentIntent);
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		} else {
+			notification = new Notification(android.R.drawable.stat_sys_upload,
+					"", System.currentTimeMillis());
+			final PendingIntent contentIntent = PendingIntent.getActivity(
+					IOService.me, 0, new Intent(IOService.me, AndGMXsms.class),
+					0);
+			notification.setLatestEventInfo(IOService.me, "sending: " + rcvs,
+					this.text, contentIntent);
+		}
+		mNotificationMgr.notify(this.notificationID, notification);
 	}
 
 	/**
@@ -444,6 +540,181 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					System.gc();
 				}
 			}
+		}
+		if (t == ID_SEND) {
+			if (!result) {
+				this.displayNotification(true);
+			}
+		}
+	}
+
+	/**
+	 * Parse a String of "name (number), name (number), number, ..." to
+	 * addresses.
+	 * 
+	 * @param reciepients
+	 *            reciepients
+	 * @return array of reciepients
+	 */
+	private static String[] parseReciepients(final String reciepients) {
+		int i = 0;
+		int p = reciepients.indexOf(',');
+		while (p >= 0) {
+			++i;
+			if (p == reciepients.length()) {
+				p = -1;
+			} else {
+				p = reciepients.indexOf(',', p + 1);
+			}
+		}
+		if (i < 2) {
+			i = 2;
+		}
+		String[] ret = new String[i + 1];
+		p = 0;
+		int p2 = reciepients.indexOf(',', p + 1);
+		i = 0;
+		while (p >= 0) {
+			if (p == 0) {
+				p--;
+			}
+			if (p2 > 0) {
+				ret[i] = reciepients.substring(p + 1, p2).trim();
+			} else {
+				ret[i] = reciepients.substring(p + 1).trim();
+			}
+			if (p == -1) {
+				p++;
+			}
+
+			if (p == reciepients.length()) {
+				p = -1;
+			} else {
+				p = reciepients.indexOf(',', p + 1);
+				if (p == reciepients.length()) {
+					p2 = -1;
+				} else {
+					p2 = reciepients.indexOf(',', p + 1);
+				}
+				++i;
+			}
+		}
+
+		for (i = 0; i < ret.length; i++) {
+			if (ret[i] == null) {
+				continue;
+			}
+			p = ret[i].lastIndexOf('(');
+			if (p >= 0) {
+				p2 = ret[i].indexOf(')', p);
+				if (p2 < 0) {
+					ret[i] = null;
+				} else {
+					ret[i] = ret[i].substring(p + 1, p2);
+				}
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Clean recipient's phone number from [ -.()].
+	 * 
+	 * @param recipient
+	 *            recipient's mobile number
+	 * @return clean number
+	 */
+	public static final String cleanRecipient(final String recipient) {
+		if (recipient == null) {
+			return "";
+		}
+		return recipient.replace(" ", "").replace("-", "").replace(".", "")
+				.replace("(", "").replace(")", "").trim();
+	}
+
+	/**
+	 * Get a fresh and unique ID for a new notification.
+	 * 
+	 * @return return the ID
+	 */
+	private static synchronized int getNotificationID() {
+		++nextNotificationID;
+		return nextNotificationID;
+	}
+
+	/**
+	 * Send a Message to Activity or Log.
+	 * 
+	 * @param msgType
+	 *            message type
+	 * @param msg
+	 *            message
+	 */
+	protected final void pushMessage(final int msgType, final String msg) {
+		if (this.type == ID_SEND || AndGMXsms.me == null) {
+			if (msg == null) {
+				Log.d(TAG, "null");
+			} else {
+				Log.d(TAG, msg);
+				if (msgType == AndGMXsms.MESSAGE_LOG) {
+					this.failedMessage = msg;
+				}
+			}
+		} else {
+			AndGMXsms.pushMessage(msgType, msg);
+		}
+	}
+
+	/**
+	 * Send a Message to Activity or Log.
+	 * 
+	 * @param msgType
+	 *            message type
+	 * @param msg
+	 *            message
+	 */
+	protected final void pushMessage(final int msgType, final int msg) {
+		Context c = AndGMXsms.me;
+		if (this.type == ID_SEND || c == null) {
+			c = IOService.me;
+		}
+		final String s = c.getString(msg);
+		if (this.type == ID_SEND) {
+			Log.d(TAG, s);
+			if (msgType == AndGMXsms.MESSAGE_LOG
+					&& (msg != R.string.log_error || this.failedMessage == null)) {
+				this.failedMessage = s;
+			}
+		} else {
+			AndGMXsms.pushMessage(msgType, c);
+		}
+	}
+
+	/**
+	 * Send a Message to Activity or Log.
+	 * 
+	 * @param msgType
+	 *            message type
+	 * @param msgFront
+	 *            message's first part as resID
+	 * @param msgTail
+	 *            message's last part
+	 */
+	protected final void pushMessage(final int msgType, final int msgFront,
+			final String msgTail) {
+		Context c = AndGMXsms.me;
+		if (this.type == ID_SEND || c == null) {
+			c = IOService.me;
+		}
+		final String s = c.getString(msgFront);
+		if (this.type == ID_SEND) {
+			Log.d(TAG, s + msgTail);
+			if (msgType == AndGMXsms.MESSAGE_LOG) {
+				this.failedMessage = s + msgTail;
+			}
+		} else {
+			AndGMXsms.pushMessage(msgType, c + msgTail);
 		}
 	}
 }
