@@ -26,6 +26,10 @@ import org.xmlpull.v1.XmlSerializer;
 import android.util.Xml;
 
 /**
+ * 
+ * original source code from http://code.google.com/p/android-xmlrpc/ 
+ * released under apache licence 2.0 http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * XMLRPCClient allows to call remote XMLRPC method.
  * <p>
  * The following table shows how XML-RPC types are mapped to java call
