@@ -38,7 +38,6 @@ public class ConnectorSipgate extends Connector {
 	@Override
 	protected boolean sendMessage() {
 		Log.d(TAG, "sendMessage()");
-		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		Object back;
 		try {
 			XMLRPCClient client = this.init();

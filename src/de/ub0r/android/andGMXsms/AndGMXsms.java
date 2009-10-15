@@ -172,8 +172,6 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	static final int MESSAGE_RESET = 5;
 	/** Message check prefsReady. */
 	static final int MESSAGE_PREFSREADY = 6;
-	/** Message display ads. */
-	static final int MESSAGE_DISPLAY_ADS = 7;
 
 	/** Menu: send via GMX. */
 	private static final int MENU_SEND_GMX = Connector.GMX + 1;
@@ -857,14 +855,6 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			case MESSAGE_PREFSREADY:
 				AndGMXsms.this.checkPrefs();
 				return;
-			case MESSAGE_DISPLAY_ADS:
-				if (prefsNoAds) {
-					return; // do not display any ads
-				}
-				// display ads
-				((AdView) AndGMXsms.this.findViewById(R.id.ad))
-						.setVisibility(View.VISIBLE);
-				return;
 			default:
 				return;
 			}
@@ -967,6 +957,12 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			return;
 		}
 
+		if (!prefsNoAds) {
+			// do not display any ads for donators
+			// display ads
+			((AdView) AndGMXsms.this.findViewById(R.id.ad))
+					.setVisibility(View.VISIBLE);
+		}
 		// start a Connector Thread
 		// Connector.send(connector, to, text);
 		String[] params = new String[Connector.IDS_SEND];

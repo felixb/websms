@@ -329,7 +329,6 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);

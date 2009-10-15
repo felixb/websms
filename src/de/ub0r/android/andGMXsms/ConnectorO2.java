@@ -195,6 +195,7 @@ public class ConnectorO2 extends Connector {
 
 			if (this.text != null && this.tos != null) {
 				postData = new ArrayList<BasicNameValuePair>(15);
+				// TODO: join this.to
 				postData.add(new BasicNameValuePair("SMSTo", this.tos));
 				postData.add(new BasicNameValuePair("SMSText", this.text));
 				postData.add(new BasicNameValuePair("SMSFrom", ""));
@@ -261,7 +262,6 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		this.pushMessage(AndGMXsms.MESSAGE_DISPLAY_ADS, null);
 		this.publishProgress((Boolean) null);
 		if (!this.sendData()) {
 			// failed!

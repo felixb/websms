@@ -99,10 +99,15 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Parameters for updating message count. */
 	static final String[] PARAMS_UPDATE = { ID_UPDATE };
 
-	/** recipient. */
+	/** recipient, numbers only. */
 	protected String[] to;
-	/** recipients list. */
+	/** recipient, names only. */
+	protected String[] toNames;
+	/** recipient, splitted but not stripped. */
+	protected String[] toFull;
+	/** recipients list. as it comes from the user. */
 	protected String tos = "";
+
 	/** text. */
 	protected String text;
 
@@ -117,6 +122,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Next notification ID. */
 	private static int nextNotificationID = 0;
 
+	/** Message to log to the user. */
 	protected String failedMessage = null;
 
 	/**
