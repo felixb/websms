@@ -6,6 +6,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+/**
+ * original source code from http://code.google.com/p/android-xmlrpc/ released
+ * under apache licence 2.0 http://www.apache.org/licenses/LICENSE-2.0
+ */
 public interface IXMLRPCSerializer {
 	String TAG_NAME = "name";
 	String TAG_MEMBER = "member";

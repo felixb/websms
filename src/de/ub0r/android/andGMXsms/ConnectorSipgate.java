@@ -24,16 +24,30 @@ import java.util.Vector;
 
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
+import org.xmlrpc.android.XMLRPCFault;
 
 import android.util.Log;
 
+/**
+ * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API
+ * 
+ * @author mirweb
+ */
 public class ConnectorSipgate extends Connector {
-
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.Sipgate";
 
+	/**
+	 * sipgate.de API URL
+	 */
 	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
 
+	/**
+	 * Send sms
+	 * 
+	 * @return ok?
+	 * @see de.ub0r.android.andGMXsms.Connector#sendMessage()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean sendMessage() {
@@ -58,6 +72,14 @@ public class ConnectorSipgate extends Connector {
 			Log.d(TAG, back.toString());
 			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
 			saveMessage(this.to, this.text);
+		} catch (XMLRPCFault e) {
+			Log.e(TAG, null, e);
+			if (e.getFaultCode() == 401) {
+				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
+				return false;
+			}
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
 			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
@@ -66,6 +88,12 @@ public class ConnectorSipgate extends Connector {
 		return true;
 	}
 
+	/**
+	 * get balance of account in euro
+	 * 
+	 * @return ok?
+	 * @see de.ub0r.android.andGMXsms.Connector#updateMessages()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean updateMessages() {
@@ -77,10 +105,19 @@ public class ConnectorSipgate extends Connector {
 			back = (Map) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
 			if (back.get("StatusCode").equals(new Integer(200))) {
-				AndGMXsms.BALANCE_SIPGATE = ((Double) ((Map) back
-						.get("CurrentBalance")).get("TotalIncludingVat"));
+				AndGMXsms.BALANCE_SIPGATE = String.format("%.2f",
+						((Double) ((Map) back.get("CurrentBalance"))
+								.get("TotalIncludingVat")));
 			}
 			this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+		} catch (XMLRPCFault e) {
+			Log.e(TAG, null, e);
+			if (e.getFaultCode() == 401) {
+				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
+				return false;
+			}
+			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
 			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
@@ -90,6 +127,12 @@ public class ConnectorSipgate extends Connector {
 		return true;
 	}
 
+	/**
+	 * sets up and instance of XMLRPCClient
+	 * 
+	 * @return the initialized XMLRPCClient
+	 * @throws XMLRPCException
+	 */
 	private XMLRPCClient init() throws XMLRPCException {
 		Log.d(TAG, "updateMessage()");
 		String VERSION = AndGMXsms.me.getResources().getString(
