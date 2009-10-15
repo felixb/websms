@@ -21,7 +21,7 @@
 	<string name="about">WebSMS enables you to send free and paid SMS
 		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.4</string>
+	<string name="app_version">2.4.1</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, O2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
