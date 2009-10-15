@@ -26,10 +26,8 @@ import org.xmlpull.v1.XmlSerializer;
 import android.util.Xml;
 
 /**
- * 
- * original source code from http://code.google.com/p/android-xmlrpc/ 
- * released under apache licence 2.0 http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * original source code from http://code.google.com/p/android-xmlrpc/ released
+ * under apache licence 2.0 http://www.apache.org/licenses/LICENSE-2.0
  * XMLRPCClient allows to call remote XMLRPC method.
  * <p>
  * The following table shows how XML-RPC types are mapped to java call
@@ -236,7 +234,7 @@ public class XMLRPCClient {
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
 				throw new XMLRPCFault("HTTP status code: " + statusCode
-						+ " != " + HttpStatus.SC_OK,statusCode);
+						+ " != " + HttpStatus.SC_OK, statusCode);
 			}
 
 			// parse response stuff
@@ -259,7 +257,7 @@ public class XMLRPCClient {
 					TAG_METHOD_RESPONSE);
 
 			pullParser.nextTag(); // either TAG_PARAMS (<params>) or TAG_FAULT
-									// (<fault>)
+			// (<fault>)
 			String tag = pullParser.getName();
 			if (tag.equals(TAG_PARAMS)) {
 				// normal response

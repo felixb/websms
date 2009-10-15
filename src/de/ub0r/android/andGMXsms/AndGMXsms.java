@@ -429,7 +429,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			btn.setEnabled(prefsReadySipgate);
 			btn.setVisibility(View.VISIBLE);
 			if (prefsEnableGMX || prefsEnableO2) {
-				btn.setText(this.getResources().getString(R.string.send_sipgate));
+				btn.setText(this.getResources()
+						.getString(R.string.send_sipgate));
 			} else {
 				btn.setText(this.getResources().getString(R.string.send_));
 			}
@@ -608,11 +609,12 @@ public class AndGMXsms extends Activity implements OnClickListener {
 					// add menu to send text
 					MenuItem m;
 					if (prefsEnableO2 || prefsEnableGMX) {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this.getResources()
+						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
+								.getResources()
 								.getString(R.string.send_sipgate));
 					} else {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this.getResources()
-								.getString(R.string.send_));
+						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
+								.getResources().getString(R.string.send_));
 					}
 					m.setIcon(android.R.drawable.ic_menu_send);
 				}
@@ -802,7 +804,7 @@ public class AndGMXsms extends Activity implements OnClickListener {
 						AndGMXsms.remFree += " - ";
 					}
 					AndGMXsms.remFree += "Sipgate: ";
-					AndGMXsms.remFree +=  BALANCE_SIPGATE + " \u20AC";
+					AndGMXsms.remFree += BALANCE_SIPGATE + " \u20AC";
 				}
 				if (AndGMXsms.remFree.length() == 0) {
 					AndGMXsms.remFree = "---";

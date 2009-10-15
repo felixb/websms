@@ -33,7 +33,7 @@ import android.util.Log;
  * 
  * @author mirweb
  */
-public class ConnectorSipgate extends Connector { 
+public class ConnectorSipgate extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.Sipgate";
 
@@ -76,7 +76,7 @@ public class ConnectorSipgate extends Connector {
 
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
-			if(e.getFaultCode() == 401){
+			if (e.getFaultCode() == 401) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
 						R.string.log_error_pw);
 				return false;
@@ -108,13 +108,14 @@ public class ConnectorSipgate extends Connector {
 			back = (Map) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
 			if (back.get("StatusCode").equals(new Integer(200))) {
-				AndGMXsms.BALANCE_SIPGATE =String.format("%.2f", ((Double) ((Map) back
-						.get("CurrentBalance")).get("TotalIncludingVat")));
+				AndGMXsms.BALANCE_SIPGATE = String.format("%.2f",
+						((Double) ((Map) back.get("CurrentBalance"))
+								.get("TotalIncludingVat")));
 			}
 			AndGMXsms.sendMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
-			if(e.getFaultCode() == 401){
+			if (e.getFaultCode() == 401) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
 						R.string.log_error_pw);
 				return false;
