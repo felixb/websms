@@ -26,6 +26,7 @@ import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 import org.xmlrpc.android.XMLRPCFault;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -55,7 +56,6 @@ public class ConnectorSipgate extends Connector {
 		Object back;
 		try {
 			XMLRPCClient client = this.init();
-			this.publishProgress((Boolean) null);
 			Vector<String> remoteUris = new Vector<String>();
 			for (int i = 0; i < this.to.length; i++) {
 				if (this.to[i] != null && this.to[i].length() > 1) {
@@ -98,7 +98,6 @@ public class ConnectorSipgate extends Connector {
 	@Override
 	protected boolean updateMessages() {
 		Log.d(TAG, "updateMessage()");
-		this.publishProgress((Boolean) null);
 		Map back = null;
 		try {
 			XMLRPCClient client = this.init();
@@ -135,17 +134,20 @@ public class ConnectorSipgate extends Connector {
 	 */
 	private XMLRPCClient init() throws XMLRPCException {
 		Log.d(TAG, "updateMessage()");
-		String VERSION = AndGMXsms.me.getResources().getString(
-				R.string.app_version);
-		String VENDOR = AndGMXsms.me.getResources().getString(R.string.author1);
-		this.publishProgress((Boolean) null);
+		String VERSION;
+		String VENDOR;
+		Context c = AndGMXsms.me;
+		if (c == null) {
+			c = IOService.me;
+		}
+		VERSION = c.getString(R.string.app_version);
+		VENDOR = c.getString(R.string.author1);
 
 		XMLRPCClient client = new XMLRPCClient(SIPGATE_URL);
 		client.setBasicAuthentication(AndGMXsms.prefsUserSipgate,
 				AndGMXsms.prefsPasswordSipgate);
 		Object back;
 		try {
-			this.publishProgress((Boolean) null);
 			Hashtable<String, String> ident = new Hashtable<String, String>();
 			ident.put("ClientName", TAG);
 			ident.put("ClientVersion", VERSION);

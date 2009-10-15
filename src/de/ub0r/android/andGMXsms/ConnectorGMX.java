@@ -347,7 +347,6 @@ public class ConnectorGMX extends Connector {
 				this.tos += this.to[i];
 			}
 		}
-		this.publishProgress((Boolean) null);
 		recipients.append("</TBL>");
 		String recipientsString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
 				+ "receiver_id\\;receiver_name\\;receiver_number\\;"

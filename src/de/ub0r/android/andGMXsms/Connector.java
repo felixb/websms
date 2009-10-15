@@ -395,7 +395,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	private void prepareSend() {
 		// fetch text/recipient
 		String to = this.tos;
-		String[] numbers = Connector.parseReciepients(to);
+		String[] numbers = this.parseReciepients(to);
 		final String defPrefix = AndGMXsms.prefsDefPrefix;
 		// fix number prefix
 		for (int i = 0; i < numbers.length; i++) {
@@ -432,10 +432,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		}
 		this.type = t;
 		if (t == ID_UPDATE) {
-			this.publishProgress((Boolean) null);
+			this.publishProgress(false);
 			ret = this.updateMessages();
 		} else if (t == ID_BOOSTR) {
-			this.publishProgress((Boolean) null);
+			this.publishProgress(false);
 			ret = this.doBootstrap(params);
 		} else if (t == ID_SEND) {
 			this.notificationID = getNotificationID();
@@ -443,7 +443,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			this.tos = params[ID_TO];
 			// this.to = getReceivers(params);
 			this.prepareSend();
-			this.publishProgress(true);
+			this.publishProgress(false);
 			ret = this.sendMessage();
 		}
 		return ret;
@@ -457,29 +457,23 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
-		boolean p;
-		if (progress == null || progress.length == 0 || progress[0] == null) {
-			p = false;
-		} else {
-			p = progress[0];
-		}
-		if (AndGMXsms.dialog != null) {
-			try {
-				AndGMXsms.dialog.dismiss();
-			} catch (Exception e) {
-				// do nothing
-			}
-		}
 		final String t = this.type;
 		if (t == ID_UPDATE) {
 			AndGMXsms.me.setProgressBarIndeterminateVisibility(true);
 		} else if (t == ID_BOOSTR) {
+			if (AndGMXsms.dialog != null) {
+				try {
+					AndGMXsms.dialog.dismiss();
+				} catch (Exception e) {
+					// do nothing
+				}
+			}
 			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
 					R.string.bootstrap_);
 			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
 					AndGMXsms.dialogString, true);
 		} else if (t == ID_SEND) {
-			this.displayNotification(!p);
+			this.displayNotification(false);
 		}
 	}
 
@@ -550,77 +544,44 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (t == ID_SEND) {
 			if (!result) {
 				this.displayNotification(true);
+			} else {
+				NotificationManager mNotificationMgr = (NotificationManager) IOService.me
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+				mNotificationMgr.cancel(this.notificationID);
 			}
 		}
 	}
 
 	/**
 	 * Parse a String of "name (number), name (number), number, ..." to
-	 * addresses.
+	 * an array of numbers. It will fill this.toFull and this.toNames too.
 	 * 
 	 * @param reciepients
 	 *            reciepients
 	 * @return array of reciepients
 	 */
-	private static String[] parseReciepients(final String reciepients) {
-		int i = 0;
-		int p = reciepients.indexOf(',');
-		while (p >= 0) {
-			++i;
-			if (p == reciepients.length()) {
-				p = -1;
-			} else {
-				p = reciepients.indexOf(',', p + 1);
-			}
+	private String[] parseReciepients(final String reciepients) {
+		String s = reciepients.trim();
+		if (s.endsWith(",")) {
+			s = s.substring(0, s.length() - 1);
 		}
-		if (i < 2) {
-			i = 2;
-		}
-		String[] ret = new String[i + 1];
-		p = 0;
-		int p2 = reciepients.indexOf(',', p + 1);
-		i = 0;
-		while (p >= 0) {
-			if (p == 0) {
-				p--;
-			}
-			if (p2 > 0) {
-				ret[i] = reciepients.substring(p + 1, p2).trim();
-			} else {
-				ret[i] = reciepients.substring(p + 1).trim();
-			}
-			if (p == -1) {
-				p++;
-			}
-
-			if (p == reciepients.length()) {
-				p = -1;
-			} else {
-				p = reciepients.indexOf(',', p + 1);
-				if (p == reciepients.length()) {
-					p2 = -1;
-				} else {
-					p2 = reciepients.indexOf(',', p + 1);
-				}
-				++i;
-			}
-		}
-
-		for (i = 0; i < ret.length; i++) {
-			if (ret[i] == null) {
-				continue;
-			}
-			p = ret[i].lastIndexOf('(');
-			if (p >= 0) {
-				p2 = ret[i].indexOf(')', p);
-				if (p2 < 0) {
-					ret[i] = null;
-				} else {
-					ret[i] = ret[i].substring(p + 1, p2);
+		String[] ret0 = s.split(",");
+		int e = ret0.length;
+		String[] ret = new String[e];
+		String[] ret1 = new String[e];
+		for (int i = 0; i < e; i++) {
+			s = ret0[i];
+			int j = s.lastIndexOf('(');
+			if (j >=0) {
+				int h = s.lastIndexOf(')', j);
+				if (h > 0) {
+					s = s.substring(j + 1, h);
 				}
 			}
+			ret[i] = s;
 		}
-
+		this.toFull = ret0;
+		this.toNames = ret1;
 		return ret;
 	}
 

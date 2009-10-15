@@ -262,7 +262,6 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		this.publishProgress((Boolean) null);
 		if (!this.sendData()) {
 			// failed!
 			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
