@@ -137,7 +137,8 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
 			"7684154558d19383552388d9bc92d446", // henning k.
 			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
-			"c479a2e701291c751f0f91426bcaabf3" // bernhard g.
+			"c479a2e701291c751f0f91426bcaabf3", // bernhard g.
+			"ae7dfedf549f98a349ad8c2068473c6b" // dominik k.-v.
 	};
 
 	/** Public Dialog ref. */
