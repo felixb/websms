@@ -46,10 +46,6 @@ public class IOService extends Service {
 		public void sendMessage(final int connector, final String[] params) {
 			Connector.send(IOService.this, (short) connector, params);
 		}
-
-		public String getFailedMessage(final int id, final String[] params) {
-			return null;
-		}
 	};
 
 	/**
@@ -126,5 +122,22 @@ public class IOService extends Service {
 	public final void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy()");
+	}
+
+	/**
+	 * Register/unregister a IO task.
+	 * 
+	 * @param unregister
+	 *            unregister task?
+	 */
+	public static synchronized final void register(final boolean unregister) {
+		if (unregister) {
+			--currentIOOps;
+			if (currentIOOps == 0) {
+				// TODO: stop service
+			}
+		} else {
+			++currentIOOps;
+		}
 	}
 }

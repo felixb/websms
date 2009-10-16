@@ -396,6 +396,11 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		editor.commit();
 	}
 
+	public final void onDestroy() {
+		super.onDestroy();
+		this.unbindService(this);
+	}
+
 	/**
 	 * Read static vars holding preferences.
 	 */

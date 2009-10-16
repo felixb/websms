@@ -21,5 +21,4 @@ package de.ub0r.android.andGMXsms;
 
 interface IIOOp {
 	void sendMessage(int connector, in String[] params);
-	String getFailedMessage(int id, out String[] params);
 }
