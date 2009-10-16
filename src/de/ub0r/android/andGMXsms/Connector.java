@@ -108,8 +108,17 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** recipients list. as it comes from the user. */
 	protected String tos = "";
 
-	/** text. */
+	/** Text. */
 	protected String text;
+
+	/** User. */
+	protected String user;
+	/** Password. */
+	protected String password;
+	/** Default prefix. */
+	private String defPrefix;
+	/** Sender. */
+	protected String sender;
 
 	/** Connector is bootstrapping. */
 	static boolean inBootstrap = false;
@@ -140,22 +149,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	public static final void send(final Context con, final short connector,
 			final String[] params) {
-		Connector c;
-		switch (connector) {
-		case GMX:
-			c = new ConnectorGMX();
-			break;
-		case O2:
-			c = new ConnectorO2();
-			break;
-		case SIPGATE:
-			c = new ConnectorSipgate();
-		default:
-			Log.e(TAG, "missing Connector");
-			return;
+		final Connector c = getConnector(con, connector);
+		if (c != null) {
+			c.execute(params);
 		}
-		c.context = con;
-		c.execute(params);
 	}
 
 	/**
@@ -188,22 +185,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            Connector which should be used.
 	 */
 	public static void update(final Context con, final short connector) {
-		Connector c;
-		switch (connector) {
-		case GMX:
-			c = new ConnectorGMX();
-			break;
-		case O2:
-			c = new ConnectorO2();
-			break;
-		case SIPGATE:
-			c = new ConnectorSipgate();
-		default:
-			Log.e(TAG, "missing Connector");
-			return;
+		final Connector c = getConnector(con, connector);
+		if (c != null) {
+			c.execute(PARAMS_UPDATE);
 		}
-		c.context = con;
-		c.execute(PARAMS_UPDATE);
 	}
 
 	/**
@@ -219,22 +204,46 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	public static final void bootstrap(final Context con,
 			final short connector, final String[] params) {
+		final Connector c = getConnector(con, connector);
+		if (c != null) {
+			c.execute(params);
+		}
+	}
+
+	/**
+	 * Get a Connector of given type.
+	 * 
+	 * @param con
+	 *            Context
+	 * @param connector
+	 *            Connector which should be used.
+	 */
+	private static final Connector getConnector(final Context con,
+			final short connector) {
 		Connector c;
 		switch (connector) {
 		case GMX:
 			c = new ConnectorGMX();
+			c.user = AndGMXsms.prefsUserGMX;
+			c.password = AndGMXsms.prefsPasswordGMX;
 			break;
 		case O2:
 			c = new ConnectorO2();
+			c.user = AndGMXsms.prefsSender;
+			c.password = AndGMXsms.prefsPasswordO2;
 			break;
 		case SIPGATE:
 			c = new ConnectorSipgate();
+			c.user = AndGMXsms.prefsUserSipgate;
+			c.password = AndGMXsms.prefsPasswordSipgate;
 		default:
 			Log.e(TAG, "missing Connector");
-			return;
+			return null;
 		}
 		c.context = con;
-		c.execute(params);
+		c.defPrefix = AndGMXsms.prefsDefPrefix;
+		c.sender = AndGMXsms.prefsSender;
+		return c;
 	}
 
 	/**
@@ -373,7 +382,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param text
 	 *            text of message.
 	 */
-	protected static final void saveMessage(final String[] reciepients,
+	protected final void saveMessage(final String[] reciepients,
 			final String text) {
 		for (int i = 0; i < reciepients.length; i++) {
 			if (reciepients[i] == null || reciepients[i].length() == 0) {
@@ -385,7 +394,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			values.put(ConnectorGMX.READ, 1);
 			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
 			values.put(ConnectorGMX.BODY, text);
-			AndGMXsms.me.getContentResolver().insert(
+			this.context.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 		}
 	}
@@ -422,7 +431,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		// fetch text/recipient
 		String to = this.tos;
 		String[] numbers = this.parseReciepients(to);
-		final String defPrefix = AndGMXsms.prefsDefPrefix;
+		final String prefix = this.defPrefix;
 		// fix number prefix
 		for (int i = 0; i < numbers.length; i++) {
 			String t = numbers[i];
@@ -431,7 +440,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					if (t.startsWith("00")) {
 						t = "+" + t.substring(2);
 					} else if (t.startsWith("0")) {
-						t = defPrefix + t.substring(1);
+						t = prefix + t.substring(1);
 					}
 				}
 			}
@@ -483,9 +492,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onProgressUpdate(final Boolean... progress) {
+		final Context c = this.context;
 		final String t = this.type;
 		if (t == ID_UPDATE) {
-			AndGMXsms.me.setProgressBarIndeterminateVisibility(true);
+			((AndGMXsms) c).setProgressBarIndeterminateVisibility(true);
 		} else if (t == ID_BOOSTR) {
 			if (AndGMXsms.dialog != null) {
 				try {
@@ -494,9 +504,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					// do nothing
 				}
 			}
-			AndGMXsms.dialogString = AndGMXsms.me.getResources().getString(
-					R.string.bootstrap_);
-			AndGMXsms.dialog = ProgressDialog.show(AndGMXsms.me, null,
+			AndGMXsms.dialogString = c.getString(R.string.bootstrap_);
+			AndGMXsms.dialog = ProgressDialog.show(c, null,
 					AndGMXsms.dialogString, true);
 		} else if (t == ID_SEND) {
 			this.displayNotification(false);
@@ -510,7 +519,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            send failed?
 	 */
 	private void displayNotification(final boolean failed) {
-		Context c = this.context;
+		final Context c = this.context;
 		NotificationManager mNotificationMgr = (NotificationManager) c
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = null;
@@ -558,7 +567,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final void onPostExecute(final Boolean result) {
 		final String t = this.type;
 		if (t == ID_UPDATE) {
-			AndGMXsms.me.setProgressBarIndeterminateVisibility(false);
+			((AndGMXsms) this.context)
+					.setProgressBarIndeterminateVisibility(false);
 		} else {
 			AndGMXsms.dialogString = null;
 			if (AndGMXsms.dialog != null) {
@@ -655,7 +665,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            message
 	 */
 	protected final void pushMessage(final int msgType, final String msg) {
-		Context c = this.context;
+		final Context c = this.context;
 		if (c instanceof AndGMXsms) {
 			AndGMXsms.pushMessage(msgType, msg);
 		} else if (c instanceof IOService) {
@@ -679,7 +689,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            message
 	 */
 	protected final void pushMessage(final int msgType, final int msg) {
-		Context c = this.context;
+		final Context c = this.context;
 		final String s = c.getString(msg);
 		if (c instanceof AndGMXsms) {
 			AndGMXsms.pushMessage(msgType, c);
@@ -704,7 +714,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected final void pushMessage(final int msgType, final int msgFront,
 			final String msgTail) {
-		Context c = this.context;
+		final Context c = this.context;
 		final String s = c.getString(msgFront);
 		if (c instanceof AndGMXsms) {
 			AndGMXsms.pushMessage(msgType, c + msgTail);

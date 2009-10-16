@@ -119,7 +119,7 @@ public class ConnectorGMX extends Connector {
 	 *            add customer id/password
 	 * @return Hashtable filled with customer_id and password.
 	 */
-	private static StringBuilder openBuffer(final String packetName,
+	private StringBuilder openBuffer(final String packetName,
 			final String packetVersion, final boolean addCustomer) {
 		StringBuilder ret = new StringBuilder();
 		ret.append("<WR TYPE=\"RQST\" NAME=\"");
@@ -130,8 +130,8 @@ public class ConnectorGMX extends Connector {
 		ret.append(TARGET_PROTOVERSION);
 		ret.append("\">");
 		if (addCustomer) {
-			writePair(ret, "customer_id", AndGMXsms.prefsUser);
-			writePair(ret, "password", AndGMXsms.prefsPasswordGMX);
+			writePair(ret, "customer_id", this.user);
+			writePair(ret, "password", this.password);
 		}
 		return ret;
 	}
@@ -264,14 +264,14 @@ public class ConnectorGMX extends Connector {
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
-						AndGMXsms.prefsUser = p;
+						AndGMXsms.prefsUserGMX = p;
 						if (this.pw != null) {
 							AndGMXsms.prefsPasswordGMX = this.pw;
 						}
 						if (this.mail != null) {
 							AndGMXsms.prefsMail = this.mail;
 						}
-						AndGMXsms.me.savePreferences();
+						((AndGMXsms) this.context).savePreferences();
 						inBootstrap = false;
 						this.pushMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
 					}
@@ -318,8 +318,8 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean updateMessages() {
-		return this.sendData(closeBuffer(openBuffer("GET_SMS_CREDITS", "1.00",
-				true)));
+		return this.sendData(closeBuffer(this.openBuffer("GET_SMS_CREDITS",
+				"1.00", true)));
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() {
-		StringBuilder packetData = openBuffer("SEND_SMS", "1.01", true);
+		StringBuilder packetData = this.openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
 		StringBuilder recipients = new StringBuilder();
@@ -354,7 +354,7 @@ public class ConnectorGMX extends Connector {
 		recipients = null;
 		writePair(packetData, "receivers", recipientsString);
 		writePair(packetData, "send_option", "sms");
-		writePair(packetData, "sms_sender", AndGMXsms.prefsSender);
+		writePair(packetData, "sms_sender", this.sender);
 		// if date!='': data['send_date'] = date
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
@@ -364,7 +364,7 @@ public class ConnectorGMX extends Connector {
 		} else {
 			// result: ok
 			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
-			saveMessage(this.to, this.text);
+			this.saveMessage(this.to, this.text);
 			return true;
 		}
 	}
@@ -379,7 +379,8 @@ public class ConnectorGMX extends Connector {
 	@Override
 	protected final boolean doBootstrap(final String[] params) {
 		inBootstrap = true;
-		StringBuilder packetData = openBuffer("GET_CUSTOMER", "1.10", false);
+		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
+				false);
 		writePair(packetData, "email_address", params[ID_MAIL]);
 		writePair(packetData, "password", params[ID_PW]);
 		writePair(packetData, "gmx", "1");

@@ -66,7 +66,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	private static final String TAG = "WebSMS";
 
 	/** Static reference to running Activity. */
-	static AndGMXsms me;
+	private static AndGMXsms me;
 	/** Preference's name: last version run. */
 	private static final String PREFS_LAST_RUN = "lastrun";
 	/** Preference's name: mail. */
@@ -101,8 +101,8 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	private static final String PREFS_TEXT = "text";
 	/** Preferences: mail. */
 	static String prefsMail;
-	/** Preferences: username. */
-	static String prefsUser;
+	/** Preferences: username - gmx. */
+	static String prefsUserGMX;
 	/** Preferences: user's password - gmx. */
 	static String prefsPasswordGMX;
 	/** Preferences: user's password - o2. */
@@ -406,7 +406,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 
 		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, false);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
-		prefsUser = this.preferences.getString(PREFS_USER, "");
+		prefsUserGMX = this.preferences.getString(PREFS_USER, "");
 		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
 
 		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
@@ -487,7 +487,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	private void checkPrefs() {
 		// check prefs
 		if (prefsEnableGMX && prefsMail.length() != 0
-				&& prefsUser.length() != 0 && prefsPasswordGMX.length() != 0
+				&& prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
 				&& prefsSender.length() != 0) {
 			prefsReadyGMX = true;
 		} else {
@@ -546,7 +546,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
 		// gmx
 		editor.putString(PREFS_MAIL, prefsMail);
-		editor.putString(PREFS_USER, prefsUser);
+		editor.putString(PREFS_USER, prefsUserGMX);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
 		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
 		// commit changes

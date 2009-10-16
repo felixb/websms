@@ -71,7 +71,7 @@ public class ConnectorSipgate extends Connector {
 			back = client.call("samurai.SessionInitiateMulti", params);
 			Log.d(TAG, back.toString());
 			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
-			saveMessage(this.to, this.text);
+			this.saveMessage(this.to, this.text);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
 			if (e.getFaultCode() == 401) {
@@ -141,8 +141,7 @@ public class ConnectorSipgate extends Connector {
 		VENDOR = c.getString(R.string.author1);
 
 		XMLRPCClient client = new XMLRPCClient(SIPGATE_URL);
-		client.setBasicAuthentication(AndGMXsms.prefsUserSipgate,
-				AndGMXsms.prefsPasswordSipgate);
+		client.setBasicAuthentication(this.user, this.password);
 		Object back;
 		try {
 			Hashtable<String, String> ident = new Hashtable<String, String>();

@@ -113,9 +113,10 @@ public class ConnectorO2 extends Connector {
 		// Operator of user. Selected by countrycode.
 		short operator;
 		// switch operator
-		if (AndGMXsms.prefsSender.startsWith("+49")) {
+		final String sndr = this.sender;
+		if (sndr.startsWith("+49")) {
 			operator = O2_DE;
-		} else if (AndGMXsms.prefsSender.startsWith("+353")) {
+		} else if (sndr.startsWith("+353")) {
 			operator = O2_IE;
 		} else {
 			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_prefix);
@@ -144,9 +145,8 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("_flowExecutionKey",
 					flowExecutionKey));
 			postData.add(new BasicNameValuePair("loginName", "0"
-					+ AndGMXsms.prefsSender.substring(3)));
-			postData.add(new BasicNameValuePair("password",
-					AndGMXsms.prefsPasswordO2));
+					+ sndr.substring(3)));
+			postData.add(new BasicNameValuePair("password", this.password));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
 			response = getHttpClient(URLS[operator][1], cookies, postData,
 					TARGET_AGENT);
@@ -278,7 +278,7 @@ public class ConnectorO2 extends Connector {
 		} else {
 			// result: ok
 			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
-			saveMessage(this.to, this.text);
+			this.saveMessage(this.to, this.text);
 			return true;
 		}
 	}
