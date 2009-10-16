@@ -193,10 +193,19 @@ public class ConnectorO2 extends Connector {
 				}
 			}
 
-			if (this.text != null && this.tos != null) {
+			if (this.text != null && this.to != null && this.to.length > 0) {
 				postData = new ArrayList<BasicNameValuePair>(15);
 				// TODO: join this.to
-				postData.add(new BasicNameValuePair("SMSTo", this.tos));
+				String[] recvs = this.to;
+				final int e = recvs.length;
+				StringBuilder toBuf = new StringBuilder(recvs[0]);
+				for (int j = 1; j < e; j++) {
+					toBuf.append(", ");
+					toBuf.append(recvs[j]);
+				}
+				postData.add(new BasicNameValuePair("SMSTo", toBuf.toString()));
+				toBuf = null;
+				recvs = null;
 				postData.add(new BasicNameValuePair("SMSText", this.text));
 				postData.add(new BasicNameValuePair("SMSFrom", ""));
 				postData.add(new BasicNameValuePair("Frequency", "5"));

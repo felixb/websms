@@ -125,33 +125,44 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Message to log to the user. */
 	protected String failedMessage = null;
 
+	/** Context IO is running from. */
+	protected Context context;
+
 	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
+	 * @param con
+	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
 	 * @param params
 	 *            Sending parameters.
 	 */
-	public static final void send(final short connector, final String[] params) {
+	public static final void send(final Context con, final short connector,
+			final String[] params) {
+		Connector c;
 		switch (connector) {
 		case GMX:
-			new ConnectorGMX().execute(params);
+			c = new ConnectorGMX();
 			break;
 		case O2:
-			new ConnectorO2().execute(params);
+			c = new ConnectorO2();
 			break;
 		case SIPGATE:
-			new ConnectorSipgate().execute(params);
-			break;
+			c = new ConnectorSipgate();
 		default:
-			break;
+			Log.e(TAG, "missing Connector");
+			return;
 		}
+		c.context = con;
+		c.execute(params);
 	}
 
 	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
+	 * @param con
+	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
 	 * @param recipients
@@ -159,56 +170,71 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param text
 	 *            Text which should be sent.
 	 */
-	public static final void send(final short connector,
+	public static final void send(final Context con, final short connector,
 			final String recipients, final String text) {
 		String[] params = new String[IDS_SEND];
 		params[ID_ID] = ID_SEND;
 		params[ID_TEXT] = text;
 		params[ID_TO] = recipients;
-		Connector.send(connector, params);
+		Connector.send(con, connector, params);
 	}
 
 	/**
 	 * Update (free) message count. This is done in background!
 	 * 
+	 * @param con
+	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
 	 */
-	public static void update(final short connector) {
+	public static void update(final Context con, final short connector) {
+		Connector c;
 		switch (connector) {
 		case GMX:
-			new ConnectorGMX().execute(PARAMS_UPDATE);
+			c = new ConnectorGMX();
 			break;
 		case O2:
-			new ConnectorO2().execute(PARAMS_UPDATE);
+			c = new ConnectorO2();
 			break;
 		case SIPGATE:
-			new ConnectorSipgate().execute(PARAMS_UPDATE);
+			c = new ConnectorSipgate();
 		default:
-			break;
+			Log.e(TAG, "missing Connector");
+			return;
 		}
+		c.context = con;
+		c.execute(PARAMS_UPDATE);
 	}
 
 	/**
 	 * Bootstrap a Connector. Like checking settings etc. This is done in
 	 * background!
 	 * 
+	 * @param con
+	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
 	 * @param params
 	 *            Parameters the Connector expects
 	 */
-	public static final void bootstrap(final short connector,
-			final String[] params) {
+	public static final void bootstrap(final Context con,
+			final short connector, final String[] params) {
+		Connector c;
 		switch (connector) {
 		case GMX:
-			new ConnectorGMX().execute(params);
+			c = new ConnectorGMX();
+			break;
+		case O2:
+			c = new ConnectorO2();
 			break;
 		case SIPGATE:
-			new ConnectorSipgate().execute(params);
+			c = new ConnectorSipgate();
 		default:
-			break;
+			Log.e(TAG, "missing Connector");
+			return;
 		}
+		c.context = con;
+		c.execute(params);
 	}
 
 	/**
@@ -484,7 +510,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            send failed?
 	 */
 	private void displayNotification(final boolean failed) {
-		NotificationManager mNotificationMgr = (NotificationManager) IOService.me
+		Context c = this.context;
+		NotificationManager mNotificationMgr = (NotificationManager) c
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = null;
 		String rcvs = this.tos.trim();
@@ -493,28 +520,30 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		}
 		if (failed) {
 			notification = new Notification(
-					android.R.drawable.stat_notify_error, "failed", System
+					android.R.drawable.stat_notify_error, c
+							.getString(R.string.notify_failed_), System
 							.currentTimeMillis());
-			final Intent i = new Intent(IOService.me, AndGMXsms.class);
-			i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
-					+ Uri.encode(this.text)));
-			final PendingIntent contentIntent = PendingIntent.getActivity(
-					IOService.me, 0, i, 0);
+			final Intent i = new Intent(c, AndGMXsms.class);
 			if (this.failedMessage == null) {
-				this.failedMessage = "";
+				this.failedMessage = c.getString(R.string.notify_failed_);
 			}
-			notification.setLatestEventInfo(IOService.me, "failed send: "
-					+ this.failedMessage, rcvs + "\n" + this.text,
+			i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
+					+ Uri.encode(this.text + "/" + this.failedMessage)));
+			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
+					i, 0);
+			notification.setLatestEventInfo(c, c
+					.getString(R.string.notify_failed)
+					+ this.failedMessage, rcvs + ": " + this.text,
 					contentIntent);
 			notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		} else {
 			notification = new Notification(android.R.drawable.stat_sys_upload,
 					"", System.currentTimeMillis());
-			final PendingIntent contentIntent = PendingIntent.getActivity(
-					IOService.me, 0, new Intent(IOService.me, AndGMXsms.class),
-					0);
-			notification.setLatestEventInfo(IOService.me, "sending: " + rcvs,
-					this.text, contentIntent);
+			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
+					new Intent(c, AndGMXsms.class), 0);
+			notification.setLatestEventInfo(c, c
+					.getString(R.string.notify_sending)
+					+ rcvs, this.text, contentIntent);
 		}
 		mNotificationMgr.notify(this.notificationID, notification);
 	}
@@ -545,16 +574,16 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			if (!result) {
 				this.displayNotification(true);
 			} else {
-				NotificationManager mNotificationMgr = (NotificationManager) IOService.me
-					.getSystemService(Context.NOTIFICATION_SERVICE);
+				NotificationManager mNotificationMgr = (NotificationManager) this.context
+						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationMgr.cancel(this.notificationID);
 			}
 		}
 	}
 
 	/**
-	 * Parse a String of "name (number), name (number), number, ..." to
-	 * an array of numbers. It will fill this.toFull and this.toNames too.
+	 * Parse a String of "name (number), name (number), number, ..." to an array
+	 * of numbers. It will fill this.toFull and this.toNames too.
 	 * 
 	 * @param reciepients
 	 *            reciepients
@@ -566,19 +595,26 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			s = s.substring(0, s.length() - 1);
 		}
 		String[] ret0 = s.split(",");
-		int e = ret0.length;
-		String[] ret = new String[e];
-		String[] ret1 = new String[e];
+		final int e = ret0.length;
+		final String[] ret = new String[e];
+		final String[] ret1 = new String[e];
 		for (int i = 0; i < e; i++) {
+			// get number only
 			s = ret0[i];
 			int j = s.lastIndexOf('(');
-			if (j >=0) {
-				int h = s.lastIndexOf(')', j);
+			if (j >= 0) {
+				int h = s.indexOf(')', j);
 				if (h > 0) {
 					s = s.substring(j + 1, h);
 				}
 			}
 			ret[i] = s;
+			// get name only
+			s = ret0[i];
+			j = s.lastIndexOf('(');
+			if (j >= 0) {
+				ret1[i] = s.substring(0, j).trim();
+			}
 		}
 		this.toFull = ret0;
 		this.toNames = ret1;
@@ -619,7 +655,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            message
 	 */
 	protected final void pushMessage(final int msgType, final String msg) {
-		if (this.type == ID_SEND || AndGMXsms.me == null) {
+		Context c = this.context;
+		if (c instanceof AndGMXsms) {
+			AndGMXsms.pushMessage(msgType, msg);
+		} else if (c instanceof IOService) {
 			if (msg == null) {
 				Log.d(TAG, "null");
 			} else {
@@ -628,8 +667,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					this.failedMessage = msg;
 				}
 			}
-		} else {
-			AndGMXsms.pushMessage(msgType, msg);
 		}
 	}
 
@@ -642,19 +679,16 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            message
 	 */
 	protected final void pushMessage(final int msgType, final int msg) {
-		Context c = AndGMXsms.me;
-		if (this.type == ID_SEND || c == null) {
-			c = IOService.me;
-		}
+		Context c = this.context;
 		final String s = c.getString(msg);
-		if (this.type == ID_SEND) {
+		if (c instanceof AndGMXsms) {
+			AndGMXsms.pushMessage(msgType, c);
+		} else if (c instanceof IOService) {
 			Log.d(TAG, s);
 			if (msgType == AndGMXsms.MESSAGE_LOG
 					&& (msg != R.string.log_error || this.failedMessage == null)) {
 				this.failedMessage = s;
 			}
-		} else {
-			AndGMXsms.pushMessage(msgType, c);
 		}
 	}
 
@@ -670,18 +704,17 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected final void pushMessage(final int msgType, final int msgFront,
 			final String msgTail) {
-		Context c = AndGMXsms.me;
-		if (this.type == ID_SEND || c == null) {
-			c = IOService.me;
-		}
+		Context c = this.context;
 		final String s = c.getString(msgFront);
-		if (this.type == ID_SEND) {
+		if (c instanceof AndGMXsms) {
+			AndGMXsms.pushMessage(msgType, c + msgTail);
+		} else if (c instanceof IOService) {
 			Log.d(TAG, s + msgTail);
 			if (msgType == AndGMXsms.MESSAGE_LOG) {
 				this.failedMessage = s + msgTail;
 			}
 		} else {
-			AndGMXsms.pushMessage(msgType, c + msgTail);
+
 		}
 	}
 }

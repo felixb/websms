@@ -61,6 +61,9 @@
 	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.
 	</string>
 	<string name="mail_">Mail Adresse</string>
+	<string name="notify_sending">Sende SMS: </string>
+	<string name="notify_failed">SMS Senden fehlgeschlagen: </string>
+	<string name="notify_failed_">SMS Senden fehlgeschlagen</string>
 	<string name="password_">GMX SMS Key</string>
 	<string name="password_help">Der GMX SMS Freischaltcode befindet sich auf der
 		Downloadseite des GMX SMS Managers für Windows. Das normale GMX

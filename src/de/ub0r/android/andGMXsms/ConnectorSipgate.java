@@ -136,10 +136,7 @@ public class ConnectorSipgate extends Connector {
 		Log.d(TAG, "updateMessage()");
 		String VERSION;
 		String VENDOR;
-		Context c = AndGMXsms.me;
-		if (c == null) {
-			c = IOService.me;
-		}
+		Context c = this.context;
 		VERSION = c.getString(R.string.app_version);
 		VENDOR = c.getString(R.string.author1);
 

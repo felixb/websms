@@ -32,14 +32,8 @@ public class IOService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
-	/** Notification for failed message. */
-	private static final int ID_FAILED = 0;
-
 	/** Number of jobs running. */
 	static int currentIOOps = 0;
-
-	/** Reference to running Service. */
-	static IOService me;
 
 	/**
 	 * Is some client bound to this service? IO Tasks can kill this service, if
@@ -50,7 +44,7 @@ public class IOService extends Service {
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
 		public void sendMessage(final int connector, final String[] params) {
-			Connector.send((short) connector, params);
+			Connector.send(IOService.this, (short) connector, params);
 		}
 
 		public String getFailedMessage(final int id, final String[] params) {
@@ -122,7 +116,7 @@ public class IOService extends Service {
 		super.onCreate();
 		// Don't kill me!
 		this.setForeground(true);
-		me = this;
+		Log.d(TAG, "onCreate()");
 	}
 
 	/**
@@ -131,6 +125,6 @@ public class IOService extends Service {
 	@Override
 	public final void onDestroy() {
 		super.onDestroy();
-		me = null;
+		Log.d(TAG, "onDestroy()");
 	}
 }

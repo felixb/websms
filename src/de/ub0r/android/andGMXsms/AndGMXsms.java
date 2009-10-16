@@ -286,8 +286,14 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		Uri data = intent.getData();
 		// reload sms from notification
 		if (data != null) {
-			String recipient = data.getHost();
+			final String recipient = data.getHost();
 			String text = data.getPath();
+			String error = null;
+			final int i = text.lastIndexOf('/');
+			if (i > 0) {
+				error = text.substring(i + 1);
+				text = text.substring(0, i);
+			}
 			if (recipient != null) {
 				((EditText) this.findViewById(R.id.to)).setText(recipient);
 				lastTo = recipient;
@@ -296,6 +302,9 @@ public class AndGMXsms extends Activity implements OnClickListener,
 				text = text.substring(1);
 				((EditText) this.findViewById(R.id.to)).setText(text);
 				lastMsg = text;
+			}
+			if (error != null) {
+				Toast.makeText(this, error, Toast.LENGTH_LONG).show();
 			}
 		}
 
@@ -346,7 +355,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				params[ConnectorGMX.ID_MAIL] = prefsMail;
 				params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
-				Connector.bootstrap(Connector.GMX, params);
+				Connector.bootstrap(this, Connector.GMX, params);
 			}
 		} else {
 			this.checkPrefs();
@@ -554,13 +563,13 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.freecount:
 			if (prefsEnableGMX) {
-				Connector.update(Connector.GMX);
+				Connector.update(this, Connector.GMX);
 			}
 			if (prefsEnableO2) {
-				Connector.update(Connector.O2);
+				Connector.update(this, Connector.O2);
 			}
 			if (prefsEnableSipgate) {
-				Connector.update(Connector.SIPGATE);
+				Connector.update(this, Connector.SIPGATE);
 			}
 			break;
 		case R.id.btn_donate:
