@@ -165,7 +165,6 @@ public class ConnectorO2 extends Connector {
 			if (resp == cookies.size()) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
 						R.string.log_error_pw);
-				htmlText = stream2String(response.getEntity().getContent());
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,

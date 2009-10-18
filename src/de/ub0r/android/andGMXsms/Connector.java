@@ -89,6 +89,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Parameters for updating message count. */
 	static final String[] PARAMS_UPDATE = { ID_UPDATE };
 
+	/** Standard buffer size. */
+	public static final int BUFSIZE = 1024;
+
 	/** recipient. */
 	protected String[] to;
 	/** recipients list. */
@@ -202,7 +205,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected static final String stream2String(final InputStream is)
 			throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(is));
+				new InputStreamReader(is), BUFSIZE);
 		StringBuilder data = new StringBuilder();
 		String line = null;
 		while ((line = bufferedReader.readLine()) != null) {

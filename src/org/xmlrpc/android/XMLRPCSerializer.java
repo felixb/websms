@@ -18,6 +18,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+import de.ub0r.android.andGMXsms.Connector;
+
 /**
  * original source code from http://code.google.com/p/android-xmlrpc/ released
  * under apache licence 2.0 http://www.apache.org/licenses/LICENSE-2.0
@@ -150,7 +152,7 @@ class XMLRPCSerializer implements IXMLRPCSerializer {
 			} else if (typeNodeName.equals(TYPE_BASE64)) {
 				String value = parser.nextText();
 				BufferedReader reader = new BufferedReader(new StringReader(
-						value));
+						value), Connector.BUFSIZE);
 				String line;
 				StringBuffer sb = new StringBuffer();
 				while ((line = reader.readLine()) != null) {
