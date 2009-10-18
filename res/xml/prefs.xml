@@ -50,7 +50,8 @@
 			android:title="@string/password_o2_" android:dialogTitle="@string/password_o2_"
 			android:summary="@string/password_o2_hint" android:inputType="textPassword" />
 	</PreferenceCategory>
-	<PreferenceCategory android:dependency="enable_sipgate">
+	<PreferenceCategory android:title="@string/settings_sipgate"
+		android:dependency="enable_sipgate">
 		<EditTextPreference android:key="user_sipgate"
 			android:summary="@string/user_sipgate_hint" android:title="@string/user_sipgate_"
 			android:dialogTitle="@string/user_sipgate_" android:inputType="textEmailAddress" />
