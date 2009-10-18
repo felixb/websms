@@ -127,7 +127,7 @@ public class ConnectorO2 extends Connector {
 		try { // get Connection
 			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 			HttpResponse response = getHttpClient(URLS[operator][0], cookies,
-					null, TARGET_AGENT);
+					null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -151,7 +151,7 @@ public class ConnectorO2 extends Connector {
 					AndGMXsms.prefsPasswordO2));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
 			response = getHttpClient(URLS[operator][1], cookies, postData,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][0]);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -165,10 +165,11 @@ public class ConnectorO2 extends Connector {
 			if (resp == cookies.size()) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG,
 						R.string.log_error_pw);
+				htmlText = stream2String(response.getEntity().getContent());
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][1]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -179,7 +180,7 @@ public class ConnectorO2 extends Connector {
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
 
 			response = getHttpClient(URLS[operator][3], cookies, null,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][2]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				AndGMXsms.sendMessage(AndGMXsms.MESSAGE_LOG, AndGMXsms.me
@@ -220,7 +221,7 @@ public class ConnectorO2 extends Connector {
 				st = null;
 
 				response = getHttpClient(URLS[operator][4], cookies, postData,
-						TARGET_AGENT);
+						TARGET_AGENT, URLS[operator][3]);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
