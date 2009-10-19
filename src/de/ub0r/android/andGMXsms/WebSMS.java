@@ -60,13 +60,13 @@ import com.admob.android.ads.AdView;
  * 
  * @author flx
  */
-public class AndGMXsms extends Activity implements OnClickListener,
+public class WebSMS extends Activity implements OnClickListener,
 		ServiceConnection {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
 
 	/** Static reference to running Activity. */
-	private static AndGMXsms me;
+	private static WebSMS me;
 	/** Preference's name: last version run. */
 	private static final String PREFS_LAST_RUN = "lastrun";
 	/** Preference's name: mail. */
@@ -230,7 +230,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		// inflate XML
 		this.setContentView(R.layout.main);
 		// register MessageHandler
-		this.messageHandler = new AndGMXsms.MessageHandler();
+		this.messageHandler = new WebSMS.MessageHandler();
 
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -312,7 +312,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			if (!prefsNoAds) {
 				// do not display any ads for donators
 				// display ads
-				((AdView) AndGMXsms.this.findViewById(R.id.ad))
+				((AdView) WebSMS.this.findViewById(R.id.ad))
 						.setVisibility(View.VISIBLE);
 			}
 		}
@@ -322,7 +322,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {
-			AndGMXsms.this.log(R.string.log_error_defprefix);
+			WebSMS.this.log(R.string.log_error_defprefix);
 		}
 	}
 
@@ -337,13 +337,13 @@ public class AndGMXsms extends Activity implements OnClickListener,
 					+ " "
 					+ remFree
 					+ " "
-					+ AndGMXsms.this.getResources().getString(
+					+ WebSMS.this.getResources().getString(
 							R.string.click_for_update));
 		} else {
 			TextView tw = (TextView) this.findViewById(R.id.freecount);
 			tw.setText(this.getResources().getString(R.string.free_)
 					+ " "
-					+ AndGMXsms.this.getResources().getString(
+					+ WebSMS.this.getResources().getString(
 							R.string.click_for_update));
 		}
 
@@ -846,7 +846,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		 */
 		public final void onCreate(final Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			AndGMXsms.doPreferences = true;
+			WebSMS.doPreferences = true;
 			this.addPreferencesFromResource(R.xml.prefs);
 		}
 	}
@@ -868,61 +868,61 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			switch (msg.what) {
 			case MESSAGE_LOG: // msg is String or Resource StringID
 				if (msg.obj instanceof String) {
-					AndGMXsms.this.log((String) msg.obj);
+					WebSMS.this.log((String) msg.obj);
 				} else if (msg.obj instanceof Integer) {
-					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
+					WebSMS.this.log(WebSMS.this.getResources().getString(
 							((Integer) msg.obj).intValue()));
 				} else {
-					AndGMXsms.this.log(msg.obj.toString());
+					WebSMS.this.log(msg.obj.toString());
 				}
 				return;
 			case MESSAGE_FREECOUNT:
-				AndGMXsms.remFree = "";
-				if (AndGMXsms.prefsEnableGMX) {
-					AndGMXsms.remFree = "GMX: "
-							+ AndGMXsms.SMS_FREE[Connector.GMX][AndGMXsms.SMS_FREE_COUNT]
+				WebSMS.remFree = "";
+				if (WebSMS.prefsEnableGMX) {
+					WebSMS.remFree = "GMX: "
+							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_COUNT]
 							+ " / "
-							+ AndGMXsms.SMS_FREE[Connector.GMX][AndGMXsms.SMS_FREE_LIMIT];
+							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_LIMIT];
 				}
-				if (AndGMXsms.prefsEnableO2) {
-					if (AndGMXsms.remFree.length() > 0) {
-						AndGMXsms.remFree += " - ";
+				if (WebSMS.prefsEnableO2) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
 					}
-					AndGMXsms.remFree += "O2: "
-							+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_COUNT];
-					if (AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT] > 0) {
-						AndGMXsms.remFree += " / "
-								+ AndGMXsms.SMS_FREE[Connector.O2][AndGMXsms.SMS_FREE_LIMIT];
+					WebSMS.remFree += "O2: "
+							+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_COUNT];
+					if (WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT] > 0) {
+						WebSMS.remFree += " / "
+								+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT];
 					}
 				}
-				if (AndGMXsms.prefsEnableSipgate) {
-					if (AndGMXsms.remFree.length() > 0) {
-						AndGMXsms.remFree += " - ";
+				if (WebSMS.prefsEnableSipgate) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
 					}
-					AndGMXsms.remFree += "Sipgate: ";
-					AndGMXsms.remFree += BALANCE_SIPGATE + " \u20AC";
+					WebSMS.remFree += "Sipgate: ";
+					WebSMS.remFree += BALANCE_SIPGATE + " \u20AC";
 				}
-				if (AndGMXsms.remFree.length() == 0) {
-					AndGMXsms.remFree = "---";
+				if (WebSMS.remFree.length() == 0) {
+					WebSMS.remFree = "---";
 				}
-				TextView tw = (TextView) AndGMXsms.this
+				TextView tw = (TextView) WebSMS.this
 						.findViewById(R.id.freecount);
-				tw.setText(AndGMXsms.this.getResources().getString(
+				tw.setText(WebSMS.this.getResources().getString(
 						R.string.free_)
 						+ " "
-						+ AndGMXsms.remFree
+						+ WebSMS.remFree
 						+ " "
-						+ AndGMXsms.this.getResources().getString(
+						+ WebSMS.this.getResources().getString(
 								R.string.click_for_update));
 				return;
 			case MESSAGE_SETTINGS:
-				AndGMXsms.this.startActivity(new Intent(AndGMXsms.this,
+				WebSMS.this.startActivity(new Intent(WebSMS.this,
 						Preferences.class));
 			case MESSAGE_RESET:
-				AndGMXsms.this.reset();
+				WebSMS.this.reset();
 				return;
 			case MESSAGE_PREFSREADY:
-				AndGMXsms.this.checkPrefs();
+				WebSMS.this.checkPrefs();
 				return;
 			default:
 				return;
@@ -939,7 +939,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		 *            text
 		 */
 		public void afterTextChanged(final Editable s) {
-			AndGMXsms.this.textLabel.setText(AndGMXsms.this.textLabelRef + " ("
+			WebSMS.this.textLabel.setText(WebSMS.this.textLabelRef + " ("
 					+ s.length() + "):");
 		}
 
@@ -985,13 +985,13 @@ public class AndGMXsms extends Activity implements OnClickListener,
 				// check for wrong sender format. people can't read..
 				final String p = prefs.getString(PREFS_SENDER, "");
 				if (!p.startsWith("+")) {
-					AndGMXsms.this.log(R.string.log_error_sender);
+					WebSMS.this.log(R.string.log_error_sender);
 				}
 			}
 			if (key.equals(PREFS_DEFPREFIX)) {
 				final String p = prefs.getString(PREFS_DEFPREFIX, "");
 				if (!p.startsWith("+")) {
-					AndGMXsms.this.log(R.string.log_error_defprefix);
+					WebSMS.this.log(R.string.log_error_defprefix);
 				}
 			}
 		}
@@ -1034,7 +1034,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		if (!prefsNoAds) {
 			// do not display any ads for donators
 			// display ads
-			((AdView) AndGMXsms.this.findViewById(R.id.ad))
+			((AdView) WebSMS.this.findViewById(R.id.ad))
 					.setVisibility(View.VISIBLE);
 		}
 		// start a Connector Thread
@@ -1062,7 +1062,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	 */
 	public static final void pushMessage(final int messageType,
 			final Object data) {
-		Message.obtain(AndGMXsms.me.messageHandler, messageType, data)
+		Message.obtain(WebSMS.me.messageHandler, messageType, data)
 				.sendToTarget();
 	}
 

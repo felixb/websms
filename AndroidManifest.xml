@@ -20,7 +20,7 @@
       package="de.ub0r.android.andGMXsms"
       android:versionName="2.4.2" android:versionCode="242">
     <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
-        <activity android:label="@string/app_name" android:configChanges="orientation" android:windowSoftInputMode="adjustResize" android:name="AndGMXsms">
+        <activity android:label="@string/app_name" android:configChanges="orientation" android:windowSoftInputMode="adjustResize" android:name="WebSMS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,7 +31,7 @@
                 <data android:scheme="sms" />
             </intent-filter>
         </activity>
-        <activity android:windowSoftInputMode="adjustResize" android:name="AndGMXsms$Preferences" />
+        <activity android:windowSoftInputMode="adjustResize" android:name="WebSMS$Preferences" />
 	<service android:name="IOService" android:exported="false" />
 	<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
     </application>

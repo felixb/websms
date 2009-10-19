@@ -232,25 +232,25 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		switch (connector) {
 		case GMX:
 			c = new ConnectorGMX();
-			c.user = AndGMXsms.prefsUserGMX;
-			c.password = AndGMXsms.prefsPasswordGMX;
+			c.user = WebSMS.prefsUserGMX;
+			c.password = WebSMS.prefsPasswordGMX;
 			break;
 		case O2:
 			c = new ConnectorO2();
-			c.user = AndGMXsms.prefsSender;
-			c.password = AndGMXsms.prefsPasswordO2;
+			c.user = WebSMS.prefsSender;
+			c.password = WebSMS.prefsPasswordO2;
 			break;
 		case SIPGATE:
 			c = new ConnectorSipgate();
-			c.user = AndGMXsms.prefsUserSipgate;
-			c.password = AndGMXsms.prefsPasswordSipgate;
+			c.user = WebSMS.prefsUserSipgate;
+			c.password = WebSMS.prefsPasswordSipgate;
 		default:
 			Log.e(TAG, "missing Connector");
 			return null;
 		}
 		c.context = con;
-		c.defPrefix = AndGMXsms.prefsDefPrefix;
-		c.sender = AndGMXsms.prefsSender;
+		c.defPrefix = WebSMS.prefsDefPrefix;
+		c.sender = WebSMS.prefsSender;
 		return c;
 	}
 
@@ -509,18 +509,18 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		final Context c = this.context;
 		final String t = this.type;
 		if (t == ID_UPDATE) {
-			((AndGMXsms) c).setProgressBarIndeterminateVisibility(true);
+			((WebSMS) c).setProgressBarIndeterminateVisibility(true);
 		} else if (t == ID_BOOSTR) {
-			if (AndGMXsms.dialog != null) {
+			if (WebSMS.dialog != null) {
 				try {
-					AndGMXsms.dialog.dismiss();
+					WebSMS.dialog.dismiss();
 				} catch (Exception e) {
 					// do nothing
 				}
 			}
-			AndGMXsms.dialogString = c.getString(R.string.bootstrap_);
-			AndGMXsms.dialog = ProgressDialog.show(c, null,
-					AndGMXsms.dialogString, true);
+			WebSMS.dialogString = c.getString(R.string.bootstrap_);
+			WebSMS.dialog = ProgressDialog.show(c, null,
+					WebSMS.dialogString, true);
 		} else if (t == ID_SEND) {
 			this.displayNotification(false);
 		}
@@ -545,7 +545,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			notification = new Notification(R.drawable.stat_notify_sms_fail, c
 					.getString(R.string.notify_failed_), System
 					.currentTimeMillis());
-			final Intent i = new Intent(c, AndGMXsms.class);
+			final Intent i = new Intent(c, WebSMS.class);
 			if (this.failedMessage == null) {
 				this.failedMessage = c.getString(R.string.notify_failed_);
 			}
@@ -562,7 +562,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			notification = new Notification(R.drawable.stat_notify_sms_out, "",
 					System.currentTimeMillis());
 			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
-					new Intent(c, AndGMXsms.class), 0);
+					new Intent(c, WebSMS.class), 0);
 			notification.setLatestEventInfo(c, c
 					.getString(R.string.notify_sending)
 					+ rcvs, this.text, contentIntent);
@@ -581,14 +581,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		final String t = this.type;
 		--countUpdates;
 		if (t == ID_UPDATE && countUpdates == 0) {
-			((AndGMXsms) this.context)
+			((WebSMS) this.context)
 					.setProgressBarIndeterminateVisibility(false);
 		} else {
-			AndGMXsms.dialogString = null;
-			if (AndGMXsms.dialog != null) {
+			WebSMS.dialogString = null;
+			if (WebSMS.dialog != null) {
 				try {
-					AndGMXsms.dialog.dismiss();
-					AndGMXsms.dialog = null;
+					WebSMS.dialog.dismiss();
+					WebSMS.dialog = null;
 				} catch (Exception e) {
 					System.gc();
 				}
@@ -680,14 +680,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected final void pushMessage(final int msgType, final String msg) {
 		final Context c = this.context;
-		if (c instanceof AndGMXsms) {
-			AndGMXsms.pushMessage(msgType, msg);
+		if (c instanceof WebSMS) {
+			WebSMS.pushMessage(msgType, msg);
 		} else if (c instanceof IOService) {
 			if (msg == null) {
 				Log.d(TAG, "null");
 			} else {
 				Log.d(TAG, msg);
-				if (msgType == AndGMXsms.MESSAGE_LOG) {
+				if (msgType == WebSMS.MESSAGE_LOG) {
 					this.failedMessage = msg;
 				}
 			}
@@ -705,11 +705,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final void pushMessage(final int msgType, final int msg) {
 		final Context c = this.context;
 		final String s = c.getString(msg);
-		if (c instanceof AndGMXsms) {
-			AndGMXsms.pushMessage(msgType, s);
+		if (c instanceof WebSMS) {
+			WebSMS.pushMessage(msgType, s);
 		} else if (c instanceof IOService) {
 			Log.d(TAG, s);
-			if (msgType == AndGMXsms.MESSAGE_LOG
+			if (msgType == WebSMS.MESSAGE_LOG
 					&& (msg != R.string.log_error || this.failedMessage == null)) {
 				this.failedMessage = s;
 			}
@@ -730,11 +730,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			final String msgTail) {
 		final Context c = this.context;
 		final String s = c.getString(msgFront);
-		if (c instanceof AndGMXsms) {
-			AndGMXsms.pushMessage(msgType, s + msgTail);
+		if (c instanceof WebSMS) {
+			WebSMS.pushMessage(msgType, s + msgTail);
 		} else if (c instanceof IOService) {
 			Log.d(TAG, s + msgTail);
-			if (msgType == AndGMXsms.MESSAGE_LOG) {
+			if (msgType == WebSMS.MESSAGE_LOG) {
 				this.failedMessage = s + msgTail;
 			}
 		}

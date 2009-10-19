@@ -70,19 +70,19 @@ public class ConnectorSipgate extends Connector {
 			params.put("Content", this.text);
 			back = client.call("samurai.SessionInitiateMulti", params);
 			Log.d(TAG, back.toString());
-			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(WebSMS.MESSAGE_RESET, null);
 			this.saveMessage(this.to, this.text);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
 			if (e.getFaultCode() == 401) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
 				return false;
 			}
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		}
 		return true;
@@ -104,22 +104,22 @@ public class ConnectorSipgate extends Connector {
 			back = (Map) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
 			if (back.get("StatusCode").equals(new Integer(200))) {
-				AndGMXsms.BALANCE_SIPGATE = String.format("%.2f",
+				WebSMS.BALANCE_SIPGATE = String.format("%.2f",
 						((Double) ((Map) back.get("CurrentBalance"))
 								.get("TotalIncludingVat")));
 			}
-			this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
 			if (e.getFaultCode() == 401) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
 				return false;
 			}
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		}
 

@@ -181,7 +181,7 @@ public class ConnectorGMX extends Connector {
 		try {
 			// check connection:
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST[AndGMXsms.prefsGMXhostname] + TARGET_PATH))
+					+ TARGET_HOST[WebSMS.prefsGMXhostname] + TARGET_PATH))
 					.openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
@@ -190,12 +190,12 @@ public class ConnectorGMX extends Connector {
 			int resp = c.getResponseCode();
 			if (resp == HTTP_SERVICE_UNAVAILABLE) {
 				// switch hostname
-				AndGMXsms.prefsGMXhostname = (AndGMXsms.prefsGMXhostname + 1) % 2;
+				WebSMS.prefsGMXhostname = (WebSMS.prefsGMXhostname + 1) % 2;
 			}
 
 			// get Connection
 			c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST[AndGMXsms.prefsGMXhostname] + TARGET_PATH))
+					+ TARGET_HOST[WebSMS.prefsGMXhostname] + TARGET_PATH))
 					.openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
@@ -213,10 +213,10 @@ public class ConnectorGMX extends Connector {
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == HTTP_SERVICE_UNAVAILABLE) {
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_service);
 				} else {
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_http, "" + +resp);
 				}
 				return false;
@@ -227,7 +227,7 @@ public class ConnectorGMX extends Connector {
 				String resultString = stream2String(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_server, "" + resultString);
 					return false;
 				}
@@ -245,7 +245,7 @@ public class ConnectorGMX extends Connector {
 					rslt = Integer.parseInt(resultValue);
 				} catch (Exception e) {
 					Log.e(TAG, null, e);
-					this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+					this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 					return false;
 				}
 				switch (rslt) {
@@ -253,60 +253,60 @@ public class ConnectorGMX extends Connector {
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
-						AndGMXsms.SMS_FREE[GMX][AndGMXsms.SMS_FREE_COUNT] = Integer
+						WebSMS.SMS_FREE[GMX][WebSMS.SMS_FREE_COUNT] = Integer
 								.parseInt(p);
 						p = this.getParam(outp, "free_max_month");
 						if (p != null) {
-							AndGMXsms.SMS_FREE[GMX][AndGMXsms.SMS_FREE_LIMIT] = Integer
+							WebSMS.SMS_FREE[GMX][WebSMS.SMS_FREE_LIMIT] = Integer
 									.parseInt(p);
 						}
-						this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+						this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
-						AndGMXsms.prefsUserGMX = p;
+						WebSMS.prefsUserGMX = p;
 						if (this.pw != null) {
-							AndGMXsms.prefsPasswordGMX = this.pw;
+							WebSMS.prefsPasswordGMX = this.pw;
 						}
 						if (this.mail != null) {
-							AndGMXsms.prefsMail = this.mail;
+							WebSMS.prefsMail = this.mail;
 						}
-						((AndGMXsms) this.context).savePreferences();
+						((WebSMS) this.context).savePreferences();
 						inBootstrap = false;
-						this.pushMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
+						this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_pw);
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					AndGMXsms.prefsPasswordGMX = "";
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					WebSMS.prefsPasswordGMX = "";
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_mail);
-					this.pushMessage(AndGMXsms.MESSAGE_PREFSREADY, null);
+					this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					return false;
 				case RSLT_WRONG_SENDER: // wrong sender
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_sender);
 					return false;
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_sender_unregistered);
 					return false;
 				default:
-					this.pushMessage(AndGMXsms.MESSAGE_LOG, outp + " #" + rslt);
+					this.pushMessage(WebSMS.MESSAGE_LOG, outp + " #" + rslt);
 					return false;
 				}
 			} else {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(WebSMS.MESSAGE_LOG,
 						R.string.log_http_header_missing);
 				return false;
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		}
 	}
@@ -355,11 +355,11 @@ public class ConnectorGMX extends Connector {
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);
 			return false;
 		} else {
 			// result: ok
-			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(WebSMS.MESSAGE_RESET, null);
 			this.saveMessage(this.to, this.text);
 			return true;
 		}

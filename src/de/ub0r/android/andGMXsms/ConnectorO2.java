@@ -119,7 +119,7 @@ public class ConnectorO2 extends Connector {
 		} else if (sndr.startsWith("+353")) {
 			operator = O2_IE;
 		} else {
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_prefix);
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_prefix);
 			return false;
 		}
 
@@ -130,7 +130,7 @@ public class ConnectorO2 extends Connector {
 					null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(WebSMS.MESSAGE_LOG,
 						R.string.log_error_http, "" + resp);
 				return false;
 			}
@@ -153,7 +153,7 @@ public class ConnectorO2 extends Connector {
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(WebSMS.MESSAGE_LOG,
 						R.string.log_error_http, "" + resp);
 				return false;
 			}
@@ -162,10 +162,10 @@ public class ConnectorO2 extends Connector {
 			if (resp == cookies.size()) {
 				htmlText = stream2String(response.getEntity().getContent());
 				if (htmlText.indexOf("captcha") > 0) {
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_captcha);
 				} else {
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_pw);
 				}
 				return false;
@@ -174,7 +174,7 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][1]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(WebSMS.MESSAGE_LOG,
 						R.string.log_error_http, "" + resp);
 				return false;
 			}
@@ -184,7 +184,7 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][2]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG,
+				this.pushMessage(WebSMS.MESSAGE_LOG,
 						R.string.log_error_http, "" + resp);
 				return false;
 			}
@@ -194,9 +194,9 @@ public class ConnectorO2 extends Connector {
 			if (i > 0) {
 				int j = htmlText.indexOf(STRINGS[operator][1], i);
 				if (j > 0) {
-					AndGMXsms.SMS_FREE[O2][AndGMXsms.SMS_FREE_COUNT] = Integer
+					WebSMS.SMS_FREE[O2][WebSMS.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
-					this.pushMessage(AndGMXsms.MESSAGE_FREECOUNT, null);
+					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				}
 			}
 
@@ -235,7 +235,7 @@ public class ConnectorO2 extends Connector {
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
-					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_http, "" + resp);
 					return false;
 				}
@@ -247,15 +247,15 @@ public class ConnectorO2 extends Connector {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (URISyntaxException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		} catch (MalformedCookieException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, e.toString());
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
 			return false;
 		}
 		return true;
@@ -280,11 +280,11 @@ public class ConnectorO2 extends Connector {
 	protected final boolean sendMessage() {
 		if (!this.sendData()) {
 			// failed!
-			this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error);
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);
 			return false;
 		} else {
 			// result: ok
-			this.pushMessage(AndGMXsms.MESSAGE_RESET, null);
+			this.pushMessage(WebSMS.MESSAGE_RESET, null);
 			this.saveMessage(this.to, this.text);
 			return true;
 		}
