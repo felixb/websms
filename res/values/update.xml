@@ -19,20 +19,11 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.5: Split IO from app, detect O2 captcha</item>
 		<item>v2.4.3: Check userinput for default prefix</item>
 		<item>v2.4.2: Remove ads for donator, fix O2 captcha</item>
 		<item>v2.4.1: Remove ads for donator, minor changes to Sipgate and GUI</item>
 		<item>v2.4: Add Sipgate.de Connector</item>
 		<item>v2.3: Add Changelog, auto follow GMX hostchange, fix for 1.6</item>
-		<item>v2.2.8: Follow GMX hostname change</item>
-		<item>v2.2.7: Better hint on sender preference, add service-down message</item>
-		<item>v2.2.6: Fix save messages after send</item>
-		<item>v2.2.5: Check sender preferences on enter</item>
-		<item>v2.2.4: Add message for GMX result code 71, update admob lib</item>
-		<item>v2.2.3: Improve free counter, remove ads for donator</item>
-		<item>v2.2.2: Add message for GMX result code 8</item>
-		<item>v2.2.1: Remove ads for donators</item>
-		<item>v2.2: Save fields on crash</item>
-		<item>v2.1: Turn off GMX connector by default, remove ads for donators</item>
 	</string-array>
 </resources>
