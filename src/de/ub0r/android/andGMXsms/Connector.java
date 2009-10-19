@@ -224,8 +224,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
+	 * @return a fresh Connector Object
 	 */
-	private static final Connector getConnector(final Context con,
+	private static Connector getConnector(final Context con,
 			final short connector) {
 		Connector c;
 		switch (connector) {
@@ -305,6 +306,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            referer
 	 * @return the connection
 	 * @throws IOException
+	 *             IOException
 	 */
 	protected static HttpResponse getHttpClient(final String url,
 			final ArrayList<Cookie> cookies,
@@ -442,8 +444,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private void prepareSend() {
 		// fetch text/recipient
-		String to = this.tos;
-		String[] numbers = this.parseReciepients(to);
+		final String[] numbers = this.parseReciepients(this.tos);
 		final String prefix = this.defPrefix;
 		// fix number prefix
 		for (int i = 0; i < numbers.length; i++) {

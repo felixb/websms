@@ -245,7 +245,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		}
 		// listen on changes to prefs
 		this.preferences
-				.registerOnSharedPreferenceChangeListener(this.prefsOnChangeListener);
+				.registerOnSharedPreferenceChangeListener(this.prefsOnChgListener);
 		this.reloadPrefs();
 
 		lastTo = this.preferences.getString(PREFS_TO, "");
@@ -364,7 +364,7 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			this.checkPrefs();
 			doPreferences = false;
 			if (prefsEnableGMX
-					&& this.prefsOnChangeListener.wasChanged(Connector.GMX)) {
+					&& this.prefsOnChgListener.wasChanged(Connector.GMX)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				params[ConnectorGMX.ID_MAIL] = prefsMail;
@@ -410,6 +410,10 @@ public class AndGMXsms extends Activity implements OnClickListener,
 		editor.commit();
 	}
 
+	/**
+	 * Called on Activity destroy.
+	 */
+	@Override
 	public final void onDestroy() {
 		super.onDestroy();
 		this.unbindService(this);
@@ -786,8 +790,8 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	 * @param text
 	 *            text as resID
 	 */
-	public final void log(final int resID) {
-		this.log(this.getString(resID));
+	public final void log(final int text) {
+		this.log(this.getString(text));
 	}
 
 	/**
@@ -951,14 +955,14 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	};
 
 	/** Preferences onChangeListener. */
-	private MyPreferencesOnChangeListener prefsOnChangeListener = new MyPreferencesOnChangeListener();
+	private MyPrefsOnChgListener prefsOnChgListener = new MyPrefsOnChgListener();
 
 	/**
 	 * PreferencesOnChangeListener.
 	 * 
 	 * @author Felix Bechstein
 	 */
-	private class MyPreferencesOnChangeListener implements
+	private class MyPrefsOnChgListener implements
 			SharedPreferences.OnSharedPreferenceChangeListener {
 		/** Changed? */
 		private boolean[] changed = { false, false };
