@@ -32,14 +32,17 @@ public class IOService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
+	/** Ref to single instance. */
+	private static IOService me = null;
+
 	/** Number of jobs running. */
-	static int currentIOOps = 0;
+	private static int currentIOOps = 0;
 
 	/**
 	 * Is some client bound to this service? IO Tasks can kill this service, if
 	 * no Client is bound and all IO is done.
 	 */
-	static boolean isBound = false;
+	private static boolean isBound = false;
 
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
@@ -89,8 +92,8 @@ public class IOService extends Service {
 	 * onUnbind(Intent). This will only be called if the implementation of
 	 * onUnbind(Intent) was overridden to return true.
 	 * 
-	 * @param The
-	 *            Intent that was used to bind to this service, as given to
+	 * @param intent
+	 *            The Intent that was used to bind to this service, as given to
 	 *            Context.bindService. Note that any extras that were included
 	 *            with the Intent at that point will not be seen here.
 	 */
@@ -101,18 +104,14 @@ public class IOService extends Service {
 
 	/**
 	 * Called on Service start.
-	 * 
-	 * @param intent
-	 *            intent called
-	 * @param startId
-	 *            start id
 	 */
 	@Override
 	public final void onCreate() {
 		super.onCreate();
+		Log.d(TAG, "onCreate()");
 		// Don't kill me!
 		this.setForeground(true);
-		Log.d(TAG, "onCreate()");
+		me = this;
 	}
 
 	/**
@@ -130,11 +129,11 @@ public class IOService extends Service {
 	 * @param unregister
 	 *            unregister task?
 	 */
-	public static synchronized final void register(final boolean unregister) {
+	public static final synchronized void register(final boolean unregister) {
 		if (unregister) {
 			--currentIOOps;
-			if (currentIOOps == 0) {
-				// TODO: stop service
+			if (currentIOOps == 0 && !isBound && me != null) {
+				me.stopSelf();
 			}
 		} else {
 			++currentIOOps;

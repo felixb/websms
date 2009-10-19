@@ -341,10 +341,6 @@ public class ConnectorGMX extends Connector {
 				recipients.append("\\;null\\;");
 				recipients.append(this.to[i]);
 				recipients.append("\\;");
-				if (j > 1) {
-					this.tos += ", ";
-				}
-				this.tos += this.to[i];
 			}
 		}
 		recipients.append("</TBL>");

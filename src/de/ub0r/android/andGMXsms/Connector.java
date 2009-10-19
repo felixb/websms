@@ -392,11 +392,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @param reciepients
 	 *            reciepients. first entry is skipped!
-	 * @param text
+	 * @param msgText
 	 *            text of message.
 	 */
 	protected final void saveMessage(final String[] reciepients,
-			final String text) {
+			final String msgText) {
 		for (int i = 0; i < reciepients.length; i++) {
 			if (reciepients[i] == null || reciepients[i].length() == 0) {
 				continue; // skip empty recipients
@@ -406,7 +406,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			values.put(ConnectorGMX.ADDRESS, reciepients[i]);
 			values.put(ConnectorGMX.READ, 1);
 			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
-			values.put(ConnectorGMX.BODY, text);
+			values.put(ConnectorGMX.BODY, msgText);
 			this.context.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 		}

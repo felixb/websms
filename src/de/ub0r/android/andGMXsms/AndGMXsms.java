@@ -308,6 +308,13 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			if (error != null) {
 				Toast.makeText(this, error, Toast.LENGTH_LONG).show();
 			}
+
+			if (!prefsNoAds) {
+				// do not display any ads for donators
+				// display ads
+				((AdView) AndGMXsms.this.findViewById(R.id.ad))
+						.setVisibility(View.VISIBLE);
+			}
 		}
 
 		this.bindService(new Intent(this, IOService.class), this,
