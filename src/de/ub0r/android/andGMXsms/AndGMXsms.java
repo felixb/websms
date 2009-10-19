@@ -144,7 +144,8 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
 			"7684154558d19383552388d9bc92d446", // henning k.
 			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
-			"c479a2e701291c751f0f91426bcaabf3" // bernhard g.
+			"c479a2e701291c751f0f91426bcaabf3", // bernhard g.
+			"ae7dfedf549f98a349ad8c2068473c6b" // dominik k.-v.
 	};
 
 	/** Public Dialog ref. */
@@ -264,16 +265,16 @@ public class AndGMXsms extends Activity implements OnClickListener,
 
 		((TextView) this.findViewById(R.id.freecount)).setOnClickListener(this);
 
-		MultiAutoCompleteTextView to = (MultiAutoCompleteTextView) this
+		final MultiAutoCompleteTextView to = (MultiAutoCompleteTextView) this
 				.findViewById(R.id.to);
 		to.setAdapter(new MobilePhoneAdapter(this));
 		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-		Intent intent = this.getIntent();
-		String action = intent.getAction();
+		final Intent intent = this.getIntent();
+		final String action = intent.getAction();
 		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
-			Uri uri = intent.getData();
+			final Uri uri = intent.getData();
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
 				String recipient = uri.getSchemeSpecificPart();
 				if (recipient != null) {
@@ -283,8 +284,9 @@ public class AndGMXsms extends Activity implements OnClickListener,
 				}
 			}
 		}
-		Uri data = intent.getData();
+
 		// reload sms from notification
+		final Uri data = intent.getData();
 		if (data != null) {
 			final String recipient = data.getHost();
 			String text = data.getPath();
@@ -310,6 +312,11 @@ public class AndGMXsms extends Activity implements OnClickListener,
 
 		this.bindService(new Intent(this, IOService.class), this,
 				Context.BIND_AUTO_CREATE);
+
+		// check default prefix
+		if (!prefsDefPrefix.startsWith("+")) {
+			AndGMXsms.this.log(R.string.log_error_defprefix);
+		}
 	}
 
 	/** Called on activity resume. */
@@ -767,6 +774,16 @@ public class AndGMXsms extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Log text.
+	 * 
+	 * @param text
+	 *            text as resID
+	 */
+	public final void log(final int resID) {
+		this.log(this.getString(resID));
+	}
+
+	/**
 	 * Called when a connection to the Service has been established, with the
 	 * IBinder of the communication channel to the Service.
 	 * 
@@ -955,10 +972,15 @@ public class AndGMXsms extends Activity implements OnClickListener,
 			}
 			if (key.equals(PREFS_SENDER)) {
 				// check for wrong sender format. people can't read..
-				String p = prefs.getString(PREFS_SENDER, "");
+				final String p = prefs.getString(PREFS_SENDER, "");
 				if (!p.startsWith("+")) {
-					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
-							R.string.log_error_sender));
+					AndGMXsms.this.log(R.string.log_error_sender);
+				}
+			}
+			if (key.equals(PREFS_DEFPREFIX)) {
+				final String p = prefs.getString(PREFS_DEFPREFIX, "");
+				if (!p.startsWith("+")) {
+					AndGMXsms.this.log(R.string.log_error_defprefix);
 				}
 			}
 		}

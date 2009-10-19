@@ -19,6 +19,8 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.4.3: Check userinput for default prefix</item>
+		<item>v2.4.2: Remove ads for donator, fix O2 captcha</item>
 		<item>v2.4.1: Remove ads for donator, minor changes to Sipgate and GUI</item>
 		<item>v2.4: Add Sipgate.de Connector</item>
 		<item>v2.3: Add Changelog, auto follow GMX hostchange, fix for 1.6</item>

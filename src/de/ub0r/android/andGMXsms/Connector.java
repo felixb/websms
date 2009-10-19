@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -98,6 +97,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Parameters for updating message count. */
 	static final String[] PARAMS_UPDATE = { ID_UPDATE };
+
+	/** Standard buffer size. */
+	public static final int BUFSIZE = 1024;
 
 	/** recipient, numbers only. */
 	protected String[] to;
@@ -273,7 +275,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected static final String stream2String(final InputStream is)
 			throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(is));
+				new InputStreamReader(is), BUFSIZE);
 		StringBuilder data = new StringBuilder();
 		String line = null;
 		while ((line = bufferedReader.readLine()) != null) {
@@ -294,14 +296,15 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            post data
 	 * @param userAgent
 	 *            user agent
+	 * @param referer
+	 *            referer
 	 * @return the connection
 	 * @throws IOException
-	 * @throws ClientProtocolException
 	 */
 	protected static HttpResponse getHttpClient(final String url,
 			final ArrayList<Cookie> cookies,
-			final ArrayList<BasicNameValuePair> postData, final String userAgent)
-			throws ClientProtocolException, IOException {
+			final ArrayList<BasicNameValuePair> postData,
+			final String userAgent, final String referer) throws IOException {
 		HttpClient client = new DefaultHttpClient();
 		HttpRequestBase request;
 		if (postData == null) {
@@ -310,7 +313,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			request = new HttpPost(url);
 			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
 		}
-		request.setHeader("User-Agent", userAgent);
+		if (referer != null) {
+			request.setHeader("Referer", referer);
+		}
+		if (userAgent != null) {
+			request.setHeader("User-Agent", userAgent);
+		}
 
 		if (cookies != null && cookies.size() > 0) {
 			CookieSpecBase cookieSpecBase = new BrowserCompatSpec();

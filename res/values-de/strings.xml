@@ -43,6 +43,7 @@
 	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke
 		den Menüknopf.</string>
 	<string name="log_error">FEHLER</string>
+	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
 	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde

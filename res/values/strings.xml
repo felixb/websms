@@ -21,7 +21,7 @@
 	<string name="about">WebSMS enables you to send free and paid SMS
 		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.4.1</string>
+	<string name="app_version">2.4.2</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, O2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
@@ -48,6 +48,7 @@
 	<string name="log_empty_settings">You need to set your preferences. Please press
 		the menu button.</string>
 	<string name="log_error">ERROR</string>
+	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
 	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your O2 supports Web2SMS.</string>

@@ -127,7 +127,7 @@ public class ConnectorO2 extends Connector {
 		try { // get Connection
 			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 			HttpResponse response = getHttpClient(URLS[operator][0], cookies,
-					null, TARGET_AGENT);
+					null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(AndGMXsms.MESSAGE_LOG,
@@ -149,7 +149,7 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("password", this.password));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
 			response = getHttpClient(URLS[operator][1], cookies, postData,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][0]);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -164,7 +164,7 @@ public class ConnectorO2 extends Connector {
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][1]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(AndGMXsms.MESSAGE_LOG,
@@ -174,7 +174,7 @@ public class ConnectorO2 extends Connector {
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
 
 			response = getHttpClient(URLS[operator][3], cookies, null,
-					TARGET_AGENT);
+					TARGET_AGENT, URLS[operator][2]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(AndGMXsms.MESSAGE_LOG,
@@ -224,7 +224,7 @@ public class ConnectorO2 extends Connector {
 				st = null;
 
 				response = getHttpClient(URLS[operator][4], cookies, postData,
-						TARGET_AGENT);
+						TARGET_AGENT, URLS[operator][3]);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
