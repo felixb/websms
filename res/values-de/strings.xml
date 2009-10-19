@@ -18,8 +18,10 @@
 	-->
 <resources>
 	<string name="about">Mit WebSMS kannst du SMS via GMX
-		SMS-Manager, O2	Communication Center (web2sms) oder sipgate.de senden.
-		Ggf. kannst du dort deine FreiSMS nutzen!</string>
+		SMS-Manager, O2
+		Communication Center (web2sms) oder sipgate.de senden.
+		Ggf. kannst du
+		dort deine FreiSMS nutzen!</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
@@ -43,7 +45,10 @@
 	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke
 		den Menüknopf.</string>
 	<string name="log_error">FEHLER</string>
-	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
+	<string name="log_error_captcha">Dein Provider blockt diese App mit einem
+		Captcha. Bitte maile deinem Provider, nicht mir!</string>
+	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als
+		Standardprefix. Z.B. "+49".</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
 	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde

@@ -139,6 +139,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Context IO is running from. */
 	protected Context context;
 
+	/** Concurrent updates running. */
+	private static int countUpdates = 0;
+
 	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
@@ -186,7 +189,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param connector
 	 *            Connector which should be used.
 	 */
-	public static void update(final Context con, final short connector) {
+	public static synchronized void update(final Context con,
+			final short connector) {
+		++countUpdates;
 		final Connector c = getConnector(con, connector);
 		if (c != null) {
 			c.execute(PARAMS_UPDATE);
@@ -536,10 +541,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			rcvs = rcvs.substring(0, rcvs.length() - 1);
 		}
 		if (failed) {
-			notification = new Notification(
-					android.R.drawable.stat_notify_error, c
-							.getString(R.string.notify_failed_), System
-							.currentTimeMillis());
+			notification = new Notification(R.drawable.stat_notify_sms_fail, c
+					.getString(R.string.notify_failed_), System
+					.currentTimeMillis());
 			final Intent i = new Intent(c, AndGMXsms.class);
 			if (this.failedMessage == null) {
 				this.failedMessage = c.getString(R.string.notify_failed_);
@@ -554,8 +558,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					contentIntent);
 			notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		} else {
-			notification = new Notification(android.R.drawable.stat_sys_upload,
-					"", System.currentTimeMillis());
+			notification = new Notification(R.drawable.stat_notify_sms_out, "",
+					System.currentTimeMillis());
 			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
 					new Intent(c, AndGMXsms.class), 0);
 			notification.setLatestEventInfo(c, c
@@ -574,7 +578,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	@Override
 	protected final void onPostExecute(final Boolean result) {
 		final String t = this.type;
-		if (t == ID_UPDATE) {
+		--countUpdates;
+		if (t == ID_UPDATE && countUpdates == 0) {
 			((AndGMXsms) this.context)
 					.setProgressBarIndeterminateVisibility(false);
 		} else {
@@ -700,7 +705,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		final Context c = this.context;
 		final String s = c.getString(msg);
 		if (c instanceof AndGMXsms) {
-			AndGMXsms.pushMessage(msgType, c);
+			AndGMXsms.pushMessage(msgType, s);
 		} else if (c instanceof IOService) {
 			Log.d(TAG, s);
 			if (msgType == AndGMXsms.MESSAGE_LOG
@@ -725,14 +730,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		final Context c = this.context;
 		final String s = c.getString(msgFront);
 		if (c instanceof AndGMXsms) {
-			AndGMXsms.pushMessage(msgType, c + msgTail);
+			AndGMXsms.pushMessage(msgType, s + msgTail);
 		} else if (c instanceof IOService) {
 			Log.d(TAG, s + msgTail);
 			if (msgType == AndGMXsms.MESSAGE_LOG) {
 				this.failedMessage = s + msgTail;
 			}
-		} else {
-
 		}
 	}
 }

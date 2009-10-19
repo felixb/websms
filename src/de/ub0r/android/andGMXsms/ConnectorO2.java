@@ -160,7 +160,14 @@ public class ConnectorO2 extends Connector {
 			resp = cookies.size();
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
 			if (resp == cookies.size()) {
-				this.pushMessage(AndGMXsms.MESSAGE_LOG, R.string.log_error_pw);
+				htmlText = stream2String(response.getEntity().getContent());
+				if (htmlText.indexOf("captcha") > 0) {
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_captcha);
+				} else {
+					this.pushMessage(AndGMXsms.MESSAGE_LOG,
+							R.string.log_error_pw);
+				}
 				return false;
 			}
 			response = getHttpClient(URLS[operator][2], cookies, null,
