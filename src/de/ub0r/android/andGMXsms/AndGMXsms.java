@@ -275,6 +275,11 @@ public class AndGMXsms extends Activity implements OnClickListener {
 				}
 			}
 		}
+
+		// check default prefix
+		if (!prefsDefPrefix.startsWith("+")) {
+			AndGMXsms.this.log(R.string.log_error_defprefix);
+		}
 	}
 
 	/** Called on activity resume. */
@@ -725,6 +730,16 @@ public class AndGMXsms extends Activity implements OnClickListener {
 		}
 		return myDialog;
 	}
+	/**
+	 * Log text.
+	 * 
+	 * @param text
+	 *            text as resID
+	 */
+	public final void log(final int resID) {
+		this.log(this.getString(resID));
+	}
+
 
 	/**
 	 * Log text.
@@ -896,10 +911,15 @@ public class AndGMXsms extends Activity implements OnClickListener {
 			}
 			if (key.equals(PREFS_SENDER)) {
 				// check for wrong sender format. people can't read..
-				String p = prefs.getString(PREFS_SENDER, "");
+				final String p = prefs.getString(PREFS_SENDER, "");
 				if (!p.startsWith("+")) {
-					AndGMXsms.this.log(AndGMXsms.this.getResources().getString(
-							R.string.log_error_sender));
+					AndGMXsms.this.log(R.string.log_error_sender);
+				}
+			}
+			if (key.equals(PREFS_DEFPREFIX)) {
+				final String p = prefs.getString(PREFS_DEFPREFIX, "");
+				if (!p.startsWith("+")) {
+					AndGMXsms.this.log(R.string.log_error_defprefix);
 				}
 			}
 		}
