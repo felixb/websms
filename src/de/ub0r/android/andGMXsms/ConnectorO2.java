@@ -28,6 +28,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 /**
@@ -66,6 +67,11 @@ public class ConnectorO2 extends Connector {
 					"https://email.o2online.de/smscenter_send.osp" }, // end .de
 			{ // ie
 			"???1", "???2", "???3", "???4", "???5" } };
+
+	/** Current Captcha to solve. */
+	static Drawable captcha = null;
+	/** Solved Captcha. */
+	static String anticaptcha = null;
 
 	/**
 	 * Strings for this Connector. First dimension: DE/IE/..? Second dimension:
@@ -130,8 +136,8 @@ public class ConnectorO2 extends Connector {
 					null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][0]);
@@ -153,8 +159,8 @@ public class ConnectorO2 extends Connector {
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			resp = cookies.size();
@@ -165,8 +171,7 @@ public class ConnectorO2 extends Connector {
 					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_captcha);
 				} else {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_pw);
+					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
 				}
 				return false;
 			}
@@ -174,8 +179,8 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][1]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
@@ -184,8 +189,8 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][2]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][3]);

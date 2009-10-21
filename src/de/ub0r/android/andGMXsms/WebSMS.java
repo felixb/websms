@@ -48,6 +48,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -162,6 +163,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_HELP = 1;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
+	/** Dialog: captcha. */
+	private static final int DIALOG_CAPTCHA = 3;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -173,6 +176,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final int MESSAGE_RESET = 5;
 	/** Message check prefsReady. */
 	static final int MESSAGE_PREFSREADY = 6;
+	/** Message show cpatcha. */
+	static final int MESSAGE_ANTICAPTCHA = 7;
 
 	/** Menu: send via GMX. */
 	private static final int MENU_SEND_GMX = Connector.GMX + 1;
@@ -611,6 +616,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.cancel:
 			this.reset();
 			break;
+		case R.id.captcha_btn:
+			ConnectorO2.anticaptcha = ((EditText) v.getRootView().findViewById(
+					R.id.captcha_edt)).getText().toString();
+			this.dismissDialog(DIALOG_CAPTCHA);
+			break;
 		default:
 			break;
 		}
@@ -752,16 +762,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		case DIALOG_ABOUT:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.about);
-			myDialog.setTitle(this.getResources().getString(R.string.about_)
-					+ " v"
-					+ this.getResources().getString(R.string.app_version));
+			myDialog.setTitle(this.getString(R.string.about_) + " v"
+					+ this.getString(R.string.app_version));
 			((Button) myDialog.findViewById(R.id.btn_donate))
 					.setOnClickListener(this);
 			break;
 		case DIALOG_HELP:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.help);
-			myDialog.setTitle(this.getResources().getString(R.string.help_));
+			myDialog.setTitle(R.string.help_);
 			break;
 		case DIALOG_UPDATE:
 			myDialog = new Dialog(this);
@@ -778,10 +787,39 @@ public class WebSMS extends Activity implements OnClickListener,
 				layout.addView(tw);
 			}
 			break;
+		case DIALOG_CAPTCHA:
+			myDialog = new Dialog(this);
+			myDialog.setContentView(R.layout.captcha);
+			((Button) myDialog.findViewById(R.id.captcha_btn))
+					.setOnClickListener(this);
+			break;
 		default:
 			myDialog = null;
 		}
 		return myDialog;
+	}
+
+	/**
+	 * Called to create dialog.
+	 * 
+	 * @param id
+	 *            Dialog id
+	 * @param dialog
+	 *            Dialog
+	 */
+	@Override
+	protected final void onPrepareDialog(final int id, final Dialog dialog) {
+		switch (id) {
+		case DIALOG_CAPTCHA:
+			if (ConnectorO2.captcha != null) {
+				((ImageView) dialog.findViewById(R.id.captcha_img))
+						.setImageDrawable(ConnectorO2.captcha);
+				ConnectorO2.captcha = null;
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -907,8 +945,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				TextView tw = (TextView) WebSMS.this
 						.findViewById(R.id.freecount);
-				tw.setText(WebSMS.this.getResources().getString(
-						R.string.free_)
+				tw.setText(WebSMS.this.getResources().getString(R.string.free_)
 						+ " "
 						+ WebSMS.remFree
 						+ " "

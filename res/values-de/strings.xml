@@ -25,6 +25,8 @@
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
+	<string name="captcha_edt_">Gib das Wort von obnen hier ein:</string>
+	<string name="captcha_btn_">Absenden</string> 
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>

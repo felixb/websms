@@ -519,8 +519,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				}
 			}
 			WebSMS.dialogString = c.getString(R.string.bootstrap_);
-			WebSMS.dialog = ProgressDialog.show(c, null,
-					WebSMS.dialogString, true);
+			WebSMS.dialog = ProgressDialog.show(c, null, WebSMS.dialogString,
+					true);
 		} else if (t == ID_SEND) {
 			this.displayNotification(false);
 		}

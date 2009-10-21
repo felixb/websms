@@ -26,6 +26,8 @@
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, O2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
 	<string name="bootstrap_">Checking prefs...</string>
+	<string name="captcha_edt_">Enter the word above here:</string>
+	<string name="captcha_btn_">Submit</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
