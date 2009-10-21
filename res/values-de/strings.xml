@@ -26,7 +26,7 @@
 	<string name="author_">Autor:</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
 	<string name="captcha_edt_">Gib das Wort von obnen hier ein:</string>
-	<string name="captcha_btn_">Absenden</string> 
+	<string name="captcha_btn_">Absenden</string>
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
@@ -63,6 +63,8 @@
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
 	<string name="log_error_service">Service ist down! Bitte versuch es später
 		noch einmal.</string>
+	<string name="log_error_wrongcaptcha">Captcha war falsch. Bitte versuche es
+		nochmal.</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>

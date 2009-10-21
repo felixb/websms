@@ -619,6 +619,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.captcha_btn:
 			ConnectorO2.anticaptcha = ((EditText) v.getRootView().findViewById(
 					R.id.captcha_edt)).getText().toString();
+			synchronized (ConnectorO2.synccaptcha) {
+				ConnectorO2.synccaptcha.notify();
+			}
 			this.dismissDialog(DIALOG_CAPTCHA);
 			break;
 		default:
@@ -790,6 +793,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		case DIALOG_CAPTCHA:
 			myDialog = new Dialog(this);
 			myDialog.setContentView(R.layout.captcha);
+			myDialog.setCancelable(false);
 			((Button) myDialog.findViewById(R.id.captcha_btn))
 					.setOnClickListener(this);
 			break;
@@ -804,15 +808,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @param id
 	 *            Dialog id
-	 * @param dialog
+	 * @param dlg
 	 *            Dialog
 	 */
 	@Override
-	protected final void onPrepareDialog(final int id, final Dialog dialog) {
+	protected final void onPrepareDialog(final int id, final Dialog dlg) {
 		switch (id) {
 		case DIALOG_CAPTCHA:
 			if (ConnectorO2.captcha != null) {
-				((ImageView) dialog.findViewById(R.id.captcha_img))
+				((ImageView) dlg.findViewById(R.id.captcha_img))
 						.setImageDrawable(ConnectorO2.captcha);
 				ConnectorO2.captcha = null;
 			}
@@ -960,6 +964,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				return;
 			case MESSAGE_PREFSREADY:
 				WebSMS.this.checkPrefs();
+				return;
+			case MESSAGE_ANTICAPTCHA:
+				WebSMS.this.showDialog(DIALOG_CAPTCHA);
 				return;
 			default:
 				return;

@@ -28,6 +28,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -45,6 +46,19 @@ public class ConnectorO2 extends Connector {
 	/** Index in some arrays for o2Online.ie. */
 	private static final short O2_IE = 1;
 
+	private static final int URL_PRELOGIN = 0;
+	private static final int URL_LOGIN = 1;
+	private static final int URL_CAPTCHA = 2;
+	private static final int URL_SOLVECAPTCHA = 3;
+	private static final int URL_SMSCENTER = 4;
+	private static final int URL_PRESEND = 5;
+	private static final int URL_SEND = 6;
+
+	private static final int CHECK_FREESMS = 0;
+	private static final int CHECK_WEB2SMS = 1;
+	private static final int CHECK_SENT = 2;
+	private static final int CHECK_WRONGCAPTCHA = 3;
+
 	/**
 	 * URLs for this Connector. First dimension: DE/IE/..? Second dimension:
 	 * urls.
@@ -58,7 +72,11 @@ public class ConnectorO2 extends Connector {
 							+ "AUTH-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp"
 							+ "%253f%26o2_type"
 							+ "%3Durl%26o2_label%3Dweb2sms-o2online",
-					"https://login.o2online.de/loginRegistration/loginAction.do",
+					"https://login.o2online.de/loginRegistration"
+							+ "/loginAction.do",
+					"https://login.o2online.de/loginRegistration/jcaptcha",
+					"https://login.o2online.de/loginRegistration"
+							+ "/loginAction.do",
 					"http://email.o2online.de:80/ssomanager.osp"
 							+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
 							+ "?&o2_type=url&o2_label=web2sms-o2online",
@@ -68,11 +86,6 @@ public class ConnectorO2 extends Connector {
 			{ // ie
 			"???1", "???2", "???3", "???4", "???5" } };
 
-	/** Current Captcha to solve. */
-	static Drawable captcha = null;
-	/** Solved Captcha. */
-	static String anticaptcha = null;
-
 	/**
 	 * Strings for this Connector. First dimension: DE/IE/..? Second dimension:
 	 * string.
@@ -80,7 +93,8 @@ public class ConnectorO2 extends Connector {
 	private static final String[][] STRINGS = { { // .de
 			"Frei-SMS: ", // free sms
 					"Web2SMS", // web2sms
-					"SMS wurde erfolgreich versendet" // successful send
+					"SMS wurde erfolgreich versendet", // successful send
+					"Sie haben einen falschen Code eingegeben." // wrong code
 			}, // end .de
 			{ // .ie
 			"Number of free text messages remaining this month: ", "Web2SMS",
@@ -90,6 +104,16 @@ public class ConnectorO2 extends Connector {
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
+
+	/** Current Captcha to solve. */
+	static Drawable captcha = null;
+	/** Solved Captcha. */
+	static String anticaptcha = null;
+	/** Object to sync with. */
+	final static Object synccaptcha = new Object();
+
+	/** Cookies. */
+	ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 
 	/**
 	 * Extract _flowExecutionKey from HTML output.
@@ -111,12 +135,11 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
-	 * Send data.
+	 * Get Operator Code.
 	 * 
-	 * @return successful?
+	 * @return operator
 	 */
-	private boolean sendData() {
-		// Operator of user. Selected by countrycode.
+	private short getOperator() {
 		short operator;
 		// switch operator
 		final String sndr = this.sender;
@@ -126,21 +149,98 @@ public class ConnectorO2 extends Connector {
 			operator = O2_IE;
 		} else {
 			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_prefix);
+			return -1;
+		}
+		return operator;
+	}
+
+	/**
+	 * Load Captcha and wait for user input to solve it.
+	 * 
+	 * @param operator
+	 *            operator to use.
+	 * @param flow
+	 *            _flowExecutionKey
+	 * @return true if captcha was solved
+	 * @throws IOException
+	 *             IOException
+	 * @throws MalformedCookieException
+	 *             MalformedCookieException
+	 * @throws URISyntaxException
+	 *             URISyntaxException
+	 */
+	private boolean solveCaptcha(final short operator, final String flow)
+			throws IOException, MalformedCookieException, URISyntaxException {
+		HttpResponse response = getHttpClient(URLS[operator][URL_CAPTCHA],
+				this.cookies, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
+		int resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+					+ resp);
+			return false;
+		}
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[operator][URL_CAPTCHA]);
+		captcha = new BitmapDrawable(response.getEntity().getContent());
+		this.pushMessage(WebSMS.MESSAGE_ANTICAPTCHA, null);
+		try {
+			synchronized (synccaptcha) {
+				synccaptcha.wait();
+			}
+		} catch (InterruptedException e) {
+			Log.e(TAG, null, e);
+			return false;
+		}
+		// got user response, try to solve captcha
+		captcha = null;
+		final ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
+				3);
+		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
+		postData.add(new BasicNameValuePair("_eventId", "submit"));
+		postData.add(new BasicNameValuePair("riddleValue", anticaptcha));
+		response = getHttpClient(URLS[operator][URL_SOLVECAPTCHA],
+				this.cookies, postData, TARGET_AGENT, URLS[operator][URL_LOGIN]);
+		resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+					+ resp);
+			return false;
+		}
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[operator][URL_CAPTCHA]);
+		final String htmlText = stream2String(response.getEntity().getContent());
+		if (htmlText.indexOf(STRINGS[operator][CHECK_WRONGCAPTCHA]) > 0) {
+			this.pushMessage(WebSMS.MESSAGE_LOG,
+					R.string.log_error_wrongcaptcha);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Send data.
+	 * 
+	 * @return successful?
+	 */
+	private boolean sendData() {
+		// Operator of user. Selected by countrycode.
+		final short operator = this.getOperator();
+		if (operator < 0) {
 			return false;
 		}
 
 		// do IO
 		try { // get Connection
-			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
-			HttpResponse response = getHttpClient(URLS[operator][0], cookies,
-					null, TARGET_AGENT, null);
+			HttpResponse response = getHttpClient(URLS[operator][URL_PRELOGIN],
+					this.cookies, null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
 						"" + resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[operator][0]);
+			updateCookies(this.cookies, response.getAllHeaders(),
+					URLS[operator][URL_PRELOGIN]);
 			String htmlText = stream2String(response.getEntity().getContent());
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
@@ -151,11 +251,11 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("_flowExecutionKey",
 					flowExecutionKey));
 			postData.add(new BasicNameValuePair("loginName", "0"
-					+ sndr.substring(3)));
+					+ this.sender.substring(3)));
 			postData.add(new BasicNameValuePair("password", this.password));
 			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = getHttpClient(URLS[operator][1], cookies, postData,
-					TARGET_AGENT, URLS[operator][0]);
+			response = getHttpClient(URLS[operator][URL_LOGIN], this.cookies,
+					postData, TARGET_AGENT, URLS[operator][URL_PRELOGIN]);
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
@@ -163,41 +263,49 @@ public class ConnectorO2 extends Connector {
 						"" + resp);
 				return false;
 			}
-			resp = cookies.size();
-			updateCookies(cookies, response.getAllHeaders(), URLS[operator][1]);
-			if (resp == cookies.size()) {
+			resp = this.cookies.size();
+			updateCookies(this.cookies, response.getAllHeaders(),
+					URLS[operator][URL_LOGIN]);
+			if (resp == this.cookies.size()) {
 				htmlText = stream2String(response.getEntity().getContent());
 				if (htmlText.indexOf("captcha") > 0) {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_captcha);
+					if (!(this.context instanceof WebSMS)
+							|| !this.solveCaptcha(operator,
+									getFlowExecutionkey(htmlText))) {
+						this.pushMessage(WebSMS.MESSAGE_LOG,
+								R.string.log_error_captcha);
+						return false;
+					}
 				} else {
 					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
+					return false;
 				}
-				return false;
 			}
-			response = getHttpClient(URLS[operator][2], cookies, null,
-					TARGET_AGENT, URLS[operator][1]);
+			response = getHttpClient(URLS[operator][URL_SMSCENTER],
+					this.cookies, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
 						"" + resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
+			updateCookies(this.cookies, response.getAllHeaders(),
+					URLS[operator][URL_SMSCENTER]);
 
-			response = getHttpClient(URLS[operator][3], cookies, null,
-					TARGET_AGENT, URLS[operator][2]);
+			response = getHttpClient(URLS[operator][URL_PRESEND], this.cookies,
+					null, TARGET_AGENT, URLS[operator][URL_SMSCENTER]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
 						"" + resp);
 				return false;
 			}
-			updateCookies(cookies, response.getAllHeaders(), URLS[operator][3]);
+			updateCookies(this.cookies, response.getAllHeaders(),
+					URLS[operator][URL_PRESEND]);
 			htmlText = stream2String(response.getEntity().getContent());
-			int i = htmlText.indexOf(STRINGS[operator][0]);
+			int i = htmlText.indexOf(STRINGS[operator][CHECK_FREESMS]);
 			if (i > 0) {
-				int j = htmlText.indexOf(STRINGS[operator][1], i);
+				int j = htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS], i);
 				if (j > 0) {
 					WebSMS.SMS_FREE[O2][WebSMS.SMS_FREE_COUNT] = Integer
 							.parseInt(htmlText.substring(i + 9, j).trim());
@@ -207,7 +315,6 @@ public class ConnectorO2 extends Connector {
 
 			if (this.text != null && this.to != null && this.to.length > 0) {
 				postData = new ArrayList<BasicNameValuePair>(15);
-				// TODO: join this.to
 				String[] recvs = this.to;
 				final int e = recvs.length;
 				StringBuilder toBuf = new StringBuilder(recvs[0]);
@@ -235,8 +342,9 @@ public class ConnectorO2 extends Connector {
 				}
 				st = null;
 
-				response = getHttpClient(URLS[operator][4], cookies, postData,
-						TARGET_AGENT, URLS[operator][3]);
+				response = getHttpClient(URLS[operator][URL_SEND],
+						this.cookies, postData, TARGET_AGENT,
+						URLS[operator][URL_PRESEND]);
 				postData = null;
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
@@ -245,7 +353,7 @@ public class ConnectorO2 extends Connector {
 					return false;
 				}
 				htmlText = stream2String(response.getEntity().getContent());
-				if (htmlText.indexOf(STRINGS[operator][2]) < 0) {
+				if (htmlText.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
 					// check output html for success message
 					return false;
 				}
