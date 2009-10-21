@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.5.1: emove ads for donator</item>
 		<item>v2.5: Split IO from app, detect O2 captcha</item>
 		<item>v2.4.3: Check userinput for default prefix</item>
 		<item>v2.4.2: Remove ads for donator, fix O2 captcha</item>
