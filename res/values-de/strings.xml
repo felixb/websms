@@ -48,7 +48,8 @@
 		den Menüknopf.</string>
 	<string name="log_error">FEHLER</string>
 	<string name="log_error_captcha">Dein Provider blockt diese App mit einem
-		Captcha. Bitte maile deinem Provider, nicht mir!</string>
+		Captcha. Scheinbar hilft es (für eine Weile) sich per Webbrowser
+		einmal anzumelden.</string>
 	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als
 		Standardprefix. Z.B. "+49".</string>
 	<string name="log_error_http">FEHLER: HTTP </string>

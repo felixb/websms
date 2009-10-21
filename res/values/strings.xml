@@ -19,9 +19,10 @@
 <resources>
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and paid SMS
-		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.</string>
+		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.
+	</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.5</string>
+	<string name="app_version">2.5.3</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, O2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
@@ -51,7 +52,7 @@
 		the menu button.</string>
 	<string name="log_error">ERROR</string>
 	<string name="log_error_captcha">Your provider is blocking this app witch a
-	captcha. Please mail your provider, not me!</string>
+	captcha. It seams to work for a while after logging in with your web browser.</string>
 	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
