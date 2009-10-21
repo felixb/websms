@@ -99,7 +99,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final String[] PARAMS_UPDATE = { ID_UPDATE };
 
 	/** Standard buffer size. */
-	public static final int BUFSIZE = 1024;
+	public static final int BUFSIZE = 32768;
 
 	/** recipient, numbers only. */
 	protected String[] to;
