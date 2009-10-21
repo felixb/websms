@@ -244,6 +244,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c = new ConnectorSipgate();
 			c.user = WebSMS.prefsUserSipgate;
 			c.password = WebSMS.prefsPasswordSipgate;
+			break;
 		default:
 			Log.e(TAG, "missing Connector");
 			return null;

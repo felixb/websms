@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.5.3: fix Sipgate.de connector</item>
 		<item>v2.5.2: speed up O2</item>
 		<item>v2.5.1: remove ads for donator, hint to solve captcha</item>
 		<item>v2.5: Split IO from app, detect O2 captcha</item>
