@@ -130,8 +130,8 @@ public class ConnectorO2 extends Connector {
 					null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][0]);
@@ -153,8 +153,8 @@ public class ConnectorO2 extends Connector {
 			postData = null;
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			resp = cookies.size();
@@ -165,8 +165,7 @@ public class ConnectorO2 extends Connector {
 					this.pushMessage(WebSMS.MESSAGE_LOG,
 							R.string.log_error_captcha);
 				} else {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_pw);
+					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
 				}
 				return false;
 			}
@@ -174,8 +173,8 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][1]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][2]);
@@ -184,8 +183,8 @@ public class ConnectorO2 extends Connector {
 					TARGET_AGENT, URLS[operator][2]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
-						R.string.log_error_http, "" + resp);
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
+						"" + resp);
 				return false;
 			}
 			updateCookies(cookies, response.getAllHeaders(), URLS[operator][3]);

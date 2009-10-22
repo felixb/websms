@@ -277,8 +277,7 @@ public class ConnectorGMX extends Connector {
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_pw);
+					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
 					return false;
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
