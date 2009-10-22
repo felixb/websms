@@ -650,10 +650,10 @@ public class WebSMS extends Activity implements OnClickListener,
 					// add menu to send text
 					MenuItem m;
 					if (prefsEnableO2 || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_GMX, 0, this.getResources()
+						m = menu.add(0, MENU_SEND_GMX, 0, this
 								.getString(R.string.send_gmx));
 					} else {
-						m = menu.add(0, MENU_SEND_GMX, 0, this.getResources()
+						m = menu.add(0, MENU_SEND_GMX, 0, this
 								.getString(R.string.send_));
 					}
 					m.setIcon(android.R.drawable.ic_menu_send);
@@ -666,10 +666,10 @@ public class WebSMS extends Activity implements OnClickListener,
 					// add menu to send text
 					MenuItem m;
 					if (prefsEnableGMX || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_O2, 0, this.getResources()
+						m = menu.add(0, MENU_SEND_O2, 0, this
 								.getString(R.string.send_o2));
 					} else {
-						m = menu.add(0, MENU_SEND_O2, 0, this.getResources()
+						m = menu.add(0, MENU_SEND_O2, 0, this
 								.getString(R.string.send_));
 					}
 					m.setIcon(android.R.drawable.ic_menu_send);
@@ -683,11 +683,11 @@ public class WebSMS extends Activity implements OnClickListener,
 					MenuItem m;
 					if (prefsEnableO2 || prefsEnableGMX) {
 						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-								.getResources()
-								.getString(R.string.send_sipgate));
+
+						.getString(R.string.send_sipgate));
 					} else {
 						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-								.getResources().getString(R.string.send_));
+								.getString(R.string.send_));
 					}
 					m.setIcon(android.R.drawable.ic_menu_send);
 				}
@@ -913,8 +913,8 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (msg.obj instanceof String) {
 					WebSMS.this.log((String) msg.obj);
 				} else if (msg.obj instanceof Integer) {
-					WebSMS.this.log(WebSMS.this.getResources().getString(
-							((Integer) msg.obj).intValue()));
+					WebSMS.this.log(WebSMS.this.getString(((Integer) msg.obj)
+							.intValue()));
 				} else {
 					WebSMS.this.log(msg.obj.toString());
 				}
@@ -950,12 +950,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				TextView tw = (TextView) WebSMS.this
 						.findViewById(R.id.freecount);
-				tw.setText(WebSMS.this.getResources().getString(R.string.free_)
-						+ " "
-						+ WebSMS.remFree
-						+ " "
-						+ WebSMS.this.getResources().getString(
-								R.string.click_for_update));
+				tw.setText(WebSMS.this.getString(R.string.free_) + " "
+						+ WebSMS.remFree + " "
+						+ WebSMS.this.getString(R.string.click_for_update));
 				return;
 			case MESSAGE_SETTINGS:
 				WebSMS.this.startActivity(new Intent(WebSMS.this,
