@@ -543,7 +543,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			rcvs = rcvs.substring(0, rcvs.length() - 1);
 		}
 		if (failed) {
-			notification = new Notification(R.drawable.stat_notify_sms_fail, c
+			notification = new Notification(R.anim.stat_notify_sms_fail, c
 					.getString(R.string.notify_failed_), System
 					.currentTimeMillis());
 			final Intent i = new Intent(c, WebSMS.class);
@@ -560,7 +560,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					contentIntent);
 			notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		} else {
-			notification = new Notification(R.drawable.stat_notify_sms_out, "",
+			notification = new Notification(R.anim.stat_notify_sms_send, "",
 					System.currentTimeMillis());
 			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
 					new Intent(c, WebSMS.class), 0);
