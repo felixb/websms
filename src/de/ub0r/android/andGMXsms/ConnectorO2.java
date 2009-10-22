@@ -46,17 +46,28 @@ public class ConnectorO2 extends Connector {
 	/** Index in some arrays for o2Online.ie. */
 	private static final short O2_IE = 1;
 
+	/** URL before login. */
 	private static final int URL_PRELOGIN = 0;
+	/** URL for login. */
 	private static final int URL_LOGIN = 1;
+	/** URL of captcha. */
 	private static final int URL_CAPTCHA = 2;
+	/** URL for solving captcha. */
 	private static final int URL_SOLVECAPTCHA = 3;
+	/** URL for sms center. */
 	private static final int URL_SMSCENTER = 4;
+	/** URL before sending. */
 	private static final int URL_PRESEND = 5;
+	/** URL for sending. */
 	private static final int URL_SEND = 6;
 
+	/** Check for free sms. */
 	private static final int CHECK_FREESMS = 0;
+	/** Check for web2sms. */
 	private static final int CHECK_WEB2SMS = 1;
+	/** Check if message was sent. */
 	private static final int CHECK_SENT = 2;
+	/** Check if captcha was solved wrong. */
 	private static final int CHECK_WRONGCAPTCHA = 3;
 
 	/**
@@ -108,12 +119,12 @@ public class ConnectorO2 extends Connector {
 	/** Current Captcha to solve. */
 	static Drawable captcha = null;
 	/** Solved Captcha. */
-	static String anticaptcha = null;
+	static String captchaSolve = null;
 	/** Object to sync with. */
-	final static Object synccaptcha = new Object();
+	final static Object CAPTCHA_SYNC = new Object();
 
 	/** Cookies. */
-	ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+	private final ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 
 	/**
 	 * Extract _flowExecutionKey from HTML output.
@@ -184,8 +195,8 @@ public class ConnectorO2 extends Connector {
 		captcha = new BitmapDrawable(response.getEntity().getContent());
 		this.pushMessage(WebSMS.MESSAGE_ANTICAPTCHA, null);
 		try {
-			synchronized (synccaptcha) {
-				synccaptcha.wait();
+			synchronized (CAPTCHA_SYNC) {
+				CAPTCHA_SYNC.wait();
 			}
 		} catch (InterruptedException e) {
 			Log.e(TAG, null, e);
@@ -197,7 +208,7 @@ public class ConnectorO2 extends Connector {
 				3);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
 		postData.add(new BasicNameValuePair("_eventId", "submit"));
-		postData.add(new BasicNameValuePair("riddleValue", anticaptcha));
+		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
 		response = getHttpClient(URLS[operator][URL_SOLVECAPTCHA],
 				this.cookies, postData, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 		resp = response.getStatusLine().getStatusCode();
