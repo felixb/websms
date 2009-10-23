@@ -229,6 +229,127 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
+	 * Login to O2.
+	 * 
+	 * @param operator
+	 *            operator to use.
+	 * @param flow
+	 *            _flowExecutionKey
+	 * @return true if logged in
+	 * @throws IOException
+	 *             IOException
+	 * @throws MalformedCookieException
+	 *             MalformedCookieException
+	 * @throws URISyntaxException
+	 *             URISyntaxException
+	 */
+	private boolean login(final short operator, final String flow)
+			throws IOException, MalformedCookieException, URISyntaxException {
+		// post data
+		final ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
+				4);
+		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
+		postData.add(new BasicNameValuePair("loginName", "0"
+				+ this.sender.substring(3)));
+		postData.add(new BasicNameValuePair("password", this.password));
+		postData.add(new BasicNameValuePair("_eventId", "login"));
+		HttpResponse response = getHttpClient(URLS[operator][URL_LOGIN],
+				this.cookies, postData, TARGET_AGENT,
+				URLS[operator][URL_PRELOGIN]);
+		int resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+					+ resp);
+			return false;
+		}
+		resp = this.cookies.size();
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[operator][URL_LOGIN]);
+		if (resp == this.cookies.size()) {
+			String htmlText = stream2String(response.getEntity().getContent());
+			response = null;
+			if (htmlText.indexOf("captcha") > 0) {
+				final String newFlow = getFlowExecutionkey(htmlText);
+				htmlText = null;
+				if (!(this.context instanceof WebSMS)
+						|| !this.solveCaptcha(operator, newFlow)) {
+					this.pushMessage(WebSMS.MESSAGE_LOG,
+							R.string.log_error_captcha);
+					return false;
+				}
+			} else {
+				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Send SMS.
+	 * 
+	 * @param operator
+	 *            operator to use.
+	 * @param htmlText
+	 *            preor htmlText
+	 * @return true if send in
+	 * @throws IOException
+	 *             IOException
+	 * @throws MalformedCookieException
+	 *             MalformedCookieException
+	 * @throws URISyntaxException
+	 *             URISyntaxException
+	 */
+	private boolean sendToO2(final short operator, final String htmlText)
+			throws IOException, MalformedCookieException, URISyntaxException {
+		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
+				15);
+		String[] recvs = this.to;
+		final int e = recvs.length;
+		StringBuilder toBuf = new StringBuilder(recvs[0]);
+		for (int j = 1; j < e; j++) {
+			toBuf.append(", ");
+			toBuf.append(recvs[j]);
+		}
+		postData.add(new BasicNameValuePair("SMSTo", toBuf.toString()));
+		toBuf = null;
+		recvs = null;
+		postData.add(new BasicNameValuePair("SMSText", this.text));
+		postData.add(new BasicNameValuePair("SMSFrom", ""));
+		postData.add(new BasicNameValuePair("Frequency", "5"));
+
+		String[] st = htmlText.split("<input type=\"Hidden\" ");
+		// htmlText = null;
+		for (String s : st) {
+			if (s.startsWith("name=")) {
+				String[] subst = s.split("\"", 5);
+				if (subst.length >= 4) {
+					postData.add(new BasicNameValuePair(subst[1], subst[3]));
+				}
+			}
+		}
+		st = null;
+
+		HttpResponse response = getHttpClient(URLS[operator][URL_SEND],
+				this.cookies, postData, TARGET_AGENT,
+				URLS[operator][URL_PRESEND]);
+		postData = null;
+		int resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+					+ resp);
+			return false;
+		}
+		final String htmlText1 = stream2String(response.getEntity()
+				.getContent());
+		if (htmlText1.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
+			// check output html for success message
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Send data.
 	 * 
 	 * @return successful?
@@ -256,42 +377,10 @@ public class ConnectorO2 extends Connector {
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
-			// post data
-			ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
-					4);
-			postData.add(new BasicNameValuePair("_flowExecutionKey",
-					flowExecutionKey));
-			postData.add(new BasicNameValuePair("loginName", "0"
-					+ this.sender.substring(3)));
-			postData.add(new BasicNameValuePair("password", this.password));
-			postData.add(new BasicNameValuePair("_eventId", "login"));
-			response = getHttpClient(URLS[operator][URL_LOGIN], this.cookies,
-					postData, TARGET_AGENT, URLS[operator][URL_PRELOGIN]);
-			postData = null;
-			resp = response.getStatusLine().getStatusCode();
-			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
-						"" + resp);
+			if (!this.login(operator, flowExecutionKey)) {
 				return false;
 			}
-			resp = this.cookies.size();
-			updateCookies(this.cookies, response.getAllHeaders(),
-					URLS[operator][URL_LOGIN]);
-			if (resp == this.cookies.size()) {
-				htmlText = stream2String(response.getEntity().getContent());
-				if (htmlText.indexOf("captcha") > 0) {
-					if (!(this.context instanceof WebSMS)
-							|| !this.solveCaptcha(operator,
-									getFlowExecutionkey(htmlText))) {
-						this.pushMessage(WebSMS.MESSAGE_LOG,
-								R.string.log_error_captcha);
-						return false;
-					}
-				} else {
-					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
-					return false;
-				}
-			}
+
 			response = getHttpClient(URLS[operator][URL_SMSCENTER],
 					this.cookies, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 			resp = response.getStatusLine().getStatusCode();
@@ -323,51 +412,8 @@ public class ConnectorO2 extends Connector {
 					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				}
 			}
-
 			if (this.text != null && this.to != null && this.to.length > 0) {
-				postData = new ArrayList<BasicNameValuePair>(15);
-				String[] recvs = this.to;
-				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder(recvs[0]);
-				for (int j = 1; j < e; j++) {
-					toBuf.append(", ");
-					toBuf.append(recvs[j]);
-				}
-				postData.add(new BasicNameValuePair("SMSTo", toBuf.toString()));
-				toBuf = null;
-				recvs = null;
-				postData.add(new BasicNameValuePair("SMSText", this.text));
-				postData.add(new BasicNameValuePair("SMSFrom", ""));
-				postData.add(new BasicNameValuePair("Frequency", "5"));
-
-				String[] st = htmlText.split("<input type=\"Hidden\" ");
-				htmlText = null;
-				for (String s : st) {
-					if (s.startsWith("name=")) {
-						String[] subst = s.split("\"", 5);
-						if (subst.length >= 4) {
-							postData.add(new BasicNameValuePair(subst[1],
-									subst[3]));
-						}
-					}
-				}
-				st = null;
-
-				response = getHttpClient(URLS[operator][URL_SEND],
-						this.cookies, postData, TARGET_AGENT,
-						URLS[operator][URL_PRESEND]);
-				postData = null;
-				resp = response.getStatusLine().getStatusCode();
-				if (resp != HttpURLConnection.HTTP_OK) {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_http, "" + resp);
-					return false;
-				}
-				htmlText = stream2String(response.getEntity().getContent());
-				if (htmlText.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
-					// check output html for success message
-					return false;
-				}
+				this.sendToO2(operator, htmlText);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);

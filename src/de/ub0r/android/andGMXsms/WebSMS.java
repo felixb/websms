@@ -618,8 +618,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.reset();
 			break;
 		case R.id.captcha_btn:
-			ConnectorO2.captchaSolve = ((EditText) v.getRootView().findViewById(
-					R.id.captcha_edt)).getText().toString();
+			ConnectorO2.captchaSolve = ((EditText) v.getRootView()
+					.findViewById(R.id.captcha_edt)).getText().toString();
 			synchronized (ConnectorO2.CAPTCHA_SYNC) {
 				ConnectorO2.CAPTCHA_SYNC.notify();
 			}
