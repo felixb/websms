@@ -21,11 +21,11 @@
 	<string-array name="updates">
 		<item>v2.5.4: change notification icons, fix sending from contacts</item>
 		<item>v2.5.3: fix Sipgate.de Connector</item>
-		<item>v2.5.2: speed up O2</item>
+		<item>v2.5.2: speed up o2</item>
 		<item>v2.5.1: remove ads for donator, hint to solve captcha</item>
-		<item>v2.5: Split IO from app, detect O2 captcha</item>
+		<item>v2.5: Split IO from app, detect o2 captcha</item>
 		<item>v2.4.3: Check userinput for default prefix</item>
-		<item>v2.4.2: Remove ads for donator, fix O2 captcha</item>
+		<item>v2.4.2: Remove ads for donator, fix o2 captcha</item>
 		<item>v2.4.1: Remove ads for donator, minor changes to Sipgate and GUI</item>
 		<item>v2.4: Add Sipgate.de Connector</item>
 		<item>v2.3: Add Changelog, auto follow GMX hostchange, fix for 1.6</item>

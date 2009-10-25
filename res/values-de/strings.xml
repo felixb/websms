@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="about">Mit WebSMS kannst du SMS via GMX
-		SMS-Manager, O2
+		SMS-Manager, o2
 		Communication Center (web2sms) oder sipgate.de senden.
 		Ggf. kannst du
 		dort deine FreiSMS nutzen!</string>
@@ -38,7 +38,7 @@
 	<string name="help_">Hilfe</string>
 	<string name="help">Um diese App. nutzen zu können brauchst du
 		entweder einen GMX SMS Account (GMX Freemail Plus, Promail, Topmail)
-		oder O2 als Provider!</string>
+		oder o2 als Provider!</string>
 	<string name="license">GPLv3 - siehe
 		http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
@@ -53,7 +53,7 @@
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
 	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde
-		dich bei mir, wenn dein O2 auch WebSMS unterstützt.</string>
+		dich bei mir, wenn dein o2 auch WebSMS unterstützt.</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
 	<string name="log_error_sender">Falscher Absender! Das Format muss im
 		internationalen Format sein. z.B. +4917012345678</string>
@@ -89,7 +89,7 @@
 	</string>
 	<string name="send_">Senden</string>
 	<string name="send_gmx">Senden (GMX)</string>
-	<string name="send_o2">Senden (O2)</string>
+	<string name="send_o2">Senden (o2)</string>
 	<string name="send_sipgate">Senden (Sipgate)</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
