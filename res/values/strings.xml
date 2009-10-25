@@ -19,12 +19,12 @@
 <resources>
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and paid SMS
-		via GMX SMS-Manager, O2 Communication Center (Web2SMS) or sipgate.de.
+		via GMX SMS-Manager, o2 Communication Center (Web2SMS) or sipgate.de.
 	</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.5.3</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, O2)</string>
+	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, o2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_edt_">Enter the word above here:</string>
@@ -44,7 +44,7 @@
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
 	<string name="help">You need either a GMX SMS Account (e.g. GMX
-		ProMail) or O2 as provider to use this app.</string>
+		ProMail) or o2 as provider to use this app.</string>
 	<string name="license">GPLv3 - see
 		http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
@@ -56,7 +56,7 @@
 	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
-	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your O2 supports Web2SMS.</string>
+	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your o2 supports Web2SMS.</string>
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
 	<string name="log_error_sender">Wrong sender! Set it in international form
 		like +4917012345678.</string>
@@ -91,7 +91,7 @@
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
 	<string name="send_gmx">Send (GMX)</string>
-	<string name="send_o2">Send (O2)</string>
+	<string name="send_o2">Send (o2)</string>
 	<string name="send_sipgate">Send (Sipgate)</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>

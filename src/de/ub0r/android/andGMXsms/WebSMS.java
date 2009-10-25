@@ -289,37 +289,37 @@ public class WebSMS extends Activity implements OnClickListener,
 					lastTo = recipient;
 				}
 			}
-		}
+		} else {
+			// reload sms from notification
+			final Uri data = intent.getData();
+			if (data != null) {
+				final String recipient = data.getHost();
+				String text = data.getPath();
+				String error = null;
+				final int i = text.lastIndexOf('/');
+				if (i > 0) {
+					error = text.substring(i + 1);
+					text = text.substring(0, i);
+				}
+				if (recipient != null) {
+					((EditText) this.findViewById(R.id.to)).setText(recipient);
+					lastTo = recipient;
+				}
+				if (text != null && text.length() > 0) {
+					text = text.substring(1);
+					((EditText) this.findViewById(R.id.to)).setText(text);
+					lastMsg = text;
+				}
+				if (error != null) {
+					Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+				}
 
-		// reload sms from notification
-		final Uri data = intent.getData();
-		if (data != null) {
-			final String recipient = data.getHost();
-			String text = data.getPath();
-			String error = null;
-			final int i = text.lastIndexOf('/');
-			if (i > 0) {
-				error = text.substring(i + 1);
-				text = text.substring(0, i);
-			}
-			if (recipient != null) {
-				((EditText) this.findViewById(R.id.to)).setText(recipient);
-				lastTo = recipient;
-			}
-			if (text != null && text.length() > 0) {
-				text = text.substring(1);
-				((EditText) this.findViewById(R.id.to)).setText(text);
-				lastMsg = text;
-			}
-			if (error != null) {
-				Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-			}
-
-			if (!prefsNoAds) {
-				// do not display any ads for donators
-				// display ads
-				((AdView) WebSMS.this.findViewById(R.id.ad))
-						.setVisibility(View.VISIBLE);
+				if (!prefsNoAds) {
+					// do not display any ads for donators
+					// display ads
+					((AdView) WebSMS.this.findViewById(R.id.ad))
+							.setVisibility(View.VISIBLE);
+				}
 			}
 		}
 
