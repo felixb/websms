@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>v2.5.4: change notification icons</item>
+		<item>v2.5.4: change notification icons, fix sending from contacts</item>
 		<item>v2.5.3: fix Sipgate.de Connector</item>
 		<item>v2.5.2: speed up O2</item>
 		<item>v2.5.1: remove ads for donator, hint to solve captcha</item>
