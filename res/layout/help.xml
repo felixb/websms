@@ -21,21 +21,21 @@
 	android:layout_height="fill_parent">
 
 	<TextView android:text="@string/help" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:paddingTop="5sp"
-		android:paddingLeft="5sp" android:paddingRight="5sp" />
+		android:layout_height="wrap_content" android:paddingTop="5dip"
+		android:paddingLeft="5dip" android:paddingRight="5dip" />
 
 	<TextView android:text="@string/mail_" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:paddingTop="5sp"
-		android:paddingLeft="5sp" />
+		android:layout_height="wrap_content" android:paddingTop="5dip"
+		android:paddingLeft="5dip" />
 	<TextView android:text="@string/mail_help"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:paddingLeft="15sp" android:paddingRight="5sp" />
+		android:paddingLeft="15dip" android:paddingRight="5dip" />
 
 	<TextView android:text="@string/password_"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:paddingTop="5sp" android:paddingLeft="5sp" />
+		android:paddingTop="5dip" android:paddingLeft="5dip" />
 	<TextView android:text="@string/password_help"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:paddingLeft="15sp" android:paddingRight="5sp"
-		android:paddingBottom="5sp" />
+		android:paddingLeft="15dip" android:paddingRight="5dip"
+		android:paddingBottom="5dip" />
 </LinearLayout>
