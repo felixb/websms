@@ -29,7 +29,7 @@
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
-	<string name="donate_subject">Ich bin der Spender. Mein IMEI hash ist...
+	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...
 	</string>
 	<string name="donate_">Spenden/Werbung entfernen</string>
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5
