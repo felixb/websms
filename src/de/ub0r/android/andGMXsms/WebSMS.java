@@ -129,8 +129,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsReadySipgate = false;
 	/** Remaining free sms. */
 	static String remFree = null;
-	/** Preferences: use softkeys. */
-	static boolean prefsSoftKeys = false;
 	/** Preferences: enable gmx. */
 	static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
@@ -183,15 +181,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Message check prefsReady. */
 	static final int MESSAGE_PREFSREADY = 6;
 
-	/** Menu: send via GMX. */
-	private static final int MENU_SEND_GMX = Connector.GMX + 1;
-	/** Menu: send via O2. */
-	private static final int MENU_SEND_O2 = Connector.O2 + 1;
-	/** Menu: send via Sipgate. */
-	private static final int MENU_SEND_SIPGATE = Connector.SIPGATE + 1;
-	/** Menu: cancel. */
-	private static final int MENU_CANCEL = 4;
-
 	/** Persistent Message store. */
 	private static String lastMsg = null;
 	/** Persistent Recipient store. */
@@ -236,13 +225,17 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		// save ref to me.
 		me = this;
+		// Restore preferences
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		// inflate XML
-		this.setContentView(R.layout.main);
+		if (this.preferences.getBoolean(PREFS_SOFTKEYS, false)) {
+			this.setContentView(R.layout.main_touch);
+		} else {
+			this.setContentView(R.layout.main);
+		}
 		// register MessageHandler
 		this.messageHandler = new WebSMS.MessageHandler();
 
-		// Restore preferences
-		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		// display changelog?
 		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getResources().getString(R.string.app_version);
@@ -433,7 +426,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void reloadPrefs() {
 		prefsSender = this.preferences.getString(PREFS_SENDER, "");
 		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
-		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
 
 		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, false);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
@@ -486,33 +478,17 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
-		if (!prefsSoftKeys) {
-			btn.setEnabled(c > 0);
-			btn.setVisibility(View.VISIBLE);
-			if (c < 2) {
-				this.findViewById(R.id.change_connector).setVisibility(
-						View.GONE);
-				btn.setText(R.string.send_);
-				prefsConnector = con;
-			} else {
-				this.findViewById(R.id.change_connector).setVisibility(
-						View.VISIBLE);
-				btn.setText(this.getString(R.string.send_) + " ("
-						+ Connector.getConnectorName(this, prefsConnector)
-						+ ")");
-			}
+		btn.setEnabled(c > 0);
+		btn.setVisibility(View.VISIBLE);
+		if (c < 2) {
+			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
+			btn.setText(R.string.send_);
+			prefsConnector = con;
 		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.cancel);
-		if (prefsSoftKeys) {
-			btn.setVisibility(View.GONE);
-		} else {
-			btn.setVisibility(View.VISIBLE);
-		}
-		btn = (Button) this.findViewById(R.id.change_connector);
-		if (prefsSoftKeys) {
-			btn.setVisibility(View.GONE);
+			this.findViewById(R.id.change_connector)
+					.setVisibility(View.VISIBLE);
+			btn.setText(this.getString(R.string.send_) + " ("
+					+ Connector.getConnectorName(this, prefsConnector) + ")");
 		}
 	}
 
@@ -660,79 +636,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Open menu.
-	 * 
-	 * @param menu
-	 *            menu to inflate
-	 * @return ok/fail?
-	 */
-	@Override
-	public final boolean onPrepareOptionsMenu(final Menu menu) {
-		if (prefsSoftKeys) {
-			if (menu.findItem(MENU_CANCEL) == null) {
-				menu.add(0, MENU_CANCEL, 1,
-						this.getResources().getString(android.R.string.cancel))
-						.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-			}
-			if (prefsEnableGMX) {
-				if (menu.findItem(MENU_SEND_GMX) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableO2 || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_GMX, 0, this
-								.getString(R.string.send_gmx));
-					} else {
-						m = menu.add(0, MENU_SEND_GMX, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_GMX);
-			}
-			if (prefsEnableO2) {
-				if (menu.findItem(MENU_SEND_O2) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableGMX || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_O2, 0, this
-								.getString(R.string.send_o2));
-					} else {
-						m = menu.add(0, MENU_SEND_O2, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_O2);
-			}
-			if (prefsEnableSipgate) {
-				if (menu.findItem(MENU_SEND_SIPGATE) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableO2 || prefsEnableGMX) {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-
-						.getString(R.string.send_sipgate));
-					} else {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_SIPGATE);
-			}
-		} else {
-			menu.removeItem(MENU_SEND_GMX);
-			menu.removeItem(MENU_SEND_O2);
-			menu.removeItem(MENU_SEND_SIPGATE);
-			menu.removeItem(MENU_CANCEL);
-		}
-		return true;
-	}
-
-	/**
 	 * Create menu.
 	 * 
 	 * @param menu
@@ -763,18 +666,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			return true;
 		case R.id.item_help: // start help dialog
 			this.showDialog(DIALOG_HELP);
-			return true;
-		case MENU_SEND_GMX:
-			this.send(Connector.GMX);
-			return true;
-		case MENU_SEND_O2:
-			this.send(Connector.O2);
-			return true;
-		case MENU_SEND_SIPGATE:
-			this.send(Connector.SIPGATE);
-			return true;
-		case MENU_CANCEL:
-			this.reset();
 			return true;
 		default:
 			return false;
