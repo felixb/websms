@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -169,6 +170,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_HELP = 1;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
+	/** Dialog: donate. */
+	private static final int DIALOG_DONATE = 3;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -667,6 +670,23 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.item_help: // start help dialog
 			this.showDialog(DIALOG_HELP);
 			return true;
+		case R.id.item_donate:
+			try {
+				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+						.parse(this.getString(R.string.donate_url))));
+			} catch (ActivityNotFoundException e) {
+				Log.e(TAG, "no browser", e);
+			}
+			this.showDialog(DIALOG_DONATE);
+			return true;
+		case R.id.item_more:
+			try {
+				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+						.parse("market://search?q=pub:\"Felix Bechstein\"")));
+			} catch (ActivityNotFoundException e) {
+				Log.e(TAG, "no market", e);
+			}
+			return true;
 		default:
 			return false;
 		}
@@ -681,27 +701,47 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
-		Dialog myDialog;
+		Dialog d;
 		switch (id) {
+		case DIALOG_DONATE:
+			d = new Dialog(this);
+			d.setContentView(R.layout.donate);
+			d.setTitle(R.string.remove_ads);
+			Button button = (Button) d.findViewById(R.id.btn_donate);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					final Intent in = new Intent(Intent.ACTION_SEND);
+					in.putExtra(Intent.EXTRA_EMAIL, new String[] {
+							WebSMS.this.getString(R.string.donate_mail), "" });
+					// FIXME: "" is a k9 hack.
+					in.putExtra(Intent.EXTRA_TEXT, md5(WebSMS.prefsSender));
+					in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
+							.getString(R.string.app_name)
+							+ " "
+							+ WebSMS.this.getString(R.string.donate_subject));
+					in.setType("text/plain");
+					WebSMS.this.startActivity(in);
+					WebSMS.this.dismissDialog(DIALOG_DONATE);
+				}
+			});
+			return d;
 		case DIALOG_ABOUT:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.about);
-			myDialog.setTitle(this.getString(R.string.about_) + " v"
+			d = new Dialog(this);
+			d.setContentView(R.layout.about);
+			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
-			((Button) myDialog.findViewById(R.id.btn_donate))
-					.setOnClickListener(this);
-			break;
+			((Button) d.findViewById(R.id.btn_donate)).setOnClickListener(this);
+			return d;
 		case DIALOG_HELP:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.help);
-			myDialog.setTitle(this.getString(R.string.help_));
-			break;
+			d = new Dialog(this);
+			d.setContentView(R.layout.help);
+			d.setTitle(this.getString(R.string.help_));
+			return d;
 		case DIALOG_UPDATE:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.update);
-			myDialog.setTitle(R.string.changelog_);
-			LinearLayout layout = (LinearLayout) myDialog
-					.findViewById(R.id.base_view);
+			d = new Dialog(this);
+			d.setContentView(R.layout.update);
+			d.setTitle(R.string.changelog_);
+			LinearLayout layout = (LinearLayout) d.findViewById(R.id.base_view);
 			TextView tw;
 			String[] changes = this.getResources().getStringArray(
 					R.array.updates);
@@ -710,11 +750,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				tw.setText(c);
 				layout.addView(tw);
 			}
-			break;
+			return d;
 		default:
-			myDialog = null;
+			return null;
 		}
-		return myDialog;
 	}
 
 	/**

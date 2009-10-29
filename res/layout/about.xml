@@ -56,10 +56,5 @@
 		<TextView android:text="@string/source" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:paddingLeft="15sp"
 			android:paddingRight="5sp" android:autoLink="web" />
-
-		<Button android:id="@+id/btn_donate" android:text="@string/donate_"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginTop="10sp" android:layout_marginLeft="5sp"
-			android:layout_marginRight="5sp" />
 	</LinearLayout>
 </ScrollView>
