@@ -97,9 +97,6 @@
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567
 	</string>
 	<string name="send_">Senden</string>
-	<string name="send_gmx">Senden (GMX)</string>
-	<string name="send_o2">Senden (o2)</string>
-	<string name="send_sipgate">Senden (Sipgate)</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="settings_connectors">Einstellungen - Anbindungen</string>
