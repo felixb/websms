@@ -27,6 +27,7 @@
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, o2)</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
 	<string name="bootstrap_">Checking prefs...</string>
+	<string name="change_connector_">Change connector</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
@@ -87,9 +88,6 @@
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
-	<string name="send_gmx">Send (GMX)</string>
-	<string name="send_o2">Send (o2)</string>
-	<string name="send_sipgate">Send (Sipgate)</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
@@ -107,4 +105,9 @@
 	<string name="text_">Text:</string>
 	<string name="to_">To:</string>
 	<string name="to_hint">Name or Number</string>
+	<string-array name="connectors">
+		<item>GMX</item>
+		<item>o2</item>
+		<item>Sipgate</item>
+	</string-array>
 </resources>

@@ -41,7 +41,6 @@
 	<MultiAutoCompleteTextView android:text=""
 		android:id="@+id/to" android:hint="@string/to_hint"
 		android:layout_width="fill_parent" android:layout_height="wrap_content" />
-
 	<TextView android:text="@string/text_" android:id="@+id/text_"
 		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
@@ -51,13 +50,10 @@
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="0">
-		<Button android:text="@string/send_gmx" android:id="@+id/send_gmx"
+		<Button android:text="@string/send_" android:id="@+id/send_"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />
-		<Button android:text="@string/send_o2" android:id="@+id/send_o2"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" />
-		<Button android:text="@string/send_sipgate" android:id="@+id/send_sipgate"
+		<Button android:text="@string/change_connector_" android:id="@+id/change_connector"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />
 		<Button android:id="@+id/cancel" android:text="@android:string/cancel"

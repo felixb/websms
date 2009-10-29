@@ -20,12 +20,15 @@ package de.ub0r.android.andGMXsms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -99,6 +102,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
+	/** Preference's name: connector. */
+	private static final String PREFS_CONNECTOR = "connector";
 	/** Preferences: mail. */
 	static String prefsMail;
 	/** Preferences: username - gmx. */
@@ -136,6 +141,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsNoAds = false;
 	/** Preferences: gmx hostname id. */
 	static int prefsGMXhostname = 0;
+	/** Preferences: connector. */
+	static short prefsConnector = 0;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -254,9 +261,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastMsg = this.preferences.getString(PREFS_TEXT, "");
 
 		// register Listener
-		((Button) this.findViewById(R.id.send_gmx)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.send_o2)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.send_sipgate))
+		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.change_connector))
 				.setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
@@ -442,6 +448,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
+		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
 		prefsNoAds = false;
 		String hash = md5(prefsSender);
@@ -454,46 +461,45 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsGMXhostname = this.preferences.getInt(PREFS_GMX_HOST,
 				prefsGMXhostname);
+
+		this.setButtons();
 	}
 
 	/**
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		Button btn = (Button) this.findViewById(R.id.send_gmx);
+		int c = 0;
+		short con = 0;
+		if (prefsEnableGMX) {
+			++c;
+			con = Connector.GMX;
+		}
+		if (prefsEnableO2) {
+			++c;
+			con = Connector.O2;
+		}
+		if (prefsEnableSipgate) {
+			++c;
+			con = Connector.SIPGATE;
+		}
+
+		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
-		if (prefsEnableGMX && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadyGMX);
+		if (!prefsSoftKeys) {
+			btn.setEnabled(c > 0);
 			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableO2 || prefsEnableSipgate) {
-				btn.setText(this.getResources().getString(R.string.send_gmx));
+			if (c < 2) {
+				this.findViewById(R.id.change_connector).setVisibility(
+						View.GONE);
+				btn.setText(R.string.send_);
+				prefsConnector = con;
 			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
-			}
-		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.send_o2);
-		if (prefsEnableO2 && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadyO2);
-			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableGMX || prefsEnableSipgate) {
-				btn.setText(this.getResources().getString(R.string.send_o2));
-			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
-			}
-		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.send_sipgate);
-		if (prefsEnableSipgate && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadySipgate);
-			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableGMX || prefsEnableO2) {
-				btn.setText(this.getResources()
-						.getString(R.string.send_sipgate));
-			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
+				this.findViewById(R.id.change_connector).setVisibility(
+						View.VISIBLE);
+				btn.setText(this.getString(R.string.send_) + " ("
+						+ Connector.getConnectorName(this, prefsConnector)
+						+ ")");
 			}
 		} else {
 			btn.setVisibility(View.GONE);
@@ -503,6 +509,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			btn.setVisibility(View.GONE);
 		} else {
 			btn.setVisibility(View.VISIBLE);
+		}
+		btn = (Button) this.findViewById(R.id.change_connector);
+		if (prefsSoftKeys) {
+			btn.setVisibility(View.GONE);
 		}
 	}
 
@@ -574,6 +584,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.putString(PREFS_USER, prefsUserGMX);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
 		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
+		editor.putInt(PREFS_CONNECTOR, prefsConnector);
 		// commit changes
 		editor.commit();
 	}
@@ -601,14 +612,44 @@ public class WebSMS extends Activity implements OnClickListener,
 			Uri uri = Uri.parse(this.getString(R.string.donate_url));
 			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			break;
-		case R.id.send_gmx:
-			this.send(Connector.GMX);
+		case R.id.send_:
+			this.send(prefsConnector);
 			break;
-		case R.id.send_o2:
-			this.send(Connector.O2);
-			break;
-		case R.id.send_sipgate:
-			this.send(Connector.SIPGATE);
+		case R.id.change_connector:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.change_connector_);
+			final ArrayList<String> items = new ArrayList<String>();
+			final String[] allItems = this.getResources().getStringArray(
+					R.array.connectors);
+			if (prefsEnableGMX) {
+				items.add(allItems[Connector.GMX]);
+			}
+			if (prefsEnableO2) {
+				items.add(allItems[Connector.O2]);
+			}
+			if (prefsEnableSipgate) {
+				items.add(allItems[Connector.SIPGATE]);
+			}
+			builder.setItems(items.toArray(new String[0]),
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int item) {
+							final int c = allItems.length;
+							for (int i = 0; i < c; i++) {
+								if (items.get(item).equals(allItems[i])) {
+									prefsConnector = (short) i;
+									break;
+								}
+							}
+							WebSMS.this.setButtons();
+							// save user preferences
+							final SharedPreferences.Editor editor = WebSMS.this.preferences
+									.edit();
+							editor.putInt(PREFS_CONNECTOR, prefsConnector);
+							editor.commit();
+						}
+					});
+			builder.create().show();
 			break;
 		case R.id.cancel:
 			this.reset();
