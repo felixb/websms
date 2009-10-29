@@ -98,7 +98,7 @@
 	<string name="settings_o2">Einstellungen - o2</string>
 	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Einfache GUI für touch keys</string>
+	<string name="softkeyboard_hint">Einfache GUI für touch keys. App neu starten.</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
 </resources>

@@ -95,7 +95,7 @@
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Reduce GUI for touch keys</string>
+	<string name="softkeyboard_hint">Reduce GUI for touch keys. Restart App.</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git
 	</string>
 	<string name="source_">Sourcescode:</string>
