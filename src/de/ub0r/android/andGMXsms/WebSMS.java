@@ -20,12 +20,16 @@ package de.ub0r.android.andGMXsms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -100,6 +104,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
+	/** Preference's name: connector. */
+	private static final String PREFS_CONNECTOR = "connector";
 	/** Preferences: mail. */
 	static String prefsMail;
 	/** Preferences: username - gmx. */
@@ -125,8 +131,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsReadySipgate = false;
 	/** Remaining free sms. */
 	static String remFree = null;
-	/** Preferences: use softkeys. */
-	static boolean prefsSoftKeys = false;
 	/** Preferences: enable gmx. */
 	static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
@@ -137,6 +141,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsNoAds = false;
 	/** Preferences: gmx hostname id. */
 	static int prefsGMXhostname = 0;
+	/** Preferences: connector. */
+	static short prefsConnector = 0;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -147,7 +153,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
 			"c479a2e701291c751f0f91426bcaabf3", // bernhard g.
 			"ae7dfedf549f98a349ad8c2068473c6b", // dominik k.-v.
-			"18bc29cd511613552861da6ef51766ce" // niels b.
+			"18bc29cd511613552861da6ef51766ce", // niels b.
+			"2985011f56d0049b0f4f0caed3581123", // sven l.
+			"64724033da297a915a89023b11ac2e47" // wilfried m.
 	};
 
 	/** Public Dialog ref. */
@@ -166,6 +174,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: captcha. */
 	private static final int DIALOG_CAPTCHA = 3;
+	/** Dialog: donate. */
+	private static final int DIALOG_DONATE = 4;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -179,15 +189,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final int MESSAGE_PREFSREADY = 6;
 	/** Message show cpatcha. */
 	static final int MESSAGE_ANTICAPTCHA = 7;
-
-	/** Menu: send via GMX. */
-	private static final int MENU_SEND_GMX = Connector.GMX + 1;
-	/** Menu: send via O2. */
-	private static final int MENU_SEND_O2 = Connector.O2 + 1;
-	/** Menu: send via Sipgate. */
-	private static final int MENU_SEND_SIPGATE = Connector.SIPGATE + 1;
-	/** Menu: cancel. */
-	private static final int MENU_CANCEL = 4;
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -233,13 +234,17 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		// save ref to me.
 		me = this;
+		// Restore preferences
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		// inflate XML
-		this.setContentView(R.layout.main);
+		if (this.preferences.getBoolean(PREFS_SOFTKEYS, false)) {
+			this.setContentView(R.layout.main_touch);
+		} else {
+			this.setContentView(R.layout.main);
+		}
 		// register MessageHandler
 		this.messageHandler = new WebSMS.MessageHandler();
 
-		// Restore preferences
-		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		// display changelog?
 		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getResources().getString(R.string.app_version);
@@ -258,9 +263,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastMsg = this.preferences.getString(PREFS_TEXT, "");
 
 		// register Listener
-		((Button) this.findViewById(R.id.send_gmx)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.send_o2)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.send_sipgate))
+		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.change_connector))
 				.setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
@@ -431,7 +435,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void reloadPrefs() {
 		prefsSender = this.preferences.getString(PREFS_SENDER, "");
 		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
-		prefsSoftKeys = this.preferences.getBoolean(PREFS_SOFTKEYS, false);
 
 		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, false);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
@@ -446,6 +449,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
+		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
 		prefsNoAds = false;
 		String hash = md5(prefsSender);
@@ -458,55 +462,42 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsGMXhostname = this.preferences.getInt(PREFS_GMX_HOST,
 				prefsGMXhostname);
+
+		this.setButtons();
 	}
 
 	/**
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		Button btn = (Button) this.findViewById(R.id.send_gmx);
+		int c = 0;
+		short con = 0;
+		if (prefsEnableGMX) {
+			++c;
+			con = Connector.GMX;
+		}
+		if (prefsEnableO2) {
+			++c;
+			con = Connector.O2;
+		}
+		if (prefsEnableSipgate) {
+			++c;
+			con = Connector.SIPGATE;
+		}
+
+		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
-		if (prefsEnableGMX && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadyGMX);
-			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableO2 || prefsEnableSipgate) {
-				btn.setText(this.getResources().getString(R.string.send_gmx));
-			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
-			}
+		btn.setEnabled(c > 0);
+		btn.setVisibility(View.VISIBLE);
+		if (c < 2) {
+			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
+			btn.setText(R.string.send_);
+			prefsConnector = con;
 		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.send_o2);
-		if (prefsEnableO2 && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadyO2);
-			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableGMX || prefsEnableSipgate) {
-				btn.setText(this.getResources().getString(R.string.send_o2));
-			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
-			}
-		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.send_sipgate);
-		if (prefsEnableSipgate && !prefsSoftKeys) {
-			btn.setEnabled(prefsReadySipgate);
-			btn.setVisibility(View.VISIBLE);
-			if (prefsEnableGMX || prefsEnableO2) {
-				btn.setText(this.getResources()
-						.getString(R.string.send_sipgate));
-			} else {
-				btn.setText(this.getResources().getString(R.string.send_));
-			}
-		} else {
-			btn.setVisibility(View.GONE);
-		}
-		btn = (Button) this.findViewById(R.id.cancel);
-		if (prefsSoftKeys) {
-			btn.setVisibility(View.GONE);
-		} else {
-			btn.setVisibility(View.VISIBLE);
+			this.findViewById(R.id.change_connector)
+					.setVisibility(View.VISIBLE);
+			btn.setText(this.getString(R.string.send_) + " ("
+					+ Connector.getConnectorName(this, prefsConnector) + ")");
 		}
 	}
 
@@ -578,6 +569,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.putString(PREFS_USER, prefsUserGMX);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
 		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
+		editor.putInt(PREFS_CONNECTOR, prefsConnector);
 		// commit changes
 		editor.commit();
 	}
@@ -605,14 +597,44 @@ public class WebSMS extends Activity implements OnClickListener,
 			Uri uri = Uri.parse(this.getString(R.string.donate_url));
 			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			break;
-		case R.id.send_gmx:
-			this.send(Connector.GMX);
+		case R.id.send_:
+			this.send(prefsConnector);
 			break;
-		case R.id.send_o2:
-			this.send(Connector.O2);
-			break;
-		case R.id.send_sipgate:
-			this.send(Connector.SIPGATE);
+		case R.id.change_connector:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.change_connector_);
+			final ArrayList<String> items = new ArrayList<String>();
+			final String[] allItems = this.getResources().getStringArray(
+					R.array.connectors);
+			if (prefsEnableGMX) {
+				items.add(allItems[Connector.GMX]);
+			}
+			if (prefsEnableO2) {
+				items.add(allItems[Connector.O2]);
+			}
+			if (prefsEnableSipgate) {
+				items.add(allItems[Connector.SIPGATE]);
+			}
+			builder.setItems(items.toArray(new String[0]),
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int item) {
+							final int c = allItems.length;
+							for (int i = 0; i < c; i++) {
+								if (items.get(item).equals(allItems[i])) {
+									prefsConnector = (short) i;
+									break;
+								}
+							}
+							WebSMS.this.setButtons();
+							// save user preferences
+							final SharedPreferences.Editor editor = WebSMS.this.preferences
+									.edit();
+							editor.putInt(PREFS_CONNECTOR, prefsConnector);
+							editor.commit();
+						}
+					});
+			builder.create().show();
 			break;
 		case R.id.cancel:
 			this.reset();
@@ -628,79 +650,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		default:
 			break;
 		}
-	}
-
-	/**
-	 * Open menu.
-	 * 
-	 * @param menu
-	 *            menu to inflate
-	 * @return ok/fail?
-	 */
-	@Override
-	public final boolean onPrepareOptionsMenu(final Menu menu) {
-		if (prefsSoftKeys) {
-			if (menu.findItem(MENU_CANCEL) == null) {
-				menu.add(0, MENU_CANCEL, 1,
-						this.getResources().getString(android.R.string.cancel))
-						.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-			}
-			if (prefsEnableGMX) {
-				if (menu.findItem(MENU_SEND_GMX) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableO2 || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_GMX, 0, this
-								.getString(R.string.send_gmx));
-					} else {
-						m = menu.add(0, MENU_SEND_GMX, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_GMX);
-			}
-			if (prefsEnableO2) {
-				if (menu.findItem(MENU_SEND_O2) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableGMX || prefsEnableSipgate) {
-						m = menu.add(0, MENU_SEND_O2, 0, this
-								.getString(R.string.send_o2));
-					} else {
-						m = menu.add(0, MENU_SEND_O2, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_O2);
-			}
-			if (prefsEnableSipgate) {
-				if (menu.findItem(MENU_SEND_SIPGATE) == null) {
-					// add menu to send text
-					MenuItem m;
-					if (prefsEnableO2 || prefsEnableGMX) {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-
-						.getString(R.string.send_sipgate));
-					} else {
-						m = menu.add(0, MENU_SEND_SIPGATE, 0, this
-								.getString(R.string.send_));
-					}
-					m.setIcon(android.R.drawable.ic_menu_send);
-				}
-			} else {
-				menu.removeItem(MENU_SEND_SIPGATE);
-			}
-		} else {
-			menu.removeItem(MENU_SEND_GMX);
-			menu.removeItem(MENU_SEND_O2);
-			menu.removeItem(MENU_SEND_SIPGATE);
-			menu.removeItem(MENU_CANCEL);
-		}
-		return true;
 	}
 
 	/**
@@ -735,17 +684,22 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.item_help: // start help dialog
 			this.showDialog(DIALOG_HELP);
 			return true;
-		case MENU_SEND_GMX:
-			this.send(Connector.GMX);
+		case R.id.item_donate:
+			try {
+				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+						.parse(this.getString(R.string.donate_url))));
+			} catch (ActivityNotFoundException e) {
+				Log.e(TAG, "no browser", e);
+			}
+			this.showDialog(DIALOG_DONATE);
 			return true;
-		case MENU_SEND_O2:
-			this.send(Connector.O2);
-			return true;
-		case MENU_SEND_SIPGATE:
-			this.send(Connector.SIPGATE);
-			return true;
-		case MENU_CANCEL:
-			this.reset();
+		case R.id.item_more:
+			try {
+				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+						.parse("market://search?q=pub:\"Felix Bechstein\"")));
+			} catch (ActivityNotFoundException e) {
+				Log.e(TAG, "no market", e);
+			}
 			return true;
 		default:
 			return false;
@@ -761,27 +715,47 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
-		Dialog myDialog;
+		Dialog d;
 		switch (id) {
+		case DIALOG_DONATE:
+			d = new Dialog(this);
+			d.setContentView(R.layout.donate);
+			d.setTitle(R.string.remove_ads);
+			Button button = (Button) d.findViewById(R.id.btn_donate);
+			button.setOnClickListener(new OnClickListener() {
+				public void onClick(final View view) {
+					final Intent in = new Intent(Intent.ACTION_SEND);
+					in.putExtra(Intent.EXTRA_EMAIL, new String[] {
+							WebSMS.this.getString(R.string.donate_mail), "" });
+					// FIXME: "" is a k9 hack.
+					in.putExtra(Intent.EXTRA_TEXT, md5(WebSMS.prefsSender));
+					in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
+							.getString(R.string.app_name)
+							+ " "
+							+ WebSMS.this.getString(R.string.donate_subject));
+					in.setType("text/plain");
+					WebSMS.this.startActivity(in);
+					WebSMS.this.dismissDialog(DIALOG_DONATE);
+				}
+			});
+			return d;
 		case DIALOG_ABOUT:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.about);
-			myDialog.setTitle(this.getString(R.string.about_) + " v"
+			d = new Dialog(this);
+			d.setContentView(R.layout.about);
+			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
-			((Button) myDialog.findViewById(R.id.btn_donate))
-					.setOnClickListener(this);
-			break;
+			((Button) d.findViewById(R.id.btn_donate)).setOnClickListener(this);
+			return d;
 		case DIALOG_HELP:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.help);
-			myDialog.setTitle(R.string.help_);
-			break;
+			d = new Dialog(this);
+			d.setContentView(R.layout.help);
+			d.setTitle(R.string.help_);
+			return d;
 		case DIALOG_UPDATE:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.update);
-			myDialog.setTitle(R.string.changelog_);
-			LinearLayout layout = (LinearLayout) myDialog
-					.findViewById(R.id.base_view);
+			d = new Dialog(this);
+			d.setContentView(R.layout.update);
+			d.setTitle(R.string.changelog_);
+			LinearLayout layout = (LinearLayout) d.findViewById(R.id.base_view);
 			TextView tw;
 			String[] changes = this.getResources().getStringArray(
 					R.array.updates);
@@ -790,18 +764,17 @@ public class WebSMS extends Activity implements OnClickListener,
 				tw.setText(c);
 				layout.addView(tw);
 			}
-			break;
+			return d;
 		case DIALOG_CAPTCHA:
-			myDialog = new Dialog(this);
-			myDialog.setContentView(R.layout.captcha);
-			myDialog.setCancelable(false);
-			((Button) myDialog.findViewById(R.id.captcha_btn))
+			d = new Dialog(this);
+			d.setContentView(R.layout.captcha);
+			d.setCancelable(false);
+			((Button) d.findViewById(R.id.captcha_btn))
 					.setOnClickListener(this);
-			break;
+			return d;
 		default:
-			myDialog = null;
+			return null;
 		}
-		return myDialog;
 	}
 
 	/**

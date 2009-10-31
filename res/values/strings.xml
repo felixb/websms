@@ -24,19 +24,30 @@
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.5.3</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX, o2)</string>
-	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate)</string>
+	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX,
+		o2)</string>
+	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt;
+		(Sipgate)</string>
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_edt_">Enter the word above here:</string>
 	<string name="captcha_btn_">Submit</string>
+	<string name="change_connector_">Change\nconnector</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
-	<string name="donate_">Donate (and remove ads)</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152
 	</string>
+	<string name="donate_mail">f@ub0r.de</string>
+	<string name="donate_subject">I'm the donator. My sender hash is...</string>
+	<string name="donate_">Donate/remove ads</string>
+	<string name="remove_ads">Remove ads</string>
+	<string name="postdonate">To remove ads, you need to send me the MD5 hash
+		of your mobile number. This hash is a one-way-function. It is not
+		traceable back to you. I'll remove your ads with the next release.
+	</string>
+	<string name="more_">More Apps..</string>
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="enable_sipgate">Enable Sipgate</string>
@@ -52,16 +63,19 @@
 		the menu button.</string>
 	<string name="log_error">ERROR</string>
 	<string name="log_error_captcha">Your provider is blocking this app witch a
-	captcha. It seams to work for a while after logging in with your web browser.</string>
-	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
+		captcha. It seams to work for a while after logging in with your web
+		browser.</string>
+	<string name="log_error_defprefix">Please enter a valid countrycode as default
+		prefix. E.g. "+49".</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
-	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your o2 supports Web2SMS.</string>
+	<string name="log_error_prefix">Your countrycode is not supported yet. Contact
+		me if your o2 supports Web2SMS.</string>
 	<string name="log_error_pw">Wrong customer ID or password given!</string>
 	<string name="log_error_sender">Wrong sender! Set it in international form
 		like +4917012345678.</string>
 	<string name="log_error_sender_unregistered">Sender must be registered and confirmed by
-	GMX.</string>
+		GMX.</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_error_service">Service is down! Please try again later.</string>
 	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
@@ -81,18 +95,17 @@
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
 	<string name="user_sipgate_">Sipgate Username</string>
-	<string name="user_sipgate_hint">Onlineusername for sipgate.de</string>
+	<string name="user_sipgate_hint">Onlineusername for sipgate.de
+	</string>
 	<string name="password_sipgate_">Sipgate Password</string>
-	<string name="password_sipgate_hint">Onlinepassword for sipgate.de</string>
+	<string name="password_sipgate_hint">Onlinepassword for sipgate.de
+	</string>
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
-	<string name="send_gmx">Send (GMX)</string>
-	<string name="send_o2">Send (o2)</string>
-	<string name="send_sipgate">Send (Sipgate)</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
@@ -100,14 +113,21 @@
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Reduce GUI for touch keys</string>
+	<string name="softkeyboard_hint">Reduce GUI for touch keys. Restart App.
+	</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git
 	</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
-	<string name="website">http://code.google.com/p/andblock/</string>
+	<string name="website">http://code.google.com/p/andblock/
+	</string>
 	<string name="text__">Text</string>
 	<string name="text_">Text:</string>
 	<string name="to_">To:</string>
 	<string name="to_hint">Name or Number</string>
+	<string-array name="connectors">
+		<item>GMX</item>
+		<item>o2</item>
+		<item>Sipgate</item>
+	</string-array>
 </resources>

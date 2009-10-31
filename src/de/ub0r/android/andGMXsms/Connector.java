@@ -256,6 +256,25 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Get Connectors name.
+	 * 
+	 * @param con
+	 *            Context to read the strings
+	 * @param connector
+	 *            connector
+	 * @return name
+	 */
+	public static final String getConnectorName(final Context con,
+			final short connector) {
+		String[] ret = con.getResources().getStringArray(R.array.connectors);
+		if (connector < ret.length) {
+			return ret[connector];
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Extract receivers from a parameters list.
 	 * 
 	 * @param params

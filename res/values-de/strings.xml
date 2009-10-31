@@ -31,7 +31,16 @@
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
-	<string name="donate_">Spenden (und Werbung entfernen)</string>
+	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...
+	</string>
+	<string name="donate_">Spenden/Werbung entfernen</string>
+	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5
+		Hash deiner Handynummer von dir. Der MD5 Hash ist eine Einwegfunktion und ist somit nicht zu
+		deiner Nummer Rückverfolgbar. Ich werde die Werbung mit dem nächsten
+		Release dann entfernen.
+	</string>
+	<string name="remove_ads">Werbung entfernen</string>
+	<string name="more_">Mehr Apps..</string>
 	<string name="enable_gmx">Aktiviere GMX</string>
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="enable_sipgate">Aktiviere Sipgate</string>
@@ -92,9 +101,6 @@
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567
 	</string>
 	<string name="send_">Senden</string>
-	<string name="send_gmx">Senden (GMX)</string>
-	<string name="send_o2">Senden (o2)</string>
-	<string name="send_sipgate">Senden (Sipgate)</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="settings_connectors">Einstellungen - Anbindungen</string>
@@ -102,7 +108,7 @@
 	<string name="settings_o2">Einstellungen - o2</string>
 	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Einfache GUI für touch keys</string>
+	<string name="softkeyboard_hint">Einfache GUI für touch keys. App neu starten.</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
 </resources>

@@ -17,17 +17,16 @@
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
 	-->
-<resources>
-	<string-array name="updates">
-		<item>v2.5.4: change notification icons, fix sending from contacts, remove ads for donator</item>
-		<item>v2.5.3: fix Sipgate.de Connector</item>
-		<item>v2.5.2: speed up o2</item>
-		<item>v2.5.1: remove ads for donator, hint to solve captcha</item>
-		<item>v2.5: Split IO from app, detect o2 captcha</item>
-		<item>v2.4.3: Check userinput for default prefix</item>
-		<item>v2.4.2: Remove ads for donator, fix o2 captcha</item>
-		<item>v2.4.1: Remove ads for donator, minor changes to Sipgate and GUI</item>
-		<item>v2.4: Add Sipgate.de Connector</item>
-		<item>v2.3: Add Changelog, auto follow GMX hostchange, fix for 1.6</item>
-	</string-array>
-</resources>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<TextView android:text="@string/postdonate" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:paddingLeft="5dip"
+			android:paddingRight="5dip" android:autoLink="web" />
+		<Button android:id="@+id/btn_donate" android:text="@string/send_"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginTop="10dip" android:layout_marginLeft="5dip"
+			android:layout_marginRight="5dip" />
+	</LinearLayout>
+</ScrollView>

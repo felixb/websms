@@ -28,36 +28,40 @@
 		android:visibility="gone" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" app:isGoneWithoutAd="true"
 		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2" />
-	<!--
-		We could append app:testing="true" above to always get the test ad
-		back
-	-->
 
 	<TextView android:text="@string/free_" android:id="@+id/freecount"
 		android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
 	<TextView android:text="@string/to_" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" />
-	<MultiAutoCompleteTextView android:text=""
-		android:id="@+id/to" android:hint="@string/to_hint"
-		android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	<TextView android:text="@string/text_" android:id="@+id/text_"
-		android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
-	<EditText android:id="@+id/text" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_gravity="top"
-		android:layout_weight="1" />
 
 	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_weight="0">
-		<Button android:text="@string/send_" android:id="@+id/send_"
+		android:layout_height="fill_parent">
+		<LinearLayout android:orientation="vertical"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" />
-		<Button android:text="@string/change_connector_" android:id="@+id/change_connector"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" />
-		<Button android:id="@+id/cancel" android:text="@android:string/cancel"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" />
+			android:layout_weight="1">
+
+			<MultiAutoCompleteTextView android:text=""
+				android:id="@+id/to" android:hint="@string/to_hint"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			<TextView android:text="@string/text_" android:id="@+id/text_"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+			<EditText android:id="@+id/text" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_gravity="top"
+				android:layout_weight="1" />
+		</LinearLayout>
+
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="wrap_content" android:layout_height="fill_parent">
+			<Button android:text="@string/send_" android:id="@+id/send_"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			<Button android:text="@string/change_connector_" android:id="@+id/change_connector"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1" />
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
