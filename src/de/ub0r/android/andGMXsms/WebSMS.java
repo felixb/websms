@@ -767,6 +767,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return d;
 		case DIALOG_CAPTCHA:
 			d = new Dialog(this);
+			d.setTitle(R.string.captcha_);
 			d.setContentView(R.layout.captcha);
 			d.setCancelable(false);
 			((Button) d.findViewById(R.id.captcha_btn))

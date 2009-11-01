@@ -22,11 +22,10 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent">
 		<ImageView android:id="@+id/captcha_img"
 			android:layout_width="wrap_content" android:layout_height="wrap_content" />
-		<TextView android:text="@string/captcha_edt_"
-			android:layout_width="fill_parent" android:layout_height="wrap_content" />
-		<EditText android:id="@+id/captcha_edt"
-			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		<EditText android:id="@+id/captcha_edt" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
 		<Button android:id="@+id/captcha_btn" android:text="@string/captcha_btn_"
-			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:padding="5dip" />
 	</LinearLayout>
 </ScrollView>
