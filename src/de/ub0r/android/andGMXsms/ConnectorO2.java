@@ -179,16 +179,18 @@ public class ConnectorO2 extends Connector {
 	 *             MalformedCookieException
 	 * @throws URISyntaxException
 	 *             URISyntaxException
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	private boolean solveCaptcha(final short operator, final String flow)
-			throws IOException, MalformedCookieException, URISyntaxException {
+			throws IOException, MalformedCookieException, URISyntaxException,
+			WebSMSException {
 		HttpResponse response = getHttpClient(URLS[operator][URL_CAPTCHA],
 				this.cookies, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
-			return false;
 		}
 		updateCookies(this.cookies, response.getAllHeaders(),
 				URLS[operator][URL_CAPTCHA]);
@@ -213,17 +215,15 @@ public class ConnectorO2 extends Connector {
 				this.cookies, postData, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 		resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
-			return false;
 		}
 		updateCookies(this.cookies, response.getAllHeaders(),
 				URLS[operator][URL_CAPTCHA]);
-		final String htmlText = stream2String(response.getEntity().getContent());
+		final String htmlText = stream2str(response.getEntity().getContent());
 		if (htmlText.indexOf(STRINGS[operator][CHECK_WRONGCAPTCHA]) > 0) {
-			this.pushMessage(WebSMS.MESSAGE_LOG,
+			throw new WebSMSException(this.context,
 					R.string.log_error_wrongcaptcha);
-			return false;
 		}
 		return true;
 	}
@@ -242,9 +242,12 @@ public class ConnectorO2 extends Connector {
 	 *             MalformedCookieException
 	 * @throws URISyntaxException
 	 *             URISyntaxException
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	private boolean login(final short operator, final String flow)
-			throws IOException, MalformedCookieException, URISyntaxException {
+			throws IOException, MalformedCookieException, URISyntaxException,
+			WebSMSException {
 		// post data
 		final ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 				4);
@@ -258,15 +261,14 @@ public class ConnectorO2 extends Connector {
 				URLS[operator][URL_PRELOGIN]);
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
-			return false;
 		}
 		resp = this.cookies.size();
 		updateCookies(this.cookies, response.getAllHeaders(),
 				URLS[operator][URL_LOGIN]);
 		if (resp == this.cookies.size()) {
-			String htmlText = stream2String(response.getEntity().getContent());
+			String htmlText = stream2str(response.getEntity().getContent());
 			response = null;
 			if (htmlText.indexOf("captcha") > 0) {
 				final String newFlow = getFlowExecutionkey(htmlText);
@@ -299,9 +301,12 @@ public class ConnectorO2 extends Connector {
 	 *             MalformedCookieException
 	 * @throws URISyntaxException
 	 *             URISyntaxException
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	private boolean sendToO2(final short operator, final String htmlText)
-			throws IOException, MalformedCookieException, URISyntaxException {
+			throws IOException, MalformedCookieException, URISyntaxException,
+			WebSMSException {
 		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 				15);
 		String[] recvs = this.to;
@@ -336,12 +341,10 @@ public class ConnectorO2 extends Connector {
 		postData = null;
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http, ""
+			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
-			return false;
 		}
-		final String htmlText1 = stream2String(response.getEntity()
-				.getContent());
+		final String htmlText1 = stream2str(response.getEntity().getContent());
 		if (htmlText1.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
 			// check output html for success message
 			return false;
@@ -353,8 +356,10 @@ public class ConnectorO2 extends Connector {
 	 * Send data.
 	 * 
 	 * @return successful?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	private boolean sendData() {
+	private boolean sendData() throws WebSMSException {
 		// Operator of user. Selected by countrycode.
 		final short operator = this.getOperator();
 		if (operator < 0) {
@@ -367,13 +372,12 @@ public class ConnectorO2 extends Connector {
 					this.cookies, null, TARGET_AGENT, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
-						"" + resp);
-				return false;
+				throw new WebSMSException(this.context,
+						R.string.log_error_http, "" + resp);
 			}
 			updateCookies(this.cookies, response.getAllHeaders(),
 					URLS[operator][URL_PRELOGIN]);
-			String htmlText = stream2String(response.getEntity().getContent());
+			String htmlText = stream2str(response.getEntity().getContent());
 			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
 			htmlText = null;
 
@@ -385,9 +389,8 @@ public class ConnectorO2 extends Connector {
 					this.cookies, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
-						"" + resp);
-				return false;
+				throw new WebSMSException(this.context,
+						R.string.log_error_http, "" + resp);
 			}
 			updateCookies(this.cookies, response.getAllHeaders(),
 					URLS[operator][URL_SMSCENTER]);
@@ -396,13 +399,12 @@ public class ConnectorO2 extends Connector {
 					null, TARGET_AGENT, URLS[operator][URL_SMSCENTER]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_http,
-						"" + resp);
-				return false;
+				throw new WebSMSException(this.context,
+						R.string.log_error_http, "" + resp);
 			}
 			updateCookies(this.cookies, response.getAllHeaders(),
 					URLS[operator][URL_PRESEND]);
-			htmlText = stream2String(response.getEntity().getContent());
+			htmlText = stream2str(response.getEntity().getContent());
 			int i = htmlText.indexOf(STRINGS[operator][CHECK_FREESMS]);
 			if (i > 0) {
 				int j = htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS], i);
@@ -435,9 +437,11 @@ public class ConnectorO2 extends Connector {
 	 * Get free sms count.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	@Override
-	protected final boolean updateMessages() {
+	protected final boolean updateMessages() throws WebSMSException {
 		return this.sendData();
 	}
 
@@ -445,9 +449,11 @@ public class ConnectorO2 extends Connector {
 	 * Send sms.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	@Override
-	protected final boolean sendMessage() {
+	protected final boolean sendMessage() throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
 			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);

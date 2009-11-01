@@ -224,7 +224,7 @@ public class ConnectorGMX extends Connector {
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
-				String resultString = stream2String(c.getInputStream());
+				String resultString = stream2str(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 					this.pushMessage(WebSMS.MESSAGE_LOG,

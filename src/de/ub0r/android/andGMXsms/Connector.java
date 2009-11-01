@@ -143,6 +143,53 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	private static int countUpdates = 0;
 
 	/**
+	 * Exception while Connector IO.
+	 * 
+	 * @author flx
+	 */
+	protected static class WebSMSException extends Exception {
+
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -6215729019426883487L;
+
+		/**
+		 * Create a new WebSMSException.
+		 * 
+		 * @param s
+		 *            error message
+		 */
+		public WebSMSException(final String s) {
+			super(s);
+		}
+
+		/**
+		 * Create a new WebSMSException.
+		 * 
+		 * @param c
+		 *            Context to resolve resource id
+		 * @param rid
+		 *            error message as resource id
+		 */
+		public WebSMSException(final Context c, final int rid) {
+			super(c.getString(rid));
+		}
+
+		/**
+		 * Create a new WebSMSException.
+		 * 
+		 * @param c
+		 *            Context to resolve resource id
+		 * @param rid
+		 *            error message as resource id
+		 * @param s
+		 *            error message
+		 */
+		public WebSMSException(final Context c, final int rid, final String s) {
+			super(c.getString(rid) + s);
+		}
+	}
+
+	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
 	 * @param con
@@ -298,7 +345,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @throws IOException
 	 *             IOException
 	 */
-	protected static final String stream2String(final InputStream is)
+	protected static final String stream2str(final InputStream is)
 			throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(is), BUFSIZE);
@@ -438,8 +485,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * Get free sms count.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	protected abstract boolean updateMessages();
+	protected abstract boolean updateMessages() throws WebSMSException;
 
 	/**
 	 * Bootstrap: Get preferences. This default implementation odes nothing!
@@ -447,8 +496,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param params
 	 *            Parameters
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	protected boolean doBootstrap(final String[] params) {
+	protected boolean doBootstrap(final String[] params) throws WebSMSException {
 		return false;
 	}
 
@@ -456,8 +507,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * Send sms.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	protected abstract boolean sendMessage();
+	protected abstract boolean sendMessage() throws WebSMSException;
 
 	/**
 	 * Prepare reciepients before sending.
@@ -492,30 +545,35 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final Boolean doInBackground(final String... params) {
-		boolean ret = false;
-		String t;
-		if (params == null || params[ID_ID] == null) {
-			t = ID_UPDATE;
-		} else {
-			t = params[ID_ID];
+		try {
+			boolean ret = false;
+			String t;
+			if (params == null || params[ID_ID] == null) {
+				t = ID_UPDATE;
+			} else {
+				t = params[ID_ID];
+			}
+			this.type = t;
+			if (t == ID_UPDATE) {
+				this.publishProgress(false);
+				ret = this.updateMessages();
+			} else if (t == ID_BOOSTR) {
+				this.publishProgress(false);
+				ret = this.doBootstrap(params);
+			} else if (t == ID_SEND) {
+				this.notificationID = getNotificationID();
+				this.text = params[ID_TEXT];
+				this.tos = params[ID_TO];
+				// this.to = getReceivers(params);
+				this.prepareSend();
+				this.publishProgress(false);
+				ret = this.sendMessage();
+			}
+			return ret;
+		} catch (WebSMSException e) {
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
+			return false;
 		}
-		this.type = t;
-		if (t == ID_UPDATE) {
-			this.publishProgress(false);
-			ret = this.updateMessages();
-		} else if (t == ID_BOOSTR) {
-			this.publishProgress(false);
-			ret = this.doBootstrap(params);
-		} else if (t == ID_SEND) {
-			this.notificationID = getNotificationID();
-			this.text = params[ID_TEXT];
-			this.tos = params[ID_TO];
-			// this.to = getReceivers(params);
-			this.prepareSend();
-			this.publishProgress(false);
-			ret = this.sendMessage();
-		}
-		return ret;
 	}
 
 	/**
