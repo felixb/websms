@@ -12,7 +12,7 @@ git diff
 
 ant debug || exit
 
-mv bin/*-debug.apk" ~/public_html/h/flx/ 2> /dev/null
+mv bin/*-debug.apk ~/public_html/h/flx/ 2> /dev/null
 
 echo "enter for commit+tag"
 read a
