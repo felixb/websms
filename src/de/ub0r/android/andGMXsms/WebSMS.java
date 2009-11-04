@@ -300,9 +300,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				final String recipient = data.getHost();
 				String text = data.getPath();
 				String error = null;
-				final int i = text.lastIndexOf('/');
+				final int i = text.lastIndexOf("///");
 				if (i > 0) {
-					error = text.substring(i + 1);
+					error = text.substring(i + 3);
 					text = text.substring(0, i);
 				}
 				if (recipient != null) {
@@ -327,8 +327,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 
-		this.bindService(new Intent(this, IOService.class), this,
-				Context.BIND_AUTO_CREATE);
+		final Intent i = new Intent(this, IOService.class);
+		this.bindService(i, this, Context.BIND_AUTO_CREATE);
+		this.startService(i);
 
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {
@@ -744,7 +745,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setContentView(R.layout.about);
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
-			((Button) d.findViewById(R.id.btn_donate)).setOnClickListener(this);
 			return d;
 		case DIALOG_HELP:
 			d = new Dialog(this);

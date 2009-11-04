@@ -460,8 +460,6 @@ public class ConnectorO2 extends Connector {
 			return false;
 		} else {
 			// result: ok
-			this.pushMessage(WebSMS.MESSAGE_RESET, null);
-			this.saveMessage(this.to, this.text);
 			return true;
 		}
 	}

@@ -18,7 +18,11 @@
  */
 package de.ub0r.android.andGMXsms;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -37,6 +41,9 @@ public class IOService extends Service {
 
 	/** Number of jobs running. */
 	private static int currentIOOps = 0;
+
+	/** Notification ID of this Service. */
+	private static int NOTIFICATION_PENDING = 0;
 
 	/**
 	 * Is some client bound to this service? IO Tasks can kill this service, if
@@ -79,10 +86,12 @@ public class IOService extends Service {
 	@Override
 	public final boolean onUnbind(final Intent intent) {
 		Log.d(TAG, "onUnbind()");
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
 		isBound = false;
 		if (currentIOOps <= 0) {
 			this.stopSelf();
 		}
+		Log.d(TAG, "onUnbind() return true");
 		return true;
 	}
 
@@ -111,6 +120,7 @@ public class IOService extends Service {
 		Log.d(TAG, "onCreate()");
 		// Don't kill me!
 		this.setForeground(true);
+		// use startForeground() / sopForeground() // FIXME: for API5
 		me = this;
 	}
 
@@ -121,6 +131,8 @@ public class IOService extends Service {
 	public final void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy()");
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
+		// FIXME: unsent messages should be cought here
 	}
 
 	/**
@@ -130,13 +142,46 @@ public class IOService extends Service {
 	 *            unregister task?
 	 */
 	public static final synchronized void register(final boolean unregister) {
+		Log.d(TAG, "register(" + unregister + ")");
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
 		if (unregister) {
 			--currentIOOps;
-			if (currentIOOps == 0 && !isBound && me != null) {
-				me.stopSelf();
-			}
 		} else {
 			++currentIOOps;
 		}
+		me.displayNotification(currentIOOps);
+		if (currentIOOps == 0 && !isBound && me != null) {
+			me.stopSelf();
+		}
+
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
+	}
+
+	/**
+	 * Display a notification for pending send.
+	 * 
+	 * @param count
+	 *            number of pending messages?
+	 */
+	private void displayNotification(final int count) {
+		Log.d(TAG, "displayNotification(" + count + ")");
+		NotificationManager mNotificationMgr = (NotificationManager) this
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		if (count == 0) {
+			mNotificationMgr.cancel(NOTIFICATION_PENDING);
+			Log.d(TAG, "displayNotification(" + count + ") return");
+			return;
+		}
+
+		final Notification notification = new Notification(
+				R.drawable.stat_notify_sms_pending, "", System
+						.currentTimeMillis());
+		final PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, WebSMS.class), 0);
+		notification.setLatestEventInfo(this, this
+				.getString(R.string.notify_sending), "", contentIntent);
+		notification.defaults |= Notification.FLAG_NO_CLEAR;
+		mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
+		Log.d(TAG, "displayNotification(" + count + ") return");
 	}
 }

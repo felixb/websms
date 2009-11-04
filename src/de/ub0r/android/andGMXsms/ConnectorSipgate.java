@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.andGMXsms;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
@@ -30,28 +31,29 @@ import android.content.Context;
 import android.util.Log;
 
 /**
- * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API
+ * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API.
  * 
- * @author mirweb
+ * @author Mirko Weber
  */
 public class ConnectorSipgate extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.Sipgate";
+	private static final String TAG = "WebSMS.Sipg";
 
 	/**
-	 * sipgate.de API URL
+	 * Sipgate.de API URL.
 	 */
 	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
 
 	/**
-	 * Send sms
+	 * Send sms.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 * @see de.ub0r.android.andGMXsms.Connector#sendMessage()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	protected boolean sendMessage() {
+	protected final boolean sendMessage() throws WebSMSException {
 		Log.d(TAG, "sendMessage()");
 		Object back;
 		try {
@@ -64,70 +66,64 @@ public class ConnectorSipgate extends Connector {
 					Log.d(TAG, "Telefonnummer:" + remoteUris.get(i));
 				}
 			}
-			Hashtable params = new Hashtable();
+			Hashtable<String, Serializable> params = new Hashtable<String, Serializable>();
 			params.put("RemoteUri", remoteUris);
 			params.put("TOS", "text");
 			params.put("Content", this.text);
 			back = client.call("samurai.SessionInitiateMulti", params);
 			Log.d(TAG, back.toString());
-			this.pushMessage(WebSMS.MESSAGE_RESET, null);
-			this.saveMessage(this.to, this.text);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
-			if (e.getFaultCode() == 401) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
-				return false;
+			if (e.getFaultCode() == HTTP_SERVICE_UNAUTHORIZED) {
+				throw new WebSMSException(this.context, R.string.log_error_pw);
 			}
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		}
 		return true;
 	}
 
 	/**
-	 * get balance of account in euro
+	 * Get balance of account in euro.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 * @see de.ub0r.android.andGMXsms.Connector#updateMessages()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	protected boolean updateMessages() {
+	protected final boolean updateMessages() throws WebSMSException {
 		Log.d(TAG, "updateMessage()");
-		Map back = null;
+		Map<String, Object> back = null; // FIXME: change to value's type.
 		try {
 			XMLRPCClient client = this.init();
-			back = (Map) client.call("samurai.BalanceGet");
+			back = (Map<String, Object>) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
-			if (back.get("StatusCode").equals(new Integer(200))) {
+			if (back.get("StatusCode").equals(new Integer(HTTP_SERVICE_OK))) {
 				WebSMS.BALANCE_SIPGATE = String.format("%.2f",
-						((Double) ((Map) back.get("CurrentBalance"))
+						((Double) ((Map<String, Object>) back
+								.get("CurrentBalance"))
 								.get("TotalIncludingVat")));
 			}
 			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
 			if (e.getFaultCode() == 401) {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
-				return false;
+				throw new WebSMSException(this.context, R.string.log_error_pw);
 			}
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		} catch (XMLRPCException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		}
 
 		return true;
 	}
 
 	/**
-	 * sets up and instance of XMLRPCClient
+	 * Sets up and instance of XMLRPCClient.
 	 * 
 	 * @return the initialized XMLRPCClient
 	 * @throws XMLRPCException

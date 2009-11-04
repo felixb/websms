@@ -48,23 +48,6 @@ public class ConnectorGMX extends Connector {
 	/** Target version of protocol. */
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
-	/** SMS DB: address. */
-	static final String ADDRESS = "address";
-	/** SMS DB: person. */
-	// private static final String PERSON = "person";
-	/** SMS DB: date. */
-	// private static final String DATE = "date";
-	/** SMS DB: read. */
-	static final String READ = "read";
-	/** SMS DB: status. */
-	// private static final String STATUS = "status";
-	/** SMS DB: type. */
-	static final String TYPE = "type";
-	/** SMS DB: body. */
-	static final String BODY = "body";
-	/** SMS DB: type - sent. */
-	static final int MESSAGE_TYPE_SENT = 2;
-
 	/** ID of mail in array. */
 	static final int ID_MAIL = 1;
 	/** ID of password in array. */
@@ -176,8 +159,11 @@ public class ConnectorGMX extends Connector {
 	 * @param packetData
 	 *            packetData
 	 * @return successful?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	private boolean sendData(final StringBuilder packetData) {
+	private boolean sendData(final StringBuilder packetData)
+			throws WebSMSException {
 		try {
 			// check connection:
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
@@ -213,13 +199,12 @@ public class ConnectorGMX extends Connector {
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == HTTP_SERVICE_UNAVAILABLE) {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_service);
+					throw new WebSMSException(this.context,
+							R.string.log_error_service, "" + resp);
 				} else {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_http, "" + +resp);
+					throw new WebSMSException(this.context,
+							R.string.log_error_http, "" + resp);
 				}
-				return false;
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
@@ -227,9 +212,8 @@ public class ConnectorGMX extends Connector {
 				String resultString = stream2str(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-					this.pushMessage(WebSMS.MESSAGE_LOG,
+					throw new WebSMSException(this.context,
 							R.string.log_error_server, "" + resultString);
-					return false;
 				}
 
 				// strip packet
@@ -245,8 +229,7 @@ public class ConnectorGMX extends Connector {
 					rslt = Integer.parseInt(resultValue);
 				} catch (Exception e) {
 					Log.e(TAG, null, e);
-					this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-					return false;
+					throw new WebSMSException(e.toString());
 				}
 				switch (rslt) {
 				case RSLT_OK: // ok
@@ -277,36 +260,30 @@ public class ConnectorGMX extends Connector {
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
-					return false;
+					throw new WebSMSException(this.context,
+							R.string.log_error_pw);
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
 					WebSMS.prefsPasswordGMX = "";
-					this.pushMessage(WebSMS.MESSAGE_LOG,
-							R.string.log_error_mail);
 					this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
-					return false;
+					throw new WebSMSException(this.context,
+							R.string.log_error_mail);
 				case RSLT_WRONG_SENDER: // wrong sender
-					this.pushMessage(WebSMS.MESSAGE_LOG,
+					throw new WebSMSException(this.context,
 							R.string.log_error_sender);
-					return false;
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
-					this.pushMessage(WebSMS.MESSAGE_LOG,
+					throw new WebSMSException(this.context,
 							R.string.log_error_sender_unregistered);
-					return false;
 				default:
-					this.pushMessage(WebSMS.MESSAGE_LOG, outp + " #" + rslt);
-					return false;
+					throw new WebSMSException(outp + " #" + rslt);
 				}
 			} else {
-				this.pushMessage(WebSMS.MESSAGE_LOG,
+				throw new WebSMSException(this.context,
 						R.string.log_http_header_missing);
-				return false;
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		}
 	}
 
@@ -314,9 +291,11 @@ public class ConnectorGMX extends Connector {
 	 * Get free sms count.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	@Override
-	protected final boolean updateMessages() {
+	protected final boolean updateMessages() throws WebSMSException {
 		return this.sendData(closeBuffer(this.openBuffer("GET_SMS_CREDITS",
 				"1.00", true)));
 	}
@@ -325,9 +304,11 @@ public class ConnectorGMX extends Connector {
 	 * Send sms.
 	 * 
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	@Override
-	protected final boolean sendMessage() {
+	protected final boolean sendMessage() throws WebSMSException {
 		StringBuilder packetData = this.openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
@@ -354,14 +335,10 @@ public class ConnectorGMX extends Connector {
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);
-			return false;
-		} else {
-			// result: ok
-			this.pushMessage(WebSMS.MESSAGE_RESET, null);
-			this.saveMessage(this.to, this.text);
-			return true;
+			throw new WebSMSException(this.context, R.string.log_error);
 		}
+		// result: ok
+		return true;
 	}
 
 	/**
@@ -370,9 +347,12 @@ public class ConnectorGMX extends Connector {
 	 * @param params
 	 *            Paramterters
 	 * @return ok?
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
 	@Override
-	protected final boolean doBootstrap(final String[] params) {
+	protected final boolean doBootstrap(final String[] params)
+			throws WebSMSException {
 		inBootstrap = true;
 		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
 				false);

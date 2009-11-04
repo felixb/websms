@@ -31,7 +31,7 @@
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>
-	<string name="change_connector_">Change\nconnector</string>
+	<string name="change_connector_">Change\nprovider</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>

@@ -63,6 +63,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.con";
 
+	/** HTTP Response 200. */
+	static final int HTTP_SERVICE_OK = 200;
+	/** HTTP Response 401. */
+	static final int HTTP_SERVICE_UNAUTHORIZED = 401;
 	/** HTTP Response 503. */
 	static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
@@ -101,6 +105,23 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Standard buffer size. */
 	public static final int BUFSIZE = 32768;
 
+	/** SMS DB: address. */
+	static final String ADDRESS = "address";
+	/** SMS DB: person. */
+	// private static final String PERSON = "person";
+	/** SMS DB: date. */
+	// private static final String DATE = "date";
+	/** SMS DB: read. */
+	static final String READ = "read";
+	/** SMS DB: status. */
+	// private static final String STATUS = "status";
+	/** SMS DB: type. */
+	static final String TYPE = "type";
+	/** SMS DB: body. */
+	static final String BODY = "body";
+	/** SMS DB: type - sent. */
+	static final int MESSAGE_TYPE_SENT = 2;
+
 	/** recipient, numbers only. */
 	protected String[] to;
 	/** recipient, names only. */
@@ -131,7 +152,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** ID of my notification. */
 	private int notificationID = 0;
 	/** Next notification ID. */
-	private static int nextNotificationID = 0;
+	private static int nextNotificationID = 1;
 
 	/** Message to log to the user. */
 	protected String failedMessage = null;
@@ -466,16 +487,19 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected final void saveMessage(final String[] reciepients,
 			final String msgText) {
+		if (reciepients == null || msgText == null) {
+			return;
+		}
 		for (int i = 0; i < reciepients.length; i++) {
 			if (reciepients[i] == null || reciepients[i].length() == 0) {
 				continue; // skip empty recipients
 			}
 			// save sms to content://sms/sent
 			ContentValues values = new ContentValues();
-			values.put(ConnectorGMX.ADDRESS, reciepients[i]);
-			values.put(ConnectorGMX.READ, 1);
-			values.put(ConnectorGMX.TYPE, ConnectorGMX.MESSAGE_TYPE_SENT);
-			values.put(ConnectorGMX.BODY, msgText);
+			values.put(ADDRESS, reciepients[i]);
+			values.put(READ, 1);
+			values.put(TYPE, MESSAGE_TYPE_SENT);
+			values.put(BODY, msgText);
 			this.context.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 		}
@@ -545,8 +569,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final Boolean doInBackground(final String... params) {
+		Log.d(TAG, "doInBackground()");
+		boolean ret = false;
+		if (this.context instanceof IOService) {
+			IOService.register(false);
+		}
 		try {
-			boolean ret = false;
 			String t;
 			if (params == null || params[ID_ID] == null) {
 				t = ID_UPDATE;
@@ -569,11 +597,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.publishProgress(false);
 				ret = this.sendMessage();
 			}
-			return ret;
 		} catch (WebSMSException e) {
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			this.pushMessage(WebSMS.MESSAGE_LOG, e.getMessage());
+			ret = false;
 		}
+		Log.d(TAG, "doInBackground() return " + ret);
+		return ret;
 	}
 
 	/**
@@ -605,12 +634,13 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
-	 * Display a notification for this mesage.
+	 * Display a notification for this message.
 	 * 
 	 * @param failed
 	 *            send failed?
 	 */
 	private void displayNotification(final boolean failed) {
+		Log.d(TAG, "displayNotification(" + failed + ")");
 		final Context c = this.context;
 		NotificationManager mNotificationMgr = (NotificationManager) c
 				.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -619,33 +649,25 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (rcvs.endsWith(",")) {
 			rcvs = rcvs.substring(0, rcvs.length() - 1);
 		}
-		if (failed) {
-			notification = new Notification(R.anim.stat_notify_sms_fail, c
-					.getString(R.string.notify_failed_), System
-					.currentTimeMillis());
-			final Intent i = new Intent(c, WebSMS.class);
-			if (this.failedMessage == null) {
-				this.failedMessage = c.getString(R.string.notify_failed_);
-			}
-			i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
-					+ Uri.encode(this.text + "/" + this.failedMessage)));
-			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
-					i, 0);
-			notification.setLatestEventInfo(c, c
-					.getString(R.string.notify_failed)
-					+ this.failedMessage, rcvs + ": " + this.text,
-					contentIntent);
-			notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		} else {
-			notification = new Notification(R.anim.stat_notify_sms_send, "",
-					System.currentTimeMillis());
-			final PendingIntent contentIntent = PendingIntent.getActivity(c, 0,
-					new Intent(c, WebSMS.class), 0);
-			notification.setLatestEventInfo(c, c
-					.getString(R.string.notify_sending)
-					+ rcvs, this.text, contentIntent);
+		if (!failed) {
+			Log.d(TAG, "displayNotification(" + failed + ") return");
+			return;
 		}
+		notification = new Notification(R.drawable.stat_notify_sms_failed, c
+				.getString(R.string.notify_failed_), System.currentTimeMillis());
+		final Intent i = new Intent(c, WebSMS.class);
+		if (this.failedMessage == null) {
+			this.failedMessage = c.getString(R.string.notify_failed_);
+		}
+		i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
+				+ Uri.encode(this.text + "///" + this.failedMessage)));
+		final PendingIntent contentIntent = PendingIntent.getActivity(c, 0, i,
+				0);
+		notification.setLatestEventInfo(c, c.getString(R.string.notify_failed)
+				+ this.failedMessage, rcvs + ": " + this.text, contentIntent);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mNotificationMgr.notify(this.notificationID, notification);
+		Log.d(TAG, "displayNotification(" + failed + ") return");
 	}
 
 	/**
@@ -656,11 +678,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	@Override
 	protected final void onPostExecute(final Boolean result) {
+		Log.d(TAG, "onPostExecute(" + result + ")");
 		final String t = this.type;
-		--countUpdates;
-		if (t == ID_UPDATE && countUpdates == 0) {
-			((WebSMS) this.context)
-					.setProgressBarIndeterminateVisibility(false);
+		if (t == ID_UPDATE) {
+			--countUpdates;
+			if (countUpdates == 0) {
+				((WebSMS) this.context)
+						.setProgressBarIndeterminateVisibility(false);
+			}
 		} else {
 			WebSMS.dialogString = null;
 			if (WebSMS.dialog != null) {
@@ -676,11 +701,16 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			if (!result) {
 				this.displayNotification(true);
 			} else {
+				this.saveMessage(this.to, this.text);
 				NotificationManager mNotificationMgr = (NotificationManager) this.context
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationMgr.cancel(this.notificationID);
 			}
 		}
+		if (this.context instanceof IOService) {
+			IOService.register(true);
+		}
+		Log.d(TAG, "onPostExecute(" + result + ") return");
 	}
 
 	/**

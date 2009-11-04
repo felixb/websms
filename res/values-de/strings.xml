@@ -27,6 +27,7 @@
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
 	<string name="captcha_">Gib das Wort unten ein</string>
 	<string name="captcha_btn_">Absenden</string>
+	<string name="change_connector_">Anderer\nProvider</string>
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>

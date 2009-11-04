@@ -23,8 +23,8 @@
 		android:title="@string/about_" />
 	<item android:id="@+id/item_help" android:icon="@android:drawable/ic_menu_help"
 		android:title="@string/help_" />
-	<item android:id="@+id/item_donate" android:icon="@drawable/ic_menu_donate"
+	<item android:id="@+id/item_donate" android:icon="@drawable/ic_menu_star"
 		android:title="@string/donate_" />
-	<item android:id="@+id/item_more" android:icon="@drawable/ic_menu_star"
+	<item android:id="@+id/item_more" android:icon="@drawable/ic_menu_windows"
 		android:title="@string/more_" />
 </menu>
