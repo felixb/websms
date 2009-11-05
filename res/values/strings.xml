@@ -85,7 +85,7 @@
 	<string name="mail_help">Your GMX eMail Address is needed.</string>
 	<string name="mail_hint">user@gmx.tld</string>
 	<string name="mail_">Mail address</string>
-	<string name="notify_sending">Sending SMS: </string>
+	<string name="notify_sending">Sending SMS</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="password_">GMX SMS Key</string>
