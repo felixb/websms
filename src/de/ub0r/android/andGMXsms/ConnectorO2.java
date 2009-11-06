@@ -123,6 +123,9 @@ public class ConnectorO2 extends Connector {
 	/** Object to sync with. */
 	final static Object CAPTCHA_SYNC = new Object();
 
+	/** Global html response. */
+	private String htmlText;
+
 	/** Cookies. */
 	private final ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 
@@ -268,11 +271,11 @@ public class ConnectorO2 extends Connector {
 		updateCookies(this.cookies, response.getAllHeaders(),
 				URLS[operator][URL_LOGIN]);
 		if (resp == this.cookies.size()) {
-			String htmlText = stream2str(response.getEntity().getContent());
+			this.htmlText = stream2str(response.getEntity().getContent());
 			response = null;
-			if (htmlText.indexOf("captcha") > 0) {
-				final String newFlow = getFlowExecutionkey(htmlText);
-				htmlText = null;
+			if (this.htmlText.indexOf("captcha") > 0) {
+				final String newFlow = getFlowExecutionkey(this.htmlText);
+				this.htmlText = null;
 				if (!(this.context instanceof WebSMS)
 						|| !this.solveCaptcha(operator, newFlow)) {
 					this.pushMessage(WebSMS.MESSAGE_LOG,
@@ -292,8 +295,6 @@ public class ConnectorO2 extends Connector {
 	 * 
 	 * @param operator
 	 *            operator to use.
-	 * @param htmlText
-	 *            preor htmlText
 	 * @return true if send in
 	 * @throws IOException
 	 *             IOException
@@ -304,9 +305,8 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendToO2(final short operator, final String htmlText)
-			throws IOException, MalformedCookieException, URISyntaxException,
-			WebSMSException {
+	private boolean sendToO2(final short operator) throws IOException,
+			MalformedCookieException, URISyntaxException, WebSMSException {
 		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 				15);
 		String[] recvs = this.to;
@@ -323,8 +323,8 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("SMSFrom", ""));
 		postData.add(new BasicNameValuePair("Frequency", "5"));
 
-		String[] st = htmlText.split("<input type=\"Hidden\" ");
-		// htmlText = null;
+		String[] st = this.htmlText.split("<input type=\"Hidden\" ");
+		this.htmlText = null;
 		for (String s : st) {
 			if (s.startsWith("name=")) {
 				String[] subst = s.split("\"", 5);
@@ -344,11 +344,13 @@ public class ConnectorO2 extends Connector {
 			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
 		}
-		final String htmlText1 = stream2str(response.getEntity().getContent());
-		if (htmlText1.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
+		this.htmlText = stream2str(response.getEntity().getContent());
+		if (this.htmlText.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
 			// check output html for success message
+			this.htmlText = null;
 			return false;
 		}
+		this.htmlText = null;
 		return true;
 	}
 
@@ -377,9 +379,10 @@ public class ConnectorO2 extends Connector {
 			}
 			updateCookies(this.cookies, response.getAllHeaders(),
 					URLS[operator][URL_PRELOGIN]);
-			String htmlText = stream2str(response.getEntity().getContent());
-			String flowExecutionKey = ConnectorO2.getFlowExecutionkey(htmlText);
-			htmlText = null;
+			this.htmlText = stream2str(response.getEntity().getContent());
+			final String flowExecutionKey = ConnectorO2
+					.getFlowExecutionkey(this.htmlText);
+			this.htmlText = null;
 
 			if (!this.login(operator, flowExecutionKey)) {
 				return false;
@@ -404,19 +407,21 @@ public class ConnectorO2 extends Connector {
 			}
 			updateCookies(this.cookies, response.getAllHeaders(),
 					URLS[operator][URL_PRESEND]);
-			htmlText = stream2str(response.getEntity().getContent());
-			int i = htmlText.indexOf(STRINGS[operator][CHECK_FREESMS]);
+			this.htmlText = stream2str(response.getEntity().getContent());
+			int i = this.htmlText.indexOf(STRINGS[operator][CHECK_FREESMS]);
 			if (i > 0) {
-				int j = htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS], i);
+				int j = this.htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS],
+						i);
 				if (j > 0) {
 					WebSMS.SMS_FREE[O2][WebSMS.SMS_FREE_COUNT] = Integer
-							.parseInt(htmlText.substring(i + 9, j).trim());
+							.parseInt(this.htmlText.substring(i + 9, j).trim());
 					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				}
 			}
 			if (this.text != null && this.to != null && this.to.length > 0) {
-				this.sendToO2(operator, htmlText);
+				this.sendToO2(operator);
 			}
+			this.htmlText = null;
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
 			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
