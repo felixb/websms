@@ -18,6 +18,8 @@
  */
 package de.ub0r.android.andGMXsms;
 
+import java.util.ArrayList;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -50,6 +52,12 @@ public class IOService extends Service {
 	 * no Client is bound and all IO is done.
 	 */
 	private static boolean isBound = false;
+
+	/** A list of notifications to display on destroy. */
+	private static ArrayList<Notification> notifications = new ArrayList<Notification>();
+
+	/** Next notification ID. */
+	private static int nextNotificationID = 1;
 
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
@@ -118,10 +126,19 @@ public class IOService extends Service {
 	public final void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "onCreate()");
-		// Don't kill me!
-		this.setForeground(true);
-		// use startForeground() / sopForeground() // FIXME: for API5
 		me = this;
+	}
+
+	/**
+	 * Display Notification for failed message.
+	 * 
+	 * @param n
+	 *            Notification
+	 */
+	private void displayFailedNotification(final Notification n) {
+		NotificationManager mNotificationMgr = (NotificationManager) this
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationMgr.notify(getNotificationID(), n);
 	}
 
 	/**
@@ -133,27 +150,53 @@ public class IOService extends Service {
 		Log.d(TAG, "onDestroy()");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
 		// FIXME: unsent messages should be cought here
+
+		final int s = IOService.notifications.size();
+		for (int i = 0; i < s; i++) {
+			this.displayFailedNotification(IOService.notifications.get(i));
+		}
 	}
 
 	/**
-	 * Register/unregister a IO task.
+	 * Register a IO task.
 	 * 
-	 * @param unregister
-	 *            unregister task?
+	 * @param n
+	 *            Notification for pending message
 	 */
-	public static final synchronized void register(final boolean unregister) {
-		Log.d(TAG, "register(" + unregister + ")");
+	public static final synchronized void register(final Notification n) {
+		Log.d(TAG, "register(" + n + ")");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
-		if (unregister) {
-			--currentIOOps;
-		} else {
-			++currentIOOps;
-		}
+		// Don't kill me!
+		me.setForeground(true);
+		// use startForeground() / sopForeground() // FIXME: for API5
+		notifications.add(n);
+		++currentIOOps;
 		me.displayNotification(currentIOOps);
-		if (currentIOOps == 0 && !isBound && me != null) {
-			me.stopSelf();
-		}
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
+	}
 
+	/**
+	 * Unregister a IO task.
+	 * 
+	 * @param n
+	 *            Notification for pending message
+	 * @param failed
+	 *            IO failed?
+	 */
+	public static final synchronized void unregister(final Notification n,
+			final boolean failed) {
+		Log.d(TAG, "unregister(" + n + ", " + failed + ")");
+		Log.d(TAG, "currentIOOps=" + currentIOOps);
+		if (failed) {
+			me.displayFailedNotification(n);
+		}
+		notifications.remove(n);
+		--currentIOOps;
+		me.displayNotification(currentIOOps);
+		if (currentIOOps == 0) {
+			me.setForeground(false);
+			// use startForeground() / sopForeground() // FIXME: for API5
+		}
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
 	}
 
@@ -183,5 +226,15 @@ public class IOService extends Service {
 		notification.defaults |= Notification.FLAG_NO_CLEAR;
 		mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
 		Log.d(TAG, "displayNotification(" + count + ") return");
+	}
+
+	/**
+	 * Get a fresh and unique ID for a new notification.
+	 * 
+	 * @return return the ID
+	 */
+	private static synchronized int getNotificationID() {
+		++nextNotificationID;
+		return nextNotificationID;
 	}
 }

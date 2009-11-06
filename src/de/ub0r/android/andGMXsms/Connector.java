@@ -43,7 +43,6 @@ import org.apache.http.impl.cookie.CookieSpecBase;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -149,11 +148,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Type of IO Op. */
 	protected String type;
 
-	/** ID of my notification. */
-	private int notificationID = 0;
-	/** Next notification ID. */
-	private static int nextNotificationID = 1;
-
 	/** Message to log to the user. */
 	protected String failedMessage = null;
 
@@ -162,6 +156,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Concurrent updates running. */
 	private static int countUpdates = 0;
+
+	/** Notification showed in case of failure. */
+	private Notification notification = null;
 
 	/**
 	 * Exception while Connector IO.
@@ -571,9 +568,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final Boolean doInBackground(final String... params) {
 		Log.d(TAG, "doInBackground()");
 		boolean ret = false;
-		if (this.context instanceof IOService) {
-			IOService.register(false);
-		}
 		try {
 			String t;
 			if (params == null || params[ID_ID] == null) {
@@ -589,11 +583,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.publishProgress(false);
 				ret = this.doBootstrap(params);
 			} else if (t == ID_SEND) {
-				this.notificationID = getNotificationID();
 				this.text = params[ID_TEXT];
 				this.tos = params[ID_TO];
 				// this.to = getReceivers(params);
 				this.prepareSend();
+				this.notification = this.updateNotification(null);
+				IOService.register(this.notification);
 				this.publishProgress(false);
 				ret = this.sendMessage();
 			}
@@ -628,33 +623,28 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			WebSMS.dialogString = c.getString(R.string.bootstrap_);
 			WebSMS.dialog = ProgressDialog.show(c, null, WebSMS.dialogString,
 					true);
-		} else if (t == ID_SEND) {
-			this.displayNotification(false);
 		}
 	}
 
 	/**
-	 * Display a notification for this message.
+	 * Update or Create a Notification.
 	 * 
-	 * @param failed
-	 *            send failed?
+	 * @param n
+	 *            Notification for update
+	 * @return created/updated Notification
 	 */
-	private void displayNotification(final boolean failed) {
-		Log.d(TAG, "displayNotification(" + failed + ")");
+	private Notification updateNotification(final Notification n) {
+		Notification notification = n;
 		final Context c = this.context;
-		NotificationManager mNotificationMgr = (NotificationManager) c
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = null;
 		String rcvs = this.tos.trim();
 		if (rcvs.endsWith(",")) {
 			rcvs = rcvs.substring(0, rcvs.length() - 1);
 		}
-		if (!failed) {
-			Log.d(TAG, "displayNotification(" + failed + ") return");
-			return;
+		if (notification == null) {
+			notification = new Notification(R.drawable.stat_notify_sms_failed,
+					c.getString(R.string.notify_failed_), System
+							.currentTimeMillis());
 		}
-		notification = new Notification(R.drawable.stat_notify_sms_failed, c
-				.getString(R.string.notify_failed_), System.currentTimeMillis());
 		final Intent i = new Intent(c, WebSMS.class);
 		if (this.failedMessage == null) {
 			this.failedMessage = c.getString(R.string.notify_failed_);
@@ -666,8 +656,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		notification.setLatestEventInfo(c, c.getString(R.string.notify_failed)
 				+ this.failedMessage, rcvs + ": " + this.text, contentIntent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		mNotificationMgr.notify(this.notificationID, notification);
-		Log.d(TAG, "displayNotification(" + failed + ") return");
+		return notification;
 	}
 
 	/**
@@ -698,17 +687,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			}
 		}
 		if (t == ID_SEND) {
-			if (!result) {
-				this.displayNotification(true);
-			} else {
+			if (result) {
 				this.saveMessage(this.to, this.text);
-				NotificationManager mNotificationMgr = (NotificationManager) this.context
-						.getSystemService(Context.NOTIFICATION_SERVICE);
-				mNotificationMgr.cancel(this.notificationID);
+			} else {
+				this.updateNotification(this.notification);
 			}
 		}
 		if (this.context instanceof IOService) {
-			IOService.register(true);
+			IOService.unregister(this.notification, !result);
 		}
 		Log.d(TAG, "onPostExecute(" + result + ") return");
 	}
@@ -766,16 +752,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		}
 		return recipient.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
-	}
-
-	/**
-	 * Get a fresh and unique ID for a new notification.
-	 * 
-	 * @return return the ID
-	 */
-	private static synchronized int getNotificationID() {
-		++nextNotificationID;
-		return nextNotificationID;
 	}
 
 	/**
