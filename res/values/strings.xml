@@ -40,12 +40,12 @@
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152
 	</string>
 	<string name="donate_mail">f@ub0r.de</string>
-	<string name="donate_subject">I'm the donator. My sender hash is...</string>
+	<string name="donate_subject">I\'m the donator. My sender hash is...</string>
 	<string name="donate_">Donate/remove ads</string>
 	<string name="remove_ads">Remove ads</string>
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash
 		of your mobile number. This hash is a one-way-function. It is not
-		traceable back to you. I'll remove your ads with the next release.
+		traceable back to you. I\'ll remove your ads with the next release.
 	</string>
 	<string name="more_">More Apps..</string>
 	<string name="enable_gmx">Enable GMX</string>
