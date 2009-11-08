@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2009 Felix Bechstein
  * 
- * This file is part of AndGMXsms.
+ * This file is part of WebSMS.
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -201,14 +201,18 @@ public class IOService extends Service {
 	 */
 	private void displayNotification(final int count) {
 		Log.d(TAG, "displayNotification(" + count + ")");
-		// set foreground, don't let kill while IO
-
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (count == 0) {
-			this.stopForeground(true);
+			// set background
+			try {
+				new HelperAPI5().stopForeground(this, true);
+			} catch (VerifyError e) {
+				Log.d(TAG, "no api5 running");
+			}
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
 		} else {
+			// set foreground, don't let kill while IO
 			final Notification notification = new Notification(
 					R.drawable.stat_notify_sms_pending, "", System
 							.currentTimeMillis());
@@ -218,7 +222,12 @@ public class IOService extends Service {
 					.getString(R.string.notify_sending), "", contentIntent);
 			notification.defaults |= Notification.FLAG_NO_CLEAR;
 			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
-			this.startForeground(NOTIFICATION_PENDING, notification);
+			try {
+				new HelperAPI5().startForeground(this, NOTIFICATION_PENDING,
+						notification);
+			} catch (VerifyError e) {
+				Log.d(TAG, "no api5 running");
+			}
 		}
 		Log.d(TAG, "displayNotification(" + count + ") return");
 	}
