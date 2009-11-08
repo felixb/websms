@@ -206,7 +206,7 @@ public class IOService extends Service {
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (count == 0) {
-			this.stopForeground(true);
+			this.setForeground(false);
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
 		} else {
 			final Notification notification = new Notification(
@@ -218,7 +218,7 @@ public class IOService extends Service {
 					.getString(R.string.notify_sending), "", contentIntent);
 			notification.defaults |= Notification.FLAG_NO_CLEAR;
 			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
-			this.startForeground(NOTIFICATION_PENDING, notification);
+			this.setForeground(true);
 		}
 		Log.d(TAG, "displayNotification(" + count + ") return");
 	}
