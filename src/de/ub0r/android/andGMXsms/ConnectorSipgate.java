@@ -45,12 +45,7 @@ public class ConnectorSipgate extends Connector {
 	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
 
 	/**
-	 * Send sms.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
-	 * @see de.ub0r.android.andGMXsms.Connector#sendMessage()
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
@@ -86,12 +81,7 @@ public class ConnectorSipgate extends Connector {
 	}
 
 	/**
-	 * Get balance of account in euro.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
-	 * @see de.ub0r.android.andGMXsms.Connector#updateMessages()
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {

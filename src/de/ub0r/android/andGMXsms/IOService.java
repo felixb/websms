@@ -45,13 +45,7 @@ public class IOService extends Service {
 	private static int currentIOOps = 0;
 
 	/** Notification ID of this Service. */
-	private static int NOTIFICATION_PENDING = 0;
-
-	/**
-	 * Is some client bound to this service? IO Tasks can kill this service, if
-	 * no Client is bound and all IO is done.
-	 */
-	private static boolean isBound = false;
+	private static final int NOTIFICATION_PENDING = 0;
 
 	/** A list of notifications to display on destroy. */
 	private static ArrayList<Notification> notifications = new ArrayList<Notification>();
@@ -67,16 +61,10 @@ public class IOService extends Service {
 	};
 
 	/**
-	 * Called on bind().
-	 * 
-	 * @param intent
-	 *            intend called
-	 * @return RPC callback
+	 * {@inheritDoc}
 	 */
-	@Override
 	public final IBinder onBind(final Intent intent) {
 		Log.d(TAG, "onBind()");
-		isBound = true;
 		return this.mBinder;
 	}
 
@@ -95,7 +83,6 @@ public class IOService extends Service {
 	public final boolean onUnbind(final Intent intent) {
 		Log.d(TAG, "onUnbind()");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
-		isBound = false;
 		if (currentIOOps <= 0) {
 			this.stopSelf();
 		}
@@ -104,23 +91,7 @@ public class IOService extends Service {
 	}
 
 	/**
-	 * Called when new clients have connected to the service, after it had
-	 * previously been notified that all had disconnected in its
-	 * onUnbind(Intent). This will only be called if the implementation of
-	 * onUnbind(Intent) was overridden to return true.
-	 * 
-	 * @param intent
-	 *            The Intent that was used to bind to this service, as given to
-	 *            Context.bindService. Note that any extras that were included
-	 *            with the Intent at that point will not be seen here.
-	 */
-	@Override
-	public final void onRebind(final Intent intent) {
-		isBound = true;
-	}
-
-	/**
-	 * Called on Service start.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void onCreate() {
@@ -142,19 +113,18 @@ public class IOService extends Service {
 	}
 
 	/**
-	 * Called on Service destroy.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy()");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
-		// FIXME: unsent messages should be cought here
-
 		final int s = IOService.notifications.size();
 		for (int i = 0; i < s; i++) {
 			this.displayFailedNotification(IOService.notifications.get(i));
 		}
+		this.displayNotification(0);
 	}
 
 	/**

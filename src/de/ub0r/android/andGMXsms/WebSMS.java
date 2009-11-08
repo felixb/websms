@@ -223,10 +223,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private IIOOp mIOOp;
 
 	/**
-	 * Called when the activity is first created.
-	 * 
-	 * @param savedInstanceState
-	 *            default param
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
@@ -337,7 +334,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 	}
 
-	/** Called on activity resume. */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected final void onResume() {
 		super.onResume();
@@ -403,7 +402,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 	}
 
-	/** Called on activity pause. */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final void onPause() {
 		super.onPause();
@@ -422,7 +423,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Called on Activity destroy.
+	 *{@inheritDoc}
 	 */
 	@Override
 	public final void onDestroy() {
@@ -576,10 +577,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * OnClick.
-	 * 
-	 * @param v
-	 *            View
+	 * {@inheritDoc}
 	 */
 	public final void onClick(final View v) {
 		switch (v.getId()) {
@@ -654,11 +652,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Create menu.
-	 * 
-	 * @param menu
-	 *            menu to inflate
-	 * @return ok/fail?
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
@@ -668,11 +662,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Handles item selections.
-	 * 
-	 * @param item
-	 *            menu item
-	 * @return done?
+	 *{@inheritDoc}
 	 */
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
@@ -708,11 +698,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Called to create dialog.
-	 * 
-	 * @param id
-	 *            Dialog id
-	 * @return dialog
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
@@ -779,12 +765,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Called to create dialog.
-	 * 
-	 * @param id
-	 *            Dialog id
-	 * @param dlg
-	 *            Dialog
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void onPrepareDialog(final int id, final Dialog dlg) {
@@ -812,15 +793,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Called when a connection to the Service has been established, with the
-	 * IBinder of the communication channel to the Service.
-	 * 
-	 * @param name
-	 *            The concrete component name of the service that has been
-	 *            connected.
-	 * @param service
-	 *            The IBinder of the Service's communication channel, which you
-	 *            can now make calls on.
+	 * {@inheritDoc}
 	 */
 	public final void onServiceConnected(final ComponentName name,
 			final IBinder service) {
@@ -828,11 +801,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Called when a connection to the Service has been lost.
-	 * 
-	 * @param name
-	 *            The concrete component name of the service that has been
-	 *            connected.
+	 * {@inheritDoc}
 	 */
 	public final void onServiceDisconnected(final ComponentName name) {
 		this.mIOOp = null;
@@ -856,10 +825,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public static class Preferences extends PreferenceActivity {
 		/**
-		 * Called on Create.
-		 * 
-		 * @param savedInstanceState
-		 *            saved Instance
+		 * {@inheritDoc}
 		 */
 		public final void onCreate(final Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -875,10 +841,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private class MessageHandler extends Handler {
 		/**
-		 * Handles incoming messages.
-		 * 
-		 * @param msg
-		 *            message
+		 * {@inheritDoc}
 		 */
 		@Override
 		public final void handleMessage(final Message msg) {
@@ -949,10 +912,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** TextWatcher updating char count on writing. */
 	private TextWatcher textWatcher = new TextWatcher() {
 		/**
-		 * Called after Text is changed.
-		 * 
-		 * @param s
-		 *            text
+		 * {@inheritDoc}
 		 */
 		public void afterTextChanged(final Editable s) {
 			WebSMS.this.textLabel.setText(WebSMS.this.textLabelRef + " ("
@@ -984,12 +944,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		private boolean[] changed = { false, false };
 
 		/**
-		 * Called when prefs are changed, added or removed.
-		 * 
-		 * @param prefs
-		 *            Preferences
-		 * @param key
-		 *            key
+		 *{@inheritDoc}
 		 */
 		public void onSharedPreferenceChanged(final SharedPreferences prefs,
 				final String key) {

@@ -439,11 +439,7 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
-	 * Get free sms count.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
@@ -451,11 +447,7 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
-	 * Send sms.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {

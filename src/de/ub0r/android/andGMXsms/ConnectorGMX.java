@@ -288,11 +288,7 @@ public class ConnectorGMX extends Connector {
 	}
 
 	/**
-	 * Get free sms count.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
@@ -301,11 +297,7 @@ public class ConnectorGMX extends Connector {
 	}
 
 	/**
-	 * Send sms.
-	 * 
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
@@ -342,13 +334,7 @@ public class ConnectorGMX extends Connector {
 	}
 
 	/**
-	 * Bootstrap: Get preferences.
-	 * 
-	 * @param params
-	 *            Paramterters
-	 * @return ok?
-	 * @throws WebSMSException
-	 *             WebSMSException
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected final boolean doBootstrap(final String[] params)
