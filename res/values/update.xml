@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.5.5: fix for android 2.0</item>
 		<item>v2.5.4: change notification icons, fix sending from contacts, remove ads for donator, fix failed send</item>
 		<item>v2.5.3: fix Sipgate.de Connector</item>
 		<item>v2.5.2: speed up o2</item>
