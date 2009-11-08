@@ -166,9 +166,6 @@ public class IOService extends Service {
 	public static final synchronized void register(final Notification n) {
 		Log.d(TAG, "register(" + n + ")");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
-		// Don't kill me!
-		me.setForeground(true);
-		// use startForeground() / sopForeground() // FIXME: for API5
 		notifications.add(n);
 		++currentIOOps;
 		me.displayNotification(currentIOOps);
@@ -193,10 +190,6 @@ public class IOService extends Service {
 		notifications.remove(n);
 		--currentIOOps;
 		me.displayNotification(currentIOOps);
-		if (currentIOOps == 0) {
-			me.setForeground(false);
-			// use startForeground() / sopForeground() // FIXME: for API5
-		}
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
 	}
 
@@ -208,23 +201,25 @@ public class IOService extends Service {
 	 */
 	private void displayNotification(final int count) {
 		Log.d(TAG, "displayNotification(" + count + ")");
+		// set foreground, don't let kill while IO
+
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (count == 0) {
+			this.stopForeground(true);
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
-			Log.d(TAG, "displayNotification(" + count + ") return");
-			return;
+		} else {
+			final Notification notification = new Notification(
+					R.drawable.stat_notify_sms_pending, "", System
+							.currentTimeMillis());
+			final PendingIntent contentIntent = PendingIntent.getActivity(this,
+					0, new Intent(this, WebSMS.class), 0);
+			notification.setLatestEventInfo(this, this
+					.getString(R.string.notify_sending), "", contentIntent);
+			notification.defaults |= Notification.FLAG_NO_CLEAR;
+			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
+			this.startForeground(NOTIFICATION_PENDING, notification);
 		}
-
-		final Notification notification = new Notification(
-				R.drawable.stat_notify_sms_pending, "", System
-						.currentTimeMillis());
-		final PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, WebSMS.class), 0);
-		notification.setLatestEventInfo(this, this
-				.getString(R.string.notify_sending), "", contentIntent);
-		notification.defaults |= Notification.FLAG_NO_CLEAR;
-		mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
 		Log.d(TAG, "displayNotification(" + count + ") return");
 	}
 
