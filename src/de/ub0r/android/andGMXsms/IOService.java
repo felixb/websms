@@ -43,6 +43,11 @@ public class IOService extends Service {
 
 	/** Number of jobs running. */
 	private static int currentIOOps = 0;
+	/**
+	 * Is some client bound to this service? IO Tasks can kill this service, if
+	 * no Client is bound and all IO is done.
+	 */
+	private static boolean isBound = false;
 
 	/** Notification ID of this Service. */
 	private static final int NOTIFICATION_PENDING = 0;
@@ -65,6 +70,7 @@ public class IOService extends Service {
 	 */
 	public final IBinder onBind(final Intent intent) {
 		Log.d(TAG, "onBind()");
+		IOService.isBound = true;
 		return this.mBinder;
 	}
 
@@ -83,6 +89,7 @@ public class IOService extends Service {
 	public final boolean onUnbind(final Intent intent) {
 		Log.d(TAG, "onUnbind()");
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
+		IOService.isBound = false;
 		if (currentIOOps <= 0) {
 			this.stopSelf();
 		}
@@ -160,6 +167,9 @@ public class IOService extends Service {
 		notifications.remove(n);
 		--currentIOOps;
 		me.displayNotification(currentIOOps);
+		if (currentIOOps <= 0 && !isBound) {
+			me.stopSelf();
+		}
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
 	}
 
@@ -173,7 +183,7 @@ public class IOService extends Service {
 		Log.d(TAG, "displayNotification(" + count + ")");
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		if (count == 0) {
+		if (count <= 0) {
 			this.setForeground(false);
 			// set background
 			try {
@@ -185,7 +195,8 @@ public class IOService extends Service {
 		} else {
 			// set foreground, don't let kill while IO
 			final Notification notification = new Notification(
-					R.drawable.stat_notify_sms_pending, "", System
+					R.drawable.stat_notify_sms_pending, this
+							.getString(R.string.notify_sending), System
 							.currentTimeMillis());
 			final PendingIntent contentIntent = PendingIntent.getActivity(this,
 					0, new Intent(this, WebSMS.class), 0);
