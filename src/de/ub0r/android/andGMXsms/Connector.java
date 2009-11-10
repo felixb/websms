@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2009 Felix Bechstein
  * 
- * This file is part of AndGMXsms.
+ * This file is part of WebSMS.
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -75,6 +75,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short O2 = 1;
 	/** Connector type: Sipgate. */
 	static final short SIPGATE = 2;
+	/** Connector type: Innosend. */
+	static final short INNOSEND = 3;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -302,13 +304,18 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			break;
 		case O2:
 			c = new ConnectorO2();
-			c.user = WebSMS.prefsSender;
+			c.user = "0" + WebSMS.prefsSender.substring(3);
 			c.password = WebSMS.prefsPasswordO2;
 			break;
 		case SIPGATE:
 			c = new ConnectorSipgate();
 			c.user = WebSMS.prefsUserSipgate;
 			c.password = WebSMS.prefsPasswordSipgate;
+			break;
+		case INNOSEND:
+			c = new ConnectorInnosend();
+			c.user = WebSMS.prefsUserInnosend;
+			c.password = WebSMS.prefsPasswordInnosend;
 			break;
 		default:
 			Log.e(TAG, "missing Connector");

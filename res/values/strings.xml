@@ -51,6 +51,7 @@
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="enable_sipgate">Enable Sipgate</string>
+	<string name="enable_innosend">Enable Innosend</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
@@ -100,6 +101,8 @@
 	<string name="password_sipgate_">Sipgate Password</string>
 	<string name="password_sipgate_hint">Onlinepassword for sipgate.de
 	</string>
+	<string name="user_innosend_">Innosend Username</string>
+	<string name="password_innosend_">Innosend Password</string>
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
@@ -112,6 +115,7 @@
 	<string name="settings_gmx">Preferences - GMX</string>
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
+	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="softkeyboard_">Touchscreen</string>
 	<string name="softkeyboard_hint">Reduce GUI for touch keys. Restart App.
 	</string>
@@ -121,6 +125,7 @@
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/andblock/
 	</string>
+	<string name="innosend_partner_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
 	<string name="text__">Text</string>
 	<string name="text_">Text:</string>
 	<string name="to_">To:</string>
@@ -129,5 +134,6 @@
 		<item>GMX</item>
 		<item>o2</item>
 		<item>Sipgate</item>
+		<item>Innosend</item>
 	</string-array>
 </resources>
