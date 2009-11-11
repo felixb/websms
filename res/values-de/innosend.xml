@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--                                                                                                                                          
+                Copyright (C) 2009 Felix Bechstein 
+        --> 
+        <!-- 
+                This file is part of AndGMXsms. This program is free software; you can 
+                redistribute it and/or modify it under the terms of the GNU General 
+                Public License as published by the Free Software Foundation; either 
+                version 3 of the License, or (at your option) any later version. 
+        --> 
+        <!-- 
+                This program is distributed in the hope that it will be useful, but 
+                WITHOUT ANY WARRANTY; without even the implied warranty of 
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+                General Public License for more details. You should have received a 
+                copy of the GNU General Public License along with this program; If 
+                not, see <http://www.gnu.org/licenses/>. 
+        --> 
+<resources>
+	<string name="log_error_innosend_111">IP-Sperre aktiv</string>
+	<string name="log_error_innosend_120">Absender fehlt</string>
+	<string name="log_error_innosend_121">Parameter fehlt: Typ fehlt</string>
+	<string name="log_error_innosend_122">Parameter fehlt: Text fehlt</string>
+	<string name="log_error_innosend_123">Parameter fehlt: Empf&#228;nger fehlt</string>
+	<string name="log_error_innosend_129">Falscher Absender</string>
+	<string name="log_error_innosend_130">Gateway-Problem: Rufnummer gesperrt</string>
+	<string name="log_error_innosend_140">Kein Guthaben mehr! Konto aufladen!</string>
+	<string name="log_error_innosend_150">SMS-Bomber-Schutz</string>
+	<string name="log_error_innosend_170">Datum falsch</string>
+	<string name="log_error_innosend_171">Datum in der Vergangenheit</string>
+	<string name="log_error_innosend_172">Zu viele Rufnummern</string>
+	<string name="log_error_innosend_173">Nummernformat falsch</string>
+</resources>

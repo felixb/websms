@@ -76,7 +76,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Connector type: Sipgate. */
 	static final short SIPGATE = 2;
 	/** Connector type: Innosend. */
-	static final short INNOSEND = 3;
+	static final short INNOSEND_FREE = 3;
+	/** Connector type: Innosend w/o sender. */
+	static final short INNOSEND_WO_SENDER = 4;
+	/** Connector type: Innosend w/ sender. */
+	static final short INNOSEND_W_SENDER = 5;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -312,8 +316,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c.user = WebSMS.prefsUserSipgate;
 			c.password = WebSMS.prefsPasswordSipgate;
 			break;
-		case INNOSEND:
-			c = new ConnectorInnosend();
+		case INNOSEND_FREE:
+		case INNOSEND_WO_SENDER:
+		case INNOSEND_W_SENDER:
+			c = new ConnectorInnosend(connector);
 			c.user = WebSMS.prefsUserInnosend;
 			c.password = WebSMS.prefsPasswordInnosend;
 			break;

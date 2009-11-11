@@ -511,14 +511,14 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (prefsEnableInnosend) {
 			++c;
-			con = Connector.INNOSEND;
+			con = Connector.INNOSEND_W_SENDER;
 		}
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
 		btn.setVisibility(View.VISIBLE);
-		if (c < 2) {
+		if (c < 2 && con != Connector.INNOSEND_W_SENDER) {
 			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
 			btn.setText(R.string.send_);
 			prefsConnector = con;
@@ -629,7 +629,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				Connector.update(this, Connector.SIPGATE);
 			}
 			if (prefsEnableInnosend) {
-				Connector.update(this, Connector.INNOSEND);
+				Connector.update(this, Connector.INNOSEND_W_SENDER);
 			}
 			break;
 		case R.id.btn_donate:
@@ -655,7 +655,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				items.add(allItems[Connector.SIPGATE]);
 			}
 			if (prefsEnableInnosend) {
-				items.add(allItems[Connector.INNOSEND]);
+				items.add(allItems[Connector.INNOSEND_FREE]);
+				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+				items.add(allItems[Connector.INNOSEND_W_SENDER]);
 			}
 			builder.setItems(items.toArray(new String[0]),
 					new DialogInterface.OnClickListener() {

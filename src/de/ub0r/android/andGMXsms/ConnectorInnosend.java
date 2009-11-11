@@ -38,6 +38,93 @@ public class ConnectorInnosend extends Connector {
 	/** Innosend Gateway URL. */
 	private static final String URL = "https://www.innosend.de/gateway/";
 
+	/** Innosend connector. */
+	private final short connector;
+
+	/**
+	 * Public Connector Constructor.
+	 * 
+	 * @param con
+	 *            connector type
+	 */
+	public ConnectorInnosend(final short con) {
+		switch (con) {
+		case INNOSEND_FREE:
+			this.connector = 0;
+			break; // FIXME
+		case INNOSEND_WO_SENDER:
+			this.connector = 2;
+			break;
+		case INNOSEND_W_SENDER:
+			this.connector = 4;
+			break;
+		default:
+			this.connector = 2;
+			break;
+		}
+	}
+
+	/**
+	 * Check return code from innosend.de.
+	 * 
+	 * @param ret
+	 *            return code
+	 * @return true if no error code
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	private boolean checkReturnCode(final int ret) throws WebSMSException {
+		switch (ret) {
+		case 100:
+		case 101:
+			return true;
+		case 111:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_111);
+		case 112:
+			throw new WebSMSException(this.context, R.string.log_error_pw);
+		case 120:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_111);
+		case 121:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_121);
+		case 122:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_122);
+		case 123:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_123);
+		case 129:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_129);
+		case 130:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_130);
+		case 140:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_140);
+		case 150:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_150);
+		case 170:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_170);
+		case 171:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_171);
+		case 172:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_172);
+		case 173:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_173);
+		default:
+			throw new WebSMSException(this.context, R.string.log_error,
+					" code: " + ret);
+		}
+	}
+
 	/**
 	 * Send data.
 	 * 
@@ -53,7 +140,8 @@ public class ConnectorInnosend extends Connector {
 				url.append("sms.php?");
 				url.append("text=");
 				url.append(URLEncoder.encode(this.text));
-				url.append("&type=2");
+				url.append("&type=");
+				url.append(this.connector);
 				url.append("&empfaenger=");
 				String[] recvs = this.to;
 				final int e = recvs.length;
@@ -94,16 +182,7 @@ public class ConnectorInnosend extends Connector {
 			} else {
 				int ret = Integer.parseInt(htmlText);
 				Log.d(TAG, url.toString());
-				switch (ret) {
-				case 100:
-					return true;
-				case 112:
-					throw new WebSMSException(this.context,
-							R.string.log_error_pw);
-				default:
-					throw new WebSMSException(this.context, R.string.log_error,
-							" code: " + ret);
-				}
+				return this.checkReturnCode(ret);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
