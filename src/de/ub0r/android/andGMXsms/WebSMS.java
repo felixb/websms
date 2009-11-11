@@ -50,11 +50,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -277,8 +279,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// register Listener
 		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.change_connector))
-				.setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
 		this.textLabelRef = this.getResources().getString(R.string.text__);
@@ -429,6 +429,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				.toString();
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
 
+		prefsConnector = Connector.getConnectorID(this, ((Spinner) this
+				.findViewById(R.id.change_connector)).getSelectedItem()
+				.toString());
+
 		// store input data to preferences
 		SharedPreferences.Editor editor = this.preferences.edit();
 		// common
@@ -436,6 +440,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.putString(PREFS_TEXT, lastMsg);
 		// commit changes
 		editor.commit();
+
+		this.savePreferences();
 	}
 
 	/**
@@ -496,38 +502,69 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void setButtons() {
 		int c = 0;
+		int s = 0;
 		short con = 0;
+
+		final ArrayList<String> items = new ArrayList<String>();
+		final String[] allItems = this.getResources().getStringArray(
+				R.array.connectors);
+
 		if (prefsEnableGMX) {
+			if (prefsConnector == Connector.GMX) {
+				s = c;
+			}
 			++c;
 			con = Connector.GMX;
+			items.add(allItems[Connector.GMX]);
 		}
 		if (prefsEnableO2) {
+			if (prefsConnector == Connector.O2) {
+				s = c;
+			}
 			++c;
 			con = Connector.O2;
+			items.add(allItems[Connector.O2]);
 		}
 		if (prefsEnableSipgate) {
+			if (prefsConnector == Connector.SIPGATE) {
+				s = c;
+			}
 			++c;
 			con = Connector.SIPGATE;
+			items.add(allItems[Connector.SIPGATE]);
 		}
 		if (prefsEnableInnosend) {
-			++c;
+			c += 2;
 			con = Connector.INNOSEND_W_SENDER;
+			// items.add(allItems[Connector.INNOSEND_FREE]);
+			items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+			items.add(allItems[Connector.INNOSEND_W_SENDER]);
+			if (prefsConnector == Connector.INNOSEND_WO_SENDER) {
+				s = c - 2;
+			}
+			if (prefsConnector == Connector.INNOSEND_W_SENDER) {
+				s = c - 1;
+			}
 		}
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
 		btn.setVisibility(View.VISIBLE);
-		if (c < 2 && con != Connector.INNOSEND_W_SENDER) {
+		if (c < 2) {
 			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
-			btn.setText(R.string.send_);
 			prefsConnector = con;
 		} else {
 			this.findViewById(R.id.change_connector)
 					.setVisibility(View.VISIBLE);
-			btn.setText(this.getString(R.string.send_) + " ("
-					+ Connector.getConnectorName(this, prefsConnector) + ")");
 		}
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.simple_spinner_item, items);
+		adapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		Spinner spinner = (Spinner) this.findViewById(R.id.change_connector);
+		spinner.setAdapter(adapter);
+		spinner.setSelection(s);
 	}
 
 	/**
@@ -637,6 +674,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			break;
 		case R.id.send_:
+			prefsConnector = Connector.getConnectorID(this, ((Spinner) this
+					.findViewById(R.id.change_connector)).getSelectedItem()
+					.toString());
 			this.send(prefsConnector);
 			break;
 		case R.id.change_connector:
@@ -655,7 +695,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				items.add(allItems[Connector.SIPGATE]);
 			}
 			if (prefsEnableInnosend) {
-				items.add(allItems[Connector.INNOSEND_FREE]);
+				// items.add(allItems[Connector.INNOSEND_FREE]);
 				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
 				items.add(allItems[Connector.INNOSEND_W_SENDER]);
 			}

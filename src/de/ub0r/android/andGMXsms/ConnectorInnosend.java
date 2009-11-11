@@ -145,11 +145,11 @@ public class ConnectorInnosend extends Connector {
 				url.append("&empfaenger=");
 				String[] recvs = this.to;
 				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder("00"
-						+ recvs[0].substring(1));
+				StringBuilder toBuf = new StringBuilder(
+						international2oldformat(recvs[0]));
 				for (int j = 1; j < e; j++) {
-					toBuf.append(";00");
-					toBuf.append(recvs[j].substring(1));
+					toBuf.append(";");
+					toBuf.append(international2oldformat(recvs[j]));
 				}
 				url.append(toBuf.toString());
 				toBuf = null;
@@ -157,7 +157,7 @@ public class ConnectorInnosend extends Connector {
 					url.append("&massen=1");
 				}
 				url.append("&absender=");
-				url.append("0" + WebSMS.prefsSender.substring(3));
+				url.append(international2national(WebSMS.prefsSender));
 				url.append('&');
 			} else {
 				url.append("konto.php?");

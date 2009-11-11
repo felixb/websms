@@ -31,7 +31,7 @@
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>
-	<string name="change_connector_">Change\nprovider</string>
+	<string name="change_connector_">Change provider</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
@@ -134,8 +134,8 @@
 		<item>GMX</item>
 		<item>o2</item>
 		<item>Sipgate</item>
-		<item>Innosend - free</item>
-		<item>Innosend - w/o sender</item>
-		<item>Innosend - w/ sender</item>
+		<item>Innosend\nfree</item>
+		<item>Innosend\nw/o sender</item>
+		<item>Innosend\nw/ sender</item>
 	</string-array>
 </resources>

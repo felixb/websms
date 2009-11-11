@@ -308,7 +308,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			break;
 		case O2:
 			c = new ConnectorO2();
-			c.user = "0" + WebSMS.prefsSender.substring(3);
+			c.user = international2national(WebSMS.prefsSender);
 			c.password = WebSMS.prefsPasswordO2;
 			break;
 		case SIPGATE:
@@ -350,6 +350,27 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Get Connector ID.
+	 * 
+	 * @param con
+	 *            Context to read the strings
+	 * @param connector
+	 *            connector
+	 * @return id
+	 */
+	public static final short getConnectorID(final Context con,
+			final String connector) {
+		String[] connectors = con.getResources().getStringArray(
+				R.array.connectors);
+		for (int i = 0; i < connectors.length; i++) {
+			if (connector.equals(connectors[i])) {
+				return (short) i;
+			}
+		}
+		return 0;
 	}
 
 	/**
@@ -765,6 +786,34 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		}
 		return recipient.replace(" ", "").replace("-", "").replace(".", "")
 				.replace("(", "").replace(")", "").trim();
+	}
+
+	/**
+	 * Convert international number to national.
+	 * 
+	 * @param number
+	 *            international number
+	 * @return national number
+	 */
+	public final static String international2national(final String number) {
+		if (number.startsWith(WebSMS.prefsDefPrefix)) {
+			return '0' + number.substring(WebSMS.prefsDefPrefix.length());
+		}
+		return number;
+	}
+
+	/**
+	 * Convert international number to old format. Eg. +49123 to 0049123
+	 * 
+	 * @param number
+	 *            international number starting with +
+	 * @return international number in old format starting with 00
+	 */
+	public final static String international2oldformat(final String number) {
+		if (number.startsWith("+")) {
+			return "00" + number.substring(1);
+		}
+		return number;
 	}
 
 	/**
