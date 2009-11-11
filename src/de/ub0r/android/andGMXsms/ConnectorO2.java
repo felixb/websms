@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2009 Felix Bechstein
  * 
- * This file is part of AndGMXsms.
+ * This file is part of WebSMS.
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -255,8 +255,7 @@ public class ConnectorO2 extends Connector {
 		final ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 				4);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
-		postData.add(new BasicNameValuePair("loginName", "0"
-				+ this.sender.substring(3)));
+		postData.add(new BasicNameValuePair("loginName", this.user));
 		postData.add(new BasicNameValuePair("password", this.password));
 		postData.add(new BasicNameValuePair("_eventId", "login"));
 		HttpResponse response = getHttpClient(URLS[operator][URL_LOGIN],

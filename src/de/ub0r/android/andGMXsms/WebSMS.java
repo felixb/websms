@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2009 Felix Bechstein
  * 
- * This file is part of AndGMXsms.
+ * This file is part of WebSMS.
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -86,6 +86,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_USER_SIPGATE = "user_sipgate";
 	/** Preference's name: user's password - sipgate. */
 	private static final String PREFS_PASSWORD_SIPGATE = "password_sipgate";
+	/** Preference's name: innosend username. */
+	private static final String PREFS_USER_INNOSEND = "user_innosend";
+	/** Preference's name: user's password - innosend. */
+	private static final String PREFS_PASSWORD_INNOSEND = "password_innosend";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -98,6 +102,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
+	/** Preference's name: enable innosend. */
+	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
 	/** Preference's name: gmx hostname id. */
 	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
@@ -113,12 +119,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferences: user's password - gmx. */
 	static String prefsPasswordGMX;
 	/** Preferences: user's password - o2. */
+	static String prefsPasswordO2;
 	/** Preferences: username sipgate. */
 	static String prefsUserSipgate;
 	/** Preferences: user's password - sipgate. */
 	static String prefsPasswordSipgate;
-	/** Preferences: user's password - o2. */
-	static String prefsPasswordO2;
+	/** Preferences: username innosend. */
+	static String prefsUserInnosend;
+	/** Preferences: user's password - innosend. */
+	static String prefsPasswordInnosend;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -129,14 +138,18 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsReadyO2 = false;
 	/** Preferences: ready for sipgate? */
 	static boolean prefsReadySipgate = false;
+	/** Preferences: ready for innosend? */
+	static boolean prefsReadyInnosend = false;
 	/** Remaining free sms. */
 	static String remFree = null;
 	/** Preferences: enable gmx. */
 	static boolean prefsEnableGMX = false;
 	/** Preferences: enable o2. */
 	static boolean prefsEnableO2 = false;
-	/** Preferences: enable o2. */
+	/** Preferences: enable sipgate. */
 	static boolean prefsEnableSipgate = false;
+	/** Preferences: enable innosend. */
+	static boolean prefsEnableInnosend = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
 	/** Preferences: gmx hostname id. */
@@ -207,6 +220,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final int SMS_FREE_LIMIT = 1;
 	// balance of sipgate.de
 	static String BALANCE_SIPGATE = "0.00";
+	// balance of innosend.de
+	static String BALANCE_INNOSEND = "0.00";
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -286,7 +301,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
 				String recipient = uri.getSchemeSpecificPart();
 				if (recipient != null) {
-					// recipient = AndGMXsms.cleanRecipient(recipient);
+					// recipient = WebSMS.cleanRecipient(recipient);
 					((EditText) this.findViewById(R.id.to)).setText(recipient);
 					lastTo = recipient;
 				}
@@ -452,6 +467,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
+
+		prefsEnableInnosend = this.preferences.getBoolean(
+				PREFS_ENABLE_INNOSEND, false);
+		prefsUserInnosend = this.preferences.getString(PREFS_USER_INNOSEND, "");
+		prefsPasswordInnosend = this.preferences.getString(
+				PREFS_PASSWORD_INNOSEND, "");
+
 		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
 		prefsNoAds = false;
@@ -487,12 +509,16 @@ public class WebSMS extends Activity implements OnClickListener,
 			++c;
 			con = Connector.SIPGATE;
 		}
+		if (prefsEnableInnosend) {
+			++c;
+			con = Connector.INNOSEND_W_SENDER;
+		}
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
 		btn.setVisibility(View.VISIBLE);
-		if (c < 2) {
+		if (c < 2 && con != Connector.INNOSEND_W_SENDER) {
 			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
 			btn.setText(R.string.send_);
 			prefsConnector = con;
@@ -539,6 +565,16 @@ public class WebSMS extends Activity implements OnClickListener,
 						R.string.log_empty_settings));
 			}
 			prefsReadySipgate = false;
+		}
+		if (prefsEnableInnosend && prefsUserInnosend.length() != 0
+				&& prefsPasswordInnosend.length() != 0) {
+			prefsReadyInnosend = true;
+		} else {
+			if (prefsEnableInnosend) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			prefsReadyInnosend = false;
 		}
 
 		this.setButtons();
@@ -592,6 +628,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (prefsEnableSipgate) {
 				Connector.update(this, Connector.SIPGATE);
 			}
+			if (prefsEnableInnosend) {
+				Connector.update(this, Connector.INNOSEND_W_SENDER);
+			}
 			break;
 		case R.id.btn_donate:
 			Uri uri = Uri.parse(this.getString(R.string.donate_url));
@@ -614,6 +653,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			if (prefsEnableSipgate) {
 				items.add(allItems[Connector.SIPGATE]);
+			}
+			if (prefsEnableInnosend) {
+				items.add(allItems[Connector.INNOSEND_FREE]);
+				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+				items.add(allItems[Connector.INNOSEND_W_SENDER]);
 			}
 			builder.setItems(items.toArray(new String[0]),
 					new DialogInterface.OnClickListener() {
@@ -836,7 +880,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * AndGMXsms's Handler to fetch MEssages from other Threads..
+	 * WebSMS's Handler to fetch MEssages from other Threads..
 	 * 
 	 * @author Felix Bechstein
 	 */
@@ -882,6 +926,13 @@ public class WebSMS extends Activity implements OnClickListener,
 					}
 					WebSMS.remFree += "Sipgate: ";
 					WebSMS.remFree += BALANCE_SIPGATE + " \u20AC";
+				}
+				if (WebSMS.prefsEnableInnosend) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
+					}
+					WebSMS.remFree += "Innosend: ";
+					WebSMS.remFree += BALANCE_INNOSEND + " \u20AC";
 				}
 				if (WebSMS.remFree.length() == 0) {
 					WebSMS.remFree = "---";
@@ -1025,7 +1076,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Send AndGMXsms a Message.
+	 * Send WebSMS a Message.
 	 * 
 	 * @param messageType
 	 *            type
