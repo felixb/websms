@@ -56,7 +56,8 @@
 			<Button android:text="@string/send_" android:id="@+id/send_"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1" />
-			<Button android:text="@string/change_connector_" android:id="@+id/change_connector"
+			<Spinner android:id="@+id/change_connector"
+				android:drawSelectorOnTop="true" android:prompt="@string/change_connector_"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1" />
 			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
