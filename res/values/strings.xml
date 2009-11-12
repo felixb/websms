@@ -18,8 +18,8 @@
 	-->
 <resources>
 	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and paid SMS
-		via GMX SMS-Manager, o2 Communication Center (Web2SMS) or sipgate.de.
+	<string name="about">WebSMS enables you to send free and cheap SMS via following providers:
+	GMX, o2, sipgate.de, innosend.de .
 	</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.5.4</string>
@@ -56,7 +56,7 @@
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
 	<string name="help">You need either a GMX SMS Account (e.g. GMX
-		ProMail) or o2 as provider to use this app.</string>
+		ProMail), an account at sipgate.de or innosend.de or o2 as provider to use this app.</string>
 	<string name="license">GPLv3 - see
 		http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>

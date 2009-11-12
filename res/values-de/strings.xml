@@ -17,9 +17,9 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about">Mit WebSMS kannst du SMS via GMX SMS-Manager, o2
-		Communication Center (web2sms) oder sipgate.de senden.Ggf. kannst du
-		dort deine FreiSMS nutzen!</string>
+	<string name="about">Mit WebSMS kannst du kostenlose und g&#252;nstige SMS verschicken. Derzeit werden folgende Provider unterstützt:
+	GMX, o2, sipgate.de, innosend.de .
+	Ggf. kannst du bei deinem Provider deine FreiSMS nutzen!</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
 	<string name="bootstrap_">Überprüfe Einstellungen...</string>
@@ -47,7 +47,7 @@
 	<string name="get_free">Frei SMS neu laden</string>
 	<string name="help_">Hilfe</string>
 	<string name="help">Um diese App. nutzen zu können brauchst du
-		entweder einen GMX SMS Account (GMX Freemail Plus, Promail, Topmail)
+		entweder einen GMX SMS Account (GMX Freemail Plus, Promail, Topmail), einen Account bei sipgate.de oder innosend.de
 		oder o2 als Provider!</string>
 	<string name="license">GPLv3 - siehe
 		http://www.gnu.org/licenses/gpl-3.0.txt</string>
