@@ -42,7 +42,15 @@ public class ConnectorSipgate extends Connector {
 	/**
 	 * Sipgate.de API URL.
 	 */
-	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
+	private static final String SIPGATE_URL = "https://"
+			+ "samurai.sipgate.net/RPC2";
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected ConnectorSipgate(final String u, final String p) {
+		super(u, p);
+	}
 
 	/**
 	 * {@inheritDoc}

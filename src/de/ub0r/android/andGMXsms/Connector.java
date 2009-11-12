@@ -140,9 +140,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected String text;
 
 	/** User. */
-	protected String user;
+	protected final String user;
 	/** Password. */
-	protected String password;
+	protected final String password;
 	/** Default prefix. */
 	private String defPrefix;
 	/** Sender. */
@@ -171,7 +171,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @author flx
 	 */
-	protected static class WebSMSException extends Exception {
+	static class WebSMSException extends Exception {
 
 		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = -6215729019426883487L;
@@ -211,6 +211,19 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		public WebSMSException(final Context c, final int rid, final String s) {
 			super(c.getString(rid) + s);
 		}
+	}
+
+	/**
+	 * Default Constructor.
+	 * 
+	 * @param u
+	 *            user
+	 * @param p
+	 *            password
+	 */
+	protected Connector(final String u, final String p) {
+		this.user = u;
+		this.password = p;
 	}
 
 	/**
@@ -302,26 +315,21 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		Connector c;
 		switch (connector) {
 		case GMX:
-			c = new ConnectorGMX();
-			c.user = WebSMS.prefsUserGMX;
-			c.password = WebSMS.prefsPasswordGMX;
+			c = new ConnectorGMX(WebSMS.prefsUserGMX, WebSMS.prefsPasswordGMX);
 			break;
 		case O2:
-			c = new ConnectorO2();
-			c.user = international2national(WebSMS.prefsSender);
-			c.password = WebSMS.prefsPasswordO2;
+			c = new ConnectorO2(international2national(WebSMS.prefsSender),
+					WebSMS.prefsPasswordO2);
 			break;
 		case SIPGATE:
-			c = new ConnectorSipgate();
-			c.user = WebSMS.prefsUserSipgate;
-			c.password = WebSMS.prefsPasswordSipgate;
+			c = new ConnectorSipgate(WebSMS.prefsUserSipgate,
+					WebSMS.prefsPasswordSipgate);
 			break;
 		case INNOSEND_FREE:
 		case INNOSEND_WO_SENDER:
 		case INNOSEND_W_SENDER:
-			c = new ConnectorInnosend(connector);
-			c.user = WebSMS.prefsUserInnosend;
-			c.password = WebSMS.prefsPasswordInnosend;
+			c = new ConnectorInnosend(WebSMS.prefsUserInnosend,
+					WebSMS.prefsPasswordInnosend, connector);
 			break;
 		default:
 			Log.e(TAG, "missing Connector");

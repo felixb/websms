@@ -73,6 +73,13 @@ public class ConnectorGMX extends Connector {
 	private String pw;
 
 	/**
+	 * {@inheritDoc}
+	 */
+	protected ConnectorGMX(final String u, final String p) {
+		super(u, p);
+	}
+
+	/**
 	 * Write key,value to StringBuilder.
 	 * 
 	 * @param buffer

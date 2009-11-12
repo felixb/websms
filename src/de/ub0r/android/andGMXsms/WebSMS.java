@@ -946,7 +946,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @author Felix Bechstein
 	 */
-	private class MessageHandler extends Handler {
+	class MessageHandler extends Handler {
 		/**
 		 * {@inheritDoc}
 		 */
@@ -1052,7 +1052,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @author Felix Bechstein
 	 */
-	private class MyPrefsOnChgListener implements
+	class MyPrefsOnChgListener implements
 			SharedPreferences.OnSharedPreferenceChangeListener {
 		/** Changed? */
 		private boolean[] changed = { false, false };
