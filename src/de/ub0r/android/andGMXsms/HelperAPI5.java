@@ -20,6 +20,11 @@ package de.ub0r.android.andGMXsms;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 
 /**
  * Helper class to set/unset background for api5 systems.
@@ -27,6 +32,56 @@ import android.app.Service;
  * @author flx
  */
 public class HelperAPI5 {
+
+	/** Sort Order. */
+	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
+			+ " DESC, "
+			+ ContactsContract.CommonDataKinds.Phone.TIMES_CONTACTED
+			+ " DESC, "
+			+ ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+			+ " ASC, " + ContactsContract.CommonDataKinds.Phone.TYPE;
+
+	/** Cursor's projection. */
+	private static final String[] PROJECTION = { //  
+	BaseColumns._ID, // 0
+			ContactsContract.Data.DISPLAY_NAME, // 1
+			ContactsContract.CommonDataKinds.Phone.NUMBER, // 2
+			ContactsContract.CommonDataKinds.Phone.TYPE // 3
+	};
+
+	/**
+	 * Run Query to update data.
+	 * 
+	 * @param mContentResolver
+	 *            a Content Resolver
+	 * @param constraint
+	 *            filter string
+	 * @return cursor
+	 */
+	final Cursor runQueryOnBackgroundThread(
+			final ContentResolver mContentResolver,
+			final CharSequence constraint) {
+		String where = null;
+
+		if (constraint != null) {
+			String filter = DatabaseUtils.sqlEscapeString('%' + constraint
+					.toString() + '%');
+
+			StringBuilder s = new StringBuilder();
+			s.append("(" + ContactsContract.Data.DISPLAY_NAME + " LIKE ");
+			s.append(filter);
+			s.append(") OR (" + ContactsContract.CommonDataKinds.Phone.DATA1
+					+ " LIKE ");
+			s.append(filter);
+			s.append(")");
+
+			where = s.toString();
+		}
+		return mContentResolver.query(
+				ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION,
+				where, null, SORT_ORDER);
+	}
+
 	/**
 	 * Run Service in foreground.
 	 * 

@@ -210,6 +210,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
 
+	/** Helper for API 5. */
+	static HelperAPI5 helperAPI5 = null;
+
 	/**
 	 * Remaining free sms. First dimension is the Connector, second is the
 	 * free/limit.
@@ -248,6 +251,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		// save ref to me.
 		me = this;
+		try {
+			WebSMS.helperAPI5 = new HelperAPI5();
+		} catch (VerifyError e) {
+			Log.d(TAG, "no api5 running");
+		}
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		// inflate XML
