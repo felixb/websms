@@ -25,7 +25,6 @@ import java.net.URLEncoder;
 import org.apache.http.HttpResponse;
 
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * AsyncTask to manage IO to Innosend.de API.
@@ -93,11 +92,8 @@ public class ConnectorInnosend extends Connector {
 		switch (ret) {
 		case 100:
 		case 101:
-			Toast.makeText(
-					this.context,
-					more + " "
-							+ this.context.getString(R.string.log_remain_free),
-					Toast.LENGTH_LONG).show();
+			// this.pushMessage(WebSMS.MESSAGE_LOG, more + " "
+			// + this.context.getString(R.string.log_remain_free));
 			return true;
 		case 161:
 			throw new WebSMSException(this.context,
