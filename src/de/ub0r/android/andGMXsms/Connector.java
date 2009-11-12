@@ -69,18 +69,20 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** HTTP Response 503. */
 	static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
+	/** Connector type: SMS. */
+	static final short SMS = 0;
 	/** Connector type: GMX. */
-	static final short GMX = 0;
+	static final short GMX = 1;
 	/** Connector type: O2. */
-	static final short O2 = 1;
+	static final short O2 = 2;
 	/** Connector type: Sipgate. */
-	static final short SIPGATE = 2;
+	static final short SIPGATE = 3;
 	/** Connector type: Innosend. */
-	static final short INNOSEND_FREE = 3;
+	static final short INNOSEND_FREE = 4;
 	/** Connector type: Innosend w/o sender. */
-	static final short INNOSEND_WO_SENDER = 4;
+	static final short INNOSEND_WO_SENDER = 5;
 	/** Connector type: Innosend w/ sender. */
-	static final short INNOSEND_W_SENDER = 5;
+	static final short INNOSEND_W_SENDER = 6;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -314,6 +316,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			final short connector) {
 		Connector c;
 		switch (connector) {
+		case SMS:
+			c = new ConnectorSMS();
+			break;
 		case GMX:
 			c = new ConnectorGMX(WebSMS.prefsUserGMX, WebSMS.prefsPasswordGMX);
 			break;

@@ -42,6 +42,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- AdMob SDK permissions -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest> 

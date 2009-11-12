@@ -41,7 +41,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.telephony.SmsMessage;
+import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -517,7 +517,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		final ArrayList<String> items = new ArrayList<String>();
 		final String[] allItems = this.getResources().getStringArray(
 				R.array.connectors);
-
+		s = c;
+		++c;
+		con = Connector.SMS;
+		items.add(allItems[Connector.SMS]);
 		if (prefsEnableGMX) {
 			if (prefsConnector == Connector.GMX) {
 				s = c;

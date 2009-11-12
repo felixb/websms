@@ -131,6 +131,7 @@
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
 	<string-array name="connectors">
+		<item>SMS</item>
 		<item>GMX</item>
 		<item>o2</item>
 		<item>Sipgate</item>
