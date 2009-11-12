@@ -54,7 +54,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -534,11 +533,14 @@ public class WebSMS extends Activity implements OnClickListener,
 			items.add(allItems[Connector.SIPGATE]);
 		}
 		if (prefsEnableInnosend) {
-			c += 2;
+			c += 3;
 			con = Connector.INNOSEND_W_SENDER;
-			// items.add(allItems[Connector.INNOSEND_FREE]);
+			items.add(allItems[Connector.INNOSEND_FREE]);
 			items.add(allItems[Connector.INNOSEND_WO_SENDER]);
 			items.add(allItems[Connector.INNOSEND_W_SENDER]);
+			if (prefsConnector == Connector.INNOSEND_FREE) {
+				s = c - 3;
+			}
 			if (prefsConnector == Connector.INNOSEND_WO_SENDER) {
 				s = c - 2;
 			}
@@ -823,18 +825,38 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setTitle(R.string.help_);
 			return d;
 		case DIALOG_UPDATE:
-			d = new Dialog(this);
-			d.setContentView(R.layout.update);
-			d.setTitle(R.string.changelog_);
-			LinearLayout layout = (LinearLayout) d.findViewById(R.id.base_view);
-			TextView tw;
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.changelog_);
 			String[] changes = this.getResources().getStringArray(
 					R.array.updates);
-			for (String c : changes) {
-				tw = new TextView(this);
-				tw.setText(c);
-				layout.addView(tw);
+			StringBuilder buf = new StringBuilder(changes[0]);
+			for (int i = 1; i < changes.length; i++) {
+				buf.append("\n\n");
+				buf.append(changes[i]);
 			}
+			builder.setIcon(android.R.drawable.ic_menu_info_details);
+			builder.setMessage(buf.toString());
+			builder.setCancelable(true);
+			builder.setPositiveButton(android.R.string.ok,
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int id) {
+							dialog.cancel();
+						}
+					});
+			builder.setNeutralButton(R.string.innosend_partner_,
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int id) {
+							Uri uri = Uri.parse(WebSMS.this
+									.getString(R.string.innosend_partner_url));
+							WebSMS.this.startActivity(new Intent(
+									Intent.ACTION_VIEW, uri));
+						}
+					});
+			buf = null;
+
+			d = builder.create();
 			return d;
 		case DIALOG_CAPTCHA:
 			d = new Dialog(this);

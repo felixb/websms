@@ -75,6 +75,7 @@
 	<string name="log_error_wrongcaptcha">Captcha war falsch. Bitte versuche es
 		nochmal.</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
+	<string name="log_remain_free">FreiSMS noch &#252;brig</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>
 	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.
@@ -112,6 +113,7 @@
 	<string name="softkeyboard_">Touchscreen</string>
 	<string name="softkeyboard_hint">Einfache GUI für touch keys. App neu
 		starten.</string>
+	<string name="innosend_partner_">Innosend.de Account anlegen</string>
 	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
 </resources>

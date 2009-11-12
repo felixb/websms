@@ -26,6 +26,7 @@
 	<string name="log_error_innosend_130">Gateway problem: blocked phone number</string>
 	<string name="log_error_innosend_140">No more credit! Recharge account!</string>
 	<string name="log_error_innosend_150">SMS bomber protection</string>
+	<string name="log_error_innosend_161">Next free SMS available at:</string>
 	<string name="log_error_innosend_170">Wrong date</string>
 	<string name="log_error_innosend_171">Date in past</string>
 	<string name="log_error_innosend_172">Too many phone numbers</string>

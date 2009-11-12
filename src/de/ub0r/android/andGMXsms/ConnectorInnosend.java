@@ -25,6 +25,7 @@ import java.net.URLEncoder;
 import org.apache.http.HttpResponse;
 
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * AsyncTask to manage IO to Innosend.de API.
@@ -38,6 +39,9 @@ public class ConnectorInnosend extends Connector {
 	/** Innosend Gateway URL. */
 	private static final String URL = "https://www.innosend.de/gateway/";
 
+	/** Try to send free sms. */
+	private final boolean free;
+
 	/** Innosend connector. */
 	private final short connector;
 
@@ -50,17 +54,52 @@ public class ConnectorInnosend extends Connector {
 	public ConnectorInnosend(final short con) {
 		switch (con) {
 		case INNOSEND_FREE:
-			this.connector = 0;
-			break; // FIXME
+			this.connector = 2;
+			this.free = true;
+			break;
 		case INNOSEND_WO_SENDER:
 			this.connector = 2;
+			this.free = false;
 			break;
 		case INNOSEND_W_SENDER:
+			this.free = false;
 			this.connector = 4;
 			break;
 		default:
 			this.connector = 2;
+			this.free = false;
 			break;
+		}
+	}
+
+	/**
+	 * Check return code from innosend.de.
+	 * 
+	 * @param ret
+	 *            return code
+	 * @param more
+	 *            more text
+	 * @return true if no error code
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	private boolean checkReturnCode(final int ret, final String more)
+			throws WebSMSException {
+		switch (ret) {
+		case 100:
+		case 101:
+			Toast.makeText(
+					this.context,
+					more + " "
+							+ this.context.getString(R.string.log_remain_free),
+					Toast.LENGTH_LONG).show();
+			return true;
+		case 161:
+			throw new WebSMSException(this.context,
+					R.string.log_error_innosend_161, " " + more);
+		default:
+			throw new WebSMSException(this.context, R.string.log_error,
+					" code: " + ret + " " + more);
 		}
 	}
 
@@ -137,7 +176,11 @@ public class ConnectorInnosend extends Connector {
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
 			if (this.text != null && this.to != null && this.to.length > 0) {
-				url.append("sms.php?");
+				if (this.free) {
+					url.append("free.php?app=1&was=iphone&");
+				} else {
+					url.append("sms.php?");
+				}
 				url.append("text=");
 				url.append(URLEncoder.encode(this.text));
 				url.append("&type=");
@@ -180,9 +223,17 @@ public class ConnectorInnosend extends Connector {
 				WebSMS.BALANCE_INNOSEND = htmlText.substring(0, i + 3);
 				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			} else {
-				int ret = Integer.parseInt(htmlText);
+				i = htmlText.indexOf("<br>");
+				int ret;
 				Log.d(TAG, url.toString());
-				return this.checkReturnCode(ret);
+				if (i < 0) {
+					ret = Integer.parseInt(htmlText);
+					return this.checkReturnCode(ret);
+				} else {
+					ret = Integer.parseInt(htmlText.substring(0, i));
+					return this.checkReturnCode(ret, htmlText.substring(i + 4)
+							.trim());
+				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);

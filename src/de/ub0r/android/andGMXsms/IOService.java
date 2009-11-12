@@ -58,6 +58,9 @@ public class IOService extends Service {
 	/** Next notification ID. */
 	private static int nextNotificationID = 1;
 
+	/** Wrapper for API5 commands. */
+	private HelperAPI5 helperAPI5 = null;
+
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
 		public void sendMessage(final int connector, final String[] params) {
@@ -105,6 +108,12 @@ public class IOService extends Service {
 		super.onCreate();
 		Log.d(TAG, "onCreate()");
 		me = this;
+
+		try {
+			this.helperAPI5 = new HelperAPI5();
+		} catch (VerifyError e) {
+			Log.d(TAG, "no api5 running");
+		}
 	}
 
 	/**
@@ -184,32 +193,30 @@ public class IOService extends Service {
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (count <= 0) {
-			this.setForeground(false);
 			// set background
-			try {
-				new HelperAPI5().stopForeground(this, true);
-			} catch (VerifyError e) {
-				Log.d(TAG, "no api5 running");
+			if (this.helperAPI5 == null) {
+				this.setForeground(false);
+			} else {
+				this.helperAPI5.stopForeground(this, true);
 			}
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
 		} else {
 			// set foreground, don't let kill while IO
-			final Notification notification = new Notification(
-					R.drawable.stat_notify_sms_pending, this
-							.getString(R.string.notify_sending), System
-							.currentTimeMillis());
-			final PendingIntent contentIntent = PendingIntent.getActivity(this,
-					0, new Intent(this, WebSMS.class), 0);
-			notification.setLatestEventInfo(this, this
-					.getString(R.string.notify_sending), "", contentIntent);
-			notification.defaults |= Notification.FLAG_NO_CLEAR;
-			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
-			this.setForeground(true);
-			try {
-				new HelperAPI5().startForeground(this, NOTIFICATION_PENDING,
+			if (this.helperAPI5 == null) {
+				this.setForeground(true);
+			} else {
+				final Notification notification = new Notification(
+						R.drawable.stat_notify_sms_pending, this
+								.getString(R.string.notify_sending), System
+								.currentTimeMillis());
+				final PendingIntent contentIntent = PendingIntent.getActivity(
+						this, 0, new Intent(this, WebSMS.class), 0);
+				notification.setLatestEventInfo(this, this
+						.getString(R.string.notify_sending), "", contentIntent);
+				notification.defaults |= Notification.FLAG_NO_CLEAR;
+				mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
+				this.helperAPI5.startForeground(this, NOTIFICATION_PENDING,
 						notification);
-			} catch (VerifyError e) {
-				Log.d(TAG, "no api5 running");
 			}
 		}
 		Log.d(TAG, "displayNotification(" + count + ") return");

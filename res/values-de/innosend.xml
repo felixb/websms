@@ -26,6 +26,7 @@
 	<string name="log_error_innosend_130">Gateway-Problem: Rufnummer gesperrt</string>
 	<string name="log_error_innosend_140">Kein Guthaben mehr! Konto aufladen!</string>
 	<string name="log_error_innosend_150">SMS-Bomber-Schutz</string>
+	<string name="log_error_innosend_161">N&#228;chste FreiSMS m&#246;glich um:</string>
 	<string name="log_error_innosend_170">Datum falsch</string>
 	<string name="log_error_innosend_171">Datum in der Vergangenheit</string>
 	<string name="log_error_innosend_172">Zu viele Rufnummern</string>

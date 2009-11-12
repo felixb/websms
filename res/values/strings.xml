@@ -81,6 +81,7 @@
 	<string name="log_error_service">Service is down! Please try again later.</string>
 	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
+	<string name="log_remain_free">free SMS remaining</string>
 	<string name="log_sending">Sending message...</string>
 	<string name="log_update">Update free SMS...</string>
 	<string name="mail_help">Your GMX eMail Address is needed.</string>
@@ -125,6 +126,7 @@
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/websmsdroid/
 	</string>
+	<string name="innosend_partner_">Create Innosend.de Account</string>
 	<string name="innosend_partner_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
 	<string name="text__">Text</string>
 	<string name="text_">Text:</string>
