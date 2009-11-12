@@ -112,7 +112,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		if (name == null || name.length() == 0) {
 			return Connector.cleanRecipient(number);
 		}
-		return name + " (" + Connector.cleanRecipient(number) + ')';
+		return name + " <" + Connector.cleanRecipient(number) + '>';
 	}
 
 	/**

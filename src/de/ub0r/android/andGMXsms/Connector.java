@@ -766,9 +766,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		for (int i = 0; i < e; i++) {
 			// get number only
 			s = ret0[i];
-			int j = s.lastIndexOf('(');
+			int j = s.lastIndexOf('<');
 			if (j >= 0) {
-				int h = s.indexOf(')', j);
+				int h = s.indexOf('>', j);
 				if (h > 0) {
 					s = s.substring(j + 1, h);
 				}
@@ -776,7 +776,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			ret[i] = s;
 			// get name only
 			s = ret0[i];
-			j = s.lastIndexOf('(');
+			j = s.lastIndexOf('<');
 			if (j >= 0) {
 				ret1[i] = s.substring(0, j).trim();
 			}
@@ -798,7 +798,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			return "";
 		}
 		return recipient.replace(" ", "").replace("-", "").replace(".", "")
-				.replace("(", "").replace(")", "").trim();
+				.replace("(", "").replace(")", "").replace("<", "").replace(
+						">", "").trim();
 	}
 
 	/**
