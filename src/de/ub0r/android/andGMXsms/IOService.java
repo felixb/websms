@@ -202,19 +202,19 @@ public class IOService extends Service {
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
 		} else {
 			// set foreground, don't let kill while IO
+			final Notification notification = new Notification(
+					R.drawable.stat_notify_sms_pending, this
+							.getString(R.string.notify_sending), System
+							.currentTimeMillis());
+			final PendingIntent contentIntent = PendingIntent.getActivity(this,
+					0, new Intent(this, WebSMS.class), 0);
+			notification.setLatestEventInfo(this, this
+					.getString(R.string.notify_sending), "", contentIntent);
+			notification.defaults |= Notification.FLAG_NO_CLEAR;
+			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
 			if (this.helperAPI5 == null) {
 				this.setForeground(true);
 			} else {
-				final Notification notification = new Notification(
-						R.drawable.stat_notify_sms_pending, this
-								.getString(R.string.notify_sending), System
-								.currentTimeMillis());
-				final PendingIntent contentIntent = PendingIntent.getActivity(
-						this, 0, new Intent(this, WebSMS.class), 0);
-				notification.setLatestEventInfo(this, this
-						.getString(R.string.notify_sending), "", contentIntent);
-				notification.defaults |= Notification.FLAG_NO_CLEAR;
-				mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
 				this.helperAPI5.startForeground(this, NOTIFICATION_PENDING,
 						notification);
 			}
