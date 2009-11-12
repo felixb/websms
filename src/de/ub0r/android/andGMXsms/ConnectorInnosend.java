@@ -48,6 +48,10 @@ public class ConnectorInnosend extends Connector {
 	/**
 	 * Public Connector Constructor.
 	 * 
+	 * @param u
+	 *            user
+	 * @param p
+	 *            password
 	 * @param con
 	 *            connector type
 	 */
