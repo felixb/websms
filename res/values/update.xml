@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>v2.6: add innosend.de, fix for android 2.0, set update link focusable by trackball, fix link to project, remove ads for donators</item>
+		<item>v2.6: add innosend.de, add standard sms, fix for android 2.0, set update link focusable by trackball, fix link to project, remove ads for donators</item>
 		<item>v2.5.4: change notification icons, fix sending from contacts, remove ads for donator, fix failed send</item>
 		<item>v2.5.3: fix Sipgate.de Connector</item>
 		<item>v2.5.2: speed up o2</item>
