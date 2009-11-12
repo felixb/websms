@@ -41,6 +41,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -230,9 +231,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Text's label. */
 	private TextView textLabel;
 
-	/** Resource @@string/text__. */
-	private String textLabelRef;
-
 	/** Shared Preferences. */
 	private SharedPreferences preferences;
 
@@ -267,6 +265,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		// register MessageHandler
 		this.messageHandler = new WebSMS.MessageHandler();
 
+		this.findViewById(R.id.to).requestFocus();
+
 		// display changelog?
 		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getResources().getString(R.string.app_version);
@@ -288,7 +288,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 
-		this.textLabelRef = this.getResources().getString(R.string.text__);
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		((EditText) this.findViewById(R.id.text))
 				.addTextChangedListener(this.textWatcher);
@@ -311,6 +310,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					// recipient = WebSMS.cleanRecipient(recipient);
 					((EditText) this.findViewById(R.id.to)).setText(recipient);
 					lastTo = recipient;
+					this.findViewById(R.id.text).requestFocus();
 				}
 			}
 		} else {
@@ -337,6 +337,8 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (error != null) {
 					Toast.makeText(this, error, Toast.LENGTH_LONG).show();
 				}
+
+				this.findViewById(R.id.send_).requestFocus();
 
 				if (!prefsNoAds) {
 					// do not display any ads for donators
@@ -1037,8 +1039,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		 * {@inheritDoc}
 		 */
 		public void afterTextChanged(final Editable s) {
-			WebSMS.this.textLabel.setText(WebSMS.this.textLabelRef + " ("
-					+ s.length() + "):");
+			int[] l = SmsMessage.calculateLength(s, false);
+			WebSMS.this.textLabel.setText(l[0] + "/" + l[2]);
 		}
 
 		/** Needed dummy. */

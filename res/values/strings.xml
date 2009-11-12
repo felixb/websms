@@ -128,10 +128,8 @@
 	</string>
 	<string name="innosend_partner_">Create Innosend.de Account</string>
 	<string name="innosend_partner_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
-	<string name="text__">Text</string>
-	<string name="text_">Text:</string>
-	<string name="to_">To:</string>
 	<string name="to_hint">Name or Number</string>
+	<string name="text_hint">Text</string>
 	<string-array name="connectors">
 		<item>GMX</item>
 		<item>o2</item>

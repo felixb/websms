@@ -27,26 +27,27 @@
 	<com.admob.android.ads.AdView android:id="@+id/ad"
 		android:visibility="gone" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" app:isGoneWithoutAd="true"
-		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2" />
-	<!--
-		We could append app:testing="true" above to always get the test ad
-		back
-	-->
+		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2 sipgate innosend" />
 
 	<TextView android:text="@string/free_" android:id="@+id/freecount"
-		android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:focusable="true" />
 
-	<TextView android:text="@string/to_" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
 	<MultiAutoCompleteTextView android:text=""
 		android:id="@+id/to" android:hint="@string/to_hint"
 		android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	<TextView android:text="@string/text_" android:id="@+id/text_"
-		android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
-	<EditText android:id="@+id/text" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_gravity="top"
-		android:layout_weight="1" />
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:addStatesFromChildren="true">
+		<EditText android:id="@+id/text" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:layout_weight="1"
+			android:hint="@string/text_hint" />
+		<TextView android:id="@+id/text_" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:paddingLeft="3dip"
+			android:paddingRight="3dip" android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true" android:textStyle="bold"
+			android:background="#88000000" android:textColor="#ffffffff" />
+	</RelativeLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_weight="0">

@@ -114,6 +114,5 @@
 	<string name="softkeyboard_hint">Einfache GUI für touch keys. App neu
 		starten.</string>
 	<string name="innosend_partner_">Innosend.de Account anlegen</string>
-	<string name="to_">An:</string>
 	<string name="to_hint">Name oder Nummer</string>
 </resources>
