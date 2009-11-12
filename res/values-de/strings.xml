@@ -42,6 +42,7 @@
 	<string name="enable_gmx">Aktiviere GMX</string>
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="enable_sipgate">Aktiviere Sipgate</string>
+	<string name="enable_sms">Aktiviere SMS</string>
 	<string name="enable_innosend">Aktiviere Innosend</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>

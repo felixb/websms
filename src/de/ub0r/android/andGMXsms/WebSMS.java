@@ -104,6 +104,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
+	/** Preference's name: enable sms. */
+	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable innosend. */
 	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
 	/** Preference's name: gmx hostname id. */
@@ -150,6 +152,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsEnableO2 = false;
 	/** Preferences: enable sipgate. */
 	static boolean prefsEnableSipgate = false;
+	/** Preferences: enable sms. */
+	static boolean prefsEnableSMS = false;
 	/** Preferences: enable innosend. */
 	static boolean prefsEnableInnosend = false;
 	/** Preferences: hide ads. */
@@ -483,6 +487,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
 
+		prefsEnableSMS = this.preferences.getBoolean(PREFS_ENABLE_SMS, true);
+
 		prefsEnableInnosend = this.preferences.getBoolean(
 				PREFS_ENABLE_INNOSEND, false);
 		prefsUserInnosend = this.preferences.getString(PREFS_USER_INNOSEND, "");
@@ -517,10 +523,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		final ArrayList<String> items = new ArrayList<String>();
 		final String[] allItems = this.getResources().getStringArray(
 				R.array.connectors);
-		s = c;
-		++c;
-		con = Connector.SMS;
-		items.add(allItems[Connector.SMS]);
+		if (prefsEnableSMS) {
+			s = c;
+			++c;
+			con = Connector.SMS;
+			items.add(allItems[Connector.SMS]);
+		}
 		if (prefsEnableGMX) {
 			if (prefsConnector == Connector.GMX) {
 				s = c;
