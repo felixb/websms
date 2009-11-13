@@ -308,14 +308,17 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
 			final Uri uri = intent.getData();
-			final String scheme = uri.getScheme();
-			if (uri != null && (scheme.equals("sms") || scheme.equals("smsto"))) {
-				String recipient = uri.getSchemeSpecificPart();
-				if (recipient != null) {
-					// recipient = WebSMS.cleanRecipient(recipient);
-					((EditText) this.findViewById(R.id.to)).setText(recipient);
-					lastTo = recipient;
-					this.findViewById(R.id.text).requestFocus();
+			if (uri != null) {
+				final String scheme = uri.getScheme();
+				if (scheme.equals("sms") || scheme.equals("smsto")) {
+					String recipient = uri.getSchemeSpecificPart();
+					if (recipient != null) {
+						// recipient = WebSMS.cleanRecipient(recipient);
+						((EditText) this.findViewById(R.id.to))
+								.setText(recipient);
+						lastTo = recipient;
+						this.findViewById(R.id.text).requestFocus();
+					}
 				}
 			}
 		} else {
