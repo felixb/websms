@@ -127,7 +127,8 @@
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/websmsdroid/
 	</string>
-	<string name="innosend_partner_">Create Innosend.de Account</string>
+	<string name="innosend_partner_">Create account</string>
+	<string name="innosend_partner_hint">Create new Innosend.de Account</string>
 	<string name="innosend_partner_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>

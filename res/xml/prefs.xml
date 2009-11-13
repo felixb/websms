@@ -71,6 +71,9 @@
 			<EditTextPreference android:key="password_innosend"
 				android:inputType="textPassword" android:title="@string/password_innosend_"
 				android:dialogTitle="@string/password_innosend_" android:dependency="enable_innosend" />
+			<PreferenceScreen android:title="@string/innosend_partner_" android:summary="@string/innosend_partner_hint" >
+				<intent android:action="android.intent.action.VIEW" android:data="@string/innosend_partner_url" />
+			</PreferenceScreen>
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>

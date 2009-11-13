@@ -308,7 +308,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
 			final Uri uri = intent.getData();
-			if (uri != null && uri.getScheme().equalsIgnoreCase("sms")) {
+			final String scheme = uri.getScheme();
+			if (uri != null && (scheme.equals("sms") || scheme.equals("smsto"))) {
 				String recipient = uri.getSchemeSpecificPart();
 				if (recipient != null) {
 					// recipient = WebSMS.cleanRecipient(recipient);
@@ -846,11 +847,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setTitle(R.string.help_);
 			return d;
 		case DIALOG_UPDATE:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.changelog_);
-			String[] changes = this.getResources().getStringArray(
+			final String[] changes = this.getResources().getStringArray(
 					R.array.updates);
-			StringBuilder buf = new StringBuilder(changes[0]);
+			final StringBuilder buf = new StringBuilder(changes[0]);
 			for (int i = 1; i < changes.length; i++) {
 				buf.append("\n\n");
 				buf.append(changes[i]);
@@ -865,20 +866,7 @@ public class WebSMS extends Activity implements OnClickListener,
 							dialog.cancel();
 						}
 					});
-			builder.setNeutralButton(R.string.innosend_partner_,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int id) {
-							Uri uri = Uri.parse(WebSMS.this
-									.getString(R.string.innosend_partner_url));
-							WebSMS.this.startActivity(new Intent(
-									Intent.ACTION_VIEW, uri));
-						}
-					});
-			buf = null;
-
-			d = builder.create();
-			return d;
+			return builder.create();
 		case DIALOG_CAPTCHA:
 			d = new Dialog(this);
 			d.setTitle(R.string.captcha_);
