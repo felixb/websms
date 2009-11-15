@@ -696,10 +696,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				Connector.update(this, Connector.INNOSEND_W_SENDER);
 			}
 			break;
-		case R.id.btn_donate:
-			Uri uri = Uri.parse(this.getString(R.string.donate_url));
-			this.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-			break;
 		case R.id.send_:
 			prefsConnector = Connector.getConnectorID(this, ((Spinner) this
 					.findViewById(R.id.change_connector)).getSelectedItem()
@@ -1086,7 +1082,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	class MyPrefsOnChgListener implements
 			SharedPreferences.OnSharedPreferenceChangeListener {
 		/** Changed? */
-		private boolean[] changed = { false, false };
+		private boolean[] changed = { false, false, false, false, false, false,
+				false };
 
 		/**
 		 *{@inheritDoc}
