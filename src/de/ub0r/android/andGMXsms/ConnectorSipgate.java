@@ -42,8 +42,8 @@ public class ConnectorSipgate extends Connector {
 	/**
 	 * Sipgate.de API URL.
 	 */
-	private static final String SIPGATE_URL = "https://"
-			+ "samurai.sipgate.net/RPC2";
+	private static final String SIPGATE_URL = "https://samurai.sipgate.net/RPC2";
+	private static final String SIPGATETEAM_URL = "https://api.sipgate.net/RPC2";
 
 	/**
 	 * {@inheritDoc}
@@ -133,8 +133,15 @@ public class ConnectorSipgate extends Connector {
 		Context c = this.context;
 		VERSION = c.getString(R.string.app_version);
 		VENDOR = c.getString(R.string.author1);
-
-		XMLRPCClient client = new XMLRPCClient(SIPGATE_URL);
+		String url;
+		if(this.user.contains("@")){
+			Log.d(TAG, "use Sipgate-Team URL");
+			url = SIPGATETEAM_URL;
+		}else{
+			Log.d(TAG, "use Sipgate basic/pro URL");
+			url = SIPGATE_URL;
+		}
+		XMLRPCClient client = new XMLRPCClient(url);
 		client.setBasicAuthentication(this.user, this.password);
 		Object back;
 		try {
