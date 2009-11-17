@@ -104,6 +104,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
+	private static final String PREFS_ENABLE_SIPGATE_TEAM = "enable_sipgate_team";
 	/** Preference's name: enable sms. */
 	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable innosend. */
@@ -152,6 +153,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsEnableO2 = false;
 	/** Preferences: enable sipgate. */
 	static boolean prefsEnableSipgate = false;
+	static boolean prefsEnableSipgateTeam = false;
 	/** Preferences: enable sms. */
 	static boolean prefsEnableSMS = false;
 	/** Preferences: enable innosend. */
@@ -175,7 +177,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			"18bc29cd511613552861da6ef51766ce", // niels b.
 			"2985011f56d0049b0f4f0caed3581123", // sven l.
 			"64724033da297a915a89023b11ac2e47", // wilfried m.
-			"cfd8d2efb3eac39705bd62c4dfe5e72d" // achim e.
+			"cfd8d2efb3eac39705bd62c4dfe5e72d", // achim e.
+			"340cde03ef7266363b026101b97cd3d1"  // mo
 	};
 
 	/** Public Dialog ref. */
@@ -487,6 +490,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE,
 				false);
+		prefsEnableSipgateTeam = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE_TEAM,
+				false);
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
@@ -550,12 +555,17 @@ public class WebSMS extends Activity implements OnClickListener,
 			items.add(allItems[Connector.O2]);
 		}
 		if (prefsEnableSipgate) {
-			if (prefsConnector == Connector.SIPGATE) {
+			if (prefsConnector == Connector.SIPGATE) { 
 				s = c;
 			}
 			++c;
-			con = Connector.SIPGATE;
-			items.add(allItems[Connector.SIPGATE]);
+			if (prefsEnableSipgateTeam) {
+				con = Connector.SIPGATE_TEAM;
+				items.add(allItems[Connector.SIPGATE_TEAM]);
+			} else {
+				con = Connector.SIPGATE;
+				items.add(allItems[Connector.SIPGATE]);
+			}
 		}
 		if (prefsEnableInnosend) {
 			c += 3;
@@ -690,7 +700,11 @@ public class WebSMS extends Activity implements OnClickListener,
 				Connector.update(this, Connector.O2);
 			}
 			if (prefsEnableSipgate) {
-				Connector.update(this, Connector.SIPGATE);
+				if (prefsEnableSipgateTeam) {
+					Connector.update(this, Connector.SIPGATE_TEAM);
+				} else {
+					Connector.update(this, Connector.SIPGATE);
+				}
 			}
 			if (prefsEnableInnosend) {
 				Connector.update(this, Connector.INNOSEND_W_SENDER);
@@ -715,7 +729,11 @@ public class WebSMS extends Activity implements OnClickListener,
 				items.add(allItems[Connector.O2]);
 			}
 			if (prefsEnableSipgate) {
-				items.add(allItems[Connector.SIPGATE]);
+				if (prefsEnableSipgateTeam) {
+					items.add(allItems[Connector.SIPGATE_TEAM]);
+				} else {
+					items.add(allItems[Connector.SIPGATE]);
+				}
 			}
 			if (prefsEnableInnosend) {
 				// items.add(allItems[Connector.INNOSEND_FREE]);

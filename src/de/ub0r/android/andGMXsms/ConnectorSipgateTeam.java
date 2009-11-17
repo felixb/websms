@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Mirko Weber, Felix Bechstein
+ * Copyright (C) 2009 mo@oclab.net
  * 
  * This file is part of WebSMS.
  * 
@@ -30,25 +30,25 @@ import org.xmlrpc.android.XMLRPCFault;
 import android.content.Context;
 import android.util.Log;
 
+
 /**
  * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API.
  * 
  * @author Mirko Weber
  */
-public class ConnectorSipgate extends Connector {
+public class ConnectorSipgateTeam extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.Sipg";
-
+	private static final String TAG = "WebSMS.SipgateTeam";
 	/**
-	 * Sipgate.de API URL.
+	 * Sipgate.de API URL for "sipgate team" accounts.
 	 */
 	private static final String SIPGATE_URL = "https://"
-		+ "samurai.sipgate.net/RPC2";
+		+ "api.sipgate.net/RPC2";
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected ConnectorSipgate(final String u, final String p) {
+	protected ConnectorSipgateTeam(final String u, final String p) {
 		super(u, p);
 	}
 
@@ -151,7 +151,7 @@ public class ConnectorSipgate extends Connector {
 			throw e;
 		}
 	}
-
+	
 	private String getApiUrl() {
 		return SIPGATE_URL;
 	}
