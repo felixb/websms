@@ -490,8 +490,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE,
 				false);
-		prefsEnableSipgateTeam = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE_TEAM,
-				false);
+		prefsEnableSipgateTeam = this.preferences.getBoolean(
+				PREFS_ENABLE_SIPGATE_TEAM, false);
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
@@ -555,17 +555,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			items.add(allItems[Connector.O2]);
 		}
 		if (prefsEnableSipgate) {
-			if (prefsConnector == Connector.SIPGATE) { 
+			if (prefsConnector == Connector.SIPGATE) {
 				s = c;
 			}
 			++c;
-			if (prefsEnableSipgateTeam) {
-				con = Connector.SIPGATE_TEAM;
-				items.add(allItems[Connector.SIPGATE_TEAM]);
-			} else {
-				con = Connector.SIPGATE;
-				items.add(allItems[Connector.SIPGATE]);
-			}
+			con = Connector.SIPGATE;
+			items.add(allItems[Connector.SIPGATE]);
 		}
 		if (prefsEnableInnosend) {
 			c += 3;
@@ -700,11 +695,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				Connector.update(this, Connector.O2);
 			}
 			if (prefsEnableSipgate) {
-				if (prefsEnableSipgateTeam) {
-					Connector.update(this, Connector.SIPGATE_TEAM);
-				} else {
-					Connector.update(this, Connector.SIPGATE);
-				}
+				Connector.update(this, Connector.SIPGATE);
 			}
 			if (prefsEnableInnosend) {
 				Connector.update(this, Connector.INNOSEND_W_SENDER);
@@ -729,11 +720,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				items.add(allItems[Connector.O2]);
 			}
 			if (prefsEnableSipgate) {
-				if (prefsEnableSipgateTeam) {
-					items.add(allItems[Connector.SIPGATE_TEAM]);
-				} else {
-					items.add(allItems[Connector.SIPGATE]);
-				}
+				items.add(allItems[Connector.SIPGATE]);
 			}
 			if (prefsEnableInnosend) {
 				// items.add(allItems[Connector.INNOSEND_FREE]);

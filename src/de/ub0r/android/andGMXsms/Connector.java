@@ -77,7 +77,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short O2 = 2;
 	/** Connector type: Sipgate. */
 	static final short SIPGATE = 3;
-	static final short SIPGATE_TEAM = 7;
 	/** Connector type: Innosend. */
 	static final short INNOSEND_FREE = 4;
 	/** Connector type: Innosend w/o sender. */
@@ -329,10 +328,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			break;
 		case SIPGATE:
 			c = new ConnectorSipgate(WebSMS.prefsUserSipgate,
-					WebSMS.prefsPasswordSipgate);
-			break;
-		case SIPGATE_TEAM:
-			c = new ConnectorSipgateTeam(WebSMS.prefsUserSipgate,
 					WebSMS.prefsPasswordSipgate);
 			break;
 		case INNOSEND_FREE:
