@@ -238,8 +238,7 @@ public class ConnectorInnosend extends Connector {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.getMessage());
 		}
 		return true;
 	}
@@ -259,8 +258,7 @@ public class ConnectorInnosend extends Connector {
 	protected final boolean sendMessage() throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);
-			return false;
+			throw new WebSMSException(this.context, R.string.log_error);
 		} else {
 			// result: ok
 			return true;

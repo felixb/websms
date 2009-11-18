@@ -159,8 +159,10 @@ public class ConnectorO2 extends Connector {
 	 * Get Operator Code.
 	 * 
 	 * @return operator
+	 * @throws WebSMSException
+	 *             WebSMSException
 	 */
-	private short getOperator() {
+	private short getOperator() throws WebSMSException {
 		short operator;
 		// switch operator
 		final String sndr = this.sender;
@@ -169,8 +171,7 @@ public class ConnectorO2 extends Connector {
 		} else if (sndr.startsWith("+353")) {
 			operator = O2_IE;
 		} else {
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_prefix);
-			return -1;
+			throw new WebSMSException(this.context, R.string.log_error_prefix);
 		}
 		return operator;
 	}
@@ -284,13 +285,11 @@ public class ConnectorO2 extends Connector {
 				this.htmlText = null;
 				if (!(this.context instanceof WebSMS)
 						|| !this.solveCaptcha(operator, newFlow)) {
-					this.pushMessage(WebSMS.MESSAGE_LOG,
+					throw new WebSMSException(this.context,
 							R.string.log_error_captcha);
-					return false;
 				}
 			} else {
-				this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error_pw);
-				return false;
+				throw new WebSMSException(this.context, R.string.log_error_pw);
 			}
 		}
 		return true;
@@ -430,16 +429,13 @@ public class ConnectorO2 extends Connector {
 			this.htmlText = null;
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		} catch (URISyntaxException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		} catch (MalformedCookieException e) {
 			Log.e(TAG, null, e);
-			this.pushMessage(WebSMS.MESSAGE_LOG, e.toString());
-			return false;
+			throw new WebSMSException(e.toString());
 		}
 		return true;
 	}
@@ -459,8 +455,7 @@ public class ConnectorO2 extends Connector {
 	protected final boolean sendMessage() throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
-			this.pushMessage(WebSMS.MESSAGE_LOG, R.string.log_error);
-			return false;
+			throw new WebSMSException(this.context, R.string.log_error);
 		} else {
 			// result: ok
 			return true;

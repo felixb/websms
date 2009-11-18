@@ -684,30 +684,34 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @return created/updated Notification
 	 */
 	private Notification updateNotification(final Notification n) {
-		Notification notification = n;
+		Notification noti = n;
 		final Context c = this.context;
 		String rcvs = this.tos.trim();
 		if (rcvs.endsWith(",")) {
 			rcvs = rcvs.substring(0, rcvs.length() - 1);
 		}
-		if (notification == null) {
-			notification = new Notification(R.drawable.stat_notify_sms_failed,
-					c.getString(R.string.notify_failed_), System
-							.currentTimeMillis());
+		if (noti == null) {
+			noti = new Notification(R.drawable.stat_notify_sms_failed, c
+					.getString(R.string.notify_failed_), System
+					.currentTimeMillis());
+		} else {
+			noti.contentIntent.cancel();
 		}
 		final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
-				.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(this.tos)));
+				.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(this.tos)), c,
+				WebSMS.class);
 		i.putExtra(Intent.EXTRA_TEXT, this.text);
 		if (this.failedMessage == null) {
 			this.failedMessage = c.getString(R.string.notify_failed_);
 		}
 		i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, this.failedMessage);
-		final PendingIntent contentIntent = PendingIntent.getActivity(c, 0, i,
-				0);
-		notification.setLatestEventInfo(c, c.getString(R.string.notify_failed)
-				+ this.failedMessage, rcvs + ": " + this.text, contentIntent);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		return notification;
+		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+		final PendingIntent cIntent = PendingIntent.getActivity(c, 0, i, 0);
+		noti.setLatestEventInfo(c, c.getString(R.string.notify_failed) + " "
+				+ this.failedMessage, rcvs + ": " + this.text, cIntent);
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+		Log.d(TAG, "update notification " + this.failedMessage);
+		return noti;
 	}
 
 	/**
@@ -867,17 +871,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            message
 	 */
 	protected final void pushMessage(final int msgType, final int msg) {
-		final Context c = this.context;
-		final String s = c.getString(msg);
-		if (c instanceof WebSMS) {
-			WebSMS.pushMessage(msgType, s);
-		} else if (c instanceof IOService) {
-			Log.d(TAG, s);
-			if (msgType == WebSMS.MESSAGE_LOG
-					&& (msg != R.string.log_error || this.failedMessage == null)) {
-				this.failedMessage = s;
-			}
-		}
+		this.pushMessage(msgType, this.context.getString(msg));
 	}
 
 	/**
@@ -892,15 +886,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	protected final void pushMessage(final int msgType, final int msgFront,
 			final String msgTail) {
-		final Context c = this.context;
-		final String s = c.getString(msgFront);
-		if (c instanceof WebSMS) {
-			WebSMS.pushMessage(msgType, s + msgTail);
-		} else if (c instanceof IOService) {
-			Log.d(TAG, s + msgTail);
-			if (msgType == WebSMS.MESSAGE_LOG) {
-				this.failedMessage = s + msgTail;
-			}
-		}
+		this.pushMessage(msgType, this.context.getString(msgFront) + msgTail);
 	}
 }

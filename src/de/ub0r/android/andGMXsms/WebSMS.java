@@ -373,7 +373,6 @@ public class WebSMS extends Activity implements OnClickListener,
 								((AdView) WebSMS.this.findViewById(R.id.ad))
 										.setVisibility(View.VISIBLE);
 							}
-
 						}
 					}
 				}
