@@ -245,11 +245,175 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Shared Preferences. */
 	private SharedPreferences preferences;
 
-	/** MessageHandler. */
-	private Handler messageHandler;
-
 	/** Bound service. */
 	private IIOOp mIOOp;
+
+	/** MessageHandler. */
+	private Handler messageHandler = new Handler() {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public final void handleMessage(final Message msg) {
+			switch (msg.what) {
+			case MESSAGE_LOG: // msg is String or Resource StringID
+				if (msg.obj instanceof String) {
+					WebSMS.this.log((String) msg.obj);
+				} else if (msg.obj instanceof Integer) {
+					WebSMS.this.log(WebSMS.this.getString(((Integer) msg.obj)
+							.intValue()));
+				} else {
+					WebSMS.this.log(msg.obj.toString());
+				}
+				return;
+			case MESSAGE_FREECOUNT:
+				WebSMS.remFree = "";
+				if (WebSMS.prefsEnableGMX) {
+					WebSMS.remFree = "GMX: "
+							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_COUNT]
+							+ " / "
+							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_LIMIT];
+				}
+				if (WebSMS.prefsEnableO2) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
+					}
+					WebSMS.remFree += "O2: "
+							+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_COUNT];
+					if (WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT] > 0) {
+						WebSMS.remFree += " / "
+								+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT];
+					}
+				}
+				if (WebSMS.prefsEnableSipgate) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
+					}
+					WebSMS.remFree += "Sipgate: ";
+					WebSMS.remFree += BALANCE_SIPGATE + " \u20AC";
+				}
+				if (WebSMS.prefsEnableInnosend) {
+					if (WebSMS.remFree.length() > 0) {
+						WebSMS.remFree += " - ";
+					}
+					WebSMS.remFree += "Innosend: ";
+					WebSMS.remFree += BALANCE_INNOSEND + " \u20AC";
+				}
+				if (WebSMS.remFree.length() == 0) {
+					WebSMS.remFree = "---";
+				}
+				TextView tw = (TextView) WebSMS.this
+						.findViewById(R.id.freecount);
+				tw.setText(WebSMS.this.getString(R.string.free_) + " "
+						+ WebSMS.remFree + " "
+						+ WebSMS.this.getString(R.string.click_for_update));
+				return;
+			case MESSAGE_SETTINGS:
+				WebSMS.this.startActivity(new Intent(WebSMS.this,
+						Preferences.class));
+			case MESSAGE_RESET:
+				WebSMS.this.reset();
+				return;
+			case MESSAGE_PREFSREADY:
+				WebSMS.this.checkPrefs();
+				return;
+			case MESSAGE_ANTICAPTCHA:
+				WebSMS.this.showDialog(DIALOG_CAPTCHA);
+				return;
+			default:
+				return;
+			}
+		}
+	};
+
+	/**
+	 * Main Preferences as PreferencesActivity.
+	 * 
+	 * @author Felix Bechstein
+	 */
+	public static class Preferences extends PreferenceActivity {
+		/**
+		 * {@inheritDoc}
+		 */
+		public final void onCreate(final Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			WebSMS.doPreferences = true;
+			this.addPreferencesFromResource(R.xml.prefs);
+		}
+	}
+
+	/** TextWatcher updating char count on writing. */
+	private TextWatcher textWatcher = new TextWatcher() {
+		/**
+		 * {@inheritDoc}
+		 */
+		public void afterTextChanged(final Editable s) {
+			int[] l = SmsMessage.calculateLength(s, false);
+			WebSMS.this.textLabel.setText(l[0] + "/" + l[2]);
+		}
+
+		/** Needed dummy. */
+		public void beforeTextChanged(final CharSequence s, final int start,
+				final int count, final int after) {
+		}
+
+		/** Needed dummy. */
+		public void onTextChanged(final CharSequence s, final int start,
+				final int before, final int count) {
+		}
+	};
+
+	/** Preferences onChangeListener. */
+	private MyPrefsOnChgListener prefsOnChgListener = new MyPrefsOnChgListener();
+
+	/**
+	 * PreferencesOnChangeListener.
+	 * 
+	 * @author Felix Bechstein
+	 */
+	class MyPrefsOnChgListener implements
+			SharedPreferences.OnSharedPreferenceChangeListener {
+		/** Changed? */
+		private boolean[] changed = { false, false, false, false, false, false,
+				false };
+
+		/**
+		 *{@inheritDoc}
+		 */
+		public void onSharedPreferenceChanged(final SharedPreferences prefs,
+				final String key) {
+			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
+					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
+				this.changed[Connector.GMX] = true;
+			}
+			if (key.equals(PREFS_SENDER)) {
+				// check for wrong sender format. people can't read..
+				final String p = prefs.getString(PREFS_SENDER, "");
+				if (!p.startsWith("+")) {
+					WebSMS.this.log(R.string.log_error_sender);
+				}
+			}
+			if (key.equals(PREFS_DEFPREFIX)) {
+				final String p = prefs.getString(PREFS_DEFPREFIX, "");
+				if (!p.startsWith("+")) {
+					WebSMS.this.log(R.string.log_error_defprefix);
+				}
+			}
+		}
+
+		/**
+		 * Were preferences changed since last call for connector?
+		 * 
+		 * @param connector
+		 *            Connector
+		 * @return was changed?
+		 */
+		public boolean wasChanged(final short connector) {
+			boolean ret = this.changed[connector];
+			this.changed[connector] = false;
+			return ret;
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -273,8 +437,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			this.setContentView(R.layout.main);
 		}
-		// register MessageHandler
-		this.messageHandler = new WebSMS.MessageHandler();
 
 		this.findViewById(R.id.to).requestFocus();
 
@@ -972,177 +1134,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void log(final String text) {
 		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG)
 				.show();
-	}
-
-	/**
-	 * Main Preferences as PreferencesActivity.
-	 * 
-	 * @author Felix Bechstein
-	 */
-	public static class Preferences extends PreferenceActivity {
-		/**
-		 * {@inheritDoc}
-		 */
-		public final void onCreate(final Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			WebSMS.doPreferences = true;
-			this.addPreferencesFromResource(R.xml.prefs);
-		}
-	}
-
-	/**
-	 * WebSMS's Handler to fetch MEssages from other Threads..
-	 * 
-	 * @author Felix Bechstein
-	 */
-	class MessageHandler extends Handler {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public final void handleMessage(final Message msg) {
-			switch (msg.what) {
-			case MESSAGE_LOG: // msg is String or Resource StringID
-				if (msg.obj instanceof String) {
-					WebSMS.this.log((String) msg.obj);
-				} else if (msg.obj instanceof Integer) {
-					WebSMS.this.log(WebSMS.this.getString(((Integer) msg.obj)
-							.intValue()));
-				} else {
-					WebSMS.this.log(msg.obj.toString());
-				}
-				return;
-			case MESSAGE_FREECOUNT:
-				WebSMS.remFree = "";
-				if (WebSMS.prefsEnableGMX) {
-					WebSMS.remFree = "GMX: "
-							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_COUNT]
-							+ " / "
-							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_LIMIT];
-				}
-				if (WebSMS.prefsEnableO2) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "O2: "
-							+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_COUNT];
-					if (WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT] > 0) {
-						WebSMS.remFree += " / "
-								+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT];
-					}
-				}
-				if (WebSMS.prefsEnableSipgate) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "Sipgate: ";
-					WebSMS.remFree += BALANCE_SIPGATE + " \u20AC";
-				}
-				if (WebSMS.prefsEnableInnosend) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "Innosend: ";
-					WebSMS.remFree += BALANCE_INNOSEND + " \u20AC";
-				}
-				if (WebSMS.remFree.length() == 0) {
-					WebSMS.remFree = "---";
-				}
-				TextView tw = (TextView) WebSMS.this
-						.findViewById(R.id.freecount);
-				tw.setText(WebSMS.this.getString(R.string.free_) + " "
-						+ WebSMS.remFree + " "
-						+ WebSMS.this.getString(R.string.click_for_update));
-				return;
-			case MESSAGE_SETTINGS:
-				WebSMS.this.startActivity(new Intent(WebSMS.this,
-						Preferences.class));
-			case MESSAGE_RESET:
-				WebSMS.this.reset();
-				return;
-			case MESSAGE_PREFSREADY:
-				WebSMS.this.checkPrefs();
-				return;
-			case MESSAGE_ANTICAPTCHA:
-				WebSMS.this.showDialog(DIALOG_CAPTCHA);
-				return;
-			default:
-				return;
-			}
-		}
-	}
-
-	/** TextWatcher updating char count on writing. */
-	private TextWatcher textWatcher = new TextWatcher() {
-		/**
-		 * {@inheritDoc}
-		 */
-		public void afterTextChanged(final Editable s) {
-			int[] l = SmsMessage.calculateLength(s, false);
-			WebSMS.this.textLabel.setText(l[0] + "/" + l[2]);
-		}
-
-		/** Needed dummy. */
-		public void beforeTextChanged(final CharSequence s, final int start,
-				final int count, final int after) {
-		}
-
-		/** Needed dummy. */
-		public void onTextChanged(final CharSequence s, final int start,
-				final int before, final int count) {
-		}
-	};
-
-	/** Preferences onChangeListener. */
-	private MyPrefsOnChgListener prefsOnChgListener = new MyPrefsOnChgListener();
-
-	/**
-	 * PreferencesOnChangeListener.
-	 * 
-	 * @author Felix Bechstein
-	 */
-	class MyPrefsOnChgListener implements
-			SharedPreferences.OnSharedPreferenceChangeListener {
-		/** Changed? */
-		private boolean[] changed = { false, false, false, false, false, false,
-				false };
-
-		/**
-		 *{@inheritDoc}
-		 */
-		public void onSharedPreferenceChanged(final SharedPreferences prefs,
-				final String key) {
-			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
-					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
-				this.changed[Connector.GMX] = true;
-			}
-			if (key.equals(PREFS_SENDER)) {
-				// check for wrong sender format. people can't read..
-				final String p = prefs.getString(PREFS_SENDER, "");
-				if (!p.startsWith("+")) {
-					WebSMS.this.log(R.string.log_error_sender);
-				}
-			}
-			if (key.equals(PREFS_DEFPREFIX)) {
-				final String p = prefs.getString(PREFS_DEFPREFIX, "");
-				if (!p.startsWith("+")) {
-					WebSMS.this.log(R.string.log_error_defprefix);
-				}
-			}
-		}
-
-		/**
-		 * Were preferences changed since last call for connector?
-		 * 
-		 * @param connector
-		 *            Connector
-		 * @return was changed?
-		 */
-		public boolean wasChanged(final short connector) {
-			boolean ret = this.changed[connector];
-			this.changed[connector] = false;
-			return ret;
-		}
 	}
 
 	/**
