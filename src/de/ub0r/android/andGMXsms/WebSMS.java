@@ -33,6 +33,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,9 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.provider.Contacts.PeopleColumns;
+import android.provider.Contacts.Phones;
+import android.provider.Contacts.PhonesColumns;
 import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -316,7 +320,35 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (scheme.equals("sms") || scheme.equals("smsto")) {
 					String s = uri.getSchemeSpecificPart();
 					if (s != null) {
+						s = s.trim();
+						if (s.endsWith(",")) {
+							s = s.substring(0, s.length() - 1).trim();
+						}
 						// recipient = WebSMS.cleanRecipient(recipient);
+						if (s.indexOf('<') < 0) {
+							// try to fetch recipient's name from phonebook
+							String n = null;
+							if (helperAPI5 != null) {
+								n = helperAPI5.getNameForNumber(this, s);
+							} else {
+								Cursor c = this
+										.managedQuery(
+												Phones.CONTENT_URI,
+												new String[] {
+														PhonesColumns.NUMBER,
+														PeopleColumns.DISPLAY_NAME },
+												PhonesColumns.NUMBER + " = '"
+														+ s + "'", null, null);
+								if (c.moveToFirst()) {
+									n = c
+											.getString(c
+													.getColumnIndex(PeopleColumns.DISPLAY_NAME));
+								}
+							}
+							if (n != null) {
+								s = n + " <" + s + ">, ";
+							}
+						}
 						((EditText) this.findViewById(R.id.to)).setText(s);
 						lastTo = s;
 						this.findViewById(R.id.text).requestFocus();

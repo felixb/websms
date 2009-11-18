@@ -123,4 +123,21 @@ public class HelperAPI5 {
 			final boolean removeNotification) {
 		service.stopForeground(removeNotification);
 	}
+
+	final String getNameForNumber(final WebSMS act, final String number) {
+		String ret = null;
+
+		Cursor c = act.managedQuery(
+				ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+				new String[] { ContactsContract.Data.DISPLAY_NAME,
+						ContactsContract.CommonDataKinds.Phone.NUMBER },
+				ContactsContract.CommonDataKinds.Phone.DATA1 + " = '" + number
+						+ "'", null, null);
+		if (c.moveToFirst()) {
+			ret = c.getString(c
+					.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+		}
+
+		return ret;
+	}
 }
