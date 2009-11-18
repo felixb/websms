@@ -213,6 +213,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Message show cpatcha. */
 	static final int MESSAGE_ANTICAPTCHA = 7;
 
+	/** Intent's extra for errormessages. */
+	static final String EXTRA_ERRORMESSAGE = "de.ub0r.android.intent.extra.ERRORMESSAGE";
+
 	/** Persistent Message store. */
 	private static String lastMsg = null;
 	/** Persistent Recipient store. */
@@ -306,7 +309,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		to.setAdapter(new MobilePhoneAdapter(this));
 		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-		final Intent intent = this.getIntent();
+		Intent intent = this.getIntent();
 		final String action = intent.getAction();
 		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
 			// launched by clicking a sms: link, target number is in URI.
@@ -314,55 +317,43 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (uri != null) {
 				final String scheme = uri.getScheme();
 				if (scheme.equals("sms") || scheme.equals("smsto")) {
-					String recipient = uri.getSchemeSpecificPart();
-					if (recipient != null) {
+					String s = uri.getSchemeSpecificPart();
+					if (s != null) {
 						// recipient = WebSMS.cleanRecipient(recipient);
-						((EditText) this.findViewById(R.id.to))
-								.setText(recipient);
-						lastTo = recipient;
+						((EditText) this.findViewById(R.id.to)).setText(s);
+						lastTo = s;
 						this.findViewById(R.id.text).requestFocus();
 					}
-				}
-			}
-		} else {
-			// reload sms from notification
-			final Uri data = intent.getData();
-			if (data != null) {
-				final String recipient = data.getHost();
-				String text = data.getPath();
-				String error = null;
-				final int i = text.lastIndexOf("///");
-				if (i > 0) {
-					error = text.substring(i + 3);
-					text = text.substring(0, i);
-				}
-				if (recipient != null) {
-					((EditText) this.findViewById(R.id.to)).setText(recipient);
-					lastTo = recipient;
-				}
-				if (text != null && text.length() > 0) {
-					text = text.substring(1);
-					((EditText) this.findViewById(R.id.to)).setText(text);
-					lastMsg = text;
-				}
-				if (error != null) {
-					Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-				}
+					final Bundle extras = intent.getExtras();
+					if (extras != null) {
+						s = extras.getCharSequence(Intent.EXTRA_TEXT)
+								.toString();
+						if (s != null) {
+							((EditText) this.findViewById(R.id.text))
+									.setText(s);
+							lastMsg = s;
+							this.findViewById(R.id.send_).requestFocus();
+						}
+						s = extras.getString(EXTRA_ERRORMESSAGE);
+						if (s != null) {
+							Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 
-				this.findViewById(R.id.send_).requestFocus();
+							if (!prefsNoAds) {
+								// do not display any ads for donators
+								// display ads
+								((AdView) WebSMS.this.findViewById(R.id.ad))
+										.setVisibility(View.VISIBLE);
+							}
 
-				if (!prefsNoAds) {
-					// do not display any ads for donators
-					// display ads
-					((AdView) WebSMS.this.findViewById(R.id.ad))
-							.setVisibility(View.VISIBLE);
+						}
+					}
 				}
 			}
 		}
 
-		final Intent i = new Intent(this, IOService.class);
-		this.bindService(i, this, Context.BIND_AUTO_CREATE);
-		this.startService(i);
+		intent = new Intent(this, IOService.class);
+		this.bindService(intent, this, Context.BIND_AUTO_CREATE);
+		this.startService(intent);
 
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {

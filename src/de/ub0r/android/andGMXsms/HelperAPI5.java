@@ -32,7 +32,6 @@ import android.provider.ContactsContract;
  * @author flx
  */
 public class HelperAPI5 {
-
 	/** Sort Order. */
 	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
 			+ " DESC, "

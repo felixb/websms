@@ -62,6 +62,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.con";
 
+	/** Intent's scheme to send sms. */
+	public static final String INTENT_SCHEME_SMSTO = "smsto";
+
 	/** HTTP Response 200. */
 	static final int HTTP_SERVICE_OK = 200;
 	/** HTTP Response 401. */
@@ -692,12 +695,13 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 					c.getString(R.string.notify_failed_), System
 							.currentTimeMillis());
 		}
-		final Intent i = new Intent(c, WebSMS.class);
+		final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
+				.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(this.tos)));
+		i.putExtra(Intent.EXTRA_TEXT, this.text);
 		if (this.failedMessage == null) {
 			this.failedMessage = c.getString(R.string.notify_failed_);
 		}
-		i.setData(Uri.parse("sms://" + Uri.encode(this.tos) + "/"
-				+ Uri.encode(this.text + "///" + this.failedMessage)));
+		i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, this.failedMessage);
 		final PendingIntent contentIntent = PendingIntent.getActivity(c, 0, i,
 				0);
 		notification.setLatestEventInfo(c, c.getString(R.string.notify_failed)
