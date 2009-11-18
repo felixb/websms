@@ -49,6 +49,19 @@ public class HelperAPI5 {
 	};
 
 	/**
+	 * Default constructor.
+	 */
+	public HelperAPI5() {
+		// Try if API5 is available. This is a workaround for CyanogenMod.
+		try {
+			String s = ContactsContract.AUTHORITY;
+			s += "";
+		} catch (Exception e) {
+			throw new VerifyError("no API5 available");
+		}
+	}
+
+	/**
 	 * Run Query to update data.
 	 * 
 	 * @param mContentResolver
