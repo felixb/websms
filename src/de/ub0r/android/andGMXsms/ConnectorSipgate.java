@@ -43,7 +43,9 @@ public class ConnectorSipgate extends Connector {
 	 * Sipgate.de API URL.
 	 */
 	private static final String SIPGATE_URL = "https://"
-			+ "samurai.sipgate.net/RPC2";
+		+ "samurai.sipgate.net/RPC2";
+	private static final String SIPGATE_TEAM_URL = "https://"
+		+ "api.sipgate.net/RPC2";
 
 	/**
 	 * {@inheritDoc}
@@ -70,6 +72,10 @@ public class ConnectorSipgate extends Connector {
 				}
 			}
 			Hashtable<String, Serializable> params = new Hashtable<String, Serializable>();
+			if (WebSMS.prefsSender.length() > 6) {
+				String localUri = "sip:" + WebSMS.prefsSender.replaceAll("\\+", "") + "@sipgate.net";
+				params.put("LocalUri", localUri);
+			}
 			params.put("RemoteUri", remoteUris);
 			params.put("TOS", "text");
 			params.put("Content", this.text);
@@ -133,8 +139,13 @@ public class ConnectorSipgate extends Connector {
 		Context c = this.context;
 		VERSION = c.getString(R.string.app_version);
 		VENDOR = c.getString(R.string.author1);
-
-		XMLRPCClient client = new XMLRPCClient(SIPGATE_URL);
+		XMLRPCClient client;
+		if (WebSMS.prefsEnableSipgateTeam) {
+			client = new XMLRPCClient(SIPGATE_TEAM_URL);
+		} else {
+			client = new XMLRPCClient(SIPGATE_URL);
+		}
+		
 		client.setBasicAuthentication(this.user, this.password);
 		Object back;
 		try {

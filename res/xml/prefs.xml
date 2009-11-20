@@ -61,6 +61,7 @@
 				android:inputType="textPassword" android:summary="@string/password_sipgate_hint"
 				android:title="@string/password_sipgate_" android:dialogTitle="@string/password_sipgate_"
 				android:dependency="enable_sipgate" />
+		<CheckBoxPreference android:key="enable_sipgate_team" android:title="@string/enable_sipgate_team"></CheckBoxPreference>
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/settings_innosend">
 			<CheckBoxPreference android:key="enable_innosend"
