@@ -171,7 +171,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
-			"2986b6d93053a53ff13008b3015a77ff", // me
+			"2986b6d93053a53ff13008b3015a77ff", // flx
 			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
 			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
 			"7684154558d19383552388d9bc92d446", // henning k.
@@ -183,7 +183,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			"64724033da297a915a89023b11ac2e47", // wilfried m.
 			"cfd8d2efb3eac39705bd62c4dfe5e72d", // achim e.
 			"10b7a2712beee096acbc67416d7d71a1", // mo
-			"57a3c7c19329fd84c2252a9b2866dd93"	// mirweb
+			"57a3c7c19329fd84c2252a9b2866dd93" // mirweb
 	};
 
 	/** Public Dialog ref. */

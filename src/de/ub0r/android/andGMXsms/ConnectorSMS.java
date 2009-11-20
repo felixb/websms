@@ -29,7 +29,7 @@ import android.telephony.gsm.SmsManager;
  */
 public class ConnectorSMS extends Connector {
 	/**
-	 * Public Connector Constructor.
+	 * Create a SMS Connector.
 	 */
 	public ConnectorSMS() {
 		super(null, null);

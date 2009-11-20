@@ -73,7 +73,12 @@ public class ConnectorGMX extends Connector {
 	private String pw;
 
 	/**
-	 * {@inheritDoc}
+	 * Create a GMX Connector.
+	 * 
+	 * @param u
+	 *            username
+	 * @param p
+	 *            password
 	 */
 	protected ConnectorGMX(final String u, final String p) {
 		super(u, p);

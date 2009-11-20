@@ -45,7 +45,7 @@ public class ConnectorInnosend extends Connector {
 	private final short connector;
 
 	/**
-	 * Public Connector Constructor.
+	 * Create an Innosend.de.
 	 * 
 	 * @param u
 	 *            user

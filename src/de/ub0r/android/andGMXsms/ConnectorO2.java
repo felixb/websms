@@ -130,7 +130,12 @@ public class ConnectorO2 extends Connector {
 	private final ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 
 	/**
-	 * {@inheritDoc}
+	 * Create a o2 Connector.
+	 * 
+	 * @param u
+	 *            username
+	 * @param p
+	 *            password
 	 */
 	protected ConnectorO2(final String u, final String p) {
 		super(u, p);

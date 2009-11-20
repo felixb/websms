@@ -39,16 +39,20 @@ public class ConnectorSipgate extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.Sipg";
 
-	/**
-	 * Sipgate.de API URL.
-	 */
+	/** Sipgate.de API URL. */
 	private static final String SIPGATE_URL = "https://"
-		+ "samurai.sipgate.net/RPC2";
+			+ "samurai.sipgate.net/RPC2";
+	/** Sipfate.de TEAM-API URL. */
 	private static final String SIPGATE_TEAM_URL = "https://"
-		+ "api.sipgate.net/RPC2";
+			+ "api.sipgate.net/RPC2";
 
 	/**
-	 * {@inheritDoc}
+	 * Create a Sipgate Connector.
+	 * 
+	 * @param u
+	 *            username
+	 * @param p
+	 *            password
 	 */
 	protected ConnectorSipgate(final String u, final String p) {
 		super(u, p);
@@ -73,7 +77,9 @@ public class ConnectorSipgate extends Connector {
 			}
 			Hashtable<String, Serializable> params = new Hashtable<String, Serializable>();
 			if (WebSMS.prefsSender.length() > 6) {
-				String localUri = "sip:" + WebSMS.prefsSender.replaceAll("\\+", "") + "@sipgate.net";
+				String localUri = "sip:"
+						+ WebSMS.prefsSender.replaceAll("\\+", "")
+						+ "@sipgate.net";
 				params.put("LocalUri", localUri);
 			}
 			params.put("RemoteUri", remoteUris);
@@ -114,7 +120,7 @@ public class ConnectorSipgate extends Connector {
 			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);
-			if (e.getFaultCode() == 401) {
+			if (e.getFaultCode() == HTTP_SERVICE_UNAUTHORIZED) {
 				throw new WebSMSException(this.context, R.string.log_error_pw);
 			}
 			throw new WebSMSException(e.toString());
@@ -131,28 +137,27 @@ public class ConnectorSipgate extends Connector {
 	 * 
 	 * @return the initialized XMLRPCClient
 	 * @throws XMLRPCException
+	 *             XMLRPCException
 	 */
 	private XMLRPCClient init() throws XMLRPCException {
 		Log.d(TAG, "updateMessage()");
-		String VERSION;
-		String VENDOR;
 		Context c = this.context;
-		VERSION = c.getString(R.string.app_version);
-		VENDOR = c.getString(R.string.author1);
+		final String version = c.getString(R.string.app_version);
+		final String vendor = c.getString(R.string.author1);
 		XMLRPCClient client;
 		if (WebSMS.prefsEnableSipgateTeam) {
 			client = new XMLRPCClient(SIPGATE_TEAM_URL);
 		} else {
 			client = new XMLRPCClient(SIPGATE_URL);
 		}
-		
+
 		client.setBasicAuthentication(this.user, this.password);
 		Object back;
 		try {
 			Hashtable<String, String> ident = new Hashtable<String, String>();
 			ident.put("ClientName", TAG);
-			ident.put("ClientVersion", VERSION);
-			ident.put("ClientVendor", VENDOR);
+			ident.put("ClientVersion", version);
+			ident.put("ClientVendor", vendor);
 			back = client.call("samurai.ClientIdentify", ident);
 			Log.d(TAG, back.toString());
 			return client;
