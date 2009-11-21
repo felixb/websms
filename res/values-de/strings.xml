@@ -42,7 +42,7 @@
 	<string name="enable_gmx">Aktiviere GMX</string>
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="enable_sipgate">Aktiviere Sipgate</string>
-	<string name="enable_sipgate_team">sipgate team</string>
+	<string name="enable_sipgate_team">Sipgate Team</string>
 	<string name="enable_sms">Aktiviere SMS</string>
 	<string name="enable_innosend">Aktiviere Innosend</string>
 	<string name="free_">Frei SMS:</string>
@@ -112,9 +112,8 @@
 	<string name="settings_o2">Einstellungen - o2</string>
 	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="settings_innosend">Einstellungen - Innosend</string>
-	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Einfache GUI für touch keys. App neu
-		starten.</string>
+	<string name="softkeyboard_">Keine Tastatur</string>
+	<string name="softkeyboard_hint">Wenn du keine echte Tastatur hast kannst du dieses alternative Layout nutzen. App neu starten.</string>
 	<string name="innosend_partner_">Account anlegen</string>
 	<string name="innosend_partner_hint">Neuen Innosend.de Account anlegen</string>
 	<string name="to_hint">Name oder Nummer</string>

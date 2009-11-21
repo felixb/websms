@@ -86,6 +86,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short INNOSEND_WO_SENDER = 5;
 	/** Connector type: Innosend w/ sender. */
 	static final short INNOSEND_W_SENDER = 6;
+	/** Connector type: Innosend. */
+	static final short INNOSEND = INNOSEND_WO_SENDER;
+
+	/** Number of connectors. */
+	static final short CONNECTORS = INNOSEND_W_SENDER + 1;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;

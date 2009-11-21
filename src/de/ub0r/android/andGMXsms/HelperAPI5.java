@@ -18,6 +18,8 @@
  */
 package de.ub0r.android.andGMXsms;
 
+import java.lang.reflect.Method;
+
 import android.app.Notification;
 import android.app.Service;
 import android.content.ContentResolver;
@@ -25,6 +27,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 /**
  * Helper class to set/unset background for api5 systems.
@@ -32,6 +35,9 @@ import android.provider.ContactsContract;
  * @author flx
  */
 public class HelperAPI5 {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.api5";
+
 	/** Sort Order. */
 	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
 			+ " DESC, "
@@ -49,16 +55,25 @@ public class HelperAPI5 {
 	};
 
 	/**
-	 * Default constructor.
+	 * Check whether API5 is available.
+	 * 
+	 * @return true if API5 is available
 	 */
-	public HelperAPI5() {
-		// Try if API5 is available. This is a workaround for CyanogenMod.
+	final boolean isAvailable() {
 		try {
-			String s = ContactsContract.AUTHORITY;
-			s += "";
-		} catch (Exception e) {
+			// final String s = ContactsContract.AUTHORITY;
+			Method mDebugMethod = Service.class.getMethod("startForeground",
+					new Class[] { Integer.TYPE, Notification.class });
+			/* success, this is a newer device */
+			if (mDebugMethod != null) {
+				return true;
+			}
+		} catch (Throwable e) {
+			Log.d(TAG, "no API5 available", e);
 			throw new VerifyError("no API5 available");
 		}
+		Log.d(TAG, "no API5 available");
+		throw new VerifyError("no API5 available");
 	}
 
 	/**
@@ -124,6 +139,15 @@ public class HelperAPI5 {
 		service.stopForeground(removeNotification);
 	}
 
+	/**
+	 * Get a Name for a given number.
+	 * 
+	 * @param act
+	 *            activity to get the cursor from
+	 * @param number
+	 *            number to look for
+	 * @return name matching the number
+	 */
 	final String getNameForNumber(final WebSMS act, final String number) {
 		String ret = null;
 

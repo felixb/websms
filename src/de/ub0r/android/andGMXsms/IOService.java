@@ -111,8 +111,12 @@ public class IOService extends Service {
 
 		try {
 			this.helperAPI5 = new HelperAPI5();
+			if (!this.helperAPI5.isAvailable()) {
+				this.helperAPI5 = null;
+			}
 		} catch (VerifyError e) {
-			Log.d(TAG, "no api5 running");
+			this.helperAPI5 = null;
+			Log.d(TAG, "no api5 running", e);
 		}
 	}
 

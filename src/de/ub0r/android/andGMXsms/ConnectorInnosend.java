@@ -221,7 +221,8 @@ public class ConnectorInnosend extends Connector {
 					.trim();
 			int i = htmlText.indexOf(',');
 			if (i > 0) {
-				WebSMS.BALANCE_INNOSEND = htmlText.substring(0, i + 3);
+				WebSMS.SMS_BALANCE[INNOSEND] = htmlText.substring(0, i + 3)
+						+ "\u20AC";
 				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			} else {
 				i = htmlText.indexOf("<br>");

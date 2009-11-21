@@ -248,13 +248,12 @@ public class ConnectorGMX extends Connector {
 					// fetch additional info
 					String p = this.getParam(outp, "free_rem_month");
 					if (p != null) {
-						WebSMS.SMS_FREE[GMX][WebSMS.SMS_FREE_COUNT] = Integer
-								.parseInt(p);
+						String b = p;
 						p = this.getParam(outp, "free_max_month");
 						if (p != null) {
-							WebSMS.SMS_FREE[GMX][WebSMS.SMS_FREE_LIMIT] = Integer
-									.parseInt(p);
+							b += "/" + p;
 						}
+						WebSMS.SMS_BALANCE[GMX] = b;
 						this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");

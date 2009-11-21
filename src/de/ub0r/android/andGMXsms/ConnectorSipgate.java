@@ -112,7 +112,7 @@ public class ConnectorSipgate extends Connector {
 			back = (Map<String, Object>) client.call("samurai.BalanceGet");
 			Log.d(TAG, back.toString());
 			if (back.get("StatusCode").equals(new Integer(HTTP_SERVICE_OK))) {
-				WebSMS.BALANCE_SIPGATE = String.format("%.2f",
+				WebSMS.SMS_BALANCE[SIPGATE] = String.format("%.2f \u20AC",
 						((Double) ((Map<String, Object>) back
 								.get("CurrentBalance"))
 								.get("TotalIncludingVat")));

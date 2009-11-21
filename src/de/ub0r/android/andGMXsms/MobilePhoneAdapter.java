@@ -26,6 +26,7 @@ import android.provider.BaseColumns;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ import android.widget.TextView;
  * @author flx
  */
 public class MobilePhoneAdapter extends ResourceCursorAdapter {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.mpa";
 
 	/** INDEX: name. */
 	public static final int NAME_INDEX = 1;
@@ -126,10 +129,13 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
 		if (WebSMS.helperAPI5 != null) {
 			// switch to API 5 if needed.
+			Log.d(TAG, "run runQueryOnBackgroundThread(" + constraint
+					+ ") via API5 wrapper");
 			return WebSMS.helperAPI5.runQueryOnBackgroundThread(
 					this.mContentResolver, constraint);
 		}
-
+		Log.d(TAG, "run runQueryOnBackgroundThread(" + constraint
+				+ ") via old API");
 		String where = null;
 
 		if (constraint != null) {

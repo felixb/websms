@@ -423,8 +423,8 @@ public class ConnectorO2 extends Connector {
 				int j = this.htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS],
 						i);
 				if (j > 0) {
-					WebSMS.SMS_FREE[O2][WebSMS.SMS_FREE_COUNT] = Integer
-							.parseInt(this.htmlText.substring(i + 9, j).trim());
+					WebSMS.SMS_BALANCE[O2] = this.htmlText.substring(i + 9, j)
+							.trim();
 					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				}
 			}

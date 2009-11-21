@@ -51,6 +51,7 @@
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="enable_sipgate">Enable Sipgate</string>
+	<string name="enable_sipgate_team">Sipgate Team</string>
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_innosend">Enable Innosend</string>
 	<string name="free_">Free SMS:</string>
@@ -118,8 +119,8 @@
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="settings_innosend">Preferences - Innosend</string>
-	<string name="softkeyboard_">Touchscreen</string>
-	<string name="softkeyboard_hint">Reduce GUI for touch keys. Restart App.
+	<string name="softkeyboard_">No keyboard</string>
+	<string name="softkeyboard_hint">If you have no real keyboard, you may use an alternative layout. Restart App.
 	</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git
 	</string>
@@ -137,9 +138,17 @@
 		<item>GMX</item>
 		<item>o2</item>
 		<item>Sipgate</item>
-		<item>Innosend\nfree</item>
-		<item>Innosend\nw/o sender</item>
-		<item>Innosend\nw/ sender</item>
-		<item>SipgateTeam</item>
+		<item>Innosend free</item>
+		<item>Innosend w/o sender</item>
+		<item>Innosend w/ sender</item>
+	</string-array>
+	<string-array name="connectors_balance_">
+		<item>SMS:</item>
+		<item>GMX:</item>
+		<item>o2:</item>
+		<item>Sipgate:</item>
+		<item>Innosend:</item>
+		<item>Innosend:</item>
+		<item>Innosend:</item>
 	</string-array>
 </resources>

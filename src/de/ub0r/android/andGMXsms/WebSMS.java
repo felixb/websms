@@ -55,12 +55,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,27 +139,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsSender;
 	/** Preferences: default prefix. */
 	static String prefsDefPrefix;
-	/** Preferences: ready for gmx? */
-	static boolean prefsReadyGMX = false;
-	/** Preferences: ready for o2? */
-	static boolean prefsReadyO2 = false;
-	/** Preferences: ready for sipgate? */
-	static boolean prefsReadySipgate = false;
-	/** Preferences: ready for innosend? */
-	static boolean prefsReadyInnosend = false;
-	/** Remaining free sms. */
-	static String remFree = null;
-	/** Preferences: enable gmx. */
-	static boolean prefsEnableGMX = false;
-	/** Preferences: enable o2. */
-	static boolean prefsEnableO2 = false;
-	/** Preferences: enable sipgate. */
-	static boolean prefsEnableSipgate = false;
+	/** Preferences: enable sipgate team. */
 	static boolean prefsEnableSipgateTeam = false;
-	/** Preferences: enable sms. */
-	static boolean prefsEnableSMS = false;
-	/** Preferences: enable innosend. */
-	static boolean prefsEnableInnosend = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
 	/** Preferences: gmx hostname id. */
@@ -229,19 +208,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Helper for API 5. */
 	static HelperAPI5 helperAPI5 = null;
 
-	/**
-	 * Remaining free sms. First dimension is the Connector, second is the
-	 * free/limit.
-	 */
-	static final int[][] SMS_FREE = { { 0, 0 }, { 0, 0 }, { 0, 0 } };
-	/** ID of sms free count in array SMS_FREE. */
-	static final int SMS_FREE_COUNT = 0;
-	/** ID of sms limit in array SMS_FREE. */
-	static final int SMS_FREE_LIMIT = 1;
-	// balance of sipgate.de
-	static String BALANCE_SIPGATE = "0.00";
-	// balance of innosend.de
-	static String BALANCE_INNOSEND = "0.00";
+	/** Balance of different accounts. */
+	static final String[] SMS_BALANCE = new String[Connector.CONNECTORS];
+	/** enabled accounts. */
+	static final boolean[] CONNECTORS_ENABLED = new boolean[Connector.CONNECTORS];
+	/** ready accounts. */
+	static final boolean[] CONNECTORS_READY = new boolean[Connector.CONNECTORS];
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -271,46 +243,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				return;
 			case MESSAGE_FREECOUNT:
-				WebSMS.remFree = "";
-				if (WebSMS.prefsEnableGMX) {
-					WebSMS.remFree = "GMX: "
-							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_COUNT]
-							+ " / "
-							+ WebSMS.SMS_FREE[Connector.GMX][WebSMS.SMS_FREE_LIMIT];
-				}
-				if (WebSMS.prefsEnableO2) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "O2: "
-							+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_COUNT];
-					if (WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT] > 0) {
-						WebSMS.remFree += " / "
-								+ WebSMS.SMS_FREE[Connector.O2][WebSMS.SMS_FREE_LIMIT];
-					}
-				}
-				if (WebSMS.prefsEnableSipgate) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "Sipgate: ";
-					WebSMS.remFree += BALANCE_SIPGATE + " \u20AC";
-				}
-				if (WebSMS.prefsEnableInnosend) {
-					if (WebSMS.remFree.length() > 0) {
-						WebSMS.remFree += " - ";
-					}
-					WebSMS.remFree += "Innosend: ";
-					WebSMS.remFree += BALANCE_INNOSEND + " \u20AC";
-				}
-				if (WebSMS.remFree.length() == 0) {
-					WebSMS.remFree = "---";
-				}
-				TextView tw = (TextView) WebSMS.this
-						.findViewById(R.id.freecount);
-				tw.setText(WebSMS.this.getString(R.string.free_) + " "
-						+ WebSMS.remFree + " "
-						+ WebSMS.this.getString(R.string.click_for_update));
+				WebSMS.this.updateBalance();
 				return;
 			case MESSAGE_SETTINGS:
 				WebSMS.this.startActivity(new Intent(WebSMS.this,
@@ -430,8 +363,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		me = this;
 		try {
 			WebSMS.helperAPI5 = new HelperAPI5();
+			if (!helperAPI5.isAvailable()) {
+				WebSMS.helperAPI5 = null;
+			}
 		} catch (VerifyError e) {
-			Log.d(TAG, "no api5 running");
+			WebSMS.helperAPI5 = null;
+			Log.d(TAG, "no api5 running", e);
 		}
 		// Restore preferences
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -495,8 +432,12 @@ public class WebSMS extends Activity implements OnClickListener,
 							// try to fetch recipient's name from phonebook
 							String n = null;
 							if (helperAPI5 != null) {
+								Log.d(TAG, "run getNameForNumber(" + s
+										+ ") via API5 wrapper");
 								n = helperAPI5.getNameForNumber(this, s);
 							} else {
+								Log.d(TAG, "run getNameForNumber(" + s
+										+ ") via old API");
 								Cursor c = this
 										.managedQuery(
 												Phones.CONTENT_URI,
@@ -553,6 +494,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
 		}
+		this.updateFreecount();
 	}
 
 	/**
@@ -562,23 +504,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	protected final void onResume() {
 		super.onResume();
 		// set free sms count
-		if (remFree != null) {
-			TextView tw = (TextView) this.findViewById(R.id.freecount);
-			tw.setText(this.getResources().getString(R.string.free_)
-					+ " "
-					+ remFree
-					+ " "
-					+ WebSMS.this.getResources().getString(
-							R.string.click_for_update));
-		} else {
-			TextView tw = (TextView) this.findViewById(R.id.freecount);
-			tw.setText(this.getResources().getString(R.string.free_)
-					+ " "
-					+ WebSMS.this.getResources().getString(
-							R.string.click_for_update));
-		}
+		this.updateBalance();
 
-		// restart dialog
+		// restart dialog if needed
 		if (dialogString != null) {
 			if (dialog != null) {
 				try {
@@ -590,11 +518,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			dialog = ProgressDialog.show(this, null, dialogString, true);
 		}
 
+		// if coming from prefs..
 		if (doPreferences) {
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			if (prefsEnableGMX
+			if (CONNECTORS_ENABLED[Connector.GMX]
 					&& this.prefsOnChgListener.wasChanged(Connector.GMX)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
@@ -624,6 +553,29 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Update balance.
+	 */
+	private void updateBalance() {
+		final StringBuilder buf = new StringBuilder();
+		final String[] prefixes = this.getResources().getStringArray(
+				R.array.connectors_balance_);
+		String s = "";
+		for (int i = 0; i < Connector.CONNECTORS; i++) {
+			if (WebSMS.CONNECTORS_ENABLED[i] && WebSMS.SMS_BALANCE[i] != null) {
+				if (buf.length() > 0) {
+					buf.append(", ");
+				}
+				buf.append(prefixes[i]);
+				buf.append(" ");
+				buf.append(WebSMS.SMS_BALANCE[i]);
+			}
+		}
+		TextView tw = (TextView) this.findViewById(R.id.freecount);
+		tw.setText(this.getString(R.string.free_) + " " + buf.toString() + " "
+				+ this.getString(R.string.click_for_update));
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -633,10 +585,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastMsg = ((EditText) this.findViewById(R.id.text)).getText()
 				.toString();
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
-
-		prefsConnector = Connector.getConnectorID(this, ((Spinner) this
-				.findViewById(R.id.change_connector)).getSelectedItem()
-				.toString());
 
 		// store input data to preferences
 		SharedPreferences.Editor editor = this.preferences.edit();
@@ -665,25 +613,28 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsSender = this.preferences.getString(PREFS_SENDER, "");
 		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
 
-		prefsEnableGMX = this.preferences.getBoolean(PREFS_ENABLE_GMX, false);
+		CONNECTORS_ENABLED[Connector.GMX] = this.preferences.getBoolean(
+				PREFS_ENABLE_GMX, false);
 		prefsMail = this.preferences.getString(PREFS_MAIL, "");
 		prefsUserGMX = this.preferences.getString(PREFS_USER, "");
 		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
 
-		prefsEnableO2 = this.preferences.getBoolean(PREFS_ENABLE_O2, false);
+		CONNECTORS_ENABLED[Connector.O2] = this.preferences.getBoolean(
+				PREFS_ENABLE_O2, false);
 		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
 
-		prefsEnableSipgate = this.preferences.getBoolean(PREFS_ENABLE_SIPGATE,
-				false);
+		CONNECTORS_ENABLED[Connector.SIPGATE] = this.preferences.getBoolean(
+				PREFS_ENABLE_SIPGATE, false);
 		prefsEnableSipgateTeam = this.preferences.getBoolean(
 				PREFS_ENABLE_SIPGATE_TEAM, false);
 		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
 		prefsPasswordSipgate = this.preferences.getString(
 				PREFS_PASSWORD_SIPGATE, "");
 
-		prefsEnableSMS = this.preferences.getBoolean(PREFS_ENABLE_SMS, true);
+		CONNECTORS_ENABLED[Connector.SMS] = this.preferences.getBoolean(
+				PREFS_ENABLE_SMS, true);
 
-		prefsEnableInnosend = this.preferences.getBoolean(
+		CONNECTORS_ENABLED[Connector.INNOSEND] = this.preferences.getBoolean(
 				PREFS_ENABLE_INNOSEND, false);
 		prefsUserInnosend = this.preferences.getString(PREFS_USER_INNOSEND, "");
 		prefsPasswordInnosend = this.preferences.getString(
@@ -714,54 +665,25 @@ public class WebSMS extends Activity implements OnClickListener,
 		int s = 0;
 		short con = 0;
 
-		final ArrayList<String> items = new ArrayList<String>();
-		final String[] allItems = this.getResources().getStringArray(
-				R.array.connectors);
-		if (prefsEnableSMS) {
-			s = c;
+		if (CONNECTORS_ENABLED[Connector.SMS]) {
 			++c;
 			con = Connector.SMS;
-			items.add(allItems[Connector.SMS]);
 		}
-		if (prefsEnableGMX) {
-			if (prefsConnector == Connector.GMX) {
-				s = c;
-			}
+		if (CONNECTORS_ENABLED[Connector.GMX]) {
 			++c;
 			con = Connector.GMX;
-			items.add(allItems[Connector.GMX]);
 		}
-		if (prefsEnableO2) {
-			if (prefsConnector == Connector.O2) {
-				s = c;
-			}
+		if (CONNECTORS_ENABLED[Connector.O2]) {
 			++c;
 			con = Connector.O2;
-			items.add(allItems[Connector.O2]);
 		}
-		if (prefsEnableSipgate) {
-			if (prefsConnector == Connector.SIPGATE) {
-				s = c;
-			}
+		if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
 			++c;
 			con = Connector.SIPGATE;
-			items.add(allItems[Connector.SIPGATE]);
 		}
-		if (prefsEnableInnosend) {
+		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
 			c += 3;
 			con = Connector.INNOSEND_W_SENDER;
-			items.add(allItems[Connector.INNOSEND_FREE]);
-			items.add(allItems[Connector.INNOSEND_WO_SENDER]);
-			items.add(allItems[Connector.INNOSEND_W_SENDER]);
-			if (prefsConnector == Connector.INNOSEND_FREE) {
-				s = c - 3;
-			}
-			if (prefsConnector == Connector.INNOSEND_WO_SENDER) {
-				s = c - 2;
-			}
-			if (prefsConnector == Connector.INNOSEND_W_SENDER) {
-				s = c - 1;
-			}
 		}
 
 		Button btn = (Button) this.findViewById(R.id.send_);
@@ -769,19 +691,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		btn.setEnabled(c > 0);
 		btn.setVisibility(View.VISIBLE);
 		if (c < 2) {
-			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
 			prefsConnector = con;
-		} else {
-			this.findViewById(R.id.change_connector)
-					.setVisibility(View.VISIBLE);
 		}
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.simple_spinner_item, items);
-		adapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner spinner = (Spinner) this.findViewById(R.id.change_connector);
-		spinner.setAdapter(adapter);
-		spinner.setSelection(s);
+
+		this.setTitle(this.getString(R.string.app_name) + " - "
+				+ Connector.getConnectorName(this, prefsConnector));
 	}
 
 	/**
@@ -789,46 +703,48 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void checkPrefs() {
 		// check prefs
-		if (prefsEnableGMX && prefsMail.length() != 0
+		if (CONNECTORS_ENABLED[Connector.GMX] && prefsMail.length() != 0
 				&& prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
 				&& prefsSender.length() != 0) {
-			prefsReadyGMX = true;
+			CONNECTORS_READY[Connector.GMX] = true;
 		} else {
-			if (prefsEnableGMX && !Connector.inBootstrap) {
+			if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
-			prefsReadyGMX = false;
+			CONNECTORS_READY[Connector.GMX] = false;
 		}
-		if (prefsEnableO2 && prefsSender.length() != 0
+		if (CONNECTORS_ENABLED[Connector.O2] && prefsSender.length() != 0
 				&& prefsPasswordO2.length() != 0) {
-			prefsReadyO2 = true;
+			CONNECTORS_READY[Connector.O2] = true;
 		} else {
-			if (prefsEnableO2) {
+			if (CONNECTORS_ENABLED[Connector.O2]) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
-			prefsReadyO2 = false;
+			CONNECTORS_READY[Connector.O2] = false;
 		}
-		if (prefsEnableSipgate && prefsUserSipgate.length() != 0
+		if (CONNECTORS_ENABLED[Connector.SIPGATE]
+				&& prefsUserSipgate.length() != 0
 				&& prefsPasswordSipgate.length() != 0) {
-			prefsReadySipgate = true;
+			CONNECTORS_READY[Connector.SIPGATE] = true;
 		} else {
-			if (prefsEnableSipgate) {
+			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
-			prefsReadySipgate = false;
+			CONNECTORS_READY[Connector.SIPGATE] = false;
 		}
-		if (prefsEnableInnosend && prefsUserInnosend.length() != 0
+		if (CONNECTORS_ENABLED[Connector.INNOSEND]
+				&& prefsUserInnosend.length() != 0
 				&& prefsPasswordInnosend.length() != 0) {
-			prefsReadyInnosend = true;
+			CONNECTORS_READY[Connector.INNOSEND] = true;
 		} else {
-			if (prefsEnableInnosend) {
+			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
 				this.log(this.getResources().getString(
 						R.string.log_empty_settings));
 			}
-			prefsReadyInnosend = false;
+			CONNECTORS_READY[Connector.INNOSEND] = false;
 		}
 
 		this.setButtons();
@@ -868,70 +784,26 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Run Connector.update().
+	 */
+	private void updateFreecount() {
+		for (short i = 0; i < Connector.CONNECTORS; i++) {
+			if (CONNECTORS_ENABLED[i]) {
+				Connector.update(this, i);
+			}
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public final void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.freecount:
-			if (prefsEnableGMX) {
-				Connector.update(this, Connector.GMX);
-			}
-			if (prefsEnableO2) {
-				Connector.update(this, Connector.O2);
-			}
-			if (prefsEnableSipgate) {
-				Connector.update(this, Connector.SIPGATE);
-			}
-			if (prefsEnableInnosend) {
-				Connector.update(this, Connector.INNOSEND_W_SENDER);
-			}
+			this.updateFreecount();
 			break;
 		case R.id.send_:
-			prefsConnector = Connector.getConnectorID(this, ((Spinner) this
-					.findViewById(R.id.change_connector)).getSelectedItem()
-					.toString());
 			this.send(prefsConnector);
-			break;
-		case R.id.change_connector:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.change_connector_);
-			final ArrayList<String> items = new ArrayList<String>();
-			final String[] allItems = this.getResources().getStringArray(
-					R.array.connectors);
-			if (prefsEnableGMX) {
-				items.add(allItems[Connector.GMX]);
-			}
-			if (prefsEnableO2) {
-				items.add(allItems[Connector.O2]);
-			}
-			if (prefsEnableSipgate) {
-				items.add(allItems[Connector.SIPGATE]);
-			}
-			if (prefsEnableInnosend) {
-				// items.add(allItems[Connector.INNOSEND_FREE]);
-				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
-				items.add(allItems[Connector.INNOSEND_W_SENDER]);
-			}
-			builder.setItems(items.toArray(new String[0]),
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int item) {
-							final int c = allItems.length;
-							for (int i = 0; i < c; i++) {
-								if (items.get(item).equals(allItems[i])) {
-									prefsConnector = (short) i;
-									break;
-								}
-							}
-							WebSMS.this.setButtons();
-							// save user preferences
-							final SharedPreferences.Editor editor = WebSMS.this.preferences
-									.edit();
-							editor.putInt(PREFS_CONNECTOR, prefsConnector);
-							editor.commit();
-						}
-					});
-			builder.create().show();
 			break;
 		case R.id.cancel:
 			this.reset();
@@ -989,6 +861,45 @@ public class WebSMS extends Activity implements OnClickListener,
 			} catch (ActivityNotFoundException e) {
 				Log.e(TAG, "no market", e);
 			}
+			return true;
+		case R.id.item_connector:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.change_connector_);
+			final ArrayList<String> items = new ArrayList<String>();
+			final String[] allItems = this.getResources().getStringArray(
+					R.array.connectors);
+			if (CONNECTORS_ENABLED[Connector.SMS]) {
+				items.add(allItems[Connector.SMS]);
+			}
+			if (CONNECTORS_ENABLED[Connector.GMX]) {
+				items.add(allItems[Connector.GMX]);
+			}
+			if (CONNECTORS_ENABLED[Connector.O2]) {
+				items.add(allItems[Connector.O2]);
+			}
+			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
+				items.add(allItems[Connector.SIPGATE]);
+			}
+			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
+				items.add(allItems[Connector.INNOSEND_FREE]);
+				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+				items.add(allItems[Connector.INNOSEND_W_SENDER]);
+			}
+			builder.setItems(items.toArray(new String[0]),
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int item) {
+							prefsConnector = Connector.getConnectorID(
+									WebSMS.this, items.get(item));
+							WebSMS.this.setButtons();
+							// save user preferences
+							final SharedPreferences.Editor editor = WebSMS.this.preferences
+									.edit();
+							editor.putInt(PREFS_CONNECTOR, prefsConnector);
+							editor.commit();
+						}
+					});
+			builder.create().show();
 			return true;
 		default:
 			return false;

@@ -32,6 +32,12 @@
 	<TextView android:text="@string/free_" android:id="@+id/freecount"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:focusable="true" />
+			
+	<MultiAutoCompleteTextView android:text=""
+		android:id="@+id/to" android:hint="@string/to_hint"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
+		android:imeOptions="actionNext" />
 
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
@@ -39,11 +45,6 @@
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1">
 
-			<MultiAutoCompleteTextView android:text=""
-				android:id="@+id/to" android:hint="@string/to_hint"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
-				android:imeOptions="actionNext" />
 			<RelativeLayout android:layout_width="fill_parent"
 				android:layout_height="fill_parent" android:layout_weight="1"
 				android:addStatesFromChildren="true">
@@ -60,17 +61,13 @@
 		</LinearLayout>
 
 		<LinearLayout android:orientation="vertical"
-			android:layout_width="wrap_content" android:layout_height="fill_parent">
-			<Button android:text="@string/send_" android:id="@+id/send_"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1" />
-			<Spinner android:id="@+id/change_connector"
-				android:drawSelectorOnTop="true" android:prompt="@string/change_connector_"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1" />
+			android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="bottom" >
 			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1" />
+				 />
+			<Button android:text="@string/send_" android:id="@+id/send_"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				 />
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
