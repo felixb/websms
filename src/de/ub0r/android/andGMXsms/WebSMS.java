@@ -432,12 +432,8 @@ public class WebSMS extends Activity implements OnClickListener,
 							// try to fetch recipient's name from phonebook
 							String n = null;
 							if (helperAPI5 != null) {
-								Log.d(TAG, "run getNameForNumber(" + s
-										+ ") via API5 wrapper");
 								n = helperAPI5.getNameForNumber(this, s);
 							} else {
-								Log.d(TAG, "run getNameForNumber(" + s
-										+ ") via old API");
 								Cursor c = this
 										.managedQuery(
 												Phones.CONTENT_URI,
