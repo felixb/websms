@@ -38,6 +38,9 @@ public class HelperAPI5 {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.api5";
 
+	/** Error message if API5 is not available. */
+	private static final String ERRORMESG = "no API5 available";
+
 	/** Sort Order. */
 	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
 			+ " DESC, "
@@ -61,7 +64,6 @@ public class HelperAPI5 {
 	 */
 	final boolean isAvailable() {
 		try {
-			// final String s = ContactsContract.AUTHORITY;
 			Method mDebugMethod = Service.class.getMethod("startForeground",
 					new Class[] { Integer.TYPE, Notification.class });
 			/* success, this is a newer device */
@@ -69,11 +71,11 @@ public class HelperAPI5 {
 				return true;
 			}
 		} catch (Throwable e) {
-			Log.d(TAG, "no API5 available", e);
-			throw new VerifyError("no API5 available");
+			Log.d(TAG, ERRORMESG, e);
+			throw new VerifyError(ERRORMESG);
 		}
-		Log.d(TAG, "no API5 available");
-		throw new VerifyError("no API5 available");
+		Log.d(TAG, ERRORMESG);
+		throw new VerifyError(ERRORMESG);
 	}
 
 	/**
