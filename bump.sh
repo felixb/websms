@@ -1,7 +1,7 @@
 #! /bin/sh
 
-v=$1
-vv=$(echo ${v} | sed -e 's:0\.::g' | tr -d .)
+v=${1}
+vv=$(echo ${v}.0.0 | cut -d. -f1-3 | sed -e 's:0\.::g' | tr -d .)
 n=$(fgrep app_name res/values/strings.xml | cut -d\> -f2 | cut -d\< -f1 | tr -d \ )
 
 sed -i -e "s/android:versionName=[^ >]*/android:versionName=\"${v}\"/" AndroidManifest.xml
