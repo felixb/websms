@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.7: add support for cherry-sms.com, force recipients as single line in portrait mode</item>
 		<item>v2.6.1: add support for Sipgate.de team accounts, autocomplete name if started from contacts, fix for cyanogen mod 4.2.5, update account balance on startup, new design for alternative layout</item>
 		<item>v2.6: add innosend.de, add standard sms, fix for android 2.0, set update link focusable by trackball, redesign main+prefs, fix link to project, remove ads for donators</item>
 		<item>v2.5.4: change notification icons, fix sending from contacts, remove ads for donator, fix failed send</item>
