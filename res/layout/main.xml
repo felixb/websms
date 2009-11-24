@@ -37,7 +37,7 @@
 		android:id="@+id/to" android:hint="@string/to_hint"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
-		android:imeOptions="actionNext" />
+		android:imeOptions="actionNext" android:singleLine="true" />
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_weight="1"
 		android:addStatesFromChildren="true">
