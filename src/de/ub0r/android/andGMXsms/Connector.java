@@ -88,9 +88,15 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short INNOSEND_W_SENDER = 6;
 	/** Connector type: Innosend. */
 	static final short INNOSEND = INNOSEND_WO_SENDER;
+	/** Connector type: CherrySMS w/o sender. */
+	static final short CHERRY_WO_SENDER = 7;
+	/** Connector type: CherrySMS w/ sender. */
+	static final short CHERRY_W_SENDER = 8;
+	/** Connector type: CherrySMS. */
+	static final short CHERRY = CHERRY_WO_SENDER;
 
 	/** Number of connectors. */
-	static final short CONNECTORS = INNOSEND_W_SENDER + 1;
+	static final short CONNECTORS = CHERRY_W_SENDER + 1;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -343,6 +349,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		case INNOSEND_W_SENDER:
 			c = new ConnectorInnosend(WebSMS.prefsUserInnosend,
 					WebSMS.prefsPasswordInnosend, connector);
+			break;
+		case CHERRY_WO_SENDER:
+		case CHERRY_W_SENDER:
+			c = new ConnectorCherrySMS(
+					international2oldformat(WebSMS.prefsSender), WebSMS
+							.md5(WebSMS.prefsPasswordCherrySMS), connector);
 			break;
 		default:
 			Log.e(TAG, "missing Connector");

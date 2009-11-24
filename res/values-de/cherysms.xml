@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--                                                                                                                                          
+                Copyright (C) 2009 Felix Bechstein 
+        --> 
+        <!-- 
+                This file is part of WebSMS. This program is free software; you can 
+                redistribute it and/or modify it under the terms of the GNU General 
+                Public License as published by the Free Software Foundation; either 
+                version 3 of the License, or (at your option) any later version. 
+        --> 
+        <!-- 
+                This program is distributed in the hope that it will be useful, but 
+                WITHOUT ANY WARRANTY; without even the implied warranty of 
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+                General Public License for more details. You should have received a 
+                copy of the GNU General Public License along with this program; If 
+                not, see <http://www.gnu.org/licenses/>. 
+        --> 
+<resources>
+	<string name="log_error_cherry_10">Falscher Empf&#228;nger!</string>
+	<string name="log_error_cherry_20">Sender falsch!</string>
+	<string name="log_error_cherry_30">Nachrichtentext falsch!</string>
+	<string name="log_error_cherry_31">Nachrichtentyp falsch!</string>
+	<string name="log_error_cherry_40">SMS Route falsch!</string>
+	<string name="log_error_cherry_50">Identifikation fehlgeschlagen!</string>
+	<string name="log_error_cherry_60">Nicht genug Guthaben!</string>
+	<string name="log_error_cherry_70">Netz wird von Route nicht abgedeckt!</string>
+	<string name="log_error_cherry_71">Feature nicht &#252;ber diese Route m&#246;glich!</string>
+	<string name="log_error_cherry_80">&#220;bergabe an SMS-C fehlgeschlagen!</string>
+	<string name="log_error_cherry_90">Versand nicht m&#246;glich!</string>
+	<string name="log_error_cherry_100">SMS wurde versendet</string>
+</resources>

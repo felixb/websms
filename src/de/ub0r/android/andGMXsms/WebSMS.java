@@ -94,6 +94,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_USER_INNOSEND = "user_innosend";
 	/** Preference's name: user's password - innosend. */
 	private static final String PREFS_PASSWORD_INNOSEND = "password_innosend";
+	/** Preference's name: user's password - cherrysms. */
+	private static final String PREFS_PASSWORD_CHERRYSMS = "password_cherrysms";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -111,6 +113,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable innosend. */
 	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
+	/** Preference's name: enable cherrysms. */
+	private static final String PREFS_ENABLE_CHERRYSMS = "enable_cherrysms";
 	/** Preference's name: gmx hostname id. */
 	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
@@ -135,6 +139,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsUserInnosend;
 	/** Preferences: user's password - innosend. */
 	static String prefsPasswordInnosend;
+	/** Preferences: user's password - cherrysms. */
+	static String prefsPasswordCherrySMS;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -636,6 +642,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordInnosend = this.preferences.getString(
 				PREFS_PASSWORD_INNOSEND, "");
 
+		CONNECTORS_ENABLED[Connector.CHERRY] = this.preferences.getBoolean(
+				PREFS_ENABLE_CHERRYSMS, false);
+		prefsPasswordCherrySMS = this.preferences.getString(
+				PREFS_PASSWORD_CHERRYSMS, "");
+
 		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
 		prefsNoAds = false;
@@ -680,6 +691,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
 			c += 3;
 			con = Connector.INNOSEND_W_SENDER;
+		}
+		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
+			c += 2;
+			con = Connector.CHERRY_W_SENDER;
 		}
 
 		Button btn = (Button) this.findViewById(R.id.send_);
@@ -741,6 +756,16 @@ public class WebSMS extends Activity implements OnClickListener,
 						R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.INNOSEND] = false;
+		}
+		if (CONNECTORS_ENABLED[Connector.CHERRY]
+				&& prefsPasswordCherrySMS.length() != 0) {
+			CONNECTORS_READY[Connector.CHERRY] = true;
+		} else {
+			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			CONNECTORS_READY[Connector.CHERRY] = false;
 		}
 
 		this.setButtons();
@@ -880,6 +905,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				items.add(allItems[Connector.INNOSEND_FREE]);
 				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
 				items.add(allItems[Connector.INNOSEND_W_SENDER]);
+			}
+			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
+				items.add(allItems[Connector.CHERRY_WO_SENDER]);
+				items.add(allItems[Connector.CHERRY_W_SENDER]);
 			}
 			builder.setItems(items.toArray(new String[0]),
 					new DialogInterface.OnClickListener() {
@@ -1112,7 +1141,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            input
 	 * @return hash
 	 */
-	private static String md5(final String s) {
+	static String md5(final String s) {
 		try {
 			// Create MD5 Hash
 			MessageDigest digest = java.security.MessageDigest

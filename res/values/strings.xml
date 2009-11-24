@@ -54,6 +54,7 @@
 	<string name="enable_sipgate_team">Sipgate Team</string>
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_innosend">Enable Innosend</string>
+	<string name="enable_cherrysms">Enable CherrySMS</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
@@ -106,6 +107,7 @@
 	</string>
 	<string name="user_innosend_">Innosend Username</string>
 	<string name="password_innosend_">Innosend Password</string>
+	<string name="password_cherrysms_">CherrySMS Password</string>
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
@@ -119,6 +121,7 @@
 	<string name="settings_o2">Preferences - o2</string>
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="settings_innosend">Preferences - Innosend</string>
+	<string name="settings_cherrysms">Preferences - CherrySMS</string>
 	<string name="softkeyboard_">No keyboard</string>
 	<string name="softkeyboard_hint">If you have no real keyboard, you may use an alternative layout. Restart App.
 	</string>
@@ -128,11 +131,14 @@
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/websmsdroid/
 	</string>
-	<string name="innosend_partner_">Create account</string>
-	<string name="innosend_partner_hint">Create new Innosend.de Account</string>
-	<string name="innosend_partner_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
+	<string name="create_account_">Create account</string>
+	<string name="partner_innosend_hint">Create new Innosend.de account</string>
+	<string name="partner_innosend_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
+	<string name="partner_cherrysms_hint">Create new cherry-sms.com account</string>
+	<string name="partner_cherrysms_url">http://www.cherry-sms.com/?ref=DWNWAAAU</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
+	
 	<string-array name="connectors">
 		<item>SMS</item>
 		<item>GMX</item>
@@ -141,7 +147,10 @@
 		<item>Innosend free</item>
 		<item>Innosend w/o sender</item>
 		<item>Innosend w/ sender</item>
+		<item>CherrySMS w/o sender</item>
+		<item>CherrySMS w/ sender</item>
 	</string-array>
+	
 	<string-array name="connectors_balance_">
 		<item>SMS:</item>
 		<item>GMX:</item>
@@ -149,6 +158,8 @@
 		<item>Sipgate:</item>
 		<item>Innosend:</item>
 		<item>Innosend:</item>
-		<item>Innosend:</item>
+		<item>Innosend:</item>>
+		<item>CherrySMS:</item>
+		<item>CherrySMS:</item>
 	</string-array>
 </resources>

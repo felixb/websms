@@ -26,7 +26,6 @@ import android.provider.BaseColumns;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
