@@ -28,12 +28,14 @@
 			android:title="@string/softkeyboard_" android:summary="@string/softkeyboard_hint" />
 		<CheckBoxPreference android:key="change_connector_button"
 			android:title="@string/change_connector_button" android:summary="@string/change_connector_button_hint" />
+		<CheckBoxPreference android:key="autoupdate"
+			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_connectors">
-		
+
 		<CheckBoxPreference android:key="enable_sms"
 			android:title="@string/enable_sms" android:defaultValue="true" />
-		
+
 		<PreferenceScreen android:title="@string/settings_gmx">
 			<CheckBoxPreference android:key="enable_gmx"
 				android:title="@string/enable_gmx" />
@@ -46,7 +48,7 @@
 				android:summary="@string/password_hint" android:inputType="textPassword"
 				android:dependency="enable_gmx" />
 		</PreferenceScreen>
-		
+
 		<PreferenceScreen android:title="@string/settings_o2">
 			<CheckBoxPreference android:key="enable_o2"
 				android:title="@string/enable_o2" />
@@ -55,7 +57,7 @@
 				android:summary="@string/password_o2_hint" android:inputType="textPassword"
 				android:dependency="enable_o2" />
 		</PreferenceScreen>
-		
+
 		<PreferenceScreen android:title="@string/settings_sipgate">
 			<CheckBoxPreference android:key="enable_sipgate"
 				android:title="@string/enable_sipgate" />
@@ -67,9 +69,10 @@
 				android:inputType="textPassword" android:summary="@string/password_sipgate_hint"
 				android:title="@string/password_sipgate_" android:dialogTitle="@string/password_sipgate_"
 				android:dependency="enable_sipgate" />
-		<CheckBoxPreference android:key="enable_sipgate_team" android:title="@string/enable_sipgate_team"></CheckBoxPreference>
+			<CheckBoxPreference android:key="enable_sipgate_team"
+				android:title="@string/enable_sipgate_team"></CheckBoxPreference>
 		</PreferenceScreen>
-		
+
 		<PreferenceScreen android:title="@string/settings_innosend">
 			<CheckBoxPreference android:key="enable_innosend"
 				android:title="@string/enable_innosend" />
@@ -79,19 +82,24 @@
 			<EditTextPreference android:key="password_innosend"
 				android:inputType="textPassword" android:title="@string/password_innosend_"
 				android:dialogTitle="@string/password_innosend_" android:dependency="enable_innosend" />
-			<PreferenceScreen android:title="@string/create_account_" android:summary="@string/partner_innosend_hint" >
-				<intent android:action="android.intent.action.VIEW" android:data="@string/partner_innosend_url" />
+			<PreferenceScreen android:title="@string/create_account_"
+				android:summary="@string/partner_innosend_hint">
+				<intent android:action="android.intent.action.VIEW"
+					android:data="@string/partner_innosend_url" />
 			</PreferenceScreen>
 		</PreferenceScreen>
-		
+
 		<PreferenceScreen android:title="@string/settings_cherrysms">
 			<CheckBoxPreference android:key="enable_cherrysms"
 				android:title="@string/enable_cherrysms" />
 			<EditTextPreference android:key="password_cherrysms"
 				android:inputType="textPassword" android:title="@string/password_cherrysms_"
-				android:dialogTitle="@string/password_cherrysms_" android:dependency="enable_cherrysms" />
-			<PreferenceScreen android:title="@string/create_account_" android:summary="@string/partner_cherrysms_hint" >
-				<intent android:action="android.intent.action.VIEW" android:data="@string/partner_cherrysms_url" />
+				android:dialogTitle="@string/password_cherrysms_"
+				android:dependency="enable_cherrysms" />
+			<PreferenceScreen android:title="@string/create_account_"
+				android:summary="@string/partner_cherrysms_hint">
+				<intent android:action="android.intent.action.VIEW"
+					android:data="@string/partner_cherrysms_url" />
 			</PreferenceScreen>
 		</PreferenceScreen>
 	</PreferenceCategory>

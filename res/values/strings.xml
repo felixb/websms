@@ -18,8 +18,9 @@
 	-->
 <resources>
 	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and cheap SMS via following providers:
-	GMX, o2, sipgate.de, innosend.de .
+	<string name="about">WebSMS enables you to send free and cheap SMS
+		via following providers:
+		GMX, o2, sipgate.de, innosend.de .
 	</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.7</string>
@@ -104,8 +105,7 @@
 	<string name="user_sipgate_hint">Onlineusername for sipgate.de
 	</string>
 	<string name="password_sipgate_">Sipgate Password</string>
-	<string name="password_sipgate_hint">Onlinepassword for sipgate.de
-	</string>
+	<string name="password_sipgate_hint">Onlinepassword for sipgate.de</string>
 	<string name="user_innosend_">Innosend Username</string>
 	<string name="password_innosend_">Innosend Password</string>
 	<string name="password_cherrysms_">CherrySMS Password</string>
@@ -124,16 +124,15 @@
 	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="settings_cherrysms">Preferences - CherrySMS</string>
 	<string name="change_connector_button">"Chg. provider" button</string>
-	<string name="change_connector_button_hint">Display a "Change provider" button on main screen</string>
+	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
 	<string name="softkeyboard_">No keyboard</string>
-	<string name="softkeyboard_hint">If you have no real keyboard, you may use an alternative layout. Restart App.
-	</string>
-	<string name="source">http://repo.or.cz/w/andGMXsms.git
-	</string>
+	<string name="softkeyboard_hint">No hardare keyboard? Use the alternative layout. Restart App!</string>
+	<string name="autoupdate_">Autoupdate</string>
+	<string name="autoupdate_hint">Update account balances on start.</string>
+	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
-	<string name="website">http://code.google.com/p/websmsdroid/
-	</string>
+	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="create_account_">Create account</string>
 	<string name="partner_innosend_hint">Create new Innosend.de account</string>
 	<string name="partner_innosend_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>

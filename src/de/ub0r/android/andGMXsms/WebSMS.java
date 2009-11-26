@@ -102,17 +102,20 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_DEFPREFIX = "defprefix";
 	/** Preference's name: touch keyboard. */
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
+	/** Preference's name: update balace on start. */
+	private static final String PREFS_AUTOUPDATE = "autoupdate";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
+	/** Preference's name: enable sms. */
+	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable gmx. */
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
+	/** Preference's name: enable sipgate team accounts. */
 	private static final String PREFS_ENABLE_SIPGATE_TEAM = "enable_sipgate_team";
-	/** Preference's name: enable sms. */
-	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable innosend. */
 	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
 	/** Preference's name: enable cherrysms. */
@@ -500,7 +503,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
 		}
-		this.updateFreecount(false);
+		if (this.preferences.getBoolean(PREFS_AUTOUPDATE, false)) {
+			this.updateFreecount(false);
+		}
 	}
 
 	/**
