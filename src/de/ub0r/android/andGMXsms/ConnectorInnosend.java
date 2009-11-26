@@ -55,7 +55,7 @@ public class ConnectorInnosend extends Connector {
 	 *            connector type
 	 */
 	public ConnectorInnosend(final String u, final String p, final short con) {
-		super(u, p);
+		super(u, p, con);
 		switch (con) {
 		case INNOSEND_FREE:
 			this.connector = 2;

@@ -81,7 +81,7 @@ public class ConnectorGMX extends Connector {
 	 *            password
 	 */
 	protected ConnectorGMX(final String u, final String p) {
-		super(u, p);
+		super(u, p, GMX);
 	}
 
 	/**

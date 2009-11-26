@@ -500,7 +500,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
 		}
-		this.updateFreecount();
+		this.updateFreecount(false);
 	}
 
 	/**
@@ -819,10 +819,15 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/**
 	 * Run Connector.update().
+	 * 
+	 * @param forceUpdate
+	 *            force update, if false only blank balances will get updated
 	 */
-	private void updateFreecount() {
+	private void updateFreecount(final boolean forceUpdate) {
 		for (short i = 0; i < Connector.CONNECTORS; i++) {
-			if (CONNECTORS_ENABLED[i]) {
+			if (CONNECTORS_ENABLED[i]
+					&& (forceUpdate || SMS_BALANCE[i] == null || SMS_BALANCE[i]
+							.length() == 0)) {
 				Connector.update(this, i);
 			}
 		}
@@ -834,7 +839,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.freecount:
-			this.updateFreecount();
+			this.updateFreecount(true);
 			break;
 		case R.id.send_:
 			this.send(prefsConnector);

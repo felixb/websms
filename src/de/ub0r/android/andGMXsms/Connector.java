@@ -167,6 +167,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Connector is bootstrapping. */
 	static boolean inBootstrap = false;
 
+	/** Connector is in update. */
+	private static boolean[] inUpdate = new boolean[CONNECTORS];
+
 	/** Type of IO Op. */
 	protected String type;
 
@@ -181,6 +184,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Notification showed in case of failure. */
 	private Notification notification = null;
+
+	/** Type of connector. */
+	private short connector = 0;
 
 	/**
 	 * Exception while Connector IO.
@@ -236,8 +242,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            user
 	 * @param p
 	 *            password
+	 * @param con
+	 *            connector type
 	 */
-	protected Connector(final String u, final String p) {
+	protected Connector(final String u, final String p, final short con) {
+		this.connector = con;
 		this.user = u;
 		this.password = p;
 	}
@@ -601,6 +610,27 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected abstract boolean sendMessage() throws WebSMSException;
 
 	/**
+	 * Check if update is possible.
+	 * 
+	 * @param startUpdate
+	 *            true for starting, false for ending update
+	 * @return true if update is possible
+	 */
+	private synchronized boolean checkUpdate(final boolean startUpdate) {
+		if (startUpdate) {
+			if (inUpdate[this.connector]) {
+				return false;
+			} else {
+				inUpdate[this.connector] = true;
+				return true;
+			}
+		} else {
+			inUpdate[this.connector] = false;
+			return true;
+		}
+	}
+
+	/**
 	 * Prepare reciepients before sending.
 	 */
 	private void prepareSend() {
@@ -644,8 +674,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			}
 			this.type = t;
 			if (t == ID_UPDATE) {
+				if (!this.checkUpdate(true)) {
+					return false;
+				}
 				this.publishProgress(false);
 				ret = this.updateMessages();
+				this.checkUpdate(false);
 			} else if (t == ID_BOOSTR) {
 				this.publishProgress(false);
 				ret = this.doBootstrap(params);

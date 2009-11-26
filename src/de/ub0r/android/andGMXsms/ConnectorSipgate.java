@@ -55,7 +55,7 @@ public class ConnectorSipgate extends Connector {
 	 *            password
 	 */
 	protected ConnectorSipgate(final String u, final String p) {
-		super(u, p);
+		super(u, p, SIPGATE);
 	}
 
 	/**

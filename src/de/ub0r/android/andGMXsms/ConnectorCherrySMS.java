@@ -52,7 +52,7 @@ public class ConnectorCherrySMS extends Connector {
 	 *            connector type
 	 */
 	public ConnectorCherrySMS(final String u, final String p, final short con) {
-		super(u, p);
+		super(u, p, con);
 		switch (con) {
 		case CHERRY_WO_SENDER:
 			this.sendWithSender = false;

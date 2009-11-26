@@ -138,7 +138,7 @@ public class ConnectorO2 extends Connector {
 	 *            password
 	 */
 	protected ConnectorO2(final String u, final String p) {
-		super(u, p);
+		super(u, p, O2);
 	}
 
 	/**
