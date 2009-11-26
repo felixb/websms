@@ -26,6 +26,8 @@
 			android:summary="@string/defprefix_hint" android:inputType="text" />
 		<CheckBoxPreference android:key="softkeyboard"
 			android:title="@string/softkeyboard_" android:summary="@string/softkeyboard_hint" />
+		<CheckBoxPreference android:key="change_connector_button"
+			android:title="@string/change_connector_button" android:summary="@string/change_connector_button_hint" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_connectors">
 		

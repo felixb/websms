@@ -32,6 +32,7 @@
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>
 	<string name="change_connector_">Change provider</string>
+	<string name="change_connector_nl">Change\nprovider</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="compose">Compose</string>
@@ -122,6 +123,8 @@
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="settings_cherrysms">Preferences - CherrySMS</string>
+	<string name="change_connector_button">"Chg. provider" button</string>
+	<string name="change_connector_button_hint">Display a "Change provider" button on main screen</string>
 	<string name="softkeyboard_">No keyboard</string>
 	<string name="softkeyboard_hint">If you have no real keyboard, you may use an alternative layout. Restart App.
 	</string>

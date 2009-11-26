@@ -102,6 +102,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_DEFPREFIX = "defprefix";
 	/** Preference's name: touch keyboard. */
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
+	/** Preferemce's name: enable change connector button. */
+	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
 	/** Preference's name: enable gmx. */
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
@@ -407,6 +409,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		// register Listener
 		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
+		((Button) this.findViewById(R.id.change_connector))
+				.setOnClickListener(this);
 
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		((EditText) this.findViewById(R.id.text))
@@ -647,6 +651,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordCherrySMS = this.preferences.getString(
 				PREFS_PASSWORD_CHERRYSMS, "");
 
+		final boolean b = this.preferences.getBoolean(
+				PREFS_CHANGE_CONNECTOR_BUTTON, false);
+		final View v = this.findViewById(R.id.change_connector);
+		if (b) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+
 		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
 		prefsNoAds = false;
@@ -837,6 +850,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			this.dismissDialog(DIALOG_CAPTCHA);
 			break;
+		case R.id.change_connector:
+			this.changeConnectorMenu();
+			break;
 		default:
 			break;
 		}
@@ -850,6 +866,53 @@ public class WebSMS extends Activity implements OnClickListener,
 		MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return true;
+	}
+
+	/**
+	 * Display "change connector" menu.
+	 */
+	private final void changeConnectorMenu() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.change_connector_);
+		final ArrayList<String> items = new ArrayList<String>();
+		final String[] allItems = this.getResources().getStringArray(
+				R.array.connectors);
+		if (CONNECTORS_ENABLED[Connector.SMS]) {
+			items.add(allItems[Connector.SMS]);
+		}
+		if (CONNECTORS_ENABLED[Connector.GMX]) {
+			items.add(allItems[Connector.GMX]);
+		}
+		if (CONNECTORS_ENABLED[Connector.O2]) {
+			items.add(allItems[Connector.O2]);
+		}
+		if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
+			items.add(allItems[Connector.SIPGATE]);
+		}
+		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
+			items.add(allItems[Connector.INNOSEND_FREE]);
+			items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+			items.add(allItems[Connector.INNOSEND_W_SENDER]);
+		}
+		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
+			items.add(allItems[Connector.CHERRY_WO_SENDER]);
+			items.add(allItems[Connector.CHERRY_W_SENDER]);
+		}
+		builder.setItems(items.toArray(new String[0]),
+				new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog,
+							final int item) {
+						prefsConnector = Connector.getConnectorID(WebSMS.this,
+								items.get(item));
+						WebSMS.this.setButtons();
+						// save user preferences
+						final SharedPreferences.Editor editor = WebSMS.this.preferences
+								.edit();
+						editor.putInt(PREFS_CONNECTOR, prefsConnector);
+						editor.commit();
+					}
+				});
+		builder.create().show();
 	}
 
 	/**
@@ -884,47 +947,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return true;
 		case R.id.item_connector:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.change_connector_);
-			final ArrayList<String> items = new ArrayList<String>();
-			final String[] allItems = this.getResources().getStringArray(
-					R.array.connectors);
-			if (CONNECTORS_ENABLED[Connector.SMS]) {
-				items.add(allItems[Connector.SMS]);
-			}
-			if (CONNECTORS_ENABLED[Connector.GMX]) {
-				items.add(allItems[Connector.GMX]);
-			}
-			if (CONNECTORS_ENABLED[Connector.O2]) {
-				items.add(allItems[Connector.O2]);
-			}
-			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-				items.add(allItems[Connector.SIPGATE]);
-			}
-			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-				items.add(allItems[Connector.INNOSEND_FREE]);
-				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
-				items.add(allItems[Connector.INNOSEND_W_SENDER]);
-			}
-			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-				items.add(allItems[Connector.CHERRY_WO_SENDER]);
-				items.add(allItems[Connector.CHERRY_W_SENDER]);
-			}
-			builder.setItems(items.toArray(new String[0]),
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int item) {
-							prefsConnector = Connector.getConnectorID(
-									WebSMS.this, items.get(item));
-							WebSMS.this.setButtons();
-							// save user preferences
-							final SharedPreferences.Editor editor = WebSMS.this.preferences
-									.edit();
-							editor.putInt(PREFS_CONNECTOR, prefsConnector);
-							editor.commit();
-						}
-					});
-			builder.create().show();
+			this.changeConnectorMenu();
 			return true;
 		default:
 			return false;

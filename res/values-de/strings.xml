@@ -26,6 +26,7 @@
 	<string name="captcha_">Gib das Wort unten ein</string>
 	<string name="captcha_btn_">Absenden</string>
 	<string name="change_connector_">Anderer Provider</string>
+	<string name="change_connector_nl">Anderer\nProvider</string>
 	<string name="click_for_update">(update: klick)</string>
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
@@ -115,6 +116,8 @@
 	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="settings_innosend">Einstellungen - Innosend</string>
 	<string name="settings_cherrysms">Einstellungen - CherrySMS</string>
+	<string name="change_connector_button">"Anderer Provider" Button</string>
+	<string name="change_connector_button_hint">Zeige den "Anderer Provider" Button auf dem Main Screen an</string>
 	<string name="softkeyboard_">Keine Tastatur</string>
 	<string name="softkeyboard_hint">Wenn du keine echte Tastatur hast kannst du dieses alternative Layout nutzen. App neu starten.</string>
 	<string name="create_account_">Account anlegen</string>
