@@ -168,7 +168,13 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static boolean inBootstrap = false;
 
 	/** Connector is in update. */
-	private static boolean[] inUpdate = new boolean[CONNECTORS];
+	private static final boolean[] IN_UPDATE = new boolean[CONNECTORS];
+
+	static {
+		for (int i = 0; i < CONNECTORS; i++) {
+			IN_UPDATE[i] = false;
+		}
+	}
 
 	/** Type of IO Op. */
 	protected String type;
@@ -618,14 +624,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	private synchronized boolean checkUpdate(final boolean startUpdate) {
 		if (startUpdate) {
-			if (inUpdate[this.connector]) {
+			if (IN_UPDATE[this.connector]) {
 				return false;
 			} else {
-				inUpdate[this.connector] = true;
+				IN_UPDATE[this.connector] = true;
 				return true;
 			}
 		} else {
-			inUpdate[this.connector] = false;
+			IN_UPDATE[this.connector] = false;
 			return true;
 		}
 	}
