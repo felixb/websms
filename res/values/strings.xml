@@ -23,7 +23,7 @@
 		GMX, o2, sipgate.de, innosend.de .
 	</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">2.7</string>
+	<string name="app_version">2.7.1</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt; (GUI, GMX,
 		o2)</string>
