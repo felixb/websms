@@ -362,6 +362,7 @@ public class ConnectorGMX extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected boolean supportFlashsms() {
 		return true;
 	}
@@ -369,7 +370,16 @@ public class ConnectorGMX extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected boolean supportCustomsender() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean supportSendLater() {
 		return true;
 	}
 }

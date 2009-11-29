@@ -142,6 +142,7 @@
 	<string name="text_hint">Text</string>
 	<string name="flashsms">Flash SMS</string>
 	<string name="custom_sender">Custom sender</string>
+	<string name="send_later">Send later</string>
 	
 	<string-array name="connectors">
 		<item>SMS</item>

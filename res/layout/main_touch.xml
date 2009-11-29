@@ -69,6 +69,9 @@
 			<CheckBox android:text="@string/custom_sender" android:id="@+id/custom_sender"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:gravity="center_vertical" />
+			<CheckBox android:text="@string/send_later" android:id="@+id/send_later"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:gravity="center_vertical" />
 			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 			<Button android:text="@string/change_connector_nl" android:id="@+id/change_connector"

@@ -21,11 +21,16 @@ package de.ub0r.android.andGMXsms;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -57,10 +62,12 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
@@ -71,7 +78,7 @@ import com.admob.android.ads.AdView;
  * @author flx
  */
 public class WebSMS extends Activity implements OnClickListener,
-		ServiceConnection {
+		ServiceConnection, OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
 
@@ -198,6 +205,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_DONATE = 4;
 	/** Dialog: custom sender. */
 	private static final int DIALOG_CUSTOMSENDER = 5;
+	/** Dialog: send later: date. */
+	private static final int DIALOG_SENDLATER_DATE = 6;
+	/** Dialog: send later: time. */
+	private static final int DIALOG_SENDLATER_TIME = 7;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -732,10 +743,12 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
 		boolean sCustomsender = Connector.supportCustomsender(prefsConnector);
+		boolean sSendLater = Connector.supportSendLater(prefsConnector);
 
-		if (!sFlashsms && !sCustomsender) {
+		if (!sFlashsms && !sCustomsender && !sSendLater) {
 			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
 			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+			this.findViewById(R.id.send_later).setVisibility(View.GONE);
 		} else {
 			View v = this.findViewById(R.id.flashsms);
 			v.setVisibility(View.VISIBLE);
@@ -743,11 +756,13 @@ public class WebSMS extends Activity implements OnClickListener,
 			v = this.findViewById(R.id.custom_sender);
 			v.setVisibility(View.VISIBLE);
 			v.setEnabled(sCustomsender);
+			v = this.findViewById(R.id.send_later);
+			v.setVisibility(View.VISIBLE);
+			v.setEnabled(sCustomsender);
 		}
 
 		this.setTitle(this.getString(R.string.app_name) + " - "
 				+ Connector.getConnectorName(this, prefsConnector));
-
 	}
 
 	/**
@@ -1087,8 +1102,13 @@ public class WebSMS extends Activity implements OnClickListener,
 								final int id) {
 							WebSMS.lastParams[Connector.ID_CUSTOMSENDER] = et
 									.getText().toString();
-							WebSMS.this.send(WebSMS.prefsConnector,
-									WebSMS.lastParams);
+							if (WebSMS.lastParams[Connector.ID_SENDLATER] != null) {
+								WebSMS.this
+										.showDialog(WebSMS.DIALOG_SENDLATER_DATE);
+							} else {
+								WebSMS.this.send(WebSMS.prefsConnector,
+										WebSMS.lastParams);
+							}
 							dialog.dismiss();
 						}
 					});
@@ -1100,6 +1120,14 @@ public class WebSMS extends Activity implements OnClickListener,
 						}
 					});
 			return builder.create();
+		case DIALOG_SENDLATER_DATE:
+			Calendar c = Calendar.getInstance();
+			return new DatePickerDialog(this, this, c.get(Calendar.YEAR), c
+					.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		case DIALOG_SENDLATER_TIME:
+			c = Calendar.getInstance();
+			return new TimePickerDialog(this, this,
+					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
 		default:
 			return null;
 		}
@@ -1206,19 +1234,86 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
-		boolean flashSMS = (v.getVisibility() == View.VISIBLE) && v.isEnabled()
-				&& v.isChecked();
+		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
+				&& v.isEnabled() && v.isChecked();
+		v = (CheckBox) this.findViewById(R.id.send_later);
+		long t = -1;
+		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
+				&& v.isChecked()) {
+			t = 0;
+		}
 		String customSender = null;
 		String[] params = Connector.buildSendParams(to, text, flashSMS,
-				customSender);
+				customSender, 0);
+		if (t < 0) {
+			params[Connector.ID_SENDLATER] = null;
+		} else {
+			params[Connector.ID_SENDLATER] = "" + t;
+		}
 		v = (CheckBox) this.findViewById(R.id.custom_sender);
 		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
 				&& v.isChecked()) {
 			lastParams = params;
 			this.showDialog(DIALOG_CUSTOMSENDER);
 		} else {
-			this.send(connector, params);
+			if (t >= 0) {
+				lastParams = params;
+				this.showDialog(DIALOG_SENDLATER_DATE);
+			} else {
+				this.send(connector, params);
+			}
 		}
+	}
+
+	/**
+	 * A Date was set.
+	 * 
+	 * @param view
+	 *            DatePicker View
+	 * @param year
+	 *            year set
+	 * @param monthOfYear
+	 *            month set
+	 * @param dayOfMonth
+	 *            day set
+	 */
+	public final void onDateSet(final DatePicker view, final int year,
+			final int monthOfYear, final int dayOfMonth) {
+		final Calendar c = Calendar.getInstance();
+		if (lastParams[Connector.ID_SENDLATER] != null) {
+			c.setTimeInMillis(Long
+					.parseLong(lastParams[Connector.ID_SENDLATER]));
+		}
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, monthOfYear);
+		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+		lastParams[Connector.ID_SENDLATER] = "" + c.getTimeInMillis();
+
+		this.showDialog(DIALOG_SENDLATER_TIME);
+	}
+
+	/**
+	 * A Time was set.
+	 * 
+	 * @param view
+	 *            TimePicker View
+	 * @param hour
+	 *            hour set
+	 * @param minutes
+	 *            minutes set
+	 */
+	public final void onTimeSet(final TimePicker view, final int hour,
+			final int minutes) {
+		final Calendar c = Calendar.getInstance();
+		if (lastParams[Connector.ID_SENDLATER] != null) {
+			c.setTimeInMillis(Long
+					.parseLong(lastParams[Connector.ID_SENDLATER]));
+		}
+		c.set(Calendar.HOUR_OF_DAY, hour);
+		c.set(Calendar.MINUTE, minutes);
+		lastParams[Connector.ID_SENDLATER] = "" + c.getTimeInMillis();
+
+		this.send(WebSMS.prefsConnector, WebSMS.lastParams);
 	}
 
 	/**

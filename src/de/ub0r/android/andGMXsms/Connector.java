@@ -108,6 +108,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_FLASHSMS = 3;
 	/** ID of custom sender. */
 	static final int ID_CUSTOMSENDER = 4;
+	/** ID of send later. */
+	static final int ID_SENDLATER = 5;
 
 	/** ID of mail in array. */
 	static final int ID_MAIL = 1;
@@ -115,7 +117,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_PW = 2;
 
 	/** Number of IDs in array for sms send. */
-	static final int IDS_SEND = 5;
+	static final int IDS_SEND = 6;
 
 	/** ID_ID for sending a message. */
 	static final String ID_SEND = "0";
@@ -294,10 +296,13 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            true if sms should be send as flashsms
 	 * @param customSender
 	 *            custom sender if wanted
+	 * @param sendLater
+	 *            timestamp for sending later
 	 * @return params[] array
 	 */
 	public static final String[] buildSendParams(final String recipients,
-			final String text, final boolean flashSMS, final String customSender) {
+			final String text, final boolean flashSMS,
+			final String customSender, final long sendLater) {
 		String[] params = new String[IDS_SEND];
 		params[ID_ID] = ID_SEND;
 		params[ID_TEXT] = text;
@@ -308,6 +313,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			params[ID_FLASHSMS] = null;
 		}
 		params[ID_CUSTOMSENDER] = customSender;
+		params[ID_SENDLATER] = "" + sendLater;
 		return params;
 	}
 
@@ -326,12 +332,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            true if sms should be send as flashsms
 	 * @param customSender
 	 *            custom sender if wanted
+	 * @param sendLater
+	 *            timestamp for sending later
 	 */
 	public static final void send(final Context con, final short connector,
 			final String recipients, final String text, final boolean flashSMS,
-			final String customSender) {
+			final String customSender, final long sendLater) {
 		Connector.send(con, connector, buildSendParams(recipients, text,
-				flashSMS, customSender));
+				flashSMS, customSender, sendLater));
 	}
 
 	/**
@@ -888,6 +896,26 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	static final boolean supportCustomsender(final short connector) {
 		return getConnector(null, connector).supportCustomsender();
+	}
+
+	/**
+	 * Check whether this connector supports send later. Override to change.
+	 * 
+	 * @return true if connector supports custom sender
+	 */
+	protected boolean supportSendLater() {
+		return false;
+	}
+
+	/**
+	 * Check given connector.
+	 * 
+	 * @param connector
+	 *            connector to check
+	 * @return true if given connector supports send later
+	 */
+	static final boolean supportSendLater(final short connector) {
+		return getConnector(null, connector).supportSendLater();
 	}
 
 	/**

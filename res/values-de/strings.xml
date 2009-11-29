@@ -125,4 +125,5 @@
 	<string name="partner_cherrysms_hint">Neuen cherry-sms.com Account anlegen</string>
 	<string name="to_hint">Name oder Nummer</string>
 	<string name="custom_sender">Anderer Absender</string>
+	<string name="send_later">Später senden</string>
 </resources>

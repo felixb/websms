@@ -470,6 +470,7 @@ public class ConnectorO2 extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected boolean supportFlashsms() {
 		return true;
 	}
@@ -477,7 +478,16 @@ public class ConnectorO2 extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected boolean supportCustomsender() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean supportSendLater() {
 		return true;
 	}
 }
