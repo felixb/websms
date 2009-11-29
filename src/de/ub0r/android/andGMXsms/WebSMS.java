@@ -56,6 +56,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
@@ -195,6 +196,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_CAPTCHA = 3;
 	/** Dialog: donate. */
 	private static final int DIALOG_DONATE = 4;
+	/** Dialog: custom sender. */
+	private static final int DIALOG_CUSTOMSENDER = 5;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -216,6 +219,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static String lastMsg = null;
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
+
+	/** Backup for params. */
+	private static String[] lastParams = null;
 
 	/** Helper for API 5. */
 	static HelperAPI5 helperAPI5 = null;
@@ -724,8 +730,24 @@ public class WebSMS extends Activity implements OnClickListener,
 			prefsConnector = con;
 		}
 
+		boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
+		boolean sCustomsender = Connector.supportCustomsender(prefsConnector);
+
+		if (!sFlashsms && !sCustomsender) {
+			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
+			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+		} else {
+			View v = this.findViewById(R.id.flashsms);
+			v.setVisibility(View.VISIBLE);
+			v.setEnabled(sFlashsms);
+			v = this.findViewById(R.id.custom_sender);
+			v.setVisibility(View.VISIBLE);
+			v.setEnabled(sCustomsender);
+		}
+
 		this.setTitle(this.getString(R.string.app_name) + " - "
 				+ Connector.getConnectorName(this, prefsConnector));
+
 	}
 
 	/**
@@ -1041,7 +1063,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface dialog,
 								final int id) {
-							dialog.cancel();
+							dialog.dismiss();
 						}
 					});
 			return builder.create();
@@ -1053,6 +1075,31 @@ public class WebSMS extends Activity implements OnClickListener,
 			((Button) d.findViewById(R.id.captcha_btn))
 					.setOnClickListener(this);
 			return d;
+		case DIALOG_CUSTOMSENDER:
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.custom_sender);
+			builder.setCancelable(true);
+			final EditText et = new EditText(this);
+			builder.setView(et);
+			builder.setPositiveButton(android.R.string.ok,
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int id) {
+							WebSMS.lastParams[Connector.ID_CUSTOMSENDER] = et
+									.getText().toString();
+							WebSMS.this.send(WebSMS.prefsConnector,
+									WebSMS.lastParams);
+							dialog.dismiss();
+						}
+					});
+			builder.setPositiveButton(android.R.string.cancel,
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int id) {
+							dialog.cancel();
+						}
+					});
+			return builder.create();
 		default:
 			return null;
 		}
@@ -1117,6 +1164,24 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @param connector
 	 *            which connector should be used.
+	 * @param params
+	 *            parameters to push to connector
+	 */
+	private void send(final short connector, final String[] params) {
+		try {
+			this.mIOOp.sendMessage(connector, params);
+		} catch (RemoteException e) {
+			Log.e(TAG, null, e);
+		} finally {
+			this.reset();
+		}
+	}
+
+	/**
+	 * Send Text.
+	 * 
+	 * @param connector
+	 *            which connector should be used.
 	 */
 	private void send(final short connector) {
 		// fetch text/recipient
@@ -1139,18 +1204,20 @@ public class WebSMS extends Activity implements OnClickListener,
 			((AdView) WebSMS.this.findViewById(R.id.ad))
 					.setVisibility(View.VISIBLE);
 		}
-		// start a Connector Thread
-		// Connector.send(connector, to, text);
-		String[] params = new String[Connector.IDS_SEND];
-		params[Connector.ID_ID] = Connector.ID_SEND;
-		params[Connector.ID_TO] = to;
-		params[Connector.ID_TEXT] = text;
-		try {
-			this.mIOOp.sendMessage(connector, params);
-		} catch (RemoteException e) {
-			Log.e(TAG, null, e);
-		} finally {
-			this.reset();
+
+		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
+		boolean flashSMS = (v.getVisibility() == View.VISIBLE) && v.isEnabled()
+				&& v.isChecked();
+		String customSender = null;
+		String[] params = Connector.buildSendParams(to, text, flashSMS,
+				customSender);
+		v = (CheckBox) this.findViewById(R.id.custom_sender);
+		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
+				&& v.isChecked()) {
+			lastParams = params;
+			this.showDialog(DIALOG_CUSTOMSENDER);
+		} else {
+			this.send(connector, params);
 		}
 	}
 

@@ -358,4 +358,18 @@ public class ConnectorGMX extends Connector {
 		writePair(packetData, "gmx", "1");
 		return this.sendData(closeBuffer(packetData));
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected boolean supportFlashsms() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected boolean supportCustomsender() {
+		return true;
+	}
 }

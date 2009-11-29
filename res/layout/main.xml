@@ -64,4 +64,13 @@
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />
 	</LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="0">
+		<CheckBox android:text="@string/flashsms" android:id="@+id/flashsms"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" android:gravity="center_vertical" />
+		<CheckBox android:text="@string/custom_sender" android:id="@+id/custom_sender"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" android:gravity="center_vertical" />
+	</LinearLayout>
 </LinearLayout>

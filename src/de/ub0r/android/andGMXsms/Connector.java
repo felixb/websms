@@ -104,6 +104,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_TEXT = 1;
 	/** ID of recipient in array. */
 	static final int ID_TO = 2;
+	/** ID of falshsms. */
+	static final int ID_FLASHSMS = 3;
+	/** ID of custom sender. */
+	static final int ID_CUSTOMSENDER = 4;
 
 	/** ID of mail in array. */
 	static final int ID_MAIL = 1;
@@ -111,7 +115,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_PW = 2;
 
 	/** Number of IDs in array for sms send. */
-	static final int IDS_SEND = 3;
+	static final int IDS_SEND = 5;
 
 	/** ID_ID for sending a message. */
 	static final String ID_SEND = "0";
@@ -154,6 +158,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Text. */
 	protected String text;
+	/** Send as flashSMS? */
+	protected boolean flashSMS;
+	/** Custom sender. */
+	protected String customSender;
 
 	/** User. */
 	protected final String user;
@@ -276,6 +284,34 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Build a params[] array for sending a sms.
+	 * 
+	 * @param recipients
+	 *            Receivers of the message.
+	 * @param text
+	 *            Text which should be sent.
+	 * @param flashSMS
+	 *            true if sms should be send as flashsms
+	 * @param customSender
+	 *            custom sender if wanted
+	 * @return params[] array
+	 */
+	public static final String[] buildSendParams(final String recipients,
+			final String text, final boolean flashSMS, final String customSender) {
+		String[] params = new String[IDS_SEND];
+		params[ID_ID] = ID_SEND;
+		params[ID_TEXT] = text;
+		params[ID_TO] = recipients;
+		if (flashSMS) {
+			params[ID_FLASHSMS] = "1";
+		} else {
+			params[ID_FLASHSMS] = null;
+		}
+		params[ID_CUSTOMSENDER] = customSender;
+		return params;
+	}
+
+	/**
 	 * Send a message to one or more receivers. This is done in background!
 	 * 
 	 * @param con
@@ -286,14 +322,16 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            Receivers of the message.
 	 * @param text
 	 *            Text which should be sent.
+	 * @param flashSMS
+	 *            true if sms should be send as flashsms
+	 * @param customSender
+	 *            custom sender if wanted
 	 */
 	public static final void send(final Context con, final short connector,
-			final String recipients, final String text) {
-		String[] params = new String[IDS_SEND];
-		params[ID_ID] = ID_SEND;
-		params[ID_TEXT] = text;
-		params[ID_TO] = recipients;
-		Connector.send(con, connector, params);
+			final String recipients, final String text, final boolean flashSMS,
+			final String customSender) {
+		Connector.send(con, connector, buildSendParams(recipients, text,
+				flashSMS, customSender));
 	}
 
 	/**
@@ -692,7 +730,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			} else if (t == ID_SEND) {
 				this.text = params[ID_TEXT];
 				this.tos = params[ID_TO];
-				// this.to = getReceivers(params);
+				this.flashSMS = params[ID_FLASHSMS] != null;
+				this.customSender = params[ID_CUSTOMSENDER];
 				this.prepareSend();
 				this.notification = this.updateNotification(null);
 				IOService.register(this.notification);
@@ -809,6 +848,46 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			IOService.unregister(this.notification, !result);
 		}
 		Log.d(TAG, "onPostExecute(" + result + ") return");
+	}
+
+	/**
+	 * Check whether this connector supports flashsms. Override to change.
+	 * 
+	 * @return true if connector supports flashsms
+	 */
+	protected boolean supportFlashsms() {
+		return false;
+	}
+
+	/**
+	 * Check given connector.
+	 * 
+	 * @param connector
+	 *            connector to check
+	 * @return true if given connector supports flashsms
+	 */
+	static final boolean supportFlashsms(final short connector) {
+		return getConnector(null, connector).supportFlashsms();
+	}
+
+	/**
+	 * Check whether this connector supports custom sender. Override to change.
+	 * 
+	 * @return true if connector supports custom sender
+	 */
+	protected boolean supportCustomsender() {
+		return false;
+	}
+
+	/**
+	 * Check given connector.
+	 * 
+	 * @param connector
+	 *            connector to check
+	 * @return true if given connector supports custom sender
+	 */
+	static final boolean supportCustomsender(final short connector) {
+		return getConnector(null, connector).supportCustomsender();
 	}
 
 	/**

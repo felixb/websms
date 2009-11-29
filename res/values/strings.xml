@@ -140,6 +140,8 @@
 	<string name="partner_cherrysms_url">http://www.cherry-sms.com/?ref=DWNWAAAU</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
+	<string name="flashsms">Flash SMS</string>
+	<string name="custom_sender">Custom sender</string>
 	
 	<string-array name="connectors">
 		<item>SMS</item>

@@ -124,4 +124,5 @@
 	<string name="partner_innosend_hint">Neuen Innosend.de Account anlegen</string>
 	<string name="partner_cherrysms_hint">Neuen cherry-sms.com Account anlegen</string>
 	<string name="to_hint">Name oder Nummer</string>
+	<string name="custom_sender">Anderer Absender</string>
 </resources>

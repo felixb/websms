@@ -466,4 +466,18 @@ public class ConnectorO2 extends Connector {
 			return true;
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected boolean supportFlashsms() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected boolean supportCustomsender() {
+		return true;
+	}
 }
