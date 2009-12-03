@@ -364,7 +364,8 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected boolean supportFlashsms() {
-		return true;
+		return false;
+		// return true;
 	}
 
 	/**
@@ -372,7 +373,8 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected boolean supportCustomsender() {
-		return true;
+		return false;
+		// return true;
 	}
 
 	/**
@@ -380,6 +382,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected boolean supportSendLater() {
-		return true;
+		return false;
+		// return true;
 	}
 }

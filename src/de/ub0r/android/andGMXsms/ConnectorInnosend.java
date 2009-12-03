@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 /**
@@ -37,6 +38,9 @@ public class ConnectorInnosend extends Connector {
 
 	/** Innosend Gateway URL. */
 	private static final String URL = "https://www.innosend.de/gateway/";
+
+	/** Custom Dateformater. */
+	private static final String DATEFORMAT = "dd.MM.yyyy-kk:mm";
 
 	/** Try to send free sms. */
 	private final boolean free;
@@ -201,8 +205,21 @@ public class ConnectorInnosend extends Connector {
 					url.append("&massen=1");
 				}
 				url.append("&absender=");
-				url.append(international2national(WebSMS.prefsSender));
+				if (this.customSender == null) {
+					url.append(international2national(WebSMS.prefsSender));
+				} else {
+					url.append(this.customSender);
+				}
 				url.append('&');
+				if (this.flashSMS) {
+					url.append("flash=1&");
+				}
+				if (this.sendLater > 0) {
+					// FIXME: timezone!
+					url.append("termin=");
+					url.append(DateFormat.format(DATEFORMAT, this.sendLater));
+					url.append('&');
+				}
 			} else {
 				url.append("konto.php?");
 			}
@@ -264,5 +281,29 @@ public class ConnectorInnosend extends Connector {
 			// result: ok
 			return true;
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean supportFlashsms() {
+		return (this.connector == 2 && !this.free);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean supportCustomsender() {
+		return (this.connector != 2 && !this.free);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean supportSendLater() {
+		return !this.free;
 	}
 }

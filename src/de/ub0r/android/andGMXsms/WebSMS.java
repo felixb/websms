@@ -744,21 +744,20 @@ public class WebSMS extends Activity implements OnClickListener,
 		boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
 		boolean sCustomsender = Connector.supportCustomsender(prefsConnector);
 		boolean sSendLater = Connector.supportSendLater(prefsConnector);
-
-		if (!sFlashsms && !sCustomsender && !sSendLater) {
-			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
-			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
-			this.findViewById(R.id.send_later).setVisibility(View.GONE);
+		if (sFlashsms) {
+			this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
 		} else {
-			View v = this.findViewById(R.id.flashsms);
-			v.setVisibility(View.VISIBLE);
-			v.setEnabled(sFlashsms);
-			v = this.findViewById(R.id.custom_sender);
-			v.setVisibility(View.VISIBLE);
-			v.setEnabled(sCustomsender);
-			v = this.findViewById(R.id.send_later);
-			v.setVisibility(View.VISIBLE);
-			v.setEnabled(sCustomsender);
+			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
+		}
+		if (sCustomsender) {
+			this.findViewById(R.id.custom_sender).setVisibility(View.VISIBLE);
+		} else {
+			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+		}
+		if (sSendLater) {
+			this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
+		} else {
+			this.findViewById(R.id.send_later).setVisibility(View.GONE);
 		}
 
 		this.setTitle(this.getString(R.string.app_name) + " - "
@@ -1112,7 +1111,7 @@ public class WebSMS extends Activity implements OnClickListener,
 							dialog.dismiss();
 						}
 					});
-			builder.setPositiveButton(android.R.string.cancel,
+			builder.setNegativeButton(android.R.string.cancel,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface dialog,
 								final int id) {

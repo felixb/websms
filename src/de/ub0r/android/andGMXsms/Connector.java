@@ -164,6 +164,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected boolean flashSMS;
 	/** Custom sender. */
 	protected String customSender;
+	/** Timestamp when to send sms. */
+	protected long sendLater;
 
 	/** User. */
 	protected final String user;
@@ -740,6 +742,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.tos = params[ID_TO];
 				this.flashSMS = params[ID_FLASHSMS] != null;
 				this.customSender = params[ID_CUSTOMSENDER];
+				final String s = params[ID_SENDLATER];
+				if (s == null) {
+					this.sendLater = -1;
+				} else {
+					this.sendLater = Long.parseLong(s);
+				}
 				this.prepareSend();
 				this.notification = this.updateNotification(null);
 				IOService.register(this.notification);

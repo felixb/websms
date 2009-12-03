@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.cookie.Cookie;
@@ -30,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 /**
@@ -40,6 +42,9 @@ import android.util.Log;
 public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2";
+
+	/** Custom Dateformater. */
+	private static final String DATEFORMAT = "yyyy,MM,dd,kk,mm,00";
 
 	/** Index in some arrays for o2online.de. */
 	private static final short O2_DE = 0;
@@ -330,9 +335,48 @@ public class ConnectorO2 extends Connector {
 		toBuf = null;
 		recvs = null;
 		postData.add(new BasicNameValuePair("SMSText", this.text));
-		postData.add(new BasicNameValuePair("SMSFrom", ""));
+		if (this.customSender != null) {
+			postData.add(new BasicNameValuePair("SMSFrom", this.customSender));
+			if (this.customSender.length() == 0) {
+				postData.add(new BasicNameValuePair("FlagAnonymous", "1"));
+			}
+		} else {
+			postData.add(new BasicNameValuePair("SMSFrom", ""));
+		}
 		postData.add(new BasicNameValuePair("Frequency", "5"));
-
+		if (this.flashSMS) {
+			postData.add(new BasicNameValuePair("FlagFlash", "1"));
+		}
+		if (this.sendLater > 0) {
+			final Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(this.sendLater);
+			postData.add(new BasicNameValuePair("StartDateDay", ""
+					+ cal.get(Calendar.DAY_OF_MONTH)));
+			postData.add(new BasicNameValuePair("StartDateMonth", ""
+					+ cal.get(Calendar.MONTH)));
+			postData.add(new BasicNameValuePair("StartDateYear", ""
+					+ cal.get(Calendar.YEAR)));
+			postData.add(new BasicNameValuePair("StartDateHour", ""
+					+ cal.get(Calendar.HOUR_OF_DAY)));
+			postData.add(new BasicNameValuePair("StartDateMin", ""
+					+ cal.get(Calendar.MINUTE)));
+			postData.add(new BasicNameValuePair("EndDateDay", ""
+					+ cal.get(Calendar.DAY_OF_MONTH)));
+			postData.add(new BasicNameValuePair("EndDateMonth", ""
+					+ cal.get(Calendar.MONTH)));
+			postData.add(new BasicNameValuePair("EndDateYear", ""
+					+ cal.get(Calendar.YEAR)));
+			postData.add(new BasicNameValuePair("EndDateHour", ""
+					+ cal.get(Calendar.HOUR_OF_DAY)));
+			postData.add(new BasicNameValuePair("EndDateMin", ""
+					+ cal.get(Calendar.MINUTE)));
+			final String s = DateFormat.format(DATEFORMAT, cal).toString();
+			postData.add(new BasicNameValuePair("RepeatStartDate", s));
+			postData.add(new BasicNameValuePair("RepeatEndDate", s));
+			postData.add(new BasicNameValuePair("RepeatType", "5"));
+			postData.add(new BasicNameValuePair("RepeatEndType", "0"));
+			postData.add(new BasicNameValuePair("Frequency", "5"));
+		}
 		String[] st = this.htmlText.split("<input type=\"Hidden\" ");
 		this.htmlText = null;
 		for (String s : st) {
@@ -480,7 +524,8 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected boolean supportCustomsender() {
-		return true;
+		return false;
+		// return true;
 	}
 
 	/**
@@ -488,6 +533,7 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected boolean supportSendLater() {
-		return true;
+		return false;
+		// return true;
 	}
 }
