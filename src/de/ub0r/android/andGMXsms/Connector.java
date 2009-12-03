@@ -1015,6 +1015,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (c instanceof WebSMS) {
 			WebSMS.pushMessage(msgType, msg);
 		} else if (c instanceof IOService) {
+			if (msgType == WebSMS.MESSAGE_FREECOUNT) {
+				WebSMS.pushMessage(msgType, msg);
+			}
 			if (msg == null) {
 				Log.d(TAG, "null");
 			} else {

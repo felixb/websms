@@ -1326,6 +1326,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public static final void pushMessage(final int messageType,
 			final Object data) {
+		if (WebSMS.me == null) {
+			return;
+		}
 		Message.obtain(WebSMS.me.messageHandler, messageType, data)
 				.sendToTarget();
 	}
