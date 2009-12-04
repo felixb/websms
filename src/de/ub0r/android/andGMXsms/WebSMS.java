@@ -112,6 +112,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preference's name: update balace on start. */
 	private static final String PREFS_AUTOUPDATE = "autoupdate";
+	/** Preference's name: vibrate on failed sending. */
+	private static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
+	/** Preference's name: sound on failed sending. */
+	private static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
 	/** Preference's name: enable sms. */
@@ -166,6 +170,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	static int prefsGMXhostname = 0;
 	/** Preferences: connector. */
 	static short prefsConnector = 0;
+	/** Preferences: vibrate on fail */
+	static boolean prefsVibrateOnFail;
+	/** Preferences: sound on fail */
+	static Uri prefsSoundOnFail;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -684,6 +692,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
+
+		prefsVibrateOnFail = this.preferences.getBoolean(PREFS_FAIL_VIBRATE,
+				true);
+		final String s = this.preferences.getString(PREFS_FAIL_SOUND, null);
+		if (s == null || s.length() <= 0) {
+			prefsSoundOnFail = null;
+		} else {
+			prefsSoundOnFail = Uri.parse(s);
+		}
 
 		prefsNoAds = false;
 		String hash = md5(prefsSender);

@@ -127,6 +127,16 @@ public class IOService extends Service {
 	 *            Notification
 	 */
 	private void displayFailedNotification(final Notification n) {
+		n.flags |= Notification.FLAG_SHOW_LIGHTS;
+		n.ledARGB = 0xffff0000;
+		n.ledOnMS = 500;
+		n.ledOffMS = 2000;
+
+		if (WebSMS.prefsVibrateOnFail) {
+			n.flags |= Notification.DEFAULT_VIBRATE;
+		}
+		n.sound = WebSMS.prefsSoundOnFail;
+
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationMgr.notify(getNotificationID(), n);

@@ -30,6 +30,13 @@
 			android:title="@string/change_connector_button" android:summary="@string/change_connector_button_hint" />
 		<CheckBoxPreference android:key="autoupdate"
 			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
+
+		<CheckBoxPreference android:key="fail_vibrate"
+			android:title="@string/sound_on_fail" />
+		<RingtonePreference android:key="fail_sound"
+			android:title="@string/vibrate_on_fail" android:ringtoneType="notification"
+			android:defaultValue="content://settings/system/notification_sound" />
+
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_connectors">
 
