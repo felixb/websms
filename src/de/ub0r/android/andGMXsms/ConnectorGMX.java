@@ -333,7 +333,11 @@ public class ConnectorGMX extends Connector {
 		recipients = null;
 		writePair(packetData, "receivers", recipientsString);
 		writePair(packetData, "send_option", "sms");
-		writePair(packetData, "sms_sender", this.sender);
+		if (this.customSender != null && this.customSender.length() > 0) {
+			writePair(packetData, "sms_sender", this.customSender);
+		} else {
+			writePair(packetData, "sms_sender", this.sender);
+		}
 		// if date!='': data['send_date'] = date
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
@@ -373,8 +377,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected boolean supportCustomsender() {
-		return false;
-		// return true;
+		return true;
 	}
 
 	/**
