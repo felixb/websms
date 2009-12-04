@@ -340,8 +340,10 @@ public class ConnectorO2 extends Connector {
 			if (this.customSender.length() == 0) {
 				postData.add(new BasicNameValuePair("FlagAnonymous", "1"));
 			}
+			postData.add(new BasicNameValuePair("FlagDefSender", "0"));
 		} else {
 			postData.add(new BasicNameValuePair("SMSFrom", ""));
+			postData.add(new BasicNameValuePair("FlagDefSender", "1"));
 		}
 		postData.add(new BasicNameValuePair("Frequency", "5"));
 		if (this.flashSMS) {
@@ -524,8 +526,7 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected boolean supportCustomsender() {
-		return false;
-		// return true;
+		return true;
 	}
 
 	/**
