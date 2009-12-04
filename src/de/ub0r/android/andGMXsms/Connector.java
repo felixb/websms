@@ -137,7 +137,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** SMS DB: person. */
 	// private static final String PERSON = "person";
 	/** SMS DB: date. */
-	// private static final String DATE = "date";
+	private static final String DATE = "date";
 	/** SMS DB: read. */
 	static final String READ = "read";
 	/** SMS DB: status. */
@@ -627,6 +627,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			values.put(READ, 1);
 			values.put(TYPE, MESSAGE_TYPE_SENT);
 			values.put(BODY, msgText);
+			if (this.sendLater > 0) {
+				values.put(DATE, this.sendLater);
+			}
 			this.context.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
 		}
