@@ -287,7 +287,7 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportFlashsms() {
+	protected final boolean supportFlashsms() {
 		return (this.connector == 2 && !this.free);
 	}
 
@@ -295,7 +295,7 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportCustomsender() {
+	protected final boolean supportCustomsender() {
 		return (this.connector != 2 && !this.free);
 	}
 
@@ -303,7 +303,7 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportSendLater() {
+	protected final boolean supportSendLater() {
 		return !this.free;
 	}
 }

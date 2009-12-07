@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 /**
@@ -33,6 +34,9 @@ import android.util.Log;
 public class ConnectorGMX extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.GMX";
+
+	/** Custom Dateformater. */
+	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
 
 	/** Target host. */
 	private static final String[] TARGET_HOST = { "app0.wr-gmbh.de",
@@ -338,7 +342,10 @@ public class ConnectorGMX extends Connector {
 		} else {
 			writePair(packetData, "sms_sender", this.sender);
 		}
-		// if date!='': data['send_date'] = date
+		if (this.sendLater > 0) {
+			writePair(packetData, "send_date", DateFormat.format(DATEFORMAT,
+					this.sendLater).toString());
+		}
 		// push data
 		if (!this.sendData(closeBuffer(packetData))) {
 			// failed!
@@ -367,7 +374,7 @@ public class ConnectorGMX extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportFlashsms() {
+	protected final boolean supportFlashsms() {
 		return false;
 		// return true;
 	}
@@ -376,15 +383,16 @@ public class ConnectorGMX extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportCustomsender() {
-		return true;
+	protected final boolean supportCustomsender() {
+		return false;
+		// return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean supportSendLater() {
+	protected final boolean supportSendLater() {
 		return false;
 		// return true;
 	}
