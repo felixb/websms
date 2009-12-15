@@ -374,18 +374,8 @@ public class ConnectorGMX extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean supportFlashsms() {
-		return false;
-		// return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	protected final boolean supportCustomsender() {
-		return false;
-		// return true;
+		return true;
 	}
 
 	/**
