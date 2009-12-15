@@ -203,8 +203,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
-	/** Dialog: help. */
-	private static final int DIALOG_HELP = 1;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: captcha. */
@@ -990,9 +988,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
-		case R.id.item_help: // start help dialog
-			this.showDialog(DIALOG_HELP);
-			return true;
 		case R.id.item_donate:
 			try {
 				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
@@ -1071,11 +1066,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setContentView(R.layout.about);
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
-			return d;
-		case DIALOG_HELP:
-			d = new Dialog(this);
-			d.setContentView(R.layout.help);
-			d.setTitle(R.string.help_);
 			return d;
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);

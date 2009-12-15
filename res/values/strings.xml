@@ -89,16 +89,13 @@
 	<string name="log_remain_free">free SMS remaining</string>
 	<string name="log_sending">Sending message...</string>
 	<string name="log_update">Update free SMS...</string>
-	<string name="mail_help">Your GMX eMail Address is needed.</string>
-	<string name="mail_hint">user@gmx.tld</string>
-	<string name="mail_">Mail address</string>
 	<string name="notify_sending">Sending SMS</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
-	<string name="password_">GMX SMS Key</string>
-	<string name="password_help">The SMS Key can be found on the download page of
-		the GMX SMS Manager (for windows).</string>
-	<string name="password_hint">GMX SMS-Manager Keycode</string>
+	<string name="user_gmx_">Mail address</string>
+	<string name="user_gmx_hint">user@gmx.tld</string>
+	<string name="password_gmx_">GMX SMS Key</string>
+	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
 	<string name="user_sipgate_">Sipgate Username</string>

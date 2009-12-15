@@ -82,17 +82,12 @@
 	<string name="log_remain_free">FreiSMS noch &#252;brig</string>
 	<string name="log_sending">Sende SMS...</string>
 	<string name="log_update">Update frei SMS...</string>
-	<string name="mail_help">Deine GMX eMail Adresse wird hier gebraucht.
-	</string>
-	<string name="mail_">Mail Adresse</string>
 	<string name="notify_sending">Sende SMS</string>
 	<string name="notify_failed">SMS Senden fehlgeschlagen: </string>
 	<string name="notify_failed_">SMS Senden fehlgeschlagen</string>
-	<string name="password_">GMX SMS Key</string>
-	<string name="password_help">Der GMX SMS Freischaltcode befindet sich auf der
-		Downloadseite des GMX SMS Managers für Windows. Das normale GMX
-		Passwort geht hier nicht!</string>
-	<string name="password_hint">GMX SMS-Manager Freischaltcode</string>
+	<string name="user_gmx_">Mail Adresse</string>
+	<string name="password_gmx_">GMX SMS Key</string>
+	<string name="password_gmx_hint">GMX SMS-Manager Freischaltcode. Nicht dein GMX Passwort! Siehe GMX.</string>
 	<string name="password_o2_">o2 Passwort</string>
 	<string name="password_o2_hint">Passwort für o2online</string>
 	<string name="user_sipgate_">Sipgate Benutzername</string>
