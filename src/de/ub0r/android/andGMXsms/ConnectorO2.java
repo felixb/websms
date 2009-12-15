@@ -65,6 +65,8 @@ public class ConnectorO2 extends Connector {
 	private static final int URL_PRESEND = 5;
 	/** URL for sending. */
 	private static final int URL_SEND = 6;
+	/** URL for sending later. */
+	private static final int URL_SCHEDULE = 6;
 
 	/** Check for free sms. */
 	private static final int CHECK_FREESMS = 0;
@@ -98,7 +100,9 @@ public class ConnectorO2 extends Connector {
 							+ "?&o2_type=url&o2_label=web2sms-o2online",
 					"https://email.o2online.de/smscenter_new.osp"
 							+ "?Autocompletion=1&MsgContentID=-1",
-					"https://email.o2online.de/smscenter_send.osp" }, // end .de
+					"https://email.o2online.de/smscenter_send.osp",
+					"https://email.o2online.de/smscenter_schedule.osp" },
+			// end .de
 			{ // ie
 			"???1", "???2", "???3", "???4", "???5" } };
 
@@ -109,7 +113,7 @@ public class ConnectorO2 extends Connector {
 	private static final String[][] STRINGS = { { // .de
 			"Frei-SMS: ", // free sms
 					"Web2SMS", // web2sms
-					"SMS wurde erfolgreich versendet", // successful send
+					"/app_pic/ico_mail_send_ok.gif", // successful send
 					"Sie haben einen falschen Code eingegeben." // wrong code
 			}, // end .de
 			{ // .ie
@@ -349,7 +353,9 @@ public class ConnectorO2 extends Connector {
 		if (this.flashSMS) {
 			postData.add(new BasicNameValuePair("FlagFlash", "1"));
 		}
+		String url = URLS[operator][URL_SEND];
 		if (this.sendLater > 0) {
+			url = URLS[operator][URL_SCHEDULE];
 			final Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(this.sendLater);
 			postData.add(new BasicNameValuePair("StartDateDay", ""
@@ -391,9 +397,8 @@ public class ConnectorO2 extends Connector {
 		}
 		st = null;
 
-		HttpResponse response = getHttpClient(URLS[operator][URL_SEND],
-				this.cookies, postData, TARGET_AGENT,
-				URLS[operator][URL_PRESEND]);
+		HttpResponse response = getHttpClient(url, this.cookies, postData,
+				TARGET_AGENT, URLS[operator][URL_PRESEND]);
 		postData = null;
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
