@@ -383,7 +383,6 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean supportSendLater() {
-		return false;
-		// return true;
+		return true;
 	}
 }
