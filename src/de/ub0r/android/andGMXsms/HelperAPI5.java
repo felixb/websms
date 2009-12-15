@@ -41,6 +41,11 @@ public class HelperAPI5 {
 	/** Error message if API5 is not available. */
 	private static final String ERRORMESG = "no API5 available";
 
+	/** SQL to select mobile numbers only. */
+	private static final String MOBILES_ONLY = ") AND ("
+			+ ContactsContract.CommonDataKinds.Phone.TYPE + " = "
+			+ ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE + ")";
+
 	/** Sort Order. */
 	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
 			+ " DESC, "
@@ -103,6 +108,11 @@ public class HelperAPI5 {
 					+ " LIKE ");
 			s.append(filter);
 			s.append(")");
+
+			if (WebSMS.prefsMobilesOnly) {
+				s.insert(0, "(");
+				s.append(MOBILES_ONLY);
+			}
 
 			where = s.toString();
 		}

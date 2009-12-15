@@ -31,6 +31,9 @@
 		<CheckBoxPreference android:key="autoupdate"
 			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
 
+		<CheckBoxPreference android:key="mobiles_only"
+			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
+
 		<CheckBoxPreference android:key="fail_vibrate"
 			android:title="@string/sound_on_fail" />
 		<RingtonePreference android:key="fail_sound"

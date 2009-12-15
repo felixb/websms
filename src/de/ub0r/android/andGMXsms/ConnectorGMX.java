@@ -267,7 +267,7 @@ public class ConnectorGMX extends Connector {
 							WebSMS.prefsPasswordGMX = this.pw;
 						}
 						if (this.mail != null) {
-							WebSMS.prefsMail = this.mail;
+							WebSMS.prefsMailGMX = this.mail;
 						}
 						((WebSMS) this.context).savePreferences();
 						inBootstrap = false;

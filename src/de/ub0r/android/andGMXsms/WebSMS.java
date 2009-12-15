@@ -87,9 +87,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: last version run. */
 	private static final String PREFS_LAST_RUN = "lastrun";
 	/** Preference's name: mail. */
-	private static final String PREFS_MAIL = "mail";
+	private static final String PREFS_MAIL_GMX = "mail";
 	/** Preference's name: username. */
-	private static final String PREFS_USER = "user";
+	private static final String PREFS_USER_GMX = "user";
 	/** Preference's name: user's password - gmx. */
 	private static final String PREFS_PASSWORD_GMX = "password";
 	/** Preference's name: user's password - o2. */
@@ -112,6 +112,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preference's name: update balace on start. */
 	private static final String PREFS_AUTOUPDATE = "autoupdate";
+	/** Preference's name: show mobile numbers only. */
+	private static final String PREFS_MOBILES_ONLY = "mobiles_only";
 	/** Preference's name: vibrate on failed sending. */
 	private static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
 	/** Preference's name: sound on failed sending. */
@@ -141,7 +143,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: connector. */
 	private static final String PREFS_CONNECTOR = "connector";
 	/** Preferences: mail. */
-	static String prefsMail;
+	static String prefsMailGMX;
 	/** Preferences: username - gmx. */
 	static String prefsUserGMX;
 	/** Preferences: user's password - gmx. */
@@ -170,9 +172,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	static int prefsGMXhostname = 0;
 	/** Preferences: connector. */
 	static short prefsConnector = 0;
-	/** Preferences: vibrate on fail */
+	/** Preferences: show mobile numbers only. */
+	static boolean prefsMobilesOnly;
+	/** Preferences: vibrate on fail. */
 	static boolean prefsVibrateOnFail;
-	/** Preferences: sound on fail */
+	/** Preferences: sound on fail. */
 	static Uri prefsSoundOnFail;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
@@ -355,7 +359,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		public void onSharedPreferenceChanged(final SharedPreferences prefs,
 				final String key) {
 			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
-					|| key.equals(PREFS_PASSWORD_GMX) || key.equals(PREFS_MAIL)) {
+					|| key.equals(PREFS_PASSWORD_GMX)
+					|| key.equals(PREFS_MAIL_GMX)) {
 				this.changed[Connector.GMX] = true;
 			}
 			if (key.equals(PREFS_SENDER)) {
@@ -562,7 +567,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					&& this.prefsOnChgListener.wasChanged(Connector.GMX)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
-				params[ConnectorGMX.ID_MAIL] = prefsMail;
+				params[ConnectorGMX.ID_MAIL] = prefsMailGMX;
 				params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
 				Connector.bootstrap(this, Connector.GMX, params);
 			}
@@ -594,7 +599,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		final StringBuilder buf = new StringBuilder();
 		final String[] prefixes = this.getResources().getStringArray(
 				R.array.connectors_balance_);
-		String s = "";
 		for (int i = 0; i < Connector.CONNECTORS; i++) {
 			if (WebSMS.CONNECTORS_ENABLED[i] && WebSMS.SMS_BALANCE[i] != null) {
 				if (buf.length() > 0) {
@@ -650,8 +654,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		CONNECTORS_ENABLED[Connector.GMX] = this.preferences.getBoolean(
 				PREFS_ENABLE_GMX, false);
-		prefsMail = this.preferences.getString(PREFS_MAIL, "");
-		prefsUserGMX = this.preferences.getString(PREFS_USER, "");
+		prefsMailGMX = this.preferences.getString(PREFS_MAIL_GMX, "");
+		prefsUserGMX = this.preferences.getString(PREFS_USER_GMX, "");
 		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
 
 		CONNECTORS_ENABLED[Connector.O2] = this.preferences.getBoolean(
@@ -691,6 +695,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
 
+		prefsMobilesOnly = this.preferences.getBoolean(PREFS_MOBILES_ONLY,
+				false);
+
 		prefsVibrateOnFail = this.preferences.getBoolean(PREFS_FAIL_VIBRATE,
 				true);
 		final String s = this.preferences.getString(PREFS_FAIL_SOUND, null);
@@ -720,7 +727,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void setButtons() {
 		int c = 0;
-		int s = 0;
 		short con = 0;
 
 		if (CONNECTORS_ENABLED[Connector.SMS]) {
@@ -784,7 +790,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void checkPrefs() {
 		// check prefs
-		if (CONNECTORS_ENABLED[Connector.GMX] && prefsMail.length() != 0
+		if (CONNECTORS_ENABLED[Connector.GMX] && prefsMailGMX.length() != 0
 				&& prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
 				&& prefsSender.length() != 0) {
 			CONNECTORS_READY[Connector.GMX] = true;
@@ -865,8 +871,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.putString(PREFS_SENDER, prefsSender);
 		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
 		// gmx
-		editor.putString(PREFS_MAIL, prefsMail);
-		editor.putString(PREFS_USER, prefsUserGMX);
+		editor.putString(PREFS_MAIL_GMX, prefsMailGMX);
+		editor.putString(PREFS_USER_GMX, prefsUserGMX);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
 		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
 		editor.putInt(PREFS_CONNECTOR, prefsConnector);

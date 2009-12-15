@@ -123,4 +123,6 @@
 	<string name="to_hint">Name oder Nummer</string>
 	<string name="custom_sender">Anderer Absender</string>
 	<string name="send_later">Später senden</string>
+	<string name="mobile_only_">Nur Mobilnummern anzeigen</string>
+	<string name="mobile_only_hint">Zeige nur Mobilnummern an.</string>
 </resources>

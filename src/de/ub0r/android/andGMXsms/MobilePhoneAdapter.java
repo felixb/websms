@@ -46,6 +46,10 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	/** INDEX: type. */
 	public static final int NUMBER_TYPE = 3;
 
+	/** SQL to select mobile numbers only. */
+	private static final String MOBILES_ONLY = ") AND (" + PhonesColumns.TYPE
+			+ " = " + PhonesColumns.TYPE_MOBILE + ")";
+
 	/** Sort Order. */
 	private static final String SORT_ORDER = PeopleColumns.STARRED + " DESC, "
 			+ PeopleColumns.TIMES_CONTACTED + " DESC, " + PeopleColumns.NAME
@@ -74,14 +78,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	}
 
 	/**
-	 * Run when View is binded.
-	 * 
-	 * @param view
-	 *            view to bind to
-	 * @param context
-	 *            context
-	 * @param cursor
-	 *            cursor
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void bindView(final View view, final Context context,
@@ -101,11 +98,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	}
 
 	/**
-	 * Convert cursors data to String.
-	 * 
-	 * @param cursor
-	 *            cursor
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final String convertToString(final Cursor cursor) {
@@ -118,11 +111,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	}
 
 	/**
-	 * Run Query to update data.
-	 * 
-	 * @param constraint
-	 *            filter string
-	 * @return cursor
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
@@ -143,6 +132,11 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			s.append(") OR (" + PhonesColumns.NUMBER + " LIKE ");
 			s.append(filter);
 			s.append(")");
+
+			if (WebSMS.prefsMobilesOnly) {
+				s.insert(0, "(");
+				s.append(MOBILES_ONLY);
+			}
 
 			where = s.toString();
 		}

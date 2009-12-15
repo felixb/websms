@@ -142,6 +142,8 @@
 	<string name="flashsms">Flash SMS</string>
 	<string name="custom_sender">Custom sender</string>
 	<string name="send_later">Send later</string>
+	<string name="mobile_only_">Show mobiles only</string>
+	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	
 	<string-array name="connectors">
 		<item>SMS</item>
