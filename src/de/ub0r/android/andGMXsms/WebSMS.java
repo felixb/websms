@@ -256,7 +256,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static String[] lastParams = null;
 
 	/** Helper for API 5. */
-	static HelperAPI5 helperAPI5 = null;
+	static HelperAPI5Contacts helperAPI5c = null;
 
 	/** Balance of different accounts. */
 	static final String[] SMS_BALANCE = new String[Connector.CONNECTORS];
@@ -413,12 +413,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		// save ref to me.
 		me = this;
 		try {
-			WebSMS.helperAPI5 = new HelperAPI5();
-			if (!helperAPI5.isAvailable()) {
-				WebSMS.helperAPI5 = null;
+			WebSMS.helperAPI5c = new HelperAPI5Contacts();
+			if (!helperAPI5c.isAvailable()) {
+				WebSMS.helperAPI5c = null;
 			}
 		} catch (VerifyError e) {
-			WebSMS.helperAPI5 = null;
+			WebSMS.helperAPI5c = null;
 			Log.d(TAG, "no api5 running", e);
 		}
 		// Restore preferences
@@ -484,9 +484,14 @@ public class WebSMS extends Activity implements OnClickListener,
 						if (s.indexOf('<') < 0) {
 							// try to fetch recipient's name from phonebook
 							String n = null;
-							if (helperAPI5 != null) {
-								n = helperAPI5.getNameForNumber(this, s);
-							} else {
+							if (helperAPI5c != null) {
+								try {
+									n = helperAPI5c.getNameForNumber(this, s);
+								} catch (NoClassDefFoundError e) {
+									helperAPI5c = null;
+								}
+							}
+							if (helperAPI5c == null) {
 								Cursor c = this
 										.managedQuery(
 												Phones.CONTENT_URI,

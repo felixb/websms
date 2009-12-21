@@ -22,9 +22,6 @@ import java.lang.reflect.Method;
 
 import android.app.Notification;
 import android.app.Service;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -34,12 +31,12 @@ import android.util.Log;
  * 
  * @author flx
  */
-public class HelperAPI5 {
+public class HelperAPI5Service {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.api5";
+	private static final String TAG = "WebSMS.api5s";
 
 	/** Error message if API5 is not available. */
-	private static final String ERRORMESG = "no API5 available";
+	private static final String ERRORMESG = "no API5s available";
 
 	/** SQL to select mobile numbers only. */
 	private static final String MOBILES_ONLY = ") AND ("
@@ -84,44 +81,6 @@ public class HelperAPI5 {
 	}
 
 	/**
-	 * Run Query to update data.
-	 * 
-	 * @param mContentResolver
-	 *            a Content Resolver
-	 * @param constraint
-	 *            filter string
-	 * @return cursor
-	 */
-	final Cursor runQueryOnBackgroundThread(
-			final ContentResolver mContentResolver,
-			final CharSequence constraint) {
-		String where = null;
-
-		if (constraint != null) {
-			String filter = DatabaseUtils.sqlEscapeString('%' + constraint
-					.toString() + '%');
-
-			StringBuilder s = new StringBuilder();
-			s.append("(" + ContactsContract.Data.DISPLAY_NAME + " LIKE ");
-			s.append(filter);
-			s.append(") OR (" + ContactsContract.CommonDataKinds.Phone.DATA1
-					+ " LIKE ");
-			s.append(filter);
-			s.append(")");
-
-			if (WebSMS.prefsMobilesOnly) {
-				s.insert(0, "(");
-				s.append(MOBILES_ONLY);
-			}
-
-			where = s.toString();
-		}
-		return mContentResolver.query(
-				ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION,
-				where, null, SORT_ORDER);
-	}
-
-	/**
 	 * Run Service in foreground.
 	 * 
 	 * @see Service.startForeground()
@@ -149,31 +108,5 @@ public class HelperAPI5 {
 	final void stopForeground(final Service service,
 			final boolean removeNotification) {
 		service.stopForeground(removeNotification);
-	}
-
-	/**
-	 * Get a Name for a given number.
-	 * 
-	 * @param act
-	 *            activity to get the cursor from
-	 * @param number
-	 *            number to look for
-	 * @return name matching the number
-	 */
-	final String getNameForNumber(final WebSMS act, final String number) {
-		String ret = null;
-
-		Cursor c = act.managedQuery(
-				ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-				new String[] { ContactsContract.Data.DISPLAY_NAME,
-						ContactsContract.CommonDataKinds.Phone.NUMBER },
-				ContactsContract.CommonDataKinds.Phone.DATA1 + " = '" + number
-						+ "'", null, null);
-		if (c.moveToFirst()) {
-			ret = c.getString(c
-					.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-		}
-
-		return ret;
 	}
 }

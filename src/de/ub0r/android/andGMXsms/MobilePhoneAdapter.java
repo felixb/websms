@@ -115,10 +115,14 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 */
 	@Override
 	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
-		if (WebSMS.helperAPI5 != null) {
+		if (WebSMS.helperAPI5c != null) {
 			// switch to API 5 if needed.
-			return WebSMS.helperAPI5.runQueryOnBackgroundThread(
-					this.mContentResolver, constraint);
+			try {
+				return WebSMS.helperAPI5c.runQueryOnBackgroundThread(
+						this.mContentResolver, constraint);
+			} catch (NoClassDefFoundError e) {
+				WebSMS.helperAPI5c = null;
+			}
 		}
 		String where = null;
 

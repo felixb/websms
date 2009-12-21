@@ -59,7 +59,7 @@ public class IOService extends Service {
 	private static int nextNotificationID = 1;
 
 	/** Wrapper for API5 commands. */
-	private HelperAPI5 helperAPI5 = null;
+	private HelperAPI5Service helperAPI5s = null;
 
 	/** The IBinder RPC Interface. */
 	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
@@ -110,12 +110,12 @@ public class IOService extends Service {
 		me = this;
 
 		try {
-			this.helperAPI5 = new HelperAPI5();
-			if (!this.helperAPI5.isAvailable()) {
-				this.helperAPI5 = null;
+			this.helperAPI5s = new HelperAPI5Service();
+			if (!this.helperAPI5s.isAvailable()) {
+				this.helperAPI5s = null;
 			}
 		} catch (VerifyError e) {
-			this.helperAPI5 = null;
+			this.helperAPI5s = null;
 			Log.d(TAG, "no api5 running", e);
 		}
 	}
@@ -208,10 +208,10 @@ public class IOService extends Service {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (count <= 0) {
 			// set background
-			if (this.helperAPI5 == null) {
+			if (this.helperAPI5s == null) {
 				this.setForeground(false);
 			} else {
-				this.helperAPI5.stopForeground(this, true);
+				this.helperAPI5s.stopForeground(this, true);
 			}
 			mNotificationMgr.cancel(NOTIFICATION_PENDING);
 		} else {
@@ -226,10 +226,10 @@ public class IOService extends Service {
 					.getString(R.string.notify_sending), "", contentIntent);
 			notification.defaults |= Notification.FLAG_NO_CLEAR;
 			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
-			if (this.helperAPI5 == null) {
+			if (this.helperAPI5s == null) {
 				this.setForeground(true);
 			} else {
-				this.helperAPI5.startForeground(this, NOTIFICATION_PENDING,
+				this.helperAPI5s.startForeground(this, NOTIFICATION_PENDING,
 						notification);
 			}
 		}
