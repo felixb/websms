@@ -57,6 +57,7 @@
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_innosend">Enable Innosend</string>
 	<string name="enable_cherrysms">Enable CherrySMS</string>
+	<string name="enable_sloono">Enable Sloono</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
 	<string name="help_">Help</string>
@@ -85,6 +86,7 @@
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_error_service">Service is down! Please try again later.</string>
 	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
+	<string name="log_error_input">Error in user input!</string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
 	<string name="log_remain_free">free SMS remaining</string>
 	<string name="log_sending">Sending message...</string>
@@ -106,6 +108,8 @@
 	<string name="user_innosend_">Innosend Username</string>
 	<string name="password_innosend_">Innosend Password</string>
 	<string name="password_cherrysms_">CherrySMS Password</string>
+	<string name="user_sloono_">Sloono Username</string>
+	<string name="password_sloono_">Sloono Password</string>
 	<string name="sender_help">Your full international mobile phone number is
 		needed here. This is filled automatically when bootstrapping with
 		init.</string>
@@ -120,6 +124,7 @@
 	<string name="settings_sipgate">Preferences - Sipgate</string>
 	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="settings_cherrysms">Preferences - CherrySMS</string>
+	<string name="settings_sloono">Preferences - Sloono</string>
 	<string name="change_connector_button">"Chg. provider" button</string>
 	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
 	<string name="softkeyboard_">No keyboard</string>
@@ -137,6 +142,8 @@
 	<string name="partner_innosend_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
 	<string name="partner_cherrysms_hint">Create new cherry-sms.com account</string>
 	<string name="partner_cherrysms_url">http://www.cherry-sms.com/?ref=DWNWAAAU</string>
+	<string name="partner_sloono_hint">Create new Sloono.de account</string>
+	<string name="partner_sloono_url">http://www.sloono.de/?ref=tzil5PslxBSLhluFQknvjA==</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
 	<string name="flashsms">Flash SMS</string>
@@ -155,6 +162,9 @@
 		<item>Innosend w/ sender</item>
 		<item>CherrySMS w/o sender</item>
 		<item>CherrySMS w/ sender</item>
+		<item>Sloono discount</item>
+		<item>Sloono basic</item>
+		<item>Sloono pro</item>
 	</string-array>
 	
 	<string-array name="connectors_balance_">
@@ -164,8 +174,11 @@
 		<item>Sipgate:</item>
 		<item>Innosend:</item>
 		<item>Innosend:</item>
-		<item>Innosend:</item>>
+		<item>Innosend:</item>
 		<item>CherrySMS:</item>
 		<item>CherrySMS:</item>
+		<item>Sloono:</item>
+		<item>Sloono:</item>
+		<item>Sloono:</item>
 	</string-array>
 </resources>

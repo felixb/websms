@@ -94,9 +94,17 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short CHERRY_W_SENDER = 8;
 	/** Connector type: CherrySMS. */
 	static final short CHERRY = CHERRY_WO_SENDER;
+	/** Connector type: Sloono discount. */
+	static final short SLOONO_DISCOUNT = 9;
+	/** Connector type: Sloono basic. */
+	static final short SLOONO_BASIC = 10;
+	/** Connector type: Sloono pro. */
+	static final short SLOONO_PRO = 11;
+	/** Connector type: Sloono. */
+	static final short SLOONO = SLOONO_PRO;
 
 	/** Number of connectors. */
-	static final short CONNECTORS = CHERRY_W_SENDER + 1;
+	static final short CONNECTORS = SLOONO_PRO + 1;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -418,6 +426,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c = new ConnectorCherrySMS(
 					international2oldformat(WebSMS.prefsSender), WebSMS
 							.md5(WebSMS.prefsPasswordCherrySMS), connector);
+			break;
+		case SLOONO_BASIC:
+		case SLOONO_DISCOUNT:
+		case SLOONO_PRO:
+			c = new ConnectorSloono(WebSMS.prefsUserSloono, WebSMS
+					.md5(WebSMS.prefsPasswordSloono), connector);
 			break;
 		default:
 			Log.e(TAG, "missing Connector");

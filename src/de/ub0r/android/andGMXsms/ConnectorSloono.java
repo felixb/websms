@@ -27,22 +27,24 @@ import org.apache.http.HttpResponse;
 import android.util.Log;
 
 /**
- * AsyncTask to manage IO to cherry-sms.com API.
+ * AsyncTask to manage IO to sloono.de API.
  * 
  * @author flx
  */
-public class ConnectorCherrySMS extends Connector {
+public class ConnectorSloono extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.cherry";
+	private static final String TAG = "WebSMS.sloono";
 
-	/** CherrySMS Gateway URL. */
-	private static final String URL = "https://gw.cherry-sms.com/";
+	/** Sloono Gateway URL. */
+	private static final String URL_SEND = "http://www.sloono.de/API/httpsms.php";
+	/** Sloono Gateway URL. */
+	private static final String URL_BALANCE = "http://www.sloono.de/API/httpkonto.php";
 
-	/** CherrySMS connector. */
-	private final boolean sendWithSender;
+	/** Sloono connector. */
+	private final short connector;
 
 	/**
-	 * Create an CherrySMS Connector..
+	 * Create an Sloono.de Connector..
 	 * 
 	 * @param u
 	 *            user
@@ -51,19 +53,9 @@ public class ConnectorCherrySMS extends Connector {
 	 * @param con
 	 *            connector type
 	 */
-	public ConnectorCherrySMS(final String u, final String p, final short con) {
+	public ConnectorSloono(final String u, final String p, final short con) {
 		super(u, p, con);
-		switch (con) {
-		case CHERRY_WO_SENDER:
-			this.sendWithSender = false;
-			break;
-		case CHERRY_W_SENDER:
-			this.sendWithSender = true;
-			break;
-		default:
-			this.sendWithSender = false;
-			break;
-		}
+		this.connector = con;
 	}
 
 	/**
@@ -77,45 +69,16 @@ public class ConnectorCherrySMS extends Connector {
 	 */
 	private boolean checkReturnCode(final int ret) throws WebSMSException {
 		Log.d(TAG, "ret=" + ret);
-		switch (ret) {
-		case 100:
+		if (ret < 200) {
 			return true;
-		case 10:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_10);
-		case 20:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_20);
-		case 30:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_30);
-		case 31:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_31);
-		case 40:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_40);
-		case 50:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_50);
-		case 60:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_60);
-		case 70:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_70);
-		case 71:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_71);
-		case 80:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_80);
-		case 90:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_90);
-		default:
-			throw new WebSMSException(this.context, R.string.log_error,
-					" code: " + ret);
+		} else if (ret < 300) {
+			throw new WebSMSException(this.context, R.string.log_error_input);
+		} else {
+			if (ret == 401) {
+				throw new WebSMSException(this.context, R.string.log_error_pw);
+			}
+			throw new WebSMSException(this.context, R.string.log_error_server,
+					"" + ret);
 		}
 	}
 
@@ -129,18 +92,31 @@ public class ConnectorCherrySMS extends Connector {
 	private boolean sendData() throws WebSMSException {
 		// do IO
 		try { // get Connection
-			final StringBuilder url = new StringBuilder(URL);
+			final boolean checkOnly = this.text == null || this.to == null
+					|| this.to.length == 0;
+			final StringBuilder url = new StringBuilder();
+			if (checkOnly) {
+				url.append(URL_BALANCE);
+			} else {
+				url.append(URL_SEND);
+			}
 			url.append("?user=");
 			url.append(this.user);
 			url.append("&password=");
 			url.append(this.password);
 
-			if (this.text != null && this.to != null && this.to.length > 0) {
-				Log.d(TAG, "send with sender = " + this.sendWithSender);
-				if (this.sendWithSender) {
-					url.append("&from=1");
+			if (!checkOnly) {
+				url.append("&typ=");
+				if (this.flashSMS) {
+					url.append(3);
+				} else {
+					url.append(this.connector - SLOONO_DISCOUNT);
 				}
-				url.append("&message=");
+				if (this.sendLater > 0) {
+					url.append("&timestamp=");
+					url.append(this.sendLater);
+				}
+				url.append("&text=");
 				url.append(URLEncoder.encode(this.text));
 				url.append("&to=");
 				String[] recvs = this.to;
@@ -148,19 +124,18 @@ public class ConnectorCherrySMS extends Connector {
 				StringBuilder toBuf = new StringBuilder(
 						international2oldformat(recvs[0]));
 				for (int j = 1; j < e; j++) {
-					toBuf.append(";");
+					toBuf.append(",");
 					toBuf.append(international2oldformat(recvs[j]));
 				}
 				url.append(toBuf.toString());
 				toBuf = null;
-			} else {
-				url.append("&check=guthaben");
 			}
 			// send data
 			HttpResponse response = getHttpClient(url.toString(), null, null,
 					null, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
+				this.checkReturnCode(resp);
 				throw new WebSMSException(this.context,
 						R.string.log_error_http, "" + resp);
 			}
@@ -169,12 +144,12 @@ public class ConnectorCherrySMS extends Connector {
 			String[] lines = htmlText.split("\n");
 			Log.d(TAG, htmlText);
 			htmlText = null;
-			int l = lines.length;
-			WebSMS.SMS_BALANCE[CHERRY] = lines[l - 1].trim();
-			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
-			if (l > 1) {
-				final int ret = Integer.parseInt(lines[0].trim());
-				return this.checkReturnCode(ret);
+			for (String s : lines) {
+				if (s.startsWith("Kontostand: ")) {
+					WebSMS.SMS_BALANCE[SLOONO] = s.split(" ")[1].trim()
+							+ "\u20AC";
+					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);

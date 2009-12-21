@@ -47,6 +47,7 @@
 	<string name="enable_sms">Aktiviere SMS</string>
 	<string name="enable_innosend">Aktiviere Innosend</string>
 	<string name="enable_cherrysms">Aktiviere CherrySMS</string>
+	<string name="enable_sloono">Aktiviere Sloono</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
 	<string name="help_">Hilfe</string>
@@ -78,6 +79,7 @@
 		noch einmal.</string>
 	<string name="log_error_wrongcaptcha">Captcha war falsch. Bitte versuche es
 		nochmal.</string>
+	<string name="log_error_input">Benutzereingabe ist falsch!</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
 	<string name="log_remain_free">FreiSMS noch &#252;brig</string>
 	<string name="log_sending">Sende SMS...</string>
@@ -99,6 +101,8 @@
 	<string name="user_innosend_">Innosend Benutzername</string>
 	<string name="password_innosend_">Innosend Passwort</string>
 	<string name="password_cherrysms_">CherrySMS Passwort</string>
+	<string name="user_sloono_">Sloono Benutzername</string>
+	<string name="password_sloono_">Sloono Passwort</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
@@ -110,6 +114,7 @@
 	<string name="settings_sipgate">Einstellungen - Sipgate</string>
 	<string name="settings_innosend">Einstellungen - Innosend</string>
 	<string name="settings_cherrysms">Einstellungen - CherrySMS</string>
+	<string name="settings_sloono">Einstellungen - Sloono</string>
 	<string name="change_connector_button">"Anderer Provider" Button</string>
 	<string name="change_connector_button_hint">Zeige den "Anderer Provider" Button auf dem Main Screen an.</string>
 	<string name="softkeyboard_">Keine Tastatur</string>
@@ -120,6 +125,7 @@
 	<string name="create_account_">Account anlegen</string>
 	<string name="partner_innosend_hint">Neuen Innosend.de Account anlegen</string>
 	<string name="partner_cherrysms_hint">Neuen cherry-sms.com Account anlegen</string>
+	<string name="partner_sloono_hint">Neuen sloono.de Account anlegen</string>
 	<string name="to_hint">Name oder Nummer</string>
 	<string name="custom_sender">Anderer Absender</string>
 	<string name="send_later">Später senden</string>

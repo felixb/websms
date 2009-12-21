@@ -104,6 +104,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_PASSWORD_INNOSEND = "password_innosend";
 	/** Preference's name: user's password - cherrysms. */
 	private static final String PREFS_PASSWORD_CHERRYSMS = "password_cherrysms";
+	/** Preference's name: sloono username. */
+	private static final String PREFS_USER_SLOONO = "user_sloono";
+	/** Preference's name: user's password - sloono. */
+	private static final String PREFS_PASSWORD_SLOONO = "password_sloono";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -134,6 +138,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
 	/** Preference's name: enable cherrysms. */
 	private static final String PREFS_ENABLE_CHERRYSMS = "enable_cherrysms";
+	/** Preference's name: enable sloono. */
+	private static final String PREFS_ENABLE_SLOONO = "enable_sloono";
 	/** Preference's name: gmx hostname id. */
 	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
@@ -160,6 +166,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsPasswordInnosend;
 	/** Preferences: user's password - cherrysms. */
 	static String prefsPasswordCherrySMS;
+	/** Preferences: username sloono. */
+	static String prefsUserSloono;
+	/** Preferences: user's password - sloono. */
+	static String prefsPasswordSloono;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -595,7 +605,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * Update balance.
 	 */
-	private void updateBalance() {
+	final void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
 		final String[] prefixes = this.getResources().getStringArray(
 				R.array.connectors_balance_);
@@ -684,6 +694,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordCherrySMS = this.preferences.getString(
 				PREFS_PASSWORD_CHERRYSMS, "");
 
+		CONNECTORS_ENABLED[Connector.SLOONO] = this.preferences.getBoolean(
+				PREFS_ENABLE_SLOONO, false);
+		prefsUserSloono = this.preferences.getString(PREFS_USER_SLOONO, "");
+		prefsPasswordSloono = this.preferences.getString(PREFS_PASSWORD_SLOONO,
+				"");
+
 		final boolean b = this.preferences.getBoolean(
 				PREFS_CHANGE_CONNECTOR_BUTTON, false);
 		final View v = this.findViewById(R.id.change_connector);
@@ -747,13 +763,16 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
 			c += 3;
-			con = Connector.INNOSEND_W_SENDER;
+			con = Connector.INNOSEND;
 		}
 		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
 			c += 2;
-			con = Connector.CHERRY_W_SENDER;
+			con = Connector.CHERRY;
 		}
-
+		if (CONNECTORS_ENABLED[Connector.SLOONO]) {
+			c += 3;
+			con = Connector.SLOONO;
+		}
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
@@ -843,7 +862,17 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			CONNECTORS_READY[Connector.CHERRY] = false;
 		}
-
+		if (CONNECTORS_ENABLED[Connector.SLOONO]
+				&& prefsUserSloono.length() != 0
+				&& prefsPasswordSloono.length() != 0) {
+			CONNECTORS_READY[Connector.SLOONO] = true;
+		} else {
+			if (CONNECTORS_ENABLED[Connector.SLOONO]) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			CONNECTORS_READY[Connector.SLOONO] = false;
+		}
 		this.setButtons();
 	}
 
@@ -965,6 +994,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
 			items.add(allItems[Connector.CHERRY_WO_SENDER]);
 			items.add(allItems[Connector.CHERRY_W_SENDER]);
+		}
+		if (CONNECTORS_ENABLED[Connector.SLOONO]) {
+			items.add(allItems[Connector.SLOONO_DISCOUNT]);
+			items.add(allItems[Connector.SLOONO_BASIC]);
+			items.add(allItems[Connector.SLOONO_PRO]);
 		}
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {

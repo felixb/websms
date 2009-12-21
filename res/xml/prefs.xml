@@ -80,7 +80,7 @@
 				android:title="@string/password_sipgate_" android:dialogTitle="@string/password_sipgate_"
 				android:dependency="enable_sipgate" />
 			<CheckBoxPreference android:key="enable_sipgate_team"
-				android:title="@string/enable_sipgate_team"></CheckBoxPreference>
+				android:title="@string/enable_sipgate_team" android:dependency="enable_sipgate" />
 		</PreferenceScreen>
 
 		<PreferenceScreen android:title="@string/settings_innosend">
@@ -110,6 +110,22 @@
 				android:summary="@string/partner_cherrysms_hint">
 				<intent android:action="android.intent.action.VIEW"
 					android:data="@string/partner_cherrysms_url" />
+			</PreferenceScreen>
+		</PreferenceScreen>
+
+		<PreferenceScreen android:title="@string/settings_sloono">
+			<CheckBoxPreference android:key="enable_sloono"
+				android:title="@string/enable_sloono" />
+			<EditTextPreference android:key="user_sloono"
+				android:title="@string/user_sloono_" android:dialogTitle="@string/user_sloono_"
+				android:inputType="textEmailAddress" android:dependency="enable_sloono" />
+			<EditTextPreference android:key="password_sloono"
+				android:inputType="textPassword" android:title="@string/password_sloono_"
+				android:dialogTitle="@string/password_sloono_" android:dependency="enable_sloono" />
+			<PreferenceScreen android:title="@string/create_account_"
+				android:summary="@string/partner_sloono_hint">
+				<intent android:action="android.intent.action.VIEW"
+					android:data="@string/partner_sloono_url" />
 			</PreferenceScreen>
 		</PreferenceScreen>
 	</PreferenceCategory>
