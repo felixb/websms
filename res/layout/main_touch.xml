@@ -77,6 +77,9 @@
 			<Button android:text="@string/change_connector_nl" android:id="@+id/change_connector"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:visibility="gone" />
+			<Button android:text="@string/extras_" android:id="@+id/extras"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:visibility="gone" />
 			<Button android:text="@string/send_" android:id="@+id/send_"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 		</LinearLayout>

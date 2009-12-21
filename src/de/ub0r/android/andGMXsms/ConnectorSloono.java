@@ -179,4 +179,20 @@ public class ConnectorSloono extends Connector {
 			return true;
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final boolean supportFlashsms() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final boolean supportSendLater() {
+		return true;
+	}
 }

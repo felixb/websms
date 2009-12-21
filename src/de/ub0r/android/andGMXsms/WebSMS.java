@@ -268,6 +268,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Text's label. */
 	private TextView textLabel;
 
+	/** Show extras. */
+	private boolean showExtras = false;
+
 	/** Shared Preferences. */
 	private SharedPreferences preferences;
 
@@ -454,6 +457,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
 		((Button) this.findViewById(R.id.change_connector))
 				.setOnClickListener(this);
+		((Button) this.findViewById(R.id.extras)).setOnClickListener(this);
 
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		((EditText) this.findViewById(R.id.text))
@@ -787,20 +791,26 @@ public class WebSMS extends Activity implements OnClickListener,
 			prefsConnector = con;
 		}
 
-		boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
-		boolean sCustomsender = Connector.supportCustomsender(prefsConnector);
-		boolean sSendLater = Connector.supportSendLater(prefsConnector);
-		if (sFlashsms) {
+		final boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
+		final boolean sCustomsender = Connector
+				.supportCustomsender(prefsConnector);
+		final boolean sSendLater = Connector.supportSendLater(prefsConnector);
+		if (sFlashsms || sCustomsender || sSendLater) {
+			this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
+		} else {
+			this.findViewById(R.id.extras).setVisibility(View.GONE);
+		}
+		if (this.showExtras && sFlashsms) {
 			this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
 		} else {
 			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
 		}
-		if (sCustomsender) {
+		if (this.showExtras && sCustomsender) {
 			this.findViewById(R.id.custom_sender).setVisibility(View.VISIBLE);
 		} else {
 			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
 		}
-		if (sSendLater) {
+		if (this.showExtras && sSendLater) {
 			this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
 		} else {
 			this.findViewById(R.id.send_later).setVisibility(View.GONE);
@@ -955,6 +965,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			break;
 		case R.id.change_connector:
 			this.changeConnectorMenu();
+			break;
+		case R.id.extras:
+			this.showExtras = !this.showExtras;
+			this.setButtons();
 			break;
 		default:
 			break;

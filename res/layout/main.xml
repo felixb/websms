@@ -60,6 +60,9 @@
 		<Button android:text="@string/change_connector_nl" android:id="@+id/change_connector"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" android:visibility="gone" />
+		<Button android:text="@string/extras_" android:id="@+id/extras"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" android:visibility="gone" />
 		<Button android:id="@+id/cancel" android:text="@android:string/cancel"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />

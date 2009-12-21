@@ -125,6 +125,7 @@
 	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="settings_cherrysms">Preferences - CherrySMS</string>
 	<string name="settings_sloono">Preferences - Sloono</string>
+	<string name="extras_">Extras</string>
 	<string name="change_connector_button">"Chg. provider" button</string>
 	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
 	<string name="softkeyboard_">No keyboard</string>
