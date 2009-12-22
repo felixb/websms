@@ -516,7 +516,6 @@ public class WebSMS extends Activity implements OnClickListener,
 						}
 						((EditText) this.findViewById(R.id.to)).setText(s);
 						lastTo = s;
-						this.findViewById(R.id.text).requestFocus();
 					}
 					final Bundle extras = intent.getExtras();
 					if (extras != null) {
@@ -526,7 +525,6 @@ public class WebSMS extends Activity implements OnClickListener,
 							((EditText) this.findViewById(R.id.text))
 									.setText(s);
 							lastMsg = s;
-							this.findViewById(R.id.send_).requestFocus();
 						}
 						s = extras.getString(EXTRA_ERRORMESSAGE);
 						if (s != null) {
@@ -598,17 +596,23 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.setButtons();
 
 		// reload text/recipient from local store
-		EditText et = (EditText) this.findViewById(R.id.text);
+		final EditText et0 = (EditText) this.findViewById(R.id.text);
 		if (lastMsg != null) {
-			et.setText(lastMsg);
+			et0.setText(lastMsg);
 		} else {
-			et.setText("");
+			et0.setText("");
 		}
-		et = (EditText) this.findViewById(R.id.to);
+		final EditText et1 = (EditText) this.findViewById(R.id.to);
 		if (lastTo != null) {
-			et.setText(lastTo);
+			et1.setText(lastTo);
 		} else {
-			et.setText("");
+			et1.setText("");
+		}
+
+		if (lastTo != null && lastTo.length() > 0) {
+			et0.requestFocus();
+		} else {
+			et1.requestFocus();
 		}
 	}
 
