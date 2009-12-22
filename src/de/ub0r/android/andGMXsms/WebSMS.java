@@ -755,34 +755,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		int c = 0;
 		short con = 0;
 
-		if (CONNECTORS_ENABLED[Connector.SMS]) {
-			++c;
-			con = Connector.SMS;
+		for (short i = 0; i < Connector.CONNECTORS; i++) {
+			if (CONNECTORS_ENABLED[i]) {
+				c += Connector.getSubConnectors(i, null, null);
+				con = i;
+			}
 		}
-		if (CONNECTORS_ENABLED[Connector.GMX]) {
-			++c;
-			con = Connector.GMX;
-		}
-		if (CONNECTORS_ENABLED[Connector.O2]) {
-			++c;
-			con = Connector.O2;
-		}
-		if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-			++c;
-			con = Connector.SIPGATE;
-		}
-		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-			c += 3;
-			con = Connector.INNOSEND;
-		}
-		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-			c += 2;
-			con = Connector.CHERRY;
-		}
-		if (CONNECTORS_ENABLED[Connector.SLOONO]) {
-			c += 3;
-			con = Connector.SLOONO;
-		}
+
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
@@ -988,38 +967,18 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * Display "change connector" menu.
 	 */
-	private final void changeConnectorMenu() {
+	private void changeConnectorMenu() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.change_connector_);
 		final ArrayList<String> items = new ArrayList<String>();
 		final String[] allItems = this.getResources().getStringArray(
 				R.array.connectors);
-		if (CONNECTORS_ENABLED[Connector.SMS]) {
-			items.add(allItems[Connector.SMS]);
+		for (short c = 0; c < Connector.CONNECTORS; c++) {
+			if (CONNECTORS_ENABLED[c]) {
+				Connector.getSubConnectors(c, items, allItems);
+			}
 		}
-		if (CONNECTORS_ENABLED[Connector.GMX]) {
-			items.add(allItems[Connector.GMX]);
-		}
-		if (CONNECTORS_ENABLED[Connector.O2]) {
-			items.add(allItems[Connector.O2]);
-		}
-		if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-			items.add(allItems[Connector.SIPGATE]);
-		}
-		if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-			items.add(allItems[Connector.INNOSEND_FREE]);
-			items.add(allItems[Connector.INNOSEND_WO_SENDER]);
-			items.add(allItems[Connector.INNOSEND_W_SENDER]);
-		}
-		if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-			items.add(allItems[Connector.CHERRY_WO_SENDER]);
-			items.add(allItems[Connector.CHERRY_W_SENDER]);
-		}
-		if (CONNECTORS_ENABLED[Connector.SLOONO]) {
-			items.add(allItems[Connector.SLOONO_DISCOUNT]);
-			items.add(allItems[Connector.SLOONO_BASIC]);
-			items.add(allItems[Connector.SLOONO_PRO]);
-		}
+
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog,

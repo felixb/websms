@@ -21,8 +21,6 @@ package de.ub0r.android.andGMXsms;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 

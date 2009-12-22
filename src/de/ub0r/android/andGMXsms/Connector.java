@@ -1006,7 +1006,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            international number
 	 * @return national number
 	 */
-	public final static String international2national(final String number) {
+	static final String international2national(final String number) {
 		if (number.startsWith(WebSMS.prefsDefPrefix)) {
 			return '0' + number.substring(WebSMS.prefsDefPrefix.length());
 		}
@@ -1020,11 +1020,53 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            international number starting with +
 	 * @return international number in old format starting with 00
 	 */
-	public final static String international2oldformat(final String number) {
+	static final String international2oldformat(final String number) {
 		if (number.startsWith("+")) {
 			return "00" + number.substring(1);
 		}
 		return number;
+	}
+
+	/**
+	 * Add sub-connectors to item list, return numer of connectors added.
+	 * 
+	 * @param connector
+	 *            connector to add
+	 * @param items
+	 *            add names to this list
+	 * @param allItems
+	 *            list of all connctors
+	 * @return number of connectors added
+	 */
+	static final short getSubConnectors(final short connector,
+			final ArrayList<String> items, final String[] allItems) {
+		switch (connector) {
+		case INNOSEND:
+			if (items != null && allItems != null) {
+				items.add(allItems[Connector.INNOSEND_FREE]);
+				items.add(allItems[Connector.INNOSEND_WO_SENDER]);
+				items.add(allItems[Connector.INNOSEND_W_SENDER]);
+			}
+			return 3;
+		case CHERRY:
+			if (items != null && allItems != null) {
+				items.add(allItems[Connector.CHERRY_WO_SENDER]);
+				items.add(allItems[Connector.CHERRY_W_SENDER]);
+			}
+			return 2;
+		case SLOONO: // do not change order here!
+			if (items != null && allItems != null) {
+				items.add(allItems[Connector.SLOONO_DISCOUNT]);
+				items.add(allItems[Connector.SLOONO_BASIC]);
+				items.add(allItems[Connector.SLOONO_PRO]);
+			}
+			return 3;
+		default:
+			if (items != null && allItems != null) {
+				items.add(allItems[connector]);
+			}
+			return 1;
+		}
 	}
 
 	/**

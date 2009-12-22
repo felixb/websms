@@ -130,7 +130,7 @@ public class ConnectorO2 extends Connector {
 	/** Solved Captcha. */
 	static String captchaSolve = null;
 	/** Object to sync with. */
-	final static Object CAPTCHA_SYNC = new Object();
+	static final Object CAPTCHA_SYNC = new Object();
 
 	/** Global html response. */
 	private String htmlText;
