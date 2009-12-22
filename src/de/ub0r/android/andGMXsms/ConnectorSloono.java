@@ -21,6 +21,8 @@ package de.ub0r.android.andGMXsms;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 
@@ -114,7 +116,7 @@ public class ConnectorSloono extends Connector {
 				}
 				if (this.sendLater > 0) {
 					url.append("&timestamp=");
-					url.append(this.sendLater);
+					url.append(this.sendLater / 1000);
 				}
 				url.append("&text=");
 				url.append(URLEncoder.encode(this.text));
