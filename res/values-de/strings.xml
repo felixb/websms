@@ -50,10 +50,6 @@
 	<string name="enable_sloono">Aktiviere Sloono</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
-	<string name="help_">Hilfe</string>
-	<string name="help">Um diese App. nutzen zu können brauchst du
-		entweder einen GMX SMS Account (GMX Freemail Plus, Promail, Topmail), einen Account bei sipgate.de oder innosend.de
-		oder o2 als Provider!</string>
 	<string name="license">GPLv3 - siehe
 		http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
