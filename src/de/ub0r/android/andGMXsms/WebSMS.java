@@ -1333,6 +1333,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public final void onTimeSet(final TimePicker view, final int hour,
 			final int minutes) {
+		if (prefsConnector == Connector.O2 && minutes % 15 != 0) {
+			Toast.makeText(this, R.string.log_error_o2_sendlater,
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
 		final Calendar c = Calendar.getInstance();
 		if (lastParams[Connector.ID_SENDLATER] != null) {
 			c.setTimeInMillis(Long

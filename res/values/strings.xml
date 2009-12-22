@@ -87,6 +87,7 @@
 	<string name="log_error_service">Service is down! Please try again later.</string>
 	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
 	<string name="log_error_input">Error in user input!</string>
+	<string name="log_error_o2_sendlater">Only full 15minutes are supported by o2!</string>
 	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
 	<string name="log_remain_free">free SMS remaining</string>
 	<string name="log_sending">Sending message...</string>
