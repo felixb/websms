@@ -66,7 +66,7 @@ public class ConnectorO2 extends Connector {
 	/** URL for sending. */
 	private static final int URL_SEND = 6;
 	/** URL for sending later. */
-	private static final int URL_SCHEDULE = 6;
+	private static final int URL_SCHEDULE = 7;
 
 	/** Check for free sms. */
 	private static final int CHECK_FREESMS = 0;
@@ -310,6 +310,27 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
+	 * Format values from calendar to minimum 2 digits.
+	 * 
+	 * @param cal
+	 *            calendar
+	 * @param f
+	 *            field
+	 * @return value as string
+	 */
+	private static String getTwoDigitsFromCal(final Calendar cal, final int f) {
+		int r = cal.get(f);
+		if (f == Calendar.MONTH) {
+			++r;
+		}
+		if (r < 10) {
+			return "0" + r;
+		} else {
+			return "" + r;
+		}
+	}
+
+	/**
 	 * Send SMS.
 	 * 
 	 * @param operator
@@ -326,8 +347,7 @@ public class ConnectorO2 extends Connector {
 	 */
 	private boolean sendToO2(final short operator) throws IOException,
 			MalformedCookieException, URISyntaxException, WebSMSException {
-		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
-				15);
+		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>();
 		String[] recvs = this.to;
 		final int e = recvs.length;
 		StringBuilder toBuf = new StringBuilder(recvs[0]);
@@ -363,32 +383,31 @@ public class ConnectorO2 extends Connector {
 			url = URLS[operator][URL_SCHEDULE];
 			final Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(this.sendLater);
-			postData.add(new BasicNameValuePair("StartDateDay", ""
-					+ cal.get(Calendar.DAY_OF_MONTH)));
-			postData.add(new BasicNameValuePair("StartDateMonth", ""
-					+ cal.get(Calendar.MONTH)));
-			postData.add(new BasicNameValuePair("StartDateYear", ""
-					+ cal.get(Calendar.YEAR)));
-			postData.add(new BasicNameValuePair("StartDateHour", ""
-					+ cal.get(Calendar.HOUR_OF_DAY)));
-			postData.add(new BasicNameValuePair("StartDateMin", ""
-					+ cal.get(Calendar.MINUTE)));
-			postData.add(new BasicNameValuePair("EndDateDay", ""
-					+ cal.get(Calendar.DAY_OF_MONTH)));
-			postData.add(new BasicNameValuePair("EndDateMonth", ""
-					+ cal.get(Calendar.MONTH)));
-			postData.add(new BasicNameValuePair("EndDateYear", ""
-					+ cal.get(Calendar.YEAR)));
-			postData.add(new BasicNameValuePair("EndDateHour", ""
-					+ cal.get(Calendar.HOUR_OF_DAY)));
-			postData.add(new BasicNameValuePair("EndDateMin", ""
-					+ cal.get(Calendar.MINUTE)));
+			postData.add(new BasicNameValuePair("StartDateDay",
+					getTwoDigitsFromCal(cal, Calendar.DAY_OF_MONTH)));
+			postData.add(new BasicNameValuePair("StartDateMonth",
+					getTwoDigitsFromCal(cal, Calendar.MONTH)));
+			postData.add(new BasicNameValuePair("StartDateYear",
+					getTwoDigitsFromCal(cal, Calendar.YEAR)));
+			postData.add(new BasicNameValuePair("StartDateHour",
+					getTwoDigitsFromCal(cal, Calendar.HOUR_OF_DAY)));
+			postData.add(new BasicNameValuePair("StartDateMin",
+					getTwoDigitsFromCal(cal, Calendar.MINUTE)));
+			postData.add(new BasicNameValuePair("EndDateDay",
+					getTwoDigitsFromCal(cal, Calendar.DAY_OF_MONTH)));
+			postData.add(new BasicNameValuePair("EndDateMonth",
+					getTwoDigitsFromCal(cal, Calendar.MONTH)));
+			postData.add(new BasicNameValuePair("EndDateYear",
+					getTwoDigitsFromCal(cal, Calendar.YEAR)));
+			postData.add(new BasicNameValuePair("EndDateHour",
+					getTwoDigitsFromCal(cal, Calendar.HOUR_OF_DAY)));
+			postData.add(new BasicNameValuePair("EndDateMin",
+					getTwoDigitsFromCal(cal, Calendar.MINUTE)));
 			final String s = DateFormat.format(DATEFORMAT, cal).toString();
 			postData.add(new BasicNameValuePair("RepeatStartDate", s));
 			postData.add(new BasicNameValuePair("RepeatEndDate", s));
 			postData.add(new BasicNameValuePair("RepeatType", "5"));
 			postData.add(new BasicNameValuePair("RepeatEndType", "0"));
-			postData.add(new BasicNameValuePair("Frequency", "5"));
 		}
 		String[] st = this.htmlText.split("<input type=\"Hidden\" ");
 		this.htmlText = null;
@@ -396,6 +415,9 @@ public class ConnectorO2 extends Connector {
 			if (s.startsWith("name=")) {
 				String[] subst = s.split("\"", 5);
 				if (subst.length >= 4) {
+					if (this.sendLater > 0 && subst[1].startsWith("Repeat")) {
+						continue;
+					}
 					postData.add(new BasicNameValuePair(subst[1], subst[3]));
 				}
 			}
@@ -544,7 +566,6 @@ public class ConnectorO2 extends Connector {
 	 */
 	@Override
 	protected final boolean supportSendLater() {
-		return false;
-		// return true;
+		return true;
 	}
 }
