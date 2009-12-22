@@ -343,6 +343,9 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("SMSFrom", this.customSender));
 			if (this.customSender.length() == 0) {
 				postData.add(new BasicNameValuePair("FlagAnonymous", "1"));
+			} else {
+				postData.add(new BasicNameValuePair("FlagAnonymous", "0"));
+				postData.add(new BasicNameValuePair("FlagDefSender", "1"));
 			}
 			postData.add(new BasicNameValuePair("FlagDefSender", "0"));
 		} else {
@@ -352,6 +355,8 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("Frequency", "5"));
 		if (this.flashSMS) {
 			postData.add(new BasicNameValuePair("FlagFlash", "1"));
+		} else {
+			postData.add(new BasicNameValuePair("FlagFlash", "0"));
 		}
 		String url = URLS[operator][URL_SEND];
 		if (this.sendLater > 0) {
