@@ -472,7 +472,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		Intent intent = this.getIntent();
 		final String action = intent.getAction();
-		if (action != null) { // && action.equals(Intent.ACTION_SENDTO)) {
+		if (action != null) {
 			// launched by clicking a sms: link, target number is in URI.
 			final Uri uri = intent.getData();
 			if (uri != null) {
@@ -529,14 +529,13 @@ public class WebSMS extends Activity implements OnClickListener,
 						s = extras.getString(EXTRA_ERRORMESSAGE);
 						if (s != null) {
 							Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-
-							if (!prefsNoAds) {
-								// do not display any ads for donators
-								// display ads
-								((AdView) WebSMS.this.findViewById(R.id.ad))
-										.setVisibility(View.VISIBLE);
-							}
 						}
+					}
+					if (!prefsNoAds) {
+						// do not display any ads for donators
+						// display ads
+						((AdView) WebSMS.this.findViewById(R.id.ad))
+								.setVisibility(View.VISIBLE);
 					}
 				}
 			}
