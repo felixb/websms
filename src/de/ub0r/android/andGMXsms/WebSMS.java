@@ -28,7 +28,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
@@ -370,8 +369,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		 * Default Constructor.
 		 */
 		public MyPrefsOnChgListener() {
-			for (int i = 0; i < changed.length; i++) {
-				changed[i] = false;
+			for (int i = 0; i < this.changed.length; i++) {
+				this.changed[i] = false;
 			}
 		}
 
@@ -1162,8 +1161,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		case DIALOG_SENDLATER_TIME:
 			c = Calendar.getInstance();
-			return new TimePickerDialog(this, this,
-					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
+			return new MyTimePickerDialog(this, this, c
+					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
 		default:
 			return null;
 		}
