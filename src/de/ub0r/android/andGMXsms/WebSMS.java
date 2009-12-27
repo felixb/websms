@@ -364,8 +364,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	class MyPrefsOnChgListener implements
 			SharedPreferences.OnSharedPreferenceChangeListener {
 		/** Changed? */
-		private boolean[] changed = { false, false, false, false, false, false,
-				false };
+		private final boolean[] changed = new boolean[Connector.CONNECTORS];
+
+		/**
+		 * Default Constructor.
+		 */
+		public MyPrefsOnChgListener() {
+			for (int i = 0; i < changed.length; i++) {
+				changed[i] = false;
+			}
+		}
 
 		/**
 		 *{@inheritDoc}
@@ -1211,8 +1219,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            text
 	 */
 	public final void log(final String text) {
-		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG)
-				.show();
+		try {
+			Toast.makeText(this.getApplicationContext(), text,
+					Toast.LENGTH_LONG).show();
+		} catch (RuntimeException e) {
+			Log.e(TAG, null, e);
+		}
 	}
 
 	/**
