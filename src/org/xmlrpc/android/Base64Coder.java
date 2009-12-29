@@ -21,10 +21,9 @@ package org.xmlrpc.android;
  * &nbsp; New method encode(byte[],int) added.<br>
  * &nbsp; New method decode(String) added.<br>
  */
+final class Base64Coder {
 
-class Base64Coder {
-
-	// Mapping table from 6-bit nibbles to Base64 characters.
+	/** Mapping table from 6-bit nibbles to Base64 characters. */
 	private static char[] map1 = new char[64];
 	static {
 		int i = 0;
@@ -41,7 +40,7 @@ class Base64Coder {
 		map1[i++] = '/';
 	}
 
-	// Mapping table from Base64 characters to 6-bit nibbles.
+	/** Mapping table from Base64 characters to 6-bit nibbles. */
 	private static byte[] map2 = new byte[128];
 	static {
 		for (int i = 0; i < map2.length; i++) {
@@ -116,8 +115,6 @@ class Base64Coder {
 	 * @param s
 	 *            a Base64 String to be decoded.
 	 * @return A String containing the decoded data.
-	 * @throws IllegalArgumentException
-	 *             if the input is not valid Base64 encoded data.
 	 */
 	static String decodeString(final String s) {
 		return new String(decode(s));
@@ -129,8 +126,6 @@ class Base64Coder {
 	 * @param s
 	 *            a Base64 String to be decoded.
 	 * @return An array containing the decoded data bytes.
-	 * @throws IllegalArgumentException
-	 *             if the input is not valid Base64 encoded data.
 	 */
 	static byte[] decode(final String s) {
 		return decode(s.toCharArray());
@@ -143,8 +138,6 @@ class Base64Coder {
 	 * @param in
 	 *            a character array containing the Base64 encoded data.
 	 * @return An array containing the decoded data bytes.
-	 * @throws IllegalArgumentException
-	 *             if the input is not valid Base64 encoded data.
 	 */
 	static byte[] decode(final char[] in) {
 		int iLen = in.length;
@@ -190,7 +183,9 @@ class Base64Coder {
 		return out;
 	}
 
-	// Dummy constructor.
+	/**
+	 * Dummy constructor.
+	 */
 	private Base64Coder() {
 	}
 }
