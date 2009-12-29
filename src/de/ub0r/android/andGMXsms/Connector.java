@@ -880,6 +880,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (this.context instanceof IOService) {
 			IOService.unregister(this.notification, !result);
 		}
+		System.gc();
 		Log.d(TAG, "onPostExecute(" + result + ") return");
 	}
 
