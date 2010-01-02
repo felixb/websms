@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.8.2: fix prefs</item>
 		<item>v2.8.1: new icon, fix some minor bugs, reuse session for o2</item>
 		<item>v2.8: add support for sloono.de, allow to show only mobile numbers, workaround for cyanogen mod 4.2.9.1, add extra features to some providers, notify user on failure, remove ads for donator</item>
 		<item>v2.7.1: readd button to change provider, turn off autoupdate by default (check prefs for both), remove ads for donator</item>
