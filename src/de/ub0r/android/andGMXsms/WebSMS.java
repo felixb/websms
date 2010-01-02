@@ -206,6 +206,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			"ca56e7518fdbda832409ef07edd4c273", // michael s.
 			"bed2f068ca8493da4179807d1afdbd83", // axel q.
 			"4c35400c4fa3ffe2aefcf1f9131eb855", // gerhard s.
+			"02158d2a80b1ef9c4d684a4ca808b93d", // camilo s.
+			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
 	};
 
 	/** Public Dialog ref. */
