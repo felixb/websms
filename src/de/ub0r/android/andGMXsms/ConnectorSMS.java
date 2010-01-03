@@ -21,6 +21,7 @@ package de.ub0r.android.andGMXsms;
 import java.util.ArrayList;
 
 import android.telephony.gsm.SmsManager;
+import android.util.Log;
 
 /**
  * AsyncTask to manage IO by standard sms methods.
@@ -28,6 +29,9 @@ import android.telephony.gsm.SmsManager;
  * @author flx
  */
 public class ConnectorSMS extends Connector {
+	/** Tag for debug output. */
+	private static String TAG = "WebSMS.sms";
+
 	/**
 	 * Create a SMS Connector.
 	 */
@@ -52,6 +56,9 @@ public class ConnectorSMS extends Connector {
 		for (String t : this.to) {
 			ArrayList<String> messages = sm.divideMessage(this.text);
 			sm.sendMultipartTextMessage(t, null, messages, null, null);
+			for (String m : messages) {
+				Log.d(TAG, "send sms: " + t + " text: " + m);
+			}
 		}
 		return true;
 	}
