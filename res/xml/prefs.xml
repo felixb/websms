@@ -34,10 +34,10 @@
 		<CheckBoxPreference android:key="mobiles_only"
 			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
 
-		<CheckBoxPreference android:key="fail_sound"
-			android:title="@string/sound_on_fail" />
-		<RingtonePreference android:key="fail_vibrate"
-			android:title="@string/vibrate_on_fail" android:ringtoneType="notification"
+		<CheckBoxPreference android:key="fail_vibrate"
+			android:title="@string/vibrate_on_fail" />
+		<RingtonePreference android:key="fail_sound"
+			android:title="@string/sound_on_fail" android:ringtoneType="notification"
 			android:defaultValue="content://settings/system/notification_sound" />
 
 	</PreferenceCategory>
