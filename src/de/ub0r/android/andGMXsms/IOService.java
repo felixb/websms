@@ -26,6 +26,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -37,6 +38,13 @@ import android.util.Log;
 public class IOService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
+
+	/** Intent's action for sending a message. */
+	static final String INTENT_ACTION = "de.ub0r.andGMXsms.send";
+	/** Intent's extra for params. */
+	static final String INTENT_PARAMS = "prams";
+	/** Intent's extra for connector. */
+	static final String INTENT_CONNECTOR = "connector";
 
 	/** Ref to single instance. */
 	private static IOService me = null;
@@ -118,6 +126,33 @@ public class IOService extends Service {
 			this.helperAPI5s = null;
 			Log.d(TAG, "no api5 running", e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onStart(final Intent intent, final int startId) {
+		if (intent != null) {
+			final String a = intent.getAction();
+			if (a != null && a.equals(INTENT_ACTION)) {
+				final Bundle b = intent.getExtras();
+				final String[] params = b.getStringArray(INTENT_PARAMS);
+				final short connector = b.getShort(INTENT_CONNECTOR,
+						Connector.SMS);
+				Connector.send(IOService.this, connector, params);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int onStartCommand(final Intent intent, final int flags,
+			final int startId) {
+		this.onStart(intent, startId);
+		return START_NOT_STICKY;
 	}
 
 	/**

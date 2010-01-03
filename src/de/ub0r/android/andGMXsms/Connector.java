@@ -744,17 +744,17 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				t = params[ID_ID];
 			}
 			this.type = t;
-			if (t == ID_UPDATE) {
+			if (t.equals(ID_UPDATE)) {
 				if (!this.checkUpdate(true)) {
 					return false;
 				}
 				this.publishProgress(false);
 				ret = this.updateMessages();
 				this.checkUpdate(false);
-			} else if (t == ID_BOOSTR) {
+			} else if (t.equals(ID_BOOSTR)) {
 				this.publishProgress(false);
 				ret = this.doBootstrap(params);
-			} else if (t == ID_SEND) {
+			} else if (t.equals(ID_SEND)) {
 				this.text = params[ID_TEXT];
 				this.tos = params[ID_TO];
 				this.flashSMS = params[ID_FLASHSMS] != null;
@@ -789,9 +789,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final void onProgressUpdate(final Boolean... progress) {
 		final Context c = this.context;
 		final String t = this.type;
-		if (t == ID_UPDATE) {
+		if (t.equals(ID_UPDATE)) {
 			((WebSMS) c).setProgressBarIndeterminateVisibility(true);
-		} else if (t == ID_BOOSTR) {
+		} else if (t.equals(ID_BOOSTR)) {
 			if (WebSMS.dialog != null) {
 				try {
 					WebSMS.dialog.dismiss();
@@ -853,7 +853,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final void onPostExecute(final Boolean result) {
 		Log.d(TAG, "onPostExecute(" + result + ")");
 		final String t = this.type;
-		if (t == ID_UPDATE) {
+		if (t.equals(ID_UPDATE)) {
 			--countUpdates;
 			if (countUpdates == 0) {
 				((WebSMS) this.context)
@@ -870,7 +870,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				}
 			}
 		}
-		if (t == ID_SEND) {
+		if (t.equals(ID_SEND)) {
 			if (result) {
 				this.saveMessage(this.to, this.text);
 			} else {

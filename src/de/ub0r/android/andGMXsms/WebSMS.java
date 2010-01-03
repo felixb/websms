@@ -43,7 +43,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.RemoteException;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.Contacts.PeopleColumns;
@@ -1239,8 +1238,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void send(final short connector, final String[] params) {
 		try {
-			this.mIOOp.sendMessage(connector, params);
-		} catch (RemoteException e) {
+			final Intent i = new Intent(this, IOService.class);
+			i.setAction(IOService.INTENT_ACTION);
+			i.putExtra(IOService.INTENT_PARAMS, params);
+			i.putExtra(IOService.INTENT_CONNECTOR, connector);
+			this.startService(i);
+		} catch (Exception e) {
 			Log.e(TAG, null, e);
 		} finally {
 			this.reset();
