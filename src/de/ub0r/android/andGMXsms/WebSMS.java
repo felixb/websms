@@ -31,17 +31,13 @@ import android.app.ProgressDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -76,7 +72,7 @@ import com.admob.android.ads.AdView;
  * @author flx
  */
 public class WebSMS extends Activity implements OnClickListener,
-		ServiceConnection, OnDateSetListener, OnTimeSetListener {
+		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
 
@@ -274,9 +270,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Shared Preferences. */
 	private SharedPreferences preferences;
-
-	/** Bound service. */
-	private IIOOp mIOOp;
 
 	/** MessageHandler. */
 	private Handler messageHandler = new Handler() {
@@ -550,10 +543,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 
-		intent = new Intent(this, IOService.class);
-		this.bindService(intent, this, Context.BIND_AUTO_CREATE);
-		this.startService(intent);
-
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
@@ -666,15 +655,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.commit();
 
 		this.savePreferences();
-	}
-
-	/**
-	 *{@inheritDoc}
-	 */
-	@Override
-	public final void onDestroy() {
-		super.onDestroy();
-		this.unbindService(this);
 	}
 
 	/**
@@ -1199,21 +1179,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public final void onServiceConnected(final ComponentName name,
-			final IBinder service) {
-		this.mIOOp = IIOOp.Stub.asInterface(service);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final void onServiceDisconnected(final ComponentName name) {
-		this.mIOOp = null;
-	}
-
-	/**
 	 * Log text.
 	 * 
 	 * @param text
@@ -1263,11 +1228,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String text = ((EditText) this.findViewById(R.id.text)).getText()
 				.toString();
 		if (to.length() == 0 || text.length() == 0) {
-			return;
-		}
-
-		if (this.mIOOp == null) {
-			Log.e(TAG, "mIOOp == null");
 			return;
 		}
 

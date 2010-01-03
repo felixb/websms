@@ -51,11 +51,6 @@ public class IOService extends Service {
 
 	/** Number of jobs running. */
 	private static int currentIOOps = 0;
-	/**
-	 * Is some client bound to this service? IO Tasks can kill this service, if
-	 * no Client is bound and all IO is done.
-	 */
-	private static boolean isBound = false;
 
 	/** Notification ID of this Service. */
 	private static final int NOTIFICATION_PENDING = 0;
@@ -69,43 +64,12 @@ public class IOService extends Service {
 	/** Wrapper for API5 commands. */
 	private HelperAPI5Service helperAPI5s = null;
 
-	/** The IBinder RPC Interface. */
-	private final IIOOp.Stub mBinder = new IIOOp.Stub() {
-		public void sendMessage(final int connector, final String[] params) {
-			Connector.send(IOService.this, (short) connector, params);
-		}
-	};
-
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IBinder onBind(final Intent intent) {
 		Log.d(TAG, "onBind()");
-		IOService.isBound = true;
-		return this.mBinder;
-	}
-
-	/**
-	 * Called when all clients have disconnected from a particular interface
-	 * published by the service.
-	 * 
-	 * @param intent
-	 *            The Intent that was used to bind to this service, as given to
-	 *            Context.bindService. Note that any extras that were included
-	 *            with the Intent at that point will not be seen here.
-	 * @return Return true if you would like to have the service's
-	 *         onRebind(Intent) method later called when new clients bind to it.
-	 */
-	@Override
-	public final boolean onUnbind(final Intent intent) {
-		Log.d(TAG, "onUnbind()");
-		Log.d(TAG, "currentIOOps=" + currentIOOps);
-		IOService.isBound = false;
-		if (currentIOOps <= 0) {
-			this.stopSelf();
-		}
-		Log.d(TAG, "onUnbind() return true");
-		return true;
+		return null;
 	}
 
 	/**
@@ -225,7 +189,7 @@ public class IOService extends Service {
 		notifications.remove(n);
 		--currentIOOps;
 		me.displayNotification(currentIOOps);
-		if (currentIOOps <= 0 && !isBound) {
+		if (currentIOOps <= 0) {
 			me.stopSelf();
 		}
 		Log.d(TAG, "currentIOOps=" + currentIOOps);
