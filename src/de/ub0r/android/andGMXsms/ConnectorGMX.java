@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Felix Bechstein
+ * Copyright (C) 2010 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
