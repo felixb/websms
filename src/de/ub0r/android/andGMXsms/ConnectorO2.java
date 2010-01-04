@@ -81,7 +81,7 @@ public class ConnectorO2 extends Connector {
 	 * URLs for this Connector. First dimension: DE/IE/..? Second dimension:
 	 * urls.
 	 */
-	private static final String[][] URLS = { { // .de
+	private static final String[] URLS = {
 					"https://login.o2online.de/loginRegistration"
 							+ "/loginAction.do"
 							+ "?_flowId=login&o2_type=asp&o2_label=login/"
@@ -101,24 +101,18 @@ public class ConnectorO2 extends Connector {
 					"https://email.o2online.de/smscenter_new.osp"
 							+ "?Autocompletion=1&MsgContentID=-1",
 					"https://email.o2online.de/smscenter_send.osp",
-					"https://email.o2online.de/smscenter_schedule.osp" },
-			// end .de
-			{ // ie
-			"???1", "???2", "???3", "???4", "???5" } };
+					"https://email.o2online.de/smscenter_schedule.osp" };
 
 	/**
 	 * Strings for this Connector. First dimension: DE/IE/..? Second dimension:
 	 * string.
 	 */
-	private static final String[][] STRINGS = { { // .de
+	private static final String[] STRINGS = {
 			"Frei-SMS: ", // free sms
 					"Web2SMS", // web2sms
 					"/app_pic/ico_mail_send_ok.gif", // successful send
 					"Sie haben einen falschen Code eingegeben." // wrong code
-			}, // end .de
-			{ // .ie
-			"Number of free text messages remaining this month: ", "Web2SMS",
-					"???" } };
+			};
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -135,8 +129,10 @@ public class ConnectorO2 extends Connector {
 	/** Global html response. */
 	private String htmlText;
 
+	/** Static cookies. */
+	private static ArrayList<Cookie> COOKIES = new ArrayList<Cookie>();
 	/** Cookies. */
-	private static final ArrayList<Cookie> COOKIES = new ArrayList<Cookie>();
+	private ArrayList<Cookie> cookies = null;
 
 	/**
 	 * Create a o2 Connector.
@@ -170,31 +166,8 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
-	 * Get Operator Code.
-	 * 
-	 * @return operator
-	 * @throws WebSMSException
-	 *             WebSMSException
-	 */
-	private short getOperator() throws WebSMSException {
-		short operator;
-		// switch operator
-		final String sndr = this.sender;
-		if (sndr.startsWith("+49")) {
-			operator = O2_DE;
-		} else if (sndr.startsWith("+353")) {
-			operator = O2_IE;
-		} else {
-			throw new WebSMSException(this.context, R.string.log_error_prefix);
-		}
-		return operator;
-	}
-
-	/**
 	 * Load Captcha and wait for user input to solve it.
 	 * 
-	 * @param operator
-	 *            operator to use.
 	 * @param flow
 	 *            _flowExecutionKey
 	 * @return true if captcha was solved
@@ -207,18 +180,18 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean solveCaptcha(final short operator, final String flow)
+	private boolean solveCaptcha(final String flow)
 			throws IOException, MalformedCookieException, URISyntaxException,
 			WebSMSException {
-		HttpResponse response = getHttpClient(URLS[operator][URL_CAPTCHA],
-				COOKIES, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
+		HttpResponse response = getHttpClient(URLS[URL_CAPTCHA],
+				this.cookies, null, TARGET_AGENT, URLS[URL_LOGIN]);
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
 		}
-		updateCookies(COOKIES, response.getAllHeaders(),
-				URLS[operator][URL_CAPTCHA]);
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[URL_CAPTCHA]);
 		captcha = new BitmapDrawable(response.getEntity().getContent());
 		this.pushMessage(WebSMS.MESSAGE_ANTICAPTCHA, null);
 		try {
@@ -236,17 +209,17 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
 		postData.add(new BasicNameValuePair("_eventId", "submit"));
 		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
-		response = getHttpClient(URLS[operator][URL_SOLVECAPTCHA], COOKIES,
-				postData, TARGET_AGENT, URLS[operator][URL_LOGIN]);
+		response = getHttpClient(URLS[URL_SOLVECAPTCHA], this.cookies,
+				postData, TARGET_AGENT, URLS[URL_LOGIN]);
 		resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
 		}
-		updateCookies(COOKIES, response.getAllHeaders(),
-				URLS[operator][URL_CAPTCHA]);
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[URL_CAPTCHA]);
 		final String htmlText = stream2str(response.getEntity().getContent());
-		if (htmlText.indexOf(STRINGS[operator][CHECK_WRONGCAPTCHA]) > 0) {
+		if (htmlText.indexOf(STRINGS[CHECK_WRONGCAPTCHA]) > 0) {
 			throw new WebSMSException(this.context,
 					R.string.log_error_wrongcaptcha);
 		}
@@ -256,8 +229,6 @@ public class ConnectorO2 extends Connector {
 	/**
 	 * Login to O2.
 	 * 
-	 * @param operator
-	 *            operator to use.
 	 * @param flow
 	 *            _flowExecutionKey
 	 * @return true if logged in
@@ -270,7 +241,7 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean login(final short operator, final String flow)
+	private boolean login(final String flow)
 			throws IOException, MalformedCookieException, URISyntaxException,
 			WebSMSException {
 		// post data
@@ -280,24 +251,24 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("loginName", this.user));
 		postData.add(new BasicNameValuePair("password", this.password));
 		postData.add(new BasicNameValuePair("_eventId", "login"));
-		HttpResponse response = getHttpClient(URLS[operator][URL_LOGIN],
-				COOKIES, postData, TARGET_AGENT, URLS[operator][URL_PRELOGIN]);
+		HttpResponse response = getHttpClient(URLS[URL_LOGIN],
+				this.cookies, postData, TARGET_AGENT, URLS[URL_PRELOGIN]);
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(this.context, R.string.log_error_http, ""
 					+ resp);
 		}
-		resp = COOKIES.size();
-		updateCookies(COOKIES, response.getAllHeaders(),
-				URLS[operator][URL_LOGIN]);
-		if (resp == COOKIES.size()) {
+		resp = this.cookies.size();
+		updateCookies(this.cookies, response.getAllHeaders(),
+				URLS[URL_LOGIN]);
+		if (resp == this.cookies.size()) {
 			this.htmlText = stream2str(response.getEntity().getContent());
 			response = null;
 			if (this.htmlText.indexOf("captcha") > 0) {
 				final String newFlow = getFlowExecutionkey(this.htmlText);
 				this.htmlText = null;
 				if (!(this.context instanceof WebSMS)
-						|| !this.solveCaptcha(operator, newFlow)) {
+						|| !this.solveCaptcha(newFlow)) {
 					throw new WebSMSException(this.context,
 							R.string.log_error_captcha);
 				}
@@ -332,8 +303,6 @@ public class ConnectorO2 extends Connector {
 	/**
 	 * Send SMS.
 	 * 
-	 * @param operator
-	 *            operator to use.
 	 * @return true if send in
 	 * @throws IOException
 	 *             IOException
@@ -344,7 +313,7 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendToO2(final short operator) throws IOException,
+	private boolean sendToO2() throws IOException,
 			MalformedCookieException, URISyntaxException, WebSMSException {
 		ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>();
 		String[] recvs = this.to;
@@ -377,9 +346,9 @@ public class ConnectorO2 extends Connector {
 		} else {
 			postData.add(new BasicNameValuePair("FlagFlash", "0"));
 		}
-		String url = URLS[operator][URL_SEND];
+		String url = URLS[URL_SEND];
 		if (this.sendLater > 0) {
-			url = URLS[operator][URL_SCHEDULE];
+			url = URLS[URL_SCHEDULE];
 			final Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(this.sendLater);
 			postData.add(new BasicNameValuePair("StartDateDay",
@@ -423,8 +392,8 @@ public class ConnectorO2 extends Connector {
 		}
 		st = null;
 
-		HttpResponse response = getHttpClient(url, COOKIES, postData,
-				TARGET_AGENT, URLS[operator][URL_PRESEND]);
+		HttpResponse response = getHttpClient(url, this.cookies, postData,
+				TARGET_AGENT, URLS[URL_PRESEND]);
 		postData = null;
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
@@ -432,7 +401,7 @@ public class ConnectorO2 extends Connector {
 					+ resp);
 		}
 		this.htmlText = stream2str(response.getEntity().getContent());
-		if (this.htmlText.indexOf(STRINGS[operator][CHECK_SENT]) < 0) {
+		if (this.htmlText.indexOf(STRINGS[CHECK_SENT]) < 0) {
 			// check output html for success message
 			this.htmlText = null;
 			return false;
@@ -452,43 +421,44 @@ public class ConnectorO2 extends Connector {
 	 */
 	private boolean sendData(final boolean reuseSession) throws WebSMSException {
 		// Operator of user. Selected by countrycode.
-		final short operator = this.getOperator();
-		if (operator < 0) {
-			return false;
-		}
 		Log.d(TAG, "sendData(" + reuseSession + ")");
+		if (COOKIES == null) {
+			this.cookies = new ArrayList<Cookie>();
+		} else {
+			this.cookies = COOKIES; // TODO: use .clone() here
+		}
 		// do IO
 		try {
 			// get Connection
 			HttpResponse response;
 			int resp;
-			if (!reuseSession || COOKIES.size() == 0) {
+			if (!reuseSession || this.cookies.size() == 0) {
 				// clear session data
-				COOKIES.clear();
+				this.cookies.clear();
 				Log.d(TAG, "init session");
 				// pre-login
-				response = getHttpClient(URLS[operator][URL_PRELOGIN], COOKIES,
+				response = getHttpClient(URLS[URL_PRELOGIN], this.cookies,
 						null, TARGET_AGENT, null);
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
 					throw new WebSMSException(this.context,
 							R.string.log_error_http, "" + resp);
 				}
-				updateCookies(COOKIES, response.getAllHeaders(),
-						URLS[operator][URL_PRELOGIN]);
+				updateCookies(this.cookies, response.getAllHeaders(),
+						URLS[URL_PRELOGIN]);
 				this.htmlText = stream2str(response.getEntity().getContent());
 				final String flowExecutionKey = ConnectorO2
 						.getFlowExecutionkey(this.htmlText);
 				this.htmlText = null;
 
 				// login
-				if (!this.login(operator, flowExecutionKey)) {
+				if (!this.login(flowExecutionKey)) {
 					return false;
 				}
 
 				// sms-center
-				response = getHttpClient(URLS[operator][URL_SMSCENTER],
-						COOKIES, null, TARGET_AGENT, URLS[operator][URL_LOGIN]);
+				response = getHttpClient(URLS[URL_SMSCENTER],
+						this.cookies, null, TARGET_AGENT, URLS[URL_LOGIN]);
 				resp = response.getStatusLine().getStatusCode();
 				if (resp != HttpURLConnection.HTTP_OK) {
 					if (reuseSession) {
@@ -498,13 +468,13 @@ public class ConnectorO2 extends Connector {
 					throw new WebSMSException(this.context,
 							R.string.log_error_http, "" + resp);
 				}
-				updateCookies(COOKIES, response.getAllHeaders(),
-						URLS[operator][URL_SMSCENTER]);
+				updateCookies(this.cookies, response.getAllHeaders(),
+						URLS[URL_SMSCENTER]);
 			}
 
 			// pre-send
-			response = getHttpClient(URLS[operator][URL_PRESEND], COOKIES,
-					null, TARGET_AGENT, URLS[operator][URL_SMSCENTER]);
+			response = getHttpClient(URLS[URL_PRESEND], this.cookies,
+					null, TARGET_AGENT, URLS[URL_SMSCENTER]);
 			resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (reuseSession) {
@@ -514,12 +484,12 @@ public class ConnectorO2 extends Connector {
 				throw new WebSMSException(this.context,
 						R.string.log_error_http, "" + resp);
 			}
-			updateCookies(COOKIES, response.getAllHeaders(),
-					URLS[operator][URL_PRESEND]);
+			updateCookies(this.cookies, response.getAllHeaders(),
+					URLS[URL_PRESEND]);
 			this.htmlText = stream2str(response.getEntity().getContent());
-			int i = this.htmlText.indexOf(STRINGS[operator][CHECK_FREESMS]);
+			int i = this.htmlText.indexOf(STRINGS[CHECK_FREESMS]);
 			if (i > 0) {
-				int j = this.htmlText.indexOf(STRINGS[operator][CHECK_WEB2SMS],
+				int j = this.htmlText.indexOf(STRINGS[CHECK_WEB2SMS],
 						i);
 				if (j > 0) {
 					WebSMS.SMS_BALANCE[O2] = this.htmlText.substring(i + 9, j)
@@ -533,7 +503,7 @@ public class ConnectorO2 extends Connector {
 
 			// send
 			if (this.text != null && this.to != null && this.to.length > 0) {
-				this.sendToO2(operator);
+				this.sendToO2();
 			}
 			this.htmlText = null;
 		} catch (IOException e) {
@@ -546,6 +516,7 @@ public class ConnectorO2 extends Connector {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.toString());
 		}
+		COOKIES = this.cookies;
 		return true;
 	}
 
