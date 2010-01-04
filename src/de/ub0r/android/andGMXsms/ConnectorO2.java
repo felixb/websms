@@ -425,7 +425,7 @@ public class ConnectorO2 extends Connector {
 		if (COOKIES == null) {
 			this.cookies = new ArrayList<Cookie>();
 		} else {
-			this.cookies = COOKIES; // TODO: use .clone() here
+			this.cookies = (ArrayList<Cookie>) COOKIES.clone();
 		}
 		// do IO
 		try {
