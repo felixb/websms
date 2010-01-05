@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -168,6 +169,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Text. */
 	protected String text;
+	/** Text encoded in latin1 */
+	protected byte[] textLatin1;
 	/** Send as flashSMS? */
 	protected boolean flashSMS;
 	/** Custom sender. */
@@ -547,7 +550,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			request = new HttpGet(url);
 		} else {
 			request = new HttpPost(url);
-			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData));
+			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData,
+					"ISO-8859-15"));
 		}
 		if (referer != null) {
 			request.setHeader("Referer", referer);
@@ -756,6 +760,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				ret = this.doBootstrap(params);
 			} else if (t.equals(ID_SEND)) {
 				this.text = params[ID_TEXT];
+				try {
+					this.textLatin1 = this.text.getBytes("ISO-8859-15");
+				} catch (UnsupportedEncodingException e) {
+					Log.e(TAG, null, e);
+					this.textLatin1 = null;
+				}
 				this.tos = params[ID_TO];
 				this.flashSMS = params[ID_FLASHSMS] != null;
 				this.customSender = params[ID_CUSTOMSENDER];

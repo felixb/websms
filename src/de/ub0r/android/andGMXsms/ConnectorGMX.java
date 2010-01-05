@@ -207,7 +207,7 @@ public class ConnectorGMX extends Connector {
 			c.setDoOutput(true);
 			// push post data
 			OutputStream os = c.getOutputStream();
-			os.write(packetData.toString().getBytes("ISO-8859-1"));
+			os.write(packetData.toString().getBytes("ISO-8859-15"));
 			os.close();
 			os = null;
 
