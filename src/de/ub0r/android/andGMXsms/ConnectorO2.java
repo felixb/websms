@@ -46,11 +46,6 @@ public class ConnectorO2 extends Connector {
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy,MM,dd,kk,mm,00";
 
-	/** Index in some arrays for o2online.de. */
-	private static final short O2_DE = 0;
-	/** Index in some arrays for o2Online.ie. */
-	private static final short O2_IE = 1;
-
 	/** URL before login. */
 	private static final int URL_PRELOGIN = 0;
 	/** URL for login. */
@@ -419,6 +414,7 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean sendData(final boolean reuseSession) throws WebSMSException {
 		// Operator of user. Selected by countrycode.
 		Log.d(TAG, "sendData(" + reuseSession + ")");
