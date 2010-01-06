@@ -28,9 +28,10 @@ import android.util.Log;
  * 
  * @author flx
  */
+@SuppressWarnings("deprecation")
 public class ConnectorSMS extends Connector {
 	/** Tag for debug output. */
-	private static String TAG = "WebSMS.sms";
+	private static final String TAG = "WebSMS.sms";
 
 	/**
 	 * Create a SMS Connector.
@@ -52,14 +53,18 @@ public class ConnectorSMS extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
-		SmsManager sm = SmsManager.getDefault();
-		for (String t : this.to) {
-			ArrayList<String> messages = sm.divideMessage(this.text);
-			sm.sendMultipartTextMessage(t, null, messages, null, null);
-			for (String m : messages) {
-				Log.d(TAG, "send sms: " + t + " text: " + m);
+		try {
+			SmsManager sm = SmsManager.getDefault();
+			for (String t : this.to) {
+				ArrayList<String> messages = sm.divideMessage(this.text);
+				sm.sendMultipartTextMessage(t, null, messages, null, null);
+				for (String m : messages) {
+					Log.d(TAG, "send sms: " + t + " text: " + m);
+				}
 			}
+			return true;
+		} catch (Exception e) {
+			throw new WebSMSException(e.toString());
 		}
-		return true;
 	}
 }

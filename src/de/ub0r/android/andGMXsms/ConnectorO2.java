@@ -121,7 +121,7 @@ public class ConnectorO2 extends Connector {
 	private String htmlText;
 
 	/** Static cookies. */
-	private static ArrayList<Cookie> COOKIES = new ArrayList<Cookie>();
+	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
 	/** Cookies. */
 	private ArrayList<Cookie> cookies = null;
 
@@ -206,8 +206,8 @@ public class ConnectorO2 extends Connector {
 					+ resp);
 		}
 		updateCookies(this.cookies, response.getAllHeaders(), URLS[URL_CAPTCHA]);
-		final String htmlText = stream2str(response.getEntity().getContent());
-		if (htmlText.indexOf(STRINGS[CHECK_WRONGCAPTCHA]) > 0) {
+		final String mHtmlText = stream2str(response.getEntity().getContent());
+		if (mHtmlText.indexOf(STRINGS[CHECK_WRONGCAPTCHA]) > 0) {
 			throw new WebSMSException(this.context,
 					R.string.log_error_wrongcaptcha);
 		}
@@ -409,10 +409,10 @@ public class ConnectorO2 extends Connector {
 	private boolean sendData(final boolean reuseSession) throws WebSMSException {
 		// Operator of user. Selected by countrycode.
 		Log.d(TAG, "sendData(" + reuseSession + ")");
-		if (COOKIES == null) {
+		if (staticCookies == null) {
 			this.cookies = new ArrayList<Cookie>();
 		} else {
-			this.cookies = (ArrayList<Cookie>) COOKIES.clone();
+			this.cookies = (ArrayList<Cookie>) staticCookies.clone();
 		}
 		// do IO
 		try {
@@ -502,7 +502,7 @@ public class ConnectorO2 extends Connector {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.toString());
 		}
-		COOKIES = this.cookies;
+		staticCookies = this.cookies;
 		return true;
 	}
 

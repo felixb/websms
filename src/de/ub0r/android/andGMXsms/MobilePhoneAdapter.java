@@ -35,10 +35,8 @@ import android.widget.TextView;
  * 
  * @author flx
  */
+@SuppressWarnings("deprecation")
 public class MobilePhoneAdapter extends ResourceCursorAdapter {
-	/** Tag for output. */
-	private static final String TAG = "WebSMS.mpa";
-
 	/** INDEX: name. */
 	public static final int NAME_INDEX = 1;
 	/** INDEX: number. */

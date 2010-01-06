@@ -22,8 +22,6 @@ import java.lang.reflect.Method;
 
 import android.app.Notification;
 import android.app.Service;
-import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 /**
@@ -37,27 +35,6 @@ public class HelperAPI5Service {
 
 	/** Error message if API5 is not available. */
 	private static final String ERRORMESG = "no API5s available";
-
-	/** SQL to select mobile numbers only. */
-	private static final String MOBILES_ONLY = ") AND ("
-			+ ContactsContract.CommonDataKinds.Phone.TYPE + " = "
-			+ ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE + ")";
-
-	/** Sort Order. */
-	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
-			+ " DESC, "
-			+ ContactsContract.CommonDataKinds.Phone.TIMES_CONTACTED
-			+ " DESC, "
-			+ ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-			+ " ASC, " + ContactsContract.CommonDataKinds.Phone.TYPE;
-
-	/** Cursor's projection. */
-	private static final String[] PROJECTION = { //  
-	BaseColumns._ID, // 0
-			ContactsContract.Data.DISPLAY_NAME, // 1
-			ContactsContract.CommonDataKinds.Phone.NUMBER, // 2
-			ContactsContract.CommonDataKinds.Phone.TYPE // 3
-	};
 
 	/**
 	 * Check whether API5 is available.

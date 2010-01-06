@@ -103,10 +103,11 @@ public class ConnectorSipgate extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
 		Log.d(TAG, "updateMessage()");
-		Map<String, Object> back = null; // FIXME: change to value's type.
+		Map<String, Object> back = null;
 		try {
 			XMLRPCClient client = this.init();
 			back = (Map<String, Object>) client.call("samurai.BalanceGet");

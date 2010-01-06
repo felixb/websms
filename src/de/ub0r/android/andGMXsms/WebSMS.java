@@ -71,6 +71,7 @@ import com.admob.android.ads.AdView;
  * 
  * @author flx
  */
+@SuppressWarnings("deprecation")
 public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
