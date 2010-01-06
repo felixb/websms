@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="about">Mit WebSMS kannst du kostenlose und g&#252;nstige SMS verschicken. Derzeit werden folgende Provider unterstützt:
-	GMX, o2, sipgate.de, innosend.de, cherry-sms.com und sloono.de .
+		GMX, o2, sipgate.de, sipgate.at, innosend.de, cherry-sms.com und sloono.de .
 	Ggf. kannst du bei deinem Provider deine FreiSMS nutzen!</string>
 	<string name="about_">Über WebSMS</string>
 	<string name="author_">Autor:</string>
@@ -31,13 +31,9 @@
 	<string name="compose">Neue SMS</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
-	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...
-	</string>
+	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...</string>
 	<string name="donate_">Spenden/Werbung entfernen</string>
-	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5
-		Hash deiner Handynummer von dir. Der MD5 Hash ist eine Einwegfunktion
-		und ist somit nicht zu deiner Nummer Rückverfolgbar. Ich werde die
-		Werbung mit dem nächsten Release dann entfernen.</string>
+	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner Handynummer von dir. Der MD5 Hash ist eine Einwegfunktion und ist somit nicht zu deiner Nummer Rückverfolgbar. Ich werde die Werbung mit dem nächsten Release dann entfernen.</string>
 	<string name="remove_ads">Werbung entfernen</string>
 	<string name="more_">Mehr Apps..</string>
 	<string name="enable_gmx">Aktiviere GMX</string>
@@ -50,31 +46,21 @@
 	<string name="enable_sloono">Aktiviere Sloono</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
-	<string name="license">GPLv3 - siehe
-		http://www.gnu.org/licenses/gpl-3.0.txt</string>
+	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
-	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke
-		den Menüknopf.</string>
+	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke den Menüknopf.</string>
 	<string name="log_error">FEHLER</string>
-	<string name="log_error_captcha">Dein Provider blockt diese App mit einem
-		Captcha. Scheinbar hilft es (für eine Weile) sich per Webbrowser
-		einmal anzumelden.</string>
-	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als
-		Standardprefix. Z.B. "+49".</string>
+	<string name="log_error_captcha">Dein Provider blockt diese App mit einem Captcha. Scheinbar hilft es (für eine Weile) sich per Webbrowser einmal anzumelden.</string>
+	<string name="log_error_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
 	<string name="log_error_http">FEHLER: HTTP </string>
 	<string name="log_error_mail">Falsche Mailadresse oder Passwort!</string>
-	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde
-		dich bei mir, wenn dein o2 auch WebSMS unterstützt.</string>
+	<string name="log_error_prefix">Dein Ländercode ist nicht unterstützt. Melde dich bei mir, wenn dein o2 auch WebSMS unterstützt.</string>
 	<string name="log_error_pw">Falsche Benutzer ID oder Passwort!</string>
-	<string name="log_error_sender">Falscher Absender! Das Format muss im
-		internationalen Format sein. z.B. +4917012345678</string>
-	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und
-		bestätigt sein.</string>
+	<string name="log_error_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678</string>
+	<string name="log_error_sender_unregistered">Absender muss bei GMX registriert und bestätigt sein.</string>
 	<string name="log_error_server">FEHLER: Serverantwort: </string>
-	<string name="log_error_service">Service ist down! Bitte versuch es später
-		noch einmal.</string>
-	<string name="log_error_wrongcaptcha">Captcha war falsch. Bitte versuche es
-		nochmal.</string>
+	<string name="log_error_service">Service ist down! Bitte versuch es später noch einmal.</string>
+	<string name="log_error_wrongcaptcha">Captcha war falsch. Bitte versuche es nochmal.</string>
 	<string name="log_error_input">Benutzereingabe ist falsch!</string>
 	<string name="log_error_o2_sendlater">o2 erlaubt nur volle 15 Minuten!</string>
 	<string name="log_http_header_missing">Header: Content-Length fehlt!</string>
@@ -90,11 +76,9 @@
 	<string name="password_o2_">o2 Passwort</string>
 	<string name="password_o2_hint">Passwort für o2online</string>
 	<string name="user_sipgate_">Sipgate Benutzername</string>
-	<string name="user_sipgate_hint">Onlinebenutzername für sipgate.de
-	</string>
+	<string name="user_sipgate_hint">Onlinebenutzername für sipgate.de oder sipgate.at</string>
 	<string name="password_sipgate_">Sipgate Passwort</string>
-	<string name="password_sipgate_hint">Onlinepasswort für sipgate.de
-	</string>
+	<string name="password_sipgate_hint">Onlinepasswort für sipgate.de oder sipgate.at</string>
 	<string name="user_innosend_">Innosend Benutzername</string>
 	<string name="password_innosend_">Innosend Passwort</string>
 	<string name="password_cherrysms_">CherrySMS Passwort</string>

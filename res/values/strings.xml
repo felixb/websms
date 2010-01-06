@@ -18,16 +18,14 @@
 	-->
 <resources>
 	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and cheap SMS
-		via following providers:
-		GMX, o2, sipgate.de, innosend.de, cherry-sms.com and sloono.de .
+	<string name="about">WebSMS enables you to send free and cheap SMS via following providers:
+		GMX, o2, sipgate.de, sipgate.at, innosend.de, cherry-sms.com and sloono.de .
 	</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.8.1</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt;
-		(Sipgate Connector)</string>
+	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate Connector)</string>
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>
@@ -38,16 +36,12 @@
 	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
-	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152
-	</string>
+	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 	<string name="donate_mail">f@ub0r.de</string>
 	<string name="donate_subject">I\'m the donator. My sender hash is...</string>
 	<string name="donate_">Donate/remove ads</string>
 	<string name="remove_ads">Remove ads</string>
-	<string name="postdonate">To remove ads, you need to send me the MD5 hash
-		of your mobile number. This hash is a one-way-function. It is not
-		traceable back to you. I\'ll remove your ads with the next release.
-	</string>
+	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your mobile number. This hash is a one-way-function. It is not traceable back to you. I\'ll remove your ads with the next release.</string>
 	<string name="more_">More Apps..</string>
 	<string name="enable_gmx">Enable GMX</string>
 	<string name="enable_o2">Enable o2</string>
@@ -59,26 +53,18 @@
 	<string name="enable_sloono">Enable Sloono</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>
-	<string name="license">GPLv3 - see
-		http://www.gnu.org/licenses/gpl-3.0.txt</string>
+	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
-	<string name="log_empty_settings">You need to set your preferences. Please press
-		the menu button.</string>
+	<string name="log_empty_settings">You need to set your preferences. Please press the menu button.</string>
 	<string name="log_error">ERROR</string>
-	<string name="log_error_captcha">Your provider is blocking this app witch a
-		captcha. It seams to work for a while after logging in with your web
-		browser.</string>
-	<string name="log_error_defprefix">Please enter a valid countrycode as default
-		prefix. E.g. "+49".</string>
+	<string name="log_error_captcha">Your provider is blocking this app witch a captcha. It seams to work for a while after logging in with your web browser.</string>
+	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_error_http">FAILURE: HTTP </string>
 	<string name="log_error_mail">Wrong mail address or password given!</string>
-	<string name="log_error_prefix">Your countrycode is not supported yet. Contact
-		me if your o2 supports Web2SMS.</string>
+	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your o2 supports Web2SMS.</string>
 	<string name="log_error_pw">Wrong user ID or password given!</string>
-	<string name="log_error_sender">Wrong sender! Set it in international form
-		like +4917012345678.</string>
-	<string name="log_error_sender_unregistered">Sender must be registered and confirmed by
-		GMX.</string>
+	<string name="log_error_sender">Wrong sender! Set it in international form like +4917012345678.</string>
+	<string name="log_error_sender_unregistered">Sender must be registered and confirmed by GMX.</string>
 	<string name="log_error_server">FAILURE: Serverresponse: </string>
 	<string name="log_error_service">Service is down! Please try again later.</string>
 	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
@@ -98,18 +84,15 @@
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
 	<string name="user_sipgate_">Sipgate Username</string>
-	<string name="user_sipgate_hint">Onlineusername for sipgate.de
-	</string>
+	<string name="user_sipgate_hint">Onlineusername for sipgate.de or sipgate.at</string>
 	<string name="password_sipgate_">Sipgate Password</string>
-	<string name="password_sipgate_hint">Onlinepassword for sipgate.de</string>
+	<string name="password_sipgate_hint">Onlinepassword for sipgate.de or sipgate.at</string>
 	<string name="user_innosend_">Innosend Username</string>
 	<string name="password_innosend_">Innosend Password</string>
 	<string name="password_cherrysms_">CherrySMS Password</string>
 	<string name="user_sloono_">Sloono Username</string>
 	<string name="password_sloono_">Sloono Password</string>
-	<string name="sender_help">Your full international mobile phone number is
-		needed here. This is filled automatically when bootstrapping with
-		init.</string>
+	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
