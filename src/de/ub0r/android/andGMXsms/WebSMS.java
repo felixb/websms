@@ -110,6 +110,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preference's name: update balace on start. */
 	private static final String PREFS_AUTOUPDATE = "autoupdate";
+	/** Preference's name: exit after sending. */
+	private static final String PREFS_AUTOEXIT = "autoexit";
 	/** Preference's name: show mobile numbers only. */
 	private static final String PREFS_MOBILES_ONLY = "mobiles_only";
 	/** Preference's name: vibrate on failed sending. */
@@ -142,6 +144,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TEXT = "text";
 	/** Preference's name: connector. */
 	private static final String PREFS_CONNECTOR = "connector";
+
+	/** Sleep before autoexit. */
+	private static final int SLEEP_BEFORE_EXIT = 75;
+
 	/** Preferences: mail. */
 	static String prefsMailGMX;
 	/** Preferences: username - gmx. */
@@ -1213,6 +1219,15 @@ public class WebSMS extends Activity implements OnClickListener,
 			Log.e(TAG, null, e);
 		} finally {
 			this.reset();
+			if (this.preferences.getBoolean(PREFS_AUTOEXIT, false)) {
+				try {
+					Thread.sleep(SLEEP_BEFORE_EXIT);
+				} catch (InterruptedException e) {
+					Log.e(TAG, null, e);
+				}
+				this.finish();
+			}
+
 		}
 	}
 

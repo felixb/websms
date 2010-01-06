@@ -112,6 +112,8 @@
 	<string name="softkeyboard_hint">No hardare keyboard? Use the alternative layout. Restart App!</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
+	<string name="autoexit_">Autoexit</string>
+	<string name="autoexit_hint">Exit WebSMS when sending sms.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>

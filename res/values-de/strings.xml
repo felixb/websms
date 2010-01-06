@@ -100,6 +100,8 @@
 	<string name="change_connector_button_hint">Zeige den "Anderer Provider" Button auf dem Main Screen an.</string>
 	<string name="softkeyboard_">Keine Tastatur</string>
 	<string name="softkeyboard_hint">Keine Hardware Tastatur? Nutze das alternative Layout. App neu starten!</string>
+	<string name="autoexit_">Autoexit</string>
+	<string name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
 	<string name="vibrate_on_fail">Vibration wenn Senden fehlgeschlagen</string>
 	<string name="sound_on_fail">Ton wenn Senden fehlgeschlagen</string>

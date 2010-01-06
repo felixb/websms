@@ -30,6 +30,8 @@
 			android:title="@string/change_connector_button" android:summary="@string/change_connector_button_hint" />
 		<CheckBoxPreference android:key="autoupdate"
 			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
+		<CheckBoxPreference android:key="autoexit"
+			android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
 
 		<CheckBoxPreference android:key="mobiles_only"
 			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
