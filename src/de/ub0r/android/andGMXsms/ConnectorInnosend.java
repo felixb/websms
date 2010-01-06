@@ -204,8 +204,7 @@ public class ConnectorInnosend extends Connector {
 				if (e > 1) {
 					url.append("&massen=1");
 				}
-				url.append("&absender=");
-				if (this.customSender == null) {
+				if (e == 1 || this.customSender == null) {
 					url.append(international2national(WebSMS.prefsSender));
 				} else {
 					url.append(this.customSender);
@@ -214,9 +213,11 @@ public class ConnectorInnosend extends Connector {
 				if (this.flashSMS) {
 					url.append("flash=1&");
 				}
-				if (this.sendLater > 0) {
-					// FIXME: timezone!
+				if (this.sendLater > 0 || e > 1) {
 					url.append("termin=");
+					if (this.sendLater <= 0) {
+						this.sendLater = System.currentTimeMillis();
+					}
 					url.append(DateFormat.format(DATEFORMAT, this.sendLater));
 					url.append('&');
 				}
