@@ -129,8 +129,9 @@
 				<intent android:action="android.intent.action.VIEW"
 					android:data="@string/partner_sloono_url" />
 			</PreferenceScreen>
-
-           <PreferenceScreen android:title="@string/settings_arcor">
+     	</PreferenceScreen>
+     
+        <PreferenceScreen android:title="@string/settings_arcor">
 			
 			<CheckBoxPreference android:key="enable_arcor"
 				android:title="@string/enable_arcor" />
@@ -141,8 +142,6 @@
 				android:inputType="textPassword" android:title="@string/password_arcor_"
 				android:dialogTitle="@string/password_arcor_"
 				android:dependency="enable_arcor" />
-		</PreferenceScreen>
-
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
