@@ -103,6 +103,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_USER_SLOONO = "user_sloono";
 	/** Preference's name: user's password - sloono. */
 	private static final String PREFS_PASSWORD_SLOONO = "password_sloono";
+	/** Preference's name: arcor username. */
+	private static final String PREFS_USER_ARCOR = "user_arcor";
+	/** Preference's name: user's password - arcor. */
+	private static final String PREFS_PASSWORD_ARCOR = "password_arcor";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -127,6 +131,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
+	/** Preference's name: enable o2. */
+	private static final String PREFS_ENABLE_ARCOR = "enable_arcor";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
 	/** Preference's name: enable sipgate team accounts. */
@@ -171,6 +177,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsUserSloono;
 	/** Preferences: user's password - sloono. */
 	static String prefsPasswordSloono;
+	/** Preferences: username arcor. */
+	static String prefsUserArcor;
+	/** Preferences: user's password - arcor. */
+	static String prefsPasswordArcor;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -708,6 +718,13 @@ public class WebSMS extends Activity implements OnClickListener,
 				PREFS_ENABLE_SLOONO, false);
 		prefsUserSloono = this.preferences.getString(PREFS_USER_SLOONO, "");
 		prefsPasswordSloono = this.preferences.getString(PREFS_PASSWORD_SLOONO,
+				"");
+
+
+		CONNECTORS_ENABLED[Connector.ARCOR] = this.preferences.getBoolean(
+				PREFS_ENABLE_ARCOR, false);
+		prefsUserArcor = this.preferences.getString(PREFS_USER_ARCOR, "");
+		prefsPasswordArcor= this.preferences.getString(PREFS_PASSWORD_ARCOR,
 				"");
 
 		final boolean b = this.preferences.getBoolean(
