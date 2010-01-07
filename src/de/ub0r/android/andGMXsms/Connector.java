@@ -289,9 +289,32 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 */
 	public static final void send(final Context con, final short connector,
 			final String[] params) {
-		final Connector c = getConnector(con, connector);
-		if (c != null) {
-			c.execute(params);
+		Connector c;
+		switch (connector) {
+		case O2:
+		case INNOSEND_FREE:
+		case INNOSEND_W_SENDER:
+		case INNOSEND_WO_SENDER:
+			// for a few senders we just split recipients for our self
+			String r = params[ID_TO].trim();
+			if (r.endsWith(",")) {
+				r = r.substring(0, r.length() - 1).trim();
+			}
+			final String[] recipients = r.split(",");
+			r = null;
+			for (String rs : recipients) {
+				final String[] p = params.clone();
+				p[ID_TO] = rs;
+				c = getConnector(con, connector);
+				c.execute(p);
+			}
+			return;
+		default:
+			c = getConnector(con, connector);
+			if (c != null) {
+				c.execute(params);
+			}
+			return;
 		}
 	}
 
