@@ -87,6 +87,7 @@
 	<string name="password_sloono_">Sloono Passwort</string>
 	<string name="user_arcor_">Arcor Benutzername</string>
 	<string name="password_arcor_">Arcor Passwort</string>
+	<string name="copy_sent_sms_arcor">im Ordner Gesendet ablegen</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
