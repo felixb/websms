@@ -123,6 +123,7 @@ public class ConnectorArcor extends Connector {
 	private boolean pushFreeCount(String content) {
 		Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
 		if (m.find() == true) {
+			//TODO put format pattern {0}f,{1}g in to strings.xml
 			String freeCountTerm = m.group(1) + "f, " + m.group(2) + "g";
 			WebSMS.SMS_BALANCE[ARCOR] = freeCountTerm;
 			pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
