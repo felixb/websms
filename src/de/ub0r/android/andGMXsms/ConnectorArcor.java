@@ -17,132 +17,172 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.util.Log;
+
 /**
- * 
- * Connector for arcor.de free sms / payed sms
- * 
+ * Connector for arcor.de free sms / payed sms.
  * 
  * @author lado
- * 
  */
 public class ConnectorArcor extends Connector {
 
 	/**
-	 * Extract free and payed sms count from response//TODO try match only
-	 * substring(performance) or even try if arcor web server support partial
-	 * content
+	 * Pattern to extract free sms count from sms page. Looks like
 	 */
-	private final static Pattern BALANCE_MATCH_PATTERN = Pattern
+	private static final Pattern BALANCE_MATCH_PATTERN = Pattern
 			.compile(
 					"<td.+class=\"txtRed\".*?<b>(\\d{1,2})</b>.+<td.+class=\"txtRed\".*?<b>(\\d{1,})</b>",
 					Pattern.DOTALL);
 
-	private final static String MATCH_LOGIN_SUCCESS = "logout.jsp";
+	/**
+	 * This String will be matched if the user is logged in.
+	 */
+	private static final String MATCH_LOGIN_SUCCESS = "logout.jsp";
 
+	/**
+	 * Cache this client over several http calls.
+	 */
 	private HttpClient client = null;
 
-	// TODO share this. Make it Configurable clobal and local
+	/**
+	 * HTTP Header User-Agent.
+	 */
+	// TODO share this. Make it Configurable clobaland local
 	private static final String FAKE_USER_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
-	private static final int APPROXIMATE_SMS_COUNT_POSITION = 19000;// txtRed is
-	// pos 20919
+	/** */
+	private static final int APPROXIMATE_SMS_COUNT_POSITION = 19000;
 
+	/** */
 	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 4000;
 
+	/** */
 	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
 
+	/** */
 	private static final int APPROXIMATE_LOGOUT_LENGTH = 2000;
 
+	private static final String LOG_TAG = "WebSMS."
+			+ ConnectorArcor.class.getSimpleName();
+
 	/**
-	 * needed urls
+	 * needed urls.
 	 * 
 	 * @author lado
-	 * 
 	 */
 	private interface URL {
-		public static final String Login = "https://www.arcor.de/login/login.jsp";
-		public static final String Sms = "https://www.arcor.de/ums/ums_neu_sms.jsp";
+		/**
+		 * Login URL, to send Login (POST).
+		 */
+		String LOGIN = "https://www.arcor.de/login/login.jsp";
+		/**
+		 * Send SMS URL(POST) / Free SMS Count URL(GET).
+		 */
+		String SMS = "https://www.arcor.de/ums/ums_neu_sms.jsp";
 	}
 
-	protected ConnectorArcor(String u, String p, short con) {
+	/**
+	 * The Only Constructor.
+	 * 
+	 * @param u
+	 *            Username
+	 * @param p
+	 *            Password
+	 * @param con
+	 *            Connection type
+	 */
+	protected ConnectorArcor(final String u, final String p, final short con) {
 		super(u, p, con);
 	}
 
 	/**
-	 * Login to arcor
+	 * Login to arcor.
 	 * 
-	 * @return
+	 * @return true if successfullu logged in, false otherwise.
 	 * @throws WebSMSException
+	 *             if any Exception occures.
 	 */
-	protected boolean login() throws WebSMSException {
+	private boolean login() throws WebSMSException {
 		try {
-			HttpClient client = getHttpClient();
-			HttpPost request = createPOST(URL.Login, getLoginPost());
-			HttpResponse response = client.execute(request);
-			String cutContent = cutLoginInfoFromContent(response.getEntity()
-					.getContent());
+			final HttpClient httpClient = this.getHttpClient();
+			final HttpPost request = this.createPOST(URL.LOGIN, this
+					.getLoginPost());
+			final HttpResponse response = httpClient.execute(request);
+			final String cutContent = this.cutLoginInfoFromContent(response
+					.getEntity().getContent());
 			return cutContent.indexOf(MATCH_LOGIN_SUCCESS) > 0;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (final IOException e) {
+			Log.w(LOG_TAG, e.getMessage());
+			return false;
 		}
-		return false;
 	}
 
 	/**
-	 * Simple execute a Http Request
+	 * Simple execute a Http Request.
 	 * 
 	 * @param request
-	 * @return
+	 *            a Http Request
+	 * @return HttpResponse
 	 * @throws Exception
+	 *             if an error occures
 	 */
-	private HttpResponse execute(HttpRequestBase request) throws Exception {
-		return getHttpClient().execute(request);
+	private HttpResponse execute(final HttpRequestBase request)
+			throws Exception {
+		return this.getHttpClient().execute(request);
 	}
 
 	/**
-	 * Updates balance und pushes it to WebSMS
+	 * Updates balance und pushes it to WebSMS.
 	 * 
-	 * @return
+	 * @return successful?
 	 * @throws WebSMSException
+	 *             on an error
 	 */
 	private boolean updateBalance() throws WebSMSException {
 		try {
-			HttpResponse response = execute(createGET(URL.Sms, null));
-			// String c = slurp(new
-			// InputStreamReader(response.getEntity().getContent()));
-			return pushFreeCount(cutFreeCountFromContent(response.getEntity()
-					.getContent()));
-		} catch (Exception ex) {
-			throw new WebSMSException(ex.getMessage());// TODO better ex
+			final HttpResponse response = this.execute(this.createGET(URL.SMS,
+					null));
+			return this.pushFreeCount(this.cutFreeCountFromContent(response
+					.getEntity().getContent()));
+		} catch (final Exception ex) {
+			throw new WebSMSException(ex.getMessage()); // TODO better ex
 		}
 	}
 
-	private boolean pushFreeCount(String content) {
-		Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
-		if (m.find() == true) {
-			//TODO put format pattern {0}f,{1}g in to strings.xml
-			String freeCountTerm = m.group(1) + "f, " + m.group(2) + "g";
+	/**
+	 * Push SMS Free Count to WebSMS.
+	 * 
+	 * @param content
+	 *            conten to investigate.
+	 * @return push ok?
+	 */
+	private boolean pushFreeCount(final String content) {
+		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
+		if (m.find()) {
+			// TODO put format pattern {0}f,{1}g in to strings.xml
+			final String freeCountTerm = m.group(1) + "f, " + m.group(2) + "g";
 			WebSMS.SMS_BALANCE[ARCOR] = freeCountTerm;
-			pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * @return
+	 * Sends an sms via HTTP POST.
+	 * 
+	 * @return successfull?
 	 * @throws WebSMSException
+	 *             on an error
 	 */
 	private boolean sendSms() throws WebSMSException {
 		try {
-			HttpResponse response = execute(createPOST(URL.Sms, getSmsPost()));
-			// String res = stream2str(response.getEntity().getContent());
+			final HttpResponse response = this.execute(this.createPOST(URL.SMS,
+					this.getSmsPost()));
 
 			// TODO hier folgendes auswerten
-
 			// warning
 			// <div class="contentArea">
 			// <div class="warning">Die angegebene SMS-Nummernliste enthielt 1
@@ -155,11 +195,11 @@ public class ConnectorArcor extends Connector {
 
 			// Die Nachticht dem user präsentieren
 
-			pushFreeCount(cutFreeCountFromContent(response.getEntity()
-					.getContent()));
+			this.pushFreeCount(this.cutFreeCountFromContent(response
+					.getEntity().getContent()));
 			return true;
-		} catch (Exception ex) {
-			return false;
+		} catch (final Exception ex) {
+			throw new WebSMSException(ex.getMessage());
 		}
 	}
 
@@ -178,12 +218,12 @@ public class ConnectorArcor extends Connector {
 	}
 
 	/**
-	 * This post data is needed for log in
+	 * This post data is needed for log in.
 	 * 
-	 * @return
+	 * @return List of BasicNameValuePairs
 	 */
 	private ArrayList<BasicNameValuePair> getLoginPost() {
-		ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
+		final ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
 		post.add(new BasicNameValuePair("user_name", this.user));
 		post.add(new BasicNameValuePair("password", this.password));
 		post.add(new BasicNameValuePair("login", "Login"));
@@ -194,24 +234,26 @@ public class ConnectorArcor extends Connector {
 	}
 
 	/**
-	 * These post data is needed for sending a sms
+	 * These post data is needed for sending a sms.
 	 * 
-	 * @return
+	 * @return List of BasicNameValuePairs
 	 */
-	protected ArrayList<BasicNameValuePair> getSmsPost() {
-		ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
-		StringBuilder sb = new StringBuilder();
-		for (String r : this.to) {
+	private ArrayList<BasicNameValuePair> getSmsPost() {
+		final ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
+		final StringBuilder sb = new StringBuilder();
+		for (final String r : this.to) {
 			sb.append(r).append(",");
 		}
 		post.add(new BasicNameValuePair("empfaengerAn", sb.toString()));
 
-		post.add(new BasicNameValuePair("emailAdressen", WebSMS.prefsSender)); // TODO
+		// TODO
 		// customize
 		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c6
+		post.add(new BasicNameValuePair("emailAdressen", WebSMS.prefsSender));
+
 		post.add(new BasicNameValuePair("nachricht", this.text));
 		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c8
-		if (WebSMS.prefsCopySendSmsArcor == true) {
+		if (WebSMS.prefsCopySendSmsArcor) {
 			post.add(new BasicNameValuePair("gesendetkopiesms", "on"));
 		}
 		// post.add(new BasicNameValuePair("firstVisitOfPage", "0")); do we need
@@ -222,19 +264,22 @@ public class ConnectorArcor extends Connector {
 	}
 
 	/**
-	 * Create and Prepare a Get Request. Set also an User-Agent
+	 * Create and Prepare a Get Request. Sets also an User-Agent.
 	 * 
 	 * @param url
+	 *            GET url
 	 * @param params
-	 * @return
+	 *            Http Get params.
+	 * @return HttpGet
 	 */
-	private HttpGet createGET(String url, List<BasicNameValuePair> params) {
+	private HttpGet createGET(final String url,
+			final List<BasicNameValuePair> params) {
 		if (params == null || params.isEmpty()) {
 			return new HttpGet(url);
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(url).append("?");
-		for (BasicNameValuePair p : params) {
+		for (final BasicNameValuePair p : params) {
 			sb.append(p.getName()).append("=").append(p.getValue());
 		}
 		return new HttpGet(sb.toString());
@@ -244,13 +289,17 @@ public class ConnectorArcor extends Connector {
 	 * Create and Prepare a Post Request. Set also an User-Agent
 	 * 
 	 * @param url
+	 *            http post url
 	 * @param postData
-	 * @return
+	 *            post data
+	 * @return HttpPost
 	 * @throws UnsupportedEncodingException
+	 *             UnsupportedEncodingException
 	 */
-	private HttpPost createPOST(String url, List<BasicNameValuePair> postData)
+	private HttpPost createPOST(final String url,
+			final List<BasicNameValuePair> postData)
 			throws UnsupportedEncodingException {
-		HttpPost post = new HttpPost(url);
+		final HttpPost post = new HttpPost(url);
 		post.setHeader("User-Agent", FAKE_USER_AGENT);
 		post.setEntity(new UrlEncodedFormEntity(postData));
 		return post;
@@ -260,32 +309,31 @@ public class ConnectorArcor extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean sendMessage() throws WebSMSException {
-		return login() && sendSms();
+	protected final boolean sendMessage() throws WebSMSException {
+		return this.login() && this.sendSms();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean updateMessages() throws WebSMSException {
-		return (login() && updateBalance());
+	protected final boolean updateMessages() throws WebSMSException {
+		return (this.login() && this.updateBalance());
 	}
 
 	/**
-	 * Cuts only for us interessting content part. Here, if user ist logged in
+	 * Cuts only for us interessting content part. Here, if user ist logged in.
 	 * 
 	 * @param is
-	 * @return
+	 *            response body stream
+	 * @return cut content
 	 * @throws IOException
+	 *             on an I/O error
 	 */
 	private String cutLoginInfoFromContent(final InputStream is)
 			throws IOException {
-		skip(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION, 128);
-		byte data[] = readBytes(APPROXIMATE_LOGOUT_LENGTH, is);
-		if (data.length == 0) {
-			return "";
-		}
+		this.skip(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION, 128);
+		final byte[] data = this.readBytes(APPROXIMATE_LOGOUT_LENGTH, is);
 		return new String(data, "ISO-8859-1");
 	}
 
@@ -293,11 +341,15 @@ public class ConnectorArcor extends Connector {
 	 * skip 'bytes' size bytes from stream, consuming it in 'step' steps.
 	 * 
 	 * @param is
+	 *            Content stream
 	 * @param bytes
+	 *            bytes to skip
 	 * @param step
+	 *            try to skip 'step' skips at once
 	 * @throws IOException
+	 *             on an I/O error
 	 */
-	private void skip(final InputStream is, long bytes, int step)
+	private void skip(final InputStream is, final long bytes, final int step)
 			throws IOException {
 		long alreadySkipped = 0;
 		long skip = 0;
@@ -314,15 +366,19 @@ public class ConnectorArcor extends Connector {
 	}
 
 	/**
-	 * Reads a size portion of bytes from strem
+	 * Reads a size portion of bytes from strem.
 	 * 
 	 * @param size
+	 *            to read
 	 * @param is
-	 * @return
+	 *            content stream
+	 * @return read bytes
 	 * @throws IOException
+	 *             on an I/O error
 	 */
-	private byte[] readBytes(int size, InputStream is) throws IOException {
-		byte data[] = new byte[size];
+	private byte[] readBytes(final int size, final InputStream is)
+			throws IOException {
+		final byte[] data = new byte[size];
 		int offset = 0;
 		int read = 0;
 		int length = size;
@@ -341,19 +397,19 @@ public class ConnectorArcor extends Connector {
 	}
 
 	/**
-	 * Cuts only for us interessting content part. Here, to match free sms count
+	 * Cuts only for us interessting content part. Here, to match free sms
+	 * count.
 	 * 
 	 * @param is
-	 * @return
+	 *            HttpResponse strem.
+	 * @return cut part of the response.
 	 * @throws IOException
+	 *             on I/O error.
 	 */
 	private String cutFreeCountFromContent(final InputStream is)
 			throws IOException {
-		skip(is, APPROXIMATE_SMS_COUNT_POSITION, 256);
-		byte data[] = readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
-		if (data.length == 0) {
-			return "";
-		}
+		this.skip(is, APPROXIMATE_SMS_COUNT_POSITION, 256);
+		final byte[] data = this.readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
 		return new String(data, "ISO-8859-1");
 	}
 
