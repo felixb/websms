@@ -142,6 +142,8 @@
 				android:inputType="textPassword" android:title="@string/password_arcor_"
 				android:dialogTitle="@string/password_arcor_"
 				android:dependency="enable_arcor" />
+		    <CheckBoxPreference android:key="copy_sent_sms_arcor"  android:defaultValue="true" 
+				android:title="@string/copy_sent_sms_arcor" android:dependency="enable_arcor"/>
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
