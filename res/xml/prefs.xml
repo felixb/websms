@@ -148,7 +148,7 @@
 				android:title="@string/enable_sender_number_arcor" android:dependency="enable_arcor"/>
 			<EditTextPreference android:key="sender_number_arcor"
 				android:title="@string/sender_number_arcor_" android:dialogTitle="@string/sender_number_arcor_"
-				android:inputType="text" android:dependency="enable_sender_number_arcor" />
+				android:inputType="text" android:dependency="enable_sender_number_arcor" android:summary="@string/sender_number_arcor_hint" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
