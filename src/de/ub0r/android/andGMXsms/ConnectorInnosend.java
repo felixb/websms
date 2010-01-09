@@ -192,19 +192,8 @@ public class ConnectorInnosend extends Connector {
 				url.append(this.connector);
 				url.append("&empfaenger=");
 				String[] recvs = this.to;
-				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder(
-						international2oldformat(recvs[0]));
-				for (int j = 1; j < e; j++) {
-					toBuf.append(";");
-					toBuf.append(international2oldformat(recvs[j]));
-				}
-				url.append(toBuf.toString());
-				toBuf = null;
-				if (e > 1) {
-					url.append("&massen=1");
-				}
-				if (e == 1 || this.customSender == null) {
+				url.append(international2oldformat(recvs[0]));
+				if (this.customSender == null) {
 					url.append(international2national(WebSMS.prefsSender));
 				} else {
 					url.append(this.customSender);
@@ -213,7 +202,7 @@ public class ConnectorInnosend extends Connector {
 				if (this.flashSMS) {
 					url.append("flash=1&");
 				}
-				if (this.sendLater > 0 || e > 1) {
+				if (this.sendLater > 0) {
 					url.append("termin=");
 					if (this.sendLater <= 0) {
 						this.sendLater = System.currentTimeMillis();
