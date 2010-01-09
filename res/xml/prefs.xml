@@ -146,7 +146,7 @@
 				android:title="@string/copy_sent_sms_arcor" android:dependency="enable_arcor"/>
 			<CheckBoxPreference android:key="enable_sender_number_arcor" android:defaultValue="false" 
 				android:title="@string/enable_sender_number_arcor" android:dependency="enable_arcor"/>
-			<EditTextPreference android:key="sender_arcor"
+			<EditTextPreference android:key="sender_number_arcor"
 				android:title="@string/sender_number_arcor_" android:dialogTitle="@string/sender_number_arcor_"
 				android:inputType="text" android:dependency="enable_sender_number_arcor" />
 		</PreferenceScreen>
