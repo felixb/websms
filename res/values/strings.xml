@@ -96,6 +96,8 @@
     <string name="user_arcor_">Arcor Username</string>
     <string name="password_arcor_">Arcor Password</string>
     <string name="copy_sent_sms_arcor">Copy sent sms to Sent Folder</string>
+    <string name="enable_sender_number_arcor">Override main mobile number</string>
+    <string name="sender_number_arcor_">Your mobile phone</string>
 	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
