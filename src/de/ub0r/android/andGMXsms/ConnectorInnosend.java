@@ -21,8 +21,10 @@ package de.ub0r.android.andGMXsms;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -180,44 +182,46 @@ public class ConnectorInnosend extends Connector {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
+			ArrayList<BasicNameValuePair> d = new ArrayList<BasicNameValuePair>();
 			if (this.text != null && this.to != null && this.to.length > 0) {
 				if (this.free) {
-					url.append("free.php?app=1&was=iphone&");
+					url.append("free.php");
+					d.add(new BasicNameValuePair("app", "1"));
+					d.add(new BasicNameValuePair("was", "iphone"));
 				} else {
-					url.append("sms.php?");
+					url.append("sms.php");
 				}
-				url.append("text=");
-				url.append(URLEncoder.encode(this.text));
-				url.append("&type=");
-				url.append(this.connector);
-				url.append("&empfaenger=");
-				String[] recvs = this.to;
-				url.append(international2oldformat(recvs[0]));
+				d.add(new BasicNameValuePair("text", URLEncoder
+						.encode(this.text)));
+				d.add(new BasicNameValuePair("type", this.connector + ""));
+				d.add(new BasicNameValuePair("empfaenger",
+						international2oldformat(this.to[0])));
+
 				if (this.customSender == null) {
-					url.append(international2national(WebSMS.prefsSender));
+					d.add(new BasicNameValuePair("absender",
+							international2national(WebSMS.prefsSender)));
 				} else {
-					url.append(this.customSender);
+					d
+							.add(new BasicNameValuePair("absender",
+									this.customSender));
 				}
-				url.append('&');
+
 				if (this.flashSMS) {
-					url.append("flash=1&");
+					d.add(new BasicNameValuePair("flash", "1"));
 				}
 				if (this.sendLater > 0) {
-					url.append("termin=");
 					if (this.sendLater <= 0) {
 						this.sendLater = System.currentTimeMillis();
 					}
-					url.append(DateFormat.format(DATEFORMAT, this.sendLater));
-					url.append('&');
+					d.add(new BasicNameValuePair("termin", DateFormat.format(
+							DATEFORMAT, this.sendLater).toString()));
 				}
 			} else {
-				url.append("konto.php?");
+				url.append("konto.php");
 			}
-			url.append("id=");
-			url.append(this.user);
-			url.append("&pw=");
-			url.append(this.password);
-			HttpResponse response = getHttpClient(url.toString(), null, null,
+			d.add(new BasicNameValuePair("id", this.user));
+			d.add(new BasicNameValuePair("pw", this.password));
+			HttpResponse response = getHttpClient(url.toString(), null, d,
 					null, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
