@@ -161,13 +161,24 @@ public class ConnectorArcor extends Connector {
 	private boolean pushFreeCount(final String content) {
 		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
 		if (m.find()) {
-			// TODO put format pattern {0}f,{1}g in to strings.xml
-			final String freeCountTerm = m.group(1) + "f, " + m.group(2) + "g";
-			WebSMS.SMS_BALANCE[ARCOR] = freeCountTerm;
+			WebSMS.SMS_BALANCE[ARCOR] = m.group(1) + "+" + m.group(2);
 			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Get Sender. If arcor specific sender defined, use it. Otherwise user
+	 * global sender.
+	 * 
+	 * @return sender
+	 */
+	private String getSender() {
+		if (WebSMS.prefsEnableSenderNumberArcor) {
+			return WebSMS.prefsSenderNumberArcor;
+		}
+		return WebSMS.prefsSender;
 	}
 
 	/**
@@ -246,10 +257,7 @@ public class ConnectorArcor extends Connector {
 		}
 		post.add(new BasicNameValuePair("empfaengerAn", sb.toString()));
 
-		// TODO
-		// customize
-		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c6
-		post.add(new BasicNameValuePair("emailAdressen", WebSMS.prefsSender));
+		post.add(new BasicNameValuePair("emailAdressen", getSender()));
 
 		post.add(new BasicNameValuePair("nachricht", this.text));
 		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c8
