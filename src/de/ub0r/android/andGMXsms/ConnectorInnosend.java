@@ -50,6 +50,9 @@ public class ConnectorInnosend extends Connector {
 	/** Innosend connector. */
 	private final short connector;
 
+	/** Innosend balance. */
+	private String balance = "";
+
 	/**
 	 * Create an Innosend.de.
 	 * 
@@ -89,12 +92,14 @@ public class ConnectorInnosend extends Connector {
 	 *            return code
 	 * @param more
 	 *            more text
+	 * @param failOnError
+	 *            fail if return code is not 10*
 	 * @return true if no error code
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean checkReturnCode(final int ret, final String more)
-			throws WebSMSException {
+	private boolean checkReturnCode(final int ret, final String more,
+			final boolean failOnError) throws WebSMSException {
 		switch (ret) {
 		case 100:
 		case 101:
@@ -102,6 +107,17 @@ public class ConnectorInnosend extends Connector {
 			// + this.context.getString(R.string.log_remain_free));
 			return true;
 		case 161:
+			if (!failOnError) {
+				if (this.balance.length() > 0) {
+					this.balance += "/";
+				}
+				this.balance += this.context
+						.getString(R.string.innosend_next_free)
+						+ " " + more;
+				WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
+				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+				return true;
+			}
 			throw new WebSMSException(this.context,
 					R.string.log_error_innosend_161, " " + more);
 		default:
@@ -174,11 +190,13 @@ public class ConnectorInnosend extends Connector {
 	/**
 	 * Send data.
 	 * 
+	 * @param updateFree
+	 *            update free sms
 	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData() throws WebSMSException {
+	private boolean sendData(final boolean updateFree) throws WebSMSException {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
@@ -217,7 +235,13 @@ public class ConnectorInnosend extends Connector {
 							DATEFORMAT, this.sendLater).toString()));
 				}
 			} else {
-				url.append("konto.php");
+				if (updateFree) {
+					url.append("free.php");
+					d.add(new BasicNameValuePair("app", "1"));
+					d.add(new BasicNameValuePair("was", "iphone"));
+				} else {
+					url.append("konto.php");
+				}
 			}
 			d.add(new BasicNameValuePair("id", this.user));
 			d.add(new BasicNameValuePair("pw", this.password));
@@ -231,9 +255,9 @@ public class ConnectorInnosend extends Connector {
 			String htmlText = stream2str(response.getEntity().getContent())
 					.trim();
 			int i = htmlText.indexOf(',');
-			if (i > 0) {
-				WebSMS.SMS_BALANCE[INNOSEND] = htmlText.substring(0, i + 3)
-						+ "\u20AC";
+			if (i > 0 && !updateFree) {
+				this.balance = htmlText.substring(0, i + 3) + "\u20AC";
+				WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
 				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			} else {
 				i = htmlText.indexOf("<br>");
@@ -245,7 +269,7 @@ public class ConnectorInnosend extends Connector {
 				} else {
 					ret = Integer.parseInt(htmlText.substring(0, i));
 					return this.checkReturnCode(ret, htmlText.substring(i + 4)
-							.trim());
+							.trim(), !updateFree);
 				}
 			}
 		} catch (IOException e) {
@@ -260,7 +284,7 @@ public class ConnectorInnosend extends Connector {
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
-		return this.sendData();
+		return this.sendData(false) && sendData(true);
 	}
 
 	/**
@@ -268,7 +292,7 @@ public class ConnectorInnosend extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
-		if (!this.sendData()) {
+		if (!this.sendData(false)) {
 			// failed!
 			throw new WebSMSException(this.context, R.string.log_error);
 		} else {

@@ -31,4 +31,5 @@
 	<string name="log_error_innosend_171">Date in past</string>
 	<string name="log_error_innosend_172">Too many phone numbers</string>
 	<string name="log_error_innosend_173">Wrong number format</string>
+	<string name="innosend_next_free">next free:</string>
 </resources>
