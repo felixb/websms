@@ -333,6 +333,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public final void onCreate(final Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			WebSMS.doPreferences = true;
@@ -1013,6 +1014,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 *{@inheritDoc}
 	 */
+	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.item_about: // start about dialog
@@ -1124,13 +1126,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			builder.setIcon(android.R.drawable.ic_menu_info_details);
 			builder.setMessage(buf.toString());
 			builder.setCancelable(true);
-			builder.setPositiveButton(android.R.string.ok,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int id) {
-							dialog.dismiss();
-						}
-					});
+			builder.setPositiveButton(android.R.string.ok, null);
 			return builder.create();
 		case DIALOG_CAPTCHA:
 			d = new Dialog(this);
@@ -1159,16 +1155,9 @@ public class WebSMS extends Activity implements OnClickListener,
 								WebSMS.this.send(WebSMS.prefsConnector,
 										WebSMS.lastParams);
 							}
-							dialog.dismiss();
 						}
 					});
-			builder.setNegativeButton(android.R.string.cancel,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int id) {
-							dialog.cancel();
-						}
-					});
+			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
 		case DIALOG_SENDLATER_DATE:
 			Calendar c = Calendar.getInstance();
