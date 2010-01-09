@@ -53,6 +53,7 @@
 	<uses-permission android:name="android.permission.READ_SMS" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<!-- AdMob SDK permissions -->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest> 

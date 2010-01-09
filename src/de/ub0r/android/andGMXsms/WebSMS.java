@@ -44,6 +44,7 @@ import android.preference.PreferenceManager;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
+import android.telephony.TelephonyManager;
 import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -179,6 +180,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsEnableSipgateTeam = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
+	/** Hased IMEI. */
+	static String imeiHash = null;
 	/** Preferences: gmx hostname id. */
 	static int prefsGMXhostname = 0;
 	/** Preferences: connector. */
@@ -228,14 +231,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: captcha. */
 	private static final int DIALOG_CAPTCHA = 3;
-	/** Dialog: donate. */
-	private static final int DIALOG_DONATE = 4;
+	/** Dialog: post donate. */
+	private static final int DIALOG_POSTDONATE = 4;
 	/** Dialog: custom sender. */
 	private static final int DIALOG_CUSTOMSENDER = 5;
 	/** Dialog: send later: date. */
 	private static final int DIALOG_SENDLATER_DATE = 6;
 	/** Dialog: send later: time. */
 	private static final int DIALOG_SENDLATER_TIME = 7;
+	/** Dialog: pre donate. */
+	private static final int DIALOG_PREDONATE = 8;
 
 	/** Message for logging. **/
 	static final int MESSAGE_LOG = 0;
@@ -742,6 +747,14 @@ public class WebSMS extends Activity implements OnClickListener,
 				break;
 			}
 		}
+		if (!prefsNoAds && this.getImeiHash() != null) {
+			for (String h : NO_AD_HASHS) {
+				if (imeiHash.equals(h)) {
+					prefsNoAds = true;
+					break;
+				}
+			}
+		}
 
 		prefsGMXhostname = this.preferences.getInt(PREFS_GMX_HOST,
 				prefsGMXhostname);
@@ -1009,13 +1022,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
 		case R.id.item_donate:
-			try {
-				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-						.parse(this.getString(R.string.donate_url))));
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, "no browser", e);
-			}
-			this.showDialog(DIALOG_DONATE);
+			this.showDialog(DIALOG_PREDONATE);
 			return true;
 		case R.id.item_more:
 			try {
@@ -1041,9 +1048,33 @@ public class WebSMS extends Activity implements OnClickListener,
 		Dialog d;
 		AlertDialog.Builder builder;
 		switch (id) {
-		case DIALOG_DONATE:
+		case DIALOG_PREDONATE:
 			builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.remove_ads);
+			builder.setTitle(R.string.donate_);
+			builder.setMessage(R.string.predonate);
+			builder.setPositiveButton(R.string.donate_,
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface dialog,
+								final int which) {
+							try {
+								WebSMS.this
+										.startActivity(new Intent(
+												Intent.ACTION_VIEW,
+												Uri
+														.parse(WebSMS.this
+																.getString(R.string.donate_url))));
+							} catch (ActivityNotFoundException e) {
+								Log.e(TAG, "no browser", e);
+							} finally {
+								WebSMS.this.showDialog(DIALOG_POSTDONATE);
+							}
+						}
+					});
+			builder.setNegativeButton(android.R.string.cancel, null);
+			return builder.create();
+		case DIALOG_POSTDONATE:
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.remove_ads_);
 			builder.setMessage(R.string.postdonate);
 			builder.setPositiveButton(R.string.send_,
 					new DialogInterface.OnClickListener() {
@@ -1056,10 +1087,10 @@ public class WebSMS extends Activity implements OnClickListener,
 											new String[] {
 													WebSMS.this
 															.getString(R.string.donate_mail),
-													"" });
-							// FIXME: "" is a k9 hack.
-							in.putExtra(Intent.EXTRA_TEXT, WebSMS
-									.md5(WebSMS.prefsSender));
+													"" }); // FIXME: "" is a k9
+							// hack.
+							in.putExtra(Intent.EXTRA_TEXT, WebSMS.this
+									.getImeiHash());
 							in
 									.putExtra(
 											Intent.EXTRA_SUBJECT,
@@ -1070,16 +1101,9 @@ public class WebSMS extends Activity implements OnClickListener,
 															.getString(R.string.donate_subject));
 							in.setType("text/plain");
 							WebSMS.this.startActivity(in);
-							dialog.dismiss();
 						}
 					});
-			builder.setNegativeButton(android.R.string.cancel,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int which) {
-							dialog.cancel();
-						}
-					});
+			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
 		case DIALOG_ABOUT:
 			d = new Dialog(this);
@@ -1392,5 +1416,23 @@ public class WebSMS extends Activity implements OnClickListener,
 			Log.e(TAG, null, e);
 		}
 		return "";
+	}
+
+	/**
+	 * Get MD5 hash of the IMEI (device id).
+	 * 
+	 * @return MD5 hash of IMEI
+	 */
+	private String getImeiHash() {
+		if (imeiHash == null) {
+			// get imei
+			TelephonyManager mTelephonyMgr = (TelephonyManager) this
+					.getSystemService(TELEPHONY_SERVICE);
+			final String did = mTelephonyMgr.getDeviceId();
+			if (did != null) {
+				imeiHash = md5(did);
+			}
+		}
+		return imeiHash;
 	}
 }
