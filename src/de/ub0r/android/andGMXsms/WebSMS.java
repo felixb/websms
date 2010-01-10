@@ -558,6 +558,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 
+		for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
+			cs.init(this);
+		}
+
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
@@ -1112,6 +1116,18 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setContentView(R.layout.about);
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
+			StringBuffer authors = new StringBuffer();
+			for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
+				final String a = cs.getAuthor();
+				if (a != null) {
+					authors.append(cs.getName(true));
+					authors.append(": ");
+					authors.append(a);
+					authors.append("\n");
+				}
+			}
+			((TextView) d.findViewById(R.id.author_connectors)).setText(authors
+					.toString().trim());
 			return d;
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);

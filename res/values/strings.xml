@@ -26,6 +26,7 @@
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="author1">Mirko Weber &lt;mirko.weber@gmail.com&gt; (Sipgate Connector)</string>
+	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>

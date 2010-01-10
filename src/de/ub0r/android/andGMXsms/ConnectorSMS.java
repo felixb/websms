@@ -20,6 +20,9 @@ package de.ub0r.android.andGMXsms;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
 
@@ -32,6 +35,102 @@ import android.util.Log;
 public class ConnectorSMS extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
+
+	/**
+	 * Connectors' specs.
+	 */
+	private static final ConnectorSpecs SPECS = new ConnectorSpecs() {
+		/** Context to use. */
+		private Context context = null;
+		/** Connector's prefs prefix. */
+		private static final String PREFS_PREFIX = "sms";
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getAuthor() {
+			return this.context.getString(R.string.connector_sms_author);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Connector getConnector(final Context c) {
+			return new ConnectorSMS();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getName(final boolean shortName) {
+			return this.context.getString(R.string.connector_sms_name);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Intent getPreferencesIntent() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getPrefsPrefix() {
+			return PREFS_PREFIX;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void init(final Context c) {
+			this.context = c;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isEnabled() {
+			return PreferenceManager.getDefaultSharedPreferences(this.context)
+					.getBoolean(PREFS_ENABLED + this.getPrefsPrefix(), false);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportCustomsender() {
+			return false;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportFlashsms() {
+			return false;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportSendLater() {
+			return false;
+		}
+
+	};
+
+	static {
+		Connector.registerConnectorSpecs(SPECS);
+	};
 
 	/**
 	 * Create a SMS Connector.

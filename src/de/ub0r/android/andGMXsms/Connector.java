@@ -103,6 +103,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Connector type: Sloono. */
 	static final short SLOONO = SLOONO_PRO;
 
+	/** Holds all connector specs. */
+	static final ArrayList<ConnectorSpecs> CONNECTOR_SPECS = new ArrayList<ConnectorSpecs>();
+
 	/** Number of connectors. */
 	static final short CONNECTORS = SLOONO_PRO + 1;
 
@@ -409,6 +412,40 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (c != null) {
 			c.execute(params);
 		}
+	}
+
+	/**
+	 * Get all (enabled) connector specs.
+	 * 
+	 * @param enabledOnly
+	 *            show enabled only
+	 * @return connector specs
+	 */
+	public static final ConnectorSpecs[] getConnectorSpecs(
+			final boolean enabledOnly) {
+		if (enabledOnly) {
+			ArrayList<ConnectorSpecs> ret = new ArrayList<ConnectorSpecs>();
+			final int l = CONNECTOR_SPECS.size();
+			for (int i = 0; i < l; i++) {
+				final ConnectorSpecs cs = CONNECTOR_SPECS.get(i);
+				if (cs.isEnabled()) {
+					ret.add(cs);
+				}
+			}
+			return ret.toArray(new ConnectorSpecs[0]);
+		} else {
+			return CONNECTOR_SPECS.toArray(new ConnectorSpecs[0]);
+		}
+	}
+
+	/**
+	 * Register ConnectorSpecs.
+	 * 
+	 * @param cs
+	 *            specs
+	 */
+	public static final void registerConnectorSpecs(final ConnectorSpecs cs) {
+		CONNECTOR_SPECS.add(cs);
 	}
 
 	/**
