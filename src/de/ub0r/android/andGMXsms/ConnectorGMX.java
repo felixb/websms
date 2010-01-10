@@ -23,6 +23,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -75,6 +79,112 @@ public class ConnectorGMX extends Connector {
 	private String mail;
 	/** password. */
 	private String pw;
+
+	/**
+	 * Connectors' specs.
+	 */
+	private static final ConnectorSpecs SPECS = new ConnectorSpecs() {
+		/** Context to use. */
+		private Context context = null;
+		/** Connector's prefs prefix. */
+		private static final String PREFS_PREFIX = "gmx";
+
+		/** Preference's name: mail gmx. */
+		// private static final String PREFS_MAIL_GMX = "mail";
+		/** Preference's name: username gmx. */
+		private static final String PREFS_USER_GMX = "user";
+		/** Preference's name: user's password - gmx. */
+		private static final String PREFS_PASSWORD_GMX = "password";
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getAuthor() {
+			return this.context.getString(R.string.connector_gmx_author);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Connector getConnector(final Context c) {
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(c);
+			return new ConnectorGMX(p.getString(PREFS_USER_GMX, ""), p
+					.getString(PREFS_PASSWORD_GMX, ""));
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getName(final boolean shortName) {
+			return this.context.getString(R.string.connector_gmx_name);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Intent getPreferencesIntent() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getPrefsPrefix() {
+			return PREFS_PREFIX;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void init(final Context c) {
+			this.context = c;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isEnabled() {
+			return PreferenceManager.getDefaultSharedPreferences(this.context)
+					.getBoolean(PREFS_ENABLED + this.getPrefsPrefix(), false);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportCustomsender() {
+			return true;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportFlashsms() {
+			return false;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportSendLater() {
+			return true;
+		}
+
+	};
+
+	static {
+		Connector.registerConnectorSpecs(SPECS);
+	};
 
 	/**
 	 * Create a GMX Connector.

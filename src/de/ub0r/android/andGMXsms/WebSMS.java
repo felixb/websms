@@ -560,6 +560,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
 			cs.init(this);
+			// FIXME: wait for all connectors!
+			// TODO: cache context in Connector. autoinit on register.
 		}
 
 		// check default prefix
@@ -1118,10 +1120,11 @@ public class WebSMS extends Activity implements OnClickListener,
 					+ this.getString(R.string.app_version));
 			StringBuffer authors = new StringBuffer();
 			for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
+				cs.init(WebSMS.this);
 				final String a = cs.getAuthor();
-				if (a != null) {
+				if (a != null && a.length() > 0) {
 					authors.append(cs.getName(true));
-					authors.append(": ");
+					authors.append(":\t");
 					authors.append(a);
 					authors.append("\n");
 				}
