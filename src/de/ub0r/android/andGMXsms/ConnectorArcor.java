@@ -261,7 +261,7 @@ public class ConnectorArcor extends Connector {
 
 		post.add(new BasicNameValuePair("nachricht", this.text));
 		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c8
-		if (WebSMS.prefsCopySendSmsArcor) {
+		if (WebSMS.prefsCopySentSmsArcor) {
 			post.add(new BasicNameValuePair("gesendetkopiesms", "on"));
 		}
 		// post.add(new BasicNameValuePair("firstVisitOfPage", "0")); do we need
