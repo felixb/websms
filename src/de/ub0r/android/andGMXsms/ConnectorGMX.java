@@ -128,8 +128,10 @@ public class ConnectorGMX extends Connector {
 		public Connector getConnector(final Context c) {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(c);
-			return new ConnectorGMX(p.getString(PREFS_USER_GMX, ""), p
-					.getString(PREFS_PASSWORD_GMX, ""));
+			Connector connector = new ConnectorGMX(p.getString(PREFS_USER_GMX,
+					""), p.getString(PREFS_PASSWORD_GMX, ""));
+			connector.context = c;
+			return connector;
 		}
 
 		/**
@@ -176,6 +178,13 @@ public class ConnectorGMX extends Connector {
 		/**
 		 * {@inheritDoc}
 		 */
+		public boolean supportMultipleRecipients() {
+			return true;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean supportCustomsender() {
 			return true;
@@ -211,7 +220,7 @@ public class ConnectorGMX extends Connector {
 	 * @param p
 	 *            password
 	 */
-	protected ConnectorGMX(final String u, final String p) {
+	ConnectorGMX(final String u, final String p) {
 		super(u, p, GMX);
 	}
 

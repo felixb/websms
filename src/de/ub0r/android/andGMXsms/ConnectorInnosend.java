@@ -113,7 +113,7 @@ public class ConnectorInnosend extends Connector {
 				this.balance += this.context
 						.getString(R.string.innosend_next_free)
 						+ " " + more;
-				WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
+				// FIXME: WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
 				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				return true;
 			}
@@ -255,7 +255,7 @@ public class ConnectorInnosend extends Connector {
 			int i = htmlText.indexOf(',');
 			if (i > 0 && !updateFree) {
 				this.balance = htmlText.substring(0, i + 3) + "\u20AC";
-				WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
+				// FIXME: WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
 				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			} else {
 				i = htmlText.indexOf("<br>");

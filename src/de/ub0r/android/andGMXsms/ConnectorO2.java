@@ -478,8 +478,8 @@ public class ConnectorO2 extends Connector {
 			if (i > 0) {
 				int j = this.htmlText.indexOf(STRINGS[CHECK_WEB2SMS], i);
 				if (j > 0) {
-					WebSMS.SMS_BALANCE[O2] = this.htmlText.substring(i + 9, j)
-							.trim().split(" ", 2)[0];
+					// FIXME: WebSMS.SMS_BALANCE[O2] = this.htmlText.substring(i
+					// + 9, j).trim().split(" ", 2)[0];
 					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				} else if (reuseSession) {
 					// try again with clear session

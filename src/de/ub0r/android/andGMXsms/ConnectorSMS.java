@@ -72,7 +72,9 @@ public class ConnectorSMS extends Connector {
 		 */
 		@Override
 		public Connector getConnector(final Context c) {
-			return new ConnectorSMS();
+			Connector connector = new ConnectorSMS();
+			connector.context = c;
+			return connector;
 		}
 
 		/**
@@ -114,6 +116,14 @@ public class ConnectorSMS extends Connector {
 		public boolean isEnabled() {
 			return PreferenceManager.getDefaultSharedPreferences(this.context)
 					.getBoolean(PREFS_ENABLED + this.getPrefsPrefix(), false);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean supportMultipleRecipients() {
+			return true;
 		}
 
 		/**

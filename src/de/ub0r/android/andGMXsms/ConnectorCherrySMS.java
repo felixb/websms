@@ -170,7 +170,7 @@ public class ConnectorCherrySMS extends Connector {
 			Log.d(TAG, htmlText);
 			htmlText = null;
 			int l = lines.length;
-			WebSMS.SMS_BALANCE[CHERRY] = lines[l - 1].trim();
+			// FIXME: WebSMS.SMS_BALANCE[CHERRY] = lines[l - 1].trim();
 			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			if (l > 1) {
 				final int ret = Integer.parseInt(lines[0].trim());

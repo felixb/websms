@@ -290,14 +290,17 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param params
 	 *            Sending parameters.
 	 */
-	public static final void send(final Context con, final short connector,
-			final String[] params) {
-		Connector c;
-		switch (connector) {
-		case O2:
-		case INNOSEND_FREE:
-		case INNOSEND_W_SENDER:
-		case INNOSEND_WO_SENDER:
+	public static final void send(final Context con,
+			final ConnectorSpecs connector, final String[] params) {
+		Connector c = connector.getConnector(con);
+		if (c == null) {
+			return;
+		}
+		if (connector.supportMultipleRecipients()) {
+			if (c != null) {
+				c.execute(params);
+			}
+		} else {
 			// for a few senders we just split recipients for our self
 			String r = params[ID_TO].trim();
 			if (r.endsWith(",")) {
@@ -308,16 +311,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			for (String rs : recipients) {
 				final String[] p = params.clone();
 				p[ID_TO] = rs;
-				c = getConnector(con, connector);
 				c.execute(p);
 			}
-			return;
-		default:
-			c = getConnector(con, connector);
-			if (c != null) {
-				c.execute(params);
-			}
-			return;
 		}
 	}
 
@@ -371,8 +366,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * @param sendLater
 	 *            timestamp for sending later
 	 */
-	public static final void send(final Context con, final short connector,
-			final String recipients, final String text, final boolean flashSMS,
+	public static final void send(final Context con,
+			final ConnectorSpecs connector, final String recipients,
+			final String text, final boolean flashSMS,
 			final String customSender, final long sendLater) {
 		Connector.send(con, connector, buildSendParams(recipients, text,
 				flashSMS, customSender, sendLater));
@@ -383,13 +379,13 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @param con
 	 *            Context
-	 * @param connector
-	 *            Connector which should be used.
+	 * @param cs
+	 *            ConnectorSpecs.
 	 */
 	public static synchronized void update(final Context con,
-			final short connector) {
+			final ConnectorSpecs cs) {
 		++countUpdates;
-		final Connector c = getConnector(con, connector);
+		final Connector c = cs.getConnector(con);
 		if (c != null) {
 			c.execute(PARAMS_UPDATE);
 		}
@@ -407,8 +403,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            Parameters the Connector expects
 	 */
 	public static final void bootstrap(final Context con,
-			final short connector, final String[] params) {
-		final Connector c = getConnector(con, connector);
+			final ConnectorSpecs connector, final String[] params) {
+		final Connector c = connector.getConnector(con);
 		if (c != null) {
 			c.execute(params);
 		}

@@ -67,6 +67,7 @@ public class IOService extends Service {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final IBinder onBind(final Intent intent) {
 		Log.d(TAG, "onBind()");
 		return null;
@@ -102,8 +103,8 @@ public class IOService extends Service {
 			if (a != null && a.equals(INTENT_ACTION)) {
 				final Bundle b = intent.getExtras();
 				final String[] params = b.getStringArray(INTENT_PARAMS);
-				final short connector = b.getShort(INTENT_CONNECTOR,
-						Connector.SMS);
+				final ConnectorSpecs connector = Connector.getConnectorSpecs(
+						this, b.getString(INTENT_CONNECTOR));
 				Connector.send(IOService.this, connector, params);
 			}
 		}

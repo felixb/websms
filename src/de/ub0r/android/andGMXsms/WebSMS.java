@@ -89,21 +89,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: user's password - gmx. */
 	private static final String PREFS_PASSWORD_GMX = "password";
 	/** Preference's name: user's password - o2. */
-	private static final String PREFS_PASSWORD_O2 = "password_o2";
-	/** Preference's name: sipgate username. */
-	private static final String PREFS_USER_SIPGATE = "user_sipgate";
-	/** Preference's name: user's password - sipgate. */
-	private static final String PREFS_PASSWORD_SIPGATE = "password_sipgate";
-	/** Preference's name: innosend username. */
-	private static final String PREFS_USER_INNOSEND = "user_innosend";
-	/** Preference's name: user's password - innosend. */
-	private static final String PREFS_PASSWORD_INNOSEND = "password_innosend";
-	/** Preference's name: user's password - cherrysms. */
-	private static final String PREFS_PASSWORD_CHERRYSMS = "password_cherrysms";
-	/** Preference's name: sloono username. */
-	private static final String PREFS_USER_SLOONO = "user_sloono";
-	/** Preference's name: user's password - sloono. */
-	private static final String PREFS_PASSWORD_SLOONO = "password_sloono";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -122,30 +107,14 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
-	/** Preference's name: enable sms. */
-	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable gmx. */
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
-	/** Preference's name: enable o2. */
-	private static final String PREFS_ENABLE_O2 = "enable_o2";
-	/** Preference's name: enable sipgate. */
-	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
-	/** Preference's name: enable sipgate team accounts. */
-	private static final String PREFS_ENABLE_SIPGATE_TEAM = "enable_sipgate_team";
-	/** Preference's name: enable innosend. */
-	private static final String PREFS_ENABLE_INNOSEND = "enable_innosend";
-	/** Preference's name: enable cherrysms. */
-	private static final String PREFS_ENABLE_CHERRYSMS = "enable_cherrysms";
-	/** Preference's name: enable sloono. */
-	private static final String PREFS_ENABLE_SLOONO = "enable_sloono";
 	/** Preference's name: gmx hostname id. */
 	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
-	/** Preference's name: connector. */
-	private static final String PREFS_CONNECTOR = "connector";
 	/** Preference's name: connector name. */
 	private static final String PREFS_CONNECTOR_NAME = "connector_name";
 
@@ -186,8 +155,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String imeiHash = null;
 	/** Preferences: gmx hostname id. */
 	static int prefsGMXhostname = 0;
-	/** Preferences: connector. */
-	static short prefsConnector = 0;
 	/** Preferences: connector specs. */
 	static ConnectorSpecs prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
@@ -272,13 +239,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
-
-	/** Balance of different accounts. */
-	static final String[] SMS_BALANCE = new String[Connector.CONNECTORS];
-	/** enabled accounts. */
-	static final boolean[] CONNECTORS_ENABLED = new boolean[Connector.CONNECTORS];
-	/** ready accounts. */
-	static final boolean[] CONNECTORS_READY = new boolean[Connector.CONNECTORS];
 
 	/** Text's label. */
 	private TextView textLabel;
@@ -434,6 +394,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+		// FIXME: we have to call all connector classes :/
+		new ConnectorCherrySMS(null, null, (short) 0);
+		new ConnectorGMX(null, null);
+		new ConnectorInnosend(null, null, (short) 0);
+		new ConnectorO2(null, null);
+		new ConnectorSipgate(null, null);
+		new ConnectorSloono(null, null, (short) 0);
+		new ConnectorSMS();
+
 		// save ref to me.
 		me = this;
 		try {
@@ -597,14 +567,15 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			if (CONNECTORS_ENABLED[Connector.GMX]
-					&& this.prefsOnChgListener.wasChanged(Connector.GMX)) {
-				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
-				params[Connector.ID_ID] = Connector.ID_BOOSTR;
-				params[ConnectorGMX.ID_MAIL] = prefsMailGMX;
-				params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
-				Connector.bootstrap(this, Connector.GMX, params);
-			}
+			// FIXME: move bootstrapping to connector
+			// if (CONNECTORS_ENABLED[Connector.GMX]
+			// && this.prefsOnChgListener.wasChanged(Connector.GMX)) {
+			// String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
+			// params[Connector.ID_ID] = Connector.ID_BOOSTR;
+			// params[ConnectorGMX.ID_MAIL] = prefsMailGMX;
+			// params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
+			// Connector.bootstrap(this, Connector.GMX, params);
+			// }
 		} else {
 			this.checkPrefs();
 		}
@@ -685,44 +656,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsSender = this.preferences.getString(PREFS_SENDER, "");
 		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
 
-		CONNECTORS_ENABLED[Connector.GMX] = this.preferences.getBoolean(
-				PREFS_ENABLE_GMX, false);
-		prefsMailGMX = this.preferences.getString(PREFS_MAIL_GMX, "");
-		prefsUserGMX = this.preferences.getString(PREFS_USER_GMX, "");
-		prefsPasswordGMX = this.preferences.getString(PREFS_PASSWORD_GMX, "");
-
-		CONNECTORS_ENABLED[Connector.O2] = this.preferences.getBoolean(
-				PREFS_ENABLE_O2, false);
-		prefsPasswordO2 = this.preferences.getString(PREFS_PASSWORD_O2, "");
-
-		CONNECTORS_ENABLED[Connector.SIPGATE] = this.preferences.getBoolean(
-				PREFS_ENABLE_SIPGATE, false);
-		prefsEnableSipgateTeam = this.preferences.getBoolean(
-				PREFS_ENABLE_SIPGATE_TEAM, false);
-		prefsUserSipgate = this.preferences.getString(PREFS_USER_SIPGATE, "");
-		prefsPasswordSipgate = this.preferences.getString(
-				PREFS_PASSWORD_SIPGATE, "");
-
-		CONNECTORS_ENABLED[Connector.SMS] = this.preferences.getBoolean(
-				PREFS_ENABLE_SMS, true);
-
-		CONNECTORS_ENABLED[Connector.INNOSEND] = this.preferences.getBoolean(
-				PREFS_ENABLE_INNOSEND, false);
-		prefsUserInnosend = this.preferences.getString(PREFS_USER_INNOSEND, "");
-		prefsPasswordInnosend = this.preferences.getString(
-				PREFS_PASSWORD_INNOSEND, "");
-
-		CONNECTORS_ENABLED[Connector.CHERRY] = this.preferences.getBoolean(
-				PREFS_ENABLE_CHERRYSMS, false);
-		prefsPasswordCherrySMS = this.preferences.getString(
-				PREFS_PASSWORD_CHERRYSMS, "");
-
-		CONNECTORS_ENABLED[Connector.SLOONO] = this.preferences.getBoolean(
-				PREFS_ENABLE_SLOONO, false);
-		prefsUserSloono = this.preferences.getString(PREFS_USER_SLOONO, "");
-		prefsPasswordSloono = this.preferences.getString(PREFS_PASSWORD_SLOONO,
-				"");
-
 		final boolean b = this.preferences.getBoolean(
 				PREFS_CHANGE_CONNECTOR_BUTTON, false);
 		final View v = this.findViewById(R.id.change_connector);
@@ -732,7 +665,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		prefsConnector = (short) this.preferences.getInt(PREFS_CONNECTOR, 0);
+		prefsConnectorSpecs = Connector.getConnectorSpecs(this,
+				this.preferences.getString(PREFS_CONNECTOR_NAME, ""));
 
 		prefsMobilesOnly = this.preferences.getBoolean(PREFS_MOBILES_ONLY,
 				false);
@@ -773,51 +707,48 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		int c = 0;
-		short con = 0;
-
-		for (short i = 0; i < Connector.CONNECTORS; i++) {
-			if (CONNECTORS_ENABLED[i]) {
-				c += Connector.getSubConnectors(i, null, null);
-				con = i;
-			}
-		}
+		final ConnectorSpecs[] enabled = Connector
+				.getConnectorSpecs(this, true);
+		final int c = enabled.length;
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(c > 0);
 		btn.setVisibility(View.VISIBLE);
-		if (c < 2) {
-			prefsConnector = con;
+		if (c == 1) {
+			prefsConnectorSpecs = enabled[0];
 		}
 
-		final boolean sFlashsms = Connector.supportFlashsms(prefsConnector);
-		final boolean sCustomsender = Connector
-				.supportCustomsender(prefsConnector);
-		final boolean sSendLater = Connector.supportSendLater(prefsConnector);
-		if (sFlashsms || sCustomsender || sSendLater) {
-			this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
-		} else {
-			this.findViewById(R.id.extras).setVisibility(View.GONE);
-		}
-		if (this.showExtras && sFlashsms) {
-			this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
-		} else {
-			this.findViewById(R.id.flashsms).setVisibility(View.GONE);
-		}
-		if (this.showExtras && sCustomsender) {
-			this.findViewById(R.id.custom_sender).setVisibility(View.VISIBLE);
-		} else {
-			this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
-		}
-		if (this.showExtras && sSendLater) {
-			this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
-		} else {
-			this.findViewById(R.id.send_later).setVisibility(View.GONE);
-		}
+		if (prefsConnectorSpecs != null) {
+			final boolean sFlashsms = prefsConnectorSpecs.supportFlashsms();
+			final boolean sCustomsender = prefsConnectorSpecs
+					.supportCustomsender();
+			final boolean sSendLater = prefsConnectorSpecs.supportSendLater();
+			if (sFlashsms || sCustomsender || sSendLater) {
+				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
+			} else {
+				this.findViewById(R.id.extras).setVisibility(View.GONE);
+			}
+			if (this.showExtras && sFlashsms) {
+				this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
+			} else {
+				this.findViewById(R.id.flashsms).setVisibility(View.GONE);
+			}
+			if (this.showExtras && sCustomsender) {
+				this.findViewById(R.id.custom_sender).setVisibility(
+						View.VISIBLE);
+			} else {
+				this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+			}
+			if (this.showExtras && sSendLater) {
+				this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
+			} else {
+				this.findViewById(R.id.send_later).setVisibility(View.GONE);
+			}
 
-		this.setTitle(this.getString(R.string.app_name) + " - "
-				+ Connector.getConnectorName(this, prefsConnector));
+			this.setTitle(this.getString(R.string.app_name) + " - "
+					+ prefsConnectorSpecs.getName(false));
+		}
 	}
 
 	/**
@@ -825,70 +756,31 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void checkPrefs() {
 		// check prefs
-		if (CONNECTORS_ENABLED[Connector.GMX] && prefsMailGMX.length() != 0
-				&& prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
-				&& prefsSender.length() != 0) {
-			CONNECTORS_READY[Connector.GMX] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.GMX] = false;
-		}
-		if (CONNECTORS_ENABLED[Connector.O2] && prefsSender.length() != 0
-				&& prefsPasswordO2.length() != 0) {
-			CONNECTORS_READY[Connector.O2] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.O2]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.O2] = false;
-		}
-		if (CONNECTORS_ENABLED[Connector.SIPGATE]
-				&& prefsUserSipgate.length() != 0
-				&& prefsPasswordSipgate.length() != 0) {
-			CONNECTORS_READY[Connector.SIPGATE] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.SIPGATE] = false;
-		}
-		if (CONNECTORS_ENABLED[Connector.INNOSEND]
-				&& prefsUserInnosend.length() != 0
-				&& prefsPasswordInnosend.length() != 0) {
-			CONNECTORS_READY[Connector.INNOSEND] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.INNOSEND] = false;
-		}
-		if (CONNECTORS_ENABLED[Connector.CHERRY]
-				&& prefsPasswordCherrySMS.length() != 0) {
-			CONNECTORS_READY[Connector.CHERRY] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.CHERRY] = false;
-		}
-		if (CONNECTORS_ENABLED[Connector.SLOONO]
-				&& prefsUserSloono.length() != 0
-				&& prefsPasswordSloono.length() != 0) {
-			CONNECTORS_READY[Connector.SLOONO] = true;
-		} else {
-			if (CONNECTORS_ENABLED[Connector.SLOONO]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
-			}
-			CONNECTORS_READY[Connector.SLOONO] = false;
-		}
+		// FIXME: move checkprefs to connectors
+
+		// if (CONNECTORS_ENABLED[Connector.GMX] && prefsMailGMX.length() != 0
+		// && prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
+		// && prefsSender.length() != 0) {
+		// CONNECTORS_READY[Connector.GMX] = true;
+		// } else {
+		// if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
+		// this.log(this.getResources().getString(
+		// R.string.log_empty_settings));
+		// }
+		// CONNECTORS_READY[Connector.GMX] = false;
+		// }
+
+		// if (CONNECTORS_ENABLED[Connector.O2] && prefsSender.length() != 0
+		// && prefsPasswordO2.length() != 0) {
+		// CONNECTORS_READY[Connector.O2] = true;
+		// } else {
+		// if (CONNECTORS_ENABLED[Connector.O2]) {
+		// this.log(this.getResources().getString(
+		// R.string.log_empty_settings));
+		// }
+		// CONNECTORS_READY[Connector.O2] = false;
+		// }
+
 		this.setButtons();
 	}
 
@@ -920,7 +812,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.putString(PREFS_USER_GMX, prefsUserGMX);
 		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
 		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
-		editor.putInt(PREFS_CONNECTOR, prefsConnector);
+		if (prefsConnectorSpecs != null) {
+			editor.putString(PREFS_CONNECTOR_NAME, prefsConnectorSpecs
+					.getName(false));
+		}
 		// commit changes
 		editor.commit();
 	}
@@ -932,11 +827,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            force update, if false only blank balances will get updated
 	 */
 	private void updateFreecount(final boolean forceUpdate) {
-		for (short i = 0; i < Connector.CONNECTORS; i++) {
-			if (CONNECTORS_ENABLED[i]
-					&& (forceUpdate || SMS_BALANCE[i] == null || SMS_BALANCE[i]
-							.length() == 0)) {
-				Connector.update(this, i);
+		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
+			final String b = cs.getBalance();
+			if (forceUpdate || b == null || b.length() == 0) {
+				Connector.update(this, cs);
 			}
 		}
 	}
@@ -950,7 +844,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.updateFreecount(true);
 			break;
 		case R.id.send_:
-			this.send(prefsConnector);
+			this.send(prefsConnectorSpecs);
 			break;
 		case R.id.cancel:
 			this.reset();
@@ -1169,7 +1063,7 @@ public class WebSMS extends Activity implements OnClickListener,
 								WebSMS.this
 										.showDialog(WebSMS.DIALOG_SENDLATER_DATE);
 							} else {
-								WebSMS.this.send(WebSMS.prefsConnector,
+								WebSMS.this.send(WebSMS.prefsConnectorSpecs,
 										WebSMS.lastParams);
 							}
 						}
@@ -1240,12 +1134,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param params
 	 *            parameters to push to connector
 	 */
-	private void send(final short connector, final String[] params) {
+	private void send(final ConnectorSpecs connector, final String[] params) {
 		try {
 			final Intent i = new Intent(this, IOService.class);
 			i.setAction(IOService.INTENT_ACTION);
 			i.putExtra(IOService.INTENT_PARAMS, params);
-			i.putExtra(IOService.INTENT_CONNECTOR, connector);
+			i.putExtra(IOService.INTENT_CONNECTOR, connector.getName(false)); // FIXME
 			this.startService(i);
 		} catch (Exception e) {
 			Log.e(TAG, null, e);
@@ -1269,7 +1163,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param connector
 	 *            which connector should be used.
 	 */
-	private void send(final short connector) {
+	private void send(final ConnectorSpecs connector) {
 		// fetch text/recipient
 		final String to = ((EditText) this.findViewById(R.id.to)).getText()
 				.toString();
@@ -1357,7 +1251,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public final void onTimeSet(final TimePicker view, final int hour,
 			final int minutes) {
-		if (prefsConnector == Connector.O2 && minutes % 15 != 0) {
+		if (prefsConnectorSpecs.getName(true).equals("o2") // FIXME
+				&& minutes % 15 != 0) {
 			Toast.makeText(this, R.string.log_error_o2_sendlater,
 					Toast.LENGTH_LONG).show();
 			return;
@@ -1372,7 +1267,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		c.set(Calendar.MINUTE, minutes);
 		lastParams[Connector.ID_SENDLATER] = "" + c.getTimeInMillis();
 
-		this.send(WebSMS.prefsConnector, WebSMS.lastParams);
+		this.send(WebSMS.prefsConnectorSpecs, WebSMS.lastParams);
 	}
 
 	/**

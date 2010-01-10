@@ -41,7 +41,8 @@ public class MyTimePickerDialog extends TimePickerDialog {
 	@Override
 	public final void onTimeChanged(final TimePicker view, final int hourOfDay,
 			final int minute) {
-		if (WebSMS.prefsConnector == Connector.O2 && minute % 15 != 0) {
+		if (WebSMS.prefsConnectorSpecs.getName(true).equals("o2") // FIXME
+				&& minute % 15 != 0) {
 			// check input for o2 connector.
 			// only 00/15/30/45 allowed
 			int newMinute = minute;

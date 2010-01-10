@@ -92,6 +92,11 @@ public interface ConnectorSpecs {
 	String getName(final boolean shortName);
 
 	/**
+	 * @return true if more than one recipient is allowed.
+	 */
+	boolean supportMultipleRecipients();
+
+	/**
 	 * Check whether this connector supports flashsms.
 	 * 
 	 * @return true if connector supports flashsms

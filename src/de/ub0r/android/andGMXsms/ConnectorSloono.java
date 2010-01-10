@@ -146,8 +146,8 @@ public class ConnectorSloono extends Connector {
 			htmlText = null;
 			for (String s : lines) {
 				if (s.startsWith("Kontostand: ")) {
-					WebSMS.SMS_BALANCE[SLOONO] = s.split(" ")[1].trim()
-							+ "\u20AC";
+					// FIXME: WebSMS.SMS_BALANCE[SLOONO] =
+					// s.split(" ")[1].trim() + "\u20AC";
 					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 				}
 			}
