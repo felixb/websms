@@ -265,7 +265,7 @@ public class ConnectorInnosend extends Connector {
 				Log.d(TAG, url.toString());
 				if (i < 0) {
 					ret = Integer.parseInt(htmlText);
-					return this.checkReturnCode(ret);
+					return updateFree || this.checkReturnCode(ret);
 				} else {
 					ret = Integer.parseInt(htmlText.substring(0, i));
 					return this.checkReturnCode(ret, htmlText.substring(i + 4)
@@ -284,7 +284,7 @@ public class ConnectorInnosend extends Connector {
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
-		return this.sendData(false) && sendData(true);
+		return this.sendData(false) && this.sendData(true);
 	}
 
 	/**
