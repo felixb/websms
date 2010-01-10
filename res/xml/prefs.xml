@@ -43,11 +43,11 @@
 			android:defaultValue="content://settings/system/notification_sound" />
 
 	</PreferenceCategory>
-	<PreferenceCategory android:title="@string/settings_connectors">
+	<PreferenceCategory android:title="@string/settings_connectors" android:key="settings_connectors">
 
 		<CheckBoxPreference android:key="enable_sms"
 			android:title="@string/enable_sms" android:defaultValue="true" />
-
+<!-- 
 		<PreferenceScreen android:title="@string/settings_gmx">
 			<CheckBoxPreference android:key="enable_gmx"
 				android:title="@string/enable_gmx" />
@@ -130,5 +130,6 @@
 					android:data="@string/partner_sloono_url" />
 			</PreferenceScreen>
 		</PreferenceScreen>
+		-->
 	</PreferenceCategory>
 </PreferenceScreen>

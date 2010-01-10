@@ -39,7 +39,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
@@ -90,9 +89,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_PASSWORD_GMX = "password";
 	/** Preference's name: user's password - o2. */
 	/** Preference's name: user's phonenumber. */
-	private static final String PREFS_SENDER = "sender";
+	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
-	private static final String PREFS_DEFPREFIX = "defprefix";
+	static final String PREFS_DEFPREFIX = "defprefix";
 	/** Preference's name: touch keyboard. */
 	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preference's name: update balace on start. */
@@ -194,7 +193,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String dialogString = null;
 
 	/** true if preferences got opened. */
-	private static boolean doPreferences = false;
+	static boolean doPreferences = false;
 
 	/** Dialog: about. */
 	private static final int DIALOG_ABOUT = 0;
@@ -288,23 +287,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 	};
 
-	/**
-	 * Main Preferences as PreferencesActivity.
-	 * 
-	 * @author Felix Bechstein
-	 */
-	public static class Preferences extends PreferenceActivity {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public final void onCreate(final Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			WebSMS.doPreferences = true;
-			this.addPreferencesFromResource(R.xml.prefs);
-		}
-	}
-
 	/** TextWatcher updating char count on writing. */
 	private TextWatcher textWatcher = new TextWatcher() {
 		/**
@@ -325,67 +307,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				final int before, final int count) {
 		}
 	};
-
-	/** Preferences onChangeListener. */
-	private MyPrefsOnChgListener prefsOnChgListener = new MyPrefsOnChgListener();
-
-	/**
-	 * PreferencesOnChangeListener.
-	 * 
-	 * @author Felix Bechstein
-	 */
-	class MyPrefsOnChgListener implements
-			SharedPreferences.OnSharedPreferenceChangeListener {
-		/** Changed? */
-		private final boolean[] changed = new boolean[Connector.CONNECTORS];
-
-		/**
-		 * Default Constructor.
-		 */
-		public MyPrefsOnChgListener() {
-			for (int i = 0; i < this.changed.length; i++) {
-				this.changed[i] = false;
-			}
-		}
-
-		/**
-		 *{@inheritDoc}
-		 */
-		public void onSharedPreferenceChanged(final SharedPreferences prefs,
-				final String key) {
-			if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
-					|| key.equals(PREFS_PASSWORD_GMX)
-					|| key.equals(PREFS_MAIL_GMX)) {
-				this.changed[Connector.GMX] = true;
-			}
-			if (key.equals(PREFS_SENDER)) {
-				// check for wrong sender format. people can't read..
-				final String p = prefs.getString(PREFS_SENDER, "");
-				if (!p.startsWith("+")) {
-					WebSMS.this.log(R.string.log_error_sender);
-				}
-			}
-			if (key.equals(PREFS_DEFPREFIX)) {
-				final String p = prefs.getString(PREFS_DEFPREFIX, "");
-				if (!p.startsWith("+")) {
-					WebSMS.this.log(R.string.log_error_defprefix);
-				}
-			}
-		}
-
-		/**
-		 * Were preferences changed since last call for connector?
-		 * 
-		 * @param connector
-		 *            Connector
-		 * @return was changed?
-		 */
-		public boolean wasChanged(final short connector) {
-			boolean ret = this.changed[connector];
-			this.changed[connector] = false;
-			return ret;
-		}
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -435,9 +356,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			editor.commit();
 			this.showDialog(DIALOG_UPDATE);
 		}
-		// listen on changes to prefs
-		this.preferences
-				.registerOnSharedPreferenceChangeListener(this.prefsOnChgListener);
+
 		this.reloadPrefs();
 
 		lastTo = this.preferences.getString(PREFS_TO, "");

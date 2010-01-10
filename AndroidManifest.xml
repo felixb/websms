@@ -38,8 +38,7 @@
 				<data android:scheme="smsto" />
 			</intent-filter>
 		</activity>
-		<activity android:windowSoftInputMode="adjustResize"
-			android:name="WebSMS$Preferences" />
+		<activity android:name="Preferences" />
 		<service android:name="IOService" android:exported="false" />
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
 	</application>
