@@ -146,6 +146,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TEXT = "text";
 	/** Preference's name: connector. */
 	private static final String PREFS_CONNECTOR = "connector";
+	/** Preference's name: connector name. */
+	private static final String PREFS_CONNECTOR_NAME = "connector_name";
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
@@ -186,6 +188,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static int prefsGMXhostname = 0;
 	/** Preferences: connector. */
 	static short prefsConnector = 0;
+	/** Preferences: connector specs. */
+	static ConnectorSpecs prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
 	static boolean prefsMobilesOnly;
 	/** Preferences: vibrate on fail. */
@@ -988,25 +992,23 @@ public class WebSMS extends Activity implements OnClickListener,
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.change_connector_);
 		final ArrayList<String> items = new ArrayList<String>();
-		final String[] allItems = this.getResources().getStringArray(
-				R.array.connectors);
-		for (short c = 0; c < Connector.CONNECTORS; c++) {
-			if (CONNECTORS_ENABLED[c]) {
-				Connector.getSubConnectors(c, items, allItems);
-			}
+		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
+			items.add(cs.getName(false));
 		}
+		// TODO: add subconnectors
 
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog,
 							final int item) {
-						prefsConnector = Connector.getConnectorID(WebSMS.this,
-								items.get(item));
+						prefsConnectorSpecs = Connector.getConnectorSpecs(
+								WebSMS.this, items.get(item));
 						WebSMS.this.setButtons();
 						// save user preferences
 						final SharedPreferences.Editor editor = WebSMS.this.preferences
 								.edit();
-						editor.putInt(PREFS_CONNECTOR, prefsConnector);
+						editor.putString(PREFS_CONNECTOR_NAME,
+								prefsConnectorSpecs.getName(false));
 						editor.commit();
 					}
 				});

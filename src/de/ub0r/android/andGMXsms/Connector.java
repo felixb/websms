@@ -529,6 +529,26 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
+	 * Get Connector Spec.
+	 * 
+	 * @param con
+	 *            Context to read the strings
+	 * @param connector
+	 *            connector
+	 * @return specs
+	 */
+	public static final ConnectorSpecs getConnectorSpecs(final Context con,
+			final String connector) {
+		for (ConnectorSpecs cs : getConnectorSpecs(con, false)) {
+			if (cs.getName(false).equals(connector)
+					|| cs.getName(true).equals(connector)) {
+				return cs;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get Connector ID.
 	 * 
 	 * @param con
