@@ -20,7 +20,6 @@ package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -209,8 +208,7 @@ public class ConnectorInnosend extends Connector {
 				} else {
 					url.append("sms.php");
 				}
-				d.add(new BasicNameValuePair("text", URLEncoder
-						.encode(this.text)));
+				d.add(new BasicNameValuePair("text", this.text));
 				d.add(new BasicNameValuePair("type", this.connector + ""));
 				d.add(new BasicNameValuePair("empfaenger",
 						international2oldformat(this.to[0])));
