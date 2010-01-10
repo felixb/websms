@@ -56,6 +56,20 @@ public class ConnectorSMS extends Connector {
 		/**
 		 * {@inheritDoc}
 		 */
+		public void setBalance(final String b) {
+			return;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public String getBalance() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public Connector getConnector(final Context c) {
 			return new ConnectorSMS();

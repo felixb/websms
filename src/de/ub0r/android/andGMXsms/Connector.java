@@ -417,23 +417,29 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/**
 	 * Get all (enabled) connector specs.
 	 * 
+	 * @param c
+	 *            context
 	 * @param enabledOnly
 	 *            show enabled only
 	 * @return connector specs
 	 */
-	public static final ConnectorSpecs[] getConnectorSpecs(
+	public static final ConnectorSpecs[] getConnectorSpecs(final Context c,
 			final boolean enabledOnly) {
+		final int l = CONNECTOR_SPECS.size();
 		if (enabledOnly) {
 			ArrayList<ConnectorSpecs> ret = new ArrayList<ConnectorSpecs>();
-			final int l = CONNECTOR_SPECS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpecs cs = CONNECTOR_SPECS.get(i);
+				cs.init(c);
 				if (cs.isEnabled()) {
 					ret.add(cs);
 				}
 			}
 			return ret.toArray(new ConnectorSpecs[0]);
 		} else {
+			for (int i = 0; i < l; i++) {
+				CONNECTOR_SPECS.get(i).init(c);
+			}
 			return CONNECTOR_SPECS.toArray(new ConnectorSpecs[0]);
 		}
 	}

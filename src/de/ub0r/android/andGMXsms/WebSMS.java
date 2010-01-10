@@ -558,12 +558,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 
-		for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
-			cs.init(this);
-			// FIXME: wait for all connectors!
-			// TODO: cache context in Connector. autoinit on register.
-		}
-
 		// check default prefix
 		if (!prefsDefPrefix.startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
@@ -639,18 +633,20 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	final void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
-		final String[] prefixes = this.getResources().getStringArray(
-				R.array.connectors_balance_);
-		for (int i = 0; i < Connector.CONNECTORS; i++) {
-			if (WebSMS.CONNECTORS_ENABLED[i] && WebSMS.SMS_BALANCE[i] != null) {
-				if (buf.length() > 0) {
-					buf.append(", ");
-				}
-				buf.append(prefixes[i]);
-				buf.append(" ");
-				buf.append(WebSMS.SMS_BALANCE[i]);
+
+		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
+			final String b = cs.getBalance();
+			if (b == null || b.length() == 0) {
+				continue;
 			}
+			if (buf.length() > 0) {
+				buf.append(", ");
+			}
+			buf.append(cs.getName(true));
+			buf.append(" ");
+			buf.append(b);
 		}
+
 		TextView tw = (TextView) this.findViewById(R.id.freecount);
 		tw.setText(this.getString(R.string.free_) + " " + buf.toString() + " "
 				+ this.getString(R.string.click_for_update));
@@ -1119,8 +1115,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
 			StringBuffer authors = new StringBuffer();
-			for (ConnectorSpecs cs : Connector.getConnectorSpecs(false)) {
-				cs.init(WebSMS.this);
+			for (ConnectorSpecs cs : Connector.getConnectorSpecs(WebSMS.this,
+					false)) {
 				final String a = cs.getAuthor();
 				if (a != null && a.length() > 0) {
 					authors.append(cs.getName(true));

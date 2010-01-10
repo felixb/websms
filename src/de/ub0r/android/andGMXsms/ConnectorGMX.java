@@ -96,12 +96,29 @@ public class ConnectorGMX extends Connector {
 		/** Preference's name: user's password - gmx. */
 		private static final String PREFS_PASSWORD_GMX = "password";
 
+		/** Connector's balance. */
+		private String balance = null;
+
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public String getAuthor() {
 			return this.context.getString(R.string.connector_gmx_author);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public void setBalance(final String b) {
+			this.balance = b;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public String getBalance() {
+			return this.balance;
 		}
 
 		/**
@@ -367,7 +384,7 @@ public class ConnectorGMX extends Connector {
 						if (p != null) {
 							b += "/" + p;
 						}
-						WebSMS.SMS_BALANCE[GMX] = b;
+						SPECS.setBalance(b);
 						this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");

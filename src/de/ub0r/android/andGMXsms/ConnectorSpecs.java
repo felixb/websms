@@ -30,7 +30,7 @@ import android.content.Intent;
 public interface ConnectorSpecs {
 
 	/** Prefs: enable connector. */
-	public static final String PREFS_ENABLED = "enable_";
+	String PREFS_ENABLED = "enable_";
 
 	/**
 	 * Init ConnectorSpecs' context.
@@ -53,6 +53,21 @@ public interface ConnectorSpecs {
 	 * @return true if connector is enabled
 	 */
 	boolean isEnabled();
+
+	/**
+	 * Set Account's balance.
+	 * 
+	 * @param b
+	 *            balance
+	 */
+	void setBalance(final String b);
+
+	/**
+	 * Get Conector's account balance. This does not run any update!
+	 * 
+	 * @return balance
+	 */
+	String getBalance();
 
 	/**
 	 * @return connector's author
