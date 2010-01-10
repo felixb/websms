@@ -109,6 +109,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_PASSWORD_ARCOR = "password_arcor";
 	/** Preference's name: user's password - arcor. */
 	private static final String PREFS_COPY_SENT_SMS_ARCOR = "copy_sent_sms_arcor";
+	/** Preference's name: ovrride default sender number? - arcor. */
+	private static final String PREFS_ENABLE_SENDER_NUMBER_ARCOR = "enable_sender_number_arcor";
+	/** Preference's name: sender number for arcor - arcor. */
+	private static final String PREFS_SENDER_NUMBER_ARCOR = "sender_number_arcor";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -183,8 +187,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsUserArcor;
 	/** Preferences: user's password - arcor. */
 	static String prefsPasswordArcor;
-	/** Preferences: if sent sms should be copied to sent folder*/
-	static boolean prefsCopySendSmsArcor;
+	/** Preferences: if sent sms should be copied to sent folder */
+	static boolean prefsCopySentSmsArcor;
+	/** Preferences: override main mobil number */
+	static boolean prefsEnableSenderNumberArcor;
+	/** Preferences: sender number for arcor */
+	static String prefsSenderNumberArcor;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -341,6 +349,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public final void onCreate(final Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			WebSMS.doPreferences = true;
@@ -724,14 +733,18 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordSloono = this.preferences.getString(PREFS_PASSWORD_SLOONO,
 				"");
 
-
 		CONNECTORS_ENABLED[Connector.ARCOR] = this.preferences.getBoolean(
 				PREFS_ENABLE_ARCOR, false);
 		prefsUserArcor = this.preferences.getString(PREFS_USER_ARCOR, "");
-		prefsPasswordArcor= this.preferences.getString(PREFS_PASSWORD_ARCOR,
+		prefsPasswordArcor = this.preferences.getString(PREFS_PASSWORD_ARCOR,
 				"");
-		prefsCopySendSmsArcor = this.preferences.getBoolean(PREFS_COPY_SENT_SMS_ARCOR, true);
-		
+		prefsCopySentSmsArcor = this.preferences.getBoolean(
+				PREFS_COPY_SENT_SMS_ARCOR, true);
+		prefsEnableSenderNumberArcor = this.preferences.getBoolean(
+				PREFS_ENABLE_SENDER_NUMBER_ARCOR, true);
+		prefsSenderNumberArcor = this.preferences.getString(
+				PREFS_SENDER_NUMBER_ARCOR, "");
+
 		final boolean b = this.preferences.getBoolean(
 				PREFS_CHANGE_CONNECTOR_BUTTON, false);
 		final View v = this.findViewById(R.id.change_connector);
@@ -1021,6 +1034,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 *{@inheritDoc}
 	 */
+	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.item_about: // start about dialog
