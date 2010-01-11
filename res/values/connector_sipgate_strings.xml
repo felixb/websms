@@ -17,12 +17,13 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_gmx_name">GMX</string>
-	<string name="enable_gmx">Enable GMX</string>
-	<string name="user_gmx_">Mail address</string>
-	<string name="user_gmx_hint">user@gmx.tld</string>
-	<string name="password_gmx_">GMX SMS Key</string>
-	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="settings_gmx">Preferences - GMX</string>
+	<string name="connector_sipgate_author">Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
+	<string name="connector_sipgate_name">sipgate</string>
+	<string name="enable_sipgate">Enable Sipgate</string>
+	<string name="enable_sipgate_team">Sipgate Team</string>
+	<string name="user_sipgate_">Sipgate Username</string>
+	<string name="user_sipgate_hint">Onlineusername for sipgate.de or sipgate.at</string>
+	<string name="password_sipgate_">Sipgate Password</string>
+	<string name="password_sipgate_hint">Onlinepassword for sipgate.de or sipgate.at</string>
+	<string name="settings_sipgate">Preferences - Sipgate</string>
 </resources>

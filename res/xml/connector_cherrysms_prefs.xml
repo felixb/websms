@@ -16,13 +16,16 @@
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
 	-->
-<resources>
-	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_gmx_name">GMX</string>
-	<string name="enable_gmx">Enable GMX</string>
-	<string name="user_gmx_">Mail address</string>
-	<string name="user_gmx_hint">user@gmx.tld</string>
-	<string name="password_gmx_">GMX SMS Key</string>
-	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="settings_gmx">Preferences - GMX</string>
-</resources>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/settings_cherrysms">
+	<CheckBoxPreference android:key="enable_cherrysms"
+		android:title="@string/enable_cherrysms" />
+	<EditTextPreference android:key="password_cherrysms"
+		android:inputType="textPassword" android:title="@string/password_cherrysms_"
+		android:dialogTitle="@string/password_cherrysms_" android:dependency="enable_cherrysms" />
+	<PreferenceScreen android:title="@string/create_account_"
+		android:summary="@string/partner_cherrysms_hint">
+		<intent android:action="android.intent.action.VIEW"
+			android:data="@string/partner_cherrysms_url" />
+	</PreferenceScreen>
+</PreferenceScreen>

@@ -17,12 +17,12 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_gmx_name">GMX</string>
-	<string name="enable_gmx">Enable GMX</string>
-	<string name="user_gmx_">Mail address</string>
-	<string name="user_gmx_hint">user@gmx.tld</string>
-	<string name="password_gmx_">GMX SMS Key</string>
-	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="settings_gmx">Preferences - GMX</string>
+	<string name="connector_sloono_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="connector_sloono_name">sloono</string>
+	<string name="enable_sloono">Enable Sloono</string>
+	<string name="user_sloono_">Sloono Username</string>
+	<string name="password_sloono_">Sloono Password</string>
+	<string name="settings_sloono">Preferences - Sloono</string>
+	<string name="partner_sloono_hint">Create new Sloono.de account</string>
+	<string name="partner_sloono_url">http://www.sloono.de/?ref=tzil5PslxBSLhluFQknvjA==</string>
 </resources>

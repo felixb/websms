@@ -17,12 +17,10 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_gmx_name">GMX</string>
-	<string name="enable_gmx">Enable GMX</string>
-	<string name="user_gmx_">Mail address</string>
-	<string name="user_gmx_hint">user@gmx.tld</string>
-	<string name="password_gmx_">GMX SMS Key</string>
-	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="settings_gmx">Preferences - GMX</string>
+	<string name="connector_o2_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="connector_o2_name">o2</string>
+	<string name="enable_o2">Enable o2</string>
+	<string name="password_o2_">o2 Password</string>
+	<string name="password_o2_hint">Password for o2online</string>
+	<string name="settings_o2">Preferences - o2</string>
 </resources>
