@@ -64,13 +64,6 @@ public class Preferences extends PreferenceActivity implements
 	 */
 	public final void onSharedPreferenceChanged(final SharedPreferences prefs,
 			final String key) {
-		// FIXME_ move to connector
-		// if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
-		// || key.equals(PREFS_PASSWORD_GMX)
-		// || key.equals(PREFS_MAIL_GMX)) {
-		// this.changed[Connector.GMX] = true;
-		// }
-
 		if (key.equals(WebSMS.PREFS_SENDER)) {
 			// check for wrong sender format. people can't read..
 			final String p = prefs.getString(WebSMS.PREFS_SENDER, "");

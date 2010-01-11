@@ -81,13 +81,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static WebSMS me;
 	/** Preference's name: last version run. */
 	private static final String PREFS_LAST_RUN = "lastrun";
-	/** Preference's name: mail. */
-	private static final String PREFS_MAIL_GMX = "mail";
-	/** Preference's name: username. */
-	private static final String PREFS_USER_GMX = "user";
-	/** Preference's name: user's password - gmx. */
-	private static final String PREFS_PASSWORD_GMX = "password";
-	/** Preference's name: user's password - o2. */
 	/** Preference's name: user's phonenumber. */
 	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -726,11 +719,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		// common
 		editor.putString(PREFS_SENDER, prefsSender);
 		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
-		// gmx
-		editor.putString(PREFS_MAIL_GMX, prefsMailGMX);
-		editor.putString(PREFS_USER_GMX, prefsUserGMX);
-		editor.putString(PREFS_PASSWORD_GMX, prefsPasswordGMX);
-		editor.putInt(PREFS_GMX_HOST, prefsGMXhostname);
 		if (prefsConnectorSpecs != null) {
 			editor.putString(PREFS_CONNECTOR_NAME, prefsConnectorSpecs
 					.getName(false));

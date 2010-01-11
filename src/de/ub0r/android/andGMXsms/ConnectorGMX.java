@@ -26,6 +26,8 @@ import java.net.URL;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -40,6 +42,13 @@ import android.util.Log;
 public class ConnectorGMX extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.GMX";
+
+	/** Preference's name: mail. */
+	static final String PREFS_MAIL_GMX = "mail";
+	/** Preference's name: username. */
+	static final String PREFS_USER_GMX = "user";
+	/** Preference's name: user's password - gmx. */
+	static final String PREFS_PASSWORD_GMX = "password";
 
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
@@ -87,7 +96,8 @@ public class ConnectorGMX extends Connector {
 	 * 
 	 * @author flx
 	 */
-	public static class Preferences extends PreferenceActivity {
+	public static class Preferences extends PreferenceActivity implements
+			OnSharedPreferenceChangeListener {
 		/**
 		 * {@inheritDoc}
 		 */
@@ -96,7 +106,25 @@ public class ConnectorGMX extends Connector {
 			super.onCreate(savedInstanceState);
 			WebSMS.doPreferences = true;
 			this.addPreferencesFromResource(R.xml.connector_gmx_prefs);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			p.registerOnSharedPreferenceChangeListener(this);
+
 		}
+
+		/**
+		 *{@inheritDoc}
+		 */
+		public final void onSharedPreferenceChanged(
+				final SharedPreferences prefs, final String key) {
+			// FIXME_ move to connector
+			// if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
+			// || key.equals(PREFS_PASSWORD_GMX)
+			// || key.equals(PREFS_MAIL_GMX)) {
+			// this.changed[Connector.GMX] = true;
+			// }
+		}
+
 	}
 
 	/**
@@ -109,7 +137,8 @@ public class ConnectorGMX extends Connector {
 		private static final String PREFS_PREFIX = "gmx";
 
 		/** Prefs intent action. */
-		private static final String PREFS_INTENT_ACTION = "de.ub0r.android.websms.connectors.gmx.PREFS";
+		private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+				+ "websms.connectors.gmx.PREFS";
 
 		/** Preference's name: mail gmx. */
 		// private static final String PREFS_MAIL_GMX = "mail";
@@ -428,14 +457,18 @@ public class ConnectorGMX extends Connector {
 					}
 					p = this.getParam(outp, "customer_id");
 					if (p != null) {
-						WebSMS.prefsUserGMX = p;
+						Editor e = PreferenceManager
+								.getDefaultSharedPreferences(this.context)
+								.edit();
+						e.putString(PREFS_USER_GMX, p);
 						if (this.pw != null) {
-							WebSMS.prefsPasswordGMX = this.pw;
+							e.putString(PREFS_PASSWORD_GMX, this.pw);
 						}
 						if (this.mail != null) {
-							WebSMS.prefsMailGMX = this.mail;
+							e.putString(PREFS_MAIL_GMX, this.mail);
 						}
-						((WebSMS) this.context).savePreferences();
+						// ((WebSMS) this.context).savePreferences();
+						e.commit();
 						inBootstrap = false;
 						this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					}
