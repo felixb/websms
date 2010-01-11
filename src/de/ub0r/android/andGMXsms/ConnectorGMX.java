@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -44,11 +43,11 @@ public class ConnectorGMX extends Connector {
 	private static final String TAG = "WebSMS.GMX";
 
 	/** Preference's name: mail. */
-	static final String PREFS_MAIL_GMX = "mail";
+	static final String PREFS_MAIL = "mail";
 	/** Preference's name: username. */
-	static final String PREFS_USER_GMX = "user";
+	static final String PREFS_USER = "user";
 	/** Preference's name: user's password - gmx. */
-	static final String PREFS_PASSWORD_GMX = "password";
+	static final String PREFS_PASSWORD = "password";
 
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
@@ -87,29 +86,42 @@ public class ConnectorGMX extends Connector {
 	private static final int RSLT_UNREGISTERED_SENDER = 71;
 
 	/** mail. */
-	private String mail;
+	private static String mail;
 	/** password. */
-	private String pw;
+	private static String pw;
+
+	/** Need to bootstrap? */
+	private static boolean needBootstrap = false;
 
 	/**
 	 * Preferences.
 	 * 
 	 * @author flx
 	 */
-	public static class Preferences extends PreferenceActivity implements
-			OnSharedPreferenceChangeListener {
+	public static class Preferences extends PreferenceActivity {
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public final void onCreate(final Bundle savedInstanceState) {
+		protected final void onCreate(final Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			WebSMS.doPreferences = true;
 			this.addPreferencesFromResource(R.xml.connector_gmx_prefs);
-			final SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(this);
-			p.registerOnSharedPreferenceChangeListener(this);
+		}
 
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected final void onPause() {
+			super.onPause();
+			// check if prefs changed
+			SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			needBootstrap |= mail != null
+					&& !mail.equals(p.getString(PREFS_MAIL, ""));
+			needBootstrap |= pw != null
+					&& !pw.equals(p.getString(PREFS_PASSWORD, ""));
 		}
 
 		/**
@@ -139,13 +151,6 @@ public class ConnectorGMX extends Connector {
 		/** Prefs intent action. */
 		private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
 				+ "websms.connectors.gmx.PREFS";
-
-		/** Preference's name: mail gmx. */
-		// private static final String PREFS_MAIL_GMX = "mail";
-		/** Preference's name: username gmx. */
-		private static final String PREFS_USER_GMX = "user";
-		/** Preference's name: user's password - gmx. */
-		private static final String PREFS_PASSWORD_GMX = "password";
 
 		/** Connector's balance. */
 		private String balance = null;
@@ -179,8 +184,8 @@ public class ConnectorGMX extends Connector {
 		public Connector getConnector(final Context c) {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(c);
-			Connector connector = new ConnectorGMX(p.getString(PREFS_USER_GMX,
-					""), p.getString(PREFS_PASSWORD_GMX, ""));
+			Connector connector = new ConnectorGMX(p.getString(PREFS_USER, ""),
+					p.getString(PREFS_PASSWORD, ""));
 			connector.context = c;
 			return connector;
 		}
@@ -223,6 +228,10 @@ public class ConnectorGMX extends Connector {
 		@Override
 		public void init(final Context c) {
 			this.context = c;
+			SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(c);
+			mail = p.getString(PREFS_MAIL, "");
+			pw = p.getString(PREFS_PASSWORD, "");
 		}
 
 		/**
@@ -437,14 +446,13 @@ public class ConnectorGMX extends Connector {
 						Editor e = PreferenceManager
 								.getDefaultSharedPreferences(this.context)
 								.edit();
-						e.putString(PREFS_USER_GMX, p);
-						if (this.pw != null) {
-							e.putString(PREFS_PASSWORD_GMX, this.pw);
+						e.putString(PREFS_USER, p);
+						if (ConnectorGMX.pw != null) {
+							e.putString(PREFS_PASSWORD, ConnectorGMX.pw);
 						}
-						if (this.mail != null) {
-							e.putString(PREFS_MAIL_GMX, this.mail);
+						if (ConnectorGMX.mail != null) {
+							e.putString(PREFS_MAIL, ConnectorGMX.mail);
 						}
-						// ((WebSMS) this.context).savePreferences();
 						e.commit();
 						inBootstrap = false;
 						this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
@@ -537,6 +545,9 @@ public class ConnectorGMX extends Connector {
 	@Override
 	protected final boolean doBootstrap(final String[] params)
 			throws WebSMSException {
+		if (!needBootstrap) {
+			return true;
+		}
 		inBootstrap = true;
 		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
 				false);
