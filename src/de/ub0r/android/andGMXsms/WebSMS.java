@@ -317,13 +317,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		// FIXME: we have to call all connector classes :/
-		new ConnectorCherrySMS(null, null, (short) 0);
+		new ConnectorSMS();
 		new ConnectorGMX(null, null);
-		new ConnectorInnosend(null, null, (short) 0);
 		new ConnectorO2(null, null);
 		new ConnectorSipgate(null, null);
+		new ConnectorInnosend(null, null, (short) 0);
+		new ConnectorCherrySMS(null, null, (short) 0);
 		new ConnectorSloono(null, null, (short) 0);
-		new ConnectorSMS();
 
 		// save ref to me.
 		me = this;
