@@ -76,12 +76,12 @@ public class ConnectorSipgate extends Connector {
 				}
 			}
 			Hashtable<String, Serializable> params = new Hashtable<String, Serializable>();
-			if (WebSMS.prefsSender.length() > 6) {
-				String localUri = "sip:"
-						+ WebSMS.prefsSender.replaceAll("\\+", "")
-						+ "@sipgate.net";
-				params.put("LocalUri", localUri);
-			}
+			// FIXME: if (WebSMS.prefsSender.length() > 6) {
+			// String localUri = "sip:"
+			// + WebSMS.prefsSender.replaceAll("\\+", "")
+			// + "@sipgate.net";
+			// params.put("LocalUri", localUri);
+			// }
 			params.put("RemoteUri", remoteUris);
 			params.put("TOS", "text");
 			params.put("Content", this.text);
@@ -145,12 +145,12 @@ public class ConnectorSipgate extends Connector {
 		Context c = this.context;
 		final String version = c.getString(R.string.app_version);
 		final String vendor = c.getString(R.string.author1);
-		XMLRPCClient client;
-		if (WebSMS.prefsEnableSipgateTeam) {
-			client = new XMLRPCClient(SIPGATE_TEAM_URL);
-		} else {
-			client = new XMLRPCClient(SIPGATE_URL);
-		}
+		XMLRPCClient client = null; // FIXME
+		// FIXME: if (WebSMS.prefsEnableSipgateTeam) {
+		// client = new XMLRPCClient(SIPGATE_TEAM_URL);
+		// } else {
+		// client = new XMLRPCClient(SIPGATE_URL);
+		// }
 
 		// FIXME: client.setBasicAuthentication(this.user, this.password);
 		Object back;

@@ -214,8 +214,8 @@ public class ConnectorInnosend extends Connector {
 						international2oldformat(this.to[0])));
 
 				if (this.customSender == null) {
-					d.add(new BasicNameValuePair("absender",
-							international2national(WebSMS.prefsSender)));
+					// FIXME: d.add(new BasicNameValuePair("absender",
+					// international2national(WebSMS.prefsSender)));
 				} else {
 					d
 							.add(new BasicNameValuePair("absender",

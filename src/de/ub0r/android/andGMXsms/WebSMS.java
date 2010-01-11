@@ -109,28 +109,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
 
-	/** Preferences: user's password - o2. */
-	static String prefsPasswordO2;
-	/** Preferences: username sipgate. */
-	static String prefsUserSipgate;
-	/** Preferences: user's password - sipgate. */
-	static String prefsPasswordSipgate;
-	/** Preferences: username innosend. */
-	static String prefsUserInnosend;
-	/** Preferences: user's password - innosend. */
-	static String prefsPasswordInnosend;
-	/** Preferences: user's password - cherrysms. */
-	static String prefsPasswordCherrySMS;
-	/** Preferences: username sloono. */
-	static String prefsUserSloono;
-	/** Preferences: user's password - sloono. */
-	static String prefsPasswordSloono;
-	/** Preferences: user's phonenumber. */
-	static String prefsSender;
-	/** Preferences: default prefix. */
-	static String prefsDefPrefix;
-	/** Preferences: enable sipgate team. */
-	static boolean prefsEnableSipgateTeam = false;
 	/** Preferences: hide ads. */
 	static boolean prefsNoAds = false;
 	/** Hased IMEI. */
@@ -433,7 +411,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		// check default prefix
-		if (!prefsDefPrefix.startsWith("+")) {
+		SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
 		}
 		if (this.preferences.getBoolean(PREFS_AUTOUPDATE, false)) {
@@ -549,11 +529,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Read static vars holding preferences.
 	 */
 	private void reloadPrefs() {
-		prefsSender = this.preferences.getString(PREFS_SENDER, "");
-		prefsDefPrefix = this.preferences.getString(PREFS_DEFPREFIX, "+49");
-
-		final boolean b = this.preferences.getBoolean(
-				PREFS_CHANGE_CONNECTOR_BUTTON, false);
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean b = p.getBoolean(PREFS_CHANGE_CONNECTOR_BUTTON, false);
 		final View v = this.findViewById(R.id.change_connector);
 		if (b) {
 			v.setVisibility(View.VISIBLE);
@@ -561,15 +539,13 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		prefsConnectorSpecs = Connector.getConnectorSpecs(this,
-				this.preferences.getString(PREFS_CONNECTOR_NAME, ""));
+		prefsConnectorSpecs = Connector.getConnectorSpecs(this, p.getString(
+				PREFS_CONNECTOR_NAME, ""));
 
-		prefsMobilesOnly = this.preferences.getBoolean(PREFS_MOBILES_ONLY,
-				false);
+		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
 
-		prefsVibrateOnFail = this.preferences.getBoolean(PREFS_FAIL_VIBRATE,
-				true);
-		final String s = this.preferences.getString(PREFS_FAIL_SOUND, null);
+		prefsVibrateOnFail = p.getBoolean(PREFS_FAIL_VIBRATE, true);
+		final String s = p.getString(PREFS_FAIL_SOUND, null);
 		if (s == null || s.length() <= 0) {
 			prefsSoundOnFail = null;
 		} else {
@@ -577,7 +553,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		prefsNoAds = false;
-		String hash = md5(prefsSender);
+		String hash = md5(p.getString(PREFS_SENDER, ""));
 		for (String h : NO_AD_HASHS) {
 			if (hash.equals(h)) {
 				prefsNoAds = true;
@@ -695,16 +671,11 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Save prefs. */
 	final void savePreferences() {
-		// save user preferences
 		SharedPreferences.Editor editor = this.preferences.edit();
-		// common
-		editor.putString(PREFS_SENDER, prefsSender);
-		editor.putString(PREFS_DEFPREFIX, prefsDefPrefix);
 		if (prefsConnectorSpecs != null) {
 			editor.putString(PREFS_CONNECTOR_NAME, prefsConnectorSpecs
 					.getName(false));
 		}
-		// commit changes
 		editor.commit();
 	}
 

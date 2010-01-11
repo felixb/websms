@@ -269,10 +269,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @param c
 	 *            context
-	 * @param u
-	 *            user
-	 * @param p
-	 *            password
 	 */
 	protected Connector(final Context c) {
 		this.context = c;
@@ -481,30 +477,26 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c = new ConnectorGMX(con);
 			break;
 		case O2:
-			c = new ConnectorO2(international2national(WebSMS.prefsSender),
-					WebSMS.prefsPasswordO2);
+			c = new ConnectorO2(null, null);
+			// FIXME: international2national(null), null);
 			break;
 		case SIPGATE:
-			c = new ConnectorSipgate(WebSMS.prefsUserSipgate,
-					WebSMS.prefsPasswordSipgate);
+			c = new ConnectorSipgate(null, null);
 			break;
 		case INNOSEND_FREE:
 		case INNOSEND_WO_SENDER:
 		case INNOSEND_W_SENDER:
-			c = new ConnectorInnosend(WebSMS.prefsUserInnosend,
-					WebSMS.prefsPasswordInnosend, connector);
+			c = new ConnectorInnosend(null, null, connector);
 			break;
 		case CHERRY_WO_SENDER:
 		case CHERRY_W_SENDER:
-			c = new ConnectorCherrySMS(
-					international2oldformat(WebSMS.prefsSender), WebSMS
-							.md5(WebSMS.prefsPasswordCherrySMS), connector);
+			c = new ConnectorCherrySMS(international2oldformat(null), WebSMS
+					.md5(null), connector);
 			break;
 		case SLOONO_BASIC:
 		case SLOONO_DISCOUNT:
 		case SLOONO_PRO:
-			c = new ConnectorSloono(WebSMS.prefsUserSloono, WebSMS
-					.md5(WebSMS.prefsPasswordSloono), connector);
+			c = new ConnectorSloono(null, WebSMS.md5(null), connector);
 			break;
 		default:
 			Log.e(TAG, "missing Connector");
@@ -1063,9 +1055,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            international number
 	 * @return national number
 	 */
-	static final String international2national(final String number) {
-		if (number.startsWith(WebSMS.prefsDefPrefix)) {
-			return '0' + number.substring(WebSMS.prefsDefPrefix.length());
+	final String international2national(final String number) {
+		if (number.startsWith(this.defPrefix)) {
+			return '0' + number.substring(this.defPrefix.length());
 		}
 		return number;
 	}
