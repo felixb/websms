@@ -455,7 +455,6 @@ public class ConnectorGMX extends Connector {
 						}
 						e.commit();
 						inBootstrap = false;
-						this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					}
 					return true;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
@@ -464,7 +463,6 @@ public class ConnectorGMX extends Connector {
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
 					pw = "";
-					this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					throw new WebSMSException(this.context,
 							R.string.log_error_mail);
 				case RSLT_WRONG_SENDER: // wrong sender

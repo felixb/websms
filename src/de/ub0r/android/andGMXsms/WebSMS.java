@@ -179,10 +179,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final int MESSAGE_SETTINGS = 4;
 	/** Message to reset data. */
 	static final int MESSAGE_RESET = 5;
-	/** Message check prefsReady. */
-	static final int MESSAGE_PREFSREADY = 6;
 	/** Message show cpatcha. */
-	static final int MESSAGE_ANTICAPTCHA = 7;
+	static final int MESSAGE_ANTICAPTCHA = 6;
 
 	/** Intent's extra for errormessages. */
 	static final String EXTRA_ERRORMESSAGE = "de.ub0r.android.intent.extra.ERRORMESSAGE";
@@ -233,9 +231,6 @@ public class WebSMS extends Activity implements OnClickListener,
 						Preferences.class));
 			case MESSAGE_RESET:
 				WebSMS.this.reset();
-				return;
-			case MESSAGE_PREFSREADY:
-				WebSMS.this.checkPrefs();
 				return;
 			case MESSAGE_ANTICAPTCHA:
 				WebSMS.this.showDialog(DIALOG_CAPTCHA);
@@ -445,15 +440,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		// if coming from prefs..
 		if (doPreferences) {
 			this.reloadPrefs();
-			this.checkPrefs();
 			doPreferences = false;
 			for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
 				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
 				params[Connector.ID_ID] = Connector.ID_BOOSTR;
 				Connector.bootstrap(this, cs, params);
 			}
-		} else {
-			this.checkPrefs();
 		}
 
 		this.setButtons();
@@ -618,39 +610,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setTitle(this.getString(R.string.app_name) + " - "
 					+ prefsConnectorSpecs.getName(false));
 		}
-	}
-
-	/**
-	 * Check if prefs are set.
-	 */
-	private void checkPrefs() {
-		// check prefs
-		// FIXME: move checkprefs to connectors
-
-		// if (CONNECTORS_ENABLED[Connector.GMX] && prefsMailGMX.length() != 0
-		// && prefsUserGMX.length() != 0 && prefsPasswordGMX.length() != 0
-		// && prefsSender.length() != 0) {
-		// CONNECTORS_READY[Connector.GMX] = true;
-		// } else {
-		// if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
-		// this.log(this.getResources().getString(
-		// R.string.log_empty_settings));
-		// }
-		// CONNECTORS_READY[Connector.GMX] = false;
-		// }
-
-		// if (CONNECTORS_ENABLED[Connector.O2] && prefsSender.length() != 0
-		// && prefsPasswordO2.length() != 0) {
-		// CONNECTORS_READY[Connector.O2] = true;
-		// } else {
-		// if (CONNECTORS_ENABLED[Connector.O2]) {
-		// this.log(this.getResources().getString(
-		// R.string.log_empty_settings));
-		// }
-		// CONNECTORS_READY[Connector.O2] = false;
-		// }
-
-		this.setButtons();
 	}
 
 	/**
