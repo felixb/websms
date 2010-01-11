@@ -26,8 +26,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -132,10 +135,21 @@ public class IOService extends Service {
 		n.ledOnMS = 500;
 		n.ledOffMS = 2000;
 
-		if (WebSMS.prefsVibrateOnFail) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean vibrateOnFail = p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE, true);
+		final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
+		Uri soundOnFail;
+		if (s == null || s.length() <= 0) {
+			soundOnFail = null;
+		} else {
+			soundOnFail = Uri.parse(s);
+		}
+
+		if (vibrateOnFail) {
 			n.flags |= Notification.DEFAULT_VIBRATE;
 		}
-		n.sound = WebSMS.prefsSoundOnFail;
+		n.sound = soundOnFail;
 
 		NotificationManager mNotificationMgr = (NotificationManager) this
 				.getSystemService(Context.NOTIFICATION_SERVICE);

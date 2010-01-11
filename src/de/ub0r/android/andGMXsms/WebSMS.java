@@ -94,9 +94,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: show mobile numbers only. */
 	private static final String PREFS_MOBILES_ONLY = "mobiles_only";
 	/** Preference's name: vibrate on failed sending. */
-	private static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
+	static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
 	/** Preference's name: sound on failed sending. */
-	private static final String PREFS_FAIL_SOUND = "fail_sound";
+	static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
 	/** Preference's name: to. */
@@ -117,10 +117,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static ConnectorSpecs prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
 	static boolean prefsMobilesOnly;
-	/** Preferences: vibrate on fail. */
-	static boolean prefsVibrateOnFail;
-	/** Preferences: sound on fail. */
-	static Uri prefsSoundOnFail;
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -201,9 +197,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Show extras. */
 	private boolean showExtras = false;
-
-	/** Shared Preferences. */
-	private SharedPreferences preferences;
 
 	/** MessageHandler. */
 	private Handler messageHandler = new Handler() {
@@ -291,9 +284,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			Log.d(TAG, "no api5 running", e);
 		}
 		// Restore preferences
-		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		// inflate XML
-		if (this.preferences.getBoolean(PREFS_SOFTKEYS, false)) {
+		if (p.getBoolean(PREFS_SOFTKEYS, false)) {
 			this.setContentView(R.layout.main_touch);
 		} else {
 			this.setContentView(R.layout.main);
@@ -302,10 +296,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.to).requestFocus();
 
 		// display changelog?
-		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
+		String v0 = p.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getResources().getString(R.string.app_version);
 		if (!v0.equals(v1)) {
-			SharedPreferences.Editor editor = this.preferences.edit();
+			SharedPreferences.Editor editor = p.edit();
 			editor.putString(PREFS_LAST_RUN, v1);
 			editor.commit();
 			this.showDialog(DIALOG_UPDATE);
@@ -313,8 +307,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		this.reloadPrefs();
 
-		lastTo = this.preferences.getString(PREFS_TO, "");
-		lastMsg = this.preferences.getString(PREFS_TEXT, "");
+		lastTo = p.getString(PREFS_TO, "");
+		lastMsg = p.getString(PREFS_TEXT, "");
 
 		// register Listener
 		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
@@ -406,12 +400,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		// check default prefix
-		SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
 			WebSMS.this.log(R.string.log_error_defprefix);
 		}
-		if (this.preferences.getBoolean(PREFS_AUTOUPDATE, false)) {
+		if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
 			this.updateFreecount(false);
 		}
 	}
@@ -507,7 +499,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
 
 		// store input data to preferences
-		SharedPreferences.Editor editor = this.preferences.edit();
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
 		// common
 		editor.putString(PREFS_TO, lastTo);
 		editor.putString(PREFS_TEXT, lastMsg);
@@ -535,14 +528,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				PREFS_CONNECTOR_NAME, ""));
 
 		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
-
-		prefsVibrateOnFail = p.getBoolean(PREFS_FAIL_VIBRATE, true);
-		final String s = p.getString(PREFS_FAIL_SOUND, null);
-		if (s == null || s.length() <= 0) {
-			prefsSoundOnFail = null;
-		} else {
-			prefsSoundOnFail = Uri.parse(s);
-		}
 
 		prefsNoAds = false;
 		String hash = md5(p.getString(PREFS_SENDER, ""));
@@ -621,7 +606,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastMsg = null;
 		lastTo = null;
 		// save user preferences
-		SharedPreferences.Editor editor = this.preferences.edit();
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
 		editor.putString(PREFS_TO, "");
 		editor.putString(PREFS_TEXT, "");
 		// commit changes
@@ -630,12 +616,11 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Save prefs. */
 	final void savePreferences() {
-		SharedPreferences.Editor editor = this.preferences.edit();
 		if (prefsConnectorSpecs != null) {
-			editor.putString(PREFS_CONNECTOR_NAME, prefsConnectorSpecs
-					.getName(false));
+			PreferenceManager.getDefaultSharedPreferences(this).edit()
+					.putString(PREFS_CONNECTOR_NAME,
+							prefsConnectorSpecs.getName(false)).commit();
 		}
-		editor.commit();
 	}
 
 	/**
@@ -717,11 +702,10 @@ public class WebSMS extends Activity implements OnClickListener,
 								WebSMS.this, items.get(item));
 						WebSMS.this.setButtons();
 						// save user preferences
-						final SharedPreferences.Editor editor = WebSMS.this.preferences
-								.edit();
-						editor.putString(PREFS_CONNECTOR_NAME,
-								prefsConnectorSpecs.getName(false));
-						editor.commit();
+						PreferenceManager.getDefaultSharedPreferences(
+								WebSMS.this).edit().putString(
+								PREFS_CONNECTOR_NAME,
+								prefsConnectorSpecs.getName(false)).commit();
 					}
 				});
 		builder.create().show();
@@ -963,7 +947,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			Log.e(TAG, null, e);
 		} finally {
 			this.reset();
-			if (this.preferences.getBoolean(PREFS_AUTOEXIT, false)) {
+			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+					PREFS_AUTOEXIT, false)) {
 				try {
 					Thread.sleep(SLEEP_BEFORE_EXIT);
 				} catch (InterruptedException e) {
