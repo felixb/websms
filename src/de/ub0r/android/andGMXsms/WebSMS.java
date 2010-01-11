@@ -957,7 +957,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			final Intent i = new Intent(this, IOService.class);
 			i.setAction(IOService.INTENT_ACTION);
 			i.putExtra(IOService.INTENT_PARAMS, params);
-			i.putExtra(IOService.INTENT_CONNECTOR, connector.getName(false)); // FIXME
+			i.putExtra(IOService.INTENT_CONNECTOR, connector.getName(false));
 			this.startService(i);
 		} catch (Exception e) {
 			Log.e(TAG, null, e);
