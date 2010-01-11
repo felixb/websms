@@ -21,6 +21,7 @@ package de.ub0r.android.andGMXsms;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
@@ -51,9 +52,10 @@ public class Preferences extends PreferenceActivity implements
 			if (i == null) {
 				continue;
 			}
-			// FIXME: create for intent?!?
-			pc.getPreferenceManager().createPreferenceScreen(this);
-			// pc.addPreference(i);
+			final Preference cp = new Preference(this);
+			cp.setTitle(cs.getPreferencesTitle());
+			cp.setIntent(i);
+			pc.addPreference(cp);
 		}
 	}
 

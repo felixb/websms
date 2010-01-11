@@ -80,9 +80,14 @@ public interface ConnectorSpecs {
 	String getPrefsPrefix();
 
 	/**
-	 * @return connector's preference intent.
+	 * @return connector's preference intent
 	 */
 	Intent getPreferencesIntent();
+
+	/**
+	 * @return connector's preference title
+	 */
+	String getPreferencesTitle();
 
 	/**
 	 * @param shortName

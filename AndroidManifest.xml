@@ -39,6 +39,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="Preferences" />
+		<activity android:name="ConnectorGMX$Preferences">
+			<intent-filter>
+				<action android:name="de.ub0r.android.websms.connectors.gmx.PREFS" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
 		<service android:name="IOService" android:exported="false" />
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
 	</application>

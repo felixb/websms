@@ -26,6 +26,8 @@ import java.net.URL;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -81,6 +83,23 @@ public class ConnectorGMX extends Connector {
 	private String pw;
 
 	/**
+	 * Preferences.
+	 * 
+	 * @author flx
+	 */
+	public static class Preferences extends PreferenceActivity {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public final void onCreate(final Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			WebSMS.doPreferences = true;
+			this.addPreferencesFromResource(R.xml.connector_gmx_prefs);
+		}
+	}
+
+	/**
 	 * Connectors' specs.
 	 */
 	private static final ConnectorSpecs SPECS = new ConnectorSpecs() {
@@ -88,6 +107,9 @@ public class ConnectorGMX extends Connector {
 		private Context context = null;
 		/** Connector's prefs prefix. */
 		private static final String PREFS_PREFIX = "gmx";
+
+		/** Prefs intent action. */
+		private static final String PREFS_INTENT_ACTION = "de.ub0r.android.websms.connectors.gmx.PREFS";
 
 		/** Preference's name: mail gmx. */
 		// private static final String PREFS_MAIL_GMX = "mail";
@@ -147,7 +169,15 @@ public class ConnectorGMX extends Connector {
 		 */
 		@Override
 		public Intent getPreferencesIntent() {
-			return null;
+			return new Intent(PREFS_INTENT_ACTION);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getPreferencesTitle() {
+			return this.context.getString(R.string.settings_gmx);
 		}
 
 		/**

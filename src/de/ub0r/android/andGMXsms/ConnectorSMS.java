@@ -97,6 +97,14 @@ public class ConnectorSMS extends Connector {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public String getPreferencesTitle() {
+			return null;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public String getPrefsPrefix() {
 			return PREFS_PREFIX;
 		}
