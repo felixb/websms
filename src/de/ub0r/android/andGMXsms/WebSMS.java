@@ -99,10 +99,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
-	/** Preference's name: enable gmx. */
-	private static final String PREFS_ENABLE_GMX = "enable_gmx";
-	/** Preference's name: gmx hostname id. */
-	private static final String PREFS_GMX_HOST = "gmx_host";
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
@@ -113,12 +109,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
 
-	/** Preferences: mail. */
-	static String prefsMailGMX;
-	/** Preferences: username - gmx. */
-	static String prefsUserGMX;
-	/** Preferences: user's password - gmx. */
-	static String prefsPasswordGMX;
 	/** Preferences: user's password - o2. */
 	static String prefsPasswordO2;
 	/** Preferences: username sipgate. */
@@ -145,8 +135,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsNoAds = false;
 	/** Hased IMEI. */
 	static String imeiHash = null;
-	/** Preferences: gmx hostname id. */
-	static int prefsGMXhostname = 0;
 	/** Preferences: connector specs. */
 	static ConnectorSpecs prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
@@ -311,7 +299,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// FIXME: we have to call all connector classes :/
 		new ConnectorSMS();
-		new ConnectorGMX(null, null);
+		new ConnectorGMX(this);
 		new ConnectorO2(null, null);
 		new ConnectorSipgate(null, null);
 		new ConnectorInnosend(null, null, (short) 0);
@@ -479,15 +467,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.reloadPrefs();
 			this.checkPrefs();
 			doPreferences = false;
-			// FIXME: move bootstrapping to connector
-			// if (CONNECTORS_ENABLED[Connector.GMX]
-			// && this.prefsOnChgListener.wasChanged(Connector.GMX)) {
-			// String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
-			// params[Connector.ID_ID] = Connector.ID_BOOSTR;
-			// params[ConnectorGMX.ID_MAIL] = prefsMailGMX;
-			// params[ConnectorGMX.ID_PW] = prefsPasswordGMX;
-			// Connector.bootstrap(this, Connector.GMX, params);
-			// }
+			for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
+				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
+				params[Connector.ID_ID] = Connector.ID_BOOSTR;
+				Connector.bootstrap(this, cs, params);
+			}
 		} else {
 			this.checkPrefs();
 		}
@@ -608,9 +592,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 			}
 		}
-
-		prefsGMXhostname = this.preferences.getInt(PREFS_GMX_HOST,
-				prefsGMXhostname);
 
 		this.setButtons();
 	}
@@ -1097,7 +1078,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			t = 0;
 		}
 		String customSender = null;
-		String[] params = Connector.buildSendParams(to, text, flashSMS,
+		SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String[] params = Connector.buildSendParams(p.getString(PREFS_SENDER,
+				""), p.getString(PREFS_DEFPREFIX, ""), to, text, flashSMS,
 				customSender, 0);
 		if (t < 0) {
 			params[Connector.ID_SENDLATER] = null;

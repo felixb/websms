@@ -143,7 +143,7 @@ public class ConnectorSMS extends Connector {
 	 * Create a SMS Connector.
 	 */
 	public ConnectorSMS() {
-		super(null, null, SMS);
+		super(null);
 	}
 
 	/**

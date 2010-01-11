@@ -20,11 +20,11 @@
 	android:title="@string/settings_gmx">
 	<CheckBoxPreference android:key="enable_gmx"
 		android:title="@string/enable_gmx" />
-	<EditTextPreference android:key="mail"
+	<EditTextPreference android:key="gmx_mail"
 		android:title="@string/user_gmx_" android:dialogTitle="@string/user_gmx_"
 		android:summary="@string/user_gmx_hint" android:inputType="textEmailAddress"
 		android:dependency="enable_gmx" />
-	<EditTextPreference android:key="password"
+	<EditTextPreference android:key="gmx_password"
 		android:title="@string/password_gmx_" android:dialogTitle="@string/password_gmx_"
 		android:summary="@string/password_gmx_hint" android:inputType="textPassword"
 		android:dependency="enable_gmx" />

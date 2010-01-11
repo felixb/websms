@@ -52,7 +52,7 @@ public class ConnectorCherrySMS extends Connector {
 	 *            connector type
 	 */
 	public ConnectorCherrySMS(final String u, final String p, final short con) {
-		super(u, p, con);
+		super(null); // FIXME:
 		switch (con) {
 		case CHERRY_WO_SENDER:
 			this.sendWithSender = false;
@@ -131,9 +131,9 @@ public class ConnectorCherrySMS extends Connector {
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
 			url.append("?user=");
-			url.append(this.user);
+			// FIXME: url.append(this.user);
 			url.append("&password=");
-			url.append(this.password);
+			// FIXME: url.append(this.password);
 
 			if (this.text != null && this.to != null && this.to.length > 0) {
 				Log.d(TAG, "send with sender = " + this.sendWithSender);

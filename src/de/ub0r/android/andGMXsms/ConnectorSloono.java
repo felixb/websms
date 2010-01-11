@@ -54,7 +54,7 @@ public class ConnectorSloono extends Connector {
 	 *            connector type
 	 */
 	public ConnectorSloono(final String u, final String p, final short con) {
-		super(u, p, con);
+		super(null); // FIXME:
 		this.connector = con;
 	}
 
@@ -101,9 +101,9 @@ public class ConnectorSloono extends Connector {
 				url.append(URL_SEND);
 			}
 			url.append("?user=");
-			url.append(this.user);
+			// FIXME: url.append(this.user);
 			url.append("&password=");
-			url.append(this.password);
+			// FIXME: url.append(this.password);
 
 			if (!checkOnly) {
 				url.append("&typ=");

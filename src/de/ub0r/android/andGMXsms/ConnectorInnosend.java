@@ -63,7 +63,7 @@ public class ConnectorInnosend extends Connector {
 	 *            connector type
 	 */
 	public ConnectorInnosend(final String u, final String p, final short con) {
-		super(u, p, con);
+		super(null); // FIXME:
 		switch (con) {
 		case INNOSEND_FREE:
 			this.connector = 2;
@@ -241,8 +241,8 @@ public class ConnectorInnosend extends Connector {
 					url.append("konto.php");
 				}
 			}
-			d.add(new BasicNameValuePair("id", this.user));
-			d.add(new BasicNameValuePair("pw", this.password));
+			// FIXME: d.add(new BasicNameValuePair("id", this.user));
+			// FIXME: d.add(new BasicNameValuePair("pw", this.password));
 			HttpResponse response = getHttpClient(url.toString(), null, d,
 					null, null);
 			int resp = response.getStatusLine().getStatusCode();

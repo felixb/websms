@@ -134,7 +134,7 @@ public class ConnectorO2 extends Connector {
 	 *            password
 	 */
 	protected ConnectorO2(final String u, final String p) {
-		super(u, p, O2);
+		super(null); // FIXME:
 	}
 
 	/**
@@ -235,8 +235,9 @@ public class ConnectorO2 extends Connector {
 		final ArrayList<BasicNameValuePair> postData = new ArrayList<BasicNameValuePair>(
 				4);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
-		postData.add(new BasicNameValuePair("loginName", this.user));
-		postData.add(new BasicNameValuePair("password", this.password));
+		// FIXME: postData.add(new BasicNameValuePair("loginName", this.user));
+		// FIXME: postData.add(new BasicNameValuePair("password",
+		// this.password));
 		postData.add(new BasicNameValuePair("_eventId", "login"));
 		HttpResponse response = getHttpClient(URLS[URL_LOGIN], this.cookies,
 				postData, TARGET_AGENT, URLS[URL_PRELOGIN]);

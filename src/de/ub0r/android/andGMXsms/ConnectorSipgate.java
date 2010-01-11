@@ -55,7 +55,7 @@ public class ConnectorSipgate extends Connector {
 	 *            password
 	 */
 	protected ConnectorSipgate(final String u, final String p) {
-		super(u, p, SIPGATE);
+		super(null); // FIXME:
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class ConnectorSipgate extends Connector {
 			client = new XMLRPCClient(SIPGATE_URL);
 		}
 
-		client.setBasicAuthentication(this.user, this.password);
+		// FIXME: client.setBasicAuthentication(this.user, this.password);
 		Object back;
 		try {
 			Hashtable<String, String> ident = new Hashtable<String, String>();

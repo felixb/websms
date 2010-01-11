@@ -121,6 +121,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_CUSTOMSENDER = 4;
 	/** ID of send later. */
 	static final int ID_SENDLATER = 5;
+	/** ID of default sender. */
+	static final int ID_DEFSENDER = 6;
+	/** ID of default prefix. */
+	static final int ID_DEFPREFIX = 7;
 
 	/** ID of mail in array. */
 	static final int ID_MAIL = 1;
@@ -128,7 +132,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final int ID_PW = 2;
 
 	/** Number of IDs in array for sms send. */
-	static final int IDS_SEND = 6;
+	static final int IDS_SEND = 8;
 
 	/** ID_ID for sending a message. */
 	static final String ID_SEND = "0";
@@ -178,14 +182,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/** Timestamp when to send sms. */
 	protected long sendLater;
 
-	/** User. */
-	protected final String user;
-	/** Password. */
-	protected final String password;
 	/** Default prefix. */
 	private String defPrefix;
 	/** Sender. */
-	protected String sender;
+	protected String defSender;
 
 	/** Connector is bootstrapping. */
 	static boolean inBootstrap = false;
@@ -267,17 +267,15 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/**
 	 * Default Constructor.
 	 * 
+	 * @param c
+	 *            context
 	 * @param u
 	 *            user
 	 * @param p
 	 *            password
-	 * @param con
-	 *            connector type
 	 */
-	protected Connector(final String u, final String p, final short con) {
-		this.connector = con;
-		this.user = u;
-		this.password = p;
+	protected Connector(final Context c) {
+		this.context = c;
 	}
 
 	/**
@@ -319,6 +317,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	/**
 	 * Build a params[] array for sending a sms.
 	 * 
+	 * @param sender
+	 *            Default sender to use
+	 * @param defPrefix
+	 *            Default international prefix for all numbers
 	 * @param recipients
 	 *            Receivers of the message.
 	 * @param text
@@ -331,9 +333,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            timestamp for sending later
 	 * @return params[] array
 	 */
-	public static final String[] buildSendParams(final String recipients,
-			final String text, final boolean flashSMS,
-			final String customSender, final long sendLater) {
+	public static final String[] buildSendParams(final String sender,
+			final String defPrefix, final String recipients, final String text,
+			final boolean flashSMS, final String customSender,
+			final long sendLater) {
 		String[] params = new String[IDS_SEND];
 		params[ID_ID] = ID_SEND;
 		params[ID_TEXT] = text;
@@ -345,6 +348,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		}
 		params[ID_CUSTOMSENDER] = customSender;
 		params[ID_SENDLATER] = "" + sendLater;
+		params[ID_DEFSENDER] = sender;
+		params[ID_DEFPREFIX] = defPrefix;
+
 		return params;
 	}
 
@@ -355,6 +361,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            Context
 	 * @param connector
 	 *            Connector which should be used.
+	 * @param sender
+	 *            Default sender to use
+	 * @param defPrefix
+	 *            Default international prefix for all numbers
 	 * @param recipients
 	 *            Receivers of the message.
 	 * @param text
@@ -367,11 +377,12 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            timestamp for sending later
 	 */
 	public static final void send(final Context con,
-			final ConnectorSpecs connector, final String recipients,
-			final String text, final boolean flashSMS,
-			final String customSender, final long sendLater) {
-		Connector.send(con, connector, buildSendParams(recipients, text,
-				flashSMS, customSender, sendLater));
+			final ConnectorSpecs connector, final String sender,
+			final String defPrefix, final String recipients, final String text,
+			final boolean flashSMS, final String customSender,
+			final long sendLater) {
+		Connector.send(con, connector, buildSendParams(sender, defPrefix,
+				recipients, text, flashSMS, customSender, sendLater));
 	}
 
 	/**
@@ -467,7 +478,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c = new ConnectorSMS();
 			break;
 		case GMX:
-			c = new ConnectorGMX(WebSMS.prefsUserGMX, WebSMS.prefsPasswordGMX);
+			c = new ConnectorGMX(con);
 			break;
 		case O2:
 			c = new ConnectorO2(international2national(WebSMS.prefsSender),
@@ -500,8 +511,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			return null;
 		}
 		c.context = con;
-		c.defPrefix = WebSMS.prefsDefPrefix;
-		c.sender = WebSMS.prefsSender;
+		// FIXME: c.defPrefix = WebSMS.prefsDefPrefix;
+		// FIXME: c.sender = WebSMS.prefsSender;
 		return c;
 	}
 
@@ -808,6 +819,8 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				} else {
 					this.sendLater = Long.parseLong(s);
 				}
+				this.defSender = params[ID_DEFSENDER];
+				this.defPrefix = params[ID_DEFPREFIX];
 				this.prepareSend();
 				this.notification = this.updateNotification(null);
 				IOService.register(this.notification);

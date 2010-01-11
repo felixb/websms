@@ -43,11 +43,13 @@ public class ConnectorGMX extends Connector {
 	private static final String TAG = "WebSMS.GMX";
 
 	/** Preference's name: mail. */
-	static final String PREFS_MAIL = "mail";
+	static final String PREFS_MAIL = "gmx_mail";
 	/** Preference's name: username. */
-	static final String PREFS_USER = "user";
+	static final String PREFS_USER = "gmx_user";
 	/** Preference's name: user's password - gmx. */
-	static final String PREFS_PASSWORD = "password";
+	static final String PREFS_PASSWORD = "gmx_password";
+	/** Preference's name: gmx hostname id. */
+	private static final String PREFS_GMX_HOST = "gmx_host";
 
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
@@ -136,7 +138,6 @@ public class ConnectorGMX extends Connector {
 			// this.changed[Connector.GMX] = true;
 			// }
 		}
-
 	}
 
 	/**
@@ -182,11 +183,7 @@ public class ConnectorGMX extends Connector {
 		 */
 		@Override
 		public Connector getConnector(final Context c) {
-			final SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(c);
-			Connector connector = new ConnectorGMX(p.getString(PREFS_USER, ""),
-					p.getString(PREFS_PASSWORD, ""));
-			connector.context = c;
+			Connector connector = new ConnectorGMX(c);
 			return connector;
 		}
 
@@ -260,13 +257,11 @@ public class ConnectorGMX extends Connector {
 	/**
 	 * Create a GMX Connector.
 	 * 
-	 * @param u
-	 *            username
-	 * @param p
-	 *            password
+	 * @param c
+	 *            context
 	 */
-	ConnectorGMX(final String u, final String p) {
-		super(u, p, GMX);
+	ConnectorGMX(final Context c) {
+		super(c);
 	}
 
 	/**
@@ -310,8 +305,10 @@ public class ConnectorGMX extends Connector {
 		ret.append(TARGET_PROTOVERSION);
 		ret.append("\">");
 		if (addCustomer) {
-			writePair(ret, "customer_id", this.user);
-			writePair(ret, "password", this.password);
+			SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this.context);
+			writePair(ret, "customer_id", p.getString(PREFS_USER, ""));
+			writePair(ret, "password", p.getString(PREFS_PASSWORD, ""));
 		}
 		return ret;
 	}
@@ -363,9 +360,12 @@ public class ConnectorGMX extends Connector {
 			throws WebSMSException {
 		try {
 			// check connection:
+			// get cluster side
+			SharedPreferences sp = PreferenceManager
+					.getDefaultSharedPreferences(this.context);
+			int gmxHost = sp.getInt(PREFS_GMX_HOST, 0);
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST[WebSMS.prefsGMXhostname] + TARGET_PATH))
-					.openConnection();
+					+ TARGET_HOST[gmxHost] + TARGET_PATH)).openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
 			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
@@ -373,13 +373,13 @@ public class ConnectorGMX extends Connector {
 			int resp = c.getResponseCode();
 			if (resp == HTTP_SERVICE_UNAVAILABLE) {
 				// switch hostname
-				WebSMS.prefsGMXhostname = (WebSMS.prefsGMXhostname + 1) % 2;
+				gmxHost = (gmxHost + 1) % 2;
+				sp.edit().putInt(PREFS_GMX_HOST, gmxHost).commit();
 			}
 
 			// get Connection
-			c = (HttpURLConnection) (new URL("http://"
-					+ TARGET_HOST[WebSMS.prefsGMXhostname] + TARGET_PATH))
-					.openConnection();
+			c = (HttpURLConnection) (new URL("http://" + TARGET_HOST[gmxHost]
+					+ TARGET_PATH)).openConnection();
 			// set prefs
 			c.setRequestProperty("User-Agent", TARGET_AGENT);
 			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
@@ -463,7 +463,7 @@ public class ConnectorGMX extends Connector {
 							R.string.log_error_pw);
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					WebSMS.prefsPasswordGMX = "";
+					pw = "";
 					this.pushMessage(WebSMS.MESSAGE_PREFSREADY, null);
 					throw new WebSMSException(this.context,
 							R.string.log_error_mail);
@@ -524,7 +524,7 @@ public class ConnectorGMX extends Connector {
 		if (this.customSender != null && this.customSender.length() > 0) {
 			writePair(packetData, "sms_sender", this.customSender);
 		} else {
-			writePair(packetData, "sms_sender", this.sender);
+			writePair(packetData, "sms_sender", this.defSender);
 		}
 		if (this.sendLater > 0) {
 			writePair(packetData, "send_date", DateFormat.format(DATEFORMAT,
@@ -551,8 +551,10 @@ public class ConnectorGMX extends Connector {
 		inBootstrap = true;
 		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
 				false);
-		writePair(packetData, "email_address", params[ID_MAIL]);
-		writePair(packetData, "password", params[ID_PW]);
+		SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this.context);
+		writePair(packetData, "email_address", p.getString(PREFS_MAIL, ""));
+		writePair(packetData, "password", p.getString(PREFS_PASSWORD, ""));
 		writePair(packetData, "gmx", "1");
 		return this.sendData(closeBuffer(packetData));
 	}
