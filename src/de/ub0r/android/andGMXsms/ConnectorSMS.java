@@ -130,34 +130,9 @@ public class ConnectorSMS extends Connector {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean supportMultipleRecipients() {
-			return true;
+		public short getFeatures() {
+			return FEATURE_MULTIRECIPIENTS;
 		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean supportCustomsender() {
-			return false;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean supportFlashsms() {
-			return false;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean supportSendLater() {
-			return false;
-		}
-
 	};
 
 	static {

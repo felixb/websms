@@ -237,34 +237,11 @@ public class ConnectorGMX extends Connector {
 		/**
 		 * {@inheritDoc}
 		 */
-		public boolean supportMultipleRecipients() {
-			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
-		public boolean supportCustomsender() {
-			return true;
+		public short getFeatures() {
+			return FEATURE_MULTIRECIPIENTS | FEATURE_CUSTOMSENDER
+					| FEATURE_SENDLATER;
 		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean supportFlashsms() {
-			return false;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean supportSendLater() {
-			return true;
-		}
-
 	};
 
 	static {

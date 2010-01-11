@@ -632,10 +632,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		if (prefsConnectorSpecs != null) {
-			final boolean sFlashsms = prefsConnectorSpecs.supportFlashsms();
-			final boolean sCustomsender = prefsConnectorSpecs
-					.supportCustomsender();
-			final boolean sSendLater = prefsConnectorSpecs.supportSendLater();
+			final short features = prefsConnectorSpecs.getFeatures();
+			final boolean sFlashsms = (features & ConnectorSpecs.FEATURE_FLASHSMS) == ConnectorSpecs.FEATURE_FLASHSMS;
+			final boolean sCustomsender = (features & ConnectorSpecs.FEATURE_CUSTOMSENDER) == ConnectorSpecs.FEATURE_CUSTOMSENDER;
+			final boolean sSendLater = (features & ConnectorSpecs.FEATURE_SENDLATER) == ConnectorSpecs.FEATURE_SENDLATER;
 			if (sFlashsms || sCustomsender || sSendLater) {
 				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
 			} else {

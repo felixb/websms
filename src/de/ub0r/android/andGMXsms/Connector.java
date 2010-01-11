@@ -296,7 +296,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		if (c == null) {
 			return;
 		}
-		if (connector.supportMultipleRecipients()) {
+		if ((connector.getFeatures() & ConnectorSpecs.FEATURE_MULTIRECIPIENTS) == ConnectorSpecs.FEATURE_MULTIRECIPIENTS) {
 			if (c != null) {
 				c.execute(params);
 			}

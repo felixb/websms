@@ -32,6 +32,17 @@ public interface ConnectorSpecs {
 	/** Prefs: enable connector. */
 	String PREFS_ENABLED = "enable_";
 
+	/** Feature: none. */
+	short FEATURE_NONE = 0;
+	/** Feature: multiple recipients. */
+	short FEATURE_MULTIRECIPIENTS = 1;
+	/** Feature: flash sms. */
+	short FEATURE_FLASHSMS = 2;
+	/** Feature: send later. */
+	short FEATURE_SENDLATER = 4;
+	/** Feature: custom sender. */
+	short FEATURE_CUSTOMSENDER = 8;
+
 	/**
 	 * Init ConnectorSpecs' context.
 	 * 
@@ -97,28 +108,7 @@ public interface ConnectorSpecs {
 	String getName(final boolean shortName);
 
 	/**
-	 * @return true if more than one recipient is allowed.
+	 * @return supported feature
 	 */
-	boolean supportMultipleRecipients();
-
-	/**
-	 * Check whether this connector supports flashsms.
-	 * 
-	 * @return true if connector supports flashsms
-	 */
-	boolean supportFlashsms();
-
-	/**
-	 * Check whether this connector supports custom sender.
-	 * 
-	 * @return true if connector supports custom sender
-	 */
-	boolean supportCustomsender();
-
-	/**
-	 * Check whether this connector supports send later.
-	 * 
-	 * @return true if connector supports custom sender
-	 */
-	boolean supportSendLater();
+	short getFeatures();
 }
