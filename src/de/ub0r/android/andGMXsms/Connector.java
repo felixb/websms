@@ -222,7 +222,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 * 
 	 * @author flx
 	 */
-	static class WebSMSException extends Exception {
+	public static class WebSMSException extends Exception {
 
 		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = -6215729019426883487L;

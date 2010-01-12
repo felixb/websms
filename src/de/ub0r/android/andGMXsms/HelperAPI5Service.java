@@ -41,7 +41,7 @@ public class HelperAPI5Service {
 	 * 
 	 * @return true if API5 is available
 	 */
-	final boolean isAvailable() {
+	public final boolean isAvailable() {
 		try {
 			Method mDebugMethod = Service.class.getMethod("startForeground",
 					new Class[] { Integer.TYPE, Notification.class });
