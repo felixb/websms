@@ -91,6 +91,7 @@
 	<string name="enable_sender_number_arcor">Hauptmobilnummer &#252;berschreiben</string>
 	<string name="sender_number_arcor_">Mobilnummer</string>
 	<string name="sender_number_arcor_hint">Leer lassen um Arcor default E-Mail als Absender zu verwenden</string>
+    <string name="unknow_status_after_send_arcor">Die Nachricht wurde wahrscheinlich nicht verschickt. Kontaktieren Sie bitte den Entwickler!</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
