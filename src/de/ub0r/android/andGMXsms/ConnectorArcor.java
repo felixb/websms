@@ -13,7 +13,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -33,55 +32,49 @@ public class ConnectorArcor extends Connector {
 			.compile(
 					"<td.+class=\"txtRed\".*?<b>(\\d{1,2})</b>.+<td.+class=\"txtRed\".*?<b>(\\d{1,})</b>",
 					Pattern.DOTALL);
-
+	/**
+	 * After Sending arcor sends, hint/error/warning as status. hint meand sent,
+	 * warning and eror bad things happen :)
+	 */
+	private static final Pattern SEND_CHECK_STATUS_PATTERN = Pattern
+			.compile(
+					"<div class=\"contentArea\">.+?<div class=\"(hint|warning|error)\">(.+?)</div>",
+					Pattern.DOTALL);
 	/**
 	 * This String will be matched if the user is logged in.
 	 */
 	private static final String MATCH_LOGIN_SUCCESS = "logout.jsp";
-
 	/**
-	 * Cache this client over several http calls.
+	 * Cache this client over several calls
 	 */
-	private HttpClient client = null;
-
+	private HttpClient client = new DefaultHttpClient();
 	/**
 	 * HTTP Header User-Agent.
 	 */
-	// TODO share this. Make it Configurable clobaland local
+	// TODO share this. Make it Configurable global and local
 	private static final String FAKE_USER_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
-	/** */
-	private static final int APPROXIMATE_SMS_COUNT_POSITION = 19000;
+	/** where to find sms count */
+	private static final int APPROXIMATE_SMS_COUNT_POSITION = 18000;
 
-	/** */
-	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 4000;
+	/** where to find sms count */
+	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 3000;
 
-	/** */
+	/** where to find logout link */
 	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
 
-	/** */
+	/** where to find logout link */
 	private static final int APPROXIMATE_LOGOUT_LENGTH = 2000;
-
-	private static final String LOG_TAG = "WebSMS."
-			+ ConnectorArcor.class.getSimpleName();
-
 	/**
-	 * needed urls.
-	 * 
-	 * @author lado
+	 * Login URL, to send Login (POST).
 	 */
-	private interface URL {
-		/**
-		 * Login URL, to send Login (POST).
-		 */
-		String LOGIN = "https://www.arcor.de/login/login.jsp";
-		/**
-		 * Send SMS URL(POST) / Free SMS Count URL(GET).
-		 */
-		String SMS = "https://www.arcor.de/ums/ums_neu_sms.jsp";
-	}
+	private static final String LOGIN_URL = "https://www.arcor.de/login/login.jsp";
+	/**
+	 * Send SMS URL(POST) / Free SMS Count URL(GET).
+	 */
+	private static final String SMS_URL = "https://www.arcor.de/ums/ums_neu_sms.jsp";
 
 	/**
 	 * The Only Constructor.
@@ -106,31 +99,15 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean login() throws WebSMSException {
 		try {
-			final HttpClient httpClient = this.getHttpClient();
-			final HttpPost request = this.createPOST(URL.LOGIN, this
-					.getLoginPost());
-			final HttpResponse response = httpClient.execute(request);
-			final String cutContent = this.cutLoginInfoFromContent(response
+			final HttpPost request = createPOST(LOGIN_URL, getLoginPost(user,
+					password));
+			final HttpResponse response = client.execute(request);
+			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
 			return cutContent.indexOf(MATCH_LOGIN_SUCCESS) > 0;
 		} catch (final IOException e) {
-			Log.w(LOG_TAG, e.getMessage());
-			return false;
+			throw new WebSMSException(e.getMessage());
 		}
-	}
-
-	/**
-	 * Simple execute a Http Request.
-	 * 
-	 * @param request
-	 *            a Http Request
-	 * @return HttpResponse
-	 * @throws Exception
-	 *             if an error occures
-	 */
-	private HttpResponse execute(final HttpRequestBase request)
-			throws Exception {
-		return this.getHttpClient().execute(request);
 	}
 
 	/**
@@ -142,12 +119,12 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean updateBalance() throws WebSMSException {
 		try {
-			final HttpResponse response = this.execute(this.createGET(URL.SMS,
+			final HttpResponse response = client.execute(createGET(SMS_URL,
 					null));
-			return this.pushFreeCount(this.cutFreeCountFromContent(response
-					.getEntity().getContent()));
+			return pushFreeCount(cutFreeCountFromContent(response.getEntity()
+					.getContent()));
 		} catch (final Exception ex) {
-			throw new WebSMSException(ex.getMessage()); // TODO better ex
+			throw new WebSMSException(ex.getMessage());
 		}
 	}
 
@@ -174,7 +151,7 @@ public class ConnectorArcor extends Connector {
 	 * 
 	 * @return sender
 	 */
-	private String getSender() {
+	private static String getSender() {
 		if (WebSMS.prefsEnableSenderNumberArcor) {
 			return WebSMS.prefsSenderNumberArcor;
 		}
@@ -190,42 +167,46 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean sendSms() throws WebSMSException {
 		try {
-			final HttpResponse response = this.execute(this.createPOST(URL.SMS,
-					this.getSmsPost()));
-
-			// TODO hier folgendes auswerten
-			// warning
-			// <div class="contentArea">
-			// <div class="warning">Die angegebene SMS-Nummernliste enthielt 1
-			// doppelten Eintrag. Dieser wurde entfernt. Bitte klicken Sie
-			// nochmals auf Senden.</div>
-
-			// error
-			// <div class="contentArea">
-			// <div class="error">Kein Empfänger angegeben!</div>
-
-			// Die Nachticht dem user präsentieren
-
-			this.pushFreeCount(this.cutFreeCountFromContent(response
-					.getEntity().getContent()));
-			return true;
+			final HttpResponse response = client.execute(createPOST(SMS_URL,
+					getSmsPost(to, text)));
+			return afterSmsSent(response);
 		} catch (final Exception ex) {
 			throw new WebSMSException(ex.getMessage());
 		}
 	}
 
 	/**
-	 * If not already created. create an instance of {@link HttpClient}. This
-	 * will be cached for a sending cycle as a member variable. So login && send
-	 * || login && updateBalance needs only one instance
+	 * Handles content after sms sending.
 	 * 
-	 * @return {@link HttpClient} instance
+	 * @param response
+	 *            HTTP Response
+	 * @return true if arcor returns success
+	 * @throws Exception
+	 *             if an Error occures
 	 */
-	private HttpClient getHttpClient() {
-		if (this.client == null) {
-			this.client = new DefaultHttpClient();
+	private boolean afterSmsSent(HttpResponse response) throws Exception {
+
+		String body = cutFreeCountFromContent(response.getEntity().getContent());
+
+		Matcher m = SEND_CHECK_STATUS_PATTERN.matcher(body);
+		boolean found = m.find();
+		if (!found || m.groupCount() != 2) {
+			// should not happen
+			Log.w("WebSMS.ConnectorArcor", body);
+
+			// TODO use i18n after modular implementation
+			// throw new Exception(R.string.unknow_status_after_send_arcor);
+			throw new Exception(
+					"The Message was probably not be sent. Please contact the Developer!");
 		}
-		return this.client;
+
+		String status = m.group(1);
+		// ok, message sent!
+		if (status.equals("hint")) {
+			return pushFreeCount(body);
+		}
+		// warning or error
+		throw new Exception(m.group(2));
 	}
 
 	/**
@@ -233,10 +214,11 @@ public class ConnectorArcor extends Connector {
 	 * 
 	 * @return List of BasicNameValuePairs
 	 */
-	private ArrayList<BasicNameValuePair> getLoginPost() {
+	private static ArrayList<BasicNameValuePair> getLoginPost(String username,
+			String password) {
 		final ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
-		post.add(new BasicNameValuePair("user_name", this.user));
-		post.add(new BasicNameValuePair("password", this.password));
+		post.add(new BasicNameValuePair("user_name", username));
+		post.add(new BasicNameValuePair("password", password));
 		post.add(new BasicNameValuePair("login", "Login"));
 		post.add(new BasicNameValuePair("protocol", "https"));
 		post.add(new BasicNameValuePair("info", "Online-Passwort"));
@@ -249,23 +231,20 @@ public class ConnectorArcor extends Connector {
 	 * 
 	 * @return List of BasicNameValuePairs
 	 */
-	private ArrayList<BasicNameValuePair> getSmsPost() {
+	private static ArrayList<BasicNameValuePair> getSmsPost(String[] to,
+			String text) {
 		final ArrayList<BasicNameValuePair> post = new ArrayList<BasicNameValuePair>();
 		final StringBuilder sb = new StringBuilder();
-		for (final String r : this.to) {
+		for (final String r : to) {
 			sb.append(r).append(",");
 		}
 		post.add(new BasicNameValuePair("empfaengerAn", sb.toString()));
-
 		post.add(new BasicNameValuePair("emailAdressen", getSender()));
-
-		post.add(new BasicNameValuePair("nachricht", this.text));
-		// http://code.google.com/p/websmsdroid/issues/detail?id=42&colspec=ID%20Type%20Status%20Priority%20Product%20Component%20Owner%20Summary#c8
+		post.add(new BasicNameValuePair("nachricht", text));
 		if (WebSMS.prefsCopySentSmsArcor) {
 			post.add(new BasicNameValuePair("gesendetkopiesms", "on"));
 		}
-		// post.add(new BasicNameValuePair("firstVisitOfPage", "0")); do we need
-		// this?
+		post.add(new BasicNameValuePair("firstVisitOfPage", "0"));
 		post.add(new BasicNameValuePair("part", "0"));
 		post.add(new BasicNameValuePair("senden", "Senden"));
 		return post;
@@ -280,7 +259,7 @@ public class ConnectorArcor extends Connector {
 	 *            Http Get params.
 	 * @return HttpGet
 	 */
-	private HttpGet createGET(final String url,
+	private static HttpGet createGET(final String url,
 			final List<BasicNameValuePair> params) {
 		if (params == null || params.isEmpty()) {
 			return new HttpGet(url);
@@ -304,7 +283,7 @@ public class ConnectorArcor extends Connector {
 	 * @throws UnsupportedEncodingException
 	 *             UnsupportedEncodingException
 	 */
-	private HttpPost createPOST(final String url,
+	private static HttpPost createPOST(final String url,
 			final List<BasicNameValuePair> postData)
 			throws UnsupportedEncodingException {
 		final HttpPost post = new HttpPost(url);
@@ -318,7 +297,7 @@ public class ConnectorArcor extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
-		return this.login() && this.sendSms();
+		return login() && sendSms();
 	}
 
 	/**
@@ -326,7 +305,7 @@ public class ConnectorArcor extends Connector {
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
-		return (this.login() && this.updateBalance());
+		return login() && updateBalance();
 	}
 
 	/**
@@ -338,10 +317,10 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on an I/O error
 	 */
-	private String cutLoginInfoFromContent(final InputStream is)
+	private static String cutLoginInfoFromContent(final InputStream is)
 			throws IOException {
-		this.skip(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION, 128);
-		final byte[] data = this.readBytes(APPROXIMATE_LOGOUT_LENGTH, is);
+		skip(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION, 128);
+		final byte[] data = readBytes(APPROXIMATE_LOGOUT_LENGTH, is);
 		return new String(data, "ISO-8859-1");
 	}
 
@@ -357,8 +336,8 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on an I/O error
 	 */
-	private void skip(final InputStream is, final long bytes, final int step)
-			throws IOException {
+	private static void skip(final InputStream is, final long bytes,
+			final int step) throws IOException {
 		long alreadySkipped = 0;
 		long skip = 0;
 		while (true) {
@@ -384,7 +363,7 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on an I/O error
 	 */
-	private byte[] readBytes(final int size, final InputStream is)
+	private static byte[] readBytes(final int size, final InputStream is)
 			throws IOException {
 		final byte[] data = new byte[size];
 		int offset = 0;
@@ -414,10 +393,10 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on I/O error.
 	 */
-	private String cutFreeCountFromContent(final InputStream is)
+	private static String cutFreeCountFromContent(final InputStream is)
 			throws IOException {
-		this.skip(is, APPROXIMATE_SMS_COUNT_POSITION, 256);
-		final byte[] data = this.readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
+		skip(is, APPROXIMATE_SMS_COUNT_POSITION, 256);
+		final byte[] data = readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
 		return new String(data, "ISO-8859-1");
 	}
 
