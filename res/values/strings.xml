@@ -97,6 +97,7 @@
     <string name="password_arcor_">Arcor Password</string>
     <string name="copy_sent_sms_arcor">Copy sent sms to Sent Folder</string>
     <string name="enable_sender_number_arcor">Override main mobile number</string>
+    <string name="unknow_status_after_send_arcor">The Message was probably not be sent. Please contact the Developer!</string>
     <string name="sender_number_arcor_">Your mobile phone</string>
     <string name="sender_number_arcor_hint">Leave empty for Arcor default E-Mail as sender</string>
 	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
