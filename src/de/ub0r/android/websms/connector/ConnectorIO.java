@@ -36,7 +36,7 @@ public abstract class ConnectorIO {
 	/** Bundle representing the connector. */
 	protected final Bundle connector;
 	/** Bundle representing the command to the connector. */
-	protected final Bundle command;
+	protected final ConnectorCommand command;
 
 	/**
 	 * Create a connector task.
@@ -54,7 +54,8 @@ public abstract class ConnectorIO {
 			this.connector = null;
 		} else {
 			// TODO: parse recipients.
-			this.command = b.getBundle(Constants.EXTRAS_COMMAND);
+			this.command = new ConnectorCommand(b
+					.getBundle(Constants.EXTRAS_COMMAND));
 			this.connector = b.getBundle(Constants.EXTRAS_CONNECTOR);
 		}
 	}
@@ -62,7 +63,7 @@ public abstract class ConnectorIO {
 	/**
 	 * @return command
 	 */
-	public final Bundle getCommand() {
+	public final ConnectorCommand getCommand() {
 		return this.command;
 	}
 

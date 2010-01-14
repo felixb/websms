@@ -55,15 +55,14 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected final Void doInBackground(final Void... arg0) {
 		try {
-			switch (this.connector.getCommand()
-					.getShort(Constants.COMMAND_TYPE)) {
-			case Constants.COMMAND_BOOTSTRAP:
+			switch (this.connector.getCommand().getType()) {
+			case ConnectorCommand.TYPE_BOOTSTRAP:
 				this.connector.doBootstrap();
 				break;
-			case Constants.COMMAND_UPDATE:
+			case ConnectorCommand.TYPE_UPDATE:
 				this.connector.doSend();
 				break;
-			case Constants.COMMAND_SEND:
+			case ConnectorCommand.TYPE_SEND:
 				this.connector.doSend();
 				break;
 			default:

@@ -22,14 +22,10 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
-import de.ub0r.android.andGMXsms.Connector;
-import de.ub0r.android.andGMXsms.ConnectorSpecs;
 import de.ub0r.android.andGMXsms.Connector.WebSMSException;
 import de.ub0r.android.websms.connector.ConnectorIO;
-import de.ub0r.android.websms.connector.Constants;
 
 /**
  * {@link ConnectorIO} running sms IO.
@@ -40,109 +36,6 @@ import de.ub0r.android.websms.connector.Constants;
 public class ConnectorSMS extends ConnectorIO {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
-
-	/**
-	 * Connectors' specs.
-	 */
-	private static final ConnectorSpecs SPECS = new ConnectorSpecs() {
-		/** Context to use. */
-		private Context context = null;
-		/** Connector's prefs prefix. */
-		private static final String PREFS_PREFIX = "sms";
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getAuthor() {
-			return this.context.getString(R.string.connector_sms_author);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void setBalance(final String b) {
-			return;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public String getBalance() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Connector getConnector(final Context c) {
-			Connector connector = new ConnectorSMS();
-			connector.context = c;
-			return connector;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getName(final boolean shortName) {
-			return this.context.getString(R.string.connector_sms_name);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Intent getPreferencesIntent() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getPreferencesTitle() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getPrefsPrefix() {
-			return PREFS_PREFIX;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void init(final Context c) {
-			this.context = c;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isEnabled() {
-			return PreferenceManager.getDefaultSharedPreferences(this.context)
-					.getBoolean(PREFS_ENABLED + this.getPrefsPrefix(), false);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public short getFeatures() {
-			return FEATURE_MULTIRECIPIENTS;
-		}
-	};
-
-	static {
-		Connector.registerConnectorSpecs(SPECS);
-	};
 
 	/**
 	 * Create a SMS Connector.
@@ -163,10 +56,9 @@ public class ConnectorSMS extends ConnectorIO {
 	protected final void doSend() throws WebSMSException {
 		try {
 			SmsManager sm = SmsManager.getDefault();
-			for (String t : this.command
-					.getStringArray(Constants.COMMAND_RECIPIENTS)) {
+			for (String t : this.command.getRecipients()) {
 				ArrayList<String> messages = sm.divideMessage(this.command
-						.getString(Constants.COMMAND_TEXT));
+						.getText());
 				sm.sendMultipartTextMessage(t, null, messages, null, null);
 				for (String m : messages) {
 					Log.d(TAG, "send sms: " + t + " text: " + m);
