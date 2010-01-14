@@ -272,7 +272,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Add a subconnector from bundle.
+	 * Add a SubConnector from bundle.
 	 * 
 	 * @param b
 	 *            bundle
@@ -284,7 +284,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Add a subconnector.
+	 * Add a SubConnector.
 	 * 
 	 * @param id
 	 *            id
@@ -300,5 +300,4 @@ public final class ConnectorSpec {
 				features).getBundle());
 		this.bundle.putInt(SUB_COUNT, c + 1);
 	}
-
 }
