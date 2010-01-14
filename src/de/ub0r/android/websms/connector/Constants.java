@@ -43,26 +43,5 @@ public final class Constants {
 
 	/** Key to find command in a Bundle. */
 	public static final String EXTRAS_COMMAND = "command";
-	/** Command: type. */
-	public static final String COMMAND_TYPE = "command_type";
-	/** Command: type - bootstrap. */
-	public static final short COMMAND_BOOTSTRAP = 1;
-	/** Command: type - update. */
-	public static final short COMMAND_UPDATE = 2;
-	/** Command: type - send. */
-	public static final short COMMAND_SEND = 4;
-	/** Command: default sender. */
-	public static final String COMMAND_DEFSENDER = "command_defsender";
-	/** Command: default prefix. */
-	public static final String COMMAND_DEFPREFIX = "command_defprefix";
-	/** Command: recipients. */
-	public static final String COMMAND_RECIPIENTS = "command_reciepients";
-	/** Command: text. */
-	public static final String COMMAND_TEXT = "command_text";
-	/** Command: flashsms. */
-	public static final String COMMAND_FLASHSMS = "command_flashsms";
-	/** Command: timestamp. */
-	public static final String COMMAND_TIMESTAMP = "command_timestamp";
-	/** Command: custom sender. */
-	public static final String COMMAND_CUSTOMSENDER = "command_customsender";
+
 }
