@@ -45,6 +45,11 @@ public class ConnectorArcor extends Connector {
 	 * This String will be matched if the user is logged in.
 	 */
 	private static final String MATCH_LOGIN_SUCCESS = "logout.jsp";
+
+	/**
+	 * Keine SMS mehr?
+	 */
+	private static final String MATCH_NO_SMS = "Sie haben derzeit keine SMS zur Verf";
 	/**
 	 * Cache this client over several calls
 	 */
@@ -143,12 +148,17 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean pushFreeCount(final String content) {
 		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
+		String term = null;
 		if (m.find()) {
-			WebSMS.SMS_BALANCE[ARCOR] = m.group(1) + "+" + m.group(2);
-			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
-			return true;
+			term = m.group(1) + "+" + m.group(2);
+		} else if (content.contains(MATCH_NO_SMS)) {
+			term = "0+0";
+		} else {
+			return false;
 		}
-		return false;
+		WebSMS.SMS_BALANCE[ARCOR] = term;
+		pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+		return true;
 	}
 
 	/**
