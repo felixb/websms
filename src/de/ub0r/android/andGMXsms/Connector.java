@@ -102,9 +102,11 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	static final short SLOONO_PRO = 11;
 	/** Connector type: Sloono. */
 	static final short SLOONO = SLOONO_PRO;
+	/** Connector type: Arcor. */
+	static final short ARCOR = 12;
 
 	/** Number of connectors. */
-	static final short CONNECTORS = SLOONO_PRO + 1;
+	static final short CONNECTORS = ARCOR + 1;
 
 	/** ID of Param-ID. This is to distinguish between different calls. */
 	static final int ID_ID = 0;
@@ -456,6 +458,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			c = new ConnectorSloono(WebSMS.prefsUserSloono, WebSMS
 					.md5(WebSMS.prefsPasswordSloono), connector);
 			break;
+		case ARCOR:
+			c = new ConnectorArcor(WebSMS.prefsUserArcor,
+					WebSMS.prefsPasswordArcor, connector);
+			break;
 		default:
 			Log.e(TAG, "missing Connector");
 			return null;
@@ -558,12 +564,14 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	 *            referer
 	 * @return the connection
 	 * @throws IOException
-	 *             IOException
 	 */
 	protected static HttpResponse getHttpClient(final String url,
 			final ArrayList<Cookie> cookies,
 			final ArrayList<BasicNameValuePair> postData,
 			final String userAgent, final String referer) throws IOException {
+		// TODO flx, why ArrayList and not just List?
+		// TODO flx, this method does not return an HttpClientInstance. It
+		// should be executeRequest IMHO
 		HttpClient client = new DefaultHttpClient();
 		HttpRequestBase request;
 		if (postData == null) {

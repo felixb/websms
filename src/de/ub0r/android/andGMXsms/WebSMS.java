@@ -104,6 +104,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_USER_SLOONO = "user_sloono";
 	/** Preference's name: user's password - sloono. */
 	private static final String PREFS_PASSWORD_SLOONO = "password_sloono";
+	/** Preference's name: arcor username. */
+	private static final String PREFS_USER_ARCOR = "user_arcor";
+	/** Preference's name: user's password - arcor. */
+	private static final String PREFS_PASSWORD_ARCOR = "password_arcor";
+	/** Preference's name: user's password - arcor. */
+	private static final String PREFS_COPY_SENT_SMS_ARCOR = "copy_sent_sms_arcor";
+	/** Preference's name: ovrride default sender number? - arcor. */
+	private static final String PREFS_ENABLE_SENDER_NUMBER_ARCOR = "enable_sender_number_arcor";
+	/** Preference's name: sender number for arcor - arcor. */
+	private static final String PREFS_SENDER_NUMBER_ARCOR = "sender_number_arcor";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -128,6 +138,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_ENABLE_GMX = "enable_gmx";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_O2 = "enable_o2";
+	/** Preference's name: enable o2. */
+	private static final String PREFS_ENABLE_ARCOR = "enable_arcor";
 	/** Preference's name: enable sipgate. */
 	private static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
 	/** Preference's name: enable sipgate team accounts. */
@@ -172,6 +184,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String prefsUserSloono;
 	/** Preferences: user's password - sloono. */
 	static String prefsPasswordSloono;
+	/** Preferences: username arcor. */
+	static String prefsUserArcor;
+	/** Preferences: user's password - arcor. */
+	static String prefsPasswordArcor;
+	/** Preferences: if sent sms should be copied to sent folder */
+	static boolean prefsCopySentSmsArcor;
+	/** Preferences: override main mobil number */
+	static boolean prefsEnableSenderNumberArcor;
+	/** Preferences: sender number for arcor */
+	static String prefsSenderNumberArcor;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -215,6 +237,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
 			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
 			"5383540b2f8c298532f874126b021e73", // marco a.
+			"858ddfb8635d1539884086dca2726468", // lado
 	};
 
 	/** Public Dialog ref. */
@@ -717,6 +740,18 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsPasswordSloono = this.preferences.getString(PREFS_PASSWORD_SLOONO,
 				"");
 
+		CONNECTORS_ENABLED[Connector.ARCOR] = this.preferences.getBoolean(
+				PREFS_ENABLE_ARCOR, false);
+		prefsUserArcor = this.preferences.getString(PREFS_USER_ARCOR, "");
+		prefsPasswordArcor = this.preferences.getString(PREFS_PASSWORD_ARCOR,
+				"");
+		prefsCopySentSmsArcor = this.preferences.getBoolean(
+				PREFS_COPY_SENT_SMS_ARCOR, true);
+		prefsEnableSenderNumberArcor = this.preferences.getBoolean(
+				PREFS_ENABLE_SENDER_NUMBER_ARCOR, true);
+		prefsSenderNumberArcor = this.preferences.getString(
+				PREFS_SENDER_NUMBER_ARCOR, "");
+
 		final boolean b = this.preferences.getBoolean(
 				PREFS_CHANGE_CONNECTOR_BUTTON, false);
 		final View v = this.findViewById(R.id.change_connector);
@@ -882,6 +917,16 @@ public class WebSMS extends Activity implements OnClickListener,
 						R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.SLOONO] = false;
+		}
+		if (CONNECTORS_ENABLED[Connector.ARCOR] && prefsUserArcor.length() != 0
+				&& prefsPasswordArcor.length() != 0) {
+			CONNECTORS_READY[Connector.ARCOR] = true;
+		} else {
+			if (CONNECTORS_ENABLED[Connector.ARCOR]) {
+				this.log(this.getResources().getString(
+						R.string.log_empty_settings));
+			}
+			CONNECTORS_READY[Connector.ARCOR] = false;
 		}
 		this.setButtons();
 	}

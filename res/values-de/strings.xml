@@ -47,6 +47,7 @@
 	<string name="enable_innosend">Aktiviere Innosend</string>
 	<string name="enable_cherrysms">Aktiviere CherrySMS</string>
 	<string name="enable_sloono">Aktiviere Sloono</string>
+	<string name="enable_arcor">Aktiviere Arcor</string>
 	<string name="free_">Frei SMS:</string>
 	<string name="get_free">Frei SMS neu laden</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
@@ -87,7 +88,15 @@
 	<string name="password_cherrysms_">CherrySMS Passwort</string>
 	<string name="user_sloono_">Sloono Benutzername</string>
 	<string name="password_sloono_">Sloono Passwort</string>
-	<string name="sender_">Mobilnummer</string>
+	<string name="user_arcor_">Arcor Benutzername</string>
+	<string name="password_arcor_">Arcor Passwort</string>
+	<string name="copy_sent_sms_arcor">Im Ordner Gesendet ablegen</string>
+	<string name="enable_sender_number_arcor">Eigene Nummer verwenden</string>
+	<string name="enable_sender_number_arcor_hint">Verwende eigene Nummer für den Arcor Connector.</string>
+	<string name="sender_number_arcor_">Mobilnummer</string>
+	<string name="sender_number_arcor_hint">Leer lassen um Arcor default E-Mail als Absender zu verwenden.</string>
+    <string name="log_unknow_status_after_send_arcor">Die Nachricht wurde wahrscheinlich nicht verschickt. Kontaktieren Sie bitte den Entwickler!</string>
+   <string name="sender_">Mobilnummer</string>
 	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
 	<string name="settings">Einstellungen</string>
@@ -99,6 +108,7 @@
 	<string name="settings_innosend">Einstellungen - Innosend</string>
 	<string name="settings_cherrysms">Einstellungen - CherrySMS</string>
 	<string name="settings_sloono">Einstellungen - Sloono</string>
+	<string name="settings_arcor">Einstellungen - Arcor</string>
 	<string name="change_connector_button">"Anderer Provider" Button</string>
 	<string name="change_connector_button_hint">Zeige den "Anderer Provider" Button auf dem Main Screen an.</string>
 	<string name="softkeyboard_">Keine Tastatur</string>
