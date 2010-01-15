@@ -19,7 +19,7 @@
 <resources>
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via following providers:
-		GMX, o2, sipgate.de, sipgate.at, innosend.de, cherry-sms.com and sloono.de .
+		GMX, o2, sipgate.de, sipgate.at, innosend.de, cherry-sms.com, sloono.de and arcor.de .
 	</string>
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">2.9</string>
