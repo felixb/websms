@@ -143,11 +143,10 @@
 			<CheckBoxPreference android:key="copy_sent_sms_arcor"
 				android:defaultValue="true" android:title="@string/copy_sent_sms_arcor"
 				android:dependency="enable_arcor" />
-		    <CheckBoxPreference android:key="copy_sent_sms_arcor"  android:defaultValue="true" 
-				android:title="@string/copy_sent_sms_arcor" android:dependency="enable_arcor"/>
-			<CheckBoxPreference android:key="enable_validated_number_arcor" android:defaultValue="false" 
-				android:title="@string/enable_validated_number_arcor"
-				android:inputType="text" android:dependency="enable_arcor" android:summary="@string/validated_number_arcor_hint"/>
+			<CheckBoxPreference android:key="enable_validated_number_arcor"
+				android:defaultValue="false" android:title="@string/enable_validated_number_arcor"
+				android:inputType="text" android:dependency="enable_arcor"
+				android:summary="@string/validated_number_arcor_hint" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
