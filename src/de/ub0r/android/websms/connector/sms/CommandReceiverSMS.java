@@ -36,6 +36,7 @@ import de.ub0r.android.websms.connector.Constants;
  * 
  * @author flx
  */
+@SuppressWarnings("deprecation")
 public class CommandReceiverSMS extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
@@ -43,13 +44,34 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 	/**
 	 * Init ConnectorSpec.
 	 * 
+	 * @param context
+	 *            context
 	 * @return ConnectorSpec
 	 */
-	private ConnectorSpec initSpecs() {
-		// TODO: fill me
-		return null;
+	private ConnectorSpec initSpecs(final Context context) {
+		final Bundle b = new Bundle();
+		b.putString(ConnectorSpec.ID, TAG);
+		b.putString(ConnectorSpec.NAME, context.getString(0)); // TODO: fill me
+		// ..
+		b.putString(ConnectorSpec.AUTHOR, null);
+		b.putString(ConnectorSpec.BALANCE, null);
+		b.putShort(ConnectorSpec.CAPABILITIES, ConnectorSpec.CAPABILITIES_SEND);
+		b.putString(ConnectorSpec.PREFSINTENT, null);
+		b.putString(ConnectorSpec.PREFSTITLE, null);
+		b.putShort(ConnectorSpec.STATUS, ConnectorSpec.STATUS_INACTIVE);
+		final ConnectorSpec c = new ConnectorSpec(b);
+		c.addSubConnector(TAG, null, ConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		return c;
 	}
 
+	/**
+	 * Send a message.
+	 * 
+	 * @param command
+	 *            command comming from intent
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
 	private void send(final ConnectorCommand command) throws WebSMSException {
 		try {
 			SmsManager sm = SmsManager.getDefault();
@@ -76,7 +98,7 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 			return;
 		}
 		if (Constants.ACTION_UPDATE_CONNECTOR.equals(action)) {
-			final ConnectorSpec specs = this.initSpecs();
+			final ConnectorSpec specs = this.initSpecs(context);
 			// TODO: return specs as broadcast to WebSMS
 		} else if (Constants.ACTION_RUN_CONNECTOR.equals(action)) {
 			final Bundle extras = intent.getExtras();

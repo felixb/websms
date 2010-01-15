@@ -302,7 +302,7 @@ public final class ConnectorSpec {
 	 * @param features
 	 *            features
 	 */
-	void addSubConnector(final String id, final String name,
+	public void addSubConnector(final String id, final String name,
 			final short features) {
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
 		this.bundle.putBundle(SUB_PREFIX + c, new SubConnectorSpec(id, name,
