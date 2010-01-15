@@ -20,8 +20,8 @@ package de.ub0r.android.andGMXsms;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +33,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
 import android.util.Log;
@@ -62,6 +61,13 @@ public class ConnectorArcor extends Connector {
 			Pattern.DOTALL);
 	/** This String will be matched if the user is logged in. */
 	private static final String MATCH_LOGIN_SUCCESS = "logout.jsp";
+
+	/**
+	 * No more SMS?
+	 */
+	private static final String MATCH_NO_SMS = "Sie haben "
+			+ "derzeit keine SMS zur Verf";
+
 	/** Cache this client over several calls. */
 	private HttpClient client = new DefaultHttpClient();
 	/** HTTP Header User-Agent. */
@@ -125,10 +131,10 @@ public class ConnectorArcor extends Connector {
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
 				throw new WebSMSException(this.context, R.string.log_error_pw);
 			}
-			return true;
 		} catch (final Exception e) {
 			throw new WebSMSException(e.getMessage());
 		}
+		return true;
 	}
 
 	/**
@@ -140,8 +146,8 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean updateBalance() throws WebSMSException {
 		try {
-			final HttpResponse response = this.client.execute(createGET(
-					SMS_URL, null));
+			final HttpResponse response = this.client.execute(new HttpGet(
+					SMS_URL));
 			return this.pushFreeCount(cutFreeCountFromContent(response
 					.getEntity().getContent()));
 		} catch (final Exception ex) {
@@ -158,25 +164,17 @@ public class ConnectorArcor extends Connector {
 	 */
 	private boolean pushFreeCount(final String content) {
 		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
+		String term = null;
 		if (m.find()) {
-			WebSMS.SMS_BALANCE[ARCOR] = m.group(1) + "+" + m.group(2);
-			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
-			return true;
+			term = m.group(1) + "+" + m.group(2);
+		} else if (content.contains(MATCH_NO_SMS)) {
+			term = "0+0";
+		} else {
+			return false;
 		}
-		return false;
-	}
-
-	/**
-	 * Get Sender. If arcor specific sender defined, use it. Otherwise user
-	 * global sender.
-	 * 
-	 * @return sender
-	 */
-	private static String getSender() {
-		if (WebSMS.prefsEnableSenderNumberArcor) {
-			return WebSMS.prefsSenderNumberArcor;
-		}
-		return WebSMS.prefsSender;
+		WebSMS.SMS_BALANCE[ARCOR] = term;
+		this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+		return true;
 	}
 
 	/**
@@ -236,12 +234,20 @@ public class ConnectorArcor extends Connector {
 	 * @param password
 	 *            password
 	 * @return array of params
+	 * @throws UnsupportedEncodingException
+	 *             if the url can not be encoded
 	 */
-	private static String[] getLoginPost(final String username,
-			final String password) {
-		return new String[] { "user_name", username, "password", password,
-				"login", "Login", "protocol", "https", "info",
-				"Online-Passwort", "goto", "" };
+	private static String getLoginPost(final String username,
+			final String password) throws UnsupportedEncodingException {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("user_name=");
+		sb.append(URLEncoder.encode(username, AROCR_ENCODING));
+		sb.append("&password=");
+		sb.append(URLEncoder.encode(password, AROCR_ENCODING));
+		sb
+				.append("&login=Login&protocol="
+						+ "https&info=Online-Passwort&goto=");
+		return sb.toString();
 	}
 
 	/**
@@ -252,45 +258,32 @@ public class ConnectorArcor extends Connector {
 	 * @param text
 	 *            text to send
 	 * @return array of params
+	 * @throws Exception
+	 *             if an error occures.
 	 */
-	private static String[] getSmsPost(final String[] to, final String text) {
+	private static String getSmsPost(final String[] to, final String text)
+			throws Exception {
 		final StringBuilder sb = new StringBuilder();
 		for (final String r : to) {
 			sb.append(r).append(",");
 		}
+		final StringBuilder sb1 = new StringBuilder();
+		sb1.append("empfaengerAn=");
+		sb1.append(URLEncoder.encode(sb.toString(), AROCR_ENCODING));
+		sb1.append("&emailAdressen=");
+		sb1.append(URLEncoder.encode(WebSMS.prefsSender, AROCR_ENCODING));
+		sb1.append("&nachricht=");
+		sb1.append(URLEncoder.encode(text, AROCR_ENCODING));
+		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden");
 
 		if (WebSMS.prefsCopySentSmsArcor) {
-			return new String[] { "empfaengerAn", sb.toString(),
-					"emailAdressen", getSender(), "nachricht", text,
-					"firstVisitOfPage", "0", "part", "0", "senden", "Senden",
-					"gesendetkopiesms", "on" };
+			sb1.append("&gesendetkopiesms=on");
+		}
+		if (WebSMS.prefsEnableValidatedNumberArcor) {
+			sb1.append("&useOwnMobile=on");
 		}
 
-		return new String[] { "empfaengerAn", sb.toString(), "emailAdressen",
-				getSender(), "nachricht", text, "firstVisitOfPage", "0",
-				"part", "0", "senden", "Senden" };
-	}
-
-	/**
-	 * Create and Prepare a Get Request. Sets also an User-Agent.
-	 * 
-	 * @param url
-	 *            GET url
-	 * @param params
-	 *            Http Get params.
-	 * @return HttpGet
-	 */
-	private static HttpGet createGET(final String url,
-			final ArrayList<BasicNameValuePair> params) {
-		if (params == null || params.isEmpty()) {
-			return new HttpGet(url);
-		}
-		final StringBuilder sb = new StringBuilder();
-		sb.append(url).append("?");
-		for (final BasicNameValuePair p : params) {
-			sb.append(p.getName()).append("=").append(p.getValue());
-		}
-		return new HttpGet(sb.toString());
+		return sb1.toString();
 	}
 
 	/**
@@ -298,19 +291,19 @@ public class ConnectorArcor extends Connector {
 	 * 
 	 * @param url
 	 *            http post url
-	 * @param params
-	 *            key=value pairs as string[] post data
+	 * @param urlencodedparams
+	 *            key=value pairs as url encoded string
 	 * @return HttpPost
 	 * @throws Exception
 	 *             if an error occures
 	 */
-	private static HttpPost createPOST(final String url, final String... params)
-			throws Exception {
+	private static HttpPost createPOST(final String url,
+			final String urlencodedparams) throws Exception {
 		final HttpPost post = new HttpPost(url);
 		post.setHeader("User-Agent", FAKE_USER_AGENT);
 		post.setHeader(new BasicHeader(HTTP.CONTENT_TYPE,
 				URLEncodedUtils.CONTENT_TYPE));
-		post.setEntity(new StringEntity(format(params)));
+		post.setEntity(new StringEntity(urlencodedparams));
 		return post;
 	}
 
@@ -419,30 +412,4 @@ public class ConnectorArcor extends Connector {
 		final byte[] data = readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
 		return new String(data, AROCR_ENCODING);
 	}
-
-	/**
-	 * Returns a String that is suitable for use as an
-	 * <code>application/x-www-form-urlencoded</code> list of parameters in an
-	 * HTTP PUT or HTTP POST.
-	 * 
-	 * @param parameters
-	 *            The parameters to include.
-	 * @return a String that is suitable for use as an
-	 *         <code>application/x-www-form-urlencoded</code> data
-	 * @throws Exception
-	 *             if an error occures
-	 */
-	public static String format(final String... parameters) throws Exception {
-		final StringBuilder result = new StringBuilder();
-		for (int i = 0; i < parameters.length; ++i) {
-			final String encodedName = URLEncoder.encode(parameters[i]);
-			final String value = parameters[++i];
-			final String encodedValue = URLEncoder
-					.encode(value, AROCR_ENCODING);
-			result.append(encodedName).append("=").append(encodedValue).append(
-					"&");
-		}
-		return result.toString();
-	}
-
 }

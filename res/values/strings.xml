@@ -102,8 +102,8 @@
     <string name="enable_sender_number_arcor">Use custom number</string>
     <string name="enable_sender_number_arcor_hint">Use custom number for arcor connector.</string>
     <string name="log_unknow_status_after_send_arcor">The Message was probably not be sent. Please contact the Developer!</string>
-    <string name="sender_number_arcor_">Your mobile phone</string>
-    <string name="sender_number_arcor_hint">Leave empty for Arcor default E-Mail as sender</string>
+    <string name="enable_validated_number_arcor">Use validated number</string>
+	<string name="validated_number_arcor_hint">If configured by arcor, it will be used as the sender number.</string>
 	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>

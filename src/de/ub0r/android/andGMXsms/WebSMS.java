@@ -111,9 +111,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: user's password - arcor. */
 	private static final String PREFS_COPY_SENT_SMS_ARCOR = "copy_sent_sms_arcor";
 	/** Preference's name: ovrride default sender number? - arcor. */
-	private static final String PREFS_ENABLE_SENDER_NUMBER_ARCOR = "enable_sender_number_arcor";
-	/** Preference's name: sender number for arcor - arcor. */
-	private static final String PREFS_SENDER_NUMBER_ARCOR = "sender_number_arcor";
+	private static final String PREFS_ENABLE_VALIDATED_NUMBER_ARCOR = "enable_validated_number_arcor";
 	/** Preference's name: user's phonenumber. */
 	private static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -191,9 +189,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferences: if sent sms should be copied to sent folder */
 	static boolean prefsCopySentSmsArcor;
 	/** Preferences: override main mobil number */
-	static boolean prefsEnableSenderNumberArcor;
-	/** Preferences: sender number for arcor */
-	static String prefsSenderNumberArcor;
+	static boolean prefsEnableValidatedNumberArcor;
 	/** Preferences: user's phonenumber. */
 	static String prefsSender;
 	/** Preferences: default prefix. */
@@ -747,10 +743,8 @@ public class WebSMS extends Activity implements OnClickListener,
 				"");
 		prefsCopySentSmsArcor = this.preferences.getBoolean(
 				PREFS_COPY_SENT_SMS_ARCOR, true);
-		prefsEnableSenderNumberArcor = this.preferences.getBoolean(
-				PREFS_ENABLE_SENDER_NUMBER_ARCOR, true);
-		prefsSenderNumberArcor = this.preferences.getString(
-				PREFS_SENDER_NUMBER_ARCOR, "");
+		prefsEnableValidatedNumberArcor = this.preferences.getBoolean(
+				PREFS_ENABLE_VALIDATED_NUMBER_ARCOR, true);
 
 		final boolean b = this.preferences.getBoolean(
 				PREFS_CHANGE_CONNECTOR_BUTTON, false);
