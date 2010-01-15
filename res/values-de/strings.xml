@@ -96,8 +96,8 @@
 	<string name="log_unknow_status_after_send_arcor">Die Nachricht wurde wahrscheinlich nicht verschickt. Kontaktieren Sie bitte den Entwickler!</string>
     <string name="enable_validated_number_arcor">Hinterlegte Nummer verwenden.</string>
 	<string name="validated_number_arcor_hint">Falls vorhanden, wird bei arcor hinterlegte Nummer verwendet.</string>
-	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="sender_">Mobilnummer</string>
+	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="send_">Senden</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
