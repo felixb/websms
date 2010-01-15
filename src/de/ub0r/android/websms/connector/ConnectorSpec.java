@@ -60,6 +60,8 @@ public final class ConnectorSpec {
 	public static final short CAPABILITIES_UPDATE = 2;
 	/** Feature: send. */
 	public static final short CAPABILITIES_SEND = 4;
+	/** Connector: Balance. */
+	public static final String BALANCE = "connector_balance";
 
 	// Subconnectors
 	/** Connector: SubConnector prefix. */
@@ -221,6 +223,13 @@ public final class ConnectorSpec {
 	 */
 	public String getPrefsTitle() {
 		return this.bundle.getString(PREFSTITLE);
+	}
+
+	/**
+	 * @return balance
+	 */
+	public String getBalance() {
+		return this.bundle.getString(BALANCE);
 	}
 
 	/**
