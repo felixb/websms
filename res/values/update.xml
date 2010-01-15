@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v2.9: add arcor.de connector, add hdpi icon</item>
 		<item>v2.8.4: fix non us-ascii for innosend</item>
 		<item>v2.8.3: fix+improve innosend connector</item>
 		<item>v2.8.2: fix some bugs, implement autoexit (check prefs)</item>
