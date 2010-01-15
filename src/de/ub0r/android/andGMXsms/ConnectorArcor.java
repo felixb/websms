@@ -113,8 +113,9 @@ public class ConnectorArcor extends Connector {
 			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
-				throw new WebSMSException(this.context,
-						R.string.log_login_unsuccessfull_arcor);
+				pushMessage(WebSMS.MESSAGE_LOG, this.context
+						.getString(R.string.log_login_unsuccessfull_arcor));
+				return false;
 			}
 			return true;
 		} catch (final Exception e) {
