@@ -97,14 +97,20 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 	 * @param specs
 	 *            {@link ConnectorSpec}; if null, getSpecs() is called to get
 	 *            them
+	 * @param command
+	 *            send back the {@link ConnectorCommand} which was done
 	 */
-	private void sendInfo(final Context context, final ConnectorSpec specs) {
+	private void sendInfo(final Context context, final ConnectorSpec specs,
+			final ConnectorCommand command) {
 		ConnectorSpec c = specs;
 		if (c == null) {
 			c = getSpecs(context);
 		}
 		final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
 		c.setToIntent(i);
+		if (command != null) {
+			command.setToIntent(i);
+		}
 		Log.d(TAG, "send broadcast: " + i.getAction());
 		context.sendBroadcast(i);
 	}
@@ -120,7 +126,7 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 			return;
 		}
 		if (Constants.ACTION_CONNECTOR_UPDATE.equals(action)) {
-			this.sendInfo(context, null);
+			this.sendInfo(context, null, null);
 		} else if (Constants.ACTION_CONNECTOR_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
@@ -138,9 +144,10 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 						Toast.makeText(context,
 								specs.getName() + ": " + e.getMessage(),
 								Toast.LENGTH_LONG).show();
-					} finally {
-						this.sendInfo(context, specs);
+						specs.setErrorMessage(e.getMessage());
+						this.sendInfo(context, specs, command);
 					}
+					// if nothing went wrong, info was send from inside.
 				}
 			}
 		}

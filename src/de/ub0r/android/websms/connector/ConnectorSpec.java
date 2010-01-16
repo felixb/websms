@@ -433,6 +433,9 @@ public final class ConnectorSpec {
 	 *            error message
 	 */
 	public void setErrorMessage(final String error) {
+		if (error != null) {
+			this.addStatus(STATUS_ERROR);
+		}
 		this.bundle.putString(ERRORMESSAGE, error);
 	}
 

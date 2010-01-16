@@ -18,11 +18,16 @@
  */
 package de.ub0r.android.andGMXsms;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import de.ub0r.android.websms.connector.ConnectorCommand;
 import de.ub0r.android.websms.connector.ConnectorSpec;
@@ -36,6 +41,9 @@ import de.ub0r.android.websms.connector.Constants;
 public final class WebSMSReceiver extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.bcr";
+
+	/** Intent's scheme to send sms. */
+	private static final String INTENT_SCHEME_SMSTO = "smsto";
 
 	/** SMS DB: address. */
 	static final String ADDRESS = "address";
@@ -54,6 +62,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** SMS DB: type - sent. */
 	static final int MESSAGE_TYPE_SENT = 2;
 
+	/** Next notification ID. */
+	private static int nextNotificationID = 1;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,12 +81,81 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			WebSMS.addConnector(specs);
 			// save send messages
 			if (command != null
-					&& command.getType() == ConnectorCommand.TYPE_SEND
-					&& !specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-				this.saveMessage(context, command);
+					&& command.getType() == ConnectorCommand.TYPE_SEND) {
+				if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
+					this.saveMessage(context, command);
+				} else {
+					// Display notification if sending failed
+					final String[] r = command.getRecipients();
+					final int l = r.length;
+					StringBuilder buf = new StringBuilder(r[0]);
+					for (int i = 1; i < l; i++) {
+						buf.append(", ");
+						buf.append(r[i]);
+					}
+					final String to = buf.toString();
+					buf = null;
+
+					Notification n = new Notification(
+							R.drawable.stat_notify_sms_failed, context
+									.getString(R.string.notify_failed_), System
+									.currentTimeMillis());
+					final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
+							.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)),
+							context, WebSMS.class);
+					// add pending intent
+					i.putExtra(Intent.EXTRA_TEXT, command.getText());
+					i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, specs
+							.getErrorMessage());
+					i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+					final PendingIntent cIntent = PendingIntent.getActivity(
+							context, 0, i, 0);
+					n.setLatestEventInfo(context, context
+							.getString(R.string.notify_failed)
+							+ " " + specs.getErrorMessage(), to + ": "
+							+ command.getText(), cIntent);
+					n.flags |= Notification.FLAG_AUTO_CANCEL;
+
+					n.flags |= Notification.FLAG_SHOW_LIGHTS;
+					n.ledARGB = 0xffff0000;
+					n.ledOnMS = 500;
+					n.ledOffMS = 2000;
+
+					final SharedPreferences p = PreferenceManager
+							.getDefaultSharedPreferences(context);
+					final boolean vibrateOnFail = p.getBoolean(
+							WebSMS.PREFS_FAIL_VIBRATE, false);
+					final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
+					Uri soundOnFail;
+					if (s == null || s.length() <= 0) {
+						soundOnFail = null;
+					} else {
+						soundOnFail = Uri.parse(s);
+					}
+
+					if (vibrateOnFail) {
+						n.flags |= Notification.DEFAULT_VIBRATE;
+					}
+					n.sound = soundOnFail;
+
+					NotificationManager mNotificationMgr = // .
+					(NotificationManager) context
+							.getSystemService(Context.NOTIFICATION_SERVICE);
+					mNotificationMgr.notify(getNotificationID(), n);
+				}
 			}
-			// TODO: DISPLAY notification if sending failed
 		}
+	}
+
+	/**
+	 * Get a fresh and unique ID for a new notification.
+	 * 
+	 * @return return the ID
+	 */
+	private static synchronized int getNotificationID() {
+		++nextNotificationID;
+		return nextNotificationID;
 	}
 
 	/**

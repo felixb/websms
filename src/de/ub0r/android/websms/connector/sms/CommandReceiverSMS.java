@@ -162,7 +162,6 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 								specs.getName() + ": " + e.getMessage(),
 								Toast.LENGTH_LONG).show();
 						specs.setErrorMessage(e.getMessage());
-						specs.addStatus(ConnectorSpec.STATUS_ERROR);
 					}
 					this.sendInfo(context, specs, command);
 				}

@@ -532,7 +532,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		// FIXME: this is null at startup!
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
 		prefsConnectorSpecs = getConnectorByID(prefsConnectorID);
 
@@ -950,7 +949,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		try {
 			final Intent intent = command.setToIntent(null);
 			prefsConnectorSpecs.setToIntent(intent);
-			// TODO: change status of connector
+			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			Log.d(TAG, "send broadcast: " + intent.getAction());
 			this.sendBroadcast(intent);
 		} catch (Exception e) {
