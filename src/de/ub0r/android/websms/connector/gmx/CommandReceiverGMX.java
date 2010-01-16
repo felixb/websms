@@ -58,7 +58,7 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 	private static synchronized ConnectorSpec getSpecs(final Context context) {
 		if (conector == null) {
 			conector = new ConnectorSpec(TAG, context
-					.getString(R.string.connector_sms_name));
+					.getString(R.string.connector_gmx_name));
 			conector.setAuthor(// .
 					context.getString(R.string.connector_gmx_author));
 			conector.setBalance(null);
@@ -104,7 +104,7 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 			c = getSpecs(context);
 		}
 		final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
-		specs.setToIntent(i);
+		c.setToIntent(i);
 		Log.d(TAG, "send broadcast: " + i.getAction());
 		context.sendBroadcast(i);
 	}

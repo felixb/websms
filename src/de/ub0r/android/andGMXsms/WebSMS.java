@@ -530,7 +530,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		prefsConnectorSpecs = getConnector(p.getString(PREFS_CONNECTOR_ID, ""));
+		// FIXME: this is null at startup!
+		prefsConnectorSpecs = getConnectorByID(p.getString(PREFS_CONNECTOR_ID,
+				""));
 
 		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
 
@@ -700,9 +702,10 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
-					public void onClick(final DialogInterface dialog,
+					public void onClick(final DialogInterface d, // .
 							final int item) {
-						prefsConnectorSpecs = getConnector(items.get(item));
+						prefsConnectorSpecs = getConnectorByName(items
+								.get(item));
 						WebSMS.this.setButtons();
 						// save user preferences
 						PreferenceManager.getDefaultSharedPreferences(
@@ -1151,7 +1154,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public static final void addConnector(final ConnectorSpec connector) {
 		synchronized (CONNECTORS) {
-			final ConnectorSpec c = getConnector(connector.getID());
+			final ConnectorSpec c = getConnectorByID(connector.getID());
 			if (c != null) {
 				c.update(connector);
 			} else {
@@ -1167,12 +1170,32 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            ID
 	 * @return {@link ConnectorSpec}
 	 */
-	public static final ConnectorSpec getConnector(final String id) {
+	public static final ConnectorSpec getConnectorByID(final String id) {
 		synchronized (CONNECTORS) {
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);
 				if (id.equals(c.getID())) {
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get {@link ConnectorSpec} by name.
+	 * 
+	 * @param name
+	 *            name
+	 * @return {@link ConnectorSpec}
+	 */
+	public static final ConnectorSpec getConnectorByName(final String name) {
+		synchronized (CONNECTORS) {
+			final int l = CONNECTORS.size();
+			for (int i = 0; i < l; i++) {
+				final ConnectorSpec c = CONNECTORS.get(i);
+				if (name.equals(c.getName())) {
 					return c;
 				}
 			}

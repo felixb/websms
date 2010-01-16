@@ -120,7 +120,7 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 			c = getSpecs(context);
 		}
 		final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
-		specs.setToIntent(i);
+		c.setToIntent(i);
 		Log.d(TAG, "send broadcast: " + i.getAction());
 		context.sendBroadcast(i);
 	}

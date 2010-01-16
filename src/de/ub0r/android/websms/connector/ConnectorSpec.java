@@ -380,7 +380,7 @@ public final class ConnectorSpec {
 	 *            capabilities
 	 */
 	public void setCapabilities(final short capabilities) {
-		this.bundle.putShort(BALANCE, capabilities);
+		this.bundle.putShort(CAPABILITIES, capabilities);
 	}
 
 	/**
