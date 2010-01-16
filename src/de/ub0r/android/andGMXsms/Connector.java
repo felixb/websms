@@ -470,9 +470,9 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 			final short connector) {
 		Connector c;
 		switch (connector) {
-		case SMS:
-			c = new ConnectorSMS();
-			break;
+		// FIXME: case SMS:
+		// c = new ConnectorSMS();
+		// break;
 		case GMX:
 			c = new ConnectorGMX(con);
 			break;
