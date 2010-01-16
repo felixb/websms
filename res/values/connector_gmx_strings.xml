@@ -19,10 +19,10 @@
 <resources>
 	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_gmx_name">GMX</string>
-	<string name="enable_gmx">Enable GMX</string>
-	<string name="user_gmx_">Mail address</string>
-	<string name="user_gmx_hint">user@gmx.tld</string>
-	<string name="password_gmx_">GMX SMS Key</string>
-	<string name="password_gmx_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="settings_gmx">Preferences - GMX</string>
+	<string name="connector_gmx_enable_">Enable GMX</string>
+	<string name="connector_gmx_user_">Mail address</string>
+	<string name="connector_gmx_user_hint">user@gmx.tld</string>
+	<string name="connector_gmx_password_">GMX SMS Key</string>
+	<string name="connector_gmx_password_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
+	<string name="connector_gmx_preferences">Preferences - GMX</string>
 </resources>

@@ -24,11 +24,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -94,161 +91,6 @@ public class ConnectorGMX extends Connector {
 
 	/** Need to bootstrap? */
 	private static boolean needBootstrap = false;
-
-	/**
-	 * Preferences.
-	 * 
-	 * @author flx
-	 */
-	public static class Preferences extends PreferenceActivity {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		protected final void onCreate(final Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			WebSMS.doPreferences = true;
-			this.addPreferencesFromResource(R.xml.connector_gmx_prefs);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		protected final void onPause() {
-			super.onPause();
-			// check if prefs changed
-			SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(this);
-			needBootstrap |= mail != null
-					&& !mail.equals(p.getString(PREFS_MAIL, ""));
-			needBootstrap |= pw != null
-					&& !pw.equals(p.getString(PREFS_PASSWORD, ""));
-		}
-
-		/**
-		 *{@inheritDoc}
-		 */
-		public final void onSharedPreferenceChanged(
-				final SharedPreferences prefs, final String key) {
-			// FIXME_ move to connector
-			// if (key.equals(PREFS_ENABLE_GMX) || key.equals(PREFS_SENDER)
-			// || key.equals(PREFS_PASSWORD_GMX)
-			// || key.equals(PREFS_MAIL_GMX)) {
-			// this.changed[Connector.GMX] = true;
-			// }
-		}
-	}
-
-	/**
-	 * Connectors' specs.
-	 */
-	private static final ConnectorSpecs SPECS = new ConnectorSpecs() {
-		/** Context to use. */
-		private Context context = null;
-		/** Connector's prefs prefix. */
-		private static final String PREFS_PREFIX = "gmx";
-
-		/** Prefs intent action. */
-		private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-				+ "websms.connectors.gmx.PREFS";
-
-		/** Connector's balance. */
-		private String balance = null;
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getAuthor() {
-			return this.context.getString(R.string.connector_gmx_author);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void setBalance(final String b) {
-			this.balance = b;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public String getBalance() {
-			return this.balance;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Connector getConnector(final Context c) {
-			Connector connector = new ConnectorGMX(c);
-			return connector;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getName(final boolean shortName) {
-			return this.context.getString(R.string.connector_gmx_name);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Intent getPreferencesIntent() {
-			return new Intent(PREFS_INTENT_ACTION);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getPreferencesTitle() {
-			return this.context.getString(R.string.settings_gmx);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getPrefsPrefix() {
-			return PREFS_PREFIX;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void init(final Context c) {
-			this.context = c;
-			SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(c);
-			mail = p.getString(PREFS_MAIL, "");
-			pw = p.getString(PREFS_PASSWORD, "");
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isEnabled() {
-			return PreferenceManager.getDefaultSharedPreferences(this.context)
-					.getBoolean(PREFS_ENABLED + this.getPrefsPrefix(), false);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public short getFeatures() {
-			return FEATURE_MULTIRECIPIENTS | FEATURE_CUSTOMSENDER
-					| FEATURE_SENDLATER;
-		}
-	};
 
 	/**
 	 * Create a GMX Connector.
@@ -434,7 +276,7 @@ public class ConnectorGMX extends Connector {
 						if (p != null) {
 							b += "/" + p;
 						}
-						SPECS.setBalance(b);
+						// FIXME: SPECS.setBalance(b);
 						this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 					}
 					p = this.getParam(outp, "customer_id");

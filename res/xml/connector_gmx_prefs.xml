@@ -17,15 +17,15 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	android:title="@string/settings_gmx">
+	android:title="@string/connector_gmx_preferences">
 	<CheckBoxPreference android:key="enable_gmx"
-		android:title="@string/enable_gmx" />
+		android:title="@string/connector_gmx_enable_" />
 	<EditTextPreference android:key="gmx_mail"
-		android:title="@string/user_gmx_" android:dialogTitle="@string/user_gmx_"
-		android:summary="@string/user_gmx_hint" android:inputType="textEmailAddress"
+		android:title="@string/connector_gmx_user_" android:dialogTitle="@string/connector_gmx_user_"
+		android:summary="@string/connector_gmx_user_hint" android:inputType="textEmailAddress"
 		android:dependency="enable_gmx" />
 	<EditTextPreference android:key="gmx_password"
-		android:title="@string/password_gmx_" android:dialogTitle="@string/password_gmx_"
-		android:summary="@string/password_gmx_hint" android:inputType="textPassword"
+		android:title="@string/connector_gmx_password_" android:dialogTitle="@string/connector_gmx_password_"
+		android:summary="@string/connector_gmx_password_hint" android:inputType="textPassword"
 		android:dependency="enable_gmx" />
 </PreferenceScreen>

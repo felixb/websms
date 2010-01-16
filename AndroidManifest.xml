@@ -52,7 +52,7 @@
 		<receiver android:name="de.ub0r.android.websms.connector.sms.CommandReceiverSMS"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
+				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>
@@ -60,12 +60,21 @@
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
 
 		<!-- this will go to separate apk. -->
-		<activity android:name="ConnectorGMX$Preferences">
+		<activity android:name="de.ub0r.android.websms.connector.gmx.Preferences">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connectors.gmx.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+		<receiver android:name="de.ub0r.android.websms.connector.gmx.CommandReceiverGMX"
+			android:enabled="true" android:exported="true">
+			<intent-filter>
+				<action android:name="de.ub0r.android.websms.connector.RUN_BOOTSTRAP" />
+				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
+				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
+				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
+			</intent-filter>
+		</receiver>
 	</application>
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7" />
 	<supports-screen android:largeScreens="true"

@@ -384,6 +384,16 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Set capabilities.
+	 * 
+	 * @param capabilities
+	 *            capabilities
+	 */
+	public void setCapabilities(final int capabilities) {
+		this.setCapabilities((short) capabilities);
+	}
+
+	/**
 	 * @param capabilities
 	 *            capabilities
 	 * @return true if connector has given capabilities
@@ -441,5 +451,20 @@ public final class ConnectorSpec {
 		this.bundle.putBundle(SUB_PREFIX + c, new SubConnectorSpec(id, name,
 				features).getBundle());
 		this.bundle.putInt(SUB_COUNT, c + 1);
+	}
+
+	/**
+	 * Add a SubConnector.
+	 * 
+	 * @param id
+	 *            id
+	 * @param name
+	 *            name
+	 * @param features
+	 *            features
+	 */
+	public void addSubConnector(final String id, final String name,
+			final int features) {
+		this.addSubConnector(id, name, (short) features);
 	}
 }
