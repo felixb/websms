@@ -457,13 +457,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// query for connectors
 		final Intent i = new Intent(Constants.ACTION_CONNECTOR_UPDATE);
-		// FIXME: nothing happens
-		// final Intent i = new Intent(this, CommandReceiverSMS.class);
-		// i.setAction(Constants.ACTION_CONNECTOR_UPDATE);
-		i.addCategory(Intent.CATEGORY_DEFAULT);
-		// FIXME: does not help anything
 		Log.d(TAG, "send broadcast: " + i.getAction());
-		Log.d(TAG, "send broadcast: " + i.getCategories());
 		this.sendBroadcast(i);
 	}
 

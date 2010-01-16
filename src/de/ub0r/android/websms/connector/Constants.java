@@ -38,11 +38,11 @@ public final class Constants {
 
 	/** Broadcast Action to update Connector's status. */
 	public static final String ACTION_CONNECTOR_UPDATE = "de.ub0r."
-			+ "android.websms.UPDATE";
+			+ "android.websms.connector.UPDATE";
 
 	/** Broadcast Action to send updated Connector infos back to WebSMS. */
 	public static final String ACTION_CONNECTOR_INFO = "de.ub0r."
-			+ "android.websms.INFO";
+			+ "android.websms.connector.INFO";
 
 	/** Key to find a connector in a Bundle. */
 	public static final String EXTRAS_CONNECTOR = "connector";
