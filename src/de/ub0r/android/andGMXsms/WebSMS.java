@@ -66,6 +66,7 @@ import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
 
+import de.ub0r.android.websms.connector.ConnectorSpec;
 import de.ub0r.android.websms.connector.Constants;
 
 /**
@@ -119,6 +120,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	static ConnectorSpecs prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
 	static boolean prefsMobilesOnly;
+
+	/** List of available {@link ConnectorSpec}s. */
+	private final static ArrayList<ConnectorSpec> CONNECTORS = new ArrayList<ConnectorSpec>();
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -1139,5 +1143,67 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 		return imeiHash;
+	}
+
+	/**
+	 * Add or update a {@link ConnectorSpec}.
+	 * 
+	 * @param connector
+	 *            connector
+	 */
+	public static final void addConnector(final ConnectorSpec connector) {
+		synchronized (CONNECTORS) {
+			final ConnectorSpec c = getConnector(connector.getID());
+			if (c != null) {
+				c.update(connector);
+			} else {
+				CONNECTORS.add(connector);
+			}
+		}
+	}
+
+	/**
+	 * Get {@link ConnectorSpec} by ID.
+	 * 
+	 * @param id
+	 *            ID
+	 * @return {@link ConnectorSpec}
+	 */
+	public static final ConnectorSpec getConnector(final String id) {
+		synchronized (CONNECTORS) {
+			final int l = CONNECTORS.size();
+			for (int i = 0; i < l; i++) {
+				final ConnectorSpec c = CONNECTORS.get(i);
+				if (id.equals(c.getID())) {
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get {@link ConnectorSpec}s by capabilities and/or status.
+	 * 
+	 * @param capabilities
+	 *            capabilities needed
+	 * @param status
+	 *            status required
+	 * @return {@link ConnectorSpec}s
+	 */
+	public static final ConnectorSpec[] getConnectors(final short capabilities,
+			final short status) {
+		synchronized (CONNECTORS) {
+			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
+					CONNECTORS.size());
+			final int l = CONNECTORS.size();
+			for (int i = 0; i < l; i++) {
+				final ConnectorSpec c = CONNECTORS.get(i);
+				if (c.hasCapabilities(capabilities) && c.hasStatus(status)) {
+					ret.add(c);
+				}
+			}
+			return ret.toArray(new ConnectorSpec[0]);
+		}
 	}
 }

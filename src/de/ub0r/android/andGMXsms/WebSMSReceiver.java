@@ -22,6 +22,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import de.ub0r.android.websms.connector.ConnectorSpec;
+import de.ub0r.android.websms.connector.Constants;
 
 /**
  * Fetch all incomming Broadcasts and forward them to WebSMS.
@@ -37,7 +39,14 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		Log.d(TAG, intent.getAction());
-		// TODO Auto-generated method stub
+		final String action = intent.getAction();
+		Log.d(TAG, "action: " + action);
+		if (action == null) {
+			return;
+		}
+		if (Constants.ACTION_CONNECTOR_INFO.equals(action)) {
+			final ConnectorSpec specs = new ConnectorSpec(intent);
+			WebSMS.addConnector(specs);
+		}
 	}
 }

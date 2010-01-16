@@ -19,6 +19,7 @@
 
 package de.ub0r.android.websms.connector;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -169,13 +170,18 @@ public final class ConnectorSpec {
 	private final Bundle bundle;
 
 	/**
-	 * Create ConnectorSpec from bundle.
+	 * Create ConnectorSpec from intent.
 	 * 
-	 * @param b
-	 *            bundle
+	 * @param i
+	 *            intent
 	 */
-	public ConnectorSpec(final Bundle b) {
-		this.bundle = b;
+	public ConnectorSpec(final Intent i) {
+		Bundle e = i.getExtras();
+		if (e != null) {
+			this.bundle = e.getBundle(Constants.EXTRAS_CONNECTOR);
+		} else {
+			this.bundle = new Bundle();
+		}
 	}
 
 	/**
@@ -190,6 +196,16 @@ public final class ConnectorSpec {
 		this.bundle = new Bundle();
 		this.bundle.putString(ID, id);
 		this.bundle.putString(NAME, name);
+	}
+
+	/**
+	 * Update ConnectorSpecs.
+	 * 
+	 * @param connector
+	 *            {@link ConnectorSpec}
+	 */
+	public void update(final ConnectorSpec connector) {
+		this.bundle.putAll(connector.getBundle());
 	}
 
 	/**
