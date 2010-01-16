@@ -418,46 +418,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	}
 
 	/**
-	 * Get all (enabled) connector specs.
-	 * 
-	 * @param c
-	 *            context
-	 * @param enabledOnly
-	 *            show enabled only
-	 * @return connector specs
-	 */
-	public static final ConnectorSpecs[] getConnectorSpecs(final Context c,
-			final boolean enabledOnly) {
-		final int l = CONNECTOR_SPECS.size();
-		if (enabledOnly) {
-			ArrayList<ConnectorSpecs> ret = new ArrayList<ConnectorSpecs>();
-			for (int i = 0; i < l; i++) {
-				final ConnectorSpecs cs = CONNECTOR_SPECS.get(i);
-				cs.init(c);
-				if (cs.isEnabled()) {
-					ret.add(cs);
-				}
-			}
-			return ret.toArray(new ConnectorSpecs[0]);
-		} else {
-			for (int i = 0; i < l; i++) {
-				CONNECTOR_SPECS.get(i).init(c);
-			}
-			return CONNECTOR_SPECS.toArray(new ConnectorSpecs[0]);
-		}
-	}
-
-	/**
-	 * Register ConnectorSpecs.
-	 * 
-	 * @param cs
-	 *            specs
-	 */
-	public static final void registerConnectorSpecs(final ConnectorSpecs cs) {
-		CONNECTOR_SPECS.add(cs);
-	}
-
-	/**
 	 * Get a Connector of given type.
 	 * 
 	 * @param con
@@ -506,26 +466,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		// FIXME: c.defPrefix = WebSMS.prefsDefPrefix;
 		// FIXME: c.sender = WebSMS.prefsSender;
 		return c;
-	}
-
-	/**
-	 * Get Connector Spec.
-	 * 
-	 * @param con
-	 *            Context to read the strings
-	 * @param connector
-	 *            connector
-	 * @return specs
-	 */
-	public static final ConnectorSpecs getConnectorSpecs(final Context con,
-			final String connector) {
-		for (ConnectorSpecs cs : getConnectorSpecs(con, false)) {
-			if (cs.getName(false).equals(connector)
-					|| cs.getName(true).equals(connector)) {
-				return cs;
-			}
-		}
-		return null;
 	}
 
 	/**

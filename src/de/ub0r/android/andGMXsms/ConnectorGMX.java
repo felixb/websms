@@ -250,10 +250,6 @@ public class ConnectorGMX extends Connector {
 		}
 	};
 
-	static {
-		Connector.registerConnectorSpecs(SPECS);
-	};
-
 	/**
 	 * Create a GMX Connector.
 	 * 

@@ -99,6 +99,31 @@ public final class ConnectorCommand {
 			final String defSender, final String[] recipients,
 			final String text, final boolean flashSMS, final long timestamp,
 			final String customSender) {
+		ConnectorCommand ret = send(defPrefix, defSender, recipients, text,
+				flashSMS);
+		ret.setSendLater(timestamp);
+		ret.setCustomSender(customSender);
+		return ret;
+	}
+
+	/**
+	 * Create Command with type "send".
+	 * 
+	 * @param defPrefix
+	 *            default prefix
+	 * @param defSender
+	 *            default sender
+	 * @param recipients
+	 *            reciepients
+	 * @param text
+	 *            text
+	 * @param flashSMS
+	 *            flashsms
+	 * @return created command
+	 */
+	public static ConnectorCommand send(final String defPrefix,
+			final String defSender, final String[] recipients,
+			final String text, final boolean flashSMS) {
 		final Bundle b = new Bundle();
 		b.putShort(TYPE, TYPE_SEND);
 		b.putString(DEFPREFIX, defPrefix);
@@ -106,8 +131,8 @@ public final class ConnectorCommand {
 		b.putStringArray(RECIPIENTS, recipients);
 		b.putString(TEXT, text);
 		b.putBoolean(FLASHSMS, flashSMS);
-		b.putLong(TIMESTAMP, timestamp);
-		b.putString(CUSTOMSENDER, customSender);
+		b.putLong(TIMESTAMP, -1);
+		b.putString(CUSTOMSENDER, null);
 		return new ConnectorCommand(b);
 	}
 
@@ -148,15 +173,20 @@ public final class ConnectorCommand {
 	}
 
 	/**
-	 * Set this {@link ConnectorCommand} to an {@link Intent}.
+	 * Set this {@link ConnectorCommand} to an {@link Intent}. Creates new
+	 * Intent if needed.
 	 * 
 	 * @param intent
 	 *            {@link Intent}.
 	 * @return the same {@link Intent}
 	 */
 	public Intent setToIntent(final Intent intent) {
-		intent.putExtra(EXTRAS_COMMAND, this.getBundle());
-		return intent;
+		Intent i = intent;
+		if (i == null) {
+			i = new Intent(Constants.ACTION_CONNECTOR_RUN);
+		}
+		i.putExtra(EXTRAS_COMMAND, this.getBundle());
+		return i;
 	}
 
 	/**
@@ -216,9 +246,29 @@ public final class ConnectorCommand {
 	}
 
 	/**
+	 * Set timestamp for sending later.
+	 * 
+	 * @param timestamp
+	 *            timestamp
+	 */
+	public void setSendLater(final long timestamp) {
+		this.bundle.putLong(TIMESTAMP, timestamp);
+	}
+
+	/**
 	 * @return custom sender
 	 */
 	public String getCustomSender() {
 		return this.bundle.getString(CUSTOMSENDER);
+	}
+
+	/**
+	 * Set custom sender.
+	 * 
+	 * @param customSender
+	 *            custom sender
+	 */
+	public void setCustomSender(final String customSender) {
+		this.bundle.putString(CUSTOMSENDER, customSender);
 	}
 }

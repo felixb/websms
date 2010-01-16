@@ -33,6 +33,8 @@ public final class Constants {
 	 * Action to start a connector's {@link Service}. This should include a
 	 * {@link ConnectorCommand}.
 	 */
+	// TODO: split update and bootstrap from send. only connectors needing the
+	// bootstrap broadcast should be spawned on that particular broadcast.
 	public static final String ACTION_CONNECTOR_RUN = "de.ub0r."
 			+ "android.websms.connector.RUN";
 

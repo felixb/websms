@@ -106,9 +106,10 @@ public class IOService extends Service {
 			if (a != null && a.equals(INTENT_ACTION)) {
 				final Bundle b = intent.getExtras();
 				final String[] params = b.getStringArray(INTENT_PARAMS);
-				final ConnectorSpecs connector = Connector.getConnectorSpecs(
-						this, b.getString(INTENT_CONNECTOR));
-				Connector.send(IOService.this, connector, params);
+				// FIXME: final ConnectorSpecs connector =
+				// Connector.getConnectorSpecs(
+				// this, b.getString(INTENT_CONNECTOR));
+				// Connector.send(IOService.this, connector, params);
 			}
 		}
 	}

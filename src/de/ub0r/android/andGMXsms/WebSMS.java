@@ -66,6 +66,7 @@ import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
 
+import de.ub0r.android.websms.connector.ConnectorCommand;
 import de.ub0r.android.websms.connector.ConnectorSpec;
 import de.ub0r.android.websms.connector.Constants;
 
@@ -107,7 +108,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
 	/** Preference's name: connector name. */
-	private static final String PREFS_CONNECTOR_NAME = "connector_name";
+	private static final String PREFS_CONNECTOR_ID = "connector_name";
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
@@ -117,7 +118,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Hased IMEI. */
 	static String imeiHash = null;
 	/** Preferences: connector specs. */
-	static ConnectorSpecs prefsConnectorSpecs = null;
+	static ConnectorSpec prefsConnectorSpecs = null;
 	/** Preferences: show mobile numbers only. */
 	static boolean prefsMobilesOnly;
 
@@ -193,7 +194,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static String lastTo = null;
 
 	/** Backup for params. */
-	private static String[] lastParams = null;
+	private static ConnectorCommand lastParams = null;
+	/** User wants to send the message later. */
+	private static boolean wantSendLater = false;
 
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
@@ -430,11 +433,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (doPreferences) {
 			this.reloadPrefs();
 			doPreferences = false;
-			for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
-				String[] params = new String[ConnectorGMX.IDS_BOOTSTR];
-				params[Connector.ID_ID] = Connector.ID_BOOSTR;
-				Connector.bootstrap(this, cs, params);
-			}
+			final Intent intent = ConnectorCommand.bootstrap()
+					.setToIntent(null);
+			Log.d(TAG, "send broadcast: " + intent.getAction());
+			this.sendBroadcast(intent);
 		}
 
 		this.setButtons();
@@ -471,7 +473,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
 
-		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
+		for (ConnectorSpec cs : getConnectors(
+				ConnectorSpec.CAPABILITIES_UPDATE, // .
+				ConnectorSpec.STATUS_ENABLED)) {
 			final String b = cs.getBalance();
 			if (b == null || b.length() == 0) {
 				continue;
@@ -479,7 +483,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (buf.length() > 0) {
 				buf.append(", ");
 			}
-			buf.append(cs.getName(true));
+			buf.append(cs.getName());
 			buf.append(" ");
 			buf.append(b);
 		}
@@ -526,8 +530,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		prefsConnectorSpecs = Connector.getConnectorSpecs(this, p.getString(
-				PREFS_CONNECTOR_NAME, ""));
+		prefsConnectorSpecs = getConnector(p.getString(PREFS_CONNECTOR_ID, ""));
 
 		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
 
@@ -555,8 +558,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		final ConnectorSpecs[] enabled = Connector
-				.getConnectorSpecs(this, true);
+		final ConnectorSpec[] enabled = getConnectors(
+				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
 		final int c = enabled.length;
 
 		Button btn = (Button) this.findViewById(R.id.send_);
@@ -568,7 +571,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		if (prefsConnectorSpecs != null) {
-			final short features = prefsConnectorSpecs.getFeatures();
+			final short features = ConnectorSpec.SubConnectorSpec.FEATURE_NONE;
+			// FIXME: prefsConnectorSpecs.getFeatures();
 			final boolean sFlashsms = (features & ConnectorSpecs.FEATURE_FLASHSMS) == ConnectorSpecs.FEATURE_FLASHSMS;
 			final boolean sCustomsender = (features & ConnectorSpecs.FEATURE_CUSTOMSENDER) == ConnectorSpecs.FEATURE_CUSTOMSENDER;
 			final boolean sSendLater = (features & ConnectorSpecs.FEATURE_SENDLATER) == ConnectorSpecs.FEATURE_SENDLATER;
@@ -595,7 +599,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 
 			this.setTitle(this.getString(R.string.app_name) + " - "
-					+ prefsConnectorSpecs.getName(false));
+					+ prefsConnectorSpecs.getName());
 		}
 	}
 
@@ -620,8 +624,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void savePreferences() {
 		if (prefsConnectorSpecs != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_NAME,
-							prefsConnectorSpecs.getName(false)).commit();
+					.putString(PREFS_CONNECTOR_ID,
+							prefsConnectorSpecs.getName()).commit();
 		}
 	}
 
@@ -632,12 +636,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            force update, if false only blank balances will get updated
 	 */
 	private void updateFreecount(final boolean forceUpdate) {
-		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
-			final String b = cs.getBalance();
-			if (forceUpdate || b == null || b.length() == 0) {
-				Connector.update(this, cs);
-			}
-		}
+		final Intent intent = ConnectorCommand.bootstrap().setToIntent(null);
+		Log.d(TAG, "send broadcast: " + intent.getAction());
+		this.sendBroadcast(intent);
 	}
 
 	/**
@@ -691,8 +692,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.change_connector_);
 		final ArrayList<String> items = new ArrayList<String>();
-		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, true)) {
-			items.add(cs.getName(false));
+		for (ConnectorSpec cs : getConnectors(ConnectorSpec.CAPABILITIES_SEND,
+				ConnectorSpec.STATUS_ENABLED)) {
+			items.add(cs.getName());
 		}
 		// TODO: add subconnectors
 
@@ -700,14 +702,13 @@ public class WebSMS extends Activity implements OnClickListener,
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog,
 							final int item) {
-						prefsConnectorSpecs = Connector.getConnectorSpecs(
-								WebSMS.this, items.get(item));
+						prefsConnectorSpecs = getConnector(items.get(item));
 						WebSMS.this.setButtons();
 						// save user preferences
 						PreferenceManager.getDefaultSharedPreferences(
 								WebSMS.this).edit().putString(
-								PREFS_CONNECTOR_NAME,
-								prefsConnectorSpecs.getName(false)).commit();
+								PREFS_CONNECTOR_ID,
+								prefsConnectorSpecs.getName()).commit();
 					}
 				});
 		builder.create().show();
@@ -815,11 +816,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
 			StringBuffer authors = new StringBuffer();
-			for (ConnectorSpecs cs : Connector.getConnectorSpecs(WebSMS.this,
-					false)) {
+			for (ConnectorSpec cs : getConnectors(
+					ConnectorSpec.CAPABILITIES_NONE,
+					ConnectorSpec.STATUS_INACTIVE)) {
 				final String a = cs.getAuthor();
 				if (a != null && a.length() > 0) {
-					authors.append(cs.getName(true));
+					authors.append(cs.getName());
 					authors.append(":\t");
 					authors.append(a);
 					authors.append("\n");
@@ -861,9 +863,9 @@ public class WebSMS extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface dialog,
 								final int id) {
-							WebSMS.lastParams[Connector.ID_CUSTOMSENDER] = et
-									.getText().toString();
-							if (WebSMS.lastParams[Connector.ID_SENDLATER] != null) {
+							WebSMS.lastParams.setCustomSender(et.getText()
+									.toString());
+							if (WebSMS.wantSendLater) {
 								WebSMS.this
 										.showDialog(WebSMS.DIALOG_SENDLATER_DATE);
 							} else {
@@ -935,16 +937,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @param connector
 	 *            which connector should be used.
-	 * @param params
-	 *            parameters to push to connector
+	 * @param command
+	 *            {@link ConnectorCommand} to push to connector
 	 */
-	private void send(final ConnectorSpecs connector, final String[] params) {
+	private void send(final ConnectorSpec connector,
+			final ConnectorCommand command) {
 		try {
-			final Intent i = new Intent(this, IOService.class);
-			i.setAction(IOService.INTENT_ACTION);
-			i.putExtra(IOService.INTENT_PARAMS, params);
-			i.putExtra(IOService.INTENT_CONNECTOR, connector.getName(false));
-			this.startService(i);
+			final Intent intent = command.setToIntent(null);
+			prefsConnectorSpecs.setToIntent(intent);
+			// TODO: change status of connector
+			this.sendBroadcast(intent);
 		} catch (Exception e) {
 			Log.e(TAG, null, e);
 		} finally {
@@ -958,7 +960,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				this.finish();
 			}
-
 		}
 	}
 
@@ -968,7 +969,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param connector
 	 *            which connector should be used.
 	 */
-	private void send(final ConnectorSpecs connector) {
+	private void send(final ConnectorSpec connector) {
 		// fetch text/recipient
 		final String to = ((EditText) this.findViewById(R.id.to)).getText()
 				.toString();
@@ -989,33 +990,29 @@ public class WebSMS extends Activity implements OnClickListener,
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
 				&& v.isEnabled() && v.isChecked();
 		v = (CheckBox) this.findViewById(R.id.send_later);
-		long t = -1;
 		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
 				&& v.isChecked()) {
-			t = 0;
+			wantSendLater = true;
 		}
-		String customSender = null;
 		SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		String[] params = Connector.buildSendParams(p.getString(PREFS_SENDER,
-				""), p.getString(PREFS_DEFPREFIX, ""), to, text, flashSMS,
-				customSender, 0);
-		if (t < 0) {
-			params[Connector.ID_SENDLATER] = null;
-		} else {
-			params[Connector.ID_SENDLATER] = "" + t;
-		}
+		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
+		final String defSender = p.getString(PREFS_SENDER, "");
+
+		final ConnectorCommand command = ConnectorCommand.send(defPrefix,
+				defSender, to.split(","), text, flashSMS);
+
 		v = (CheckBox) this.findViewById(R.id.custom_sender);
 		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
 				&& v.isChecked()) {
-			lastParams = params;
+			lastParams = command;
 			this.showDialog(DIALOG_CUSTOMSENDER);
 		} else {
-			if (t >= 0) {
-				lastParams = params;
+			if (wantSendLater) {
+				lastParams = command;
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
-				this.send(connector, params);
+				this.send(connector, command);
 			}
 		}
 	}
@@ -1035,14 +1032,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onDateSet(final DatePicker view, final int year,
 			final int monthOfYear, final int dayOfMonth) {
 		final Calendar c = Calendar.getInstance();
-		if (lastParams[Connector.ID_SENDLATER] != null) {
-			c.setTimeInMillis(Long
-					.parseLong(lastParams[Connector.ID_SENDLATER]));
+		if (lastParams != null) {
+			final long l = lastParams.getSendLater();
+			if (l > 0) {
+				c.setTimeInMillis(l);
+			}
 		}
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, monthOfYear);
 		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-		lastParams[Connector.ID_SENDLATER] = "" + c.getTimeInMillis();
+		lastParams.setSendLater(c.getTimeInMillis());
 
 		this.showDialog(DIALOG_SENDLATER_TIME);
 	}
@@ -1059,7 +1058,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public final void onTimeSet(final TimePicker view, final int hour,
 			final int minutes) {
-		if (prefsConnectorSpecs.getName(true).equals("o2") // FIXME
+		if (prefsConnectorSpecs.getName().equals("WebSMS.o2") // FIXME
 				&& minutes % 15 != 0) {
 			Toast.makeText(this, R.string.log_error_o2_sendlater,
 					Toast.LENGTH_LONG).show();
@@ -1067,13 +1066,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		final Calendar c = Calendar.getInstance();
-		if (lastParams[Connector.ID_SENDLATER] != null) {
-			c.setTimeInMillis(Long
-					.parseLong(lastParams[Connector.ID_SENDLATER]));
+		if (lastParams != null) {
+			c.setTimeInMillis(lastParams.getSendLater());
 		}
 		c.set(Calendar.HOUR_OF_DAY, hour);
 		c.set(Calendar.MINUTE, minutes);
-		lastParams[Connector.ID_SENDLATER] = "" + c.getTimeInMillis();
+		lastParams.setSendLater(c.getTimeInMillis());
 
 		this.send(WebSMS.prefsConnectorSpecs, WebSMS.lastParams);
 	}

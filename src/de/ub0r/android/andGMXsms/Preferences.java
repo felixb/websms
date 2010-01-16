@@ -26,6 +26,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+import de.ub0r.android.websms.connector.ConnectorSpec;
 
 /**
  * Preferences.
@@ -47,14 +48,16 @@ public class Preferences extends PreferenceActivity implements
 		p.registerOnSharedPreferenceChangeListener(this);
 		PreferenceCategory pc = (PreferenceCategory) this
 				.findPreference("settings_connectors");
-		for (ConnectorSpecs cs : Connector.getConnectorSpecs(this, false)) {
-			final Intent i = cs.getPreferencesIntent();
-			if (i == null) {
+		for (ConnectorSpec cs : WebSMS.getConnectors(
+				ConnectorSpec.CAPABILITIES_NONE, // .
+				ConnectorSpec.STATUS_INACTIVE)) {
+			final String action = cs.getPrefsIntent();
+			if (action == null) {
 				continue;
 			}
 			final Preference cp = new Preference(this);
-			cp.setTitle(cs.getPreferencesTitle());
-			cp.setIntent(i);
+			cp.setTitle(cs.getPrefsTitle());
+			cp.setIntent(new Intent(action));
 			pc.addPreference(cp);
 		}
 	}
