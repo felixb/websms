@@ -30,12 +30,15 @@ public final class Constants {
 		return;
 	}
 
-	/** Action to start a connector's {@link Service}. */
-	public static final String ACTION_RUN_CONNECTOR = "de.ub0r."
+	/**
+	 * Action to start a connector's {@link Service}. This should include a
+	 * {@link ConnectorCommand}.
+	 */
+	public static final String ACTION_CONNECTOR_RUN = "de.ub0r."
 			+ "android.websms.connector.RUN";
 
 	/** Broadcast Action to update Connector's status. */
-	public static final String ACTION_UPDATE_CONNECTOR = "de.ub0r."
+	public static final String ACTION_CONNECTOR_UPDATE = "de.ub0r."
 			+ "android.websms.UPDATE";
 
 	/** Broadcast Action to send updated Connector infos back to WebSMS. */

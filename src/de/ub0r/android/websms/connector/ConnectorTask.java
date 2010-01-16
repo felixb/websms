@@ -79,7 +79,7 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected final void onPostExecute(final Void result) {
-		final Intent intent = new Intent(Constants.ACTION_UPDATE_CONNECTOR);
+		final Intent intent = new Intent(Constants.ACTION_CONNECTOR_UPDATE);
 		intent.putExtra(Constants.EXTRAS_CONNECTOR, this.connector
 				.getConnector());
 		this.service.sendBroadcast(intent);

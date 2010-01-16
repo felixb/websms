@@ -29,9 +29,11 @@ import android.os.Bundle;
 public final class ConnectorSpec {
 
 	/** Connector: ID. */
-	public static final String ID = "connector_id";
+	private static final String ID = "connector_id";
+	/** Connector: ID. */
+	private static final String NAME = "connector_name";
 	/** Connector: Status. */
-	public static final String STATUS = "connector_status";
+	private static final String STATUS = "connector_status";
 	/** Connector: Status: inactive. */
 	public static final short STATUS_INACTIVE = 0;
 	/** Connector: Status: enabled. */
@@ -45,13 +47,13 @@ public final class ConnectorSpec {
 	/** Connector: Status: sending. */
 	public static final short STATUS_SENDING = 16;
 	/** Connector: Author. */
-	public static final String AUTHOR = "connector_author";
+	private static final String AUTHOR = "connector_author";
 	/** Connector: Preferences' intent URI. */
-	public static final String PREFSINTENT = "connector_prefsintent";
+	private static final String PREFSINTENT = "connector_prefsintent";
 	/** Connector: Preferences' title. */
-	public static final String PREFSTITLE = "connector_prefstitle";
+	private static final String PREFSTITLE = "connector_prefstitle";
 	/** Connector: Capabilities. */
-	public static final String CAPABILITIES = "connector_capabilities";
+	private static final String CAPABILITIES = "connector_capabilities";
 	/** Feature: none. */
 	public static final short CAPABILITIES_NONE = 0;
 	/** Feature: bootstrap. */
@@ -61,27 +63,13 @@ public final class ConnectorSpec {
 	/** Feature: send. */
 	public static final short CAPABILITIES_SEND = 4;
 	/** Connector: Balance. */
-	public static final String BALANCE = "connector_balance";
+	private static final String BALANCE = "connector_balance";
 
 	// Subconnectors
 	/** Connector: SubConnector prefix. */
 	private static final String SUB_PREFIX = "sub_";
 	/** Connector: number of subconnectors. */
 	private static final String SUB_COUNT = SUB_PREFIX + "n";
-	/** Connector: name. */
-	public static final String NAME = "subconnector_name";
-	/** Connector: features. */
-	public static final String FEATURES = "subconnector_features";
-	/** Feature: none. */
-	public static final short FEATURE_NONE = 0;
-	/** Feature: multiple recipients. */
-	public static final short FEATURE_MULTIRECIPIENTS = 1;
-	/** Feature: flash sms. */
-	public static final short FEATURE_FLASHSMS = 2;
-	/** Feature: send later. */
-	public static final short FEATURE_SENDLATER = 4;
-	/** Feature: custom sender. */
-	public static final short FEATURE_CUSTOMSENDER = 8;
 
 	/**
 	 * SubConnectorSpec presents all necessary informations to use a
@@ -90,6 +78,23 @@ public final class ConnectorSpec {
 	 * @author flx
 	 */
 	public final class SubConnectorSpec {
+		/** Connector: ID. */
+		private static final String ID = "subconnector_id";
+		/** Connector: name. */
+		private static final String NAME = "subconnector_name";
+		/** Connector: features. */
+		private static final String FEATURES = "subconnector_features";
+		/** Feature: none. */
+		public static final short FEATURE_NONE = 0;
+		/** Feature: multiple recipients. */
+		public static final short FEATURE_MULTIRECIPIENTS = 1;
+		/** Feature: flash sms. */
+		public static final short FEATURE_FLASHSMS = 2;
+		/** Feature: send later. */
+		public static final short FEATURE_SENDLATER = 4;
+		/** Feature: custom sender. */
+		public static final short FEATURE_CUSTOMSENDER = 8;
+
 		/** {@link Bundle} represents the SubConnectorSpec. */
 		private final Bundle bundle;
 
@@ -174,6 +179,20 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Create ConnectorSpec.
+	 * 
+	 * @param id
+	 *            ID
+	 * @param name
+	 *            name
+	 */
+	public ConnectorSpec(final String id, final String name) {
+		this.bundle = new Bundle();
+		this.bundle.putString(ID, id);
+		this.bundle.putString(NAME, name);
+	}
+
+	/**
 	 * @return internal bundle
 	 */
 	public Bundle getBundle() {
@@ -188,10 +207,54 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * @return Name
+	 */
+	public String getName() {
+		return this.bundle.getString(NAME);
+	}
+
+	/**
+	 * Set name.
+	 * 
+	 * @param name
+	 *            name
+	 */
+	public void setName(final String name) {
+		this.bundle.putString(NAME, name);
+	}
+
+	/**
 	 * @return status
 	 */
 	public short getStatus() {
 		return this.bundle.getShort(STATUS, STATUS_INACTIVE);
+	}
+
+	/**
+	 * Set status.
+	 * 
+	 * @param status
+	 *            status
+	 */
+	public void setStatus(final short status) {
+		this.bundle.putShort(STATUS, status);
+	}
+
+	/**
+	 * Set status.
+	 * 
+	 * @param status
+	 *            status
+	 */
+	public void setStatus(final int status) {
+		this.bundle.putShort(STATUS, (short) status);
+	}
+
+	/**
+	 * Set status: ready.
+	 */
+	public void setReady() {
+		this.setStatus(STATUS_ENABLED | STATUS_READY);
 	}
 
 	/**
@@ -212,10 +275,30 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Set author.
+	 * 
+	 * @param author
+	 *            author
+	 */
+	public void setAuthor(final String author) {
+		this.bundle.putString(AUTHOR, author);
+	}
+
+	/**
 	 * @return prefs intent uri
 	 */
 	public String getPrefsIntent() {
 		return this.bundle.getString(PREFSINTENT);
+	}
+
+	/**
+	 * Set prefs intent.
+	 * 
+	 * @param prefsIntent
+	 *            prefs intent
+	 */
+	public void setPrefsIntent(final String prefsIntent) {
+		this.bundle.putString(PREFSINTENT, prefsIntent);
 	}
 
 	/**
@@ -226,6 +309,16 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Set prefs title.
+	 * 
+	 * @param prefsTitle
+	 *            prefs title
+	 */
+	public void setPrefsTitle(final String prefsTitle) {
+		this.bundle.putString(PREFSTITLE, prefsTitle);
+	}
+
+	/**
 	 * @return balance
 	 */
 	public String getBalance() {
@@ -233,10 +326,30 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Set balance.
+	 * 
+	 * @param balance
+	 *            balance
+	 */
+	public void setBalance(final String balance) {
+		this.bundle.putString(BALANCE, balance);
+	}
+
+	/**
 	 * @return capabilities
 	 */
 	public short getCapabilities() {
 		return this.bundle.getShort(CAPABILITIES, CAPABILITIES_NONE);
+	}
+
+	/**
+	 * Set capabilities.
+	 * 
+	 * @param capabilities
+	 *            capabilities
+	 */
+	public void setCapabilities(final short capabilities) {
+		this.bundle.putShort(BALANCE, capabilities);
 	}
 
 	/**
@@ -256,7 +369,8 @@ public final class ConnectorSpec {
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
 		final SubConnectorSpec[] ret = new SubConnectorSpec[c];
 		for (int i = 0; i < c; i++) {
-			ret[i] = new SubConnectorSpec(this.bundle.getBundle(SUB_PREFIX + i));
+			ret[i] = new SubConnectorSpec(// .
+					this.bundle.getBundle(SUB_PREFIX + i));
 		}
 		return ret;
 	}
@@ -278,18 +392,6 @@ public final class ConnectorSpec {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Add a SubConnector from bundle.
-	 * 
-	 * @param b
-	 *            bundle
-	 */
-	private void addSubConnector(final Bundle b) {
-		final int c = this.bundle.getInt(SUB_COUNT, 0);
-		this.bundle.putBundle(SUB_PREFIX + c, b);
-		this.bundle.putInt(SUB_COUNT, c + 1);
 	}
 
 	/**

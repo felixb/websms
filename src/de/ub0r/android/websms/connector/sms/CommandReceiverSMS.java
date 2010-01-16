@@ -23,13 +23,17 @@ import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
+import de.ub0r.android.andGMXsms.R;
 import de.ub0r.android.andGMXsms.Connector.WebSMSException;
 import de.ub0r.android.websms.connector.ConnectorCommand;
 import de.ub0r.android.websms.connector.ConnectorSpec;
 import de.ub0r.android.websms.connector.Constants;
+import de.ub0r.android.websms.connector.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Receives commands coming as broadcast from WebSMS.
@@ -41,6 +45,12 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
 
+	/** Preference key: enabled. */
+	private static final String PREFS_ENABLED = "enable_sms";
+
+	/** Internal {@link ConnectorSpec}. */
+	private static ConnectorSpec conector = null;
+
 	/**
 	 * Init ConnectorSpec.
 	 * 
@@ -48,20 +58,27 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 	 *            context
 	 * @return ConnectorSpec
 	 */
-	private ConnectorSpec initSpecs(final Context context) {
-		final Bundle b = new Bundle();
-		b.putString(ConnectorSpec.ID, TAG);
-		b.putString(ConnectorSpec.NAME, context.getString(0)); // TODO: fill me
-		// ..
-		b.putString(ConnectorSpec.AUTHOR, null);
-		b.putString(ConnectorSpec.BALANCE, null);
-		b.putShort(ConnectorSpec.CAPABILITIES, ConnectorSpec.CAPABILITIES_SEND);
-		b.putString(ConnectorSpec.PREFSINTENT, null);
-		b.putString(ConnectorSpec.PREFSTITLE, null);
-		b.putShort(ConnectorSpec.STATUS, ConnectorSpec.STATUS_INACTIVE);
-		final ConnectorSpec c = new ConnectorSpec(b);
-		c.addSubConnector(TAG, null, ConnectorSpec.FEATURE_MULTIRECIPIENTS);
-		return c;
+	private static synchronized ConnectorSpec getSpecs(final Context context) {
+		if (conector == null) {
+			conector = new ConnectorSpec(TAG, context
+					.getString(R.string.connector_sms_name));
+			conector.setAuthor(// .
+					context.getString(R.string.connector_sms_author));
+			conector.setBalance(null);
+			conector.setPrefsIntent(null);
+			conector.setPrefsTitle(null);
+			conector.setCapabilities(ConnectorSpec.CAPABILITIES_SEND);
+			conector.addSubConnector(TAG, conector.getName(),
+					SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		}
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(PREFS_ENABLED, false)) {
+			conector.setReady();
+		} else {
+			conector.setStatus(ConnectorSpec.STATUS_INACTIVE);
+		}
+		return conector;
 	}
 
 	/**
@@ -97,22 +114,27 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (Constants.ACTION_UPDATE_CONNECTOR.equals(action)) {
-			final ConnectorSpec specs = this.initSpecs(context);
+		if (Constants.ACTION_CONNECTOR_UPDATE.equals(action)) {
+			final ConnectorSpec specs = CommandReceiverSMS.getSpecs(context);
 			// TODO: return specs as broadcast to WebSMS
-		} else if (Constants.ACTION_RUN_CONNECTOR.equals(action)) {
+		} else if (Constants.ACTION_CONNECTOR_RUN.equals(action)) {
 			final Bundle extras = intent.getExtras();
 			if (extras != null) {
 				final ConnectorCommand command = new ConnectorCommand(extras
 						.getBundle(Constants.EXTRAS_COMMAND));
 				if (command.getType() == ConnectorCommand.TYPE_SEND) {
-					try {
-						this.send(command);
-					} catch (WebSMSException e) {
-						// TODO Auto-generated catch block
-						Log.e(TAG, null, e);
-					} finally {
-						// TODO: send back broadcast to WebSMS
+					final ConnectorSpec specs = CommandReceiverSMS
+							.getSpecs(context);
+					if (specs.hasStatus(ConnectorSpec.STATUS_READY)) {
+						// check internal status
+						try {
+							this.send(command);
+						} catch (WebSMSException e) {
+							// TODO Auto-generated catch block
+							Log.e(TAG, null, e);
+						} finally {
+							// TODO: send back broadcast to WebSMS
+						}
 					}
 				}
 			}

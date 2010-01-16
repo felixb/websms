@@ -95,7 +95,7 @@ public abstract class ConnectorService extends Service {
 	public final void onStart(final Intent intent, final int startId) {
 		if (intent != null) {
 			final String a = intent.getAction();
-			if (a != null && a.equals(Constants.ACTION_RUN_CONNECTOR)) {
+			if (a != null && a.equals(Constants.ACTION_CONNECTOR_RUN)) {
 				// TODO: setForeground / startForeground
 				this.startConnectorTask(this, intent);
 			}
