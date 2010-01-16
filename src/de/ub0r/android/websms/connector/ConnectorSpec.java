@@ -29,6 +29,9 @@ import android.os.Bundle;
  */
 public final class ConnectorSpec {
 
+	/** Key to find a connector in a Bundle. */
+	private static final String EXTRAS_CONNECTOR = "connector";
+
 	/** Connector: ID. */
 	private static final String ID = "connector_id";
 	/** Connector: ID. */
@@ -178,7 +181,7 @@ public final class ConnectorSpec {
 	public ConnectorSpec(final Intent i) {
 		Bundle e = i.getExtras();
 		if (e != null) {
-			this.bundle = e.getBundle(Constants.EXTRAS_CONNECTOR);
+			this.bundle = e.getBundle(EXTRAS_CONNECTOR);
 		} else {
 			this.bundle = new Bundle();
 		}
@@ -206,6 +209,18 @@ public final class ConnectorSpec {
 	 */
 	public void update(final ConnectorSpec connector) {
 		this.bundle.putAll(connector.getBundle());
+	}
+
+	/**
+	 * Set this {@link ConnectorSpec} to an {@link Intent}.
+	 * 
+	 * @param intent
+	 *            {@link Intent}.
+	 * @return the same {@link Intent}
+	 */
+	public Intent setToIntent(final Intent intent) {
+		intent.putExtra(EXTRAS_CONNECTOR, this.getBundle());
+		return intent;
 	}
 
 	/**

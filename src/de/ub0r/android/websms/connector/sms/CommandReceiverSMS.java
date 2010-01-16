@@ -24,10 +24,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 import de.ub0r.android.andGMXsms.R;
 import de.ub0r.android.andGMXsms.Connector.WebSMSException;
 import de.ub0r.android.websms.connector.ConnectorCommand;
@@ -106,6 +106,26 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 	}
 
 	/**
+	 * Send INFO Broadcast back to WebSMS.
+	 * 
+	 * @param context
+	 *            context
+	 * @param specs
+	 *            {@link ConnectorSpec}; if null, getSpecs() is called to get
+	 *            them
+	 */
+	private void sendInfo(final Context context, final ConnectorSpec specs) {
+		ConnectorSpec c = specs;
+		if (c == null) {
+			c = getSpecs(context);
+		}
+		final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
+		specs.setToIntent(i);
+		Log.d(TAG, "send broadcast: " + i.getAction());
+		context.sendBroadcast(i);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -116,29 +136,23 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 			return;
 		}
 		if (Constants.ACTION_CONNECTOR_UPDATE.equals(action)) {
-			final ConnectorSpec specs = CommandReceiverSMS.getSpecs(context);
-			final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
-			i.putExtra(Constants.EXTRAS_CONNECTOR, specs.getBundle());
-			Log.d(TAG, "send broadcast: " + i.getAction());
-			context.sendBroadcast(i);
+			this.sendInfo(context, null);
 		} else if (Constants.ACTION_CONNECTOR_RUN.equals(action)) {
-			final Bundle extras = intent.getExtras();
-			if (extras != null) {
-				final ConnectorCommand command = new ConnectorCommand(extras
-						.getBundle(Constants.EXTRAS_COMMAND));
-				if (command.getType() == ConnectorCommand.TYPE_SEND) {
-					final ConnectorSpec specs = CommandReceiverSMS
-							.getSpecs(context);
-					if (specs.hasStatus(ConnectorSpec.STATUS_READY)) {
-						// check internal status
-						try {
-							this.send(command);
-						} catch (WebSMSException e) {
-							// TODO Auto-generated catch block
-							Log.e(TAG, null, e);
-						} finally {
-							// TODO: send back broadcast to WebSMS
-						}
+			final ConnectorCommand command = new ConnectorCommand(intent);
+			if (command.getType() == ConnectorCommand.TYPE_SEND) {
+				final ConnectorSpec specs = CommandReceiverSMS
+						.getSpecs(context);
+				if (specs.hasStatus(ConnectorSpec.STATUS_READY)) {
+					// check internal status
+					try {
+						this.send(command);
+					} catch (WebSMSException e) {
+						Log.e(TAG, null, e);
+						Toast.makeText(context,
+								specs.getName() + ": " + e.getMessage(),
+								Toast.LENGTH_LONG).show();
+					} finally {
+						this.sendInfo(context, specs);
 					}
 				}
 			}

@@ -19,6 +19,7 @@
 
 package de.ub0r.android.websms.connector;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -27,6 +28,9 @@ import android.os.Bundle;
  * @author flx
  */
 public final class ConnectorCommand {
+
+	/** Key to find command in a Bundle. */
+	private static final String EXTRAS_COMMAND = "command";
 
 	/** Command: type. */
 	public static final String TYPE = "command_type";
@@ -119,13 +123,40 @@ public final class ConnectorCommand {
 	}
 
 	/**
-	 * Create Command from Bundle.
+	 * Create Command from {@link Bundle}.
 	 * 
 	 * @param b
 	 *            Bundle
 	 */
-	public ConnectorCommand(final Bundle b) {
+	private ConnectorCommand(final Bundle b) {
 		this.bundle = b;
+	}
+
+	/**
+	 * Create Command from {@link Intent}.
+	 * 
+	 * @param i
+	 *            Intent
+	 */
+	public ConnectorCommand(final Intent i) {
+		Bundle e = i.getExtras();
+		if (e != null) {
+			this.bundle = e.getBundle(EXTRAS_COMMAND);
+		} else {
+			this.bundle = new Bundle();
+		}
+	}
+
+	/**
+	 * Set this {@link ConnectorCommand} to an {@link Intent}.
+	 * 
+	 * @param intent
+	 *            {@link Intent}.
+	 * @return the same {@link Intent}
+	 */
+	public Intent setToIntent(final Intent intent) {
+		intent.putExtra(EXTRAS_COMMAND, this.getBundle());
+		return intent;
 	}
 
 	/**
