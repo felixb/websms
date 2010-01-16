@@ -50,6 +50,8 @@ public final class ConnectorSpec {
 	public static final short STATUS_UPDATING = 8;
 	/** Connector: Status: sending. */
 	public static final short STATUS_SENDING = 16;
+	/** Connector: Status: error. */
+	public static final short STATUS_ERROR = 32;
 	/** Connector: Author. */
 	private static final String AUTHOR = "connector_author";
 	/** Connector: Preferences' intent URI. */
@@ -68,6 +70,8 @@ public final class ConnectorSpec {
 	public static final short CAPABILITIES_SEND = 4;
 	/** Connector: Balance. */
 	private static final String BALANCE = "connector_balance";
+	/** Connector: Error message */
+	private static final String ERRORMESSAGE = "connector_errormessage";
 
 	// Subconnectors
 	/** Connector: SubConnector prefix. */
@@ -272,6 +276,16 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * Add status.
+	 * 
+	 * @param status
+	 *            status
+	 */
+	public void addStatus(final short status) {
+		this.setStatus(status | this.getStatus());
+	}
+
+	/**
 	 * Set status.
 	 * 
 	 * @param status
@@ -401,6 +415,25 @@ public final class ConnectorSpec {
 	public boolean hasCapabilities(final short capabilities) {
 		final short c = this.bundle.getShort(CAPABILITIES, CAPABILITIES_NONE);
 		return (c & capabilities) == capabilities;
+	}
+
+	/**
+	 * Get error message.
+	 * 
+	 * @return error message
+	 */
+	public String getErrorMessage() {
+		return this.bundle.getString(ERRORMESSAGE);
+	}
+
+	/**
+	 * Set error message.
+	 * 
+	 * @param error
+	 *            error message
+	 */
+	public void setErrorMessage(final String error) {
+		this.bundle.putString(ERRORMESSAGE, error);
 	}
 
 	/**

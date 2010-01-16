@@ -44,14 +44,14 @@ public final class Constants {
 	 * Action to start a connector's {@link Service}. This should include a
 	 * {@link ConnectorCommand}: update.
 	 */
-	public static final String ACTION_CONNECTOR_RUN_UPDATE = "de.ub0r."
+	public static final String ACTION_CONNECTOR_RUN_UPDATE = ACTION_PREFIX
 			+ "RUN_UPDATE";
 
 	/**
 	 * Action to start a connector's {@link Service}. This should include a
 	 * {@link ConnectorCommand}: send.
 	 */
-	public static final String ACTION_CONNECTOR_RUN_SEND = "de.ub0r."
+	public static final String ACTION_CONNECTOR_RUN_SEND = ACTION_PREFIX
 			+ "RUN_SEND";
 
 	/** Broadcast Action requesting update of {@link ConnectorSpec}'s status. */

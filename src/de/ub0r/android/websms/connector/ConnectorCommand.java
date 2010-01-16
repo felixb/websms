@@ -19,6 +19,8 @@
 
 package de.ub0r.android.websms.connector;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -33,7 +35,7 @@ public final class ConnectorCommand {
 	private static final String EXTRAS_COMMAND = "command";
 
 	/** Command: type. */
-	public static final String TYPE = "command_type";
+	private static final String TYPE = "command_type";
 	/** Command: type - bootstrap. */
 	public static final short TYPE_BOOTSTRAP = 1;
 	/** Command: type - update. */
@@ -41,19 +43,19 @@ public final class ConnectorCommand {
 	/** Command: type - send. */
 	public static final short TYPE_SEND = 4;
 	/** Command: default sender. */
-	public static final String DEFSENDER = "command_defsender";
+	private static final String DEFSENDER = "command_defsender";
 	/** Command: default prefix. */
-	public static final String DEFPREFIX = "command_defprefix";
+	private static final String DEFPREFIX = "command_defprefix";
 	/** Command: recipients. */
-	public static final String RECIPIENTS = "command_reciepients";
+	private static final String RECIPIENTS = "command_reciepients";
 	/** Command: text. */
-	public static final String TEXT = "command_text";
+	private static final String TEXT = "command_text";
 	/** Command: flashsms. */
-	public static final String FLASHSMS = "command_flashsms";
+	private static final String FLASHSMS = "command_flashsms";
 	/** Command: timestamp. */
-	public static final String TIMESTAMP = "command_timestamp";
+	private static final String TIMESTAMP = "command_timestamp";
 	/** Command: custom sender. */
-	public static final String CUSTOMSENDER = "command_customsender";
+	private static final String CUSTOMSENDER = "command_customsender";
 
 	/** {@link Bundle} represents the ConnectorSpec. */
 	private final Bundle bundle;
@@ -128,7 +130,15 @@ public final class ConnectorCommand {
 		b.putShort(TYPE, TYPE_SEND);
 		b.putString(DEFPREFIX, defPrefix);
 		b.putString(DEFSENDER, defSender);
-		b.putStringArray(RECIPIENTS, recipients);
+		final int l = recipients.length;
+		ArrayList<String> r = new ArrayList<String>(l);
+		for (int i = 0; i < l; i++) {
+			final String s = recipients[i];
+			if (s != null && s.trim().length() > 0) {
+				r.add(s);
+			}
+		}
+		b.putStringArray(RECIPIENTS, r.toArray(new String[0]));
 		b.putString(TEXT, text);
 		b.putBoolean(FLASHSMS, flashSMS);
 		b.putLong(TIMESTAMP, -1);
@@ -212,7 +222,11 @@ public final class ConnectorCommand {
 	 * @return type
 	 */
 	public short getType() {
-		return this.bundle.getShort(TYPE);
+		if (this.bundle != null) {
+			return this.bundle.getShort(TYPE);
+		} else {
+			return 0;
+		}
 	}
 
 	/**

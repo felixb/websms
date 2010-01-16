@@ -949,6 +949,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			final Intent intent = command.setToIntent(null);
 			prefsConnectorSpecs.setToIntent(intent);
 			// TODO: change status of connector
+			Log.d(TAG, "send broadcast: " + intent.getAction());
 			this.sendBroadcast(intent);
 		} catch (Exception e) {
 			Log.e(TAG, null, e);
