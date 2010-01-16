@@ -66,6 +66,8 @@ import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
 
+import de.ub0r.android.websms.connector.Constants;
+
 /**
  * Main Activity.
  * 
@@ -263,15 +265,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		// FIXME: we have to call all connector classes :/
-		new ConnectorSMS();
-		new ConnectorGMX(this);
-		new ConnectorO2(null, null);
-		new ConnectorSipgate(null, null);
-		new ConnectorInnosend(null, null, (short) 0);
-		new ConnectorCherrySMS(null, null, (short) 0);
-		new ConnectorSloono(null, null, (short) 0);
-
 		// save ref to me.
 		me = this;
 		try {
@@ -461,6 +454,17 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			et1.requestFocus();
 		}
+
+		// query for connectors
+		final Intent i = new Intent(Constants.ACTION_CONNECTOR_UPDATE);
+		// FIXME: nothing happens
+		// final Intent i = new Intent(this, CommandReceiverSMS.class);
+		// i.setAction(Constants.ACTION_CONNECTOR_UPDATE);
+		i.addCategory(Intent.CATEGORY_DEFAULT);
+		// FIXME: does not help anything
+		Log.d(TAG, "send broadcast: " + i.getAction());
+		Log.d(TAG, "send broadcast: " + i.getCategories());
+		this.sendBroadcast(i);
 	}
 
 	/**

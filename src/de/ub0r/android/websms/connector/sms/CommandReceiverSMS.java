@@ -111,12 +111,16 @@ public class CommandReceiverSMS extends BroadcastReceiver {
 	@Override
 	public final void onReceive(final Context context, final Intent intent) {
 		final String action = intent.getAction();
+		Log.d(TAG, "action: " + action);
 		if (action == null) {
 			return;
 		}
 		if (Constants.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			final ConnectorSpec specs = CommandReceiverSMS.getSpecs(context);
-			// TODO: return specs as broadcast to WebSMS
+			final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
+			i.putExtra(Constants.EXTRAS_CONNECTOR, specs.getBundle());
+			Log.d(TAG, "send broadcast: " + i.getAction());
+			context.sendBroadcast(i);
 		} else if (Constants.ACTION_CONNECTOR_RUN.equals(action)) {
 			final Bundle extras = intent.getExtras();
 			if (extras != null) {
