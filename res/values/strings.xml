@@ -121,6 +121,7 @@
 	<string name="extras_">Extras</string>
 	<string name="change_connector_button">"Chg. provider" button</string>
 	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
+	<string name="hide_cancel_button">Hide Cancel button</string>
 	<string name="softkeyboard_">No keyboard</string>
 	<string name="softkeyboard_hint">No hardare keyboard? Use the alternative layout. Restart App!</string>
 	<string name="autoupdate_">Autoupdate</string>

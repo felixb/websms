@@ -129,7 +129,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: sound on failed sending. */
 	private static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
-	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
+	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = // .
+	"change_connector_button";
+	/** Preferemce's name: hide cancel button. */
+	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: enable sms. */
 	private static final String PREFS_ENABLE_SMS = "enable_sms";
 	/** Preference's name: enable gmx. */
@@ -746,9 +749,16 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsEnableValidatedNumberArcor = this.preferences.getBoolean(
 				PREFS_ENABLE_VALIDATED_NUMBER_ARCOR, true);
 
-		final boolean b = this.preferences.getBoolean(
-				PREFS_CHANGE_CONNECTOR_BUTTON, false);
-		final View v = this.findViewById(R.id.change_connector);
+		boolean b = this.preferences.getBoolean(PREFS_CHANGE_CONNECTOR_BUTTON,
+				false);
+		View v = this.findViewById(R.id.change_connector);
+		if (b) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		b = !this.preferences.getBoolean(PREFS_HIDE_CANCEL_BUTTON, false);
+		v = this.findViewById(R.id.cancel);
 		if (b) {
 			v.setVisibility(View.VISIBLE);
 		} else {
