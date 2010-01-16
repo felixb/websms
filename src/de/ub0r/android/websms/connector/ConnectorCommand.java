@@ -183,7 +183,19 @@ public final class ConnectorCommand {
 	public Intent setToIntent(final Intent intent) {
 		Intent i = intent;
 		if (i == null) {
-			i = new Intent(Constants.ACTION_CONNECTOR_RUN);
+			switch (this.getType()) {
+			case TYPE_BOOTSTRAP:
+				i = new Intent(Constants.ACTION_CONNECTOR_RUN_BOOSTRAP);
+				break;
+			case TYPE_UPDATE:
+				i = new Intent(Constants.ACTION_CONNECTOR_RUN_UPDATE);
+				break;
+			case TYPE_SEND:
+				i = new Intent(Constants.ACTION_CONNECTOR_RUN_SEND);
+				break;
+			default:
+				return null;
+			}
 		}
 		i.putExtra(EXTRAS_COMMAND, this.getBundle());
 		return i;

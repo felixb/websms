@@ -52,9 +52,8 @@
 		<receiver android:name="de.ub0r.android.websms.connector.sms.CommandReceiverSMS"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.RUN" />
+				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
-				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</receiver>
 
