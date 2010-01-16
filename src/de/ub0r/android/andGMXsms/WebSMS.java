@@ -119,6 +119,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static String imeiHash = null;
 	/** Preferences: connector specs. */
 	static ConnectorSpec prefsConnectorSpecs = null;
+	/** Save prefsConnectorSpecs.getID() here. */
+	static String prefsConnectorID = null;
 	/** Preferences: show mobile numbers only. */
 	static boolean prefsMobilesOnly;
 
@@ -531,8 +533,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		// FIXME: this is null at startup!
-		prefsConnectorSpecs = getConnectorByID(p.getString(PREFS_CONNECTOR_ID,
-				""));
+		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
+		prefsConnectorSpecs = getConnectorByID(prefsConnectorID);
 
 		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
 
@@ -626,8 +628,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void savePreferences() {
 		if (prefsConnectorSpecs != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_ID,
-							prefsConnectorSpecs.getName()).commit();
+					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpecs.getID())
+					.commit();
 		}
 	}
 
@@ -1160,6 +1162,11 @@ public class WebSMS extends Activity implements OnClickListener,
 				c.update(connector);
 			} else {
 				CONNECTORS.add(connector);
+				if (prefsConnectorSpecs == null
+						&& prefsConnectorID.equals(connector.getID())) {
+					prefsConnectorSpecs = connector;
+					me.setButtons();
+				}
 			}
 		}
 	}
