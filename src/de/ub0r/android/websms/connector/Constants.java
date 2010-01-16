@@ -23,7 +23,7 @@ package de.ub0r.android.websms.connector;
  */
 public final class Constants {
 
-	/** Default constructor. */
+	/** No Constructor needed here. */
 	private Constants() {
 		// do nothing
 		return;
@@ -36,11 +36,14 @@ public final class Constants {
 	public static final String ACTION_CONNECTOR_RUN = "de.ub0r."
 			+ "android.websms.connector.RUN";
 
-	/** Broadcast Action to update Connector's status. */
+	/** Broadcast Action requesting update of {@link ConnectorSpec}'s status. */
 	public static final String ACTION_CONNECTOR_UPDATE = "de.ub0r."
 			+ "android.websms.connector.UPDATE";
 
-	/** Broadcast Action to send updated Connector informations back to WebSMS. */
+	/**
+	 * Broadcast Action sending updated {@link ConnectorSpec} informations back
+	 * to WebSMS. This should include a {@link ConnectorSpec}.
+	 */
 	public static final String ACTION_CONNECTOR_INFO = "de.ub0r."
 			+ "android.websms.connector.INFO";
 }
