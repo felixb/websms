@@ -124,9 +124,11 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 		} else if (Constants.ACTION_CONNECTOR_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
+				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
 				final ConnectorSpec specs = CommandReceiverGMX
 						.getSpecs(context);
-				if (specs.hasStatus(ConnectorSpec.STATUS_READY)) {
+				if (specs.getID().equals(origSpecs.getID())
+						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status
 					try {
 						// FIXME: this.send(command);
