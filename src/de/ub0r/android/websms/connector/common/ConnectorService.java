@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import de.ub0r.android.andGMXsms.HelperAPI5Service;
 
 /**
  * {@link Service} run by the connectors BroadcastReceiver.

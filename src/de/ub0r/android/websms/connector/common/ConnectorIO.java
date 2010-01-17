@@ -22,7 +22,6 @@ package de.ub0r.android.websms.connector.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import de.ub0r.android.andGMXsms.Connector.WebSMSException;
 
 /**
  * Base for all Connectors.

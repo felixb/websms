@@ -33,6 +33,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
  * AsyncTask to manage IO to O2 API.

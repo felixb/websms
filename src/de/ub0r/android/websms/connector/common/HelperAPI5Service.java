@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.andGMXsms;
+package de.ub0r.android.websms.connector.common;
 
 import java.lang.reflect.Method;
 
@@ -68,7 +68,7 @@ public class HelperAPI5Service {
 	 * @param notification
 	 *            notification
 	 */
-	final void startForeground(final Service service, final int id,
+	public final void startForeground(final Service service, final int id,
 			final Notification notification) {
 		service.startForeground(id, notification);
 	}
@@ -82,7 +82,7 @@ public class HelperAPI5Service {
 	 * @param removeNotification
 	 *            remove notification?
 	 */
-	final void stopForeground(final Service service,
+	public final void stopForeground(final Service service,
 			final boolean removeNotification) {
 		service.stopForeground(removeNotification);
 	}

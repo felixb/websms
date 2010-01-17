@@ -51,6 +51,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
  * Connector is the basic Connector. Implement other real Connectors as extend.
@@ -216,53 +217,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 
 	/** Type of connector. */
 	private short connector = 0;
-
-	/**
-	 * Exception while Connector IO.
-	 * 
-	 * @author flx
-	 */
-	public static class WebSMSException extends Exception {
-
-		/** The Constant serialVersionUID. */
-		private static final long serialVersionUID = -6215729019426883487L;
-
-		/**
-		 * Create a new WebSMSException.
-		 * 
-		 * @param s
-		 *            error message
-		 */
-		public WebSMSException(final String s) {
-			super(s);
-		}
-
-		/**
-		 * Create a new WebSMSException.
-		 * 
-		 * @param c
-		 *            Context to resolve resource id
-		 * @param rid
-		 *            error message as resource id
-		 */
-		public WebSMSException(final Context c, final int rid) {
-			super(c.getString(rid));
-		}
-
-		/**
-		 * Create a new WebSMSException.
-		 * 
-		 * @param c
-		 *            Context to resolve resource id
-		 * @param rid
-		 *            error message as resource id
-		 * @param s
-		 *            error message
-		 */
-		public WebSMSException(final Context c, final int rid, final String s) {
-			super(c.getString(rid) + s);
-		}
-	}
 
 	/**
 	 * Default Constructor.

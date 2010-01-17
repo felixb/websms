@@ -29,6 +29,7 @@ import org.xmlrpc.android.XMLRPCFault;
 
 import android.content.Context;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
  * AsyncTask to manage XMLRPC-Calls to sipgate.de remote-API.

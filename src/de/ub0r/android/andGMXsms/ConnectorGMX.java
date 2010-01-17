@@ -29,6 +29,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
  * AsyncTask to manage IO to GMX API.

@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.HelperAPI5Service;
 
 /**
  * IOService handles all IO as a service. Call it with RPC!

@@ -25,6 +25,7 @@ import java.net.URLEncoder;
 import org.apache.http.HttpResponse;
 
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
  * AsyncTask to manage IO to cherry-sms.com API.

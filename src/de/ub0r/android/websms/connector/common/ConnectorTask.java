@@ -21,7 +21,6 @@ package de.ub0r.android.websms.connector.common;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import de.ub0r.android.andGMXsms.Connector.WebSMSException;
 
 /**
  * {Qlink AsyncTask} run by the Connectors {@link ConnectorService}.
