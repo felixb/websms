@@ -18,6 +18,9 @@
  */
 
 /**
+ *  WebSMS Connector: GMX. GMX connector deployed as separate apk.
+ * 
+ * @version 3.0
  * @author flx
  */
 package de.ub0r.android.websms.connector.gmx;
