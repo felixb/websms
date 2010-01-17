@@ -18,6 +18,8 @@
  */
 package de.ub0r.android.websms.connector.common;
 
+import java.util.ArrayList;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -36,8 +38,8 @@ public final class ConnectorService extends Service {
 	/** Wrapper for API5 commands. */
 	private HelperAPI5Service helperAPI5s = null;
 
-	/** Number of running Tasks. */
-	private int running = 0;
+	/** Pending tasks. */
+	private final ArrayList<Intent> pendingIOOps = new ArrayList<Intent>();
 
 	/**
 	 * {@inheritDoc}
@@ -60,31 +62,41 @@ public final class ConnectorService extends Service {
 			}
 		} catch (VerifyError e) {
 			this.helperAPI5s = null;
-			Log.d(TAG, "no api5 running", e);
+			Log.d(TAG, "no api5 currentIOOps", e);
 		}
 	}
 
 	/**
 	 * Register a IO task.
+	 * 
+	 * @param intent
+	 *            intent holding IO operation
 	 */
-	public synchronized void register() {
-		Log.d(TAG, "register()");
-		Log.d(TAG, "currentIOOps=" + this.running);
-		++this.running;
-		Log.d(TAG, "currentIOOps=" + this.running);
+	public void register(final Intent intent) {
+		Log.d(TAG, "register(" + intent.getAction() + ")");
+		synchronized (this.pendingIOOps) {
+			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
+			this.pendingIOOps.add(intent);
+			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
+		}
 	}
 
 	/**
 	 * Unregister a IO task.
+	 * 
+	 * @param intent
+	 *            intent holding IO operation
 	 */
-	public synchronized void unregister() {
-		Log.d(TAG, "unregister()");
-		Log.d(TAG, "currentIOOps=" + this.running);
-		--this.running;
-		if (this.running <= 0) {
-			this.stopSelf();
+	public void unregister(final Intent intent) {
+		Log.d(TAG, "unregister(" + intent.getAction() + ")");
+		synchronized (this.pendingIOOps) {
+			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
+			this.pendingIOOps.remove(intent);
+			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
+			if (this.pendingIOOps.size() == 0) {
+				this.stopSelf();
+			}
 		}
-		Log.d(TAG, "currentIOOps=" + this.running);
 	}
 
 	/**
@@ -109,6 +121,20 @@ public final class ConnectorService extends Service {
 							.show();
 				}
 			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "onDestroy()");
+		Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
+		final int s = this.pendingIOOps.size();
+		for (int i = 0; i < s; i++) {
+			// TODO: send error message for intent pendingIOOps.get(i)
 		}
 	}
 

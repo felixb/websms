@@ -516,7 +516,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.defPrefix = params[ID_DEFPREFIX];
 				this.prepareSend();
 				this.notification = this.updateNotification(null);
-				IOService.register(this.notification);
+				// IOService.register(this.notification);
 				this.publishProgress(false);
 				ret = this.sendMessage();
 			}
@@ -626,9 +626,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				this.updateNotification(this.notification);
 			}
 		}
-		if (this.context instanceof IOService) {
-			IOService.unregister(this.notification, !result);
-		}
+
 		System.gc();
 		Log.d(TAG, "onPostExecute(" + result + ") return");
 	}
@@ -771,18 +769,6 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 		final Context c = this.context;
 		if (c instanceof WebSMS) {
 			WebSMS.pushMessage(msgType, msg);
-		} else if (c instanceof IOService) {
-			if (msgType == WebSMS.MESSAGE_FREECOUNT) {
-				WebSMS.pushMessage(msgType, msg);
-			}
-			if (msg == null) {
-				Log.d(TAG, "null");
-			} else {
-				Log.d(TAG, msg);
-				if (msgType == WebSMS.MESSAGE_LOG) {
-					this.failedMessage = msg;
-				}
-			}
 		}
 	}
 

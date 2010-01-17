@@ -47,8 +47,6 @@
 			</intent-filter>
 		</receiver>
 
-		<service android:name="IOService" android:exported="false" />
-
 		<receiver android:name="de.ub0r.android.websms.connector.sms.CommandReceiverSMS"
 			android:enabled="true" android:exported="true">
 			<intent-filter>

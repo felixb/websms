@@ -97,6 +97,6 @@ public final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 		}
 		final Intent i = this.connector.setToIntent(null);
 		this.service.sendBroadcast(i);
-		this.service.unregister();
+		this.service.unregister(i);
 	}
 }
