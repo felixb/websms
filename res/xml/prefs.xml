@@ -28,6 +28,8 @@
 			android:title="@string/softkeyboard_" android:summary="@string/softkeyboard_hint" />
 		<CheckBoxPreference android:key="change_connector_button"
 			android:title="@string/change_connector_button" android:summary="@string/change_connector_button_hint" />
+		<CheckBoxPreference android:key="hide_cancel_button"
+			android:title="@string/hide_cancel_button" />
 		<CheckBoxPreference android:key="autoupdate"
 			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
 		<CheckBoxPreference android:key="autoexit"
@@ -47,6 +49,8 @@
 		android:key="settings_connectors">
 		<CheckBoxPreference android:key="enable_sms"
 			android:title="@string/enable_sms" android:defaultValue="true" />
+
 		<!-- other connectors getting added dynamicaly -->
+
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -102,7 +102,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: sound on failed sending. */
 	static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
-	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = "change_connector_button";
+	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = // .
+	"change_connector_button";
+	/** Preferemce's name: hide cancel button. */
+	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
+
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
@@ -149,6 +153,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
 			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
 			"5383540b2f8c298532f874126b021e73", // marco a.
+			"858ddfb8635d1539884086dca2726468", // lado
+			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
 	};
 
 	/** Public Dialog ref. */
@@ -524,8 +530,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void reloadPrefs() {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		final boolean b = p.getBoolean(PREFS_CHANGE_CONNECTOR_BUTTON, false);
-		final View v = this.findViewById(R.id.change_connector);
+		boolean b = p.getBoolean(PREFS_CHANGE_CONNECTOR_BUTTON, false);
+		View v = this.findViewById(R.id.change_connector);
+		if (b) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+
+		b = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON, false);
+		v = this.findViewById(R.id.cancel);
 		if (b) {
 			v.setVisibility(View.VISIBLE);
 		} else {
