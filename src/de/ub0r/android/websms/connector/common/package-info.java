@@ -20,5 +20,5 @@
 /**
  * @author flx
  */
-package de.ub0r.android.websms.connector;
+package de.ub0r.android.websms.connector.common;
 

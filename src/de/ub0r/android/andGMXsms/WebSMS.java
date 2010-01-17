@@ -66,9 +66,9 @@ import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
 
-import de.ub0r.android.websms.connector.ConnectorCommand;
-import de.ub0r.android.websms.connector.ConnectorSpec;
-import de.ub0r.android.websms.connector.Constants;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Constants;
 
 /**
  * Main Activity.

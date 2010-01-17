@@ -27,10 +27,10 @@ import android.util.Log;
 import android.widget.Toast;
 import de.ub0r.android.andGMXsms.R;
 import de.ub0r.android.andGMXsms.Connector.WebSMSException;
-import de.ub0r.android.websms.connector.ConnectorCommand;
-import de.ub0r.android.websms.connector.ConnectorSpec;
-import de.ub0r.android.websms.connector.Constants;
-import de.ub0r.android.websms.connector.ConnectorSpec.SubConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Constants;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Receives commands coming as broadcast from WebSMS.

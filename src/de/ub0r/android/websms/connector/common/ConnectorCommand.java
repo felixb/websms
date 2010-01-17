@@ -17,9 +17,10 @@
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.ub0r.android.websms.connector;
+package de.ub0r.android.websms.connector.common;
 
 import java.util.ArrayList;
+
 
 import android.content.Intent;
 import android.os.Bundle;

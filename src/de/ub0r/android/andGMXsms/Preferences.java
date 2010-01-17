@@ -26,7 +26,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
-import de.ub0r.android.websms.connector.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
 /**
  * Preferences.
