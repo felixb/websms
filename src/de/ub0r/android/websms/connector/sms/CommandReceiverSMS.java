@@ -116,7 +116,6 @@ public class CommandReceiverSMS extends CommandReceiver {
 			return;
 		}
 		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
-			// FIXME: somthing goes wrong here
 			this.sendInfo(context, null, null);
 		} else if (ACTION_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
