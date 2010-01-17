@@ -100,7 +100,7 @@ public class CommandReceiverGMX extends CommandReceiver {
 		}
 		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (ACTION_CONNECTOR_RUN_SEND.equals(action)) {
+		} else if (ACTION_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);

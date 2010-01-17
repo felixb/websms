@@ -94,7 +94,7 @@ public class CommandReceiverTest extends CommandReceiver {
 		}
 		if (CommandReceiver.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (CommandReceiver.ACTION_CONNECTOR_RUN_SEND.equals(action)) {
+		} else if (CommandReceiver.ACTION_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
@@ -117,10 +117,10 @@ public class CommandReceiverTest extends CommandReceiver {
 				}
 			}
 		} else if (// .
-		CommandReceiver.ACTION_CONNECTOR_RUN_BOOSTRAP.equals(action)) {
+		CommandReceiver.ACTION_RUN_BOOSTRAP.equals(action)) {
 			final ConnectorSpec specs = getSpecs(context);
 			this.sendInfo(context, specs, null);
-		} else if (CommandReceiver.ACTION_CONNECTOR_RUN_UPDATE.equals(action)) {
+		} else if (CommandReceiver.ACTION_RUN_UPDATE.equals(action)) {
 			final ConnectorSpec specs = getSpecs(context);
 			specs.setBalance("13,37\u20AC");
 			this.sendInfo(context, specs, null);

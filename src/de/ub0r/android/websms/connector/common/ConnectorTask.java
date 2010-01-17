@@ -20,39 +20,42 @@ package de.ub0r.android.websms.connector.common;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 /**
  * {@link AsyncTask} run by the Connector's {@link ConnectorService}.
  * 
  * @author flx
  */
-public class ConnectorTask extends AsyncTask<Void, Void, Void> {
+public final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 
+	/** Intent comming from outside. */
+	private final Intent intent;
 	/** Connector class which will do the actual IO. */
 	private final CommandReceiver receiver;
 	/** Used connector. */
 	private final ConnectorSpec connector;
 	/** Command running. */
 	private final ConnectorCommand command;
-	/** Connectorservice. */
+	/** {@link ConnectorService}. */
 	private final ConnectorService service;
 
 	/**
 	 * Create a connector task.
 	 * 
-	 * @param c
-	 *            {@link ConnectorSpec}
-	 * @param com
+	 * @param i
+	 *            intent holding {@link ConnectorSpec} and
 	 *            {@link ConnectorCommand}
 	 * @param r
 	 *            {@link CommandReceiver}
 	 * @param s
 	 *            {@link ConnectorService}
 	 */
-	public ConnectorTask(final ConnectorSpec c, final ConnectorCommand com,
-			final CommandReceiver r, final ConnectorService s) {
-		this.connector = c;
-		this.command = com;
+	public ConnectorTask(final Intent i, final CommandReceiver r,
+			final ConnectorService s) {
+		this.intent = i;
+		this.connector = new ConnectorSpec(i);
+		this.command = new ConnectorCommand(i);
 		this.receiver = r;
 		this.service = s;
 	}
@@ -61,23 +64,24 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final Void doInBackground(final Void... arg0) {
+	protected Void doInBackground(final Void... arg0) {
 		try {
 			switch (this.command.getType()) {
 			case ConnectorCommand.TYPE_BOOTSTRAP:
-				this.receiver.doBootstrap();
+				this.receiver.doBootstrap(this.intent);
 				break;
 			case ConnectorCommand.TYPE_UPDATE:
-				this.receiver.doSend();
+				this.receiver.doSend(this.intent);
 				break;
 			case ConnectorCommand.TYPE_SEND:
-				this.receiver.doSend();
+				this.receiver.doSend(this.intent);
 				break;
 			default:
 				break;
 			}
 		} catch (WebSMSException e) {
-			// TODO: handle exception
+			// put error message to ConnectorSpec
+			this.connector.setErrorMessage(e.getMessage());
 		}
 		return null;
 	}
@@ -86,9 +90,13 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void onPostExecute(final Void result) {
-		final Intent intent = this.connector.setToIntent(null);
-		this.service.sendBroadcast(intent);
+	protected void onPostExecute(final Void result) {
+		final String e = this.connector.getErrorMessage();
+		if (e != null) {
+			Toast.makeText(this.service, e, Toast.LENGTH_LONG).show();
+		}
+		final Intent i = this.connector.setToIntent(null);
+		this.service.sendBroadcast(i);
 		this.service.unregister();
 	}
 }

@@ -75,7 +75,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (CommandReceiver.ACTION_CONNECTOR_INFO.equals(action)) {
+		if (CommandReceiver.ACTION_INFO.equals(action)) {
 			final ConnectorSpec specs = new ConnectorSpec(intent);
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			WebSMS.addConnector(specs);

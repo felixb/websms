@@ -19,17 +19,17 @@
 package de.ub0r.android.websms.connector.common;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * {@link Service} run by the connectors BroadcastReceiver.
  * 
  * @author flx
  */
-public abstract class ConnectorService extends Service {
+public final class ConnectorService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
@@ -43,7 +43,7 @@ public abstract class ConnectorService extends Service {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final IBinder onBind(final Intent intent) {
+	public IBinder onBind(final Intent intent) {
 		return null;
 	}
 
@@ -51,7 +51,7 @@ public abstract class ConnectorService extends Service {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onCreate() {
+	public void onCreate() {
 		super.onCreate();
 		try {
 			this.helperAPI5s = new HelperAPI5Service();
@@ -67,7 +67,7 @@ public abstract class ConnectorService extends Service {
 	/**
 	 * Register a IO task.
 	 */
-	public final synchronized void register() {
+	public synchronized void register() {
 		Log.d(TAG, "register()");
 		Log.d(TAG, "currentIOOps=" + this.running);
 		++this.running;
@@ -77,7 +77,7 @@ public abstract class ConnectorService extends Service {
 	/**
 	 * Unregister a IO task.
 	 */
-	public final synchronized void unregister() {
+	public synchronized void unregister() {
 		Log.d(TAG, "unregister()");
 		Log.d(TAG, "currentIOOps=" + this.running);
 		--this.running;
@@ -91,16 +91,22 @@ public abstract class ConnectorService extends Service {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onStart(final Intent intent, final int startId) {
+	public void onStart(final Intent intent, final int startId) {
 		if (intent != null) {
 			final String a = intent.getAction();
 			if (a != null && // .
-					(a.equals(CommandReceiver.ACTION_CONNECTOR_RUN_BOOSTRAP)
-							|| a.equals(// .
-									CommandReceiver.ACTION_CONNECTOR_RUN_UPDATE) // .
-					|| a.equals(CommandReceiver.ACTION_CONNECTOR_RUN_SEND))) {
+					(a.equals(CommandReceiver.ACTION_RUN_BOOSTRAP)
+							|| a.equals(CommandReceiver.ACTION_RUN_UPDATE) || a
+							.equals(CommandReceiver.ACTION_RUN_SEND))) {
 				// TODO: setForeground / startForeground
-				this.startConnectorTask(this, intent);
+				try {
+					new ConnectorTask(intent, CommandReceiver.getInstance(),
+							this).execute((Void[]) null);
+				} catch (WebSMSException e) {
+					Log.e(TAG, "error starting service", e);
+					Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)
+							.show();
+				}
 			}
 		}
 	}
@@ -109,20 +115,9 @@ public abstract class ConnectorService extends Service {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final int onStartCommand(final Intent intent, final int flags,
+	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
 		this.onStart(intent, startId);
 		return START_NOT_STICKY;
 	}
-
-	/**
-	 * Start a connectorTask.
-	 * 
-	 * @param context
-	 *            context
-	 * @param intent
-	 *            intent
-	 */
-	protected abstract void startConnectorTask(final Context context,
-			final Intent intent);
 }

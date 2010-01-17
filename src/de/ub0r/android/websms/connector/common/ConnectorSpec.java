@@ -261,7 +261,7 @@ public final class ConnectorSpec {
 	public Intent setToIntent(final Intent intent) {
 		Intent i = intent;
 		if (i == null) {
-			i = new Intent(CommandReceiver.ACTION_CONNECTOR_INFO);
+			i = new Intent(CommandReceiver.ACTION_INFO);
 		}
 		i.putExtra(EXTRAS_CONNECTOR, this.getBundle());
 		return i;

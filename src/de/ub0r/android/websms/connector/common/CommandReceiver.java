@@ -22,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Receives commands coming as broadcast from WebSMS.
@@ -39,24 +38,22 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 
 	/**
 	 * Action to start a connector's {@link Service}. This should include a
-	 * {@link ConnectorCommand}: boostrap.
+	 * {@link ConnectorCommand}: bootstrap.
 	 */
-	public static final String ACTION_CONNECTOR_RUN_BOOSTRAP = ACTION_PREFIX
+	public static final String ACTION_RUN_BOOSTRAP = ACTION_PREFIX
 			+ "RUN_BOOTSTRAP";
 
 	/**
 	 * Action to start a connector's {@link Service}. This should include a
 	 * {@link ConnectorCommand}: update.
 	 */
-	public static final String ACTION_CONNECTOR_RUN_UPDATE = ACTION_PREFIX
-			+ "RUN_UPDATE";
+	public static final String ACTION_RUN_UPDATE = ACTION_PREFIX + "RUN_UPDATE";
 
 	/**
 	 * Action to start a connector's {@link Service}. This should include a
 	 * {@link ConnectorCommand}: send.
 	 */
-	public static final String ACTION_CONNECTOR_RUN_SEND = ACTION_PREFIX
-			+ "RUN_SEND";
+	public static final String ACTION_RUN_SEND = ACTION_PREFIX + "RUN_SEND";
 
 	/** Broadcast Action requesting update of {@link ConnectorSpec}'s status. */
 	public static final String ACTION_CONNECTOR_UPDATE = ACTION_PREFIX
@@ -66,13 +63,45 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 * Broadcast Action sending updated {@link ConnectorSpec} informations back
 	 * to WebSMS. This should include a {@link ConnectorSpec}.
 	 */
-	public static final String ACTION_CONNECTOR_INFO = ACTION_PREFIX + "INFO";
+	public static final String ACTION_INFO = ACTION_PREFIX + "INFO";
 
 	/** Internal {@link ConnectorSpec}. */
 	private static ConnectorSpec connector = null;
 
 	/** Sync access to connector. */
-	private static final Object syncUpdate = new Object();
+	private static final Object SYNC_UPDATE = new Object();
+
+	/**
+	 * This instance is ran by {@link ConnectorService} via
+	 * {@link ConnectorTask}.Each implementer of this class should register
+	 * here.
+	 */
+	private static CommandReceiver instance = null;
+
+	/**
+	 * @return single instance running all the IO in different thread.
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	protected static final CommandReceiver getInstance()// .
+			throws WebSMSException {
+		if (instance == null) {
+			throw new WebSMSException("no running CommandReceiver available");
+		}
+		return instance;
+	}
+
+	/**
+	 * Register a {@link CommandReceiver} which should be ran to do all the IO
+	 * in different thread.
+	 * 
+	 * @param receiver
+	 *            {@link CommandReceiver}
+	 */
+	protected static final void registerInstance(// .
+			final CommandReceiver receiver) {
+		instance = receiver;
+	}
 
 	/**
 	 * Init {@link ConnectorSpec}. This is only run once. Changing properties
@@ -109,7 +138,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 * @return ConnectorSpec
 	 */
 	protected final synchronized ConnectorSpec getSpecs(final Context context) {
-		synchronized (syncUpdate) {
+		synchronized (SYNC_UPDATE) {
 			if (connector == null) {
 				connector = this.initSpec(context);
 			}
@@ -134,7 +163,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 		if (c == null) {
 			c = this.getSpecs(context);
 		}
-		final Intent i = new Intent(CommandReceiver.ACTION_CONNECTOR_INFO);
+		final Intent i = new Intent(CommandReceiver.ACTION_INFO);
 		c.setToIntent(i);
 		if (command != null) {
 			command.setToIntent(i);
@@ -145,7 +174,11 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * {@inheritDoc} //TODO: change me.
+	 * This default implementation will register the running
+	 * {@link CommandReceiver} to an external service. This
+	 * {@link ConnectorService} will run a {@link ConnectorTask} running the
+	 * methods doBootstrap(), doUpdate() and doSend() implemented above.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
@@ -156,27 +189,21 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 		}
 		if (CommandReceiver.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (CommandReceiver.ACTION_CONNECTOR_RUN_SEND.equals(action)) {
+		} else if (action.equals(CommandReceiver.ACTION_RUN_BOOSTRAP)
+				|| action.equals(CommandReceiver.ACTION_RUN_UPDATE)
+				|| action.equals(CommandReceiver.ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
-			if (command.getType() == ConnectorCommand.TYPE_SEND) {
-				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = this.getSpecs(context);
-				if (specs.getID().equals(origSpecs.getID())
-						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
-					// check internal status
-					try {
-						// FIXME: this.send(command);
-						throw new WebSMSException("fixme");
-					} catch (WebSMSException e) {
-						Log.e(TAG, null, e);
-						Toast.makeText(context,
-								specs.getName() + ": " + e.getMessage(),
-								Toast.LENGTH_LONG).show();
-						specs.setErrorMessage(e.getMessage());
-						this.sendInfo(context, specs, command);
-					}
-					// if nothing went wrong, info was send from inside.
-				}
+			final ConnectorSpec origSpecs = new ConnectorSpec(intent);
+			final ConnectorSpec specs = this.getSpecs(context);
+			if (command == null) {
+				return;
+			}
+			if (command.getType() != ConnectorCommand.TYPE_SEND
+					|| (origSpecs != null && specs.equals(origSpecs))) {
+				// command type is set.
+				// if command == send: this receiver is the wanted one.
+				registerInstance(this); // this instance will be run by service
+				context.startService(intent); // start service
 			}
 		}
 	}
@@ -185,34 +212,37 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 * Do bootstrap. This is executed in a different thread! Do not do any GUI
 	 * stuff.
 	 * 
+	 * @param intent
+	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doBootstrap() throws WebSMSException {
+	protected void doBootstrap(final Intent intent) throws WebSMSException {
 		// do nothing by default
-		return;
 	}
 
 	/**
 	 * Do update. This is executed in a different thread! Do not do any GUI
 	 * stuff.
 	 * 
+	 * @param intent
+	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doUpdate() throws WebSMSException {
+	protected void doUpdate(final Intent intent) throws WebSMSException {
 		// do nothing by default
-		return;
 	}
 
 	/**
 	 * Do send. This is executed in a different thread! Do not do any GUI stuff.
 	 * 
+	 * @param intent
+	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doSend() throws WebSMSException {
+	protected void doSend(final Intent intent) throws WebSMSException {
 		// do nothing by default
-		return;
 	}
 }
