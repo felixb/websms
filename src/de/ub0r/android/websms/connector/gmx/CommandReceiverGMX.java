@@ -23,10 +23,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 import de.ub0r.android.andGMXsms.R;
 import de.ub0r.android.websms.connector.common.CommandReceiver;
-import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
@@ -92,36 +90,27 @@ public class CommandReceiverGMX extends CommandReceiver {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onReceive(final Context context, final Intent intent) {
-		final String action = intent.getAction();
-		Log.d(TAG, "action: " + action);
-		if (action == null) {
-			return;
-		}
-		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
-			this.sendInfo(context, null, null);
-		} else if (ACTION_RUN_SEND.equals(action)) {
-			final ConnectorCommand command = new ConnectorCommand(intent);
-			if (command.getType() == ConnectorCommand.TYPE_SEND) {
-				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = this.getSpecs(context);
-				if (specs.getID().equals(origSpecs.getID())
-						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
-					// check internal status
-					try {
-						// FIXME: this.send(command);
-						throw new WebSMSException("fixme");
-					} catch (WebSMSException e) {
-						Log.e(TAG, null, e);
-						Toast.makeText(context,
-								specs.getName() + ": " + e.getMessage(),
-								Toast.LENGTH_LONG).show();
-						specs.setErrorMessage(e.getMessage());
-						this.sendInfo(context, specs, command);
-					}
-					// if nothing went wrong, info was send from inside.
-				}
-			}
-		}
+	protected final void doBootstrap(final Intent intent)
+			throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "bootstrap");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doUpdate(final Intent intent) throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "update");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doSend(final Intent intent) throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "send");
 	}
 }

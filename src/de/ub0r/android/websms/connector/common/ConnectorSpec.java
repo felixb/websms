@@ -278,6 +278,9 @@ public final class ConnectorSpec {
 	 * @return ID
 	 */
 	public String getID() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(ID);
 	}
 
@@ -285,6 +288,9 @@ public final class ConnectorSpec {
 	 * @return Name
 	 */
 	public String getName() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(NAME);
 	}
 
@@ -302,6 +308,9 @@ public final class ConnectorSpec {
 	 * @return status
 	 */
 	public short getStatus() {
+		if (this.bundle == null) {
+			return STATUS_INACTIVE;
+		}
 		return this.bundle.getShort(STATUS, STATUS_INACTIVE);
 	}
 
@@ -348,6 +357,9 @@ public final class ConnectorSpec {
 	 * @return true if connector has given status
 	 */
 	public boolean hasStatus(final short status) {
+		if (this.bundle == null) {
+			return false;
+		}
 		final short s = this.bundle.getShort(STATUS, STATUS_INACTIVE);
 		return (s & status) == status;
 	}
@@ -356,6 +368,9 @@ public final class ConnectorSpec {
 	 * @return author
 	 */
 	public String getAuthor() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(AUTHOR);
 	}
 
@@ -373,6 +388,9 @@ public final class ConnectorSpec {
 	 * @return prefs intent uri
 	 */
 	public String getPrefsIntent() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(PREFSINTENT);
 	}
 
@@ -390,6 +408,9 @@ public final class ConnectorSpec {
 	 * @return prefs title
 	 */
 	public String getPrefsTitle() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(PREFSTITLE);
 	}
 
@@ -407,6 +428,9 @@ public final class ConnectorSpec {
 	 * @return balance
 	 */
 	public String getBalance() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(BALANCE);
 	}
 
@@ -424,6 +448,9 @@ public final class ConnectorSpec {
 	 * @return capabilities
 	 */
 	public short getCapabilities() {
+		if (this.bundle == null) {
+			return CAPABILITIES_NONE;
+		}
 		return this.bundle.getShort(CAPABILITIES, CAPABILITIES_NONE);
 	}
 
@@ -453,6 +480,9 @@ public final class ConnectorSpec {
 	 * @return true if connector has given capabilities
 	 */
 	public boolean hasCapabilities(final short capabilities) {
+		if (this.bundle == null) {
+			return false;
+		}
 		final short c = this.bundle.getShort(CAPABILITIES, CAPABILITIES_NONE);
 		return (c & capabilities) == capabilities;
 	}
@@ -463,6 +493,9 @@ public final class ConnectorSpec {
 	 * @return error message
 	 */
 	public String getErrorMessage() {
+		if (this.bundle == null) {
+			return null;
+		}
 		return this.bundle.getString(ERRORMESSAGE);
 	}
 
@@ -483,6 +516,9 @@ public final class ConnectorSpec {
 	 * @return all SubConnectors
 	 */
 	public SubConnectorSpec[] getSubConnectors() {
+		if (this.bundle == null) {
+			return null;
+		}
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
 		final SubConnectorSpec[] ret = new SubConnectorSpec[c];
 		for (int i = 0; i < c; i++) {
@@ -500,6 +536,9 @@ public final class ConnectorSpec {
 	 * @return SubConnector
 	 */
 	public SubConnectorSpec getSubConnector(final String id) {
+		if (this.bundle == null) {
+			return null;
+		}
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
 		for (int i = 0; i < c; i++) {
 			final SubConnectorSpec sc = new SubConnectorSpec(this.bundle
@@ -523,6 +562,9 @@ public final class ConnectorSpec {
 	 */
 	public void addSubConnector(final String id, final String name,
 			final short features) {
+		if (this.bundle == null) {
+			return;
+		}
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
 		this.bundle.putBundle(SUB_PREFIX + c, new SubConnectorSpec(id, name,
 				features).getBundle());

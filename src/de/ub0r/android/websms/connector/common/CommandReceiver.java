@@ -163,13 +163,11 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 		if (c == null) {
 			c = this.getSpecs(context);
 		}
-		final Intent i = new Intent(CommandReceiver.ACTION_INFO);
-		c.setToIntent(i);
+		final Intent i = c.setToIntent(null);
 		if (command != null) {
 			command.setToIntent(i);
 		}
-		Log.d("WebSMS." + this.getSpecs(context), "-> broadcast: "
-				+ i.getAction());
+		Log.d("WebSMS." + this.getSpecs(context), "-> bc: " + i.getAction());
 		context.sendBroadcast(i);
 	}
 
@@ -183,7 +181,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		final String action = intent.getAction();
-		Log.d(TAG, "action: " + action);
+		Log.d("WebSMS." + this.getSpecs(context), "action: " + action);
 		if (action == null) {
 			return;
 		}
@@ -203,7 +201,11 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 				// command type is set.
 				// if command == send: this receiver is the wanted one.
 				registerInstance(this); // this instance will be run by service
-				context.startService(intent); // start service
+				final Intent i = new Intent(context, ConnectorService.class);
+				i.setAction(intent.getAction());
+				command.setToIntent(i);
+				origSpecs.setToIntent(i);
+				context.startService(i); // start service
 			}
 		}
 	}

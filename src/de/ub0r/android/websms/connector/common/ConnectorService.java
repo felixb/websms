@@ -94,6 +94,7 @@ public final class ConnectorService extends Service {
 	public void onStart(final Intent intent, final int startId) {
 		if (intent != null) {
 			final String a = intent.getAction();
+			Log.d("WebSMS.service", "action: " + a);
 			if (a != null && // .
 					(a.equals(CommandReceiver.ACTION_RUN_BOOSTRAP)
 							|| a.equals(CommandReceiver.ACTION_RUN_UPDATE) || a

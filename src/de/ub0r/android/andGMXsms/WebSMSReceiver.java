@@ -78,10 +78,19 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (CommandReceiver.ACTION_INFO.equals(action)) {
 			final ConnectorSpec specs = new ConnectorSpec(intent);
 			final ConnectorCommand command = new ConnectorCommand(intent);
-			WebSMS.addConnector(specs);
+			if (specs == null) {
+				return;
+			}
+			try {
+				WebSMS.addConnector(specs);
+			} catch (Exception e) {
+				Log.e(TAG, "error while receiving broadcast", e);
+			}
 			// save send messages
-			if (command != null
-					&& command.getType() == ConnectorCommand.TYPE_SEND) {
+			if (command == null) {
+				return;
+			}
+			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
 					this.saveMessage(context, command);
 				} else {

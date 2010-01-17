@@ -1182,6 +1182,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public static final ConnectorSpec getConnectorByID(final String id) {
 		synchronized (CONNECTORS) {
+			if (id == null) {
+				return null;
+			}
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);
@@ -1202,6 +1205,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public static final ConnectorSpec getConnectorByName(final String name) {
 		synchronized (CONNECTORS) {
+			if (name == null) {
+				return null;
+			}
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);

@@ -60,6 +60,10 @@
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
 
 		<!-- this will go to separate apk. -->
+
+		<service android:name="de.ub0r.android.websms.connector.common.ConnectorService"
+			android:exported="false" />
+
 		<activity android:name="de.ub0r.android.websms.connector.gmx.Preferences">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connectors.gmx.PREFS" />
