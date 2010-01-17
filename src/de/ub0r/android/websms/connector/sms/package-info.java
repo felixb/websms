@@ -18,6 +18,9 @@
  */
 
 /**
+ * WebSMS Connector: SMS. Standard SMS connector deployed with the main apk.
+ * 
+ * @version 3.0
  * @author flx
  */
 package de.ub0r.android.websms.connector.sms;

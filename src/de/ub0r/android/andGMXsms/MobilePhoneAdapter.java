@@ -113,7 +113,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
+	public final Cursor runQueryOnBackgroundThread(// .
+			final CharSequence constraint) {
 		if (WebSMS.helperAPI5c != null) {
 			// switch to API 5 if needed.
 			try {

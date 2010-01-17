@@ -47,11 +47,10 @@ public class HelperAPI5Contacts {
 			+ ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE + ")";
 
 	/** Sort Order. */
-	private static final String SORT_ORDER = ContactsContract.CommonDataKinds.Phone.STARRED
-			+ " DESC, "
+	private static final String SORT_ORDER = // .
+	ContactsContract.CommonDataKinds.Phone.STARRED + " DESC, "
 			+ ContactsContract.CommonDataKinds.Phone.TIMES_CONTACTED
-			+ " DESC, "
-			+ ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+			+ " DESC, " + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
 			+ " ASC, " + ContactsContract.CommonDataKinds.Phone.TYPE;
 
 	/** Cursor's projection. */
