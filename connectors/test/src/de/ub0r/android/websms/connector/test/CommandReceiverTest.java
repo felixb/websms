@@ -144,6 +144,13 @@ public class CommandReceiverTest extends BroadcastReceiver {
 					// if nothing went wrong, info was send from inside.
 				}
 			}
+		} else if (Constants.ACTION_CONNECTOR_RUN_BOOSTRAP.equals(action)) {
+			final ConnectorSpec specs = CommandReceiverTest.getSpecs(context);
+			this.sendInfo(context, specs, null);
+		} else if (Constants.ACTION_CONNECTOR_RUN_UPDATE.equals(action)) {
+			final ConnectorSpec specs = CommandReceiverTest.getSpecs(context);
+			specs.setBalance("13,37\u20AC");
+			this.sendInfo(context, specs, null);
 		}
 	}
 }

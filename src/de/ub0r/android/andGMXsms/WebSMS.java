@@ -472,7 +472,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * Update balance.
 	 */
-	final void updateBalance() {
+	private void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
 
 		for (ConnectorSpec cs : getConnectors(
@@ -486,7 +486,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				buf.append(", ");
 			}
 			buf.append(cs.getName());
-			buf.append(" ");
+			buf.append(": ");
 			buf.append(b);
 		}
 
@@ -639,7 +639,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            force update, if false only blank balances will get updated
 	 */
 	private void updateFreecount(final boolean forceUpdate) {
-		final Intent intent = ConnectorCommand.bootstrap().setToIntent(null);
+		final Intent intent = ConnectorCommand.update().setToIntent(null);
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		this.sendBroadcast(intent);
 	}
@@ -1166,6 +1166,9 @@ public class WebSMS extends Activity implements OnClickListener,
 					prefsConnectorSpecs = connector;
 					me.setButtons();
 				}
+			}
+			if (connector.getBalance() != null) {
+				me.updateBalance();
 			}
 		}
 	}
