@@ -29,6 +29,7 @@ import android.provider.Contacts.PhonesColumns;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * CursorAdapter getting Name, Phone from DB.
@@ -103,9 +104,9 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		String name = cursor.getString(NAME_INDEX);
 		String number = cursor.getString(NUMBER_INDEX);
 		if (name == null || name.length() == 0) {
-			return Connector.cleanRecipient(number);
+			return Utils.cleanRecipient(number);
 		}
-		return name + " <" + Connector.cleanRecipient(number) + '>';
+		return name + " <" + Utils.cleanRecipient(number) + '>';
 	}
 
 	/**
