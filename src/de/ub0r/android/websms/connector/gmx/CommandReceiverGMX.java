@@ -18,7 +18,6 @@
  */
 package de.ub0r.android.websms.connector.gmx;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,9 +25,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import de.ub0r.android.andGMXsms.R;
+import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.Constants;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
@@ -37,7 +36,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * 
  * @author flx
  */
-public class CommandReceiverGMX extends BroadcastReceiver {
+public class CommandReceiverGMX extends CommandReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.GMX";
 
@@ -45,74 +44,48 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
 			+ "websms.connectors.gmx.PREFS";
 
-	/** Internal {@link ConnectorSpec}. */
-	private static ConnectorSpec conector = null;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.connector_gmx_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(// .
+				context.getString(R.string.connector_gmx_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context.getString(R.string.connector_gmx_preferences));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOSTRAP
+				| ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+		c.addSubConnector(TAG, c.getName(),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS
+						| SubConnectorSpec.FEATURE_CUSTOMSENDER
+						| SubConnectorSpec.FEATURE_SENDLATER);
+		return c;
+	}
 
 	/**
-	 * Init ConnectorSpec.
-	 * 
-	 * @param context
-	 *            context
-	 * @return ConnectorSpec
+	 * {@inheritDoc}
 	 */
-	private static synchronized ConnectorSpec getSpecs(final Context context) {
-		if (conector == null) {
-			conector = new ConnectorSpec(TAG, context
-					.getString(R.string.connector_gmx_name));
-			conector.setAuthor(// .
-					context.getString(R.string.connector_gmx_author));
-			conector.setBalance(null);
-			conector.setPrefsIntent(PREFS_INTENT_ACTION);
-			conector.setPrefsTitle(context
-					.getString(R.string.connector_gmx_preferences));
-			conector.setCapabilities(ConnectorSpec.CAPABILITIES_BOOSTRAP
-					| ConnectorSpec.CAPABILITIES_UPDATE
-					| ConnectorSpec.CAPABILITIES_SEND);
-			conector.addSubConnector(TAG, conector.getName(),
-					SubConnectorSpec.FEATURE_MULTIRECIPIENTS
-							| SubConnectorSpec.FEATURE_CUSTOMSENDER
-							| SubConnectorSpec.FEATURE_SENDLATER);
-		}
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
 			if (p.getString(Preferences.PREFS_MAIL, "").length() > 0
 					&& p.getString(Preferences.PREFS_PASSWORD, "") // .
 							.length() > 0) {
-				conector.setReady();
+				connectorSpec.setReady();
 			} else {
-				conector.setStatus(ConnectorSpec.STATUS_ENABLED);
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
 			}
 		} else {
-			conector.setStatus(ConnectorSpec.STATUS_INACTIVE);
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
 		}
-		return conector;
-	}
-
-	/**
-	 * Send INFO Broadcast back to WebSMS.
-	 * 
-	 * @param context
-	 *            context
-	 * @param specs
-	 *            {@link ConnectorSpec}; if null, getSpecs() is called to get
-	 *            them
-	 * @param command
-	 *            send back the {@link ConnectorCommand} which was done
-	 */
-	private void sendInfo(final Context context, final ConnectorSpec specs,
-			final ConnectorCommand command) {
-		ConnectorSpec c = specs;
-		if (c == null) {
-			c = getSpecs(context);
-		}
-		final Intent i = new Intent(Constants.ACTION_CONNECTOR_INFO);
-		c.setToIntent(i);
-		if (command != null) {
-			command.setToIntent(i);
-		}
-		Log.d(TAG, "send broadcast: " + i.getAction());
-		context.sendBroadcast(i);
+		return connectorSpec;
 	}
 
 	/**
@@ -125,14 +98,13 @@ public class CommandReceiverGMX extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (Constants.ACTION_CONNECTOR_UPDATE.equals(action)) {
+		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (Constants.ACTION_CONNECTOR_RUN_SEND.equals(action)) {
+		} else if (ACTION_CONNECTOR_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = CommandReceiverGMX
-						.getSpecs(context);
+				final ConnectorSpec specs = this.getSpecs(context);
 				if (specs.getID().equals(origSpecs.getID())
 						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status

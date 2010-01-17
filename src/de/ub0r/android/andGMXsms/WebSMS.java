@@ -66,9 +66,9 @@ import android.widget.Toast;
 
 import com.admob.android.ads.AdView;
 
+import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.Constants;
 
 /**
  * Main Activity.
@@ -464,7 +464,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		// query for connectors
-		final Intent i = new Intent(Constants.ACTION_CONNECTOR_UPDATE);
+		final Intent i = new Intent(CommandReceiver.ACTION_CONNECTOR_UPDATE);
 		Log.d(TAG, "send broadcast: " + i.getAction());
 		this.sendBroadcast(i);
 	}

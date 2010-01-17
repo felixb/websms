@@ -29,9 +29,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.Constants;
 
 /**
  * Fetch all incomming Broadcasts and forward them to WebSMS.
@@ -75,7 +75,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (Constants.ACTION_CONNECTOR_INFO.equals(action)) {
+		if (CommandReceiver.ACTION_CONNECTOR_INFO.equals(action)) {
 			final ConnectorSpec specs = new ConnectorSpec(intent);
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			WebSMS.addConnector(specs);

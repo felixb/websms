@@ -70,7 +70,7 @@ public final class ConnectorSpec {
 	public static final short CAPABILITIES_SEND = 4;
 	/** Connector: Balance. */
 	private static final String BALANCE = "connector_balance";
-	/** Connector: Error message */
+	/** Connector: Error message. */
 	private static final String ERRORMESSAGE = "connector_errormessage";
 
 	// Subconnectors
@@ -213,6 +213,42 @@ public final class ConnectorSpec {
 	 */
 	public void update(final ConnectorSpec connector) {
 		this.bundle.putAll(connector.getBundle());
+	}
+
+	/**
+	 * @return name.
+	 */
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+
+	/**
+	 * Does nothing. {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return 0;
+	}
+
+	/**
+	 * @param connector
+	 *            {@link ConnectorSpec} or {@link String}
+	 * @return true if this connector has the same id as connector
+	 */
+	@Override
+	public boolean equals(final Object connector) {
+		if (this == connector) {
+			return true;
+		} else if (connector == null) {
+			return false;
+		} else if (connector instanceof ConnectorSpec) {
+			return this.getID().equals(((ConnectorSpec) connector).getID());
+		} else if (connector instanceof String) {
+			return this.getID().equals(connector);
+		} else {
+			return false;
+		}
 	}
 
 	/**

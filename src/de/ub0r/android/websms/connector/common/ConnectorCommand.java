@@ -21,7 +21,6 @@ package de.ub0r.android.websms.connector.common;
 
 import java.util.ArrayList;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -196,13 +195,13 @@ public final class ConnectorCommand {
 		if (i == null) {
 			switch (this.getType()) {
 			case TYPE_BOOTSTRAP:
-				i = new Intent(Constants.ACTION_CONNECTOR_RUN_BOOSTRAP);
+				i = new Intent(CommandReceiver.ACTION_CONNECTOR_RUN_BOOSTRAP);
 				break;
 			case TYPE_UPDATE:
-				i = new Intent(Constants.ACTION_CONNECTOR_RUN_UPDATE);
+				i = new Intent(CommandReceiver.ACTION_CONNECTOR_RUN_UPDATE);
 				break;
 			case TYPE_SEND:
-				i = new Intent(Constants.ACTION_CONNECTOR_RUN_SEND);
+				i = new Intent(CommandReceiver.ACTION_CONNECTOR_RUN_SEND);
 				break;
 			default:
 				return null;
