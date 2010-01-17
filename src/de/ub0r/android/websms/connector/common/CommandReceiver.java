@@ -83,7 +83,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 *            context
 	 * @return updated {@link ConnectorSpec}
 	 */
-	public ConnectorSpec initSpec(final Context context) {
+	protected ConnectorSpec initSpec(final Context context) {
 		return new ConnectorSpec(TAG, "noname");
 	}
 
@@ -96,7 +96,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 *            {@link ConnectorSpec}
 	 * @return updated {@link ConnectorSpec}
 	 */
-	public ConnectorSpec updateSpec(final Context context,
+	protected ConnectorSpec updateSpec(final Context context,
 			final ConnectorSpec connectorSpec) {
 		return connectorSpec;
 	}
@@ -108,7 +108,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 *            context
 	 * @return ConnectorSpec
 	 */
-	public final synchronized ConnectorSpec getSpecs(final Context context) {
+	protected final synchronized ConnectorSpec getSpecs(final Context context) {
 		synchronized (syncUpdate) {
 			if (connector == null) {
 				connector = this.initSpec(context);
@@ -128,7 +128,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 * @param command
 	 *            send back the {@link ConnectorCommand} which was done
 	 */
-	public final void sendInfo(final Context context,
+	protected final void sendInfo(final Context context,
 			final ConnectorSpec specs, final ConnectorCommand command) {
 		ConnectorSpec c = specs;
 		if (c == null) {
@@ -179,5 +179,40 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Do bootstrap. This is executed in a different thread! Do not do any GUI
+	 * stuff.
+	 * 
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	protected void doBootstrap() throws WebSMSException {
+		// do nothing by default
+		return;
+	}
+
+	/**
+	 * Do update. This is executed in a different thread! Do not do any GUI
+	 * stuff.
+	 * 
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	protected void doUpdate() throws WebSMSException {
+		// do nothing by default
+		return;
+	}
+
+	/**
+	 * Do send. This is executed in a different thread! Do not do any GUI stuff.
+	 * 
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	protected void doSend() throws WebSMSException {
+		// do nothing by default
+		return;
 	}
 }

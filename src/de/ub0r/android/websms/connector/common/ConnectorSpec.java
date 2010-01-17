@@ -259,8 +259,12 @@ public final class ConnectorSpec {
 	 * @return the same {@link Intent}
 	 */
 	public Intent setToIntent(final Intent intent) {
-		intent.putExtra(EXTRAS_CONNECTOR, this.getBundle());
-		return intent;
+		Intent i = intent;
+		if (i == null) {
+			i = new Intent(CommandReceiver.ACTION_CONNECTOR_INFO);
+		}
+		i.putExtra(EXTRAS_CONNECTOR, this.getBundle());
+		return i;
 	}
 
 	/**

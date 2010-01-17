@@ -16,22 +16,24 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-
 package de.ub0r.android.websms.connector.common;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 
 /**
- * {Qlink AsyncTask} run by the Connectors {@link ConnectorService}.
+ * {@link AsyncTask} run by the Connector's {@link ConnectorService}.
  * 
  * @author flx
  */
 public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 
 	/** Connector class which will do the actual IO. */
-	private final ConnectorIO connector;
-
+	private final CommandReceiver receiver;
+	/** Used connector. */
+	private final ConnectorSpec connector;
+	/** Command running. */
+	private final ConnectorCommand command;
 	/** Connectorservice. */
 	private final ConnectorService service;
 
@@ -39,12 +41,19 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 * Create a connector task.
 	 * 
 	 * @param c
-	 *            {@link ConnectorIO}
+	 *            {@link ConnectorSpec}
+	 * @param com
+	 *            {@link ConnectorCommand}
+	 * @param r
+	 *            {@link CommandReceiver}
 	 * @param s
 	 *            {@link ConnectorService}
 	 */
-	public ConnectorTask(final ConnectorIO c, final ConnectorService s) {
+	public ConnectorTask(final ConnectorSpec c, final ConnectorCommand com,
+			final CommandReceiver r, final ConnectorService s) {
 		this.connector = c;
+		this.command = com;
+		this.receiver = r;
 		this.service = s;
 	}
 
@@ -54,15 +63,15 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	@Override
 	protected final Void doInBackground(final Void... arg0) {
 		try {
-			switch (this.connector.getCommand().getType()) {
+			switch (this.command.getType()) {
 			case ConnectorCommand.TYPE_BOOTSTRAP:
-				this.connector.doBootstrap();
+				this.receiver.doBootstrap();
 				break;
 			case ConnectorCommand.TYPE_UPDATE:
-				this.connector.doSend();
+				this.receiver.doSend();
 				break;
 			case ConnectorCommand.TYPE_SEND:
-				this.connector.doSend();
+				this.receiver.doSend();
 				break;
 			default:
 				break;
@@ -78,9 +87,7 @@ public class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 */
 	@Override
 	protected final void onPostExecute(final Void result) {
-		final Intent intent = new Intent(
-				CommandReceiver.ACTION_CONNECTOR_UPDATE);
-		this.connector.getConnector().setToIntent(intent);
+		final Intent intent = this.connector.setToIntent(null);
 		this.service.sendBroadcast(intent);
 		this.service.unregister();
 	}
