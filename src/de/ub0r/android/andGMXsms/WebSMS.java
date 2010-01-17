@@ -58,7 +58,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -590,9 +589,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (prefsConnectorSpecs != null) {
 			final short features = ConnectorSpec.SubConnectorSpec.FEATURE_NONE;
 			// FIXME: prefsConnectorSpecs.getFeatures();
-			final boolean sFlashsms = (features & ConnectorSpecs.FEATURE_FLASHSMS) == ConnectorSpecs.FEATURE_FLASHSMS;
-			final boolean sCustomsender = (features & ConnectorSpecs.FEATURE_CUSTOMSENDER) == ConnectorSpecs.FEATURE_CUSTOMSENDER;
-			final boolean sSendLater = (features & ConnectorSpecs.FEATURE_SENDLATER) == ConnectorSpecs.FEATURE_SENDLATER;
+			final boolean sFlashsms = false;
+			// (features & ConnectorSpecs.FEATURE_FLASHSMS) ==
+			// ConnectorSpecs.FEATURE_FLASHSMS;
+			final boolean sCustomsender = false;
+			// (features & ConnectorSpecs.FEATURE_CUSTOMSENDER) ==
+			// ConnectorSpecs.FEATURE_CUSTOMSENDER;
+			final boolean sSendLater = false;
+			// (features & ConnectorSpecs.FEATURE_SENDLATER) ==
+			// ConnectorSpecs.FEATURE_SENDLATER;
 			if (sFlashsms || sCustomsender || sSendLater) {
 				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
 			} else {
@@ -672,14 +677,14 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.cancel:
 			this.reset();
 			break;
-		case R.id.captcha_btn:
-			ConnectorO2.captchaSolve = ((EditText) v.getRootView()
-					.findViewById(R.id.captcha_edt)).getText().toString();
-			synchronized (ConnectorO2.CAPTCHA_SYNC) {
-				ConnectorO2.CAPTCHA_SYNC.notify();
-			}
-			this.dismissDialog(DIALOG_CAPTCHA);
-			break;
+		// FIXME: case R.id.captcha_btn:
+		// ConnectorO2.captchaSolve = ((EditText) v.getRootView()
+		// .findViewById(R.id.captcha_edt)).getText().toString();
+		// synchronized (ConnectorO2.CAPTCHA_SYNC) {
+		// ConnectorO2.CAPTCHA_SYNC.notify();
+		// }
+		// this.dismissDialog(DIALOG_CAPTCHA);
+		// break;
 		case R.id.change_connector:
 			this.changeConnectorMenu();
 			break;
@@ -913,13 +918,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	protected final void onPrepareDialog(final int id, final Dialog dlg) {
 		switch (id) {
-		case DIALOG_CAPTCHA:
-			if (ConnectorO2.captcha != null) {
-				((ImageView) dlg.findViewById(R.id.captcha_img))
-						.setImageDrawable(ConnectorO2.captcha);
-				ConnectorO2.captcha = null;
-			}
-			break;
+		// FIXME: case DIALOG_CAPTCHA:
+		// if (ConnectorO2.captcha != null) {
+		// ((ImageView) dlg.findViewById(R.id.captcha_img))
+		// .setImageDrawable(ConnectorO2.captcha);
+		// ConnectorO2.captcha = null;
+		// }
+		// break;
 		default:
 			break;
 		}
