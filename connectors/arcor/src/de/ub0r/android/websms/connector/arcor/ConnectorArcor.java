@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.andGMXsms;
+package de.ub0r.android.websms.connector.arcor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,28 +35,31 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
-import android.util.Log;
+import de.ub0r.android.andGMXsms.R;
+import de.ub0r.android.andGMXsms.WebSMS;
+import de.ub0r.android.websms.connector.common.CommandReceiver;
+import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.sms.CommandReceiverSMS;
 
 /**
  * Connector for arcor.de free sms / payed sms.
  * 
  * @author lado
  */
-public class ConnectorArcor extends Connector {
-	
+public class ConnectorArcor extends CommandReceiver {
+
 	/** Preference's name: arcor username. */
 	private static final String PREFS_USER_ARCOR = "user_arcor";
 	/** Preference's name: user's password - arcor. */
 	private static final String PREFS_PASSWORD_ARCOR = "password_arcor";
 	/** Preference's name: user's password - arcor. */
-	private static final String PREFS_COPY_SENT_SMS_ARCOR = //.
-		"copy_sent_sms_arcor";
+	private static final String PREFS_COPY_SENT_SMS_ARCOR = // .
+	"copy_sent_sms_arcor";
 	/** Preference's name: ovrride default sender number? - arcor. */
-	private static final String PREFS_ENABLE_VALIDATED_NUMBER_ARCOR = //.
-		"enable_validated_number_arcor";
+	private static final String PREFS_ENABLE_VALIDATED_NUMBER_ARCOR = // .
+	"enable_validated_number_arcor";
 	/** Preference's name: enable o2. */
 	private static final String PREFS_ENABLE_ARCOR = "enable_arcor";
-
 
 	/**
 	 * Pattern to extract free sms count from sms page. Looks like.
@@ -83,7 +86,7 @@ public class ConnectorArcor extends Connector {
 			+ "derzeit keine SMS zur Verf";
 
 	/** Cache this client over several calls. */
-	private HttpClient client = new DefaultHttpClient();
+	private final HttpClient client = new DefaultHttpClient();
 	/** HTTP Header User-Agent. */
 	// TODO share this. Make it Configurable global and local
 	private static final String FAKE_USER_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -222,8 +225,8 @@ public class ConnectorArcor extends Connector {
 		final String body = cutFreeCountFromContent(response.getEntity()
 				.getContent());
 
-		Matcher m = SEND_CHECK_STATUS_PATTERN.matcher(body);
-		boolean found = m.find();
+		final Matcher m = SEND_CHECK_STATUS_PATTERN.matcher(body);
+		final boolean found = m.find();
 		if (!found || m.groupCount() != 2) {
 			// should not happen
 			Log.w("WebSMS.ConnectorArcor", body);
@@ -231,7 +234,7 @@ public class ConnectorArcor extends Connector {
 					.getString(R.string.log_unknow_status_after_send_arcor));
 		}
 
-		String status = m.group(1);
+		final String status = m.group(1);
 		// ok, message sent!
 		if (status.equals("hint")) {
 			return this.pushFreeCount(body);
