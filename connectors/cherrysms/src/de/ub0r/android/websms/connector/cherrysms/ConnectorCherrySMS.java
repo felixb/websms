@@ -34,7 +34,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * 
  * @author flx
  */
-public class ConnectorCherrySMS extends CommandReceiver {
+public class ConnectorCherrySMS extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.cherry";
 

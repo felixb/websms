@@ -35,7 +35,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * 
  * @author flx
  */
-public class CommandReceiverTest extends CommandReceiver {
+public class ConnectorTest extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.test";
 
@@ -92,13 +92,13 @@ public class CommandReceiverTest extends CommandReceiver {
 		if (action == null) {
 			return;
 		}
-		if (CommandReceiver.ACTION_CONNECTOR_UPDATE.equals(action)) {
+		if (Connector.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (CommandReceiver.ACTION_RUN_SEND.equals(action)) {
+		} else if (Connector.ACTION_RUN_SEND.equals(action)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = getSpecs(context);
+				final ConnectorSpec specs = this.getSpecs(context);
 				if (specs.getID().equals(origSpecs.getID())
 						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status
@@ -117,11 +117,11 @@ public class CommandReceiverTest extends CommandReceiver {
 				}
 			}
 		} else if (// .
-		CommandReceiver.ACTION_RUN_BOOSTRAP.equals(action)) {
-			final ConnectorSpec specs = getSpecs(context);
+		Connector.ACTION_RUN_BOOSTRAP.equals(action)) {
+			final ConnectorSpec specs = this.getSpecs(context);
 			this.sendInfo(context, specs, null);
-		} else if (CommandReceiver.ACTION_RUN_UPDATE.equals(action)) {
-			final ConnectorSpec specs = getSpecs(context);
+		} else if (Connector.ACTION_RUN_UPDATE.equals(action)) {
+			final ConnectorSpec specs = this.getSpecs(context);
 			specs.setBalance("13,37\u20AC");
 			this.sendInfo(context, specs, null);
 		}

@@ -45,7 +45,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * 
  * @author lado
  */
-public class ConnectorArcor extends CommandReceiver {
+public class ConnectorArcor extends Connector {
 
 	/** Preference's name: arcor username. */
 	private static final String PREFS_USER_ARCOR = "user_arcor";

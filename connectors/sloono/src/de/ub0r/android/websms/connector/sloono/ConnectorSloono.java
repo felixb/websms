@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Intent;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.WebSMSException;
@@ -33,7 +34,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * 
  * @author flx
  */
-public class ConnectorSloono extends CommandReceiver {
+public class ConnectorSloono extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.sloono";
 
@@ -150,7 +151,7 @@ public class ConnectorSloono extends CommandReceiver {
 	 */
 	@Override
 	protected final void doUpdate(final Intent intent) throws WebSMSException {
-	this.sendData();
+		this.sendData();
 	}
 
 	/**

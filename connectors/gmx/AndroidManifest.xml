@@ -49,7 +49,7 @@
 		</activity>
 		
 		<!-- BroadcastReceiver listening for messages from WebSMS GUI. -->
-		<receiver android:name="de.ub0r.android.websms.connector.gmx.CommandReceiverGMX"
+		<receiver android:name="de.ub0r.android.websms.connector.gmx.ConnectorGMX"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.RUN_BOOTSTRAP" />

@@ -43,7 +43,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<receiver android:name="de.ub0r.android.websms.connector.innosend.CommandReceiverInnosend"
+		<receiver android:name="de.ub0r.android.websms.connector.innosend.ConnectorInnosend"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />

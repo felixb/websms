@@ -25,8 +25,10 @@ import java.util.ArrayList;
 import org.apache.http.HttpResponse;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.R;
 import android.text.format.DateFormat;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**

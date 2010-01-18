@@ -19,6 +19,7 @@
 <resources>
 	<string name="app_name">WebSMS Connector: Innosend</string>
 	<string name="app_version">0.1</string>
+	<string name="create_account_">Create account</string>
 	<string name="log_error_innosend_111">IP-blocking active</string>
 	<string name="log_error_innosend_120">Sender missing</string>
 	<string name="log_error_innosend_121">Parameter is missing: missing type</string>

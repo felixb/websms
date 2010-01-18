@@ -24,12 +24,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to GMX API.
@@ -40,16 +44,11 @@ public class ConnectorGMX extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.GMX";
 
-	/** Preference's name: mail. */
-	static final String PREFS_MAIL = "gmx_mail";
-	/** Preference's name: username. */
-	static final String PREFS_USER = "gmx_user";
-	/** Preference's name: user's password - gmx. */
-	static final String PREFS_PASSWORD = "gmx_password";
-	/** Preference's name: gmx hostname id. */
-	private static final String PREFS_GMX_HOST = "gmx_host";
+	/** Preferences intent action. */
+	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+			+ "websms.connectors.gmx.PREFS";
 
-	/** Custom Dateformater. */
+	/** Custom {@link DateFormat}. */
 	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
 
 	/** Target host. */
@@ -66,14 +65,6 @@ public class ConnectorGMX extends Connector {
 	/** Target version of protocol. */
 	private static final String TARGET_PROTOVERSION = "1.13.03";
 
-	/** ID of mail in array. */
-	static final int ID_MAIL = 1;
-	/** ID of password in array. */
-	static final int ID_PW = 2;
-
-	/** Number of IDs in array for bootstrap. */
-	static final int IDS_BOOTSTR = 3;
-
 	/** Result: ok. */
 	private static final int RSLT_OK = 0;
 	/** Result: wrong customerid/password. */
@@ -85,22 +76,76 @@ public class ConnectorGMX extends Connector {
 	/** Result: sender is unregistered by gmx. */
 	private static final int RSLT_UNREGISTERED_SENDER = 71;
 
-	/** mail. */
-	private static String mail;
-	/** password. */
-	private static String pw;
-
-	/** Need to bootstrap? */
-	private static boolean needBootstrap = false;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.connector_gmx_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(// .
+				context.getString(R.string.connector_gmx_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context.getString(R.string.connector_gmx_preferences));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOSTRAP
+				| ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+		c.addSubConnector(TAG, c.getName(),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS
+						| SubConnectorSpec.FEATURE_CUSTOMSENDER
+						| SubConnectorSpec.FEATURE_SENDLATER);
+		return c;
+	}
 
 	/**
-	 * Create a GMX Connector.
-	 * 
-	 * @param c
-	 *            context
+	 * {@inheritDoc}
 	 */
-	ConnectorGMX(final Context c) {
-		super(c);
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
+			if (p.getString(Preferences.PREFS_MAIL, "").length() > 0
+					&& p.getString(Preferences.PREFS_PASSWORD, "") // .
+							.length() > 0) {
+				connectorSpec.setReady();
+			} else {
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
+			}
+		} else {
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
+		}
+		return connectorSpec;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doBootstrap(final Intent intent)
+			throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "bootstrap");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doUpdate(final Intent intent) throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "update");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doSend(final Intent intent) throws WebSMSException {
+		// do nothing by default
+		Log.d(TAG, "send");
 	}
 
 	/**
