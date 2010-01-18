@@ -24,7 +24,9 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Intent;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -32,7 +34,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * 
  * @author flx
  */
-public class ConnectorSloono extends Connector {
+public class ConnectorSloono extends CommandReceiver {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.sloono";
 
@@ -43,21 +45,6 @@ public class ConnectorSloono extends Connector {
 
 	/** Sloono connector. */
 	private final short connector;
-
-	/**
-	 * Create an Sloono.de Connector..
-	 * 
-	 * @param u
-	 *            user
-	 * @param p
-	 *            password
-	 * @param con
-	 *            connector type
-	 */
-	public ConnectorSloono(final String u, final String p, final short con) {
-		super(null); // FIXME:
-		this.connector = con;
-	}
 
 	/**
 	 * Check return code from cherry-sms.com.
@@ -163,37 +150,18 @@ public class ConnectorSloono extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean updateMessages() throws WebSMSException {
-		return this.sendData();
+	protected final void doUpdate(final Intent intent) throws WebSMSException {
+		this.sendData();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean sendMessage() throws WebSMSException {
+	protected final void doSend(final Intent intent) throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
 			throw new WebSMSException(this.context, R.string.log_error);
-		} else {
-			// result: ok
-			return true;
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportFlashsms() {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportSendLater() {
-		return true;
 	}
 }

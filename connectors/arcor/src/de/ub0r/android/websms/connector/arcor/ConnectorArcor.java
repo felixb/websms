@@ -35,11 +35,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
-import de.ub0r.android.andGMXsms.R;
-import de.ub0r.android.andGMXsms.WebSMS;
+import android.content.Intent;
+import android.util.Log;
 import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.WebSMSException;
-import de.ub0r.android.websms.connector.sms.CommandReceiverSMS;
 
 /**
  * Connector for arcor.de free sms / payed sms.
@@ -122,20 +121,6 @@ public class ConnectorArcor extends CommandReceiver {
 
 	/** Step to skip. */
 	private static final int STEP = 256;
-
-	/**
-	 * The Only Constructor.
-	 * 
-	 * @param u
-	 *            Username
-	 * @param p
-	 *            Password
-	 * @param con
-	 *            Connection type
-	 */
-	protected ConnectorArcor(final String u, final String p, final short con) {
-		super(u, p, con);
-	}
 
 	/**
 	 * Login to arcor.
@@ -336,16 +321,20 @@ public class ConnectorArcor extends CommandReceiver {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean sendMessage() throws WebSMSException {
-		return this.login() && this.sendSms();
+	protected final void doSend(final Intent intent) throws WebSMSException {
+		if (this.login()) {
+			this.sendSms();
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean updateMessages() throws WebSMSException {
-		return this.login() && this.updateBalance();
+	protected final void doUpdate(final Intent intent) throws WebSMSException {
+		if (this.login()) {
+			this.updateBalance();
+		}
 	}
 
 	/**

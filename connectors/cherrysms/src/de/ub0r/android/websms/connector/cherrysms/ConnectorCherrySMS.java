@@ -24,7 +24,9 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Intent;
 import android.util.Log;
+import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -32,7 +34,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * 
  * @author flx
  */
-public class ConnectorCherrySMS extends Connector {
+public class ConnectorCherrySMS extends CommandReceiver {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.cherry";
 
@@ -41,31 +43,6 @@ public class ConnectorCherrySMS extends Connector {
 
 	/** CherrySMS connector. */
 	private final boolean sendWithSender;
-
-	/**
-	 * Create an CherrySMS Connector..
-	 * 
-	 * @param u
-	 *            user
-	 * @param p
-	 *            password
-	 * @param con
-	 *            connector type
-	 */
-	public ConnectorCherrySMS(final String u, final String p, final short con) {
-		super(null); // FIXME:
-		switch (con) {
-		case CHERRY_WO_SENDER:
-			this.sendWithSender = false;
-			break;
-		case CHERRY_W_SENDER:
-			this.sendWithSender = true;
-			break;
-		default:
-			this.sendWithSender = false;
-			break;
-		}
-	}
 
 	/**
 	 * Check return code from cherry-sms.com.
@@ -188,21 +165,18 @@ public class ConnectorCherrySMS extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean updateMessages() throws WebSMSException {
-		return this.sendData();
+	protected final void doUpdate(final Intent intent) throws WebSMSException {
+		this.sendData();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean sendMessage() throws WebSMSException {
+	protected final void doSend(final Intent intent) throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
 			throw new WebSMSException(this.context, R.string.log_error);
-		} else {
-			// result: ok
-			return true;
 		}
 	}
 }
