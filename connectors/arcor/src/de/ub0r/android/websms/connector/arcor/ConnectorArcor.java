@@ -35,6 +35,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -321,7 +322,8 @@ public class ConnectorArcor extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Intent intent) throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
 		if (this.login()) {
 			this.sendSms();
 		}
@@ -331,7 +333,8 @@ public class ConnectorArcor extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Intent intent) throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
 		if (this.login()) {
 			this.updateBalance();
 		}

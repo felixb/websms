@@ -37,10 +37,9 @@ public final class InfoActivity extends Activity {
 	private static final String TAG = "WebSMS.Info";
 
 	/** Link to WebSMS in android market. */
-	// FIXME: change uri
 	private static final Intent INTENT_MARKET_WEBSMS = new Intent(
 			Intent.ACTION_VIEW, Uri.parse(// .
-					"market://search?q=pname:de.ub0r.android.andGMXsms"));
+					"market://search?q=pname:de.ub0r.android.websms"));
 
 	/** Link to Connectors in android market. */
 	// FIXME: change uri
@@ -61,6 +60,7 @@ public final class InfoActivity extends Activity {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void onResume() {
 		super.onResume();
 		final Builder builder = new Builder(this);

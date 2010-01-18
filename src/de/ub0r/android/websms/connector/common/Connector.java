@@ -92,8 +92,8 @@ public abstract class Connector extends BroadcastReceiver {
 	}
 
 	/**
-	 * Register a {@link Connector} which should be ran to do all the IO
-	 * in different thread.
+	 * Register a {@link Connector} which should be ran to do all the IO in
+	 * different thread.
 	 * 
 	 * @param receiver
 	 *            {@link Connector}
@@ -172,11 +172,10 @@ public abstract class Connector extends BroadcastReceiver {
 	}
 
 	/**
-	 * This default implementation will register the running
-	 * {@link Connector} to an external service. This
-	 * {@link ConnectorService} will run a {@link ConnectorTask} running the
-	 * methods doBootstrap(), doUpdate() and doSend() implemented above.
-	 * {@inheritDoc}
+	 * This default implementation will register the running {@link Connector}
+	 * to an external service. This {@link ConnectorService} will run a
+	 * {@link ConnectorTask} running the methods doBootstrap(), doUpdate() and
+	 * doSend() implemented above. {@inheritDoc}
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
@@ -193,7 +192,12 @@ public abstract class Connector extends BroadcastReceiver {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			final ConnectorSpec origSpecs = new ConnectorSpec(intent);
 			final ConnectorSpec specs = this.getSpecs(context);
+			if (specs == null || !specs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+				// skip disabled connector
+				return;
+			}
 			if (command == null) {
+				// skip faulty commands
 				return;
 			}
 			if (command.getType() != ConnectorCommand.TYPE_SEND
@@ -214,12 +218,15 @@ public abstract class Connector extends BroadcastReceiver {
 	 * Do bootstrap. This is executed in a different thread! Do not do any GUI
 	 * stuff.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param intent
 	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doBootstrap(final Intent intent) throws WebSMSException {
+	protected void doBootstrap(final Context context, final Intent intent)
+			throws WebSMSException {
 		// do nothing by default
 	}
 
@@ -227,24 +234,30 @@ public abstract class Connector extends BroadcastReceiver {
 	 * Do update. This is executed in a different thread! Do not do any GUI
 	 * stuff.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param intent
 	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doUpdate(final Intent intent) throws WebSMSException {
+	protected void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
 		// do nothing by default
 	}
 
 	/**
 	 * Do send. This is executed in a different thread! Do not do any GUI stuff.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param intent
 	 *            {@link Intent} comming from outside
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected void doSend(final Intent intent) throws WebSMSException {
+	protected void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
 		// do nothing by default
 	}
 }

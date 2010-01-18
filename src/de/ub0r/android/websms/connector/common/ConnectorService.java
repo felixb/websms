@@ -31,7 +31,7 @@ import android.widget.Toast;
  * 
  * @author flx
  */
-final class ConnectorService extends Service {
+public final class ConnectorService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
@@ -113,8 +113,8 @@ final class ConnectorService extends Service {
 							.equals(Connector.ACTION_RUN_SEND))) {
 				// TODO: setForeground / startForeground
 				try {
-					new ConnectorTask(intent, Connector.getInstance(),
-							this).execute((Void[]) null);
+					new ConnectorTask(intent, Connector.getInstance(), this)
+							.execute((Void[]) null);
 				} catch (WebSMSException e) {
 					Log.e(TAG, "error starting service", e);
 					Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)

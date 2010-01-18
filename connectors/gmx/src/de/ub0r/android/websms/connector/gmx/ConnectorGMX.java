@@ -31,7 +31,9 @@ import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
@@ -75,6 +77,9 @@ public class ConnectorGMX extends Connector {
 	private static final int RSLT_WRONG_SENDER = 8;
 	/** Result: sender is unregistered by gmx. */
 	private static final int RSLT_UNREGISTERED_SENDER = 71;
+
+	/** Check whether this connector is bootstrapping. */
+	private static boolean inBootstrap = false;
 
 	/**
 	 * {@inheritDoc}
@@ -124,28 +129,80 @@ public class ConnectorGMX extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doBootstrap(final Intent intent)
+	protected final void doBootstrap(final Context context, final Intent intent)
 			throws WebSMSException {
-		// do nothing by default
 		Log.d(TAG, "bootstrap");
+		if (!Preferences.needBootstrap()) {
+			return;
+		}
+		inBootstrap = true;
+		StringBuilder packetData = openBuffer(context, "GET_CUSTOMER", "1.10",
+				false);
+		SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		writePair(packetData, "email_address", p.getString(
+				Preferences.PREFS_MAIL, ""));
+		writePair(packetData, "password", p.getString(
+				Preferences.PREFS_PASSWORD, ""));
+		writePair(packetData, "gmx", "1");
+		this.sendData(context, closeBuffer(packetData));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Intent intent) throws WebSMSException {
-		// do nothing by default
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
 		Log.d(TAG, "update");
+		this.sendData(context, closeBuffer(openBuffer(context,
+				"GET_SMS_CREDITS", "1.00", true)));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Intent intent) throws WebSMSException {
-		// do nothing by default
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
 		Log.d(TAG, "send");
+
+		ConnectorCommand command = new ConnectorCommand(intent);
+		StringBuilder packetData = openBuffer(context, "SEND_SMS", "1.01", true);
+		// fill buffer
+		writePair(packetData, "sms_text", command.getText());
+		StringBuilder recipients = new StringBuilder();
+		// table: <id>, <name>, <number>
+		int j = 0;
+		String[] to = command.getRecipients();
+		for (int i = 0; i < to.length; i++) {
+			if (to[i] != null && to[i].length() > 1) {
+				recipients.append(++j);
+				recipients.append("\\;null\\;");
+				recipients.append(Utils.getRecipientsNumber(to[i]));
+				recipients.append("\\;");
+			}
+		}
+		recipients.append("</TBL>");
+		String recipientsString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
+				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
+				+ recipients.toString();
+		recipients = null;
+		writePair(packetData, "receivers", recipientsString);
+		writePair(packetData, "send_option", "sms");
+		final String customSender = command.getCustomSender();
+		if (customSender != null && customSender.length() > 0) {
+			writePair(packetData, "sms_sender", customSender);
+		} else {
+			writePair(packetData, "sms_sender", command.getDefSender());
+		}
+		final long sendLater = command.getSendLater();
+		if (sendLater > 0) {
+			writePair(packetData, "send_date", DateFormat.format(DATEFORMAT,
+					sendLater).toString());
+		}
+		// push data
+		this.sendData(context, closeBuffer(packetData));
 	}
 
 	/**
@@ -170,6 +227,8 @@ public class ConnectorGMX extends Connector {
 	/**
 	 * Create default data hashtable.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param packetName
 	 *            packetName
 	 * @param packetVersion
@@ -178,8 +237,9 @@ public class ConnectorGMX extends Connector {
 	 *            add customer id/password
 	 * @return Hashtable filled with customer_id and password.
 	 */
-	private StringBuilder openBuffer(final String packetName,
-			final String packetVersion, final boolean addCustomer) {
+	private static StringBuilder openBuffer(final Context context,
+			final String packetName, final String packetVersion,
+			final boolean addCustomer) {
 		StringBuilder ret = new StringBuilder();
 		ret.append("<WR TYPE=\"RQST\" NAME=\"");
 		ret.append(packetName);
@@ -190,9 +250,11 @@ public class ConnectorGMX extends Connector {
 		ret.append("\">");
 		if (addCustomer) {
 			SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(this.context);
-			writePair(ret, "customer_id", p.getString(PREFS_USER, ""));
-			writePair(ret, "password", p.getString(PREFS_PASSWORD, ""));
+					.getDefaultSharedPreferences(context);
+			writePair(ret, "customer_id", p.getString(Preferences.PREFS_USER,
+					""));
+			writePair(ret, "password", p.getString(Preferences.PREFS_PASSWORD,
+					""));
 		}
 		return ret;
 	}
@@ -218,7 +280,7 @@ public class ConnectorGMX extends Connector {
 	 *            parma's name
 	 * @return param's value
 	 */
-	private String getParam(final String packet, final String name) {
+	private static String getParam(final String packet, final String name) {
 		int i = packet.indexOf(name + '=');
 		if (i < 0) {
 			return null;
@@ -234,20 +296,22 @@ public class ConnectorGMX extends Connector {
 	/**
 	 * Send data.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param packetData
 	 *            packetData
 	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData(final StringBuilder packetData)
+	private void sendData(final Context context, final StringBuilder packetData)
 			throws WebSMSException {
 		try {
 			// check connection:
 			// get cluster side
 			SharedPreferences sp = PreferenceManager
-					.getDefaultSharedPreferences(this.context);
-			int gmxHost = sp.getInt(PREFS_GMX_HOST, 0);
+					.getDefaultSharedPreferences(context);
+			int gmxHost = sp.getInt(Preferences.PREFS_GMX_HOST, 0);
 			HttpURLConnection c = (HttpURLConnection) (new URL("http://"
 					+ TARGET_HOST[gmxHost] + TARGET_PATH)).openConnection();
 			// set prefs
@@ -255,10 +319,10 @@ public class ConnectorGMX extends Connector {
 			c.setRequestProperty("Content-Encoding", TARGET_ENCODING);
 			c.setRequestProperty("Content-Type", TARGET_CONTENT);
 			int resp = c.getResponseCode();
-			if (resp == HTTP_SERVICE_UNAVAILABLE) {
+			if (resp == Utils.HTTP_SERVICE_UNAVAILABLE) {
 				// switch hostname
 				gmxHost = (gmxHost + 1) % 2;
-				sp.edit().putInt(PREFS_GMX_HOST, gmxHost).commit();
+				sp.edit().putInt(Preferences.PREFS_GMX_HOST, gmxHost).commit();
 			}
 
 			// get Connection
@@ -279,21 +343,21 @@ public class ConnectorGMX extends Connector {
 			// send data
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				if (resp == HTTP_SERVICE_UNAVAILABLE) {
-					throw new WebSMSException(this.context,
+				if (resp == Utils.HTTP_SERVICE_UNAVAILABLE) {
+					throw new WebSMSException(context,
 							R.string.log_error_service, "" + resp);
 				} else {
-					throw new WebSMSException(this.context,
-							R.string.log_error_http, "" + resp);
+					throw new WebSMSException(context, R.string.log_error_http,
+							"" + resp);
 				}
 			}
 			// read received data
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
-				String resultString = stream2str(c.getInputStream());
+				String resultString = Utils.stream2str(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-					throw new WebSMSException(this.context,
+					throw new WebSMSException(context,
 							R.string.log_error_server, "" + resultString);
 				}
 
@@ -304,7 +368,7 @@ public class ConnectorGMX extends Connector {
 				outp = outp.replace("</WR>", "");
 
 				// get result code
-				String resultValue = this.getParam(outp, "rslt");
+				String resultValue = getParam(outp, "rslt");
 				int rslt;
 				try {
 					rslt = Integer.parseInt(resultValue);
@@ -315,145 +379,46 @@ public class ConnectorGMX extends Connector {
 				switch (rslt) {
 				case RSLT_OK: // ok
 					// fetch additional info
-					String p = this.getParam(outp, "free_rem_month");
+					String p = getParam(outp, "free_rem_month");
 					if (p != null) {
 						String b = p;
-						p = this.getParam(outp, "free_max_month");
+						p = getParam(outp, "free_max_month");
 						if (p != null) {
 							b += "/" + p;
 						}
 						// FIXME: SPECS.setBalance(b);
-						this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+						this.getSpecs(context).setBalance(b);
 					}
-					p = this.getParam(outp, "customer_id");
+					p = getParam(outp, "customer_id");
 					if (p != null) {
 						Editor e = PreferenceManager
-								.getDefaultSharedPreferences(this.context)
-								.edit();
-						e.putString(PREFS_USER, p);
-						if (ConnectorGMX.pw != null) {
-							e.putString(PREFS_PASSWORD, ConnectorGMX.pw);
-						}
-						if (ConnectorGMX.mail != null) {
-							e.putString(PREFS_MAIL, ConnectorGMX.mail);
-						}
+								.getDefaultSharedPreferences(context).edit();
+						e.putString(Preferences.PREFS_USER, p);
 						e.commit();
 						inBootstrap = false;
 					}
-					return true;
+					return;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					throw new WebSMSException(this.context,
-							R.string.log_error_pw);
+					throw new WebSMSException(context, R.string.log_error_pw);
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					pw = "";
-					throw new WebSMSException(this.context,
-							R.string.log_error_mail);
+					throw new WebSMSException(context, R.string.log_error_mail);
 				case RSLT_WRONG_SENDER: // wrong sender
-					throw new WebSMSException(this.context,
+					throw new WebSMSException(context,
 							R.string.log_error_sender);
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
-					throw new WebSMSException(this.context,
+					throw new WebSMSException(context,
 							R.string.log_error_sender_unregistered);
 				default:
 					throw new WebSMSException(outp + " #" + rslt);
 				}
 			} else {
-				throw new WebSMSException(this.context,
+				throw new WebSMSException(context,
 						R.string.log_http_header_missing);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
-			throw new WebSMSException(e.toString());
+			throw new WebSMSException(e);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean updateMessages() throws WebSMSException {
-		return this.sendData(closeBuffer(this.openBuffer("GET_SMS_CREDITS",
-				"1.00", true)));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean sendMessage() throws WebSMSException {
-		StringBuilder packetData = this.openBuffer("SEND_SMS", "1.01", true);
-		// fill buffer
-		writePair(packetData, "sms_text", this.text);
-		StringBuilder recipients = new StringBuilder();
-		// table: <id>, <name>, <number>
-		int j = 0;
-		for (int i = 0; i < this.to.length; i++) {
-			if (this.to[i] != null && this.to[i].length() > 1) {
-				recipients.append(++j);
-				recipients.append("\\;null\\;");
-				recipients.append(this.to[i]);
-				recipients.append("\\;");
-			}
-		}
-		recipients.append("</TBL>");
-		String recipientsString = "<TBL ROWS=\"" + j + "\" COLS=\"3\">"
-				+ "receiver_id\\;receiver_name\\;receiver_number\\;"
-				+ recipients.toString();
-		recipients = null;
-		writePair(packetData, "receivers", recipientsString);
-		writePair(packetData, "send_option", "sms");
-		if (this.customSender != null && this.customSender.length() > 0) {
-			writePair(packetData, "sms_sender", this.customSender);
-		} else {
-			writePair(packetData, "sms_sender", this.defSender);
-		}
-		if (this.sendLater > 0) {
-			writePair(packetData, "send_date", DateFormat.format(DATEFORMAT,
-					this.sendLater).toString());
-		}
-		// push data
-		if (!this.sendData(closeBuffer(packetData))) {
-			// failed!
-			throw new WebSMSException(this.context, R.string.log_error);
-		}
-		// result: ok
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean doBootstrap(final String[] params)
-			throws WebSMSException {
-		if (!needBootstrap) {
-			return true;
-		}
-		inBootstrap = true;
-		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
-				false);
-		SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this.context);
-		writePair(packetData, "email_address", p.getString(PREFS_MAIL, ""));
-		writePair(packetData, "password", p.getString(PREFS_PASSWORD, ""));
-		writePair(packetData, "gmx", "1");
-		return this.sendData(closeBuffer(packetData));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportCustomsender() {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportSendLater() {
-		return true;
 	}
 }

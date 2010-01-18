@@ -51,6 +51,13 @@ public final class Utils {
 	/** Standard buffer size. */
 	public static final int BUFSIZE = 32768;
 
+	/** HTTP Response 200. */
+	public static final int HTTP_SERVICE_OK = 200;
+	/** HTTP Response 401. */
+	public static final int HTTP_SERVICE_UNAUTHORIZED = 401;
+	/** HTTP Response 503. */
+	public static final int HTTP_SERVICE_UNAVAILABLE = 503;
+
 	/**
 	 * No Constructor needed here.
 	 */

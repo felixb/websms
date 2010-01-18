@@ -20,6 +20,7 @@ package de.ub0r.android.websms.connector.common;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -68,19 +69,26 @@ final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 		try {
 			switch (this.command.getType()) {
 			case ConnectorCommand.TYPE_BOOTSTRAP:
-				this.receiver.doBootstrap(this.intent);
+				this.receiver.doBootstrap(this.service, this.intent);
 				break;
 			case ConnectorCommand.TYPE_UPDATE:
-				this.receiver.doUpdate(this.intent);
+				this.receiver.doUpdate(this.service, this.intent);
 				break;
 			case ConnectorCommand.TYPE_SEND:
-				this.receiver.doSend(this.intent);
+				this.receiver.doSend(this.service, this.intent);
 				break;
 			default:
 				break;
 			}
 		} catch (WebSMSException e) {
+			Log.e(this.connector.getID(), "error in AsyncTask", e);
 			// put error message to ConnectorSpec
+			// TODO: set errormessage to intent or something else!
+			this.connector.setErrorMessage(e.getMessage());
+		} catch (Exception e) {
+			Log.e(this.connector.getID(), "error in AsyncTask", e);
+			// put error message to ConnectorSpec
+			// TODO: set errormessage to intent or something else!
 			this.connector.setErrorMessage(e.getMessage());
 		}
 		return null;

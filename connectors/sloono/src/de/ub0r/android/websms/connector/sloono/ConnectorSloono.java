@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -150,7 +151,8 @@ public class ConnectorSloono extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Intent intent) throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
 		this.sendData();
 	}
 
@@ -158,10 +160,11 @@ public class ConnectorSloono extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Intent intent) throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
 		if (!this.sendData()) {
 			// failed!
-			throw new WebSMSException(this.context, R.string.log_error);
+			throw new WebSMSException(context, R.string.log_error);
 		}
 	}
 }
