@@ -18,6 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS Connector: Test</string>
+	<string name="app_version">0.1</string>
 	<string name="connector_test_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_test_name">Test</string>
 	<string name="connector_test_enable_">Enable Test</string>

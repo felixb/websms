@@ -17,6 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
+	<string name="app_name">WebSMS Connector: sipgate</string>
+	<string name="app_version">0.1</string>
 	<string name="connector_sipgate_author">Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
 	<string name="connector_sipgate_name">sipgate</string>
 	<string name="enable_sipgate">Enable Sipgate</string>

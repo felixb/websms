@@ -18,6 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS Connector: Arcor</string>
+	<string name="app_version">0.1</string>
 	<string name="connector_arcor_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
 	<string name="enable_arcor">Enable Arcor</string>
 	<string name="user_arcor_">Arcor Username</string>

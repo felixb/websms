@@ -17,6 +17,8 @@
                 not, see <http://www.gnu.org/licenses/>. 
         --> 
 <resources>
+	<string name="app_name">WebSMS Connector: Cherry-SMS</string>
+	<string name="app_version">0.1</string>
 	<string name="log_error_cherry_10">Wrong reciepient!</string>
 	<string name="log_error_cherry_20">Sender incorrect!</string>
 	<string name="log_error_cherry_30">Messagetext incorrect!</string>
