@@ -81,17 +81,20 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * TODO document me
+	 * Fetch INFO broadcast.
 	 * 
 	 * @param context
+	 *            context
 	 * @param intent
+	 *            intent
 	 */
 	private void handleInfoAction(final Context context, final Intent intent) {
 		final ConnectorSpec specs = new ConnectorSpec(intent);
 		final ConnectorCommand command = new ConnectorCommand(intent);
 
 		if (specs == null) {
-			return;// TODO flx, unreachable code?
+			// security check. some other apps may send faulty broadcasts
+			return;
 		}
 
 		try {
@@ -100,22 +103,23 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			Log.e(TAG, "error while receiving broadcast", e);
 		}
 		// save send messages
-		if (command == null) {
-			return;
-		}
-
-		if (command.getType() == ConnectorCommand.TYPE_SEND) {
+		if (command != null && // .
+				command.getType() == ConnectorCommand.TYPE_SEND) {
 			this.handleSendCommand(specs, context, intent, command);
 		}
 	}
 
 	/**
-	 * TODO document me, split some more if pssible
+	 * Save sent message or display error notification if failed sending.
 	 * 
 	 * @param specs
+	 *            {@link ConnectorSpec}
 	 * @param context
+	 *            context
 	 * @param intent
+	 *            intent
 	 * @param command
+	 *            {@link ConnectorCommand}
 	 */
 	private void handleSendCommand(final ConnectorSpec specs,
 			final Context context, final Intent intent,
@@ -223,5 +227,4 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 					Uri.parse("content://sms/sent"), values);
 		}
 	}
-
 }
