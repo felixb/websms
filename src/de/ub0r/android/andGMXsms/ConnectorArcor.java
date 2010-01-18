@@ -68,6 +68,12 @@ public class ConnectorArcor extends Connector {
 	private static final String MATCH_NO_SMS = "Sie haben "
 			+ "derzeit keine SMS zur Verf";
 
+	/**
+	 * No limits on SMS ? see issue
+	 * http://code.google.com/p/websmsdroid/issues/detail?id=55
+	 */
+	private static final String MATCH_UNLIMITTED_SMS = "<b>unbegrenzt viele</b>";
+
 	/** Cache this client over several calls. */
 	private HttpClient client = new DefaultHttpClient();
 	/** HTTP Header User-Agent. */
@@ -169,6 +175,8 @@ public class ConnectorArcor extends Connector {
 			term = m.group(1) + "+" + m.group(2);
 		} else if (content.contains(MATCH_NO_SMS)) {
 			term = "0+0";
+		} else if (content.contains(MATCH_UNLIMITTED_SMS)) {
+			term = "\u221E";
 		} else {
 			return false;
 		}
