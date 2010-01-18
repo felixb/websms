@@ -175,9 +175,8 @@ public final class Utils {
 			final ArrayList<Cookie> cookies,
 			final ArrayList<BasicNameValuePair> postData,
 			final String userAgent, final String referer) throws IOException {
-		// TODO flx, why ArrayList and not just List?
 		// TODO flx, this method does not return an HttpClientInstance. It
-		// should be executeRequest IMHO
+		// should be executeRequest IMHO. Not so gut in public api?
 		HttpClient client = new DefaultHttpClient();
 		HttpRequestBase request;
 		if (postData == null) {
@@ -185,7 +184,7 @@ public final class Utils {
 		} else {
 			request = new HttpPost(url);
 			((HttpPost) request).setEntity(new UrlEncodedFormEntity(postData,
-					"ISO-8859-15"));
+					"ISO-8859-15"));// TODO make it as parameter
 		}
 		if (referer != null) {
 			request.setHeader("Referer", referer);
