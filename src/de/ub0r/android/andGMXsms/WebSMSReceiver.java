@@ -76,85 +76,110 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			return;
 		}
 		if (CommandReceiver.ACTION_INFO.equals(action)) {
-			final ConnectorSpec specs = new ConnectorSpec(intent);
-			final ConnectorCommand command = new ConnectorCommand(intent);
-			if (specs == null) {
-				return;
-			}
-			try {
-				WebSMS.addConnector(specs);
-			} catch (Exception e) {
-				Log.e(TAG, "error while receiving broadcast", e);
-			}
-			// save send messages
-			if (command == null) {
-				return;
-			}
-			if (command.getType() == ConnectorCommand.TYPE_SEND) {
-				if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-					this.saveMessage(context, command);
-				} else {
-					// Display notification if sending failed
-					final String[] r = command.getRecipients();
-					final int l = r.length;
-					StringBuilder buf = new StringBuilder(r[0]);
-					for (int i = 1; i < l; i++) {
-						buf.append(", ");
-						buf.append(r[i]);
-					}
-					final String to = buf.toString();
-					buf = null;
-
-					Notification n = new Notification(
-							R.drawable.stat_notify_sms_failed, context
-									.getString(R.string.notify_failed_), System
-									.currentTimeMillis());
-					final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
-							.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)),
-							context, WebSMS.class);
-					// add pending intent
-					i.putExtra(Intent.EXTRA_TEXT, command.getText());
-					i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, specs
-							.getErrorMessage());
-					i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-					final PendingIntent cIntent = PendingIntent.getActivity(
-							context, 0, i, 0);
-					n.setLatestEventInfo(context, context
-							.getString(R.string.notify_failed)
-							+ " " + specs.getErrorMessage(), to + ": "
-							+ command.getText(), cIntent);
-					n.flags |= Notification.FLAG_AUTO_CANCEL;
-
-					n.flags |= Notification.FLAG_SHOW_LIGHTS;
-					n.ledARGB = 0xffff0000;
-					n.ledOnMS = 500;
-					n.ledOffMS = 2000;
-
-					final SharedPreferences p = PreferenceManager
-							.getDefaultSharedPreferences(context);
-					final boolean vibrateOnFail = p.getBoolean(
-							WebSMS.PREFS_FAIL_VIBRATE, false);
-					final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
-					Uri soundOnFail;
-					if (s == null || s.length() <= 0) {
-						soundOnFail = null;
-					} else {
-						soundOnFail = Uri.parse(s);
-					}
-
-					if (vibrateOnFail) {
-						n.flags |= Notification.DEFAULT_VIBRATE;
-					}
-					n.sound = soundOnFail;
-
-					NotificationManager mNotificationMgr = // .
-					(NotificationManager) context
-							.getSystemService(Context.NOTIFICATION_SERVICE);
-					mNotificationMgr.notify(getNotificationID(), n);
-				}
-			}
+			this.handleInfoAction(context, intent);
 		}
+	}
+
+	/**
+	 * TODO document me
+	 * 
+	 * @param context
+	 * @param intent
+	 */
+	private void handleInfoAction(final Context context, final Intent intent) {
+		final ConnectorSpec specs = new ConnectorSpec(intent);
+		final ConnectorCommand command = new ConnectorCommand(intent);
+
+		if (specs == null) {
+			return;// TODO flx, unreachable code?
+		}
+
+		try {
+			WebSMS.addConnector(specs);
+		} catch (Exception e) {
+			Log.e(TAG, "error while receiving broadcast", e);
+		}
+		// save send messages
+		if (command == null) {
+			return;
+		}
+
+		if (command.getType() == ConnectorCommand.TYPE_SEND) {
+			this.handleSendCommand(specs, context, intent, command);
+		}
+	}
+
+	/**
+	 * TODO document me, split some more if pssible
+	 * 
+	 * @param specs
+	 * @param context
+	 * @param intent
+	 * @param command
+	 */
+	private void handleSendCommand(final ConnectorSpec specs,
+			final Context context, final Intent intent,
+			final ConnectorCommand command) {
+
+		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
+			this.saveMessage(context, command);
+			return;
+		}
+		// Display notification if sending failed
+		final String[] r = command.getRecipients();
+		final int l = r.length;
+		StringBuilder buf = new StringBuilder(r[0]);
+		for (int i = 1; i < l; i++) {
+			buf.append(", ");
+			buf.append(r[i]);
+		}
+		final String to = buf.toString();
+		buf = null;
+
+		Notification n = new Notification(R.drawable.stat_notify_sms_failed,
+				context.getString(R.string.notify_failed_), System
+						.currentTimeMillis());
+		final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
+				.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)), context,
+				WebSMS.class);
+		// add pending intent
+		i.putExtra(Intent.EXTRA_TEXT, command.getText());
+		i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, specs.getErrorMessage());
+		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		final PendingIntent cIntent = PendingIntent.getActivity(context, 0, i,
+				0);
+		n.setLatestEventInfo(context, context.getString(R.string.notify_failed)
+				+ " " + specs.getErrorMessage(), to + ": " + command.getText(),
+				cIntent);
+		n.flags |= Notification.FLAG_AUTO_CANCEL;
+
+		n.flags |= Notification.FLAG_SHOW_LIGHTS;
+		n.ledARGB = 0xffff0000;
+		n.ledOnMS = 500;
+		n.ledOffMS = 2000;
+
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final boolean vibrateOnFail = p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE,
+				false);
+		final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
+		Uri soundOnFail;
+		if (s == null || s.length() <= 0) {
+			soundOnFail = null;
+		} else {
+			soundOnFail = Uri.parse(s);
+		}
+
+		if (vibrateOnFail) {
+			n.flags |= Notification.DEFAULT_VIBRATE;
+		}
+		n.sound = soundOnFail;
+
+		NotificationManager mNotificationMgr = // .
+		(NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationMgr.notify(getNotificationID(), n);
 	}
 
 	/**

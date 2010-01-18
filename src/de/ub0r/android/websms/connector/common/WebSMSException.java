@@ -41,6 +41,16 @@ public class WebSMSException extends Exception {
 	}
 
 	/**
+	 * Create a new {@link WebSMSException}
+	 * 
+	 * @param ex
+	 *            a {@link Throwable} instance
+	 */
+	public WebSMSException(final Throwable ex) {
+		super(ex);
+	}
+
+	/**
 	 * Create a new WebSMSException.
 	 * 
 	 * @param c
