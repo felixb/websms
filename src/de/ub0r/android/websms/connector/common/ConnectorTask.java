@@ -27,7 +27,7 @@ import android.widget.Toast;
  * 
  * @author flx
  */
-public final class ConnectorTask extends AsyncTask<Void, Void, Void> {
+final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 
 	/** Intent comming from outside. */
 	private final Intent intent;

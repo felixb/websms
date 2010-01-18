@@ -18,12 +18,10 @@
  */
 
 /**
- * This package is obsolete. All remaining classes will move to
- * {@link de.ub0r.android.websms}. This package is holding all GUI stuff from
- * main activity.
+ * This package is holding all GUI stuff from main activity.
  * 
- * @version 2.0
+ * @version 3.0
  * @author flx
  */
-package de.ub0r.android.andGMXsms;
+package de.ub0r.android.websms;
 

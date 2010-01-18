@@ -29,7 +29,7 @@ import android.util.Log;
  * 
  * @author flx
  */
-public class HelperAPI5Service {
+class HelperAPI5Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.api5s";
 

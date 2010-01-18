@@ -27,7 +27,7 @@ import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
-import de.ub0r.android.andGMXsms.R;
+import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.CommandReceiver;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;

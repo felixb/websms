@@ -31,7 +31,7 @@ import android.widget.Toast;
  * 
  * @author flx
  */
-public final class ConnectorService extends Service {
+final class ConnectorService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
