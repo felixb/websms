@@ -195,13 +195,13 @@ public final class ConnectorCommand {
 		if (i == null) {
 			switch (this.getType()) {
 			case TYPE_BOOTSTRAP:
-				i = new Intent(CommandReceiver.ACTION_RUN_BOOSTRAP);
+				i = new Intent(Connector.ACTION_RUN_BOOSTRAP);
 				break;
 			case TYPE_UPDATE:
-				i = new Intent(CommandReceiver.ACTION_RUN_UPDATE);
+				i = new Intent(Connector.ACTION_RUN_UPDATE);
 				break;
 			case TYPE_SEND:
-				i = new Intent(CommandReceiver.ACTION_RUN_SEND);
+				i = new Intent(Connector.ACTION_RUN_SEND);
 				break;
 			default:
 				return null;

@@ -108,12 +108,12 @@ final class ConnectorService extends Service {
 			final String a = intent.getAction();
 			Log.d("WebSMS.service", "action: " + a);
 			if (a != null && // .
-					(a.equals(CommandReceiver.ACTION_RUN_BOOSTRAP)
-							|| a.equals(CommandReceiver.ACTION_RUN_UPDATE) || a
-							.equals(CommandReceiver.ACTION_RUN_SEND))) {
+					(a.equals(Connector.ACTION_RUN_BOOSTRAP)
+							|| a.equals(Connector.ACTION_RUN_UPDATE) || a
+							.equals(Connector.ACTION_RUN_SEND))) {
 				// TODO: setForeground / startForeground
 				try {
-					new ConnectorTask(intent, CommandReceiver.getInstance(),
+					new ConnectorTask(intent, Connector.getInstance(),
 							this).execute((Void[]) null);
 				} catch (WebSMSException e) {
 					Log.e(TAG, "error starting service", e);

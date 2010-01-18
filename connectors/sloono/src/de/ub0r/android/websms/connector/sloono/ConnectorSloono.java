@@ -24,9 +24,8 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
-import android.content.Intent;
 import android.util.Log;
-import de.ub0r.android.websms.connector.common.CommandReceiver;
+import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -151,7 +150,7 @@ public class ConnectorSloono extends CommandReceiver {
 	 */
 	@Override
 	protected final void doUpdate(final Intent intent) throws WebSMSException {
-		this.sendData();
+	this.sendData();
 	}
 
 	/**

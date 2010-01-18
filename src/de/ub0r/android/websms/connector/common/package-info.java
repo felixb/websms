@@ -19,7 +19,7 @@
 
 /**
  * This package is holding common classes for connectors. Implement new
- * connectors by inherent {@link CommandReceiver}.
+ * connectors by inherent {@link Connector}.
  * 
  * @version 3.0
  * @author flx

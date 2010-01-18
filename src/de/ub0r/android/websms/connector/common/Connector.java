@@ -28,7 +28,7 @@ import android.util.Log;
  * 
  * @author flx
  */
-public abstract class CommandReceiver extends BroadcastReceiver {
+public abstract class Connector extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.cbcr";
 
@@ -76,30 +76,30 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 	 * {@link ConnectorTask}.Each implementer of this class should register
 	 * here.
 	 */
-	private static CommandReceiver instance = null;
+	private static Connector instance = null;
 
 	/**
 	 * @return single instance running all the IO in different thread.
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	protected static final CommandReceiver getInstance()// .
+	protected static final Connector getInstance()// .
 			throws WebSMSException {
 		if (instance == null) {
-			throw new WebSMSException("no running CommandReceiver available");
+			throw new WebSMSException("no running Connector available");
 		}
 		return instance;
 	}
 
 	/**
-	 * Register a {@link CommandReceiver} which should be ran to do all the IO
+	 * Register a {@link Connector} which should be ran to do all the IO
 	 * in different thread.
 	 * 
 	 * @param receiver
-	 *            {@link CommandReceiver}
+	 *            {@link Connector}
 	 */
 	protected static final void registerInstance(// .
-			final CommandReceiver receiver) {
+			final Connector receiver) {
 		instance = receiver;
 	}
 
@@ -173,7 +173,7 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 
 	/**
 	 * This default implementation will register the running
-	 * {@link CommandReceiver} to an external service. This
+	 * {@link Connector} to an external service. This
 	 * {@link ConnectorService} will run a {@link ConnectorTask} running the
 	 * methods doBootstrap(), doUpdate() and doSend() implemented above.
 	 * {@inheritDoc}
@@ -185,11 +185,11 @@ public abstract class CommandReceiver extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (CommandReceiver.ACTION_CONNECTOR_UPDATE.equals(action)) {
+		if (Connector.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (action.equals(CommandReceiver.ACTION_RUN_BOOSTRAP)
-				|| action.equals(CommandReceiver.ACTION_RUN_UPDATE)
-				|| action.equals(CommandReceiver.ACTION_RUN_SEND)) {
+		} else if (action.equals(Connector.ACTION_RUN_BOOSTRAP)
+				|| action.equals(Connector.ACTION_RUN_UPDATE)
+				|| action.equals(Connector.ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			final ConnectorSpec origSpecs = new ConnectorSpec(intent);
 			final ConnectorSpec specs = this.getSpecs(context);

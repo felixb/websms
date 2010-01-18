@@ -37,7 +37,7 @@ import org.apache.http.protocol.HTTP;
 
 import android.content.Intent;
 import android.util.Log;
-import de.ub0r.android.websms.connector.common.CommandReceiver;
+import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**

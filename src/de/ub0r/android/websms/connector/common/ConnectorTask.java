@@ -32,7 +32,7 @@ final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	/** Intent comming from outside. */
 	private final Intent intent;
 	/** Connector class which will do the actual IO. */
-	private final CommandReceiver receiver;
+	private final Connector receiver;
 	/** Used connector. */
 	private final ConnectorSpec connector;
 	/** Command running. */
@@ -47,11 +47,11 @@ final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 	 *            intent holding {@link ConnectorSpec} and
 	 *            {@link ConnectorCommand}
 	 * @param r
-	 *            {@link CommandReceiver}
+	 *            {@link Connector}
 	 * @param s
 	 *            {@link ConnectorService}
 	 */
-	public ConnectorTask(final Intent i, final CommandReceiver r,
+	public ConnectorTask(final Intent i, final Connector r,
 			final ConnectorService s) {
 		this.intent = i;
 		this.connector = new ConnectorSpec(i);

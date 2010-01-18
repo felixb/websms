@@ -28,7 +28,7 @@ import android.telephony.gsm.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 import de.ub0r.android.websms.R;
-import de.ub0r.android.websms.connector.common.CommandReceiver;
+import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
@@ -41,7 +41,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * @author flx
  */
 @SuppressWarnings("deprecation")
-public class CommandReceiverSMS extends CommandReceiver {
+public class CommandReceiverSMS extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
 

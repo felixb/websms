@@ -29,7 +29,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import de.ub0r.android.websms.connector.common.CommandReceiver;
+import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -75,7 +75,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (action == null) {
 			return;
 		}
-		if (CommandReceiver.ACTION_INFO.equals(action)) {
+		if (Connector.ACTION_INFO.equals(action)) {
 			this.handleInfoAction(context, intent);
 		}
 	}
