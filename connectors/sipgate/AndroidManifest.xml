@@ -46,7 +46,6 @@
 		<receiver android:name="de.ub0r.android.websms.connector.sipgate.CommandReceiverSipgate"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.RUN_BOOTSTRAP" />
 				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
 				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
