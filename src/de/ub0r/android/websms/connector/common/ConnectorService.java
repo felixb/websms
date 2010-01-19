@@ -41,6 +41,9 @@ public final class ConnectorService extends Service {
 	/** Pending tasks. */
 	private final ArrayList<Intent> pendingIOOps = new ArrayList<Intent>();
 
+	/** Wrapper for API5 commands. */
+	private HelperAPI5Service helperAPI5s = null;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -74,6 +77,12 @@ public final class ConnectorService extends Service {
 	 */
 	public void register(final Intent intent) {
 		Log.d(TAG, "register(" + intent.getAction() + ")");
+		// TODO: setForeground / startForeground
+		if (this.helperAPI5s == null) {
+			this.setForeground(true);
+		} else {
+			// TODO: fix me
+		}
 		synchronized (this.pendingIOOps) {
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
 			this.pendingIOOps.add(intent);
@@ -94,6 +103,13 @@ public final class ConnectorService extends Service {
 			this.pendingIOOps.remove(intent);
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
 			if (this.pendingIOOps.size() == 0) {
+				// set service to background
+				if (this.helperAPI5s == null) {
+					this.setForeground(false);
+				} else {
+					this.helperAPI5s.stopForeground(this, true);
+				}
+				// stop unneeded service
 				this.stopSelf();
 			}
 		}
@@ -111,7 +127,8 @@ public final class ConnectorService extends Service {
 					(a.equals(Connector.ACTION_RUN_BOOSTRAP)
 							|| a.equals(Connector.ACTION_RUN_UPDATE) || a
 							.equals(Connector.ACTION_RUN_SEND))) {
-				// TODO: setForeground / startForeground
+				// register intent, if service gets killed, all pending intents get send to websms
+				this.register(intent);
 				try {
 					new ConnectorTask(intent, Connector.getInstance(), this)
 							.execute((Void[]) null);

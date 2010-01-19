@@ -207,8 +207,14 @@ public abstract class Connector extends BroadcastReceiver {
 				registerInstance(this); // this instance will be run by service
 				final Intent i = new Intent(context, ConnectorService.class);
 				i.setAction(intent.getAction());
+				// set command to intent
 				command.setToIntent(i);
-				origSpecs.setToIntent(i);
+				if (origSpecs != null) {
+					// set original sepcs to intent
+					origSpecs.setToIntent(i);
+				}
+				// load updated specs to intent
+				specs.setToIntent(i);
 				context.startService(i); // start service
 			}
 		}

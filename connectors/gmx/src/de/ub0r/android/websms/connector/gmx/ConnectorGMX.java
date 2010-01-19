@@ -132,7 +132,7 @@ public class ConnectorGMX extends Connector {
 	protected final void doBootstrap(final Context context, final Intent intent)
 			throws WebSMSException {
 		Log.d(TAG, "bootstrap");
-		if (!Preferences.needBootstrap()) {
+		if (!Preferences.needBootstrap(context)) {
 			return;
 		}
 		inBootstrap = true;
@@ -155,6 +155,8 @@ public class ConnectorGMX extends Connector {
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
 		Log.d(TAG, "update");
+		this.doBootstrap(context, intent);
+		
 		this.sendData(context, closeBuffer(openBuffer(context,
 				"GET_SMS_CREDITS", "1.00", true)));
 	}
@@ -166,6 +168,7 @@ public class ConnectorGMX extends Connector {
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
 		Log.d(TAG, "send");
+		this.doBootstrap(context, intent);
 
 		ConnectorCommand command = new ConnectorCommand(intent);
 		StringBuilder packetData = openBuffer(context, "SEND_SMS", "1.01", true);
@@ -345,9 +348,9 @@ public class ConnectorGMX extends Connector {
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == Utils.HTTP_SERVICE_UNAVAILABLE) {
 					throw new WebSMSException(context,
-							R.string.log_error_service, "" + resp);
+							R.string.error_service, "" + resp);
 				} else {
-					throw new WebSMSException(context, R.string.log_error_http,
+					throw new WebSMSException(context, R.string.error_http,
 							"" + resp);
 				}
 			}
@@ -358,7 +361,7 @@ public class ConnectorGMX extends Connector {
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 					throw new WebSMSException(context,
-							R.string.log_error_server, "" + resultString);
+							R.string.error_server, "" + resultString);
 				}
 
 				// strip packet
@@ -399,22 +402,22 @@ public class ConnectorGMX extends Connector {
 					}
 					return;
 				case RSLT_WRONG_CUSTOMER: // wrong user/pw
-					throw new WebSMSException(context, R.string.log_error_pw);
+					throw new WebSMSException(context, R.string.error_pw);
 				case RSLT_WRONG_MAIL: // wrong mail/pw
 					inBootstrap = false;
-					throw new WebSMSException(context, R.string.log_error_mail);
+					throw new WebSMSException(context, R.string.error_mail);
 				case RSLT_WRONG_SENDER: // wrong sender
 					throw new WebSMSException(context,
-							R.string.log_error_sender);
+							R.string.error_sender);
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
 					throw new WebSMSException(context,
-							R.string.log_error_sender_unregistered);
+							R.string.error_sender_unregistered);
 				default:
 					throw new WebSMSException(outp + " #" + rslt);
 				}
 			} else {
 				throw new WebSMSException(context,
-						R.string.log_http_header_missing);
+						R.string.error_http_header_missing);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);

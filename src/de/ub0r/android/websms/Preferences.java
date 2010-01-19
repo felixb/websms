@@ -41,8 +41,8 @@ public class Preferences extends PreferenceActivity implements
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		WebSMS.doPreferences = true;
 		this.addPreferencesFromResource(R.xml.prefs);
+		WebSMS.doPreferences = true;
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		p.registerOnSharedPreferenceChangeListener(this);

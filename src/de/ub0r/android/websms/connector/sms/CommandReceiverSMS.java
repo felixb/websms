@@ -132,7 +132,7 @@ public class CommandReceiverSMS extends Connector {
 						Toast.makeText(context,
 								specs.getName() + ": " + e.getMessage(),
 								Toast.LENGTH_LONG).show();
-						specs.setErrorMessage(e.getMessage());
+						specs.setErrorMessage(e);
 					}
 					this.sendInfo(context, specs, command);
 				}

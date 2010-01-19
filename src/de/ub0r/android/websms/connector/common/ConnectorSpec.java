@@ -511,6 +511,23 @@ public final class ConnectorSpec {
 		}
 		this.bundle.putString(ERRORMESSAGE, error);
 	}
+	
+	/**
+	 * Set error message.
+	 * 
+	 * @param error
+	 *            error message
+	 */
+	public void setErrorMessage(final Exception error) {
+		if (error != null) {
+			this.addStatus(STATUS_ERROR);
+		}
+		if (error instanceof WebSMSException) {
+			this.bundle.putString(ERRORMESSAGE, error.getMessage());
+		} else {
+			this.bundle.putString(ERRORMESSAGE, error.toString());
+		}
+	}
 
 	/**
 	 * @return all SubConnectors

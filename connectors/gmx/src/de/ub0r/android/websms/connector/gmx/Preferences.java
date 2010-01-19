@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.websms.connector.gmx;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -65,7 +66,7 @@ public final class Preferences extends PreferenceActivity {
 	protected void onPause() {
 		super.onPause();
 		// check if prefs changed
-		SharedPreferences p = PreferenceManager
+		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		needBootstrap |= mail != null
 				&& !mail.equals(p.getString(PREFS_MAIL, ""));
@@ -74,9 +75,17 @@ public final class Preferences extends PreferenceActivity {
 	}
 
 	/**
+	 * @param context
+	 *		Context
 	 * @return true if bootstrap is needed
 	 */
-	static boolean needBootstrap() {
-		return needBootstrap;
+	static boolean needBootstrap(final Context context) {
+		if (needBootstrap) {
+			return true;
+		}
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		
+		return p.getString(PREFS_USER, "").length() == 0;
 	}
 }
