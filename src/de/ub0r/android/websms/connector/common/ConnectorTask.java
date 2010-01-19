@@ -102,6 +102,7 @@ final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 			Toast.makeText(this.service, e, Toast.LENGTH_LONG).show();
 		}
 		final Intent i = this.connector.setToIntent(null);
+		this.command.setToIntent(i);
 		this.service.sendBroadcast(i);
 		this.service.unregister(i);
 	}

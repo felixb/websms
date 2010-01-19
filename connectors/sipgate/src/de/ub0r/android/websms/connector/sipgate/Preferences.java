@@ -27,8 +27,14 @@ import android.preference.PreferenceActivity;
  * @author flx
  */
 public final class Preferences extends PreferenceActivity {
-	/** Preference key: enabled. */
-	static final String PREFS_ENABLED = "enable_sipgate";
+	/** Preference's name: enable sipgate. */
+	static final String PREFS_ENABLE_SIPGATE = "enable_sipgate";
+	/** Preference's name: enable sipgate team accounts. */
+	static final String PREFS_ENABLE_SIPGATE_TEAM = "enable_sipgate_team";
+	/** Preference's name: sipgate username. */
+	static final String PREFS_USER_SIPGATE = "user_sipgate";
+	/** Preference's name: user's password - sipgate. */
+	static final String PREFS_PASSWORD_SIPGATE = "password_sipgate";
 
 	/**
 	 * {@inheritDoc}

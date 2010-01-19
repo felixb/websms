@@ -20,7 +20,11 @@ package de.ub0r.android.websms.connector.common;
 
 import java.util.ArrayList;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -35,14 +39,19 @@ public final class ConnectorService extends Service {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.IO";
 
+	/** Notification text. */
+	private static final String NOTIFICATION_TEXT = "WebSMS Connector IO";
+	/** Notification icon. */
+	private static int notificationIcon = 0;
+
+	/** Notification ID of this Service. */
+	private static final int NOTIFICATION_PENDING = 0;
+
 	/** Wrapper for API5 commands. */
 	private HelperAPI5Service helperAPI5s = null;
 
 	/** Pending tasks. */
 	private final ArrayList<Intent> pendingIOOps = new ArrayList<Intent>();
-
-	/** Wrapper for API5 commands. */
-	private HelperAPI5Service helperAPI5s = null;
 
 	/**
 	 * {@inheritDoc}
@@ -70,6 +79,28 @@ public final class ConnectorService extends Service {
 	}
 
 	/**
+	 * Build IO {@link Notification}.
+	 * 
+	 * @return {@link Notification}
+	 */
+	private Notification getNotification() {
+		if (notificationIcon == 0) {
+			notificationIcon = this.getResources().getIdentifier(
+					"stat_notify_sms_pending", "drawable",
+					this.getPackageName());
+			Log.d(TAG, "resID=" + notificationIcon);
+		}
+		final Notification notification = new Notification(notificationIcon,
+				NOTIFICATION_TEXT, System.currentTimeMillis());
+		final PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				null, 0);
+		notification.setLatestEventInfo(this, NOTIFICATION_TEXT, "",
+				contentIntent);
+		notification.defaults |= Notification.FLAG_NO_CLEAR;
+		return notification;
+	}
+
+	/**
 	 * Register a IO task.
 	 * 
 	 * @param intent
@@ -77,11 +108,23 @@ public final class ConnectorService extends Service {
 	 */
 	public void register(final Intent intent) {
 		Log.d(TAG, "register(" + intent.getAction() + ")");
-		// TODO: setForeground / startForeground
+		// setForeground / startForeground
+		Notification notification = null;
 		if (this.helperAPI5s == null) {
 			this.setForeground(true);
 		} else {
-			// TODO: fix me
+			notification = this.getNotification();
+			this.helperAPI5s.startForeground(this, NOTIFICATION_PENDING,
+					notification);
+
+		}
+		if (new ConnectorCommand(intent).getType() == ConnectorCommand.TYPE_SEND) {
+			if (notification == null) {
+				notification = this.getNotification();
+			}
+			NotificationManager mNotificationMgr = (NotificationManager) this
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
 		}
 		synchronized (this.pendingIOOps) {
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
@@ -100,7 +143,18 @@ public final class ConnectorService extends Service {
 		Log.d(TAG, "unregister(" + intent.getAction() + ")");
 		synchronized (this.pendingIOOps) {
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
-			this.pendingIOOps.remove(intent);
+			final int l = this.pendingIOOps.size();
+			if (l == 1) {
+				this.pendingIOOps.clear();
+			} else {
+				for (int i = 0; i < l; i++) {
+					final Intent oi = this.pendingIOOps.get(i);
+					if (intent.getExtras().equals(oi.getExtras())) {
+						this.pendingIOOps.remove(i);
+						break;
+					}
+				}
+			}
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
 			if (this.pendingIOOps.size() == 0) {
 				// set service to background
@@ -109,6 +163,9 @@ public final class ConnectorService extends Service {
 				} else {
 					this.helperAPI5s.stopForeground(this, true);
 				}
+				NotificationManager mNotificationMgr = (NotificationManager) this
+						.getSystemService(Context.NOTIFICATION_SERVICE);
+				mNotificationMgr.cancelAll();
 				// stop unneeded service
 				this.stopSelf();
 			}
@@ -127,7 +184,8 @@ public final class ConnectorService extends Service {
 					(a.equals(Connector.ACTION_RUN_BOOSTRAP)
 							|| a.equals(Connector.ACTION_RUN_UPDATE) || a
 							.equals(Connector.ACTION_RUN_SEND))) {
-				// register intent, if service gets killed, all pending intents get send to websms
+				// register intent, if service gets killed, all pending intents
+				// get send to websms
 				this.register(intent);
 				try {
 					new ConnectorTask(intent, Connector.getInstance(), this)
@@ -151,7 +209,18 @@ public final class ConnectorService extends Service {
 		Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
 		final int s = this.pendingIOOps.size();
 		for (int i = 0; i < s; i++) {
-			// TODO: send error message for intent pendingIOOps.get(i)
+			final ConnectorCommand cc = new ConnectorCommand(this.pendingIOOps
+					.get(i));
+			final ConnectorSpec cs = new ConnectorSpec(this.pendingIOOps.get(i));
+			if (cc.getType() == ConnectorCommand.TYPE_SEND) {
+				cs.setErrorMessage("error while IO");
+				final Intent in = cs.setToIntent(null);
+				cc.setToIntent(in);
+				this.sendBroadcast(in);
+			} else {
+				Toast.makeText(this, cs.getName() + ": error while IO",
+						Toast.LENGTH_LONG);
+			}
 		}
 	}
 

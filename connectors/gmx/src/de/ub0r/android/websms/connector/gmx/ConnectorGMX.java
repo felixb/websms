@@ -132,6 +132,9 @@ public class ConnectorGMX extends Connector {
 	protected final void doBootstrap(final Context context, final Intent intent)
 			throws WebSMSException {
 		Log.d(TAG, "bootstrap");
+		if (inBootstrap) {
+			// TODO: fail here
+		}
 		if (!Preferences.needBootstrap(context)) {
 			return;
 		}
@@ -156,7 +159,7 @@ public class ConnectorGMX extends Connector {
 			throws WebSMSException {
 		Log.d(TAG, "update");
 		this.doBootstrap(context, intent);
-		
+
 		this.sendData(context, closeBuffer(openBuffer(context,
 				"GET_SMS_CREDITS", "1.00", true)));
 	}
@@ -342,16 +345,19 @@ public class ConnectorGMX extends Connector {
 			os.write(packetData.toString().getBytes("ISO-8859-15"));
 			os.close();
 			os = null;
+			Log.d(TAG, "--HTTP POST--");
+			Log.d(TAG, packetData.toString());
+			Log.d(TAG, "--HTTP POST--");
 
 			// send data
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				if (resp == Utils.HTTP_SERVICE_UNAVAILABLE) {
-					throw new WebSMSException(context,
-							R.string.error_service, "" + resp);
-				} else {
-					throw new WebSMSException(context, R.string.error_http,
+					throw new WebSMSException(context, R.string.error_service,
 							"" + resp);
+				} else {
+					throw new WebSMSException(context, R.string.error_http, ""
+							+ resp);
 				}
 			}
 			// read received data
@@ -360,9 +366,12 @@ public class ConnectorGMX extends Connector {
 				String resultString = Utils.stream2str(c.getInputStream());
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
-					throw new WebSMSException(context,
-							R.string.error_server, "" + resultString);
+					throw new WebSMSException(context, R.string.error_server,
+							"" + resultString);
 				}
+				Log.d(TAG, "--HTTP RESPONSE--");
+				Log.d(TAG, resultString);
+				Log.d(TAG, "--HTTP RESPONSE--");
 
 				// strip packet
 				int resultIndex = resultString.indexOf("rslt=");
@@ -389,7 +398,6 @@ public class ConnectorGMX extends Connector {
 						if (p != null) {
 							b += "/" + p;
 						}
-						// FIXME: SPECS.setBalance(b);
 						this.getSpecs(context).setBalance(b);
 					}
 					p = getParam(outp, "customer_id");
@@ -407,8 +415,7 @@ public class ConnectorGMX extends Connector {
 					inBootstrap = false;
 					throw new WebSMSException(context, R.string.error_mail);
 				case RSLT_WRONG_SENDER: // wrong sender
-					throw new WebSMSException(context,
-							R.string.error_sender);
+					throw new WebSMSException(context, R.string.error_sender);
 				case RSLT_UNREGISTERED_SENDER: // unregistered sender
 					throw new WebSMSException(context,
 							R.string.error_sender_unregistered);

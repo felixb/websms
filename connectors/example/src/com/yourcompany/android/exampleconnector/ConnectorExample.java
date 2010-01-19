@@ -102,7 +102,8 @@ public class ConnectorExample extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
 		// TODO: update account balance
 		Log.d(TAG, "update");
 		// See doBootstrap() for more details.
@@ -112,7 +113,8 @@ public class ConnectorExample extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
 		// TODO: send a message provided by intent
 		Log.d(TAG, "send");
 		// See doBootstrap() for more details.
