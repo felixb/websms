@@ -513,7 +513,7 @@ public class ConnectorO2 extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean updateMessages() throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
 		return this.sendData(true);
 	}
 
@@ -521,7 +521,7 @@ public class ConnectorO2 extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean sendMessage() throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
 		if (!this.sendData(true)) {
 			// failed!
 			throw new WebSMSException(this.context, R.string.log_error);

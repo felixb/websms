@@ -84,27 +84,37 @@ public class ConnectorExample extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doBootstrap(final Intent intent)
+	protected final void doBootstrap(final Context context, final Intent intent)
 			throws WebSMSException {
-		// TODO: bootstrap settings. you may remove this method.
+		// TODO: bootstrap settings.
+		// If you don't need to bootstrap any config, remove this method.
 		Log.d(TAG, "bootstrap");
+		if (1 != 1) {
+			// If something fails, you should abort this method
+			// by throwing a WebSMSException.
+			throw new WebSMSException("message to user.");
+		}
+		// The surrounding code will assume positive result of this method,
+		// if no WebSMSException was thrown.
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Intent intent) throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
 		// TODO: update account balance
 		Log.d(TAG, "update");
+		// See doBootstrap() for more details.
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Intent intent) throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
 		// TODO: send a message provided by intent
 		Log.d(TAG, "send");
+		// See doBootstrap() for more details.
 	}
 }

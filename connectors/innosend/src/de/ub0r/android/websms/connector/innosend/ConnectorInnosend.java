@@ -284,7 +284,7 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean updateMessages() throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
 		return this.sendData(false) && this.sendData(true);
 	}
 
@@ -292,7 +292,7 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final boolean sendMessage() throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
 		if (!this.sendData(false)) {
 			// failed!
 			throw new WebSMSException(this.context, R.string.log_error);

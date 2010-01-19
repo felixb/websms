@@ -19,21 +19,6 @@
 <resources>
 	<string name="app_name">WebSMS Connector: Innosend</string>
 	<string name="app_version">0.1</string>
-	<string name="create_account_">Create account</string>
-	<string name="log_error_innosend_111">IP-blocking active</string>
-	<string name="log_error_innosend_120">Sender missing</string>
-	<string name="log_error_innosend_121">Parameter is missing: missing type</string>
-	<string name="log_error_innosend_122">Parameter is missing: missing text</string>
-	<string name="log_error_innosend_123">Parameter is missing: Recipients missing</string>
-	<string name="log_error_innosend_129">Wrong Sender</string>
-	<string name="log_error_innosend_130">Gateway problem: blocked phone number</string>
-	<string name="log_error_innosend_140">No more credit! Recharge account!</string>
-	<string name="log_error_innosend_150">SMS bomber protection</string>
-	<string name="log_error_innosend_161">Next free SMS available at:</string>
-	<string name="log_error_innosend_170">Wrong date</string>
-	<string name="log_error_innosend_171">Date in past</string>
-	<string name="log_error_innosend_172">Too many phone numbers</string>
-	<string name="log_error_innosend_173">Wrong number format</string>
 	<string name="innosend_next_free">next free:</string>
 	<string name="enable_innosend">Enable Innosend</string>
 	<string name="user_innosend_">Innosend Username</string>
@@ -41,4 +26,19 @@
 	<string name="settings_innosend">Preferences - Innosend</string>
 	<string name="partner_innosend_hint">Create new Innosend.de account</string>
 	<string name="partner_innosend_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
+
+	<string name="error_innosend_111">IP-blocking active</string>
+	<string name="error_innosend_120">Sender missing</string>
+	<string name="error_innosend_121">Parameter is missing: missing type</string>
+	<string name="error_innosend_122">Parameter is missing: missing text</string>
+	<string name="error_innosend_123">Parameter is missing: Recipients missing</string>
+	<string name="error_innosend_129">Wrong Sender</string>
+	<string name="error_innosend_130">Gateway problem: blocked phone number</string>
+	<string name="error_innosend_140">No more credit! Recharge account!</string>
+	<string name="error_innosend_150">SMS bomber protection</string>
+	<string name="error_innosend_161">Next free SMS available at:</string>
+	<string name="error_innosend_170">Wrong date</string>
+	<string name="error_innosend_171">Date in past</string>
+	<string name="error_innosend_172">Too many phone numbers</string>
+	<string name="error_innosend_173">Wrong number format</string>
 </resources>

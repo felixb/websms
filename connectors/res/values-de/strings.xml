@@ -17,14 +17,5 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS Connector: GMX</string>
-	<string name="app_version">0.1</string>
-	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_gmx_name">GMX</string>
-	<string name="connector_gmx_enable_">Enable GMX</string>
-	<string name="connector_gmx_user_">Mail address</string>
-	<string name="connector_gmx_user_hint">user@gmx.tld</string>
-	<string name="connector_gmx_password_">GMX SMS Key</string>
-	<string name="connector_gmx_password_hint">GMX SMS-Manager Keycode. This is not your GMX password! See GMX!</string>
-	<string name="connector_gmx_preferences">Preferences - GMX</string>
+	<!-- Common strings. -->
 </resources>
