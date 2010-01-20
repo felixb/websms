@@ -37,12 +37,55 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
 public class ConnectorCherrySMS extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.cherry";
+	private static final String ID_W_SENDER = "w_sender";
+	private static final String ID_WO_SENDER = "wo_sender";
 
 	/** CherrySMS Gateway URL. */
 	private static final String URL = "https://gw.cherry-sms.com/";
 
 	/** CherrySMS connector. */
 	private final boolean sendWithSender;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.connector_cherrysms_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(// .
+				context.getString(R.string.connector_cherrysms_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context.getString(R.string.connector_cherrysms_preferences));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		return c;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
+			if (p.getString(Preferences.PREFS_PASSWORD, "").length() > 0) {
+				connectorSpec.setReady();
+			} else {
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
+			}
+		} else {
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
+		}
+		return connectorSpec;
+	}
 
 	/**
 	 * Check return code from cherry-sms.com.

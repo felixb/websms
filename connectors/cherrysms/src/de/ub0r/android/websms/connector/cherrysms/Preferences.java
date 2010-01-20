@@ -29,6 +29,8 @@ import android.preference.PreferenceActivity;
 public final class Preferences extends PreferenceActivity {
 	/** Preference key: enabled. */
 	static final String PREFS_ENABLED = "enable_cherrysms";
+	/** Preference's name: user's password. */
+	private static final String PREFS_PASSWORD = "password_cherrysms";
 
 	/**
 	 * {@inheritDoc}
