@@ -116,7 +116,6 @@ public final class ConnectorService extends Service {
 			notification = this.getNotification();
 			this.helperAPI5s.startForeground(this, NOTIFICATION_PENDING,
 					notification);
-
 		}
 		if (new ConnectorCommand(intent).getType() == ConnectorCommand.TYPE_SEND) {
 			if (notification == null) {
