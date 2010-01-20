@@ -56,9 +56,10 @@ public class Preferences extends PreferenceActivity implements
 		p.registerOnSharedPreferenceChangeListener(this);
 		PreferenceCategory pc = (PreferenceCategory) this
 				.findPreference("settings_connectors");
-		for (ConnectorSpec cs : WebSMS.getConnectors(
+		final ConnectorSpec[] css = WebSMS.getConnectors(
 				ConnectorSpec.CAPABILITIES_NONE, // .
-				ConnectorSpec.STATUS_INACTIVE)) {
+				ConnectorSpec.STATUS_INACTIVE);
+		for (ConnectorSpec cs : css) {
 			final String action = cs.getPrefsIntent();
 			if (action == null) {
 				continue;

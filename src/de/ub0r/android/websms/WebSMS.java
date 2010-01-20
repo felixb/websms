@@ -18,8 +18,6 @@
  */
 package de.ub0r.android.websms;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -68,6 +66,7 @@ import com.admob.android.ads.AdView;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Main Activity.
@@ -483,10 +482,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
-
-		for (ConnectorSpec cs : getConnectors(
+		// FIXME: this method is run way to often!
+		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
-				ConnectorSpec.STATUS_ENABLED)) {
+				ConnectorSpec.STATUS_ENABLED);
+		for (ConnectorSpec cs : css) {
 			final String b = cs.getBalance();
 			if (b == null || b.length() == 0) {
 				continue;
@@ -555,7 +555,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
 
 		prefsNoAds = false;
-		String hash = md5(p.getString(PREFS_SENDER, ""));
+		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
 		for (String h : NO_AD_HASHS) {
 			if (hash.equals(h)) {
 				prefsNoAds = true;
@@ -723,8 +723,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.change_connector_);
 		final ArrayList<String> items = new ArrayList<String>();
-		for (ConnectorSpec cs : getConnectors(ConnectorSpec.CAPABILITIES_SEND,
-				ConnectorSpec.STATUS_ENABLED)) {
+		final ConnectorSpec[] css = getConnectors(
+				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
+		for (ConnectorSpec cs : css) {
 			items.add(cs.getName());
 		}
 		// TODO: add subconnectors
@@ -848,9 +849,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			d.setTitle(this.getString(R.string.about_) + " v"
 					+ this.getString(R.string.app_version));
 			StringBuffer authors = new StringBuffer();
-			for (ConnectorSpec cs : getConnectors(
+			final ConnectorSpec[] css = getConnectors(
 					ConnectorSpec.CAPABILITIES_NONE,
-					ConnectorSpec.STATUS_INACTIVE)) {
+					ConnectorSpec.STATUS_INACTIVE);
+			for (ConnectorSpec cs : css) {
 				final String a = cs.getAuthor();
 				if (a != null && a.length() > 0) {
 					authors.append(cs.getName());
@@ -1127,38 +1129,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Calc MD5 Hash from String.
-	 * 
-	 * @param s
-	 *            input
-	 * @return hash
-	 */
-	static String md5(final String s) {
-		try {
-			// Create MD5 Hash
-			MessageDigest digest = java.security.MessageDigest
-					.getInstance("MD5");
-			digest.update(s.getBytes());
-			byte[] messageDigest = digest.digest();
-			// Create Hex String
-			StringBuilder hexString = new StringBuilder(32);
-			int b;
-			for (int i = 0; i < messageDigest.length; i++) {
-				b = 0xFF & messageDigest[i];
-				if (b < 0x10) {
-					hexString.append('0' + Integer.toHexString(b));
-				} else {
-					hexString.append(Integer.toHexString(b));
-				}
-			}
-			return hexString.toString();
-		} catch (NoSuchAlgorithmException e) {
-			Log.e(TAG, null, e);
-		}
-		return "";
-	}
-
-	/**
 	 * Get MD5 hash of the IMEI (device id).
 	 * 
 	 * @return MD5 hash of IMEI
@@ -1170,7 +1140,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.getSystemService(TELEPHONY_SERVICE);
 			final String did = mTelephonyMgr.getDeviceId();
 			if (did != null) {
-				imeiHash = md5(did);
+				imeiHash = Utils.md5(did);
 			}
 		}
 		return imeiHash;
