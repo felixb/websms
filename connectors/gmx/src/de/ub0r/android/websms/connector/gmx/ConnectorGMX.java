@@ -136,6 +136,7 @@ public class ConnectorGMX extends Connector {
 			// TODO: fail here
 		}
 		if (!Preferences.needBootstrap(context)) {
+			Log.d(TAG, "skip bootstrap");
 			return;
 		}
 		inBootstrap = true;
