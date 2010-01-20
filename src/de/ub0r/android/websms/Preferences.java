@@ -42,6 +42,14 @@ public class Preferences extends PreferenceActivity implements
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.prefs);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onResume() {
+		super.onResume();
 		WebSMS.doPreferences = true;
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -55,7 +63,12 @@ public class Preferences extends PreferenceActivity implements
 			if (action == null) {
 				continue;
 			}
+			final String id = cs.getID();
+			if (pc.findPreference(id) != null) {
+				continue;
+			}
 			final Preference cp = new Preference(this);
+			cp.setKey(id);
 			cp.setTitle(cs.getPrefsTitle());
 			cp.setIntent(new Intent(action));
 			pc.addPreference(cp);
