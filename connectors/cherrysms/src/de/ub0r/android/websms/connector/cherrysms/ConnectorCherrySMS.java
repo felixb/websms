@@ -165,7 +165,7 @@ public class ConnectorCherrySMS extends Connector {
 			url.append("?user=");
 			url.append(Utils.international2oldformat(command.getDefSender()));
 			url.append("&password=");
-			url.append(p.getString(Preferences.PREFS_PASSWORD, ""));
+			url.append(Utils.md5(p.getString(Preferences.PREFS_PASSWORD, "")));
 			final String text = command.getText();
 			if (text != null && text.length() > 0) {
 				boolean sendWithSender = command.getSelectedSubConnector()

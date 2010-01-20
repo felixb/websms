@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import org.apache.http.Header;
@@ -41,6 +43,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.BrowserCompatSpec;
 import org.apache.http.impl.cookie.CookieSpecBase;
 import org.apache.http.message.BasicNameValuePair;
+
+import android.util.Log;
 
 /**
  * General Utils calls.
@@ -281,5 +285,37 @@ public final class Utils {
 		}
 		bufferedReader.close();
 		return data.toString();
+	}
+
+	/**
+	 * Calc MD5 Hash from String.
+	 * 
+	 * @param s
+	 *            input
+	 * @return hash
+	 */
+	public static String md5(final String s) {
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = java.security.MessageDigest
+					.getInstance("MD5");
+			digest.update(s.getBytes());
+			byte[] messageDigest = digest.digest();
+			// Create Hex String
+			StringBuilder hexString = new StringBuilder(32);
+			int b;
+			for (int i = 0; i < messageDigest.length; i++) {
+				b = 0xFF & messageDigest[i];
+				if (b < 0x10) {
+					hexString.append('0' + Integer.toHexString(b));
+				} else {
+					hexString.append(Integer.toHexString(b));
+				}
+			}
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("Utils", null, e);
+		}
+		return "";
 	}
 }
