@@ -75,6 +75,14 @@ final class ConnectorTask extends AsyncTask<Void, Void, Void> {
 				this.receiver.doUpdate(this.service, this.intent);
 				break;
 			case ConnectorCommand.TYPE_SEND:
+				String t = this.command.getText();
+				String[] r = this.command.getRecipients();
+				if (t == null || t.length() == 0 || // .
+						r == null || r.length == 0) {
+					break;
+				}
+				t = null;
+				r = null;
 				this.receiver.doSend(this.service, this.intent);
 				break;
 			default:

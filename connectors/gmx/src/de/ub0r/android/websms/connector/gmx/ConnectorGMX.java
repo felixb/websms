@@ -142,7 +142,7 @@ public class ConnectorGMX extends Connector {
 		inBootstrap = true;
 		StringBuilder packetData = openBuffer(context, "GET_CUSTOMER", "1.10",
 				false);
-		SharedPreferences p = PreferenceManager
+		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		writePair(packetData, "email_address", p.getString(
 				Preferences.PREFS_MAIL, ""));

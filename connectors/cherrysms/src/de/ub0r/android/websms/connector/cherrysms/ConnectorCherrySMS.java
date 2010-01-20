@@ -24,10 +24,17 @@ import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to cherry-sms.com API.
@@ -37,27 +44,32 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
 public class ConnectorCherrySMS extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.cherry";
+	/** {@link SubConnectorSpec} ID: with sender. */
 	private static final String ID_W_SENDER = "w_sender";
+	/** {@link SubConnectorSpec} ID: without sender. */
 	private static final String ID_WO_SENDER = "wo_sender";
+
+	/** Preferences intent action. */
+	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+			+ "websms.connectors.cherrysms.PREFS";
 
 	/** CherrySMS Gateway URL. */
 	private static final String URL = "https://gw.cherry-sms.com/";
-
-	/** CherrySMS connector. */
-	private final boolean sendWithSender;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
-		final String name = context.getString(R.string.connector_cherrysms_name);
+		final String name = context
+				.getString(R.string.connector_cherrysms_name);
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(// .
 				context.getString(R.string.connector_cherrysms_author));
 		c.setBalance(null);
 		c.setPrefsIntent(PREFS_INTENT_ACTION);
-		c.setPrefsTitle(context.getString(R.string.connector_cherrysms_preferences));
+		c.setPrefsTitle(context
+				.getString(R.string.connector_cherrysms_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
@@ -90,87 +102,90 @@ public class ConnectorCherrySMS extends Connector {
 	/**
 	 * Check return code from cherry-sms.com.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param ret
 	 *            return code
 	 * @return true if no error code
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean checkReturnCode(final int ret) throws WebSMSException {
+	private static boolean checkReturnCode(final Context context, final int ret)
+			throws WebSMSException {
 		Log.d(TAG, "ret=" + ret);
 		switch (ret) {
 		case 100:
 			return true;
 		case 10:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_10);
+			throw new WebSMSException(context, R.string.error_cherry_10);
 		case 20:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_20);
+			throw new WebSMSException(context, R.string.error_cherry_20);
 		case 30:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_30);
+			throw new WebSMSException(context, R.string.error_cherry_30);
 		case 31:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_31);
+			throw new WebSMSException(context, R.string.error_cherry_31);
 		case 40:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_40);
+			throw new WebSMSException(context, R.string.error_cherry_40);
 		case 50:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_50);
+			throw new WebSMSException(context, R.string.error_cherry_50);
 		case 60:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_60);
+			throw new WebSMSException(context, R.string.error_cherry_60);
 		case 70:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_70);
+			throw new WebSMSException(context, R.string.error_cherry_70);
 		case 71:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_71);
+			throw new WebSMSException(context, R.string.error_cherry_71);
 		case 80:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_80);
+			throw new WebSMSException(context, R.string.error_cherry_80);
 		case 90:
-			throw new WebSMSException(this.context,
-					R.string.log_error_cherry_90);
+			throw new WebSMSException(context, R.string.error_cherry_90);
 		default:
-			throw new WebSMSException(this.context, R.string.log_error,
-					" code: " + ret);
+			throw new WebSMSException(context, R.string.error, " code: " + ret);
 		}
 	}
 
 	/**
 	 * Send data.
 	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @param command
+	 *            {@link ConnectorCommand}
 	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData() throws WebSMSException {
+	private boolean sendData(final Context context,
+			final ConnectorCommand command) throws WebSMSException {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
+			final ConnectorSpec cs = this.getSpecs(context);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(context);
 			url.append("?user=");
-			// FIXME: url.append(this.user);
+			url.append(Utils.international2oldformat(command.getDefSender()));
 			url.append("&password=");
-			// FIXME: url.append(this.password);
-
-			if (this.text != null && this.to != null && this.to.length > 0) {
-				Log.d(TAG, "send with sender = " + this.sendWithSender);
-				if (this.sendWithSender) {
+			url.append(p.getString(Preferences.PREFS_PASSWORD, ""));
+			final String text = command.getText();
+			if (text != null && text.length() > 0) {
+				boolean sendWithSender = command.getSelectedSubConnector()
+						.equals(ID_W_SENDER);
+				Log.d(TAG, "send with sender = " + sendWithSender);
+				if (sendWithSender) {
 					url.append("&from=1");
 				}
 				url.append("&message=");
-				url.append(URLEncoder.encode(this.text));
+				url.append(URLEncoder.encode(text));
 				url.append("&to=");
-				String[] recvs = this.to;
+				String[] recvs = command.getRecipients();
 				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder(
-						international2oldformat(recvs[0]));
+				StringBuilder toBuf = new StringBuilder(Utils
+						.international2oldformat(Utils
+								.getRecipientsNumber(recvs[0])));
 				for (int j = 1; j < e; j++) {
 					toBuf.append(";");
-					toBuf.append(international2oldformat(recvs[j]));
+					toBuf.append(Utils.international2oldformat(Utils
+							.getRecipientsNumber(recvs[j])));
 				}
 				url.append(toBuf.toString());
 				toBuf = null;
@@ -178,24 +193,25 @@ public class ConnectorCherrySMS extends Connector {
 				url.append("&check=guthaben");
 			}
 			// send data
-			HttpResponse response = getHttpClient(url.toString(), null, null,
-					null, null);
+			HttpResponse response = Utils.getHttpClient(url.toString(), null,
+					null, null, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				throw new WebSMSException(this.context,
-						R.string.log_error_http, "" + resp);
+				throw new WebSMSException(context, R.string.error_http, ""
+						+ resp);
 			}
-			String htmlText = stream2str(response.getEntity().getContent())
-					.trim();
+			String htmlText = Utils.stream2str(
+					response.getEntity().getContent()).trim();
 			String[] lines = htmlText.split("\n");
+			Log.d(TAG, "--HTTP RESPONSE--");
 			Log.d(TAG, htmlText);
+			Log.d(TAG, "--HTTP RESPONSE--");
 			htmlText = null;
 			int l = lines.length;
-			// FIXME: WebSMS.SMS_BALANCE[CHERRY] = lines[l - 1].trim();
-			this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+			cs.setBalance(lines[l - 1].trim());
 			if (l > 1) {
 				final int ret = Integer.parseInt(lines[0].trim());
-				return this.checkReturnCode(ret);
+				return checkReturnCode(context, ret);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
@@ -208,18 +224,17 @@ public class ConnectorCherrySMS extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
-		this.sendData();
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.sendData(context, new ConnectorCommand(intent));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
-		if (!this.sendData()) {
-			// failed!
-			throw new WebSMSException(this.context, R.string.log_error);
-		}
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.sendData(context, new ConnectorCommand(intent));
 	}
 }

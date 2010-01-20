@@ -36,6 +36,9 @@
 			</intent-filter>
 		</activity>
 
+		<!-- Service doing all the IO. -->
+		<service android:name="de.ub0r.android.websms.connector.common.ConnectorService"
+			android:exported="false" />
 
 		<activity android:name="Preferences">
 			<intent-filter>

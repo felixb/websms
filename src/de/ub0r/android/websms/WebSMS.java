@@ -440,8 +440,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (doPreferences) {
 			this.reloadPrefs();
 			doPreferences = false;
-			final Intent intent = ConnectorCommand.bootstrap()
-					.setToIntent(null);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
+			final String defSender = p.getString(PREFS_SENDER, "");
+			final Intent intent = ConnectorCommand.bootstrap(defPrefix,
+					defSender).setToIntent(null);
 			Log.d(TAG, "send broadcast: " + intent.getAction());
 			this.sendBroadcast(intent);
 		}
@@ -658,7 +662,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            force update, if false only blank balances will get updated
 	 */
 	private void updateFreecount(final boolean forceUpdate) {
-		final Intent intent = ConnectorCommand.update().setToIntent(null);
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
+		final String defSender = p.getString(PREFS_SENDER, "");
+		final Intent intent = ConnectorCommand.update(defPrefix, defSender)
+				.setToIntent(null);
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		this.sendBroadcast(intent);
 	}
@@ -1018,12 +1027,12 @@ public class WebSMS extends Activity implements OnClickListener,
 				&& v.isChecked()) {
 			wantSendLater = true;
 		}
-		SharedPreferences p = PreferenceManager
+		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
-
-		final ConnectorCommand command = ConnectorCommand.send(defPrefix,
+		// FIXME: subconnectorid
+		final ConnectorCommand command = ConnectorCommand.send(null, defPrefix,
 				defSender, to.split(","), text, flashSMS);
 
 		v = (CheckBox) this.findViewById(R.id.custom_sender);

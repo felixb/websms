@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * A Command send to a Connector.
@@ -56,6 +57,9 @@ public final class ConnectorCommand {
 	private static final String TIMESTAMP = "command_timestamp";
 	/** Command: custom sender. */
 	private static final String CUSTOMSENDER = "command_customsender";
+	/** Command: selected {@link SubConnectorSpec} for sending. */
+	private static final String SELECTEDSUBCONNECTOR = // .
+	"command_selectedsubconnector";
 
 	/** {@link Bundle} represents the ConnectorSpec. */
 	private final Bundle bundle;
@@ -63,30 +67,50 @@ public final class ConnectorCommand {
 	/**
 	 * Create command with type update.
 	 * 
+	 * @param defPrefix
+	 *            default prefix
+	 * @param defSender
+	 *            default sender
 	 * @return created command
 	 */
-	public static ConnectorCommand update() {
-		return new ConnectorCommand(TYPE_UPDATE);
+	public static ConnectorCommand update(final String defPrefix,
+			final String defSender) {
+		final Bundle b = new Bundle();
+		b.putShort(TYPE, TYPE_UPDATE);
+		b.putString(DEFPREFIX, defPrefix);
+		b.putString(DEFSENDER, defSender);
+		return new ConnectorCommand(b);
 	}
 
 	/**
 	 * Create command with type bootstrap.
 	 * 
+	 * @param defPrefix
+	 *            default prefix
+	 * @param defSender
+	 *            default sender
 	 * @return created command
 	 */
-	public static ConnectorCommand bootstrap() {
-		return new ConnectorCommand(TYPE_BOOTSTRAP);
+	public static ConnectorCommand bootstrap(final String defPrefix,
+			final String defSender) {
+		final Bundle b = new Bundle();
+		b.putShort(TYPE, TYPE_BOOTSTRAP);
+		b.putString(DEFPREFIX, defPrefix);
+		b.putString(DEFSENDER, defSender);
+		return new ConnectorCommand(b);
 	}
 
 	/**
 	 * Create Command with type "send".
 	 * 
+	 * @param selectedSubConnector
+	 *            selected {@link SubConnectorSpec}
 	 * @param defPrefix
 	 *            default prefix
 	 * @param defSender
 	 *            default sender
 	 * @param recipients
-	 *            reciepients
+	 *            recipients
 	 * @param text
 	 *            text
 	 * @param flashSMS
@@ -97,12 +121,13 @@ public final class ConnectorCommand {
 	 *            custom sender
 	 * @return created command
 	 */
-	public static ConnectorCommand send(final String defPrefix,
-			final String defSender, final String[] recipients,
-			final String text, final boolean flashSMS, final long timestamp,
+	public static ConnectorCommand send(final String selectedSubConnector,
+			final String defPrefix, final String defSender,
+			final String[] recipients, final String text,
+			final boolean flashSMS, final long timestamp,
 			final String customSender) {
-		ConnectorCommand ret = send(defPrefix, defSender, recipients, text,
-				flashSMS);
+		ConnectorCommand ret = send(selectedSubConnector, defPrefix, defSender,
+				recipients, text, flashSMS);
 		ret.setSendLater(timestamp);
 		ret.setCustomSender(customSender);
 		return ret;
@@ -111,23 +136,27 @@ public final class ConnectorCommand {
 	/**
 	 * Create Command with type "send".
 	 * 
+	 * @param selectedSubConnector
+	 *            selected {@link SubConnectorSpec}
 	 * @param defPrefix
 	 *            default prefix
 	 * @param defSender
 	 *            default sender
 	 * @param recipients
-	 *            reciepients
+	 *            recipients
 	 * @param text
 	 *            text
 	 * @param flashSMS
 	 *            flashsms
 	 * @return created command
 	 */
-	public static ConnectorCommand send(final String defPrefix,
-			final String defSender, final String[] recipients,
-			final String text, final boolean flashSMS) {
+	public static ConnectorCommand send(final String selectedSubConnector,
+			final String defPrefix, final String defSender,
+			final String[] recipients, final String text, // .
+			final boolean flashSMS) {
 		final Bundle b = new Bundle();
 		b.putShort(TYPE, TYPE_SEND);
+		b.putString(SELECTEDSUBCONNECTOR, selectedSubConnector);
 		b.putString(DEFPREFIX, defPrefix);
 		b.putString(DEFSENDER, defSender);
 		final int l = recipients.length;
@@ -226,6 +255,17 @@ public final class ConnectorCommand {
 			return this.bundle.getShort(TYPE);
 		} else {
 			return 0;
+		}
+	}
+
+	/**
+	 * @return selected {@link SubConnectorSpec}.
+	 */
+	public String getSelectedSubConnector() {
+		if (this.bundle != null) {
+			return this.bundle.getString(SELECTEDSUBCONNECTOR);
+		} else {
+			return "";
 		}
 	}
 
