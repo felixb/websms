@@ -27,6 +27,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -52,6 +54,9 @@ public final class ConnectorService extends Service {
 
 	/** Pending tasks. */
 	private final ArrayList<Intent> pendingIOOps = new ArrayList<Intent>();
+
+	/** {@link WakeLock} for forcing IO done before sleep. */
+	private PowerManager.WakeLock wakelock = null;
 
 	/**
 	 * {@inheritDoc}
@@ -108,24 +113,33 @@ public final class ConnectorService extends Service {
 	 */
 	public void register(final Intent intent) {
 		Log.d(TAG, "register(" + intent.getAction() + ")");
-		// setForeground / startForeground
-		Notification notification = null;
-		if (this.helperAPI5s == null) {
-			this.setForeground(true);
-		} else {
-			notification = this.getNotification();
-			this.helperAPI5s.startForeground(this, NOTIFICATION_PENDING,
-					notification);
-		}
-		if (new ConnectorCommand(intent).getType() == ConnectorCommand.TYPE_SEND) {
-			if (notification == null) {
-				notification = this.getNotification();
-			}
-			NotificationManager mNotificationMgr = (NotificationManager) this
-					.getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
-		}
 		synchronized (this.pendingIOOps) {
+			// setForeground / startForeground
+			Notification notification = null;
+			if (this.helperAPI5s == null) {
+				this.setForeground(true);
+			} else {
+				notification = this.getNotification();
+				this.helperAPI5s.startForeground(this, NOTIFICATION_PENDING,
+						notification);
+			}
+			if (new ConnectorCommand(intent).getType() == // .
+			ConnectorCommand.TYPE_SEND) {
+				if (notification == null) {
+					notification = this.getNotification();
+				}
+				final NotificationManager mNotificationMgr = // .
+				(NotificationManager) this
+						.getSystemService(Context.NOTIFICATION_SERVICE);
+				mNotificationMgr.notify(NOTIFICATION_PENDING, notification);
+			}
+			if (this.wakelock == null) {
+				final PowerManager pm = (PowerManager) this
+						.getSystemService(Context.POWER_SERVICE);
+				this.wakelock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+						TAG);
+				this.wakelock.acquire();
+			}
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
 			this.pendingIOOps.add(intent);
 			Log.d(TAG, "currentIOOps=" + this.pendingIOOps.size());
@@ -162,9 +176,13 @@ public final class ConnectorService extends Service {
 				} else {
 					this.helperAPI5s.stopForeground(this, true);
 				}
-				NotificationManager mNotificationMgr = (NotificationManager) this
+				final NotificationManager mNotificationMgr = // .
+				(NotificationManager) this
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationMgr.cancelAll();
+				if (this.wakelock != null) {
+					this.wakelock.release();
+				}
 				// stop unneeded service
 				this.stopSelf();
 			}
