@@ -169,7 +169,7 @@ public class ConnectorSipgate extends Connector {
 						((Double) ((Map<String, Object>) back
 								.get("CurrentBalance"))
 								.get("TotalIncludingVat")));
-				this.getSpecs(context).setBalance(b);
+				this.getSpec(context).setBalance(b);
 			}
 		} catch (XMLRPCFault e) {
 			Log.e(TAG, null, e);

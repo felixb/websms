@@ -137,7 +137,7 @@ public abstract class Connector extends BroadcastReceiver {
 	 *            context
 	 * @return ConnectorSpec
 	 */
-	protected final synchronized ConnectorSpec getSpecs(final Context context) {
+	protected final synchronized ConnectorSpec getSpec(final Context context) {
 		synchronized (SYNC_UPDATE) {
 			if (connector == null) {
 				connector = this.initSpec(context);
@@ -152,7 +152,7 @@ public abstract class Connector extends BroadcastReceiver {
 	 * @param context
 	 *            context
 	 * @param specs
-	 *            {@link ConnectorSpec}; if null, getSpecs() is called to get
+	 *            {@link ConnectorSpec}; if null, getSpec() is called to get
 	 *            them
 	 * @param command
 	 *            send back the {@link ConnectorCommand} which was done
@@ -161,13 +161,13 @@ public abstract class Connector extends BroadcastReceiver {
 			final ConnectorSpec specs, final ConnectorCommand command) {
 		ConnectorSpec c = specs;
 		if (c == null) {
-			c = this.getSpecs(context);
+			c = this.getSpec(context);
 		}
 		final Intent i = c.setToIntent(null);
 		if (command != null) {
 			command.setToIntent(i);
 		}
-		Log.d("WebSMS." + this.getSpecs(context), "-> bc: " + i.getAction());
+		Log.d("WebSMS." + this.getSpec(context), "-> bc: " + i.getAction());
 		context.sendBroadcast(i);
 	}
 
@@ -180,7 +180,7 @@ public abstract class Connector extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		final String action = intent.getAction();
-		Log.d("WebSMS." + this.getSpecs(context), "action: " + action);
+		Log.d("WebSMS." + this.getSpec(context), "action: " + action);
 		if (action == null) {
 			return;
 		}
@@ -191,7 +191,7 @@ public abstract class Connector extends BroadcastReceiver {
 				|| action.equals(Connector.ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-			final ConnectorSpec specs = this.getSpecs(context);
+			final ConnectorSpec specs = this.getSpec(context);
 			if (specs == null || !specs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
 				// skip disabled connector
 				return;

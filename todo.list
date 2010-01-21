@@ -1,0 +1,21 @@
+mod connector icon
+add subconnectors to gui
+add 1/4h to features.sendlater
+io notification: strings to res, fix vor android-1.5
+wakelock for services
+kill service on exit
+fix $(grep -Fr FIXME)
+fix $(grep -Fr TODO)
+add captcha handling:
+	connector -broadcast-> websms.bcr
+	websms.bcr -startActivity->captchaActivity
+	user: solve it
+	captchaActivity -broadcast-> connector.bcr
+
+	broadcast ->:
+		return intent
+		bitmap as parcable
+		text
+	
+	broadcast <-:
+		solved captcha

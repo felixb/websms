@@ -399,7 +399,7 @@ public class ConnectorGMX extends Connector {
 						if (p != null) {
 							b += "/" + p;
 						}
-						this.getSpecs(context).setBalance(b);
+						this.getSpec(context).setBalance(b);
 					}
 					p = getParam(outp, "customer_id");
 					if (p != null) {

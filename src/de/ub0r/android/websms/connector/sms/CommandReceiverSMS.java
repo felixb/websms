@@ -121,7 +121,7 @@ public class CommandReceiverSMS extends Connector {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = this.getSpecs(context);
+				final ConnectorSpec specs = this.getSpec(context);
 				if (specs.getID().equals(origSpecs.getID())
 						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status

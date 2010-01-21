@@ -98,7 +98,7 @@ public class ConnectorTest extends Connector {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = this.getSpecs(context);
+				final ConnectorSpec specs = this.getSpec(context);
 				if (specs.getID().equals(origSpecs.getID())
 						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status
@@ -118,10 +118,10 @@ public class ConnectorTest extends Connector {
 			}
 		} else if (// .
 		Connector.ACTION_RUN_BOOSTRAP.equals(action)) {
-			final ConnectorSpec specs = this.getSpecs(context);
+			final ConnectorSpec specs = this.getSpec(context);
 			this.sendInfo(context, specs, null);
 		} else if (Connector.ACTION_RUN_UPDATE.equals(action)) {
-			final ConnectorSpec specs = this.getSpecs(context);
+			final ConnectorSpec specs = this.getSpec(context);
 			specs.setBalance("13,37\u20AC");
 			this.sendInfo(context, specs, null);
 		}

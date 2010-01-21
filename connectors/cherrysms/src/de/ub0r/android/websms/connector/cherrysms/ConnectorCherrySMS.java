@@ -159,7 +159,7 @@ public class ConnectorCherrySMS extends Connector {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
-			final ConnectorSpec cs = this.getSpecs(context);
+			final ConnectorSpec cs = this.getSpec(context);
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			url.append("?user=");
