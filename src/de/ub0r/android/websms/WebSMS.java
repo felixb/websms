@@ -64,6 +64,7 @@ import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Main Activity.
@@ -113,9 +114,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int SLEEP_BEFORE_EXIT = 75;
 
 	/** Preferences: hide ads. */
-	static boolean prefsNoAds = false;
+	private static boolean prefsNoAds = false;
 	/** Hased IMEI. */
-	static String imeiHash = null;
+	private static String imeiHash = null;
 	/** Preferences: connector specs. */
 	static ConnectorSpec prefsConnectorSpecs = null;
 	/** Save prefsConnectorSpecs.getID() here. */
@@ -124,7 +125,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static boolean prefsMobilesOnly;
 
 	/** List of available {@link ConnectorSpec}s. */
-	private final static ArrayList<ConnectorSpec> CONNECTORS = new ArrayList<ConnectorSpec>();
+	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
+	new ArrayList<ConnectorSpec>();
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
@@ -660,7 +662,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
 		for (ConnectorSpec cs : css) {
-			items.add(cs.getName());
+			final SubConnectorSpec[] scs = cs.getSubConnectors();
+			if (scs.length <= 1) {
+				items.add(cs.getName());
+			} else {
+				final String n = cs.getName() + " - ";
+				for (SubConnectorSpec sc : scs) {
+					items.add(n + sc.getName());
+				}
+			}
 		}
 		// TODO: add subconnectors
 
@@ -668,8 +678,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface d, // .
 							final int item) {
+						final SubConnectorSpec[] ret = ConnectorSpec
+								.getSubConnectorReturnArray();
 						prefsConnectorSpecs = getConnectorByName(items
-								.get(item));
+								.get(item), ret);
 						WebSMS.this.setButtons();
 						// save user preferences
 						PreferenceManager.getDefaultSharedPreferences(
@@ -1118,7 +1130,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            ID
 	 * @return {@link ConnectorSpec}
 	 */
-	public static final ConnectorSpec getConnectorByID(final String id) {
+	private static ConnectorSpec getConnectorByID(final String id) {
 		synchronized (CONNECTORS) {
 			if (id == null) {
 				return null;
@@ -1139,9 +1151,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @param name
 	 *            name
+	 * @param returnSelectedSubConnector
+	 *            if not null, array[0] will be set to selected
+	 *            {@link SubConnectorSpec}
 	 * @return {@link ConnectorSpec}
 	 */
-	public static final ConnectorSpec getConnectorByName(final String name) {
+	private static ConnectorSpec getConnectorByName(final String name,
+			final SubConnectorSpec[] returnSelectedSubConnector) {
 		synchronized (CONNECTORS) {
 			if (name == null) {
 				return null;
@@ -1163,10 +1179,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param capabilities
 	 *            capabilities needed
 	 * @param status
-	 *            status required
+	 *            status required {@link SubConnectorSpec}
 	 * @return {@link ConnectorSpec}s
 	 */
-	public static final ConnectorSpec[] getConnectors(final short capabilities,
+	static final ConnectorSpec[] getConnectors(final short capabilities,
 			final short status) {
 		synchronized (CONNECTORS) {
 			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(

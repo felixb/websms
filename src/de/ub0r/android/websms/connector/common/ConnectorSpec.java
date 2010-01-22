@@ -217,6 +217,13 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * @return array of {@link SubConnectorSpec}.
+	 */
+	public static SubConnectorSpec[] getSubConnectorReturnArray() {
+		return new SubConnectorSpec[1];
+	}
+
+	/**
 	 * Update ConnectorSpecs.
 	 * 
 	 * @param connector
