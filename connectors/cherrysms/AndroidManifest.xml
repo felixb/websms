@@ -60,4 +60,6 @@
 		android:normalScreens="true" android:smallScreens="true"
 		android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- WAKE_LOCK needed to make sure, sms are send even if user sends device to sleep. -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest> 

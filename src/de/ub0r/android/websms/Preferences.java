@@ -66,6 +66,7 @@ public class Preferences extends PreferenceActivity implements
 			}
 			final String id = cs.getID();
 			if (pc.findPreference(id) != null) {
+				// FIXME: this is broken!
 				continue;
 			}
 			final Preference cp = new Preference(this);

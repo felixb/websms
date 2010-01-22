@@ -116,8 +116,7 @@ public class ConnectorSipgate extends Connector {
 
 			for (String t : command.getRecipients()) {
 				if (t != null && t.length() > 1) {
-					// TODO: force international number?
-					// FIXME: this is broken
+					// FIXME: force international number
 					final String u = "sip:"
 							+ Utils.getRecipientsNumber(t)
 									.replaceAll("\\+", "") + "@sipgate.net";

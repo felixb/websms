@@ -3,7 +3,7 @@
 if [ "$1" == "dev" ] ; then
 	# just jar files
 	ant clean
-	ant debug
+	ant debug || exit -1
 	jar cvf WebSMS-Connector-API.jar -C bin/classes/ de/ub0r/android/websms/connector/common/
 else
 	# build release version. the key does not matter at all. but is used for consistent handling
@@ -12,7 +12,7 @@ else
 	# comment out all Log.d and Log.v
 	./preDeploy.sh src/de/ub0r/android/websms/connector/common/
 
-	ant release < ../release.ks.pw
+	ant release < ../release.ks.pw || exit -1
 
 	# remove comments for Log.d and Log.v
 	./postDeploy.sh src/de/ub0r/android/websms/connector/common/

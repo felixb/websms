@@ -175,7 +175,12 @@ public abstract class Connector extends BroadcastReceiver {
 	 * This default implementation will register the running {@link Connector}
 	 * to an external service. This {@link ConnectorService} will run a
 	 * {@link ConnectorTask} running the methods doBootstrap(), doUpdate() and
-	 * doSend() implemented above. {@inheritDoc}
+	 * doSend() implemented above.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @param intent
+	 *            {@link Intent}
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
@@ -192,7 +197,8 @@ public abstract class Connector extends BroadcastReceiver {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			final ConnectorSpec origSpecs = new ConnectorSpec(intent);
 			final ConnectorSpec specs = this.getSpec(context);
-			if (specs == null || !specs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+			if (specs == null || // .
+					!specs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
 				// skip disabled connector
 				return;
 			}

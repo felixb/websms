@@ -66,6 +66,12 @@ public final class InfoActivity extends Activity {
 		final Builder builder = new Builder(this);
 		builder.setTitle(this.getTitle());
 		builder.setMessage(INFO_TEXT);
+		final int icon = this.getResources().getIdentifier("icon", "drawable",
+				this.getPackageName());
+		Log.d(TAG, "resID.icon=" + icon);
+		if (icon > 0) {
+			builder.setIcon(icon);
+		}
 		builder.setPositiveButton(android.R.string.ok,
 				new DialogInterface.OnClickListener() {
 					@Override

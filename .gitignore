@@ -8,3 +8,4 @@ build.properties
 doc
 *.zip
 *.jar
+*.swp

@@ -176,17 +176,6 @@ public final class ConnectorCommand {
 	}
 
 	/**
-	 * Create Command with type.
-	 * 
-	 * @param type
-	 *            type
-	 */
-	private ConnectorCommand(final Short type) {
-		this.bundle = new Bundle();
-		this.bundle.putShort(TYPE, type);
-	}
-
-	/**
 	 * Create Command from {@link Bundle}.
 	 * 
 	 * @param b
@@ -336,5 +325,30 @@ public final class ConnectorCommand {
 	 */
 	public void setCustomSender(final String customSender) {
 		this.bundle.putString(CUSTOMSENDER, customSender);
+	}
+
+	/**
+	 * Compare two intent.
+	 * 
+	 * @param i1
+	 *            first intent
+	 * @param i2
+	 *            second intent
+	 * @return true if both intents describe the same command
+	 */
+	public static boolean equals(final Intent i1, final Intent i2) {
+		Bundle b1 = i1.getExtras();
+		Bundle b2 = i2.getExtras();
+		if (b1 == null || b2 == null) {
+			return false;
+		}
+		b1 = b1.getBundle(EXTRAS_COMMAND);
+		b2 = b2.getBundle(EXTRAS_COMMAND);
+		if (b1 == null || b2 == null) {
+			return false;
+		}
+		final short s1 = b1.getShort(TYPE);
+		final short s2 = b2.getShort(TYPE);
+		return s1 == s2;
 	}
 }

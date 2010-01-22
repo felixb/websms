@@ -43,6 +43,8 @@ public final class ConnectorService extends Service {
 
 	/** Notification text. */
 	private static final String NOTIFICATION_TEXT = "WebSMS Connector IO";
+	/** Notification text. */
+	private static int notificationText = 0;
 	/** Notification icon. */
 	private static int notificationIcon = 0;
 
@@ -56,7 +58,7 @@ public final class ConnectorService extends Service {
 	private final ArrayList<Intent> pendingIOOps = new ArrayList<Intent>();
 
 	/** {@link WakeLock} for forcing IO done before sleep. */
-	private PowerManager.WakeLock wakelock = null;
+	private WakeLock wakelock = null;
 
 	/**
 	 * {@inheritDoc}
@@ -93,15 +95,30 @@ public final class ConnectorService extends Service {
 			notificationIcon = this.getResources().getIdentifier(
 					"stat_notify_sms_pending", "drawable",
 					this.getPackageName());
-			Log.d(TAG, "resID=" + notificationIcon);
+			Log.d(TAG, "resID.icon=" + notificationIcon);
+		}
+		if (notificationText == 0) {
+			notificationText = this.getResources().getIdentifier(
+					"stat_notify_sms_pending", "string", this.getPackageName());
+			Log.d(TAG, "resID.text=" + notificationText);
+		}
+		String t = NOTIFICATION_TEXT;
+		if (notificationText > 0) {
+			t = this.getString(notificationText);
+		} else {
+			notificationText = -1;
 		}
 		final Notification notification = new Notification(notificationIcon,
 				NOTIFICATION_TEXT, System.currentTimeMillis());
 		final PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 				null, 0);
-		notification.setLatestEventInfo(this, NOTIFICATION_TEXT, "",
-				contentIntent);
-		notification.defaults |= Notification.FLAG_NO_CLEAR;
+		notification.setLatestEventInfo(this, t, "", contentIntent);
+		notification.defaults |= Notification.FLAG_NO_CLEAR
+				| Notification.FLAG_ONGOING_EVENT;
+		notification.defaults &= Notification.DEFAULT_ALL
+				^ Notification.DEFAULT_LIGHTS ^ Notification.DEFAULT_SOUND
+				^ Notification.DEFAULT_VIBRATE;
+		Log.d(TAG, "defaults: " + notification.defaults);
 		return notification;
 	}
 
@@ -162,7 +179,8 @@ public final class ConnectorService extends Service {
 			} else {
 				for (int i = 0; i < l; i++) {
 					final Intent oi = this.pendingIOOps.get(i);
-					if (intent.getExtras().equals(oi.getExtras())) {
+					if (ConnectorSpec.equals(intent, oi)
+							&& ConnectorCommand.equals(intent, oi)) {
 						this.pendingIOOps.remove(i);
 						break;
 					}
@@ -228,7 +246,8 @@ public final class ConnectorService extends Service {
 		for (int i = 0; i < s; i++) {
 			final ConnectorCommand cc = new ConnectorCommand(this.pendingIOOps
 					.get(i));
-			final ConnectorSpec cs = new ConnectorSpec(this.pendingIOOps.get(i));
+			final ConnectorSpec cs = new ConnectorSpec(// .
+					this.pendingIOOps.get(i));
 			if (cc.getType() == ConnectorCommand.TYPE_SEND) {
 				cs.setErrorMessage("error while IO");
 				final Intent in = cs.setToIntent(null);

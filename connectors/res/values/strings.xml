@@ -18,6 +18,7 @@
 	-->
 <resources>
 	<!-- Common strings. -->
+	<string name="stat_notify_sms_pending">WebSMS Connector IO</string>
 	<string name="error">ERROR</string>
 	<string name="error_http">FAILURE: HTTP </string>
 	<string name="error_mail">Wrong mail address or password given!</string>

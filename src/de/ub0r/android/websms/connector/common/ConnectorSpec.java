@@ -68,6 +68,15 @@ public final class ConnectorSpec {
 	public static final short CAPABILITIES_UPDATE = 2;
 	/** Feature: send. */
 	public static final short CAPABILITIES_SEND = 4;
+	/** Feature: limit lenth of messages using 7bit chars. */
+	public static final short CAPABILITIES_LIMITLENGTH_7BIT = 8;
+	/** Feature: limit lenth of messages using 8bit chars. */
+	public static final short CAPABILITIES_LIMITLENGTH_8BIT = 16;
+	/** Feature: limit lenth of messages using 16bit chars. */
+	public static final short CAPABILITIES_LIMITLENGTH_16BIT = 32;
+
+	/** Connector: Limit for message length. */
+	private static final String LENGTH = "connector_limitlength";
 	/** Connector: Balance. */
 	private static final String BALANCE = "connector_balance";
 	/** Connector: Error message. */
@@ -100,8 +109,10 @@ public final class ConnectorSpec {
 		public static final short FEATURE_FLASHSMS = 2;
 		/** Feature: send later. */
 		public static final short FEATURE_SENDLATER = 4;
+		/** Feature: send later - only 1/4 hours allowd. */
+		public static final short FEATURE_SENDLATER_QUARTERS = 8;
 		/** Feature: custom sender. */
-		public static final short FEATURE_CUSTOMSENDER = 8;
+		public static final short FEATURE_CUSTOMSENDER = 16;
 
 		/** {@link Bundle} represents the SubConnectorSpec. */
 		private final Bundle bundle;
@@ -249,6 +260,34 @@ public final class ConnectorSpec {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Compare two intent.
+	 * 
+	 * @param i1
+	 *            first intent
+	 * @param i2
+	 *            second intent
+	 * @return true if both intents describe the same connector
+	 */
+	public static boolean equals(final Intent i1, final Intent i2) {
+		Bundle b1 = i1.getExtras();
+		Bundle b2 = i2.getExtras();
+		if (b1 == null || b2 == null) {
+			return false;
+		}
+		b1 = b1.getBundle(EXTRAS_CONNECTOR);
+		b2 = b2.getBundle(EXTRAS_CONNECTOR);
+		if (b1 == null || b2 == null) {
+			return false;
+		}
+		final String s1 = b1.getString(ID);
+		final String s2 = b2.getString(ID);
+		if (s1 == null || s2 == null) {
+			return false;
+		}
+		return s1.equals(s2);
 	}
 
 	/**
@@ -425,6 +464,26 @@ public final class ConnectorSpec {
 	}
 
 	/**
+	 * @return limit of message length
+	 */
+	public int getLimitLength() {
+		if (this.bundle == null) {
+			return -1;
+		}
+		return this.bundle.getInt(LENGTH);
+	}
+
+	/**
+	 * Set limit of message length.
+	 * 
+	 * @param length
+	 *            length
+	 */
+	public void setLimitLength(final int length) {
+		this.bundle.putInt(LENGTH, length);
+	}
+
+	/**
 	 * @return balance
 	 */
 	public String getBalance() {
@@ -511,7 +570,7 @@ public final class ConnectorSpec {
 		}
 		this.bundle.putString(ERRORMESSAGE, error);
 	}
-	
+
 	/**
 	 * Set error message.
 	 * 
