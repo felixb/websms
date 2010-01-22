@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
@@ -35,8 +34,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
@@ -155,11 +152,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
 	};
 
-	/** Public Dialog ref. */
-	static Dialog dialog = null;
-	/** Dialog String. */
-	static String dialogString = null;
-
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
 
@@ -180,19 +172,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Dialog: pre donate. */
 	private static final int DIALOG_PREDONATE = 8;
 
-	/** Message for logging. **/
-	static final int MESSAGE_LOG = 0;
-	/** Message for update free sms count. **/
-	static final int MESSAGE_FREECOUNT = 1;
-	/** Message to open settings. */
-	static final int MESSAGE_SETTINGS = 4;
-	/** Message to reset data. */
-	static final int MESSAGE_RESET = 5;
-	/** Message show cpatcha. */
-	static final int MESSAGE_ANTICAPTCHA = 6;
-
-	/** Intent's extra for errormessages. */
-	static final String EXTRA_ERRORMESSAGE = "de.ub0r.android.intent.extra.ERRORMESSAGE";
+	/** Intent's extra for error messages. */
+	static final String EXTRA_ERRORMESSAGE = // .
+	"de.ub0r.android.intent.extra.ERRORMESSAGE";
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -212,42 +194,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Show extras. */
 	private boolean showExtras = false;
-
-	/** MessageHandler. */
-	private Handler messageHandler = new Handler() {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public final void handleMessage(final Message msg) {
-			switch (msg.what) {
-			case MESSAGE_LOG: // msg is String or Resource StringID
-				if (msg.obj instanceof String) {
-					WebSMS.this.log((String) msg.obj);
-				} else if (msg.obj instanceof Integer) {
-					WebSMS.this.log(WebSMS.this.getString(((Integer) msg.obj)
-							.intValue()));
-				} else {
-					WebSMS.this.log(msg.obj.toString());
-				}
-				return;
-			case MESSAGE_FREECOUNT:
-				WebSMS.this.updateBalance();
-				return;
-			case MESSAGE_SETTINGS:
-				WebSMS.this.startActivity(new Intent(WebSMS.this,
-						Preferences.class));
-			case MESSAGE_RESET:
-				WebSMS.this.reset();
-				return;
-			case MESSAGE_ANTICAPTCHA:
-				WebSMS.this.showDialog(DIALOG_CAPTCHA);
-				return;
-			default:
-				return;
-			}
-		}
-	};
 
 	/** TextWatcher updating char count on writing. */
 	private TextWatcher textWatcher = new TextWatcher() {
@@ -422,18 +368,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		super.onResume();
 		// set free sms count
 		this.updateBalance();
-
-		// restart dialog if needed
-		if (dialogString != null) {
-			if (dialog != null) {
-				try {
-					dialog.dismiss();
-				} catch (Exception e) {
-					// nothing to do
-				}
-			}
-			dialog = ProgressDialog.show(this, null, dialogString, true);
-		}
 
 		// if coming from prefs..
 		if (doPreferences) {
@@ -1109,23 +1043,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastParams.setSendLater(c.getTimeInMillis());
 
 		this.send(WebSMS.prefsConnectorSpecs, WebSMS.lastParams);
-	}
-
-	/**
-	 * Send WebSMS a Message.
-	 * 
-	 * @param messageType
-	 *            type
-	 * @param data
-	 *            data
-	 */
-	public static final void pushMessage(final int messageType,
-			final Object data) {
-		if (WebSMS.me == null) {
-			return;
-		}
-		Message.obtain(WebSMS.me.messageHandler, messageType, data)
-				.sendToTarget();
 	}
 
 	/**
