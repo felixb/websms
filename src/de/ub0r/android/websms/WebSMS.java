@@ -1092,8 +1092,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (prefsConnectorSpec == null
 						&& prefsConnectorID.equals(connector.getID())) {
 					prefsConnectorSpec = connector;
-					prefsSubConnectorSpec = connector
-							.getSubConnector(prefsConnectorID);
+					final SharedPreferences p = PreferenceManager
+							.getDefaultSharedPreferences(me);
+					prefsSubConnectorSpec = connector.getSubConnector(p
+							.getString(PREFS_SUBCONNECTOR_ID, ""));
 					me.setButtons();
 				}
 			}
