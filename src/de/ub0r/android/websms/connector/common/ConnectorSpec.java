@@ -231,7 +231,11 @@ public final class ConnectorSpec {
 	 *            {@link ConnectorSpec}
 	 */
 	public void update(final ConnectorSpec connector) {
+		final boolean error = this.hasStatus(STATUS_ERROR);
 		this.bundle.putAll(connector.getBundle());
+		if (error) {
+			this.addStatus(STATUS_ERROR);
+		}
 	}
 
 	/**
