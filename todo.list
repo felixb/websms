@@ -1,4 +1,5 @@
 add subconnectors to gui
+cache ConnectorSpec.get*
 implement 1/4h in websms
 implement limitLength in websms
 fix cherrysms displayed more than once
