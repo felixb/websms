@@ -141,6 +141,7 @@ public abstract class Connector extends BroadcastReceiver {
 		synchronized (SYNC_UPDATE) {
 			if (connector == null) {
 				connector = this.initSpec(context);
+				connector.setPackage(context.getPackageName());
 			}
 			return this.updateSpec(context, connector);
 		}

@@ -33,6 +33,8 @@ public final class ConnectorSpec {
 	/** Key to find a connector in a Bundle. */
 	private static final String EXTRAS_CONNECTOR = "connector";
 
+	/** Connector: Package. */
+	private static final String PACKAGE = "connector_package";
 	/** Connector: ID. */
 	private static final String ID = "connector_id";
 	/** Connector: ID. */
@@ -325,6 +327,26 @@ public final class ConnectorSpec {
 	 */
 	public Bundle getBundle() {
 		return this.bundle;
+	}
+
+	/**
+	 * @return package
+	 */
+	public String getPackage() {
+		if (this.bundle == null) {
+			return null;
+		}
+		return this.bundle.getString(PACKAGE);
+	}
+
+	/**
+	 * Set package name.
+	 * 
+	 * @param p
+	 *            package
+	 */
+	void setPackage(final String p) {
+		this.bundle.putString(PACKAGE, p);
 	}
 
 	/**
