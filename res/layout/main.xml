@@ -71,12 +71,15 @@
 		android:layout_height="wrap_content" android:layout_weight="0">
 		<CheckBox android:text="@string/flashsms" android:id="@+id/flashsms"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" android:gravity="center_vertical" />
+			android:layout_weight="1" android:gravity="center_vertical"
+			android:visibility="gone" />
 		<CheckBox android:text="@string/custom_sender" android:id="@+id/custom_sender"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" android:gravity="center_vertical" />
+			android:layout_weight="1" android:gravity="center_vertical"
+			android:visibility="gone" />
 		<CheckBox android:text="@string/send_later" android:id="@+id/send_later"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:layout_weight="1" android:gravity="center_vertical" />
+			android:layout_weight="1" android:gravity="center_vertical"
+			android:visibility="gone" />
 	</LinearLayout>
 </LinearLayout>
