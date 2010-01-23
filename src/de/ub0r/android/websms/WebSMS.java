@@ -31,6 +31,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -107,8 +108,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
-	/** Preference's name: connector name. */
-	private static final String PREFS_CONNECTOR_ID = "connector_name";
+	/** Preference's name: selected {@link ConnectorSpec} ID. */
+	private static final String PREFS_CONNECTOR_ID = "connector_id";
+	/** Preference's name: selected {@link SubConnectorSpec} ID. */
+	private static final String PREFS_SUBCONNECTOR_ID = "subconnector_id";
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
@@ -117,12 +120,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static boolean prefsNoAds = false;
 	/** Hased IMEI. */
 	private static String imeiHash = null;
-	/** Preferences: connector specs. */
-	static ConnectorSpec prefsConnectorSpecs = null;
-	/** Save prefsConnectorSpecs.getID() here. */
-	static String prefsConnectorID = null;
-	/** Preferences: show mobile numbers only. */
-	static boolean prefsMobilesOnly;
+	/** Preferences: selected {@link ConnectorSpec}. */
+	static ConnectorSpec prefsConnectorSpec = null;
+	/** Preferences: selected {@link SubConnectorSpec}. */
+	static SubConnectorSpec prefsSubConnectorSpec = null;
+	/** Save prefsConnectorSpec.getID() here. */
+	private static String prefsConnectorID = null;
 
 	/** List of available {@link ConnectorSpec}s. */
 	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
@@ -161,8 +164,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_ABOUT = 0;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
-	/** Dialog: captcha. */
-	private static final int DIALOG_CAPTCHA = 3;
 	/** Dialog: post donate. */
 	private static final int DIALOG_POSTDONATE = 4;
 	/** Dialog: custom sender. */
@@ -309,17 +310,16 @@ public class WebSMS extends Activity implements OnClickListener,
 							}
 							if (helperAPI5c == null) {
 								Cursor c = this
-										.managedQuery(
-												Phones.CONTENT_URI,
+										.managedQuery(Phones.CONTENT_URI,
 												new String[] {
 														PhonesColumns.NUMBER,
-														PeopleColumns.DISPLAY_NAME },
+														PeopleColumns.// .
+														DISPLAY_NAME },
 												PhonesColumns.NUMBER + " = '"
 														+ s + "'", null, null);
 								if (c.moveToFirst()) {
-									n = c
-											.getString(c
-													.getColumnIndex(PeopleColumns.DISPLAY_NAME));
+									n = c.getString(c.getColumnIndex(// .
+											PeopleColumns.DISPLAY_NAME));
 								}
 							}
 							if (n != null) {
@@ -486,9 +486,14 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
-		prefsConnectorSpecs = getConnectorByID(prefsConnectorID);
+		prefsConnectorSpec = getConnectorByID(prefsConnectorID);
+		if (prefsConnectorSpec != null) {
+			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
+					.getString(PREFS_SUBCONNECTOR_ID, ""));
+		}
 
-		prefsMobilesOnly = p.getBoolean(PREFS_MOBILES_ONLY, false);
+		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,
+				false));
 
 		prefsNoAds = false;
 		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
@@ -514,30 +519,22 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		final ConnectorSpec[] enabled = getConnectors(
-				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
-		final int c = enabled.length;
+		// final ConnectorSpec[] enabled = getConnectors(
+		// ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
 
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
-		btn.setEnabled(c > 0);
+		btn.setEnabled(prefsConnectorSpec != null
+				&& prefsSubConnectorSpec != null);
 		btn.setVisibility(View.VISIBLE);
-		if (c == 1) {
-			prefsConnectorSpecs = enabled[0];
-		}
 
-		if (prefsConnectorSpecs != null) {
-			final short features = ConnectorSpec.SubConnectorSpec.FEATURE_NONE;
-			// FIXME: prefsConnectorSpecs.getFeatures();
-			final boolean sFlashsms = false;
-			// (features & ConnectorSpecs.FEATURE_FLASHSMS) ==
-			// ConnectorSpecs.FEATURE_FLASHSMS;
-			final boolean sCustomsender = false;
-			// (features & ConnectorSpecs.FEATURE_CUSTOMSENDER) ==
-			// ConnectorSpecs.FEATURE_CUSTOMSENDER;
-			final boolean sSendLater = false;
-			// (features & ConnectorSpecs.FEATURE_SENDLATER) ==
-			// ConnectorSpecs.FEATURE_SENDLATER;
+		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
+			final boolean sFlashsms = prefsSubConnectorSpec
+					.hasFeatures(SubConnectorSpec.FEATURE_FLASHSMS);
+			final boolean sCustomsender = prefsSubConnectorSpec
+					.hasFeatures(SubConnectorSpec.FEATURE_CUSTOMSENDER);
+			final boolean sSendLater = prefsSubConnectorSpec
+					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 			if (sFlashsms || sCustomsender || sSendLater) {
 				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
 			} else {
@@ -560,8 +557,13 @@ public class WebSMS extends Activity implements OnClickListener,
 				this.findViewById(R.id.send_later).setVisibility(View.GONE);
 			}
 
-			this.setTitle(this.getString(R.string.app_name) + " - "
-					+ prefsConnectorSpecs.getName());
+			String t = this.getString(R.string.app_name) + " - "
+					+ prefsConnectorSpec.getName();
+			if (prefsSubConnectorSpec != null
+					&& prefsConnectorSpec.getSubConnectorCount() > 1) {
+				t += " - " + prefsSubConnectorSpec.getName();
+			}
+			this.setTitle(t);
 		}
 	}
 
@@ -584,9 +586,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Save prefs. */
 	final void savePreferences() {
-		if (prefsConnectorSpecs != null) {
+		if (prefsConnectorSpec != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpecs.getID())
+					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getID())
 					.commit();
 		}
 	}
@@ -617,19 +619,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.updateFreecount(true);
 			break;
 		case R.id.send_:
-			this.send(prefsConnectorSpecs);
+			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			break;
 		case R.id.cancel:
 			this.reset();
 			break;
-		// FIXME: case R.id.captcha_btn:
-		// ConnectorO2.captchaSolve = ((EditText) v.getRootView()
-		// .findViewById(R.id.captcha_edt)).getText().toString();
-		// synchronized (ConnectorO2.CAPTCHA_SYNC) {
-		// ConnectorO2.CAPTCHA_SYNC.notify();
-		// }
-		// this.dismissDialog(DIALOG_CAPTCHA);
-		// break;
 		case R.id.change_connector:
 			this.changeConnectorMenu();
 			break;
@@ -672,7 +666,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 			}
 		}
-		// TODO: add subconnectors
 
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
@@ -680,14 +673,19 @@ public class WebSMS extends Activity implements OnClickListener,
 							final int item) {
 						final SubConnectorSpec[] ret = ConnectorSpec
 								.getSubConnectorReturnArray();
-						prefsConnectorSpecs = getConnectorByName(items
-								.get(item), ret);
+						prefsConnectorSpec = getConnectorByName(
+								items.get(item), ret);
+						prefsSubConnectorSpec = ret[0];
 						WebSMS.this.setButtons();
 						// save user preferences
-						PreferenceManager.getDefaultSharedPreferences(
-								WebSMS.this).edit().putString(
-								PREFS_CONNECTOR_ID,
-								prefsConnectorSpecs.getName()).commit();
+						final Editor e = PreferenceManager
+								.getDefaultSharedPreferences(WebSMS.this)
+								.edit();
+						e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
+								.getID());
+						e.putString(PREFS_SUBCONNECTOR_ID,
+								prefsSubConnectorSpec.getID());
+						e.commit();
 					}
 				});
 		builder.create().show();
@@ -741,12 +739,10 @@ public class WebSMS extends Activity implements OnClickListener,
 						public void onClick(final DialogInterface dialog,
 								final int which) {
 							try {
-								WebSMS.this
-										.startActivity(new Intent(
-												Intent.ACTION_VIEW,
-												Uri
-														.parse(WebSMS.this
-																.getString(R.string.donate_url))));
+								WebSMS.this.startActivity(new Intent(
+										Intent.ACTION_VIEW, Uri.parse(// .
+												WebSMS.this.getString(// .
+														R.string.donate_url))));
 							} catch (ActivityNotFoundException e) {
 								Log.e(TAG, "no browser", e);
 							} finally {
@@ -765,24 +761,17 @@ public class WebSMS extends Activity implements OnClickListener,
 						public void onClick(final DialogInterface dialog,
 								final int which) {
 							final Intent in = new Intent(Intent.ACTION_SEND);
-							in
-									.putExtra(
-											Intent.EXTRA_EMAIL,
-											new String[] {
-													WebSMS.this
-															.getString(R.string.donate_mail),
-													"" }); // FIXME: "" is a k9
-							// hack.
+							in.putExtra(Intent.EXTRA_EMAIL, new String[] {
+									WebSMS.this.getString(// .
+											R.string.donate_mail), "" });
+							// FIXME: "" is a k9 hack.
 							in.putExtra(Intent.EXTRA_TEXT, WebSMS.this
 									.getImeiHash());
-							in
-									.putExtra(
-											Intent.EXTRA_SUBJECT,
-											WebSMS.this
-													.getString(R.string.app_name)
-													+ " "
-													+ WebSMS.this
-															.getString(R.string.donate_subject));
+							in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
+									.getString(// .
+									R.string.app_name)
+									+ " " + WebSMS.this.getString(// .
+											R.string.donate_subject));
 							in.setType("text/plain");
 							WebSMS.this.startActivity(in);
 						}
@@ -825,14 +814,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			builder.setCancelable(true);
 			builder.setPositiveButton(android.R.string.ok, null);
 			return builder.create();
-		case DIALOG_CAPTCHA:
-			d = new Dialog(this);
-			d.setTitle(R.string.captcha_);
-			d.setContentView(R.layout.captcha);
-			d.setCancelable(false);
-			((Button) d.findViewById(R.id.captcha_btn))
-					.setOnClickListener(this);
-			return d;
 		case DIALOG_CUSTOMSENDER:
 			builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.custom_sender);
@@ -846,10 +827,10 @@ public class WebSMS extends Activity implements OnClickListener,
 							WebSMS.lastParams.setCustomSender(et.getText()
 									.toString());
 							if (WebSMS.wantSendLater) {
-								WebSMS.this
-										.showDialog(WebSMS.DIALOG_SENDLATER_DATE);
+								WebSMS.this.showDialog(// .
+										WebSMS.DIALOG_SENDLATER_DATE);
 							} else {
-								WebSMS.this.send(WebSMS.prefsConnectorSpecs,
+								WebSMS.this.send(WebSMS.prefsConnectorSpec,
 										WebSMS.lastParams);
 							}
 						}
@@ -866,24 +847,6 @@ public class WebSMS extends Activity implements OnClickListener,
 					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
 		default:
 			return null;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final void onPrepareDialog(final int id, final Dialog dlg) {
-		switch (id) {
-		// FIXME: case DIALOG_CAPTCHA:
-		// if (ConnectorO2.captcha != null) {
-		// ((ImageView) dlg.findViewById(R.id.captcha_img))
-		// .setImageDrawable(ConnectorO2.captcha);
-		// ConnectorO2.captcha = null;
-		// }
-		// break;
-		default:
-			break;
 		}
 	}
 
@@ -924,7 +887,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ConnectorCommand command) {
 		try {
 			final Intent intent = command.setToIntent(null);
-			prefsConnectorSpecs.setToIntent(intent);
+			prefsConnectorSpec.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			Log.d(TAG, "send broadcast: " + intent.getAction());
 			this.sendBroadcast(intent);
@@ -949,8 +912,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * 
 	 * @param connector
 	 *            which connector should be used.
+	 * @param subconnector
+	 *            selected {@link SubConnectorSpec} ID
 	 */
-	private void send(final ConnectorSpec connector) {
+	private void send(final ConnectorSpec connector, // .
+			final String subconnector) {
 		// fetch text/recipient
 		final String to = ((EditText) this.findViewById(R.id.to)).getText()
 				.toString();
@@ -979,9 +945,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
-		// FIXME: subconnectorid
-		final ConnectorCommand command = ConnectorCommand.send(null, defPrefix,
-				defSender, to.split(","), text, flashSMS);
+
+		final ConnectorCommand command = ConnectorCommand.send(subconnector,
+				defPrefix, defSender, to.split(","), text, flashSMS);
 
 		v = (CheckBox) this.findViewById(R.id.custom_sender);
 		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
@@ -996,6 +962,16 @@ public class WebSMS extends Activity implements OnClickListener,
 				this.send(connector, command);
 			}
 		}
+	}
+
+	/**
+	 * @return ID of selected {@link SubConnectorSpec}
+	 */
+	private static String getSelectedSubConnectorID() {
+		if (prefsSubConnectorSpec == null) {
+			return null;
+		}
+		return prefsSubConnectorSpec.getID();
 	}
 
 	/**
@@ -1039,7 +1015,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public final void onTimeSet(final TimePicker view, final int hour,
 			final int minutes) {
-		if (prefsConnectorSpecs.getName().equals("WebSMS.o2") // FIXME
+		if (prefsSubConnectorSpec
+				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS)
 				&& minutes % 15 != 0) {
 			Toast.makeText(this, R.string.log_error_o2_sendlater,
 					Toast.LENGTH_LONG).show();
@@ -1054,7 +1031,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		c.set(Calendar.MINUTE, minutes);
 		lastParams.setSendLater(c.getTimeInMillis());
 
-		this.send(WebSMS.prefsConnectorSpecs, WebSMS.lastParams);
+		this.send(WebSMS.prefsConnectorSpec, WebSMS.lastParams);
 	}
 
 	/**
@@ -1111,9 +1088,11 @@ public class WebSMS extends Activity implements OnClickListener,
 					CONNECTORS.add(connector);
 				}
 
-				if (prefsConnectorSpecs == null
+				if (prefsConnectorSpec == null
 						&& prefsConnectorID.equals(connector.getID())) {
-					prefsConnectorSpecs = connector;
+					prefsConnectorSpec = connector;
+					prefsSubConnectorSpec = connector
+							.getSubConnector(prefsConnectorID);
 					me.setButtons();
 				}
 			}
@@ -1165,8 +1144,27 @@ public class WebSMS extends Activity implements OnClickListener,
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);
-				if (name.equals(c.getName())) {
-					return c;
+				final String n = c.getName();
+				if (name.startsWith(n)) {
+					if (name.length() == n.length()) {
+						if (returnSelectedSubConnector != null) {
+							returnSelectedSubConnector[0] = c
+									.getSubConnectors()[0];
+						}
+						return c;
+					} else if (returnSelectedSubConnector != null) {
+
+						final SubConnectorSpec[] scs = c.getSubConnectors();
+						if (scs == null || scs.length == 0) {
+							continue;
+						}
+						for (SubConnectorSpec sc : scs) {
+							if (name.endsWith(sc.getName())) {
+								returnSelectedSubConnector[0] = sc;
+								return c;
+							}
+						}
+					}
 				}
 			}
 		}

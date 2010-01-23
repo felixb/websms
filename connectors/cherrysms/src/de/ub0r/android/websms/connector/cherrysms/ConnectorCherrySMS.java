@@ -168,8 +168,11 @@ public class ConnectorCherrySMS extends Connector {
 			url.append(Utils.md5(p.getString(Preferences.PREFS_PASSWORD, "")));
 			final String text = command.getText();
 			if (text != null && text.length() > 0) {
-				boolean sendWithSender = command.getSelectedSubConnector()
-						.equals(ID_W_SENDER);
+				boolean sendWithSender = false;
+				final String sub = command.getSelectedSubConnector();
+				if (sub != null && sub.equals(ID_W_SENDER)) {
+					sendWithSender = true;
+				}
 				Log.d(TAG, "send with sender = " + sendWithSender);
 				if (sendWithSender) {
 					url.append("&from=1");
@@ -192,6 +195,7 @@ public class ConnectorCherrySMS extends Connector {
 			} else {
 				url.append("&check=guthaben");
 			}
+			Log.d(TAG, url.toString());
 			// send data
 			HttpResponse response = Utils.getHttpClient(url.toString(), null,
 					null, null, null);

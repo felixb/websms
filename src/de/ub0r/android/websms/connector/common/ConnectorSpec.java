@@ -23,7 +23,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * ConnectorSpec presents all necessary informations to use a connector.
+ * {@link ConnectorSpec} presents all necessary informations to use a
+ * {@link Connector}.
  * 
  * @author flx
  */
@@ -89,8 +90,8 @@ public final class ConnectorSpec {
 	private static final String SUB_COUNT = SUB_PREFIX + "n";
 
 	/**
-	 * SubConnectorSpec presents all necessary informations to use a
-	 * subconnector.
+	 * {@link SubConnectorSpec} presents all necessary informations to use a
+	 * SubConnector.
 	 * 
 	 * @author flx
 	 */
@@ -118,17 +119,17 @@ public final class ConnectorSpec {
 		private final Bundle bundle;
 
 		/**
-		 * Create SubConnectorSpec from bundle.
+		 * Create {@link SubConnectorSpec} from {@link Bundle}.
 		 * 
 		 * @param b
-		 *            bundle
+		 *            {@link Bundle}
 		 */
 		SubConnectorSpec(final Bundle b) {
 			this.bundle = b;
 		}
 
 		/**
-		 * Create SubConnectorSpec.
+		 * Create {@link SubConnectorSpec}.
 		 * 
 		 * @param id
 		 *            id
@@ -146,7 +147,7 @@ public final class ConnectorSpec {
 		}
 
 		/**
-		 * @return internal bundle
+		 * @return internal {@link Bundle}
 		 */
 		Bundle getBundle() {
 			return this.bundle;
@@ -176,7 +177,7 @@ public final class ConnectorSpec {
 		/**
 		 * @param features
 		 *            features
-		 * @return true if connector has given features
+		 * @return true if {@link SubConnectorSpec} has given features
 		 */
 		public boolean hasFeatures(final short features) {
 			final short f = this.bundle.getShort(FEATURES, FEATURE_NONE);
@@ -184,14 +185,14 @@ public final class ConnectorSpec {
 		}
 	}
 
-	/** {@link Bundle} represents the ConnectorSpec. */
+	/** {@link Bundle} represents the {@link ConnectorSpec}. */
 	private final Bundle bundle;
 
 	/**
-	 * Create ConnectorSpec from intent.
+	 * Create {@link ConnectorSpec} from {@link Intent}.
 	 * 
 	 * @param i
-	 *            intent
+	 *            {@link Intent}
 	 */
 	public ConnectorSpec(final Intent i) {
 		Bundle e = i.getExtras();
@@ -203,7 +204,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Create ConnectorSpec.
+	 * Create {@link ConnectorSpec}.
 	 * 
 	 * @param id
 	 *            ID
@@ -224,7 +225,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Update ConnectorSpecs.
+	 * Update {@link ConnectorSpec}.
 	 * 
 	 * @param connector
 	 *            {@link ConnectorSpec}
@@ -252,7 +253,8 @@ public final class ConnectorSpec {
 	/**
 	 * @param connector
 	 *            {@link ConnectorSpec} or {@link String}
-	 * @return true if this connector has the same id as connector
+	 * @return true if this {@link ConnectorSpec} has the same id as
+	 *         {@link ConnectorSpec}
 	 */
 	@Override
 	public boolean equals(final Object connector) {
@@ -270,13 +272,14 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Compare two intent.
+	 * Compare two {@link Intent}s.
 	 * 
 	 * @param i1
-	 *            first intent
+	 *            first {@link Intent}
 	 * @param i2
-	 *            second intent
-	 * @return true if both intents describe the same connector
+	 *            second {@link Intent}
+	 * @return true if both {@link Intent}s describe the same
+	 *         {@link ConnectorSpec}
 	 */
 	public static boolean equals(final Intent i1, final Intent i2) {
 		Bundle b1 = i1.getExtras();
@@ -596,7 +599,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * @return all SubConnectors
+	 * @return all {@link SubConnectorSpec}
 	 */
 	public SubConnectorSpec[] getSubConnectors() {
 		if (this.bundle == null) {
@@ -612,14 +615,24 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Get SubConnector by ID.
+	 * @return number of {@link SubConnectorSpec}
+	 */
+	public int getSubConnectorCount() {
+		if (this.bundle == null) {
+			return 0;
+		}
+		return this.bundle.getInt(SUB_COUNT, 0);
+	}
+
+	/**
+	 * Get {@link SubConnectorSpec} by ID.
 	 * 
 	 * @param id
 	 *            ID
-	 * @return SubConnector
+	 * @return {@link SubConnectorSpec}
 	 */
 	public SubConnectorSpec getSubConnector(final String id) {
-		if (this.bundle == null) {
+		if (id == null || this.bundle == null) {
 			return null;
 		}
 		final int c = this.bundle.getInt(SUB_COUNT, 0);
@@ -634,7 +647,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Add a SubConnector.
+	 * Add a {@link SubConnectorSpec}.
 	 * 
 	 * @param id
 	 *            id
@@ -655,7 +668,7 @@ public final class ConnectorSpec {
 	}
 
 	/**
-	 * Add a SubConnector.
+	 * Add a {@link SubConnectorSpec}.
 	 * 
 	 * @param id
 	 *            id

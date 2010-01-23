@@ -61,6 +61,9 @@ public class HelperAPI5Contacts {
 			ContactsContract.CommonDataKinds.Phone.TYPE // 3
 	};
 
+	/** Preferences: show mobile numbers only. */
+	private static boolean prefsMobilesOnly;
+
 	/**
 	 * Check whether API5 is available.
 	 * 
@@ -108,7 +111,7 @@ public class HelperAPI5Contacts {
 			s.append(filter);
 			s.append(")");
 
-			if (WebSMS.prefsMobilesOnly) {
+			if (prefsMobilesOnly) {
 				s.insert(0, "(");
 				s.append(MOBILES_ONLY);
 			}
@@ -144,5 +147,13 @@ public class HelperAPI5Contacts {
 		}
 
 		return ret;
+	}
+
+	/**
+	 * @param b
+	 *            set to true, if only mobile numbers should be displayed.
+	 */
+	static final void setMoileNubersObly(final boolean b) {
+		prefsMobilesOnly = b;
 	}
 }

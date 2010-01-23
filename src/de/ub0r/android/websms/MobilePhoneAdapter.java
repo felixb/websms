@@ -54,6 +54,9 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			+ PeopleColumns.TIMES_CONTACTED + " DESC, " + PeopleColumns.NAME
 			+ " ASC, " + PhonesColumns.TYPE;
 
+	/** Preferences: show mobile numbers only. */
+	private static boolean prefsMobilesOnly;
+
 	/** Global ContentResolver. */
 	private ContentResolver mContentResolver;
 
@@ -137,7 +140,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			s.append(filter);
 			s.append(")");
 
-			if (WebSMS.prefsMobilesOnly) {
+			if (prefsMobilesOnly) {
 				s.insert(0, "(");
 				s.append(MOBILES_ONLY);
 			}
@@ -147,5 +150,21 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 
 		return this.mContentResolver.query(Phones.CONTENT_URI, PROJECTION,
 				where, null, SORT_ORDER);
+	}
+
+	/**
+	 * @param b
+	 *            set to true, if only mobile numbers should be displayed.
+	 */
+	static final void setMoileNubersObly(final boolean b) {
+		prefsMobilesOnly = b;
+		if (WebSMS.helperAPI5c != null) {
+			// set b to API 5 if needed.
+			try {
+				HelperAPI5Contacts.setMoileNubersObly(b);
+			} catch (NoClassDefFoundError e) {
+				WebSMS.helperAPI5c = null;
+			}
+		}
 	}
 }

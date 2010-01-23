@@ -3,6 +3,7 @@ package de.ub0r.android.websms;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.TimePicker;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * TimePickerDialog checking time set by user. o2 allows only 00/15/30/45
@@ -41,7 +42,8 @@ public class MyTimePickerDialog extends TimePickerDialog {
 	@Override
 	public final void onTimeChanged(final TimePicker view, final int hourOfDay,
 			final int minute) {
-		if (WebSMS.prefsConnectorSpecs.getName().equals("WebSMS.o2") // FIXME
+		if (WebSMS.prefsSubConnectorSpec
+				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS)
 				&& minute % 15 != 0) {
 			// check input for o2 connector.
 			// only 00/15/30/45 allowed
