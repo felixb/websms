@@ -1079,6 +1079,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						if (name.compareToIgnoreCase(cs.getName()) < 0) {
 							CONNECTORS.add(i, connector);
 							added = true;
+							break;
 						}
 					}
 				} catch (NullPointerException e) {

@@ -578,7 +578,7 @@ public final class ConnectorSpec {
 		if (error != null) {
 			this.addStatus(STATUS_ERROR);
 		}
-		this.bundle.putString(ERRORMESSAGE, error);
+		this.bundle.putString(ERRORMESSAGE, this.getName() + ": " + error);
 	}
 
 	/**
@@ -592,9 +592,11 @@ public final class ConnectorSpec {
 			this.addStatus(STATUS_ERROR);
 		}
 		if (error instanceof WebSMSException) {
-			this.bundle.putString(ERRORMESSAGE, error.getMessage());
+			this.bundle.putString(ERRORMESSAGE, this.getName() + ": "
+					+ error.getMessage());
 		} else {
-			this.bundle.putString(ERRORMESSAGE, error.toString());
+			this.bundle.putString(ERRORMESSAGE, this.getName() + ": "
+					+ error.toString());
 		}
 	}
 

@@ -1,7 +1,6 @@
 cache ConnectorSpec.get*
 check for new connectors
 implement limitLength in websms
-fix cherrysms displayed more than once
 fix massive broadcasts
 add notification for IO to websms statusbar
 fix $(grep -Fr FIXME)
