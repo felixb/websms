@@ -18,10 +18,12 @@ else
 	vn=$v
 fi
 
-#echo v  $v
-#echo vn $vn
-#echo vv $vv
-#echo n  $n
+echo v    $v
+echo vn   $vn
+echo vv   $vv
+echo n    $n
+echo tag "${n}-${vn}"
+echo tagm  "$(echo ${n} | tr '-' ' ' | sed -e 's/Connector /Connector: /') v${vn}"
 
 sed -i -e "s/android:versionName=[^ >]*/android:versionName=\"${vn}\"/" AndroidManifest.xml
 sed -i -e "s/android:versionCode=[^ >]*/android:versionCode=\"${vv}\"/" AndroidManifest.xml
@@ -36,5 +38,5 @@ mv bin/*-debug.apk ~/public_html/h/flx/ 2> /dev/null
 echo "enter for commit+tag"
 read a
 git commit -am "bump to v${vn}"
-git tag -a "v${vn}" -m "${n}-${vn}"
+git tag -a "${n}-${vn}" -m "${n} v${vn}" 
 
