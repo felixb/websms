@@ -54,7 +54,7 @@ public class ConnectorExample extends Connector {
 		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context
 				.getString(R.string.connector_example_preferences));
-		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOSTRAP
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(TAG, c.getName(),
