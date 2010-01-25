@@ -26,9 +26,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.R;
+import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -202,8 +205,9 @@ public class ConnectorInnosend extends Connector {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
-			ArrayList<BasicNameValuePair> d = new ArrayList<BasicNameValuePair>();
-			if (this.text != null && this.to != null && this.to.length > 0) {
+			ArrayList<BasicNameValuePair> d = // .
+			new ArrayList<BasicNameValuePair>();
+			if (text != null && text.length > 0) {
 				if (this.free) {
 					url.append("free.php");
 					d.add(new BasicNameValuePair("app", "1"));
@@ -211,7 +215,7 @@ public class ConnectorInnosend extends Connector {
 				} else {
 					url.append("sms.php");
 				}
-				d.add(new BasicNameValuePair("text", this.text));
+				d.add(new BasicNameValuePair("text", text));
 				d.add(new BasicNameValuePair("type", this.connector + ""));
 				d.add(new BasicNameValuePair("empfaenger",
 						international2oldformat(this.to[0])));
@@ -229,11 +233,11 @@ public class ConnectorInnosend extends Connector {
 					d.add(new BasicNameValuePair("flash", "1"));
 				}
 				if (this.sendLater > 0) {
-					if (this.sendLater <= 0) {
-						this.sendLater = System.currentTimeMillis();
+					if (sendLater <= 0) {
+						sendLater = System.currentTimeMillis();
 					}
 					d.add(new BasicNameValuePair("termin", DateFormat.format(
-							DATEFORMAT, this.sendLater).toString()));
+							DATEFORMAT, sendLater).toString()));
 				}
 			} else {
 				if (updateFree) {
@@ -246,20 +250,20 @@ public class ConnectorInnosend extends Connector {
 			}
 			// FIXME: d.add(new BasicNameValuePair("id", this.user));
 			// FIXME: d.add(new BasicNameValuePair("pw", this.password));
-			HttpResponse response = getHttpClient(url.toString(), null, d,
-					null, null);
+			HttpResponse response = Utils.getHttpClient(url.toString(), null,
+					d, null, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				throw new WebSMSException(this.context,
-						R.string.log_error_http, "" + resp);
+				throw new WebSMSException(context, R.string.error_http, " "
+						+ resp);
 			}
-			String htmlText = stream2str(response.getEntity().getContent())
-					.trim();
+			String htmlText = Utils.stream2str(
+					response.getEntity().getContent()).trim();
 			int i = htmlText.indexOf(',');
 			if (i > 0 && !updateFree) {
 				this.balance = htmlText.substring(0, i + 3) + "\u20AC";
 				// FIXME: WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
-				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+				// this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
 			} else {
 				i = htmlText.indexOf("<br>");
 				int ret;
@@ -284,45 +288,30 @@ public class ConnectorInnosend extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Context context, final Intent intent) throws WebSMSException {
-		return this.sendData(false) && this.sendData(true);
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.sendData(false);
+		this.sendData(true);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Context context, final Intent intent) throws WebSMSException {
-		if (!this.sendData(false)) {
-			// failed!
-			throw new WebSMSException(this.context, R.string.log_error);
-		} else {
-			// result: ok
-			return true;
-		}
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.sendData(false);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportFlashsms() {
-		return (this.connector == 2 && !this.free);
-	}
+	// protected final boolean supportFlashsms() {
+	// return (this.connector == 2 && !this.free);
+	// }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportCustomsender() {
-		return (this.connector != 2 && !this.free);
-	}
+	// protected final boolean supportCustomsender() {
+	// return (this.connector != 2 && !this.free);
+	// }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected final boolean supportSendLater() {
-		return !this.free;
-	}
+	// protected final boolean supportSendLater() {
+	// return !this.free;
+	// }
 }
