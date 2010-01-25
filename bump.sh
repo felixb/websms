@@ -38,6 +38,6 @@ mv bin/*-debug.apk ~/public_html/h/flx/ 2> /dev/null
 
 echo "enter for commit+tag"
 read a
-git commit -am "bump to v${vn}"
+git commit -am "bump to ${n} v${vn}"
 git tag -a "${n}-${vn/ /-}" -m "${n} v${vn}" 
 
