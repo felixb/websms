@@ -25,8 +25,8 @@ echo n    $n
 echo tag "${n}-${vn}"
 echo tagm  "$(echo ${n} | tr '-' ' ' | sed -e 's/Connector /Connector: /') v${vn}"
 
-sed -i -e "s/android:versionName=[^ >]*/android:versionName=\"${vn}\"/" AndroidManifest.xml
-sed -i -e "s/android:versionCode=[^ >]*/android:versionCode=\"${vv}\"/" AndroidManifest.xml
+sed -i -e "s/android:versionName=\"[^\"]*/android:versionName=\"${vn}/" AndroidManifest.xml
+sed -i -e "s/android:versionCode=\"[^\"]*/android:versionCode=\"${vv}/" AndroidManifest.xml
 vfile=$(grep -l app_version res/values/*.xml)
 sed -i -e "s/app_version\">[^<]*/app_version\">${vn}/" "${vfile}"
 
