@@ -1113,7 +1113,9 @@ public class WebSMS extends Activity implements OnClickListener,
 					me.setButtons();
 				}
 			}
-			if (connector.getBalance() != null) {
+			final String b = connector.getBalance();
+			final String ob = connector.getOldBalance();
+			if (b != null && (ob == null || !b.equals(ob))) {
 				me.updateBalance();
 			}
 		}

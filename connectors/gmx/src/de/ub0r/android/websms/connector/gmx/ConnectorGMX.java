@@ -133,7 +133,8 @@ public class ConnectorGMX extends Connector {
 			throws WebSMSException {
 		Log.d(TAG, "bootstrap");
 		if (inBootstrap) {
-			// TODO: fail here
+			Log.d(TAG, "already in bootstrap: skip bootstrap");
+			return;
 		}
 		if (!Preferences.needBootstrap(context)) {
 			Log.d(TAG, "skip bootstrap");
@@ -353,11 +354,12 @@ public class ConnectorGMX extends Connector {
 			// send data
 			resp = c.getResponseCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				if (resp == Utils.HTTP_SERVICE_UNAVAILABLE) {
+				if (resp == Utils.HTTP_SERVICE_UNAVAILABLE
+						|| resp == Utils.HTTP_SERVICE_500) {
 					throw new WebSMSException(context, R.string.error_service,
-							"" + resp);
+							" HTTP: " + resp);
 				} else {
-					throw new WebSMSException(context, R.string.error_http, ""
+					throw new WebSMSException(context, R.string.error_http, " "
 							+ resp);
 				}
 			}
