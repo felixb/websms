@@ -18,7 +18,7 @@
         --> 
 <resources>
 	<string name="app_name">WebSMS Connector: Cherry-SMS</string>
-	<string name="app_version">0.1</string>
+	<string name="app_version">0.2</string>
 	<string name="connector_cherrysms_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_cherrysms_name">CherrySMS</string>
 	<string name="connector_cherrysms_preferences">Preferences - CherrySMS</string>
