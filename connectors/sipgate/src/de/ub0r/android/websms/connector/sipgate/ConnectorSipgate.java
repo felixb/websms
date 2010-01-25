@@ -113,13 +113,13 @@ public class ConnectorSipgate extends Connector {
 			XMLRPCClient client = this.init(context);
 			Vector<String> remoteUris = new Vector<String>();
 			ConnectorCommand command = new ConnectorCommand(intent);
-
+			final String defPrefx = command.getDefPrefix();
 			for (String t : command.getRecipients()) {
 				if (t != null && t.length() > 1) {
-					// FIXME: force international number
 					final String u = "sip:"
-							+ Utils.getRecipientsNumber(t)
-									.replaceAll("\\+", "") + "@sipgate.net";
+							+ Utils.national2international(defPrefx,
+									Utils.getRecipientsNumber(t)).replaceAll(
+									"\\+", "") + "@sipgate.net";
 					remoteUris.add(u);
 					Log.d(TAG, "Mobile number: " + u);
 				}
