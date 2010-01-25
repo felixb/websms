@@ -19,22 +19,9 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v3.0: split connectors to separate packages. check market!</item>
 		<item>v2.9.1: fix arcor with unlimited sms, allow to hide cancel button</item>
 		<item>v2.9.1: fix arcor prefs</item>
 		<item>v2.9: add support for arcor.de, add hdpi icon</item>
-		<item>v2.8.4: fix non us-ascii for innosend</item>
-		<item>v2.8.3: fix+improve innosend connector</item>
-		<item>v2.8.2: fix some bugs, implement autoexit (check prefs)</item>
-		<item>v2.8.1: new icon, fix some minor bugs, reuse session for o2</item>
-		<item>v2.8: add support for sloono.de, allow to show only mobile numbers, workaround for cyanogen mod 4.2.9.1, add extra features to some providers, notify user on failure, remove ads for donator</item>
-		<item>v2.7.1: readd button to change provider, turn off autoupdate by default (check prefs for both), remove ads for donator</item>
-		<item>v2.7: add support for cherry-sms.com, force recipients as single line in portrait mode</item>
-		<item>v2.6.1: add support for Sipgate.de team accounts, autocomplete name if started from contacts, fix for cyanogen mod 4.2.5, update account balance on startup, new design for alternative layout</item>
-		<item>v2.6: add innosend.de, add standard sms, fix for android 2.0, set update link focusable by trackball, redesign main+prefs, fix link to project, remove ads for donators</item>
-		<item>v2.5.4: change notification icons, fix sending from contacts, remove ads for donator, fix failed send</item>
-		<item>v2.5.3: fix Sipgate.de Connector</item>
-		<item>v2.5.2: speed up o2</item>
-		<item>v2.5.1: remove ads for donator, hint to solve captcha</item>
-		<item>v2.5: Split IO from app, detect o2 captcha</item>
 	</string-array>
 </resources>
