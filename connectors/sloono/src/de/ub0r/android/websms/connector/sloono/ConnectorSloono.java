@@ -26,9 +26,15 @@ import org.apache.http.HttpResponse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to sloono.de API.
@@ -38,113 +44,181 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
 public class ConnectorSloono extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.sloono";
+	/** {@link SubConnectorSpec} ID: basic. */
+	private static final String ID_BASIC = "1";
+	/** {@link SubConnectorSpec} ID: discount. */
+	private static final String ID_DISCOUNT = "0";
+	/** {@link SubConnectorSpec} ID: pro. */
+	private static final String ID_PRO = "2";
+	/** {@link SubConnectorSpec} ID: flash. */
+	private static final String ID_FLASH = "3";
+
+	/** Preferences intent action. */
+	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+			+ "websms.connectors.sloono.PREFS";
 
 	/** Sloono Gateway URL. */
-	private static final String URL_SEND = "http://www.sloono.de/API/httpsms.php";
+	private static final String URL_SEND = // .
+	"http://www.sloono.de/API/httpsms.php";
 	/** Sloono Gateway URL. */
-	private static final String URL_BALANCE = "http://www.sloono.de/API/httpkonto.php";
-
-	/** Sloono connector. */
-	private final short connector;
+	private static final String URL_BALANCE = // .
+	"http://www.sloono.de/API/httpkonto.php";
 
 	/**
-	 * Check return code from cherry-sms.com.
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.connector_sloono_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(// .
+				context.getString(R.string.connector_sloono_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context.getString(R.string.settings_sloono));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+		c.addSubConnector(ID_BASIC, context.getString(R.string.basic),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		c.addSubConnector(ID_DISCOUNT, context.getString(R.string.discount),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		c.addSubConnector(ID_PRO, context.getString(R.string.pro),
+				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		return c;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
+			if (p.getString(Preferences.PREFS_USER, "").length() > 0
+					&& p.getString(Preferences.PREFS_PASSWORD, "")// .
+							.length() > 0) {
+				connectorSpec.setReady();
+			} else {
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
+			}
+		} else {
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
+		}
+		return connectorSpec;
+	}
+
+	/**
+	 * Check return code from sloono.de.
 	 * 
+	 * @param context
+	 *            {@link Context}
 	 * @param ret
 	 *            return code
 	 * @return true if no error code
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean checkReturnCode(final int ret) throws WebSMSException {
+	private boolean checkReturnCode(final Context context, final int ret)
+			throws WebSMSException {
 		Log.d(TAG, "ret=" + ret);
 		if (ret < 200) {
 			return true;
 		} else if (ret < 300) {
-			throw new WebSMSException(this.context, R.string.log_error_input);
+			throw new WebSMSException(context, R.string.error_input);
 		} else {
 			if (ret == 401) {
-				throw new WebSMSException(this.context, R.string.log_error_pw);
+				throw new WebSMSException(context, R.string.error_pw);
 			}
-			throw new WebSMSException(this.context, R.string.log_error_server,
-					"" + ret);
+			throw new WebSMSException(context, R.string.error_server, // .
+					" " + ret);
 		}
 	}
 
 	/**
 	 * Send data.
 	 * 
-	 * @return successful?
+	 * @param context
+	 *            {@link Context}
+	 * @param command
+	 *            {@link ConnectorCommand}
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData() throws WebSMSException {
+	private void sendData(final Context context, final ConnectorCommand command)
+			throws WebSMSException {
 		// do IO
 		try { // get Connection
-			final boolean checkOnly = this.text == null || this.to == null
-					|| this.to.length == 0;
+			final String text = command.getText();
+			final boolean checkOnly = (text == null || text.length() == 0);
 			final StringBuilder url = new StringBuilder();
+			final ConnectorSpec cs = this.getSpec(context);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(context);
 			if (checkOnly) {
 				url.append(URL_BALANCE);
 			} else {
 				url.append(URL_SEND);
 			}
 			url.append("?user=");
-			// FIXME: url.append(this.user);
+			url.append(p.getString(Preferences.PREFS_USER, ""));
 			url.append("&password=");
-			// FIXME: url.append(this.password);
+			url.append(Utils.md5(p.getString(Preferences.PREFS_PASSWORD, "")));
 
 			if (!checkOnly) {
 				url.append("&typ=");
-				if (this.flashSMS) {
-					url.append(3);
+				if (command.getFlashSMS()) {
+					url.append(ID_FLASH);
 				} else {
-					url.append(this.connector - SLOONO_DISCOUNT);
+					url.append(command.getSelectedSubConnector());
 				}
-				if (this.sendLater > 0) {
+				final long sendLater = command.getSendLater();
+				if (sendLater > 0) {
 					url.append("&timestamp=");
-					url.append(this.sendLater / 1000);
+					url.append(sendLater / 1000);
 				}
 				url.append("&text=");
-				url.append(URLEncoder.encode(this.text));
+				url.append(URLEncoder.encode(text));
 				url.append("&to=");
-				String[] recvs = this.to;
+				String[] recvs = command.getRecipients();
 				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder(
-						international2oldformat(recvs[0]));
+				StringBuilder toBuf = new StringBuilder(Utils
+						.international2oldformat(Utils
+								.getRecipientsNumber(recvs[0])));
 				for (int j = 1; j < e; j++) {
 					toBuf.append(",");
-					toBuf.append(international2oldformat(recvs[j]));
+					toBuf.append(Utils.international2oldformat(Utils
+							.getRecipientsNumber(recvs[j])));
 				}
 				url.append(toBuf.toString());
 				toBuf = null;
 			}
 			// send data
-			HttpResponse response = getHttpClient(url.toString(), null, null,
-					null, null);
+			HttpResponse response = Utils.getHttpClient(url.toString(), null,
+					null, null, null);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
-				this.checkReturnCode(resp);
-				throw new WebSMSException(this.context,
-						R.string.log_error_http, "" + resp);
+				this.checkReturnCode(context, resp);
+				throw new WebSMSException(context, R.string.error_http, " "
+						+ resp);
 			}
-			String htmlText = stream2str(response.getEntity().getContent())
-					.trim();
+			String htmlText = Utils.stream2str(
+					response.getEntity().getContent()).trim();
 			String[] lines = htmlText.split("\n");
+			Log.d(TAG, "--HTTP RESPONSE--");
 			Log.d(TAG, htmlText);
+			Log.d(TAG, "--HTTP RESPONSE--");
 			htmlText = null;
 			for (String s : lines) {
 				if (s.startsWith("Kontostand: ")) {
-					// FIXME: WebSMS.SMS_BALANCE[SLOONO] =
-					// s.split(" ")[1].trim() + "\u20AC";
-					this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+					cs.setBalance(s.split(" ")[1].trim() + "\u20AC");
 				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.getMessage());
 		}
-		return true;
 	}
 
 	/**
@@ -153,7 +227,7 @@ public class ConnectorSloono extends Connector {
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData();
+		this.sendData(context, new ConnectorCommand(intent));
 	}
 
 	/**
@@ -162,9 +236,6 @@ public class ConnectorSloono extends Connector {
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		if (!this.sendData()) {
-			// failed!
-			throw new WebSMSException(context, R.string.log_error);
-		}
+		this.sendData(context, new ConnectorCommand(intent));
 	}
 }
