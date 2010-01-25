@@ -50,9 +50,9 @@
 		<receiver android:name="com.yourcompany.android.exampleconnector.ConnectorExample"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.RUN_BOOTSTRAP" />
-				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
-				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
+				<action android:name="de.ub0r.android.websms.connector.example.RUN_BOOTSTRAP" />
+				<action android:name="de.ub0r.android.websms.connector.example.RUN_UPDATE" />
+				<action android:name="de.ub0r.android.websms.connector.example.RUN_SEND" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>

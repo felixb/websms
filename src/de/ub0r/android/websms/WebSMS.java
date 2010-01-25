@@ -379,10 +379,16 @@ public class WebSMS extends Activity implements OnClickListener,
 					.getDefaultSharedPreferences(this);
 			final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 			final String defSender = p.getString(PREFS_SENDER, "");
-			final Intent intent = ConnectorCommand.bootstrap(defPrefix,
-					defSender).setToIntent(null);
-			Log.d(TAG, "send broadcast: " + intent.getAction());
-			this.sendBroadcast(intent);
+			final ConnectorSpec[] css = getConnectors(
+					ConnectorSpec.CAPABILITIES_BOOTSTRAP, // .
+					ConnectorSpec.STATUS_ENABLED);
+			for (ConnectorSpec cs : css) {
+				final Intent intent = new Intent(cs.getPackage()
+						+ Connector.ACTION_RUN_BOOTSTRAP);
+				ConnectorCommand.bootstrap(defPrefix, defSender).setToIntent(intent);
+				Log.d(TAG, "send broadcast: " + intent.getAction());
+				this.sendBroadcast(intent);
+			}
 		}
 
 		this.setButtons();
@@ -604,10 +610,16 @@ public class WebSMS extends Activity implements OnClickListener,
 				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
-		final Intent intent = ConnectorCommand.update(defPrefix, defSender)
-				.setToIntent(null);
-		Log.d(TAG, "send broadcast: " + intent.getAction());
-		this.sendBroadcast(intent);
+		final ConnectorSpec[] css = getConnectors(
+				ConnectorSpec.CAPABILITIES_UPDATE, // .
+				ConnectorSpec.STATUS_ENABLED);
+		for (ConnectorSpec cs : css) {
+			final Intent intent = new Intent(cs.getPackage()
+					+ Connector.ACTION_RUN_UPDATE);
+			ConnectorCommand.update(defPrefix, defSender).setToIntent(intent);
+			Log.d(TAG, "send broadcast: " + intent.getAction());
+			this.sendBroadcast(intent);
+		}
 	}
 
 	/**
@@ -886,7 +898,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void send(final ConnectorSpec connector,
 			final ConnectorCommand command) {
 		try {
-			final Intent intent = command.setToIntent(null);
+			final Intent intent = new Intent(connector.getPackage()
+					+ Connector.ACTION_RUN_SEND);
+			command.setToIntent(intent);
 			prefsConnectorSpec.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			Log.d(TAG, "send broadcast: " + intent.getAction());

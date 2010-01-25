@@ -24,9 +24,12 @@ else
 	[ -n "$1" ] && cp lib/WebSMS-Connector-API.jar ../../connectors/example/libs/
 fi
 
-ant debug
-cd -
-./builddoc.sh
-cd -
+if [ -d "/home/flx/public_html/websms/" ] ; then
+	ant debug
+	cd -
+	./builddoc.sh
+	cd -
+fi
+
 ant clean
 

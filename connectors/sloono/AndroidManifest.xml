@@ -49,8 +49,8 @@
 		<receiver android:name="de.ub0r.android.websms.connector.sloono.ConnectorSloono"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.RUN_UPDATE" />
-				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
+				<action android:name="de.ub0r.android.websms.connector.sloono.RUN_UPDATE" />
+				<action android:name="de.ub0r.android.websms.connector.sloono.RUN_SEND" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>

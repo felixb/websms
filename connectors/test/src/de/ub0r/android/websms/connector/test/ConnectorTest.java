@@ -56,7 +56,7 @@ public class ConnectorTest extends Connector {
 		c.setBalance(null);
 		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.connector_test_preferences));
-		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOSTRAP
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(TAG, name, SubConnectorSpec.FEATURE_MULTIRECIPIENTS
@@ -89,12 +89,13 @@ public class ConnectorTest extends Connector {
 	public final void onReceive(final Context context, final Intent intent) {
 		final String action = intent.getAction();
 		Log.d(TAG, "action: " + action);
+		final String pkg = context.getPackageName();
 		if (action == null) {
 			return;
 		}
 		if (Connector.ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (Connector.ACTION_RUN_SEND.equals(action)) {
+		} else if (action.equals(pkg + Connector.ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
@@ -117,10 +118,10 @@ public class ConnectorTest extends Connector {
 				}
 			}
 		} else if (// .
-		Connector.ACTION_RUN_BOOSTRAP.equals(action)) {
+		action.equals(pkg + Connector.ACTION_RUN_BOOTSTRAP)) {
 			final ConnectorSpec specs = this.getSpec(context);
 			this.sendInfo(context, specs, null);
-		} else if (Connector.ACTION_RUN_UPDATE.equals(action)) {
+		} else if (action.equals(pkg + Connector.ACTION_RUN_UPDATE)) {
 			final ConnectorSpec specs = this.getSpec(context);
 			specs.setBalance("13,37\u20AC");
 			this.sendInfo(context, specs, null);
