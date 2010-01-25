@@ -150,12 +150,11 @@ public class ConnectorCherrySMS extends Connector {
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
-	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData(final Context context,
-			final ConnectorCommand command) throws WebSMSException {
+	private void sendData(final Context context, final ConnectorCommand command)
+			throws WebSMSException {
 		// do IO
 		try { // get Connection
 			final StringBuilder url = new StringBuilder(URL);
@@ -215,13 +214,12 @@ public class ConnectorCherrySMS extends Connector {
 			cs.setBalance(lines[l - 1].trim());
 			if (l > 1) {
 				final int ret = Integer.parseInt(lines[0].trim());
-				return checkReturnCode(context, ret);
+				checkReturnCode(context, ret);
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.getMessage());
 		}
-		return true;
 	}
 
 	/**
