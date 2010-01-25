@@ -20,7 +20,7 @@
 	<string name="app_name">WebSMS Connector: sloono</string>
 	<string name="app_version">0.2</string>
 	<string name="connector_sloono_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_sloono_name">sloono</string>
+	<string name="connector_sloono_name">Sloono</string>
 	<string name="enable_sloono">Enable Sloono</string>
 	<string name="user_sloono_">Sloono Username</string>
 	<string name="password_sloono_">Sloono Password</string>
