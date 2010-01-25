@@ -385,7 +385,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			for (ConnectorSpec cs : css) {
 				final Intent intent = new Intent(cs.getPackage()
 						+ Connector.ACTION_RUN_BOOTSTRAP);
-				ConnectorCommand.bootstrap(defPrefix, defSender).setToIntent(intent);
+				ConnectorCommand.bootstrap(defPrefix, defSender).setToIntent(
+						intent);
 				Log.d(TAG, "send broadcast: " + intent.getAction());
 				this.sendBroadcast(intent);
 			}
