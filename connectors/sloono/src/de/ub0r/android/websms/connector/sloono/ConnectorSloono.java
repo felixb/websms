@@ -78,12 +78,12 @@ public class ConnectorSloono extends Connector {
 		c.setPrefsTitle(context.getString(R.string.settings_sloono));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
-		c.addSubConnector(ID_BASIC, context.getString(R.string.basic),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
-		c.addSubConnector(ID_DISCOUNT, context.getString(R.string.discount),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
-		c.addSubConnector(ID_PRO, context.getString(R.string.pro),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+		final short f = (short) (SubConnectorSpec.FEATURE_MULTIRECIPIENTS
+				| SubConnectorSpec.FEATURE_FLASHSMS | // .
+		SubConnectorSpec.FEATURE_SENDLATER);
+		c.addSubConnector(ID_BASIC, context.getString(R.string.basic), f);
+		c.addSubConnector(ID_DISCOUNT, context.getString(R.string.discount), f);
+		c.addSubConnector(ID_PRO, context.getString(R.string.pro), f);
 		return c;
 	}
 
