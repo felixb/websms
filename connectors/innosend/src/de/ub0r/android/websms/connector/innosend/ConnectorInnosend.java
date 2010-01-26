@@ -25,14 +25,18 @@ import java.util.ArrayList;
 import org.apache.http.HttpResponse;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.R;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to Innosend.de API.
@@ -43,56 +47,77 @@ public class ConnectorInnosend extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.inno";
 
+	/** {@link SubConnectorSpec} ID: free. */
+	private static final String ID_FREE = "";
+	/** {@link SubConnectorSpec} ID: with sender. */
+	private static final String ID_W_SENDER = "w_sender";
+	/** {@link SubConnectorSpec} ID: without sender. */
+	private static final String ID_WO_SENDER = "wo_sender";
+
+	/** Preferences intent action. */
+	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+			+ "websms.connectors.innosend.PREFS";
+
 	/** Innosend Gateway URL. */
 	private static final String URL = "https://www.innosend.de/gateway/";
 
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "dd.MM.yyyy-kk:mm";
 
-	/** Try to send free sms. */
-	private final boolean free;
-
-	/** Innosend connector. */
-	private final short connector;
-
-	/** Innosend balance. */
-	private String balance = "";
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.connector_innosend_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(context.getString(R.string.connector_innosend_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context
+				.getString(R.string.connector_innosend_preferences));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+		c.addSubConnector(ID_FREE, context.getString(R.string.free),
+				SubConnectorSpec.FEATURE_NONE);
+		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
+				SubConnectorSpec.FEATURE_SENDLATER
+						| SubConnectorSpec.FEATURE_FLASHSMS);
+		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender),
+				SubConnectorSpec.FEATURE_CUSTOMSENDER
+						| SubConnectorSpec.FEATURE_SENDLATER);
+		return c;
+	}
 
 	/**
-	 * Create an Innosend.de.
-	 * 
-	 * @param u
-	 *            user
-	 * @param p
-	 *            password
-	 * @param con
-	 *            connector type
+	 * {@inheritDoc}
 	 */
-	public ConnectorInnosend(final String u, final String p, final short con) {
-		super(null); // FIXME:
-		switch (con) {
-		case INNOSEND_FREE:
-			this.connector = 2;
-			this.free = true;
-			break;
-		case INNOSEND_WO_SENDER:
-			this.connector = 2;
-			this.free = false;
-			break;
-		case INNOSEND_W_SENDER:
-			this.free = false;
-			this.connector = 4;
-			break;
-		default:
-			this.connector = 2;
-			this.free = false;
-			break;
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
+			if (p.getString(Preferences.PREFS_USER, "").length() > 0
+					&& p.getString(Preferences.PREFS_PASSWORD, "")// .
+							.length() > 0) {
+				connectorSpec.setReady();
+			} else {
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
+			}
+		} else {
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
 		}
+		return connectorSpec;
 	}
 
 	/**
 	 * Check return code from innosend.de.
 	 * 
+	 * @param context
+	 *            Context
+	 * @param connector
+	 *            ConnectorSpec
 	 * @param ret
 	 *            return code
 	 * @param more
@@ -103,112 +128,111 @@ public class ConnectorInnosend extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean checkReturnCode(final int ret, final String more,
+	private static boolean checkReturnCode(final Context context,
+			final ConnectorSpec connector, final int ret, final String more,
 			final boolean failOnError) throws WebSMSException {
 		switch (ret) {
 		case 100:
 		case 101:
 			// this.pushMessage(WebSMS.MESSAGE_LOG, more + " "
-			// + this.context.getString(R.string.log_remain_free));
+			// + context.getString(R.string.log_remain_free));
 			return true;
 		case 161:
 			if (!failOnError) {
-				if (this.balance.length() > 0) {
-					this.balance += "/";
+				String balance = connector.getBalance();
+				if (balance.length() > 0) {
+					balance += "/";
 				}
-				this.balance += this.context
-						.getString(R.string.innosend_next_free)
-						+ " " + more;
-				// FIXME: WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
-				this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+				balance += context.getString(R.string.innosend_next_free) + " "
+						+ more;
+				connector.setBalance(balance);
 				return true;
 			}
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_161, " " + more);
+			throw new WebSMSException(context, R.string.error_innosend_161, " "
+					+ more);
 		default:
-			throw new WebSMSException(this.context, R.string.log_error,
-					" code: " + ret + " " + more);
+			throw new WebSMSException(context, R.string.error, " code: " + ret
+					+ " " + more);
 		}
 	}
 
 	/**
 	 * Check return code from innosend.de.
 	 * 
+	 * @param context
+	 *            Context
 	 * @param ret
 	 *            return code
 	 * @return true if no error code
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean checkReturnCode(final int ret) throws WebSMSException {
+	private static boolean checkReturnCode(final Context context, final int ret)
+			throws WebSMSException {
 		switch (ret) {
 		case 100:
 		case 101:
 			return true;
 		case 111:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_111);
+			throw new WebSMSException(context, R.string.error_innosend_111);
 		case 112:
-			throw new WebSMSException(this.context, R.string.log_error_pw);
+			throw new WebSMSException(context, R.string.error_pw);
 		case 120:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_111);
+			throw new WebSMSException(context, R.string.error_innosend_111);
 		case 121:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_121);
+			throw new WebSMSException(context, R.string.error_innosend_121);
 		case 122:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_122);
+			throw new WebSMSException(context, R.string.error_innosend_122);
 		case 123:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_123);
+			throw new WebSMSException(context, R.string.error_innosend_123);
 		case 129:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_129);
+			throw new WebSMSException(context, R.string.error_innosend_129);
 		case 130:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_130);
+			throw new WebSMSException(context, R.string.error_innosend_130);
 		case 140:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_140);
+			throw new WebSMSException(context, R.string.error_innosend_140);
 		case 150:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_150);
+			throw new WebSMSException(context, R.string.error_innosend_150);
 		case 170:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_170);
+			throw new WebSMSException(context, R.string.error_innosend_170);
 		case 171:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_171);
+			throw new WebSMSException(context, R.string.error_innosend_171);
 		case 172:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_172);
+			throw new WebSMSException(context, R.string.error_innosend_172);
 		case 173:
-			throw new WebSMSException(this.context,
-					R.string.log_error_innosend_173);
+			throw new WebSMSException(context, R.string.error_innosend_173);
 		default:
-			throw new WebSMSException(this.context, R.string.log_error,
-					" code: " + ret);
+			throw new WebSMSException(context, R.string.error, " code: " + ret);
 		}
 	}
 
 	/**
 	 * Send data.
 	 * 
+	 * @param context
+	 *            Context
+	 * @param command
+	 *            ConnectorCommand
 	 * @param updateFree
 	 *            update free sms
-	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private boolean sendData(final boolean updateFree) throws WebSMSException {
+	private void sendData(final Context context,
+			final ConnectorCommand command, final boolean updateFree)
+			throws WebSMSException {
 		// do IO
 		try { // get Connection
+			final ConnectorSpec cs = this.getSpec(context);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(context);
 			final StringBuilder url = new StringBuilder(URL);
-			ArrayList<BasicNameValuePair> d = // .
+			final ArrayList<BasicNameValuePair> d = // .
 			new ArrayList<BasicNameValuePair>();
-			if (text != null && text.length > 0) {
-				if (this.free) {
+			final String text = command.getText();
+			if (text != null && text.length() > 0) {
+				final String subCon = command.getSelectedSubConnector();
+				if (subCon.equals(ID_FREE)) {
 					url.append("free.php");
 					d.add(new BasicNameValuePair("app", "1"));
 					d.add(new BasicNameValuePair("was", "iphone"));
@@ -216,23 +240,29 @@ public class ConnectorInnosend extends Connector {
 					url.append("sms.php");
 				}
 				d.add(new BasicNameValuePair("text", text));
-				d.add(new BasicNameValuePair("type", this.connector + ""));
-				d.add(new BasicNameValuePair("empfaenger",
-						international2oldformat(this.to[0])));
-
-				if (this.customSender == null) {
-					// FIXME: d.add(new BasicNameValuePair("absender",
-					// international2national(WebSMS.prefsSender)));
+				if (subCon.equals(ID_W_SENDER)) {
+					d.add(new BasicNameValuePair("type", "4"));
 				} else {
-					d
-							.add(new BasicNameValuePair("absender",
-									this.customSender));
+					d.add(new BasicNameValuePair("type", "2"));
+				}
+				d.add(new BasicNameValuePair("empfaenger", Utils
+						.joinRecipientsNumbers(command.getRecipients(), ",",
+								true)));
+
+				final String customSender = command.getCustomSender();
+				if (customSender == null) {
+					d.add(new BasicNameValuePair("absender", Utils
+							.international2national(command.getDefPrefix(),
+									command.getDefSender())));
+				} else {
+					d.add(new BasicNameValuePair("absender", customSender));
 				}
 
-				if (this.flashSMS) {
+				if (command.getFlashSMS()) {
 					d.add(new BasicNameValuePair("flash", "1"));
 				}
-				if (this.sendLater > 0) {
+				long sendLater = command.getSendLater();
+				if (sendLater > 0) {
 					if (sendLater <= 0) {
 						sendLater = System.currentTimeMillis();
 					}
@@ -248,8 +278,10 @@ public class ConnectorInnosend extends Connector {
 					url.append("konto.php");
 				}
 			}
-			// FIXME: d.add(new BasicNameValuePair("id", this.user));
-			// FIXME: d.add(new BasicNameValuePair("pw", this.password));
+			d.add(new BasicNameValuePair("id", p.getString(
+					Preferences.PREFS_USER, "")));
+			d.add(new BasicNameValuePair("pw", p.getString(
+					Preferences.PREFS_PASSWORD, "")));
 			HttpResponse response = Utils.getHttpClient(url.toString(), null,
 					d, null, null);
 			int resp = response.getStatusLine().getStatusCode();
@@ -261,27 +293,26 @@ public class ConnectorInnosend extends Connector {
 					response.getEntity().getContent()).trim();
 			int i = htmlText.indexOf(',');
 			if (i > 0 && !updateFree) {
-				this.balance = htmlText.substring(0, i + 3) + "\u20AC";
-				// FIXME: WebSMS.SMS_BALANCE[INNOSEND] = this.balance;
-				// this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
+				cs.setBalance(htmlText.substring(0, i + 3) + "\u20AC");
 			} else {
 				i = htmlText.indexOf("<br>");
 				int ret;
 				Log.d(TAG, url.toString());
 				if (i < 0) {
 					ret = Integer.parseInt(htmlText);
-					return updateFree || this.checkReturnCode(ret);
+					if (!updateFree) {
+						ConnectorInnosend.checkReturnCode(context, ret);
+					}
 				} else {
 					ret = Integer.parseInt(htmlText.substring(0, i));
-					return this.checkReturnCode(ret, htmlText.substring(i + 4)
-							.trim(), !updateFree);
+					ConnectorInnosend.checkReturnCode(context, cs, ret,
+							htmlText.substring(i + 4).trim(), !updateFree);
 				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.getMessage());
 		}
-		return true;
 	}
 
 	/**
@@ -290,8 +321,9 @@ public class ConnectorInnosend extends Connector {
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(false);
-		this.sendData(true);
+		final ConnectorCommand c = new ConnectorCommand(intent);
+		this.sendData(context, c, false);
+		this.sendData(context, c, true);
 	}
 
 	/**
@@ -300,18 +332,6 @@ public class ConnectorInnosend extends Connector {
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(false);
+		this.sendData(context, new ConnectorCommand(intent), false);
 	}
-
-	// protected final boolean supportFlashsms() {
-	// return (this.connector == 2 && !this.free);
-	// }
-
-	// protected final boolean supportCustomsender() {
-	// return (this.connector != 2 && !this.free);
-	// }
-
-	// protected final boolean supportSendLater() {
-	// return !this.free;
-	// }
 }

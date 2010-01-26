@@ -17,7 +17,7 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	android:title="@string/settings_innosend">
+	android:title="@string/connector_innosend_preferences">
 	<CheckBoxPreference android:key="enable_innosend"
 		android:title="@string/enable_innosend" />
 	<EditTextPreference android:key="user_innosend"

@@ -19,13 +19,18 @@
 <resources>
 	<string name="app_name">WebSMS Connector: Innosend</string>
 	<string name="app_version">0.1</string>
+	<string name="connector_innosend_name">Innosend</string>
+	<string name="connector_innosend_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="innosend_next_free">next free:</string>
 	<string name="enable_innosend">Enable Innosend</string>
 	<string name="user_innosend_">Innosend Username</string>
 	<string name="password_innosend_">Innosend Password</string>
-	<string name="settings_innosend">Preferences - Innosend</string>
+	<string name="connector_innosend_preferences">Preferences - Innosend</string>
 	<string name="partner_innosend_hint">Create new Innosend.de account</string>
 	<string name="partner_innosend_url">http://www.innosend.de/index.php?seite=anmeld&amp;gutschein=4d703626-1323</string>
+	<string name="free">free</string>
+	<string name="w_sender">w/ sender</string>
+	<string name="wo_sender">w/o sender</string>
 
 	<string name="error_innosend_111">IP-blocking active</string>
 	<string name="error_innosend_120">Sender missing</string>
