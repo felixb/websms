@@ -30,6 +30,9 @@ public final class Preferences extends PreferenceActivity {
 	/** Preference key: enabled. */
 	static final String PREFS_ENABLED = "enable_o2";
 
+	/** Preference's name: user's password. */
+	static final String PREFS_PASSWORD = "password_o2";
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -18,7 +18,7 @@
  */
 
 /**
- *  WebSMS Connector: O2. O2 connector deployed as separate apk.
+ * WebSMS Connector: O2. O2 connector deployed as separate apk.
  * 
  * @version 3.0
  * @author flx

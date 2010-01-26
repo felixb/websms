@@ -21,8 +21,8 @@
 	<string name="app_version">0.1</string>
 	<string name="connector_o2_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_o2_name">o2</string>
+	<string name="connector_o2_preferences">Preferences - o2</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="password_o2_">o2 Password</string>
 	<string name="password_o2_hint">Password for o2online</string>
-	<string name="settings_o2">Preferences - o2</string>
 </resources>
