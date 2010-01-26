@@ -183,11 +183,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static String lastMsg = null;
 	/** Persistent Recipient store. */
 	private static String lastTo = null;
-
-	/** Backup for params. */
-	private static ConnectorCommand lastParams = null;
-	/** User wants to send the message later. */
-	private static boolean wantSendLater = false;
+	/** Backup for params: custom sender. */
+	private static String lastCustomSender = null;
+	/** Backup for params: send later. */
+	private static long lastSendLater = -1;
 
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
@@ -266,11 +265,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastMsg = p.getString(PREFS_TEXT, "");
 
 		// register Listener
-		((Button) this.findViewById(R.id.send_)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.cancel)).setOnClickListener(this);
-		((Button) this.findViewById(R.id.change_connector))
-				.setOnClickListener(this);
-		((Button) this.findViewById(R.id.extras)).setOnClickListener(this);
+		this.findViewById(R.id.send_).setOnClickListener(this);
+		this.findViewById(R.id.cancel).setOnClickListener(this);
+		this.findViewById(R.id.change_connector).setOnClickListener(this);
+		this.findViewById(R.id.extras).setOnClickListener(this);
+		this.findViewById(R.id.custom_sender).setOnClickListener(this);
+		this.findViewById(R.id.send_later).setOnClickListener(this);
 
 		this.textLabel = (TextView) this.findViewById(R.id.text_);
 		((EditText) this.findViewById(R.id.text))
@@ -630,22 +630,39 @@ public class WebSMS extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.freecount:
 			this.updateFreecount(true);
-			break;
+			return;
 		case R.id.send_:
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
-			break;
+			return;
 		case R.id.cancel:
 			this.reset();
-			break;
+			return;
 		case R.id.change_connector:
 			this.changeConnectorMenu();
-			break;
+			return;
 		case R.id.extras:
 			this.showExtras = !this.showExtras;
 			this.setButtons();
-			break;
+			return;
+		case R.id.custom_sender:
+			final CheckBox cs = (CheckBox) this
+					.findViewById(R.id.custom_sender);
+			if (cs.isChecked()) {
+				this.showDialog(DIALOG_CUSTOMSENDER);
+			} else {
+				lastCustomSender = null;
+			}
+			return;
+		case R.id.send_later:
+			final CheckBox sl = (CheckBox) this.findViewById(R.id.send_later);
+			if (sl.isChecked()) {
+				this.showDialog(DIALOG_SENDLATER_DATE);
+			} else {
+				lastSendLater = -1;
+			}
+			return;
 		default:
-			break;
+			return;
 		}
 	}
 
@@ -837,15 +854,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface dialog,
 								final int id) {
-							WebSMS.lastParams.setCustomSender(et.getText()
-									.toString());
-							if (WebSMS.wantSendLater) {
-								WebSMS.this.showDialog(// .
-										WebSMS.DIALOG_SENDLATER_DATE);
-							} else {
-								WebSMS.this.send(WebSMS.prefsConnectorSpec,
-										WebSMS.lastParams);
-							}
+							WebSMS.lastCustomSender = et.getText().toString();
 						}
 					});
 			builder.setNegativeButton(android.R.string.cancel, null);
@@ -889,7 +898,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Send Text.
+	 * Send text to {@link Connector}.
 	 * 
 	 * @param connector
 	 *            which connector should be used.
@@ -923,7 +932,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Send Text.
+	 * Send text.
 	 * 
 	 * @param connector
 	 *            which connector should be used.
@@ -951,11 +960,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
 				&& v.isEnabled() && v.isChecked();
-		v = (CheckBox) this.findViewById(R.id.send_later);
-		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
-				&& v.isChecked()) {
-			wantSendLater = true;
-		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
@@ -963,20 +967,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		final ConnectorCommand command = ConnectorCommand.send(subconnector,
 				defPrefix, defSender, to.split(","), text, flashSMS);
-
-		v = (CheckBox) this.findViewById(R.id.custom_sender);
-		if ((v.getVisibility() == View.VISIBLE) && v.isEnabled()
-				&& v.isChecked()) {
-			lastParams = command;
-			this.showDialog(DIALOG_CUSTOMSENDER);
-		} else {
-			if (wantSendLater) {
-				lastParams = command;
-				this.showDialog(DIALOG_SENDLATER_DATE);
-			} else {
-				this.send(connector, command);
-			}
-		}
+		command.setCustomSender(lastCustomSender);
+		command.setSendLater(lastSendLater);
+		this.send(connector, command);
 	}
 
 	/**
@@ -1004,16 +997,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onDateSet(final DatePicker view, final int year,
 			final int monthOfYear, final int dayOfMonth) {
 		final Calendar c = Calendar.getInstance();
-		if (lastParams != null) {
-			final long l = lastParams.getSendLater();
-			if (l > 0) {
-				c.setTimeInMillis(l);
-			}
+		if (lastSendLater > 0) {
+			c.setTimeInMillis(lastSendLater);
 		}
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, monthOfYear);
 		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-		lastParams.setSendLater(c.getTimeInMillis());
+		lastSendLater = c.getTimeInMillis();
 
 		this.showDialog(DIALOG_SENDLATER_TIME);
 	}
@@ -1039,14 +1029,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		final Calendar c = Calendar.getInstance();
-		if (lastParams != null) {
-			c.setTimeInMillis(lastParams.getSendLater());
+		if (lastSendLater > 0) {
+			c.setTimeInMillis(lastSendLater);
 		}
 		c.set(Calendar.HOUR_OF_DAY, hour);
 		c.set(Calendar.MINUTE, minutes);
-		lastParams.setSendLater(c.getTimeInMillis());
-
-		this.send(WebSMS.prefsConnectorSpec, WebSMS.lastParams);
+		lastSendLater = c.getTimeInMillis();
 	}
 
 	/**
