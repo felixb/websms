@@ -18,7 +18,7 @@
  */
 
 /**
- *  WebSMS Connector: Test. Test connector deployed as separate apk.
+ * WebSMS Connector: Test. Test connector deployed as separate apk.
  * 
  * @version 3.0
  * @author flx

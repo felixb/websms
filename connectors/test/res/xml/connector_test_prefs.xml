@@ -20,4 +20,6 @@
 	android:title="@string/connector_test_preferences">
 	<CheckBoxPreference android:key="enable_test"
 		android:title="@string/connector_test_enable_" />
+	<CheckBoxPreference android:key="fail"
+		android:title="fail" />
 </PreferenceScreen>

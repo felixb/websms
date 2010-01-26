@@ -22,10 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
-import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
@@ -61,7 +58,8 @@ public class ConnectorTest extends Connector {
 				| ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(TAG, name, SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 				| SubConnectorSpec.FEATURE_CUSTOMSENDER
-				| SubConnectorSpec.FEATURE_SENDLATER);
+				| SubConnectorSpec.FEATURE_SENDLATER
+				| SubConnectorSpec.FEATURE_FLASHSMS);
 		return c;
 	}
 
@@ -83,48 +81,44 @@ public class ConnectorTest extends Connector {
 	}
 
 	/**
+	 * Do nothing but fail if needed.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 */
+	private void doStuff(final Context context) throws WebSMSException {
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				"fail", false)) {
+			throw new WebSMSException("fail");
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onReceive(final Context context, final Intent intent) {
-		final String action = intent.getAction();
-		Log.d(TAG, "action: " + action);
-		final String pkg = context.getPackageName();
-		if (action == null) {
-			return;
-		}
-		if (Connector.ACTION_CONNECTOR_UPDATE.equals(action)) {
-			this.sendInfo(context, null, null);
-		} else if (action.equals(pkg + Connector.ACTION_RUN_SEND)) {
-			final ConnectorCommand command = new ConnectorCommand(intent);
-			if (command.getType() == ConnectorCommand.TYPE_SEND) {
-				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
-				final ConnectorSpec specs = this.getSpec(context);
-				if (specs.getID().equals(origSpecs.getID())
-						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
-					// check internal status
-					try {
-						// FIXME: this.send(command);
-						throw new WebSMSException("fixme");
-					} catch (WebSMSException e) {
-						Log.e(TAG, null, e);
-						Toast.makeText(context,
-								specs.getName() + ": " + e.getMessage(),
-								Toast.LENGTH_LONG).show();
-						specs.setErrorMessage(e.getMessage());
-						this.sendInfo(context, specs, command);
-					}
-					// if nothing went wrong, info was send from inside.
-				}
-			}
-		} else if (// .
-		action.equals(pkg + Connector.ACTION_RUN_BOOTSTRAP)) {
-			final ConnectorSpec specs = this.getSpec(context);
-			this.sendInfo(context, specs, null);
-		} else if (action.equals(pkg + Connector.ACTION_RUN_UPDATE)) {
-			final ConnectorSpec specs = this.getSpec(context);
-			specs.setBalance("13,37\u20AC");
-			this.sendInfo(context, specs, null);
-		}
+	protected final void doBootstrap(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.doStuff(context);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doUpdate(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.doStuff(context);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void doSend(final Context context, final Intent intent)
+			throws WebSMSException {
+		this.doStuff(context);
 	}
 }
