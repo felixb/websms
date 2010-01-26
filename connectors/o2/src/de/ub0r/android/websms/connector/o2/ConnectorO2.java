@@ -136,6 +136,7 @@ public class ConnectorO2 extends Connector {
 		c.addSubConnector(c.getID(), c.getName(),
 				SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER
+						| SubConnectorSpec.FEATURE_SENDLATER_QUARTERS
 						| SubConnectorSpec.FEATURE_FLASHSMS);
 		return c;
 	}
