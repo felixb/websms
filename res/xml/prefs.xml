@@ -48,9 +48,14 @@
 	<PreferenceCategory android:title="@string/settings_connectors"
 		android:key="settings_connectors">
 		<CheckBoxPreference android:key="enable_sms"
-			android:title="@string/enable_sms" android:defaultValue="true" />
+			android:title="@string/enable_sms" />
 
 		<!-- other connectors getting added dynamicaly -->
 
 	</PreferenceCategory>
+	<PreferenceScreen android:title="@string/more_connectors_"
+		android:summary="@string/more_connectors_hint">
+		<intent android:action="android.intent.action.VIEW"
+			android:data="market://search?q=websms+connector" />
+	</PreferenceScreen>
 </PreferenceScreen>

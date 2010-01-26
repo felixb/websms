@@ -179,18 +179,7 @@ public class ConnectorCherrySMS extends Connector {
 				url.append("&message=");
 				url.append(URLEncoder.encode(text));
 				url.append("&to=");
-				String[] recvs = command.getRecipients();
-				final int e = recvs.length;
-				StringBuilder toBuf = new StringBuilder(Utils
-						.international2oldformat(Utils
-								.getRecipientsNumber(recvs[0])));
-				for (int j = 1; j < e; j++) {
-					toBuf.append(";");
-					toBuf.append(Utils.international2oldformat(Utils
-							.getRecipientsNumber(recvs[j])));
-				}
-				url.append(toBuf.toString());
-				toBuf = null;
+				url.append(Utils.joinRecipientsNumbers(command.getRecipients(), ";", true));
 			} else {
 				url.append("&check=guthaben");
 			}

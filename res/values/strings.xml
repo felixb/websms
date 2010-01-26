@@ -44,7 +44,9 @@
 	<string name="remove_ads_">Remove ads</string>
 	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you with the next release.\nThank you!</string>
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
-	<string name="more_">More Apps..</string>
+	<string name="more_apps_">More Apps..</string>
+	<string name="more_connectors_">More Connectors..</string>
+	<string name="more_connectors_hint">Look for more WebSMS Connectors in Android Market.</string>
 	<string name="enable_sms">Enable SMS</string>
 	<string name="free_">Free SMS:</string>
 	<string name="get_free">Refresh free sms</string>

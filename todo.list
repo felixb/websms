@@ -1,4 +1,3 @@
-cache ConnectorSpec.get*
 check for new connectors
 implement limitLength in websms
 fix massive broadcasts

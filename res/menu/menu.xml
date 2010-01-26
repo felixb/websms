@@ -26,5 +26,5 @@
 	<item android:id="@+id/item_donate" android:icon="@drawable/ic_menu_star"
 		android:title="@string/donate_remove_ads_" />
 	<item android:id="@+id/item_more" android:icon="@drawable/ic_menu_windows"
-		android:title="@string/more_" />
+		android:title="@string/more_apps_" />
 </menu>
