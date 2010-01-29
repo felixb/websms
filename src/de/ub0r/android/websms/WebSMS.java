@@ -133,7 +133,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
-			"2986b6d93053a53ff13008b3015a77ff", // flx
+			"43dcb861b9588fb733300326b61dbab9", // flx
 			"57a3c7c19329fd84c2252a9b2866dd93", // mirweb
 			"10b7a2712beee096acbc67416d7d71a1", // mo
 			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
@@ -674,6 +674,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final boolean onCreateOptionsMenu(final Menu menu) {
 		MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
+		if (prefsNoAds) {
+			menu.removeItem(R.id.item_donate);
+		}
 		return true;
 	}
 
