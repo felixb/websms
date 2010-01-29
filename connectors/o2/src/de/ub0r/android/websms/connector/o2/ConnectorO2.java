@@ -301,19 +301,20 @@ public class ConnectorO2 extends Connector {
 		resp = cookies.size();
 		Utils.updateCookies(cookies, response.getAllHeaders(), URL_LOGIN);
 		if (resp == cookies.size()) {
-			// String htmlText = Utils.stream2str(response.getEntity()
-			// .getContent());
-			// response = null;
-			// if (htmlText.indexOf("captcha") > 0) {
-			// final String newFlow = getFlowExecutionkey(htmlText);
-			// htmlText = null;
-			// FIXME: if (!(context instanceof WebSMS) ||
-			// !this.solveCaptcha(newFlow)) {
-			// throw new WebSMSException(context, R.string.error_captcha);
-			// }
-			// } else {
-			throw new WebSMSException(context, R.string.error_pw);
-			// }
+			String htmlText = Utils.stream2str(response.getEntity()
+					.getContent(), STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
+			response = null;
+			if (htmlText.indexOf("captcha") > 0) {
+				// final String newFlow = getFlowExecutionkey(htmlText);
+				htmlText = null;
+				// FIXME: if (!(context instanceof WebSMS) ||
+				// !this.solveCaptcha(newFlow)) {
+				throw new WebSMSException("you have to solve a captcha,"
+						+ "\nplease contact the developer");
+				// }
+			} else {
+				throw new WebSMSException(context, R.string.error_pw);
+			}
 		}
 		return true;
 	}
