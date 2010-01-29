@@ -766,6 +766,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		switch (id) {
 		case DIALOG_PREDONATE:
 			builder = new AlertDialog.Builder(this);
+			builder.setIcon(R.drawable.ic_menu_star);
 			builder.setTitle(R.string.donate_);
 			builder.setMessage(R.string.predonate);
 			builder.setPositiveButton(R.string.donate_,
@@ -788,6 +789,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return builder.create();
 		case DIALOG_POSTDONATE:
 			builder = new AlertDialog.Builder(this);
+			builder.setIcon(R.drawable.ic_menu_star);
 			builder.setTitle(R.string.remove_ads_);
 			builder.setMessage(R.string.postdonate);
 			builder.setPositiveButton(R.string.send_,
@@ -798,7 +800,8 @@ public class WebSMS extends Activity implements OnClickListener,
 							in.putExtra(Intent.EXTRA_EMAIL, new String[] {
 									WebSMS.this.getString(// .
 											R.string.donate_mail), "" });
-							// FIXME: "" is a k9 hack.
+							// FIXME: "" is a k9 hack. This is fixed in market
+							// on 26.01.10. wait some more time..
 							in.putExtra(Intent.EXTRA_TEXT, WebSMS.this
 									.getImeiHash());
 							in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
