@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2010 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+	<!-- Common strings. -->
+	<string name="info_text">Diese App ist ein WebSMS Connector.\nDu kannst ihn nur mit WebSMS nutzen.</string>
+	<string name="stat_notify_sms_pending">WebSMS Connector IO</string>
+	<string name="error">FEHLER</string>
+	<string name="error_http">Fehler: HTTP</string>
+	<string name="error_mail">Falsche Mailadresse oder Passwort angegeben!</string>
+	<string name="error_pw">Falscher Benutzername oder Passwort angegeben!</string>
+	<string name="error_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
+	<string name="error_sender_unregistered">Absender muss bei deinem provider registriert und bestätigt sein.</string>
+	<string name="error_server">FEHLER: Serverantwort:</string>
+	<string name="error_service">Der Service ist down! Bitte versuch es später noch einmal.</string>
+	<string name="error_wrongcaptcha">Captcha war falsch. Bitte versuche es nochmal.</string>
+	<string name="error_input">Benutzereingabe ist falsch!</string>
+	<string name="error_http_header_missing">Header: Content-Length fehlt!</string>
+	<string name="error_sendlater_quater">Nur volle 15 Minuten werden von deinem Provider erlaubt!</string>
+
+	<string name="username_">Benutzername</string>
+	<string name="password_">Passwort</string>
+	<string name="create_account_">Account anlegen</string>
+	<string name="use_derfault_sender_">Standardabsender nutzen</string>
+	<string name="use_derfault_sender_hint">Benutze den in WebSMS eingestellten Absender.</string>
+</resources>
