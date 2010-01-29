@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="about_">Über WebSMS</string>
-	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
 	<string name="app_name">WebSMS 3</string>
 	<string name="app_version">2.9.90 beta1</string>
 	<string name="author_">Autor:</string>
