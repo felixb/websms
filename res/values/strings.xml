@@ -68,9 +68,12 @@
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="extras_">Extras</string>
-	<string name="change_connector_button">"Chg. provider" button</string>
-	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
-	<string name="hide_cancel_button">Hide Cancel button</string>
+	<string name="hide_change_connector_button">Hide "Chg. provider" button</string>
+	<string name="hide_change_connector_button_hint">Hide "Change provider" button on main screen.</string>
+	<string name="hide_cancel_button">Hide "Cancel" button</string>
+	<string name="hide_cancel_button_hint">Hide "Cancel" button on main screen.</string>
+	<string name="hide_emo_button">Hide "Emoticons" button</string>
+	<string name="hide_emo_button_hint">Hide "Emoticons" button on main screen.</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>
@@ -88,4 +91,5 @@
 	<string name="send_later">Send later</string>
 	<string name="mobile_only_">Show mobiles only</string>
 	<string name="mobile_only_hint">Show mobile numbers only.</string>
+	<string name="emo_">Emoticons</string>
 </resources>

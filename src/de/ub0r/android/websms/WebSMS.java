@@ -48,16 +48,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.admob.android.ads.AdView;
 
@@ -97,8 +103,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: sound on failed sending. */
 	static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: enable change connector button. */
-	private static final String PREFS_CHANGE_CONNECTOR_BUTTON = // .
-	"change_connector_button";
+	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
+	"hide_change_connector_button";
+	/** Preferemce's name: hide emoticons button. */
+	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preferemce's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 
@@ -163,16 +171,21 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_ABOUT = 0;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
-	/** Dialog: post donate. */
-	private static final int DIALOG_POSTDONATE = 4;
 	/** Dialog: custom sender. */
-	private static final int DIALOG_CUSTOMSENDER = 5;
+	private static final int DIALOG_CUSTOMSENDER = 3;
 	/** Dialog: send later: date. */
-	private static final int DIALOG_SENDLATER_DATE = 6;
+	private static final int DIALOG_SENDLATER_DATE = 4;
 	/** Dialog: send later: time. */
-	private static final int DIALOG_SENDLATER_TIME = 7;
+	private static final int DIALOG_SENDLATER_TIME = 5;
 	/** Dialog: pre donate. */
-	private static final int DIALOG_PREDONATE = 8;
+	private static final int DIALOG_PREDONATE = 6;
+	/** Dialog: post donate. */
+	private static final int DIALOG_POSTDONATE = 7;
+	/** Dialog: emo. */
+	private static final int DIALOG_EMO = 8;
+
+	/** Size of the emoticons png. */
+	private static final int EMOTICONS_SIZE = 30;
 
 	/** Intent's extra for error messages. */
 	static final String EXTRA_ERRORMESSAGE = // .
@@ -347,9 +360,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.send_).setOnClickListener(this);
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 		this.findViewById(R.id.change_connector).setOnClickListener(this);
+		this.findViewById(R.id.change_connector_u).setOnClickListener(this);
 		this.findViewById(R.id.extras).setOnClickListener(this);
 		this.findViewById(R.id.custom_sender).setOnClickListener(this);
 		this.findViewById(R.id.send_later).setOnClickListener(this);
+		this.findViewById(R.id.emo).setOnClickListener(this);
+		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.textWatcher);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
@@ -486,20 +502,40 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void reloadPrefs() {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		boolean b = p.getBoolean(PREFS_CHANGE_CONNECTOR_BUTTON, false);
-		View v = this.findViewById(R.id.change_connector);
-		if (b) {
-			v.setVisibility(View.VISIBLE);
-		} else {
-			v.setVisibility(View.GONE);
-		}
+		final boolean bShowChangeConnector = !p.getBoolean(
+				PREFS_HIDE_CHANGE_CONNECTOR_BUTTON, false);
+		final boolean bShowEmoticons = !p.getBoolean(PREFS_HIDE_EMO_BUTTON,
+				false);
+		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
+				false);
 
-		b = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON, false);
-		v = this.findViewById(R.id.cancel);
-		if (b) {
-			v.setVisibility(View.VISIBLE);
+		if (bShowChangeConnector && bShowEmoticons && bShowCancel) {
+			this.findViewById(R.id.upper).setVisibility(View.VISIBLE);
+			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
+			this.findViewById(R.id.emo).setVisibility(View.GONE);
 		} else {
-			v.setVisibility(View.GONE);
+			this.findViewById(R.id.upper).setVisibility(View.GONE);
+
+			View v = this.findViewById(R.id.change_connector);
+			if (bShowChangeConnector) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
+
+			v = this.findViewById(R.id.emo);
+			if (bShowEmoticons) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
+
+			v = this.findViewById(R.id.cancel);
+			if (bShowCancel) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
 		}
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
@@ -536,9 +572,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		// final ConnectorSpec[] enabled = getConnectors(
-		// ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
-
 		Button btn = (Button) this.findViewById(R.id.send_);
 		// show/hide buttons
 		btn.setEnabled(prefsConnectorSpec != null
@@ -654,6 +687,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.reset();
 			return;
 		case R.id.change_connector:
+		case R.id.change_connector_u:
 			this.changeConnectorMenu();
 			return;
 		case R.id.extras:
@@ -676,6 +710,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			} else {
 				lastSendLater = -1;
 			}
+			return;
+		case R.id.emo:
+		case R.id.emo_u:
+			this.showDialog(DIALOG_EMO);
 			return;
 		default:
 			return;
@@ -769,6 +807,162 @@ public class WebSMS extends Activity implements OnClickListener,
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Create a Emoticons {@link Dialog}.
+	 * 
+	 * @return Emoticons {@link Dialog}
+	 */
+	private Dialog createEmoticonsDialog() {
+		final Dialog d = new Dialog(this);
+		d.setTitle(R.string.emo_);
+		d.setContentView(R.layout.emo);
+		d.setCancelable(true);
+		final GridView gridview = (GridView) d.findViewById(R.id.gridview);
+		gridview.setAdapter(new BaseAdapter() {
+			// references to our images
+			private Integer[] mThumbIds = { R.drawable.emo_im_angel,
+					R.drawable.emo_im_cool, R.drawable.emo_im_crying,
+					R.drawable.emo_im_foot_in_mouth, R.drawable.emo_im_happy,
+					R.drawable.emo_im_kissing, R.drawable.emo_im_laughing,
+					R.drawable.emo_im_lips_are_sealed,
+					R.drawable.emo_im_money_mouth, R.drawable.emo_im_sad,
+					R.drawable.emo_im_surprised,
+					R.drawable.emo_im_tongue_sticking_out,
+					R.drawable.emo_im_undecided, R.drawable.emo_im_winking,
+					R.drawable.emo_im_wtf, R.drawable.emo_im_yelling };
+
+			@Override
+			public long getItemId(final int position) {
+				return 0;
+			}
+
+			@Override
+			public Object getItem(final int position) {
+				return null;
+			}
+
+			@Override
+			public int getCount() {
+				return this.mThumbIds.length;
+			}
+
+			@Override
+			public View getView(final int position, final View convertView,
+					final ViewGroup parent) {
+				ImageView imageView;
+				if (convertView == null) { // if it's not recycled,
+					// initialize some attributes
+					imageView = new ImageView(WebSMS.this);
+					imageView.setLayoutParams(new GridView.LayoutParams(
+							EMOTICONS_SIZE, EMOTICONS_SIZE));
+					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					// imageView.setPadding(0, 0, 0, 0);
+				} else {
+					imageView = (ImageView) convertView;
+				}
+
+				imageView.setImageResource(this.mThumbIds[position]);
+				return imageView;
+			}
+		});
+		gridview.setOnItemClickListener(new OnItemClickListener() {
+			/** Emoticon id: angel. */
+			private static final int EMO_ANGEL = 0;
+			/** Emoticon id: cool. */
+			private static final int EMO_COOL = 1;
+			/** Emoticon id: crying. */
+			private static final int EMO_CRYING = 2;
+			/** Emoticon id: foot in mouth. */
+			private static final int EMO_FOOT_IN_MOUTH = 3;
+			/** Emoticon id: happy. */
+			private static final int EMO_HAPPY = 4;
+			/** Emoticon id: kissing. */
+			private static final int EMO_KISSING = 5;
+			/** Emoticon id: laughing. */
+			private static final int EMO_LAUGHING = 6;
+			/** Emoticon id: lips are sealed. */
+			private static final int EMO_LIPS_SEALED = 7;
+			/** Emoticon id: money. */
+			private static final int EMO_MONEY = 8;
+			/** Emoticon id: sad. */
+			private static final int EMO_SAD = 9;
+			/** Emoticon id: suprised. */
+			private static final int EMO_SUPRISED = 10;
+			/** Emoticon id: tongue sticking out. */
+			private static final int EMO_TONGUE = 11;
+			/** Emoticon id: undecided. */
+			private static final int EMO_UNDICIDED = 12;
+			/** Emoticon id: winking. */
+			private static final int EMO_WINKING = 13;
+			/** Emoticon id: wtf. */
+			private static final int EMO_WTF = 14;
+			/** Emoticon id: yell. */
+			private static final int EMO_YELL = 15;
+
+			@Override
+			public void onItemClick(final AdapterView<?> adapter, final View v,
+					final int id, final long arg3) {
+				EditText et = WebSMS.this.etText;
+				String e = null;
+				switch (id) {
+				case EMO_ANGEL:
+					e = "O:-)";
+					break;
+				case EMO_COOL:
+					e = "8-)";
+					break;
+				case EMO_CRYING:
+					e = ";-)";
+					break;
+				case EMO_FOOT_IN_MOUTH:
+					e = ":-?";
+					break;
+				case EMO_HAPPY:
+					e = ":-)";
+					break;
+				case EMO_KISSING:
+					e = ":-*";
+					break;
+				case EMO_LAUGHING:
+					e = ":-D";
+					break;
+				case EMO_LIPS_SEALED:
+					e = ":-X";
+					break;
+				case EMO_MONEY:
+					e = ":-$";
+					break;
+				case EMO_SAD:
+					e = ":-(";
+					break;
+				case EMO_SUPRISED:
+					e = ":o";
+					break;
+				case EMO_TONGUE:
+					e = ":-P";
+					break;
+				case EMO_UNDICIDED:
+					e = ":-\\";
+					break;
+				case EMO_WINKING:
+					e = ";-)";
+					break;
+				case EMO_WTF:
+					e = "o.O";
+					break;
+				case EMO_YELL:
+					e = ":O";
+					break;
+				default:
+					break;
+				}
+				et.setText(et.getText() + e);
+				d.dismiss();
+			}
+		});
+		return d;
 	}
 
 	/**
@@ -889,6 +1083,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			c = Calendar.getInstance();
 			return new MyTimePickerDialog(this, this, c
 					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
+		case DIALOG_EMO:
+			return this.createEmoticonsDialog();
 		default:
 			return null;
 		}
