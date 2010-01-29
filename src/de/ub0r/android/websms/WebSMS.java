@@ -220,6 +220,80 @@ public class WebSMS extends Activity implements OnClickListener,
 	};
 
 	/**
+	 * Parse data pushed by {@link Intent}.
+	 * 
+	 * @param intent
+	 *            {@link Intent}
+	 */
+	private void parseIntent(final Intent intent) {
+		final String action = intent.getAction();
+		if (action == null) {
+			return;
+		}
+
+		// launched by clicking a sms: link, target number is in URI.
+		final Uri uri = intent.getData();
+		if (uri != null) {
+			final String scheme = uri.getScheme();
+			if (scheme.equals("sms") || scheme.equals("smsto")) {
+				String s = uri.getSchemeSpecificPart();
+				if (s != null) {
+					s = s.trim();
+					if (s.endsWith(",")) {
+						s = s.substring(0, s.length() - 1).trim();
+					}
+					if (s.indexOf('<') < 0) {
+						// try to fetch recipient's name from phonebook
+						String n = null;
+						if (helperAPI5c != null) {
+							try {
+								n = helperAPI5c.getNameForNumber(this, s);
+							} catch (NoClassDefFoundError e) {
+								helperAPI5c = null;
+							}
+						}
+						if (helperAPI5c == null) {
+							Cursor c = this.managedQuery(Phones.CONTENT_URI,
+									new String[] { PhonesColumns.NUMBER,
+											PeopleColumns.// .
+											DISPLAY_NAME },
+									PhonesColumns.NUMBER + " = '" + s + "'",
+									null, null);
+							if (c.moveToFirst()) {
+								n = c.getString(c.getColumnIndex(// .
+										PeopleColumns.DISPLAY_NAME));
+							}
+						}
+						if (n != null) {
+							s = n + " <" + s + ">, ";
+						}
+					}
+					((EditText) this.findViewById(R.id.to)).setText(s);
+					lastTo = s;
+				}
+				final Bundle extras = intent.getExtras();
+				if (extras != null) {
+					s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
+					if (s != null) {
+						((EditText) this.findViewById(R.id.text)).setText(s);
+						lastMsg = s;
+					}
+					s = extras.getString(EXTRA_ERRORMESSAGE);
+					if (s != null) {
+						Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+					}
+				}
+				if (!prefsNoAds) {
+					// do not display any ads for donators
+					// display ads
+					((AdView) WebSMS.this.findViewById(R.id.ad))
+							.setVisibility(View.VISIBLE);
+				}
+			}
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -284,75 +358,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		to.setAdapter(new MobilePhoneAdapter(this));
 		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-		Intent intent = this.getIntent();
-		final String action = intent.getAction();
-		if (action != null) {
-			// launched by clicking a sms: link, target number is in URI.
-			final Uri uri = intent.getData();
-			if (uri != null) {
-				final String scheme = uri.getScheme();
-				if (scheme.equals("sms") || scheme.equals("smsto")) {
-					String s = uri.getSchemeSpecificPart();
-					if (s != null) {
-						s = s.trim();
-						if (s.endsWith(",")) {
-							s = s.substring(0, s.length() - 1).trim();
-						}
-						// recipient = WebSMS.cleanRecipient(recipient);
-						if (s.indexOf('<') < 0) {
-							// try to fetch recipient's name from phonebook
-							String n = null;
-							if (helperAPI5c != null) {
-								try {
-									n = helperAPI5c.getNameForNumber(this, s);
-								} catch (NoClassDefFoundError e) {
-									helperAPI5c = null;
-								}
-							}
-							if (helperAPI5c == null) {
-								Cursor c = this
-										.managedQuery(Phones.CONTENT_URI,
-												new String[] {
-														PhonesColumns.NUMBER,
-														PeopleColumns.// .
-														DISPLAY_NAME },
-												PhonesColumns.NUMBER + " = '"
-														+ s + "'", null, null);
-								if (c.moveToFirst()) {
-									n = c.getString(c.getColumnIndex(// .
-											PeopleColumns.DISPLAY_NAME));
-								}
-							}
-							if (n != null) {
-								s = n + " <" + s + ">, ";
-							}
-						}
-						((EditText) this.findViewById(R.id.to)).setText(s);
-						lastTo = s;
-					}
-					final Bundle extras = intent.getExtras();
-					if (extras != null) {
-						s = extras.getCharSequence(Intent.EXTRA_TEXT)
-								.toString();
-						if (s != null) {
-							((EditText) this.findViewById(R.id.text))
-									.setText(s);
-							lastMsg = s;
-						}
-						s = extras.getString(EXTRA_ERRORMESSAGE);
-						if (s != null) {
-							Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-						}
-					}
-					if (!prefsNoAds) {
-						// do not display any ads for donators
-						// display ads
-						((AdView) WebSMS.this.findViewById(R.id.ad))
-								.setVisibility(View.VISIBLE);
-					}
-				}
-			}
-		}
+		this.parseIntent(this.getIntent());
 
 		// check default prefix
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
@@ -361,6 +367,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
 			this.updateFreecount(false);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void onNewIntent(final Intent intent) {
+		super.onNewIntent(intent);
+		this.parseIntent(intent);
 	}
 
 	/**
