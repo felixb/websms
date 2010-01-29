@@ -763,6 +763,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void changeConnectorMenu() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(android.R.drawable.ic_menu_share);
 		builder.setTitle(R.string.change_connector_);
 		final ArrayList<String> items = new ArrayList<String>();
 		final ConnectorSpec[] css = getConnectors(
@@ -1072,6 +1073,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return d;
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);
+			builder.setIcon(android.R.drawable.ic_dialog_info);
 			builder.setTitle(R.string.changelog_);
 			final String[] changes = this.getResources().getStringArray(
 					R.array.updates);
