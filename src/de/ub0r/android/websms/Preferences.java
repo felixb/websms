@@ -86,14 +86,14 @@ public class Preferences extends PreferenceActivity implements
 			// check for wrong sender format. people can't read..
 			final String p = prefs.getString(WebSMS.PREFS_SENDER, "");
 			if (!p.startsWith("+")) {
-				Toast.makeText(this, R.string.log_error_sender,
+				Toast.makeText(this, R.string.log_wrong_sender,
 						Toast.LENGTH_LONG).show();
 			}
 		}
 		if (key.equals(WebSMS.PREFS_DEFPREFIX)) {
 			final String p = prefs.getString(WebSMS.PREFS_DEFPREFIX, "");
 			if (!p.startsWith("+")) {
-				Toast.makeText(this, R.string.log_error_defprefix,
+				Toast.makeText(this, R.string.log_wrong_defprefix,
 						Toast.LENGTH_LONG).show();
 			}
 		}

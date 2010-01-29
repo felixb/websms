@@ -37,7 +37,7 @@
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
-	<string name="donate_mail">f@ub0r.de</string>
+	<string name="donate_mail">flx.yoo+websms.donator@gmail.com</string>
 	<string name="donate_subject">I\'m the donator. My sender hash is...</string>
 	<string name="donate_">Donate</string>
 	<string name="donate_remove_ads_">Donate/remove ads</string>
@@ -53,22 +53,8 @@
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
 	<string name="log_empty_settings">You need to set your preferences. Please press the menu button.</string>
-	<string name="log_error">ERROR</string>
-	<string name="log_error_captcha">Your provider is blocking this app witch a captcha. It seams to work for a while after logging in with your web browser.</string>
-	<string name="log_error_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
-	<string name="log_error_http">FAILURE: HTTP </string>
-	<string name="log_error_mail">Wrong mail address or password given!</string>
-	<string name="log_error_prefix">Your countrycode is not supported yet. Contact me if your o2 supports Web2SMS.</string>
-	<string name="log_error_pw">Wrong user ID or password given!</string>
-	<string name="log_error_sender">Wrong sender! Set it in international form like +4917012345678.</string>
-	<string name="log_error_sender_unregistered">Sender must be registered and confirmed by GMX.</string>
-	<string name="log_error_server">FAILURE: Serverresponse: </string>
-	<string name="log_error_service">Service is down! Please try again later.</string>
-	<string name="log_error_wrongcaptcha">Captcha was wrong. Please try again.</string>
-	<string name="log_error_input">Error in user input!</string>
-	<string name="log_error_o2_sendlater">Only full 15minutes are supported by o2!</string>
-	<string name="log_http_header_missing">Header: Content-Length is missing!</string>
-	<string name="log_remain_free">free SMS remaining</string>
+	<string name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
+	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="log_sending">Sending message...</string>
 	<string name="log_update">Update free SMS...</string>
 	<string name="notify_sending">Sending SMS</string>
@@ -85,8 +71,6 @@
 	<string name="change_connector_button">"Chg. provider" button</string>
 	<string name="change_connector_button_hint">Display a "Change provider" button on main screen.</string>
 	<string name="hide_cancel_button">Hide Cancel button</string>
-	<string name="softkeyboard_">No keyboard</string>
-	<string name="softkeyboard_hint">No hardare keyboard? Use the alternative layout. Restart App!</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>
@@ -97,7 +81,6 @@
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/websmsdroid/</string>
-	<string name="create_account_">Create account</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
 	<string name="flashsms">Flash SMS</string>

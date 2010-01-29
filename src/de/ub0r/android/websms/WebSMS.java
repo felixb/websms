@@ -86,8 +86,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
 	static final String PREFS_DEFPREFIX = "defprefix";
-	/** Preference's name: touch keyboard. */
-	private static final String PREFS_SOFTKEYS = "softkeyboard";
 	/** Preference's name: update balace on start. */
 	private static final String PREFS_AUTOUPDATE = "autoupdate";
 	/** Preference's name: exit after sending. */
@@ -323,11 +321,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		// inflate XML
-		if (p.getBoolean(PREFS_SOFTKEYS, false)) {
-			this.setContentView(R.layout.main_touch);
-		} else {
-			this.setContentView(R.layout.main);
-		}
+		this.setContentView(R.layout.main);
 
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
@@ -366,7 +360,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// check default prefix
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
-			WebSMS.this.log(R.string.log_error_defprefix);
+			WebSMS.this.log(R.string.log_wrong_defprefix);
 		}
 		if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
 			this.updateFreecount(false);
@@ -1051,7 +1045,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (prefsSubConnectorSpec
 				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS)
 				&& minutes % 15 != 0) {
-			Toast.makeText(this, R.string.log_error_o2_sendlater,
+			Toast.makeText(this, R.string.error_sendlater_quater,
 					Toast.LENGTH_LONG).show();
 			return;
 		}
