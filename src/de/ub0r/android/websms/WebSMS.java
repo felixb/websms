@@ -408,14 +408,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			final String defSender = p.getString(PREFS_SENDER, "");
 			final ConnectorSpec[] css = getConnectors(
 					ConnectorSpec.CAPABILITIES_BOOTSTRAP, // .
-					ConnectorSpec.STATUS_ENABLED);
+					(short) (ConnectorSpec.STATUS_ENABLED | // .
+					ConnectorSpec.STATUS_READY));
 			for (ConnectorSpec cs : css) {
-				final Intent intent = new Intent(cs.getPackage()
-						+ Connector.ACTION_RUN_BOOTSTRAP);
-				ConnectorCommand.bootstrap(defPrefix, defSender).setToIntent(
-						intent);
-				Log.d(TAG, "send broadcast: " + intent.getAction());
-				this.sendBroadcast(intent);
+				runCommand(this, cs, ConnectorCommand.bootstrap(defPrefix,
+						defSender));
 			}
 		}
 
@@ -652,14 +649,51 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String defSender = p.getString(PREFS_SENDER, "");
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
-				ConnectorSpec.STATUS_ENABLED);
+				(short) (ConnectorSpec.STATUS_ENABLED | // .
+				ConnectorSpec.STATUS_READY));
 		for (ConnectorSpec cs : css) {
-			final Intent intent = new Intent(cs.getPackage()
-					+ Connector.ACTION_RUN_UPDATE);
-			ConnectorCommand.update(defPrefix, defSender).setToIntent(intent);
-			Log.d(TAG, "send broadcast: " + intent.getAction());
-			this.sendBroadcast(intent);
+			if (cs.isRunning()) {
+				// skip running connectors
+				continue;
+			}
+			runCommand(this, cs, ConnectorCommand.update(defPrefix, defSender));
 		}
+	}
+
+	/**
+	 * Send a command as broadcast.
+	 * 
+	 * @param context
+	 *            WebSMS required for performance issues
+	 * @param connector
+	 *            {@link ConnectorSpec}
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	static final void runCommand(final WebSMS context,
+			final ConnectorSpec connector, final ConnectorCommand command) {
+		final Intent intent = command.setToIntent(null);
+		switch (command.getType()) {
+		case ConnectorCommand.TYPE_BOOTSTRAP:
+			intent.setAction(connector.getPackage()
+					+ Connector.ACTION_RUN_BOOTSTRAP);
+			connector.addStatus(ConnectorSpec.STATUS_BOOTSTRAPPING);
+			break;
+		case ConnectorCommand.TYPE_SEND:
+			intent.setAction(connector.getPackage() // .
+					+ Connector.ACTION_RUN_SEND);
+			connector.addStatus(ConnectorSpec.STATUS_SENDING);
+			break;
+		case ConnectorCommand.TYPE_UPDATE:
+			intent.setAction(connector.getPackage()
+					+ Connector.ACTION_RUN_UPDATE);
+			connector.addStatus(ConnectorSpec.STATUS_UPDATING);
+			break;
+		default:
+			break;
+		}
+		Log.d(TAG, "send broadcast: " + intent.getAction());
+		context.sendBroadcast(intent);
 	}
 
 	/**
@@ -1106,40 +1140,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Send text to {@link Connector}.
-	 * 
-	 * @param connector
-	 *            which connector should be used.
-	 * @param command
-	 *            {@link ConnectorCommand} to push to connector
-	 */
-	private void send(final ConnectorSpec connector,
-			final ConnectorCommand command) {
-		try {
-			final Intent intent = new Intent(connector.getPackage()
-					+ Connector.ACTION_RUN_SEND);
-			command.setToIntent(intent);
-			prefsConnectorSpec.setToIntent(intent);
-			connector.addStatus(ConnectorSpec.STATUS_SENDING);
-			Log.d(TAG, "send broadcast: " + intent.getAction());
-			this.sendBroadcast(intent);
-		} catch (Exception e) {
-			Log.e(TAG, null, e);
-		} finally {
-			this.reset();
-			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-					PREFS_AUTOEXIT, false)) {
-				try {
-					Thread.sleep(SLEEP_BEFORE_EXIT);
-				} catch (InterruptedException e) {
-					Log.e(TAG, null, e);
-				}
-				this.finish();
-			}
-		}
-	}
-
-	/**
 	 * Send text.
 	 * 
 	 * @param connector
@@ -1175,7 +1175,23 @@ public class WebSMS extends Activity implements OnClickListener,
 				defPrefix, defSender, to.split(","), text, flashSMS);
 		command.setCustomSender(lastCustomSender);
 		command.setSendLater(lastSendLater);
-		this.send(connector, command);
+
+		try {
+			runCommand(this, connector, command);
+		} catch (Exception e) {
+			Log.e(TAG, null, e);
+		} finally {
+			this.reset();
+			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+					PREFS_AUTOEXIT, false)) {
+				try {
+					Thread.sleep(SLEEP_BEFORE_EXIT);
+				} catch (InterruptedException e) {
+					Log.e(TAG, null, e);
+				}
+				this.finish();
+			}
+		}
 	}
 
 	/**
@@ -1269,7 +1285,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param connector
 	 *            connector
 	 */
-	public static final void addConnector(final ConnectorSpec connector) {
+	static final void addConnector(final ConnectorSpec connector) {
 		synchronized (CONNECTORS) {
 			if (connector == null || connector.getID() == null
 					|| connector.getName() == null) {
@@ -1304,20 +1320,15 @@ public class WebSMS extends Activity implements OnClickListener,
 				final SharedPreferences p = PreferenceManager
 						.getDefaultSharedPreferences(me);
 
-				// update connectors bulance if needed
-				if (c.getBalance() == null
-						&& c.hasStatus(ConnectorSpec.STATUS_READY)
+				// update connectors balance if needed
+				if (c.getBalance() == null && c.isReady() && !c.isRunning()
 						&& c.hasCapabilities(ConnectorSpec.CAPABILITIES_UPDATE)
 						&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
 					final String defPrefix = p
 							.getString(PREFS_DEFPREFIX, "+49");
 					final String defSender = p.getString(PREFS_SENDER, "");
-					final Intent intent = new Intent(c.getPackage()
-							+ Connector.ACTION_RUN_UPDATE);
-					ConnectorCommand.update(defPrefix, defSender).setToIntent(
-							intent);
-					Log.d(TAG, "send broadcast: " + intent.getAction());
-					me.sendBroadcast(intent);
+					runCommand(me, c, ConnectorCommand.update(defPrefix,
+							defSender));
 				}
 
 				if (prefsConnectorSpec == null
