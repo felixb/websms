@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2010 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+	<string name="about_">Über WebSMS</string>
+	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+	<string name="app_name">WebSMS 3</string>
+	<string name="app_version">2.9.90 beta1</string>
+	<string name="author_">Autor:</string>
+	<string name="author_connectors_">Autor der Connectoren:</string>
+	<string name="captcha_">Gib das Wort unten ein</string>
+	<string name="captcha_btn_">Absenden</string>
+	<string name="change_connector_">Anderer Provider</string>
+	<string name="change_connector_nl">Anderer\nProvider</string>
+	<string name="click_for_update">(update: klick)</string>
+	<string name="defprefix_">Standard int. Prefix</string>
+	<string name="defprefix_hint">z.B. +49</string>
+	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=11046415</string>
+	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...</string>
+	<string name="donate_">Spenden</string>
+	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
+	<string name="remove_ads_">Werbung entfernen</string>
+	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung mit dem nächsten Release dann entfernen.</string>
+	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
+	<string name="more_apps_">Mehr Apps..</string>
+	<string name="more_connectors_">Mehr Connectoren..</string>
+	<string name="more_connectors_hint">Suche nach WebSMS Connectoren im Android Market.</string>
+	<string name="free_">Guthaben:</string>
+	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
+	<string name="license_">Lizens:</string>
+	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke den Menüknopf.</string>
+	<string name="log_wrong_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
+	<string name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
+	<string name="notify_failed">Failed to send SMS: </string>
+	<string name="notify_failed_">failed sending SMS</string>
+	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
+	<string name="sender_">Mobilnummer</string>
+	<string name="send_">Senden</string>
+	<string name="settings">Einstellungen</string>
+	<string name="settings_common">Einstellungen - Allgemein</string>
+	<string name="settings_connectors">Einstellungen - Connectoren</string>
+	<string name="extras_">Extras</string>
+	<string name="hide_change_connector_button">"Anderer Provider" Button verstecken</string>
+	<string name="hide_change_connector_button_hint">"Anderer Provider" Button auf dem Main Screen verstecken.</string>
+	<string name="hide_cancel_button">"Abbrechen" Button versteckenn</string>
+	<string name="hide_cancel_button_hint">"Abbrechen" Button auf dem Main Screen verstecken.</string>
+	<string name="hide_emo_button">"Smiley" Button versteckenn</string>
+	<string name="hide_emo_button_hint">"Smiley" Button auf dem Main Screen verstecken.</string>
+	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
+	<string name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
+	<string name="mobile_only_">Nur Mobilnummern anzeigen</string>
+	<string name="mobile_only_hint">Zeige nur Mobilnummern an.</string>
+	<string name="vibrate_on_fail">Vibration wenn Senden fehlgeschlagen</string>
+	<string name="sound_on_fail">Ton wenn Senden fehlgeschlagen</string>
+	<string name="to_hint">Name oder Nummer</string>
+	<string name="custom_sender">Anderer Absender</string>
+	<string name="send_later">Später senden</string>
+	<string name="emo_">Smilies</string>
+</resources>

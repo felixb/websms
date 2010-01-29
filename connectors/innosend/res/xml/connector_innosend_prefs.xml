@@ -21,11 +21,11 @@
 	<CheckBoxPreference android:key="enable_innosend"
 		android:title="@string/enable_innosend" />
 	<EditTextPreference android:key="user_innosend"
-		android:title="@string/user_innosend_" android:dialogTitle="@string/user_innosend_"
+		android:title="@string/username_" android:dialogTitle="@string/username_"
 		android:inputType="textEmailAddress" android:dependency="enable_innosend" />
 	<EditTextPreference android:key="password_innosend"
-		android:inputType="textPassword" android:title="@string/password_innosend_"
-		android:dialogTitle="@string/password_innosend_" android:dependency="enable_innosend" />
+		android:inputType="textPassword" android:title="@string/password_"
+		android:dialogTitle="@string/password_" android:dependency="enable_innosend" />
 	<PreferenceScreen android:title="@string/create_account_"
 		android:summary="@string/partner_innosend_hint">
 		<intent android:action="android.intent.action.VIEW"

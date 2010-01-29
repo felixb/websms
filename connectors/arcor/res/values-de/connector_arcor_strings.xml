@@ -17,17 +17,14 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS Connector: Arcor</string>
-	<string name="app_version">0.1</string>
-	<string name="connector_arcor_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
-	<string name="settings_arcor">Preferences - Arcor</string>
-	<string name="enable_arcor">Enable Arcor</string>
-	<string name="copy_sent_sms_arcor">Copy sent sms to Sent Folder</string>
+	<string name="settings_arcor">Einstellungen - Arcor</string>
+	<string name="enable_arcor">Aktiviere Arcor</string>
+	<string name="copy_sent_sms_arcor">Gesendete SMS im "gesendet" ordner speichern</string>
 	<!-- FIXME: lado - use default_sender from strings.xml (out of common) -->
 	<string name="enable_sender_number_arcor">Use custom number</string>
 	<string name="enable_sender_number_arcor_hint">Use custom number for arcor connector.</string>
-	<string name="log_unknow_status_after_send_arcor">The Message was probably not be sent. Please contact the Developer!</string>
-	<string name="enable_validated_number_arcor">Use validated number</string>
-	<string name="validated_number_arcor_hint">If configured by arcor, it will be used as the sender number.</string>
+	<string name="log_unknow_status_after_send_arcor">Die Nachricht wurde wahrscheinlich nicht gesendet. Bitte den Entwickler kontaktieren!</string>
+	<string name="enable_validated_number_arcor">Validierte Nummer verwendenUse validated number</string>
+	<string name="enable_validated_number_arcor_hint">Wenn bei Arcor eingestellt, wird die eingestellt Nummer als Absender verwendet.</string>
 </resources>
 

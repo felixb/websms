@@ -26,14 +26,12 @@
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
-	<string name="bootstrap_">Checking prefs...</string>
 	<string name="captcha_">Enter the word below</string>
 	<string name="captcha_btn_">Submit</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
 	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
-	<string name="compose">Compose</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
@@ -47,27 +45,20 @@
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
 	<string name="more_connectors_hint">Look for more WebSMS Connectors in Android Market.</string>
-	<string name="enable_sms">Enable SMS</string>
-	<string name="free_">Free SMS:</string>
-	<string name="get_free">Refresh free sms</string>
+	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
 	<string name="log_empty_settings">You need to set your preferences. Please press the menu button.</string>
 	<string name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
-	<string name="log_sending">Sending message...</string>
-	<string name="log_update">Update free SMS...</string>
-	<string name="notify_sending">Sending SMS</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
-	<string name="sender_help">Your full international mobile phone number is needed here. This is filled automatically when bootstrapping with init.</string>
 	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
-	<string name="extras_">Extras</string>
 	<string name="hide_change_connector_button">Hide "Chg. provider" button</string>
 	<string name="hide_change_connector_button_hint">Hide "Change provider" button on main screen.</string>
 	<string name="hide_cancel_button">Hide "Cancel" button</string>
@@ -78,6 +69,8 @@
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>
 	<string name="autoexit_hint">Exit WebSMS when sending sms.</string>
+	<string name="mobile_only_">Show mobiles only</string>
+	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
 	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
@@ -86,10 +79,9 @@
 	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
+	<string name="extras_">Extras</string>
 	<string name="flashsms">Flash SMS</string>
 	<string name="custom_sender">Custom sender</string>
 	<string name="send_later">Send later</string>
-	<string name="mobile_only_">Show mobiles only</string>
-	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="emo_">Emoticons</string>
 </resources>

@@ -21,16 +21,16 @@
 	<CheckBoxPreference android:key="enable_arcor"
 		android:title="@string/enable_arcor" />
 	<EditTextPreference android:key="user_arcor"
-		android:title="@string/user_arcor_" android:dialogTitle="@string/user_arcor_"
+		android:title="@string/username_" android:dialogTitle="@string/username_"
 		android:inputType="text" android:dependency="enable_arcor" />
 	<EditTextPreference android:key="password_arcor"
-		android:inputType="textPassword" android:title="@string/password_arcor_"
-		android:dialogTitle="@string/password_arcor_" android:dependency="enable_arcor" />
+		android:inputType="textPassword" android:title="@string/password_"
+		android:dialogTitle="@string/password_" android:dependency="enable_arcor" />
 	<CheckBoxPreference android:key="copy_sent_sms_arcor"
 		android:defaultValue="true" android:title="@string/copy_sent_sms_arcor"
 		android:dependency="enable_arcor" />
 	<CheckBoxPreference android:key="enable_validated_number_arcor"
 		android:defaultValue="false" android:title="@string/enable_validated_number_arcor"
 		android:inputType="text" android:dependency="enable_arcor"
-		android:summary="@string/validated_number_arcor_hint" />
+		android:summary="@string/enable_validated_number_arcor_hint" />
 </PreferenceScreen>

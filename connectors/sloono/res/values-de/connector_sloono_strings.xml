@@ -17,15 +17,7 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS Connector: sloono</string>
-	<string name="app_version">0.2</string>
-	<string name="connector_sloono_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string name="connector_sloono_name">sloono</string>
-	<string name="enable_sloono">Enable sloono</string>
-	<string name="settings_sloono">Preferences - sloono</string>
-	<string name="partner_sloono_hint">Create new sloono.de account</string>
-	<string name="partner_sloono_url">http://www.sloono.de/?ref=tzil5PslxBSLhluFQknvjA==</string>
-	<string name="basic">Basic</string>
-	<string name="discount">Discount</string>
-	<string name="pro">Pro</string>
+	<string name="enable_sloono">Aktiviere sloono</string>
+	<string name="settings_sloono">Einstellungen - sloono</string>
+	<string name="partner_sloono_hint">Neuen sloono.de Account anlegen</string>
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--                                                                                                                                          
+                Copyright (C) 2010 Felix Bechstein 
+        --> 
+        <!-- 
+                This file is part of WebSMS. This program is free software; you can 
+                redistribute it and/or modify it under the terms of the GNU General 
+                Public License as published by the Free Software Foundation; either 
+                version 3 of the License, or (at your option) any later version. 
+        --> 
+        <!-- 
+                This program is distributed in the hope that it will be useful, but 
+                WITHOUT ANY WARRANTY; without even the implied warranty of 
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+                General Public License for more details. You should have received a 
+                copy of the GNU General Public License along with this program; If 
+                not, see <http://www.gnu.org/licenses/>. 
+        --> 
+<resources>
+	<string name="enable_innosend">Aktiviere innosend</string>
+	<string name="connector_innosend_preferences">Einstellungen - innosend</string>
+	<string name="partner_innosend_hint">Neuen innosend.de Account anlegen</string>
+	<string name="free">free</string>
+	<string name="w_sender">mit Absender</string>
+	<string name="wo_sender">ohne Absender</string>
+
+	<string name="error_innosend_111">IP-Sperre aktiv</string>
+	<string name="error_innosend_120">Absender fehlt</string>
+	<string name="error_innosend_121">Parameter fehlt: Type</string>
+	<string name="error_innosend_122">Parameter fehlt: Text</string>
+	<string name="error_innosend_123">Parameter fehlt: Empfänger</string>
+	<string name="error_innosend_129">Falscher Absender</string>
+	<string name="error_innosend_130">Gateway Problem: Nummer wird blockiert</string>
+	<string name="error_innosend_140">Kein guthaben mehr!</string>
+	<string name="error_innosend_150">SMS Bomber Protection</string>
+	<string name="error_innosend_161">Nächste FreiSMS möglich um:</string>
+	<string name="error_innosend_170">Falsches Datum</string>
+	<string name="error_innosend_171">Datum in der Vergangenheit</string>
+	<string name="error_innosend_172">Zu viele Nummern</string>
+	<string name="error_innosend_173">Falsches Nummernformat</string>
+</resources>

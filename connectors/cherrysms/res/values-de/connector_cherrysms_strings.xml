@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--                                                                                                                                          
+                Copyright (C) 2010 Felix Bechstein 
+        --> 
+        <!-- 
+                This file is part of WebSMS. This program is free software; you can 
+                redistribute it and/or modify it under the terms of the GNU General 
+                Public License as published by the Free Software Foundation; either 
+                version 3 of the License, or (at your option) any later version. 
+        --> 
+        <!-- 
+                This program is distributed in the hope that it will be useful, but 
+                WITHOUT ANY WARRANTY; without even the implied warranty of 
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+                General Public License for more details. You should have received a 
+                copy of the GNU General Public License along with this program; If 
+                not, see <http://www.gnu.org/licenses/>. 
+        --> 
+<resources>
+	<string name="connector_cherrysms_preferences">Einstellungen - CherrySMS</string>
+	<string name="enable_cherrysms">Aktiviere CherrySMS</string>
+	<string name="partner_cherrysms_hint">Neuen cherry-sms.com Account anlegen</string>
+	<string name="partner_cherrysms_url">http://www.cherry-sms.com/?ref=DWNWAAAU</string>
+	<string name="wo_sender">ohne Absender</string>
+	<string name="w_sender">mit Absender</string>
+	
+	<string name="error_cherry_10">Falscher Empfänger</string>
+	<string name="error_cherry_20">Absender falsch</string>
+	<string name="error_cherry_30">Text falsch</string>
+	<string name="error_cherry_31">Typ falsch</string>
+	<string name="error_cherry_40">SMS Route falsch</string>
+	<string name="error_cherry_50">Authentifikation fehlgeschlagen</string>
+	<string name="error_cherry_60">Konto leer</string>
+	<string name="error_cherry_70">Zielnetz nicht mit dieser Route erreichbar</string>
+	<string name="error_cherry_71">Ein Feature ist mit dieser Route nicht möglich</string>
+	<string name="error_cherry_80">Auslieferung der SMS fehlgeschlagen</string>
+	<string name="error_cherry_90">Senden undmöglich</string>
+	<string name="error_cherry_100">SMS gesendet</string>
+</resources>

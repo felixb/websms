@@ -17,12 +17,12 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	android:title="@string/settings_cherrysms">
+	android:title="@string/connector_cherrysms_preferences">
 	<CheckBoxPreference android:key="enable_cherrysms"
 		android:title="@string/enable_cherrysms" />
 	<EditTextPreference android:key="password_cherrysms"
-		android:inputType="textPassword" android:title="@string/password_cherrysms_"
-		android:dialogTitle="@string/password_cherrysms_" android:dependency="enable_cherrysms" />
+		android:inputType="textPassword" android:title="@string/password_"
+		android:dialogTitle="@string/password_" android:dependency="enable_cherrysms" />
 	<PreferenceScreen android:title="@string/create_account_"
 		android:summary="@string/partner_cherrysms_hint">
 		<intent android:action="android.intent.action.VIEW"

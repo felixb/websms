@@ -23,8 +23,6 @@
 	<string name="connector_cherrysms_name">CherrySMS</string>
 	<string name="connector_cherrysms_preferences">Preferences - CherrySMS</string>
 	<string name="enable_cherrysms">Enable CherrySMS</string>
-	<string name="password_cherrysms_">CherrySMS Password</string>
-	<string name="settings_cherrysms">Preferences - CherrySMS</string>
 	<string name="partner_cherrysms_hint">Create new cherry-sms.com account</string>
 	<string name="partner_cherrysms_url">http://www.cherry-sms.com/?ref=DWNWAAAU</string>
 	<string name="wo_sender">w/o sender</string>

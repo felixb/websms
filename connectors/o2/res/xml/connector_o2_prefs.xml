@@ -21,7 +21,7 @@
 	<CheckBoxPreference android:key="enable_o2"
 		android:title="@string/enable_o2" />
 	<EditTextPreference android:key="password_o2"
-		android:title="@string/password_o2_" android:dialogTitle="@string/password_o2_"
+		android:title="@string/password_" android:dialogTitle="@string/password_"
 		android:summary="@string/password_o2_hint" android:inputType="textPassword"
 		android:dependency="enable_o2" />
 </PreferenceScreen>

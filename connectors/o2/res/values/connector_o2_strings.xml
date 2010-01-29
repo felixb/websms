@@ -23,6 +23,5 @@
 	<string name="connector_o2_name">o2</string>
 	<string name="connector_o2_preferences">Preferences - o2</string>
 	<string name="enable_o2">Enable o2</string>
-	<string name="password_o2_">o2 Password</string>
-	<string name="password_o2_hint">Password for o2online</string>
+	<string name="password_o2_hint">Password for o2online.de</string>
 </resources>

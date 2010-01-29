@@ -20,13 +20,10 @@
 	<string name="app_name">WebSMS Connector: sipgate</string>
 	<string name="app_version">0.2</string>
 	<string name="connector_sipgate_author">Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
-	<string name="connector_sipgate_name">Sipgate</string>
-	<string name="connector_sipgate_preferences">Preferences - Sipgate</string>
-	<string name="enable_sipgate">Enable Sipgate</string>
-	<string name="enable_sipgate_team">Sipgate Team</string>
-	<string name="user_sipgate_">Sipgate Username</string>
+	<string name="connector_sipgate_name">sipgate</string>
+	<string name="connector_sipgate_preferences">Preferences - sipgate</string>
+	<string name="enable_sipgate">Enable sipgate</string>
+	<string name="enable_sipgate_team">sipgate team</string>
 	<string name="user_sipgate_hint">Onlineusername for sipgate.de or sipgate.at</string>
-	<string name="password_sipgate_">Sipgate Password</string>
 	<string name="password_sipgate_hint">Onlinepassword for sipgate.de or sipgate.at</string>
-	<string name="settings_sipgate">Preferences - Sipgate</string>
 </resources>
