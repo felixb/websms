@@ -36,6 +36,9 @@
 			</intent-filter>
 		</activity>
 
+		<!-- Service doing all the IO. -->
+		<service android:name="de.ub0r.android.websms.connector.common.ConnectorService"
+			android:exported="false" />
 
 		<activity android:name="Preferences">
 			<intent-filter>
@@ -58,6 +61,9 @@
 		android:normalScreens="true" android:smallScreens="true"
 		android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<!-- WAKE_LOCK needed to make sure, sms are send even if user sends device to sleep. -->
+	<!--
+		WAKE_LOCK needed to make sure, sms are send even if user sends device
+		to sleep.
+	-->
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest> 
