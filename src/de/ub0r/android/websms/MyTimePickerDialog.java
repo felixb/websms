@@ -3,7 +3,6 @@ package de.ub0r.android.websms;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.TimePicker;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * TimePickerDialog checking time set by user. o2 allows only 00/15/30/45
@@ -14,6 +13,8 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 public class MyTimePickerDialog extends TimePickerDialog {
 	/** Last set minutes. */
 	private int lastMinutes;
+	/** Allow only quaters. */
+	private static boolean onlyQuaters;
 
 	/**
 	 * Default Constructor.
@@ -37,16 +38,23 @@ public class MyTimePickerDialog extends TimePickerDialog {
 	}
 
 	/**
+	 * Set true if only full quaters are allowed.
+	 * 
+	 * @param allowOnlyQuaters
+	 *            allow only 00/15/30/45 as minutes
+	 */
+	public static final void setOnlyQuaters(final boolean allowOnlyQuaters) {
+		onlyQuaters = allowOnlyQuaters;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public final void onTimeChanged(final TimePicker view, final int hourOfDay,
 			final int minute) {
-		if (WebSMS.prefsSubConnectorSpec
-				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS)
-				&& minute % 15 != 0) {
-			// check input for o2 connector.
-			// only 00/15/30/45 allowed
+		if (MyTimePickerDialog.onlyQuaters && minute % 15 != 0) {
+			// check input, only 00/15/30/45 allowed
 			int newMinute = minute;
 			if (this.lastMinutes == 0 && minute == 59) {
 				newMinute = 45;

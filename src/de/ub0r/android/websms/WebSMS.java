@@ -121,9 +121,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Hased IMEI. */
 	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
-	static ConnectorSpec prefsConnectorSpec = null;
+	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
-	static SubConnectorSpec prefsSubConnectorSpec = null;
+	private static SubConnectorSpec prefsSubConnectorSpec = null;
 	/** Save prefsConnectorSpec.getID() here. */
 	private static String prefsConnectorID = null;
 
@@ -1009,6 +1009,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 		lastSendLater = c.getTimeInMillis();
 
+		MyTimePickerDialog.setOnlyQuaters(prefsSubConnectorSpec
+				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS));
 		this.showDialog(DIALOG_SENDLATER_TIME);
 	}
 
