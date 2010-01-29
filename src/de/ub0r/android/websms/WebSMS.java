@@ -189,11 +189,18 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Backup for params: send later. */
 	private static long lastSendLater = -1;
 
+	/** {@link MultiAutoCompleteTextView} holding recipients. */
+	private MultiAutoCompleteTextView etTo;
+	/** {@link EditText} holding text. */
+	private EditText etText;
+	/** {@link TextView} holding balances. */
+	private TextView tvBalances;
+
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
 
 	/** Text's label. */
-	private TextView textLabel;
+	private TextView etTextLabel;
 
 	/** Show extras. */
 	private boolean showExtras = false;
@@ -205,7 +212,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		 */
 		public void afterTextChanged(final Editable s) {
 			int[] l = SmsMessage.calculateLength(s, false);
-			WebSMS.this.textLabel.setText(l[0] + "/" + l[2]);
+			WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
 		}
 
 		/** Needed dummy. */
@@ -322,7 +329,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setContentView(R.layout.main);
 		}
 
-		this.findViewById(R.id.to).requestFocus();
+		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
+		this.etText = (EditText) this.findViewById(R.id.text);
+		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
+		this.tvBalances = (TextView) this.findViewById(R.id.freecount);
 
 		// display changelog?
 		String v0 = p.getString(PREFS_LAST_RUN, "");
@@ -346,17 +356,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.extras).setOnClickListener(this);
 		this.findViewById(R.id.custom_sender).setOnClickListener(this);
 		this.findViewById(R.id.send_later).setOnClickListener(this);
-
-		this.textLabel = (TextView) this.findViewById(R.id.text_);
-		((EditText) this.findViewById(R.id.text))
-				.addTextChangedListener(this.textWatcher);
-
-		((TextView) this.findViewById(R.id.freecount)).setOnClickListener(this);
-
-		final MultiAutoCompleteTextView to = (MultiAutoCompleteTextView) this
-				.findViewById(R.id.to);
-		to.setAdapter(new MobilePhoneAdapter(this));
-		to.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		this.tvBalances.setOnClickListener(this);
+		this.etText.addTextChangedListener(this.textWatcher);
+		this.etTo.setAdapter(new MobilePhoneAdapter(this));
+		this.etTo.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		this.etTo.requestFocus();
 
 		this.parseIntent(this.getIntent());
 
@@ -411,23 +415,21 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.setButtons();
 
 		// reload text/recipient from local store
-		final EditText et0 = (EditText) this.findViewById(R.id.text);
 		if (lastMsg != null) {
-			et0.setText(lastMsg);
+			this.etText.setText(lastMsg);
 		} else {
-			et0.setText("");
+			this.etText.setText("");
 		}
-		final EditText et1 = (EditText) this.findViewById(R.id.to);
 		if (lastTo != null) {
-			et1.setText(lastTo);
+			this.etTo.setText(lastTo);
 		} else {
-			et1.setText("");
+			this.etTo.setText("");
 		}
 
 		if (lastTo != null && lastTo.length() > 0) {
-			et0.requestFocus();
+			this.etText.requestFocus();
 		} else {
-			et1.requestFocus();
+			this.etTo.requestFocus();
 		}
 
 		// query for connectors
@@ -457,8 +459,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			buf.append(b);
 		}
 
-		TextView tw = (TextView) this.findViewById(R.id.freecount);
-		tw.setText(this.getString(R.string.free_) + " " + buf.toString() + " "
+		this.tvBalances.setText(this.getString(R.string.free_) + " "
+				+ buf.toString() + " "
 				+ this.getString(R.string.click_for_update));
 	}
 
@@ -469,13 +471,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onPause() {
 		super.onPause();
 		// store input data to persitent stores
-		lastMsg = ((EditText) this.findViewById(R.id.text)).getText()
-				.toString();
-		lastTo = ((EditText) this.findViewById(R.id.to)).getText().toString();
+		lastMsg = this.etText.getText().toString();
+		lastTo = this.etTo.getText().toString();
 
 		// store input data to preferences
-		SharedPreferences.Editor editor = PreferenceManager
-				.getDefaultSharedPreferences(this).edit();
+		final Editor editor = PreferenceManager.getDefaultSharedPreferences(
+				this).edit();
 		// common
 		editor.putString(PREFS_TO, lastTo);
 		editor.putString(PREFS_TEXT, lastMsg);
@@ -486,7 +487,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Read static vars holding preferences.
+	 * Read static variables holding preferences.
 	 */
 	private void reloadPrefs() {
 		final SharedPreferences p = PreferenceManager
@@ -593,10 +594,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Resets persistent store.
 	 */
 	private void reset() {
-		((EditText) this.findViewById(R.id.text)).setText("");
-		((EditText) this.findViewById(R.id.to)).setText("");
+		this.etText.setText("");
+		this.etTo.setText("");
 		lastMsg = null;
 		lastTo = null;
+		lastCustomSender = null;
+		lastSendLater = -1;
 		// save user preferences
 		SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(this).edit();
@@ -967,10 +970,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private void send(final ConnectorSpec connector, // .
 			final String subconnector) {
 		// fetch text/recipient
-		final String to = ((EditText) this.findViewById(R.id.to)).getText()
-				.toString();
-		final String text = ((EditText) this.findViewById(R.id.text)).getText()
-				.toString();
+		final String to = this.etTo.getText().toString();
+		final String text = this.etText.getText().toString();
 		if (to.length() == 0 || text.length() == 0) {
 			return;
 		}
