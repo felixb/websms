@@ -7,6 +7,9 @@ if [ "$1" == "dev" ] ; then
 	ant clean
 	ant debug || exit -1
 	jar cvf lib/WebSMS-Connector-API.jar -C bin/classes/ de/ub0r/android/websms/connector/common/
+
+	ant clean
+	exit
 else
 	# build release version. the key does not matter at all. but is used for consistent handling
 	ant clean

@@ -682,6 +682,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		case ConnectorCommand.TYPE_SEND:
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
+			connector.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			break;
 		case ConnectorCommand.TYPE_UPDATE:
