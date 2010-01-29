@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS Connector: GMX</string>
-	<string name="app_version">0.2</string>
+	<string name="app_version">0.3</string>
 	<string name="connector_gmx_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_gmx_name">GMX</string>
 	<string name="connector_gmx_preferences">Preferences - GMX</string>
