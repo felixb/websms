@@ -105,6 +105,19 @@ public class ConnectorO2 extends Connector {
 	private static final String CHECK_WRONGCAPTCHA = // .
 	"Sie haben einen falschen Code eingegeben.";
 
+	/** Stip bytes from stream: prelogin. */
+	private static final int STRIP_PRELOGIN_START = 8000;
+	/** Stip bytes from stream: prelogin. */
+	private static final int STRIP_PRELOGIN_END = 11000;
+	/** Stip bytes from stream: presend. */
+	private static final int STRIP_PRESEND_START = 58000;
+	/** Stip bytes from stream: presend. */
+	private static final int STRIP_PRESEND_END = 62000;
+	/** Stip bytes from stream: send. */
+	private static final int STRIP_SEND_START = 2000;
+	/** Stip bytes from stream: send. */
+	private static final int STRIP_SEND_END = 4000;
+
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
@@ -288,19 +301,19 @@ public class ConnectorO2 extends Connector {
 		resp = cookies.size();
 		Utils.updateCookies(cookies, response.getAllHeaders(), URL_LOGIN);
 		if (resp == cookies.size()) {
-			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent());
-			response = null;
-			if (htmlText.indexOf("captcha") > 0) {
-				// final String newFlow = getFlowExecutionkey(htmlText);
-				htmlText = null;
-				// FIXME: if (!(context instanceof WebSMS) ||
-				// !this.solveCaptcha(newFlow)) {
-				// throw new WebSMSException(context, R.string.error_captcha);
-				// }
-			} else {
-				throw new WebSMSException(context, R.string.error_pw);
-			}
+			// String htmlText = Utils.stream2str(response.getEntity()
+			// .getContent());
+			// response = null;
+			// if (htmlText.indexOf("captcha") > 0) {
+			// final String newFlow = getFlowExecutionkey(htmlText);
+			// htmlText = null;
+			// FIXME: if (!(context instanceof WebSMS) ||
+			// !this.solveCaptcha(newFlow)) {
+			// throw new WebSMSException(context, R.string.error_captcha);
+			// }
+			// } else {
+			throw new WebSMSException(context, R.string.error_pw);
+			// }
 		}
 		return true;
 	}
@@ -430,7 +443,7 @@ public class ConnectorO2 extends Connector {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
 		}
 		final String htmlText1 = Utils.stream2str(response.getEntity()
-				.getContent());
+				.getContent(), STRIP_SEND_START, STRIP_SEND_END);
 		String check = CHECK_SENT;
 		if (sendLater > 0) {
 			check = CHECK_SCHED;
@@ -484,8 +497,9 @@ public class ConnectorO2 extends Connector {
 				}
 				Utils.updateCookies(cookies, response.getAllHeaders(),
 						URL_PRELOGIN);
-				String htmlText = Utils.stream2str(response.getEntity()
-						.getContent());
+				String htmlText = Utils
+						.stream2str(response.getEntity().getContent(),
+								STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
 				final String flowExecutionKey = ConnectorO2
 						.getFlowExecutionkey(htmlText);
 				htmlText = null;
@@ -527,7 +541,7 @@ public class ConnectorO2 extends Connector {
 			}
 			Utils.updateCookies(cookies, response.getAllHeaders(), URL_PRESEND);
 			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent());
+					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END);
 			int i = htmlText.indexOf(CHECK_FREESMS);
 			if (i > 0) {
 				int j = htmlText.indexOf(CHECK_WEB2SMS, i);

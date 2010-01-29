@@ -366,6 +366,8 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on an I/O error
 	 */
+	@Deprecated
+	// TODO: you may use methods from Utils
 	private static void skip(final InputStream is, final long bytes)
 			throws IOException {
 		long alreadySkipped = 0;
@@ -393,6 +395,8 @@ public class ConnectorArcor extends Connector {
 	 * @throws IOException
 	 *             on an I/O error
 	 */
+	@Deprecated
+	// TODO: you may use methods from Utils
 	private static byte[] readBytes(final int size, final InputStream is)
 			throws IOException {
 		final byte[] data = new byte[size];
