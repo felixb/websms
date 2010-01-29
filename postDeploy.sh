@@ -7,8 +7,8 @@ else
 fi
 
 for f in $(find "${p}" -name \*java) ; do
-	sed -e 's://Log.v:Log.v:' -i $f
-	sed -e 's://Log.d:Log.d:' -i $f
+	sed -e 's:///*Log.v:Log.v:' -i $f
+	sed -e 's:///*Log.d:Log.d:' -i $f
 done
 
 sed -e 's/android:debuggable="false"/android:debuggable="true"/' -i AndroidManifest.xml
