@@ -176,7 +176,8 @@ public class ConnectorGMX extends Connector {
 		this.doBootstrap(context, intent);
 
 		ConnectorCommand command = new ConnectorCommand(intent);
-		StringBuilder packetData = openBuffer(context, "SEND_SMS", "1.01", true);
+		StringBuilder packetData = openBuffer(context, // .
+				"SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", command.getText());
 		StringBuilder recipients = new StringBuilder();
@@ -187,7 +188,8 @@ public class ConnectorGMX extends Connector {
 			if (to[i] != null && to[i].length() > 1) {
 				recipients.append(++j);
 				recipients.append("\\;null\\;");
-				recipients.append(Utils.getRecipientsNumber(to[i]));
+				recipients.append(Utils.national2international(command
+						.getDefPrefix(), Utils.getRecipientsNumber(to[i])));
 				recipients.append("\\;");
 			}
 		}
@@ -308,7 +310,6 @@ public class ConnectorGMX extends Connector {
 	 *            {@link Context}
 	 * @param packetData
 	 *            packetData
-	 * @return successful?
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
