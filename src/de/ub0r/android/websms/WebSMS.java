@@ -378,9 +378,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
 			WebSMS.this.log(R.string.log_wrong_defprefix);
 		}
-		if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
-			this.updateFreecount(false);
-		}
 	}
 
 	/**
@@ -646,12 +643,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Run Connector.update().
-	 * 
-	 * @param forceUpdate
-	 *            force update, if false only blank balances will get updated
+	 * Run Connector.doUpdate().
 	 */
-	private void updateFreecount(final boolean forceUpdate) {
+	private void updateFreecount() {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
@@ -660,10 +654,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
 				ConnectorSpec.STATUS_ENABLED);
 		for (ConnectorSpec cs : css) {
-			if (!forceUpdate && cs.getBalance() != null) {
-				// skip unnecessary updates
-				continue;
-			}
 			final Intent intent = new Intent(cs.getPackage()
 					+ Connector.ACTION_RUN_UPDATE);
 			ConnectorCommand.update(defPrefix, defSender).setToIntent(intent);
@@ -678,7 +668,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.freecount:
-			this.updateFreecount(true);
+			this.updateFreecount();
 			return;
 		case R.id.send_:
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
@@ -1311,11 +1301,29 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				c = connector;
 
+				final SharedPreferences p = PreferenceManager
+						.getDefaultSharedPreferences(me);
+
+				// update connectors bulance if needed
+				if (c.getBalance() == null
+						&& c.hasStatus(ConnectorSpec.STATUS_READY)
+						&& c.hasCapabilities(ConnectorSpec.CAPABILITIES_UPDATE)
+						&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
+					final String defPrefix = p
+							.getString(PREFS_DEFPREFIX, "+49");
+					final String defSender = p.getString(PREFS_SENDER, "");
+					final Intent intent = new Intent(c.getPackage()
+							+ Connector.ACTION_RUN_UPDATE);
+					ConnectorCommand.update(defPrefix, defSender).setToIntent(
+							intent);
+					Log.d(TAG, "send broadcast: " + intent.getAction());
+					me.sendBroadcast(intent);
+				}
+
 				if (prefsConnectorSpec == null
 						&& prefsConnectorID.equals(connector.getID())) {
 					prefsConnectorSpec = connector;
-					final SharedPreferences p = PreferenceManager
-							.getDefaultSharedPreferences(me);
+
 					prefsSubConnectorSpec = connector.getSubConnector(p
 							.getString(PREFS_SUBCONNECTOR_ID, ""));
 					me.setButtons();
