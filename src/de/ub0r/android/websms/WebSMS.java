@@ -615,6 +615,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
 				ConnectorSpec.STATUS_ENABLED);
 		for (ConnectorSpec cs : css) {
+			if (!forceUpdate && cs.getBalance() != null) {
+				// skip unnecessary updates
+				continue;
+			}
 			final Intent intent = new Intent(cs.getPackage()
 					+ Connector.ACTION_RUN_UPDATE);
 			ConnectorCommand.update(defPrefix, defSender).setToIntent(intent);
