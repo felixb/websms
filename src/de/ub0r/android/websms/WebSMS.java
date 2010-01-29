@@ -426,7 +426,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void updateBalance() {
 		final StringBuilder buf = new StringBuilder();
-		// FIXME: this method is run way to often!
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
 				ConnectorSpec.STATUS_ENABLED);
@@ -1076,7 +1075,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					|| connector.getName() == null) {
 				return;
 			}
-			final ConnectorSpec c = getConnectorByID(connector.getID());
+			ConnectorSpec c = getConnectorByID(connector.getID());
 			if (c != null) {
 				c.update(connector);
 			} else {
@@ -1100,6 +1099,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (!added) {
 					CONNECTORS.add(connector);
 				}
+				c = connector;
 
 				if (prefsConnectorSpec == null
 						&& prefsConnectorID.equals(connector.getID())) {
@@ -1111,8 +1111,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					me.setButtons();
 				}
 			}
-			final String b = connector.getBalance();
-			final String ob = connector.getOldBalance();
+			final String b = c.getBalance();
+			final String ob = c.getOldBalance();
 			if (b != null && (ob == null || !b.equals(ob))) {
 				me.updateBalance();
 			}
