@@ -18,7 +18,7 @@
  */
 
 /**
- *  WebSMS Connector: Sloono. Sloono connector deployed as separate apk.
+ * WebSMS Connector: Sloono. Sloono connector deployed as separate apk.
  * 
  * @version 3.0
  * @author flx

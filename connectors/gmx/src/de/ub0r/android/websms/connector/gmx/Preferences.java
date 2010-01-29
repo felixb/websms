@@ -76,7 +76,7 @@ public final class Preferences extends PreferenceActivity {
 
 	/**
 	 * @param context
-	 *		Context
+	 *            {@link Context}
 	 * @return true if bootstrap is needed
 	 */
 	static boolean needBootstrap(final Context context) {
@@ -85,7 +85,7 @@ public final class Preferences extends PreferenceActivity {
 		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		
+
 		return p.getString(PREFS_USER, "").length() == 0;
 	}
 }

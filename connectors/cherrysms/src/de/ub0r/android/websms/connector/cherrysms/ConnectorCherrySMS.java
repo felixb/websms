@@ -179,7 +179,8 @@ public class ConnectorCherrySMS extends Connector {
 				url.append("&message=");
 				url.append(URLEncoder.encode(text));
 				url.append("&to=");
-				url.append(Utils.joinRecipientsNumbers(command.getRecipients(), ";", true));
+				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
+						";", true));
 			} else {
 				url.append("&check=guthaben");
 			}

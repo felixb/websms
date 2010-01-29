@@ -181,7 +181,8 @@ public class ConnectorSloono extends Connector {
 				url.append("&text=");
 				url.append(URLEncoder.encode(text));
 				url.append("&to=");
-				url.append(Utils.joinRecipientsNumbers(command.getRecipients(), ",", true));
+				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
+						",", true));
 			}
 			// send data
 			HttpResponse response = Utils.getHttpClient(url.toString(), null,

@@ -18,7 +18,8 @@
  */
 
 /**
- *  WebSMS Connector: Example. Example connector helping people implementing their own connectors.
+ * WebSMS Connector: Example. Example connector helping people implementing
+ * their own connectors.
  * 
  * @version 3.0
  * @author flx
