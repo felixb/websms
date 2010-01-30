@@ -18,8 +18,16 @@
  */
 package de.ub0r.android.websms;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,6 +40,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -109,6 +118,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preferemce's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
+	/** Cache {@link ConnectorSpec}s. */
+	private static final String PREFS_CONNECTORS = "connectors";
 
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
@@ -121,6 +132,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
+
+	/** Buffersize for saving and loading Connectors. */
+	private static final int BUFSIZE = 4096;
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
@@ -314,6 +328,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -350,6 +365,27 @@ public class WebSMS extends Activity implements OnClickListener,
 			editor.commit();
 			this.showDialog(DIALOG_UPDATE);
 		}
+		v0 = null;
+		v1 = null;
+
+		// get cached Connectors
+		String s = p.getString(PREFS_CONNECTORS, "");
+		if (s.length() == 0) {
+			this.updateConnectors();
+		} else if (CONNECTORS.size() == 0) {
+			// skip static remaining connectors
+			try {
+				ArrayList<ConnectorSpec> cache;
+				cache = (ArrayList<ConnectorSpec>) (new ObjectInputStream(
+						new BufferedInputStream(new ByteArrayInputStream(
+								Base64Coder.decode(s)), BUFSIZE))).readObject();
+				CONNECTORS.addAll(cache);
+			} catch (Exception e) {
+				Log.d(TAG, "error loading connectors", e);
+			}
+		}
+		s = null;
+		Log.d(TAG, "loaded connectors: " + CONNECTORS.size());
 
 		this.reloadPrefs();
 
@@ -390,17 +426,28 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Update {@link ConnectorSpec}s.
+	 */
+	private void updateConnectors() {
+		// query for connectors
+		final Intent i = new Intent(Connector.ACTION_CONNECTOR_UPDATE);
+		Log.d(TAG, "send broadcast: " + i.getAction());
+		this.sendBroadcast(i);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected final void onResume() {
 		super.onResume();
-		// set free sms count
+		// set accounts' balance to gui
 		this.updateBalance();
 
 		// if coming from prefs..
 		if (doPreferences) {
 			this.reloadPrefs();
+			this.updateConnectors();
 			doPreferences = false;
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(this);
@@ -413,6 +460,18 @@ public class WebSMS extends Activity implements OnClickListener,
 			for (ConnectorSpec cs : css) {
 				runCommand(this, cs, ConnectorCommand.bootstrap(defPrefix,
 						defSender));
+			}
+		} else {
+			// check is count of connectors changed
+			final List<ResolveInfo> ri = this.getPackageManager()
+					.queryBroadcastReceivers(
+							new Intent(Connector.ACTION_CONNECTOR_UPDATE), 0);
+			final int s1 = ri.size();
+			final int s2 = CONNECTORS.size();
+			if (s1 != s2) {
+				Log.d(TAG, "clear connector cache (" + s1 + "/" + s2 + ")");
+				CONNECTORS.clear();
+				this.updateConnectors();
 			}
 		}
 
@@ -435,11 +494,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			this.etTo.requestFocus();
 		}
-
-		// query for connectors
-		final Intent i = new Intent(Connector.ACTION_CONNECTOR_UPDATE);
-		Log.d(TAG, "send broadcast: " + i.getAction());
-		this.sendBroadcast(i);
 	}
 
 	/**
@@ -472,7 +526,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onPause() {
+	protected final void onPause() {
 		super.onPause();
 		// store input data to persitent stores
 		lastMsg = this.etText.getText().toString();
@@ -488,6 +542,28 @@ public class WebSMS extends Activity implements OnClickListener,
 		editor.commit();
 
 		this.savePreferences();
+	}
+
+	@Override
+	protected final void onDestroy() {
+		super.onDestroy();
+		final Editor editor = PreferenceManager.getDefaultSharedPreferences(
+				this).edit();
+		try {
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ObjectOutputStream objOut = new ObjectOutputStream(
+					new BufferedOutputStream(out, BUFSIZE));
+			objOut.writeObject(CONNECTORS);
+			objOut.close();
+			final String s = String.valueOf(Base64Coder.encode(out
+					.toByteArray()));
+			Log.d(TAG, s);
+			editor.putString(PREFS_CONNECTORS, s);
+		} catch (IOException e) {
+			editor.remove(PREFS_CONNECTORS);
+			Log.e(TAG, "IO", e);
+		}
+		editor.commit();
 	}
 
 	/**

@@ -44,7 +44,6 @@
 			android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.INFO" />
-				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</receiver>
 
