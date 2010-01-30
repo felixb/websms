@@ -19,7 +19,9 @@
 <resources>
 	<string name="app_name">WebSMS Connector: Arcor</string>
 	<string name="app_version">0.1</string>
-	<string name="connector_arcor_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
+	<string name="app_preferenmces"></string>
+	<string name="connector_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
+	<string name="connector_name">arcor</string>
 	<string name="settings_arcor">Preferences - Arcor</string>
 	<string name="enable_arcor">Enable Arcor</string>
 	<string name="copy_sent_sms_arcor">Copy sent sms to Sent Folder</string>
