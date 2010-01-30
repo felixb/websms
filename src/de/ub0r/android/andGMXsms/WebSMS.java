@@ -866,7 +866,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.GMX] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("GMX: " + this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.GMX] = false;
 		}
@@ -876,7 +876,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.O2] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.O2]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("o2: " + this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.O2] = false;
 		}
@@ -887,7 +887,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.SIPGATE] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("Sipgate: "
+						+ this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.SIPGATE] = false;
 		}
@@ -898,7 +899,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.INNOSEND] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("Innosend: "
+						+ this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.INNOSEND] = false;
 		}
@@ -908,7 +910,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.CHERRY] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("CherrySMS: "
+						+ this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.CHERRY] = false;
 		}
@@ -919,7 +922,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.SLOONO] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.SLOONO]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("Sloono: "
+						+ this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.SLOONO] = false;
 		}
@@ -929,7 +933,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.ARCOR] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.ARCOR]) {
-				this.log(this.getString(R.string.log_empty_settings));
+				this.log("Arcor: "
+						+ this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.ARCOR] = false;
 		}

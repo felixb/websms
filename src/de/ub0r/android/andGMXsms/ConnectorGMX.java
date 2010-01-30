@@ -226,6 +226,9 @@ public class ConnectorGMX extends Connector {
 			int bufsize = c.getHeaderFieldInt("Content-Length", -1);
 			if (bufsize > 0) {
 				String resultString = stream2str(c.getInputStream());
+				Log.d(TAG, "---HTTP RESPONSE---");
+				Log.d(TAG, resultString);
+				Log.d(TAG, "---HTTP RESPONSE---");
 				if (resultString.startsWith("The truth")) {
 					// wrong data sent!
 					throw new WebSMSException(this.context,
@@ -307,6 +310,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean updateMessages() throws WebSMSException {
+		Log.d(TAG, "updateMessages()");
 		return this.sendData(closeBuffer(this.openBuffer("GET_SMS_CREDITS",
 				"1.00", true)));
 	}
@@ -316,6 +320,7 @@ public class ConnectorGMX extends Connector {
 	 */
 	@Override
 	protected final boolean sendMessage() throws WebSMSException {
+		Log.d(TAG, "sendMessage()");
 		StringBuilder packetData = this.openBuffer("SEND_SMS", "1.01", true);
 		// fill buffer
 		writePair(packetData, "sms_text", this.text);
@@ -361,6 +366,7 @@ public class ConnectorGMX extends Connector {
 	@Override
 	protected final boolean doBootstrap(final String[] params)
 			throws WebSMSException {
+		Log.d(TAG, "doBoostrap()");
 		inBootstrap = true;
 		StringBuilder packetData = this.openBuffer("GET_CUSTOMER", "1.10",
 				false);
