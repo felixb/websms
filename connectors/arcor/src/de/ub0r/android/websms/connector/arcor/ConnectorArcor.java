@@ -37,8 +37,12 @@ import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -47,19 +51,18 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * @author lado
  */
 public class ConnectorArcor extends Connector {
+	/** Tag for output. */
+	private static final String TAG = "WebSMS.arcor";
 
-	/** Preference's name: arcor username. */
-	private static final String PREFS_USER_ARCOR = "user_arcor";
-	/** Preference's name: user's password - arcor. */
-	private static final String PREFS_PASSWORD_ARCOR = "password_arcor";
-	/** Preference's name: user's password - arcor. */
-	private static final String PREFS_COPY_SENT_SMS_ARCOR = // .
-	"copy_sent_sms_arcor";
-	/** Preference's name: ovrride default sender number? - arcor. */
-	private static final String PREFS_ENABLE_VALIDATED_NUMBER_ARCOR = // .
-	"enable_validated_number_arcor";
-	/** Preference's name: enable o2. */
-	private static final String PREFS_ENABLE_ARCOR = "enable_arcor";
+	/** Preferences intent action. */
+	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
+			+ "websms.connectors.arcor.PREFS";
+
+	private Context context = null;
+
+	private SharedPreferences preferences = null;
+
+	private String defaultSender = null;
 
 	/**
 	 * Pattern to extract free sms count from sms page. Looks like.
@@ -123,6 +126,20 @@ public class ConnectorArcor extends Connector {
 	/** Step to skip. */
 	private static final int STEP = 256;
 
+	@Override
+	public final ConnectorSpec initSpec(final Context context) {
+		final String name = context.getString(R.string.app_name);
+		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		c.setAuthor(context.getString(R.string.connector_author));
+		c.setBalance(null);
+		c.setPrefsIntent(PREFS_INTENT_ACTION);
+		c.setPrefsTitle(context.getString(R.string.app_preferenmces));
+		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
+				| ConnectorSpec.CAPABILITIES_SEND);
+
+		return c;
+	}
+
 	/**
 	 * Login to arcor.
 	 * 
@@ -130,15 +147,16 @@ public class ConnectorArcor extends Connector {
 	 * @throws WebSMSException
 	 *             if any Exception occures.
 	 */
-	private boolean login() throws WebSMSException {
+	private boolean login(final Context context) throws WebSMSException {
 		try {
 			final HttpPost request = createPOST(LOGIN_URL, getLoginPost(
-					this.user, this.password));
+					this.preferences.getString(Preferences.USER, ""),
+					this.preferences.getString(Preferences.PASSWORD, "")));
 			final HttpResponse response = this.client.execute(request);
 			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
-				throw new WebSMSException(this.context, R.string.log_error_pw);
+				throw new WebSMSException(context, R.string.error_pw);
 			}
 		} catch (final Exception e) {
 			throw new WebSMSException(e.getMessage());
@@ -153,12 +171,12 @@ public class ConnectorArcor extends Connector {
 	 * @throws WebSMSException
 	 *             on an error
 	 */
-	private boolean updateBalance() throws WebSMSException {
+	private void updateBalance() throws WebSMSException {
 		try {
 			final HttpResponse response = this.client.execute(new HttpGet(
 					SMS_URL));
-			return this.pushFreeCount(cutFreeCountFromContent(response
-					.getEntity().getContent()));
+			this.pushFreeCount(cutFreeCountFromContent(response.getEntity()
+					.getContent()));
 		} catch (final Exception ex) {
 			throw new WebSMSException(ex.getMessage());
 		}
@@ -171,7 +189,7 @@ public class ConnectorArcor extends Connector {
 	 *            conten to investigate.
 	 * @return push ok?
 	 */
-	private boolean pushFreeCount(final String content) {
+	private void pushFreeCount(final String content) {
 		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
 		String term = null;
 		if (m.find()) {
@@ -181,25 +199,28 @@ public class ConnectorArcor extends Connector {
 		} else if (content.contains(MATCH_UNLIMITTED_SMS)) {
 			term = "\u221E";
 		} else {
-			return false;
+			term = "?";
 		}
-		WebSMS.SMS_BALANCE[ARCOR] = term;
-		this.pushMessage(WebSMS.MESSAGE_FREECOUNT, null);
-		return true;
+
+		this.getSpec(this.context).setBalance(term);
 	}
 
 	/**
 	 * Sends an sms via HTTP POST.
 	 * 
+	 * @param connectorCommand
+	 * @param context
 	 * @return successfull?
 	 * @throws WebSMSException
 	 *             on an error
 	 */
-	private boolean sendSms() throws WebSMSException {
+	private boolean sendSms(final Context context,
+			final ConnectorCommand connectorCommand) throws WebSMSException {
 		try {
 			final HttpResponse response = this.client.execute(createPOST(
-					SMS_URL, getSmsPost(this.to, this.text)));
-			return this.afterSmsSent(response);
+					SMS_URL, this.getSmsPost(connectorCommand.getRecipients(),
+							connectorCommand.getText())));
+			return this.afterSmsSent(context, response);
 		} catch (final Exception ex) {
 			throw new WebSMSException(ex.getMessage());
 		}
@@ -214,7 +235,8 @@ public class ConnectorArcor extends Connector {
 	 * @throws Exception
 	 *             if an Error occures
 	 */
-	private boolean afterSmsSent(final HttpResponse response) throws Exception {
+	private boolean afterSmsSent(final Context context,
+			final HttpResponse response) throws Exception {
 
 		final String body = cutFreeCountFromContent(response.getEntity()
 				.getContent());
@@ -224,14 +246,15 @@ public class ConnectorArcor extends Connector {
 		if (!found || m.groupCount() != 2) {
 			// should not happen
 			Log.w("WebSMS.ConnectorArcor", body);
-			throw new Exception(this.context
+			throw new Exception(context
 					.getString(R.string.log_unknow_status_after_send_arcor));
 		}
 
 		final String status = m.group(1);
 		// ok, message sent!
 		if (status.equals("hint")) {
-			return this.pushFreeCount(body);
+			this.pushFreeCount(body);
+			return true;
 		}
 		// warning or error
 		throw new Exception(m.group(2));
@@ -272,7 +295,7 @@ public class ConnectorArcor extends Connector {
 	 * @throws Exception
 	 *             if an error occures.
 	 */
-	private static String getSmsPost(final String[] to, final String text)
+	private String getSmsPost(final String[] to, final String text)
 			throws Exception {
 		final StringBuilder sb = new StringBuilder();
 		for (final String r : to) {
@@ -282,15 +305,17 @@ public class ConnectorArcor extends Connector {
 		sb1.append("empfaengerAn=");
 		sb1.append(URLEncoder.encode(sb.toString(), AROCR_ENCODING));
 		sb1.append("&emailAdressen=");
-		sb1.append(URLEncoder.encode(WebSMS.prefsSender, AROCR_ENCODING));
+		sb1.append(URLEncoder.encode(this.defaultSender, AROCR_ENCODING));
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder.encode(text, AROCR_ENCODING));
 		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden");
 
-		if (WebSMS.prefsCopySentSmsArcor) {
+		if (this.preferences
+				.getBoolean(Preferences.COPY_SENT_SMS, Boolean.TRUE)) {
 			sb1.append("&gesendetkopiesms=on");
 		}
-		if (WebSMS.prefsEnableValidatedNumberArcor) {
+		if (this.preferences.getBoolean(Preferences.ENABLE_VALIDATED_NUMBER,
+				Boolean.FALSE)) {
 			sb1.append("&useOwnMobile=on");
 		}
 
@@ -324,9 +349,17 @@ public class ConnectorArcor extends Connector {
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		if (this.login()) {
-			this.sendSms();
+		this.initPreferences(context, intent);
+		if (this.login(context)) {
+			this.sendSms(context, new ConnectorCommand(intent));
 		}
+	}
+
+	private void initPreferences(final Context context, final Intent intent) {
+		this.context = context;
+		this.preferences = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		this.defaultSender = new ConnectorCommand(intent).getDefSender();
 	}
 
 	/**
@@ -335,7 +368,8 @@ public class ConnectorArcor extends Connector {
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		if (this.login()) {
+		this.initPreferences(context, intent);
+		if (this.login(context)) {
 			this.updateBalance();
 		}
 	}
@@ -433,4 +467,5 @@ public class ConnectorArcor extends Connector {
 		final byte[] data = readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
 		return new String(data, AROCR_ENCODING);
 	}
+
 }
