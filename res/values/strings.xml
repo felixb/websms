@@ -71,7 +71,7 @@
 	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
-	<string name="source">http://repo.or.cz/w/andGMXsms.git</string>
+	<string name="source">http://github.com/felixb/websms</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
 	<string name="website">http://code.google.com/p/websmsdroid/</string>
