@@ -804,6 +804,7 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 				ret = this.sendMessage();
 			}
 		} catch (WebSMSException e) {
+			Log.d(TAG, "inner exception", e);
 			this.pushMessage(WebSMS.MESSAGE_LOG, e.getMessage());
 			ret = false;
 		}
@@ -821,6 +822,10 @@ public abstract class Connector extends AsyncTask<String, Boolean, Boolean> {
 	protected final void onProgressUpdate(final Boolean... progress) {
 		final Context c = this.context;
 		final String t = this.type;
+		if (t == null) {
+			Log.d(TAG, "t==null");
+			return;
+		}
 		if (t.equals(ID_UPDATE)) {
 			((WebSMS) c).setProgressBarIndeterminateVisibility(true);
 		} else if (t.equals(ID_BOOSTR)) {

@@ -64,6 +64,7 @@ public class ConnectorSMS extends Connector {
 			}
 			return true;
 		} catch (Exception e) {
+			Log.e(TAG, "inner exception", e);
 			throw new WebSMSException(e.toString());
 		}
 	}
