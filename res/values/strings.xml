@@ -46,7 +46,6 @@
 	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
-	<string name="log_empty_settings">You need to set your preferences. Please press the menu button.</string>
 	<string name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="notify_failed">Failed to send SMS: </string>

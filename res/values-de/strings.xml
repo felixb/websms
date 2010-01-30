@@ -43,7 +43,6 @@
 	<string name="free_">Guthaben:</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
-	<string name="log_empty_settings">Du musst die Einstellungen füllen. Bitte drücke den Menüknopf.</string>
 	<string name="log_wrong_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
 	<string name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
