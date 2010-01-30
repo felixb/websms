@@ -866,71 +866,70 @@ public class WebSMS extends Activity implements OnClickListener,
 			CONNECTORS_READY[Connector.GMX] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.GMX] && !Connector.inBootstrap) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.GMX] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.O2] && prefsSender.length() != 0
 				&& prefsPasswordO2.length() != 0) {
 			CONNECTORS_READY[Connector.O2] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.O2]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.O2] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.SIPGATE]
 				&& prefsUserSipgate.length() != 0
 				&& prefsPasswordSipgate.length() != 0) {
 			CONNECTORS_READY[Connector.SIPGATE] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.SIPGATE]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.SIPGATE] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.INNOSEND]
 				&& prefsUserInnosend.length() != 0
 				&& prefsPasswordInnosend.length() != 0) {
 			CONNECTORS_READY[Connector.INNOSEND] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.INNOSEND]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.INNOSEND] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.CHERRY]
 				&& prefsPasswordCherrySMS.length() != 0) {
 			CONNECTORS_READY[Connector.CHERRY] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.CHERRY]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.CHERRY] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.SLOONO]
 				&& prefsUserSloono.length() != 0
 				&& prefsPasswordSloono.length() != 0) {
 			CONNECTORS_READY[Connector.SLOONO] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.SLOONO]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.SLOONO] = false;
 		}
+
 		if (CONNECTORS_ENABLED[Connector.ARCOR] && prefsUserArcor.length() != 0
 				&& prefsPasswordArcor.length() != 0) {
 			CONNECTORS_READY[Connector.ARCOR] = true;
 		} else {
 			if (CONNECTORS_ENABLED[Connector.ARCOR]) {
-				this.log(this.getResources().getString(
-						R.string.log_empty_settings));
+				this.log(this.getString(R.string.log_empty_settings));
 			}
 			CONNECTORS_READY[Connector.ARCOR] = false;
 		}
