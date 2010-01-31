@@ -610,9 +610,31 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
 		prefsConnectorSpec = getConnectorByID(prefsConnectorID);
-		if (prefsConnectorSpec != null) {
+		if (prefsConnectorSpec != null
+				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
 			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
 					.getString(PREFS_SUBCONNECTOR_ID, ""));
+			if (prefsSubConnectorSpec == null) {
+				prefsSubConnectorSpec = prefsConnectorSpec.// .
+						getSubConnectors()[0];
+			}
+		} else {
+			ConnectorSpec[] connectors = getConnectors(
+					ConnectorSpec.CAPABILITIES_SEND,
+					ConnectorSpec.STATUS_ENABLED);
+			if (connectors.length == 1) {
+				prefsConnectorSpec = connectors[0];
+				prefsSubConnectorSpec = prefsConnectorSpec // .
+						.getSubConnectors()[0];
+				Toast.makeText(
+						this,
+						this.getString(R.string.connectors_switch) + " "
+								+ prefsConnectorSpec.getName(),
+						Toast.LENGTH_LONG).show();
+			} else {
+				prefsConnectorSpec = null;
+				prefsSubConnectorSpec = null;
+			}
 		}
 
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,

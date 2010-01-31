@@ -70,4 +70,5 @@
 	<string name="custom_sender">Anderer Absender</string>
 	<string name="send_later">Später senden</string>
 	<string name="emo_">Smilies</string>
+	<string name="connectors_switch">Connector wurde gewechselt:</string>
 </resources>

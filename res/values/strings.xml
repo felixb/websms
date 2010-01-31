@@ -81,4 +81,5 @@
 	<string name="custom_sender">Custom sender</string>
 	<string name="send_later">Send later</string>
 	<string name="emo_">Emoticons</string>
+	<string name="connectors_switch">Switched connector:</string>
 </resources>
