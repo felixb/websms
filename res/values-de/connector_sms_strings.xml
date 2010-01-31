@@ -18,4 +18,5 @@
 	-->
 <resources>
 	<string name="enable_sms">Aktiviere SMS</string>
+	<string name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
 </resources>
