@@ -51,6 +51,11 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  * @author lado
  */
 public class ConnectorArcor extends Connector {
+
+	public ConnectorArcor() {
+
+	}
+
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.arcor";
 
@@ -147,7 +152,7 @@ public class ConnectorArcor extends Connector {
 	 * @throws WebSMSException
 	 *             if any Exception occures.
 	 */
-	private boolean login(final Context context) throws WebSMSException {
+	private boolean login() throws WebSMSException {
 		try {
 			final HttpPost request = createPOST(LOGIN_URL, getLoginPost(
 					this.preferences.getString(Preferences.USER, ""),
@@ -156,7 +161,7 @@ public class ConnectorArcor extends Connector {
 			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
-				throw new WebSMSException(context, R.string.error_pw);
+				throw new WebSMSException(this.context, R.string.error_pw);
 			}
 		} catch (final Exception e) {
 			throw new WebSMSException(e.getMessage());
@@ -350,7 +355,7 @@ public class ConnectorArcor extends Connector {
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
 		this.initPreferences(context, intent);
-		if (this.login(context)) {
+		if (this.login()) {
 			this.sendSms(context, new ConnectorCommand(intent));
 		}
 	}
@@ -369,9 +374,29 @@ public class ConnectorArcor extends Connector {
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
 		this.initPreferences(context, intent);
-		if (this.login(context)) {
+		if (this.login()) {
 			this.updateBalance();
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ConnectorSpec updateSpec(final Context context,
+			final ConnectorSpec connectorSpec) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (p.getBoolean(Preferences.ENABLED, false)) {
+			if (p.getString(Preferences.PASSWORD, "").length() > 0) {
+				connectorSpec.setReady();
+			} else {
+				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
+			}
+		} else {
+			connectorSpec.setStatus(ConnectorSpec.STATUS_INACTIVE);
+		}
+		return connectorSpec;
 	}
 
 	/**
