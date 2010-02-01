@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2010 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+	<string name="app_name">WebSMS Connector: Arcor</string>
+	<string name="app_version">0.1</string>
+	<string name="connector_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
+	<string name="connector_name">arcor</string>
+	<string name="settings">Einstellungen - Arcor</string>
+	<string name="enable">Aktiviere Arcor</string>
+	<string name="copy_sent_sms">Gesendete SMS im "gesendet" ordner speichern</string>
+	<!-- FIXME: lado - use default_sender from strings.xml (out of common) -->
+	<string name="enable_sender_number">Use custom number</string>
+	<string name="enable_sender_number_hint">Use custom number for arcor connector.</string>
+	<string name="log_unknow_status_after_send">Die Nachricht wurde wahrscheinlich nicht gesendet. Bitte den Entwickler kontaktieren!</string>
+	<string name="enable_validated_number">Validierte Nummer verwendenUse validated number</string>
+	<string name="enable_validated_number_hint">Wenn bei Arcor eingestellt, wird die eingestellt Nummer als Absender verwendet.</string>
+</resources>
+
