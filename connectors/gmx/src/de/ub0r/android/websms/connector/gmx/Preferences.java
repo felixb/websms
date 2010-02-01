@@ -55,7 +55,6 @@ public final class Preferences extends PreferenceActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// FIXME: WebSMS.doPreferences = true;
 		this.addPreferencesFromResource(R.xml.connector_gmx_prefs);
 	}
 

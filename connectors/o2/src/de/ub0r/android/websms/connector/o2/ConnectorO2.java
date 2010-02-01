@@ -33,7 +33,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -123,8 +122,6 @@ public class ConnectorO2 extends Connector {
 			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
-	/** Current Captcha to solve. */
-	static Drawable captcha = null;
 	/** Solved Captcha. */
 	static String captchaSolve = null;
 	/** Object to sync with. */
@@ -223,8 +220,11 @@ public class ConnectorO2 extends Connector {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
 		}
 		Utils.updateCookies(cookies, response.getAllHeaders(), URL_CAPTCHA);
-		captcha = new BitmapDrawable(response.getEntity().getContent());
-		// FIXME: this.pushMessage(WebSMS.MESSAGE_ANTICAPTCHA, null);
+		BitmapDrawable captcha = new BitmapDrawable(response.getEntity()
+				.getContent());
+		final Intent intent = new Intent(Connector.ACTION_CAPTCHA_REQUEST);
+		intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, captcha.getBitmap());
+		context.sendBroadcast(intent);
 		try {
 			synchronized (CAPTCHA_SYNC) {
 				CAPTCHA_SYNC.wait();
@@ -307,8 +307,7 @@ public class ConnectorO2 extends Connector {
 			if (htmlText.indexOf("captcha") > 0) {
 				// final String newFlow = getFlowExecutionkey(htmlText);
 				htmlText = null;
-				// FIXME: if (!(context instanceof WebSMS) ||
-				// !this.solveCaptcha(newFlow)) {
+				// FIXME: !this.solveCaptcha(newFlow)) {
 				throw new WebSMSException("you have to solve a captcha,"
 						+ "\nplease contact the developer");
 				// }
@@ -593,5 +592,14 @@ public class ConnectorO2 extends Connector {
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
 		this.sendData(context, new ConnectorCommand(intent), true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected final void gotSolvedCaptcha(final Context context,
+			final String solvedCaptcha) {
+		captchaSolve = solvedCaptcha;
+		CAPTCHA_SYNC.notify();
 	}
 }
