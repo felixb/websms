@@ -1396,11 +1396,16 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (c != null) {
 				c.update(connector);
 			} else {
-				final int l = CONNECTORS.size();
 				final String name = connector.getName();
+				if (connector.getSubConnectorCount() == 0 || name == null
+						|| connector.getID() == null) {
+					Log.w(TAG, "skipped adding defect connector: " + name);
+					return;
+				}
 				Log.d(TAG, "add connector with id: " + connector.getID());
 				Log.d(TAG, "add connector with name: " + name);
 				boolean added = false;
+				final int l = CONNECTORS.size();
 				try {
 					for (int i = 0; i < l; i++) {
 						final ConnectorSpec cs = CONNECTORS.get(i);
