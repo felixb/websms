@@ -43,6 +43,7 @@ import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -117,7 +118,7 @@ public class ConnectorArcor extends Connector {
 	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
 
 	/** where to find logout link. */
-	private static final int APPROXIMATE_LOGOUT_LENGTH = 2000;
+	private static final int APPROXIMATE_LOGOUT_LINK_LENGTH = 2000;
 	/** Login URL, to send Login (POST). */
 	private static final String LOGIN_URL = "https://www.arcor.de"
 			+ "/login/login.jsp";
@@ -128,9 +129,6 @@ public class ConnectorArcor extends Connector {
 	/** Encoding to use. */
 	private static final String AROCR_ENCODING = "ISO-8859-15";
 
-	/** Step to skip. */
-	private static final int STEP = 256;
-
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.app_name);
@@ -138,10 +136,10 @@ public class ConnectorArcor extends Connector {
 		c.setAuthor(context.getString(R.string.connector_author));
 		c.setBalance(null);
 		c.setPrefsIntent(PREFS_INTENT_ACTION);
-		c.setPrefsTitle(context.getString(R.string.app_preferenmces));
+		c.setPrefsTitle(context.getString(R.string.settings));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
-
+		c.addSubConnector("dymmy", "dummy", 0);
 		return c;
 	}
 
@@ -252,7 +250,7 @@ public class ConnectorArcor extends Connector {
 			// should not happen
 			Log.w("WebSMS.ConnectorArcor", body);
 			throw new Exception(context
-					.getString(R.string.log_unknow_status_after_send_arcor));
+					.getString(R.string.log_unknow_status_after_send));
 		}
 
 		final String status = m.group(1);
@@ -410,70 +408,9 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutLoginInfoFromContent(final InputStream is)
 			throws IOException {
-		skip(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION);
-		final byte[] data = readBytes(APPROXIMATE_LOGOUT_LENGTH, is);
-		return new String(data, AROCR_ENCODING);
-	}
-
-	/**
-	 * skip 'bytes' size bytes from stream, consuming it in 'step' steps.
-	 * 
-	 * @param is
-	 *            Content stream
-	 * @param bytes
-	 *            bytes to skip
-	 * @throws IOException
-	 *             on an I/O error
-	 */
-	@Deprecated
-	// TODO: you may use methods from Utils
-	private static void skip(final InputStream is, final long bytes)
-			throws IOException {
-		long alreadySkipped = 0;
-		long skip = 0;
-		while (true) {
-			skip = is.skip(STEP);
-			if (skip == 0) {
-				break;
-			}
-			alreadySkipped += skip;
-			if (alreadySkipped >= bytes) {
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Reads a size portion of bytes from strem.
-	 * 
-	 * @param size
-	 *            to read
-	 * @param is
-	 *            content stream
-	 * @return read bytes
-	 * @throws IOException
-	 *             on an I/O error
-	 */
-	@Deprecated
-	// TODO: you may use methods from Utils
-	private static byte[] readBytes(final int size, final InputStream is)
-			throws IOException {
-		final byte[] data = new byte[size];
-		int offset = 0;
-		int read = 0;
-		int length = size;
-		while (true) {
-			read = is.read(data, offset, length);
-			if (read == -1) {
-				break;
-			}
-			offset = offset + read;
-			if (offset >= size) {
-				break;
-			}
-			length = length - read;
-		}
-		return data;
+		return Utils.stream2str(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION,
+				APPROXIMATE_LOGOUT_LINK_COUNT_POSITION
+						+ APPROXIMATE_LOGOUT_LINK_LENGTH);
 	}
 
 	/**
@@ -488,9 +425,7 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutFreeCountFromContent(final InputStream is)
 			throws IOException {
-		skip(is, APPROXIMATE_SMS_COUNT_POSITION);
-		final byte[] data = readBytes(APPROXIMATE_SMS_COUNT_LENGTH, is);
-		return new String(data, AROCR_ENCODING);
+		return Utils.stream2str(is, APPROXIMATE_SMS_COUNT_POSITION,
+				APPROXIMATE_SMS_COUNT_POSITION + APPROXIMATE_SMS_COUNT_LENGTH);
 	}
-
 }
