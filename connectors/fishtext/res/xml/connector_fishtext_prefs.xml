@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2010 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/settings_fishtext">
+	<CheckBoxPreference android:key="enable_fishtext"
+		android:title="@string/enable_fishtext" />
+	<EditTextPreference android:key="user_fishtext"
+		android:title="@string/username_" android:dialogTitle="@string/username_"
+		android:inputType="textEmailAddress" android:dependency="enable_fishtext" />
+	<EditTextPreference android:key="password_fishtext"
+		android:inputType="textPassword" android:title="@string/password_"
+		android:dialogTitle="@string/password_" android:dependency="enable_fishtext" />
+	<PreferenceScreen android:title="@string/create_account_"
+		android:summary="@string/partner_fishtext_hint">
+		<intent android:action="android.intent.action.VIEW"
+			android:data="@string/partner_fishtext_url" />
+	</PreferenceScreen>
+</PreferenceScreen>
