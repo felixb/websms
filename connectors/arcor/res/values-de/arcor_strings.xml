@@ -20,7 +20,7 @@
 	<string name="app_name">WebSMS Connector: Arcor</string>
 	<string name="app_version">0.1</string>
 	<string name="connector_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
-	<string name="connector_name">arcor</string>
+	<string name="connector_name">Arcor</string>
 	<string name="settings">Einstellungen - Arcor</string>
 	<string name="enable">Aktiviere Arcor</string>
 	<string name="copy_sent_sms">Gesendete SMS im "gesendet" ordner speichern</string>
