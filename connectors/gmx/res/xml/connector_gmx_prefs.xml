@@ -26,6 +26,13 @@
 		android:dependency="enable_gmx" />
 	<EditTextPreference android:key="gmx_password"
 		android:title="@string/connector_gmx_password_" android:dialogTitle="@string/connector_gmx_password_"
-		android:summary="@string/connector_gmx_password_hint" android:inputType="textPassword"
-		android:dependency="enable_gmx" />
+		android:summary="@string/connector_gmx_password_hint"
+		android:inputType="textPassword" android:dependency="enable_gmx" />
+	<CheckBoxPreference android:key="use_default_sender"
+		android:defaultValue="true" android:title="@string/use_derfault_sender_"
+		android:summary="@string/use_derfault_sender_hint"
+		android:disableDependentsState="true" />
+	<EditTextPreference android:key="custom_sender"
+		android:title="@string/custom_sender_" android:dialogTitle="@string/custom_sender_"
+		android:summary="@string/sender_hint" android:dependency="use_default_sender" />
 </PreferenceScreen>

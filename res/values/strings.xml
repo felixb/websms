@@ -50,7 +50,6 @@
 	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
-	<string name="sender_hint">Int. phonenumber e.g. +4917912345678</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
 	<string name="settings">Preferences</string>

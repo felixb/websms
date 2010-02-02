@@ -47,7 +47,6 @@
 	<string name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
-	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="send_">Senden</string>
 	<string name="settings">Einstellungen</string>

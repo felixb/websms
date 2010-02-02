@@ -204,7 +204,8 @@ public class ConnectorGMX extends Connector {
 		if (customSender != null && customSender.length() > 0) {
 			writePair(packetData, "sms_sender", customSender);
 		} else {
-			writePair(packetData, "sms_sender", command.getDefSender());
+			writePair(packetData, "sms_sender", Utils.getSender(context,
+					command.getDefSender()));
 		}
 		final long sendLater = command.getSendLater();
 		if (sendLater > 0) {

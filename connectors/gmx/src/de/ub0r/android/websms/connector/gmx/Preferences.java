@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Preferences.
@@ -38,13 +39,17 @@ public final class Preferences extends PreferenceActivity {
 	static final String PREFS_PASSWORD = "gmx_password";
 	/** Preference's name: gmx hostname id. */
 	static final String PREFS_GMX_HOST = "gmx_host";
-	/** Preference key: enabled. */
+	/** Preference's name: enabled. */
 	static final String PREFS_ENABLED = "enable_gmx";
 
-	/** mail. */
+	/** Mail. */
 	private static String mail;
-	/** password. */
+	/** Password. */
 	private static String pw;
+	/** Default sender. */
+	private static Boolean defSender;
+	/** Custom sender. */
+	private static String customSender;
 
 	/** Need to bootstrap? */
 	private static boolean needBootstrap = false;
@@ -71,6 +76,16 @@ public final class Preferences extends PreferenceActivity {
 				&& !mail.equals(p.getString(PREFS_MAIL, ""));
 		needBootstrap |= pw != null
 				&& !pw.equals(p.getString(PREFS_PASSWORD, ""));
+		needBootstrap |= defSender != null
+				&& !defSender.equals(p.getBoolean(
+						Utils.PREFS_USE_DEFAULT_SENDER, true));
+		needBootstrap |= customSender != null
+				&& !customSender.equals(p.getString(Utils.PREFS_CUSTOM_SENDER,
+						""));
+		mail = p.getString(PREFS_MAIL, "");
+		pw = p.getString(PREFS_PASSWORD, "");
+		defSender = p.getBoolean(Utils.PREFS_USE_DEFAULT_SENDER, true);
+		customSender = p.getString(Utils.PREFS_CUSTOM_SENDER, "");
 	}
 
 	/**
