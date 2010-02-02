@@ -85,7 +85,8 @@ public class ConnectorArcor extends Connector {
 	 * No limits on SMS ? see issue
 	 * http://code.google.com/p/websmsdroid/issues/detail?id=55
 	 */
-	private static final String MATCH_UNLIMITTED_SMS = "<b>unbegrenzt viele</b>";
+	private static final String MATCH_UNLIMITTED_SMS = // .
+	"<b>unbegrenzt viele</b>";
 
 	/** HTTP Header User-Agent. */
 	// TODO share this. Make it Configurable global and local
@@ -116,7 +117,7 @@ public class ConnectorArcor extends Connector {
 
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
-		final String name = context.getString(R.string.app_name);
+		final String name = context.getString(R.string.connector_name);
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_author));
 		c.setBalance(null);
@@ -131,6 +132,8 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * Login to arcor.
 	 * 
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @return true if successfullu logged in, false otherwise.
 	 * @throws WebSMSException
 	 *             if any Exception occures.
@@ -157,7 +160,8 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * Updates balance andl pushes it to WebSMS.
 	 * 
-	 * @return successful?
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @throws WebSMSException
 	 *             on an error
 	 */
@@ -177,9 +181,10 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * Push SMS Free Count to WebSMS.
 	 * 
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @param content
 	 *            conten to investigate.
-	 * @return push ok?
 	 */
 	private void notifyFreeCount(final ConnectorContext ctx,
 			final String content) {
@@ -201,8 +206,8 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * Sends an sms via HTTP POST.
 	 * 
-	 * @param connectorCommand
-	 * @param context
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @return successfull?
 	 * @throws WebSMSException
 	 *             on an error
@@ -220,6 +225,8 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * Handles content after sms sending.
 	 * 
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @param response
 	 *            HTTP Response
 	 * @return true if arcor returns success
@@ -278,17 +285,15 @@ public class ConnectorArcor extends Connector {
 	/**
 	 * These post data is needed for sending a sms.
 	 * 
-	 * @param to
-	 *            receiver array
-	 * @param text
-	 *            text to send
+	 * @param ctx
+	 *            {@link ConnectorContext}
 	 * @return array of params
 	 * @throws Exception
 	 *             if an error occures.
 	 */
 	private String getSmsPost(final ConnectorContext ctx) throws Exception {
 		final StringBuilder sb = new StringBuilder();
-		String to[] = ctx.getCommand().getRecipients();
+		String[] to = ctx.getCommand().getRecipients();
 		for (final String r : to) {
 			sb.append(r).append(",");
 		}
