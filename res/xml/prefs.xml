@@ -20,7 +20,7 @@
 	<PreferenceCategory android:title="@string/settings_common">
 		<EditTextPreference android:key="sender"
 			android:title="@string/sender_" android:dialogTitle="@string/sender_"
-			android:summary="@string/sender_hint" android:inputType="text" />
+			android:summary="@string/sender_hint" android:inputType="phone" />
 		<EditTextPreference android:key="defprefix"
 			android:title="@string/defprefix_" android:dialogTitle="@string/defprefix_"
 			android:summary="@string/defprefix_hint" android:inputType="text" />

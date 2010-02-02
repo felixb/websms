@@ -31,8 +31,9 @@
 		android:summary="@string/use_derfault_sender_hint"
 		android:disableDependentsState="true" android:dependency="enable_innosend" />
 	<EditTextPreference android:key="custom_sender"
-		android:title="@string/custom_sender_" android:dialogTitle="@string/custom_sender_"
-		android:summary="@string/sender_hint" android:dependency="use_default_sender" />
+		android:inputType="phone" android:title="@string/custom_sender_"
+		android:dialogTitle="@string/custom_sender_" android:summary="@string/sender_hint"
+		android:dependency="use_default_sender" />
 	<PreferenceScreen android:title="@string/create_account_"
 		android:summary="@string/partner_innosend_hint">
 		<intent android:action="android.intent.action.VIEW"
