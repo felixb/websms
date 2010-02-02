@@ -29,9 +29,6 @@ import android.preference.PreferenceActivity;
 public final class Preferences extends PreferenceActivity {
 	/** Preference key: enabled. */
 	static final String PREFS_ENABLED = "enable_fishtext";
-
-	/** Preference's name: user's username. */
-	static final String PREFS_USER = "user_fishtext";
 	/** Preference's name: user's password. */
 	static final String PREFS_PASSWORD = "password_fishtext";
 

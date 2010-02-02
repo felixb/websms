@@ -20,15 +20,15 @@
 	android:title="@string/settings_fishtext">
 	<CheckBoxPreference android:key="enable_fishtext"
 		android:title="@string/enable_fishtext" />
-	<EditTextPreference android:key="user_fishtext"
-		android:title="@string/username_" android:dialogTitle="@string/username_"
-		android:inputType="textEmailAddress" android:dependency="enable_fishtext" />
 	<EditTextPreference android:key="password_fishtext"
 		android:inputType="textPassword" android:title="@string/password_"
 		android:dialogTitle="@string/password_" android:dependency="enable_fishtext" />
-	<PreferenceScreen android:title="@string/create_account_"
-		android:summary="@string/partner_fishtext_hint">
-		<intent android:action="android.intent.action.VIEW"
-			android:data="@string/partner_fishtext_url" />
-	</PreferenceScreen>
+	<CheckBoxPreference android:key="use_default_sender"
+		android:defaultValue="true" android:title="@string/use_derfault_sender_"
+		android:summary="@string/use_derfault_sender_hint"
+		android:disableDependentsState="true" android:dependency="enable_fishtext" />
+	<EditTextPreference android:key="custom_sender"
+		android:inputType="phone" android:title="@string/custom_sender_"
+		android:dialogTitle="@string/custom_sender_" android:summary="@string/sender_hint"
+		android:dependency="use_default_sender" />
 </PreferenceScreen>

@@ -20,9 +20,14 @@ package de.ub0r.android.websms.connector.fishtext;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.cookie.MalformedCookieException;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.content.Intent;
@@ -37,32 +42,33 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
- * AsyncTask to manage IO to fishtext.de API.
+ * AsyncTask to manage IO to fishtext API.
  * 
  * @author flx
  */
-public class ConnectorSloono extends Connector {
+public class ConnectorFishtext extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.fishtext";
 	/** {@link SubConnectorSpec} ID: basic. */
-	private static final String ID_BASIC = "1";
-	/** {@link SubConnectorSpec} ID: discount. */
-	private static final String ID_DISCOUNT = "0";
-	/** {@link SubConnectorSpec} ID: pro. */
-	private static final String ID_PRO = "2";
-	/** {@link SubConnectorSpec} ID: flash. */
-	private static final String ID_FLASH = "3";
 
 	/** Preferences intent action. */
 	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
 			+ "websms.connectors.fishtext.PREFS";
 
-	/** Sloono Gateway URL. */
-	private static final String URL_SEND = // .
-	"http://www.fishtext.de/API/httpsms.php";
-	/** Sloono Gateway URL. */
-	private static final String URL_BALANCE = // .
-	"http://www.fishtext.de/API/httpkonto.php";
+	/** Fishtext URL: login. */
+	private static final String URL_LOGIN = // .
+	"https://www.fishtext.com/cgi-bin/account";
+	/** Fishtext URL: send. */
+	private static final String URL_SEND = // FIXME
+	"https://www.fishtext.com/cgi-bin/account";
+
+	/** HTTP Useragent. */
+	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
+			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
+			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
+
+	/** Static cookies. */
+	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
 
 	/**
 	 * {@inheritDoc}
@@ -78,12 +84,8 @@ public class ConnectorSloono extends Connector {
 		c.setPrefsTitle(context.getString(R.string.settings_fishtext));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND);
-		final short f = (short) (SubConnectorSpec.FEATURE_MULTIRECIPIENTS
-				| SubConnectorSpec.FEATURE_FLASHSMS | // .
-		SubConnectorSpec.FEATURE_SENDLATER);
-		c.addSubConnector(ID_BASIC, context.getString(R.string.basic), f);
-		c.addSubConnector(ID_DISCOUNT, context.getString(R.string.discount), f);
-		c.addSubConnector(ID_PRO, context.getString(R.string.pro), f);
+		c.addSubConnector(// .
+				c.getID(), c.getName(), SubConnectorSpec.FEATURE_NONE);
 		return c;
 	}
 
@@ -96,9 +98,7 @@ public class ConnectorSloono extends Connector {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		if (p.getBoolean(Preferences.PREFS_ENABLED, false)) {
-			if (p.getString(Preferences.PREFS_USER, "").length() > 0
-					&& p.getString(Preferences.PREFS_PASSWORD, "")// .
-							.length() > 0) {
+			if (p.getString(Preferences.PREFS_PASSWORD, "").length() > 0) {
 				connectorSpec.setReady();
 			} else {
 				connectorSpec.setStatus(ConnectorSpec.STATUS_ENABLED);
@@ -110,7 +110,7 @@ public class ConnectorSloono extends Connector {
 	}
 
 	/**
-	 * Check return code from fishtext.de.
+	 * Check return code from fishtext.com.
 	 * 
 	 * @param context
 	 *            {@link Context}
@@ -137,16 +137,68 @@ public class ConnectorSloono extends Connector {
 	}
 
 	/**
+	 * Login to fishtext.com.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 * @param connector
+	 *            {@link ConnectorSpec}
+	 * @param cookies
+	 *            {@link Cookie}s
+	 * @return successful login?
+	 * @throws IOException
+	 *             IOException
+	 * @throws WebSMSException
+	 *             WebSMSException
+	 * @throws URISyntaxException
+	 *             URISyntaxException
+	 * @throws MalformedCookieException
+	 *             MalformedCookieException
+	 */
+	private static boolean doLogin(final Context context,
+			final ConnectorCommand command, final ConnectorSpec connector,
+			final ArrayList<Cookie> cookies) throws IOException,
+			WebSMSException, MalformedCookieException, URISyntaxException {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
+		ArrayList<BasicNameValuePair> postData = // .
+		new ArrayList<BasicNameValuePair>(4);
+		postData.add(new BasicNameValuePair("action", "login"));
+		postData.add(new BasicNameValuePair("mobile", Utils.getSender(context,
+				command.getDefSender())));
+		postData.add(new BasicNameValuePair("password", p.getString(
+				Preferences.PREFS_PASSWORD, "")));
+		postData.add(new BasicNameValuePair("rememberSession", "yes"));
+
+		HttpResponse response = Utils.getHttpClient(URL_LOGIN, cookies,
+				postData, TARGET_AGENT, null);
+		postData = null;
+		int resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			throw new WebSMSException(context, R.string.error_http, "" + resp);
+		}
+		Utils.updateCookies(cookies, response.getAllHeaders(), URL_LOGIN);
+
+		return false;
+	}
+
+	/**
 	 * Send data.
 	 * 
 	 * @param context
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
+	 * @param cookies
+	 *            {@link Cookie}s
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	private void sendData(final Context context, final ConnectorCommand command)
+	private void sendData(final Context context,
+			final ConnectorCommand command, final ArrayList<Cookie> cookies)
 			throws WebSMSException {
 		// do IO
 		try { // get Connection
@@ -157,22 +209,14 @@ public class ConnectorSloono extends Connector {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			if (checkOnly) {
-				url.append(URL_BALANCE);
+				// url.append(URL_BALANCE);
 			} else {
 				url.append(URL_SEND);
 			}
-			url.append("?user=");
-			url.append(p.getString(Preferences.PREFS_USER, ""));
 			url.append("&password=");
 			url.append(Utils.md5(p.getString(Preferences.PREFS_PASSWORD, "")));
 
 			if (!checkOnly) {
-				url.append("&typ=");
-				if (command.getFlashSMS()) {
-					url.append(ID_FLASH);
-				} else {
-					url.append(command.getSelectedSubConnector());
-				}
 				final long sendLater = command.getSendLater();
 				if (sendLater > 0) {
 					url.append("&timestamp=");
@@ -214,18 +258,47 @@ public class ConnectorSloono extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent));
+		ArrayList<Cookie> cookies;
+		if (staticCookies == null) {
+			cookies = new ArrayList<Cookie>();
+		} else {
+			cookies = (ArrayList<Cookie>) staticCookies.clone();
+		}
+		try {
+			doLogin(context, new ConnectorCommand(intent), new ConnectorSpec(
+					intent), cookies);
+			staticCookies = cookies;
+		} catch (final Exception e) {
+			throw new WebSMSException(e);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent));
+		ArrayList<Cookie> cookies;
+		if (staticCookies == null) {
+			cookies = new ArrayList<Cookie>();
+		} else {
+			cookies = (ArrayList<Cookie>) staticCookies.clone();
+		}
+		try {
+			final ConnectorCommand command = new ConnectorCommand(intent);
+			final ConnectorSpec connector = new ConnectorSpec(intent);
+			if (doLogin(context, command, connector, cookies)) {
+				this.sendData(context, command, cookies);
+			}
+			staticCookies = cookies;
+		} catch (final Exception e) {
+			throw new WebSMSException(e);
+		}
 	}
 }
