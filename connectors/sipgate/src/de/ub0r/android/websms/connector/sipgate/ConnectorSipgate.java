@@ -126,9 +126,10 @@ public class ConnectorSipgate extends Connector {
 			}
 			Hashtable<String, Serializable> params = // .
 			new Hashtable<String, Serializable>();
-			if (command.getDefSender().length() > 6) {
-				String localUri = "sip:"
-						+ command.getDefSender().replaceAll("\\+", "")
+			final String sender = Utils.getSender(context, command
+					.getDefSender());
+			if (sender.length() > 6) {
+				String localUri = "sip:" + sender.replaceAll("\\+", "")
 						+ "@sipgate.net";
 				params.put("LocalUri", localUri);
 			}

@@ -26,6 +26,13 @@
 	<EditTextPreference android:key="password_innosend"
 		android:inputType="textPassword" android:title="@string/password_"
 		android:dialogTitle="@string/password_" android:dependency="enable_innosend" />
+	<CheckBoxPreference android:key="use_default_sender"
+		android:defaultValue="true" android:title="@string/use_derfault_sender_"
+		android:summary="@string/use_derfault_sender_hint"
+		android:disableDependentsState="true" android:dependency="enable_innosend" />
+	<EditTextPreference android:key="custom_sender"
+		android:title="@string/custom_sender_" android:dialogTitle="@string/custom_sender_"
+		android:summary="@string/sender_hint" android:dependency="use_default_sender" />
 	<PreferenceScreen android:title="@string/create_account_"
 		android:summary="@string/partner_innosend_hint">
 		<intent android:action="android.intent.action.VIEW"

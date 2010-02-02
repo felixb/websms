@@ -30,4 +30,11 @@
 		android:dependency="enable_sipgate" />
 	<CheckBoxPreference android:key="enable_sipgate_team"
 		android:title="@string/enable_sipgate_team" android:dependency="enable_sipgate" />
+	<CheckBoxPreference android:key="use_default_sender"
+		android:defaultValue="true" android:title="@string/use_derfault_sender_"
+		android:summary="@string/use_derfault_sender_hint"
+		android:disableDependentsState="true" android:dependency="enable_sipgate" />
+	<EditTextPreference android:key="custom_sender"
+		android:title="@string/custom_sender_" android:dialogTitle="@string/custom_sender_"
+		android:summary="@string/sender_hint" android:dependency="use_default_sender" />
 </PreferenceScreen>

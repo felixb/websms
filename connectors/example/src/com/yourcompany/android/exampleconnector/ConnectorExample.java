@@ -24,7 +24,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
@@ -88,7 +90,7 @@ public class ConnectorExample extends Connector {
 			throws WebSMSException {
 		// TODO: bootstrap settings.
 		// If you don't need to bootstrap any config, remove this method.
-		Log.d(TAG, "bootstrap");
+		Log.i(TAG, "bootstrap");
 		if (1 != 1) {
 			// If something fails, you should abort this method
 			// by throwing a WebSMSException.
@@ -105,7 +107,7 @@ public class ConnectorExample extends Connector {
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
 		// TODO: update account balance
-		Log.d(TAG, "update");
+		Log.i(TAG, "update");
 		// See doBootstrap() for more details.
 	}
 
@@ -116,7 +118,9 @@ public class ConnectorExample extends Connector {
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
 		// TODO: send a message provided by intent
-		Log.d(TAG, "send");
+		Log.i(TAG, "send with sender "
+				+ Utils.getSender(context, new ConnectorCommand(intent)
+						.getDefSender()));
 		// See doBootstrap() for more details.
 	}
 }

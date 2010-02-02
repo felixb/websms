@@ -285,8 +285,8 @@ public class ConnectorO2 extends Connector {
 		new ArrayList<BasicNameValuePair>(4);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
 		postData.add(new BasicNameValuePair("loginName", Utils
-				.international2national(command.getDefPrefix(), command
-						.getDefSender())));
+				.international2national(command.getDefPrefix(), Utils
+						.getSender(context, command.getDefSender()))));
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		postData.add(new BasicNameValuePair("password", p.getString(

@@ -253,7 +253,8 @@ public class ConnectorInnosend extends Connector {
 				if (customSender == null) {
 					d.add(new BasicNameValuePair("absender", Utils
 							.international2national(command.getDefPrefix(),
-									command.getDefSender())));
+									Utils.getSender(context, command
+											.getDefSender()))));
 				} else {
 					d.add(new BasicNameValuePair("absender", customSender));
 				}

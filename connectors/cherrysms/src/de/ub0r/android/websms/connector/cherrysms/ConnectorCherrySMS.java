@@ -162,7 +162,8 @@ public class ConnectorCherrySMS extends Connector {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			url.append("?user=");
-			url.append(Utils.international2oldformat(command.getDefSender()));
+			url.append(Utils.international2oldformat(Utils.getSender(context,
+					command.getDefSender())));
 			url.append("&password=");
 			url.append(Utils.md5(p.getString(Preferences.PREFS_PASSWORD, "")));
 			final String text = command.getText();

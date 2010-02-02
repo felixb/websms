@@ -19,7 +19,9 @@
 <resources>
 	<!-- Common strings. -->
 	<string name="info_text">Diese App ist ein WebSMS Connector.\nDu kannst ihn nur mit WebSMS nutzen.</string>
-	<string name="stat_notify_sms_pending">WebSMS Connector IO</string>
+	<string name="stat_notify_sms_pending">WebSMS: senden</string>
+	<string name="stat_notify_sending">Sende:</string>
+	<string name="stat_notify_IO">WebSMS: Connector IO</string>
 	<string name="error">FEHLER</string>
 	<string name="error_http">Fehler: HTTP</string>
 	<string name="error_mail">Falsche Mailadresse oder Passwort angegeben!</string>
@@ -38,4 +40,6 @@
 	<string name="create_account_">Account anlegen</string>
 	<string name="use_derfault_sender_">Standardabsender nutzen</string>
 	<string name="use_derfault_sender_hint">Benutze den in WebSMS eingestellten Absender.</string>
+	<string name="custom_sender_">Anderer Absender</string>
+	<string name="sender_hint">Deine int. Mobilnummer zB. +491791234567</string>
 </resources>
