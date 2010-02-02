@@ -50,10 +50,6 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
  */
 public class ConnectorArcor extends Connector {
 
-	public ConnectorArcor() {
-
-	}
-
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.arcor";
 
