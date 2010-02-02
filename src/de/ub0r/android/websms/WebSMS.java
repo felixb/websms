@@ -159,7 +159,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
 			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
 			"5383540b2f8c298532f874126b021e73", // marco a.
-			"858ddfb8635d1539884086dca2726468", // lado
+			"19124ddf6a73b7845a9fc40e7cdb953d", // lado
 			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
 			"9f01eae4eaecd9158a2caddc04bad77e", // andreas p.
 	};
@@ -283,10 +283,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * parseSchemeSpecificPart from uri and init WebSMS properties!
+	 * parseSchemeSpecificPart from uri and init WebSMS properties
 	 * 
 	 * @param s
-	 *            String
 	 */
 	private void parseSchemeSpecificPart(String s) {
 
