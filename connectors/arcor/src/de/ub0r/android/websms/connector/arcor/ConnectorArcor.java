@@ -166,10 +166,9 @@ public class ConnectorArcor extends Connector {
 		try {
 			final HttpResponse response = ctx.getClient().execute(
 					new HttpGet(SMS_URL));
-			String freeCount = this
-					.getFreeCount(cutFreeCountFromContent(response.getEntity()
-							.getContent()));
-			this.getSpec(ctx.getContext()).setBalance(freeCount);
+			this.notifyFreeCount(ctx, cutFreeCountFromContent(response
+					.getEntity().getContent()));
+
 		} catch (final Exception ex) {
 			throw new WebSMSException(ex.getMessage());
 		}
@@ -182,7 +181,8 @@ public class ConnectorArcor extends Connector {
 	 *            conten to investigate.
 	 * @return push ok?
 	 */
-	private String getFreeCount(final String content) {
+	private void notifyFreeCount(final ConnectorContext ctx,
+			final String content) {
 		final Matcher m = BALANCE_MATCH_PATTERN.matcher(content);
 		String term = null;
 		if (m.find()) {
@@ -195,7 +195,7 @@ public class ConnectorArcor extends Connector {
 			Log.w(TAG, content);
 			term = "?";
 		}
-		return term;
+		this.getSpec(ctx.getContext()).setBalance(term);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class ConnectorArcor extends Connector {
 		final String status = m.group(1);
 		// ok, message sent!
 		if (status.equals("hint")) {
-			this.getFreeCount(body);
+			this.notifyFreeCount(ctx, body);
 			return true;
 		}
 		// warning or error
