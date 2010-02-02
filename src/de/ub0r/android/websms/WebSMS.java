@@ -766,6 +766,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		for (ConnectorSpec cs : css) {
 			if (cs.isRunning()) {
 				// skip running connectors
+				Log.d(TAG, "skip running connector: " + cs.getName());
 				continue;
 			}
 			runCommand(this, cs, ConnectorCommand.update(defPrefix, defSender));
@@ -784,6 +785,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	static final void runCommand(final WebSMS context,
 			final ConnectorSpec connector, final ConnectorCommand command) {
+		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
 		switch (command.getType()) {
 		case ConnectorCommand.TYPE_BOOTSTRAP:
@@ -1408,6 +1410,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			ConnectorSpec c = getConnectorByID(connector.getID());
 			if (c != null) {
+				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
 			} else {
 				final String name = connector.getName();
