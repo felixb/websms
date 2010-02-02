@@ -301,8 +301,8 @@ public class ConnectorArcor extends Connector {
 		sb1.append("empfaengerAn=");
 		sb1.append(URLEncoder.encode(sb.toString(), AROCR_ENCODING));
 		sb1.append("&emailAdressen=");
-		sb1.append(URLEncoder.encode(ctx.getCommand().getDefSender(),
-				AROCR_ENCODING));
+		sb1.append(URLEncoder.encode(Utils.getSender(ctx.getContext(), ctx
+				.getCommand().getDefSender()), AROCR_ENCODING));
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder
 				.encode(ctx.getCommand().getText(), AROCR_ENCODING));
