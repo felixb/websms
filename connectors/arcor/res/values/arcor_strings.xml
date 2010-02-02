@@ -19,15 +19,16 @@
 <resources>
 	<string name="app_name">WebSMS Connector: Arcor</string>
 	<string name="app_version">0.1</string>
-	<string name="connector_arcor_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
-	<string name="settings_arcor">Preferences - Arcor</string>
-	<string name="enable_arcor">Enable Arcor</string>
-	<string name="copy_sent_sms_arcor">Copy sent sms to Sent Folder</string>
+	<string name="connector_author">Lado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
+	<string name="connector_name">arcor</string>
+	<string name="settings">Preferences - Arcor</string>
+	<string name="enable">Enable Arcor</string>
+	<string name="copy_sent_sms">Copy sent sms to Sent Folder</string>
 	<!-- FIXME: lado - use default_sender from strings.xml (out of common) -->
-	<string name="enable_sender_number_arcor">Use custom number</string>
-	<string name="enable_sender_number_arcor_hint">Use custom number for arcor connector.</string>
-	<string name="log_unknow_status_after_send_arcor">The Message was probably not be sent. Please contact the Developer!</string>
-	<string name="enable_validated_number_arcor">Use validated number</string>
-	<string name="validated_number_arcor_hint">If configured by arcor, it will be used as the sender number.</string>
+	<string name="enable_sender_number">Use custom number</string>
+	<string name="enable_sender_number_hint">Use custom number for arcor connector.</string>
+	<string name="log_unknow_status_after_send">The Message was probably not be sent. Please contact the Developer!</string>
+	<string name="enable_validated_number">Use validated number</string>
+	<string name="enable_validated_number_hint">If configured by arcor, it will be used as the sender number.</string>
 </resources>
 

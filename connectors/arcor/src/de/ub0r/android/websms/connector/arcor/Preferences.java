@@ -28,7 +28,18 @@ import android.preference.PreferenceActivity;
  */
 public final class Preferences extends PreferenceActivity {
 	/** Preference key: enabled. */
-	static final String PREFS_ENABLED = "enable_arcor";
+	static final String ENABLED = "enable";
+
+	/** Preference's name: arcor username. */
+	static final String USER = "user";
+	/** Preference's name: user's password - arcor. */
+	static final String PASSWORD = "password";
+	/** Preference's name: user's password - arcor. */
+	static final String COPY_SENT_SMS = // .
+	"copy_sent_sms";
+	/** Preference's name: ovrride default sender number? - arcor. */
+	static final String ENABLE_VALIDATED_NUMBER = // .
+	"enable_validated_number";
 
 	/**
 	 * {@inheritDoc}
@@ -36,6 +47,6 @@ public final class Preferences extends PreferenceActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.connector_arcor_prefs);
+		this.addPreferencesFromResource(R.xml.prefs);
 	}
 }

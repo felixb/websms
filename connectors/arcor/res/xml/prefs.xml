@@ -17,20 +17,20 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	android:title="@string/settings_arcor">
-	<CheckBoxPreference android:key="enable_arcor"
-		android:title="@string/enable_arcor" />
-	<EditTextPreference android:key="user_arcor"
+	android:title="@string/settings">
+	<CheckBoxPreference android:key="enable"
+		android:title="@string/enable" />
+	<EditTextPreference android:key="user"
 		android:title="@string/username_" android:dialogTitle="@string/username_"
-		android:inputType="text" android:dependency="enable_arcor" />
-	<EditTextPreference android:key="password_arcor"
+		android:inputType="text" android:dependency="enable" />
+	<EditTextPreference android:key="password"
 		android:inputType="textPassword" android:title="@string/password_"
-		android:dialogTitle="@string/password_" android:dependency="enable_arcor" />
-	<CheckBoxPreference android:key="copy_sent_sms_arcor"
-		android:defaultValue="true" android:title="@string/copy_sent_sms_arcor"
-		android:dependency="enable_arcor" />
-	<CheckBoxPreference android:key="enable_validated_number_arcor"
-		android:defaultValue="false" android:title="@string/enable_validated_number_arcor"
-		android:inputType="text" android:dependency="enable_arcor"
-		android:summary="@string/enable_validated_number_arcor_hint" />
+		android:dialogTitle="@string/password_" android:dependency="enable" />
+	<CheckBoxPreference android:key="copy_sent_sms"
+		android:defaultValue="true" android:title="@string/copy_sent_sms"
+		android:dependency="enable" />
+	<CheckBoxPreference android:key="enable_validated_number"
+		android:defaultValue="false" android:title="@string/enable_validated_number"
+		android:inputType="text" android:dependency="enable"
+		android:summary="@string/enable_validated_number_hint" />
 </PreferenceScreen>
