@@ -57,12 +57,17 @@ public class ConnectorFishtext extends Connector {
 	/** Fishtext URL: login. */
 	private static final String URL_LOGIN = // .
 	"https://www.fishtext.com/cgi-bin/account";
+	/** Fishtext URL: presend. */
+	private static final String URL_PRESEND = // .
+	"https://www.fishtext.com/cgi-bin/ajax/sendMessage.cgi";
 	/** Fishtext URL: send. */
 	private static final String URL_SEND = // .
 	"https://www.fishtext.com/SendSMS/SendSMS";
 
 	/** Check for balance. */
 	private static final String CHECK_BALANCE = "Current balance:";
+	/** Check for presend. */
+	private static final String CHECK_PRESEND = "messagelargeinput";
 	/** Check for sent. */
 	private static final String CHECK_SENT = "Message sent";
 
@@ -70,6 +75,10 @@ public class ConnectorFishtext extends Connector {
 	private static final int STRIP_LOGIN_START = 4500;
 	/** Stip bytes from stream: login. */
 	private static final int STRIP_LOGIN_END = 6500;
+	/** Stip bytes from stream: presend. */
+	private static final int STRIP_PRESEND_START = 1000;
+	/** Stip bytes from stream: presend. */
+	private static final int STRIP_PRESEND_END = 3000;
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -125,11 +134,8 @@ public class ConnectorFishtext extends Connector {
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
-	 * @param connector
-	 *            {@link ConnectorSpec}
 	 * @param cookies
 	 *            {@link Cookie}s
-	 * @return successful login?
 	 * @throws IOException
 	 *             IOException
 	 * @throws WebSMSException
@@ -139,8 +145,7 @@ public class ConnectorFishtext extends Connector {
 	 * @throws MalformedCookieException
 	 *             MalformedCookieException
 	 */
-	private boolean doLogin(final Context context,
-			final ConnectorCommand command, final ConnectorSpec connector,
+	private void doLogin(final Context context, final ConnectorCommand command,
 			final ArrayList<Cookie> cookies) throws IOException,
 			WebSMSException, MalformedCookieException, URISyntaxException {
 		// TODO: use cached cookies
@@ -186,8 +191,6 @@ public class ConnectorFishtext extends Connector {
 				this.getSpec(context).setBalance(b);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -197,8 +200,6 @@ public class ConnectorFishtext extends Connector {
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
-	 * @param connector
-	 *            {@link ConnectorSpec}
 	 * @param cookies
 	 *            {@link Cookie}s
 	 * @throws WebSMSException
@@ -211,9 +212,44 @@ public class ConnectorFishtext extends Connector {
 	 *             MalformedCookieException
 	 */
 	private static void sendText(final Context context,
-			final ConnectorCommand command, final ConnectorSpec connector,
-			final ArrayList<Cookie> cookies) throws WebSMSException,
-			IOException, MalformedCookieException, URISyntaxException {
+			final ConnectorCommand command, final ArrayList<Cookie> cookies)
+			throws WebSMSException, IOException, MalformedCookieException,
+			URISyntaxException {
+
+		// presend
+
+		HttpResponse response = Utils.getHttpClient(URL_PRESEND, cookies,
+				new ArrayList<BasicNameValuePair>(0), TARGET_AGENT, URL_LOGIN);
+		int resp = response.getStatusLine().getStatusCode();
+		if (resp != HttpURLConnection.HTTP_OK) {
+			throw new WebSMSException(context, R.string.error_http, "" + resp);
+		}
+		Utils.updateCookies(cookies, response.getAllHeaders(), URL_SEND);
+		String htmlText = Utils.stream2str(response.getEntity().getContent(),
+				STRIP_PRESEND_START, STRIP_PRESEND_END);
+		Log.d(TAG, "----HTTP RESPONSE---");
+		Log.d(TAG, htmlText);
+		Log.d(TAG, "----HTTP RESPONSE---");
+		int i = htmlText.indexOf(CHECK_PRESEND);
+		if (i < 0) {
+			throw new WebSMSException(context, R.string.error_service);
+		}
+		int j = htmlText.indexOf("name=", i);
+		if (j < 0) {
+			throw new WebSMSException(context, R.string.error_service);
+		}
+		Log.d(TAG, "j = " + j);
+		htmlText = htmlText.substring(j + 6);
+		j = htmlText.indexOf("\"", 1);
+		if (j < 0) {
+			throw new WebSMSException(context, R.string.error_service);
+		}
+		final String messageID = htmlText.substring(0, j);
+		htmlText = null;
+		Log.d(TAG, "message id: " + messageID);
+
+		// send
+
 		ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(6);
 		postData.add(new BasicNameValuePair("action", "Send"));
@@ -224,24 +260,22 @@ public class ConnectorFishtext extends Connector {
 				command.getDefPrefix(),
 				Utils.getRecipientsNumber(command.getRecipients()[0]))
 				.substring(1)));
-		postData.add(new BasicNameValuePair(
-				"M38a734bb6bbcf1c2172fe91b052fc663", command.getText()));
+		postData.add(new BasicNameValuePair(messageID, command.getText()));
 
-		HttpResponse response = Utils.getHttpClient(URL_LOGIN, cookies,
-				postData, TARGET_AGENT, URL_LOGIN);
+		response = Utils.getHttpClient(URL_SEND, cookies, postData,
+				TARGET_AGENT, URL_LOGIN);
 		postData = null;
-		int resp = response.getStatusLine().getStatusCode();
+		resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
 		}
 		Utils.updateCookies(cookies, response.getAllHeaders(), URL_SEND);
-		final String htmlText = Utils.stream2str(response.getEntity()
-				.getContent());
+		htmlText = Utils.stream2str(response.getEntity().getContent());
 		Log.d(TAG, "----HTTP RESPONSE---");
 		Log.d(TAG, htmlText);
 		Log.d(TAG, "----HTTP RESPONSE---");
 
-		final int i = htmlText.indexOf(CHECK_SENT);
+		i = htmlText.indexOf(CHECK_SENT);
 		if (i < 0) {
 			throw new WebSMSException(context, R.string.error_service);
 		}
@@ -262,10 +296,13 @@ public class ConnectorFishtext extends Connector {
 			cookies = (ArrayList<Cookie>) staticCookies.clone();
 		}
 		try {
-			this.doLogin(context, new ConnectorCommand(intent),
-					new ConnectorSpec(intent), cookies);
+			this.doLogin(context, new ConnectorCommand(intent), cookies);
 			staticCookies = cookies;
-		} catch (final Exception e) {
+		} catch (final IOException e) {
+			throw new WebSMSException(e);
+		} catch (final URISyntaxException e) {
+			throw new WebSMSException(e);
+		} catch (final MalformedCookieException e) {
 			throw new WebSMSException(e);
 		}
 	}
@@ -285,12 +322,14 @@ public class ConnectorFishtext extends Connector {
 		}
 		try {
 			final ConnectorCommand command = new ConnectorCommand(intent);
-			final ConnectorSpec connector = new ConnectorSpec(intent);
-			if (this.doLogin(context, command, connector, cookies)) {
-				sendText(context, command, connector, cookies);
-			}
+			this.doLogin(context, command, cookies);
+			sendText(context, command, cookies);
 			staticCookies = cookies;
-		} catch (final Exception e) {
+		} catch (final IOException e) {
+			throw new WebSMSException(e);
+		} catch (final URISyntaxException e) {
+			throw new WebSMSException(e);
+		} catch (final MalformedCookieException e) {
 			throw new WebSMSException(e);
 		}
 	}
