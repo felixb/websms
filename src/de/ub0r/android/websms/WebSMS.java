@@ -394,6 +394,15 @@ public class WebSMS extends Activity implements OnClickListener,
 						new BufferedInputStream(new ByteArrayInputStream(
 								Base64Coder.decode(s)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
+				if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
+					final String defPrefix = p
+							.getString(PREFS_DEFPREFIX, "+49");
+					final String defSender = p.getString(PREFS_SENDER, "");
+					for (ConnectorSpec c : CONNECTORS) {
+						runCommand(me, c, ConnectorCommand.update(defPrefix,
+								defSender));
+					}
+				}
 			} catch (Exception e) {
 				Log.d(TAG, "error loading connectors", e);
 			}
