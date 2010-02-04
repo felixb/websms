@@ -394,6 +394,15 @@ public class WebSMS extends Activity implements OnClickListener,
 						new BufferedInputStream(new ByteArrayInputStream(
 								Base64Coder.decode(s)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
+				if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
+					final String defPrefix = p
+							.getString(PREFS_DEFPREFIX, "+49");
+					final String defSender = p.getString(PREFS_SENDER, "");
+					for (ConnectorSpec c : CONNECTORS) {
+						runCommand(me, c, ConnectorCommand.update(defPrefix,
+								defSender));
+					}
+				}
 			} catch (Exception e) {
 				Log.d(TAG, "error loading connectors", e);
 			}
@@ -766,6 +775,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		for (ConnectorSpec cs : css) {
 			if (cs.isRunning()) {
 				// skip running connectors
+				Log.d(TAG, "skip running connector: " + cs.getName());
 				continue;
 			}
 			runCommand(this, cs, ConnectorCommand.update(defPrefix, defSender));
@@ -784,6 +794,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	static final void runCommand(final WebSMS context,
 			final ConnectorSpec connector, final ConnectorCommand command) {
+		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
 		switch (command.getType()) {
 		case ConnectorCommand.TYPE_BOOTSTRAP:
@@ -795,12 +806,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
-			connector.addStatus(ConnectorSpec.STATUS_SENDING);
+			// FIXME: connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			break;
 		case ConnectorCommand.TYPE_UPDATE:
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_UPDATE);
-			connector.addStatus(ConnectorSpec.STATUS_UPDATING);
+			// FIXME: connector.addStatus(ConnectorSpec.STATUS_UPDATING);
 			break;
 		default:
 			break;
@@ -1408,6 +1419,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			ConnectorSpec c = getConnectorByID(connector.getID());
 			if (c != null) {
+				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
 			} else {
 				final String name = connector.getName();
@@ -1437,33 +1449,36 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				c = connector;
 
-				final SharedPreferences p = PreferenceManager
-						.getDefaultSharedPreferences(me);
+				if (me != null) {
+					final SharedPreferences p = PreferenceManager
+							.getDefaultSharedPreferences(me);
 
-				// update connectors balance if needed
-				if (c.getBalance() == null && c.isReady() && !c.isRunning()
-						&& c.hasCapabilities(ConnectorSpec.CAPABILITIES_UPDATE)
-						&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
-					final String defPrefix = p
-							.getString(PREFS_DEFPREFIX, "+49");
-					final String defSender = p.getString(PREFS_SENDER, "");
-					runCommand(me, c, ConnectorCommand.update(defPrefix,
-							defSender));
+					// update connectors balance if needed
+					if (c.getBalance() == null && c.isReady() && !c.isRunning()
+							&& c.hasCapabilities(// .
+									ConnectorSpec.CAPABILITIES_UPDATE)
+							&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
+						final String defPrefix = p.getString(PREFS_DEFPREFIX,
+								"+49");
+						final String defSender = p.getString(PREFS_SENDER, "");
+						runCommand(me, c, ConnectorCommand.update(defPrefix,
+								defSender));
+					}
+
+					if (prefsConnectorSpec == null
+							&& prefsConnectorID.equals(connector.getID())) {
+						prefsConnectorSpec = connector;
+
+						prefsSubConnectorSpec = connector.getSubConnector(p
+								.getString(PREFS_SUBCONNECTOR_ID, ""));
+						me.setButtons();
+					}
 				}
-
-				if (prefsConnectorSpec == null
-						&& prefsConnectorID.equals(connector.getID())) {
-					prefsConnectorSpec = connector;
-
-					prefsSubConnectorSpec = connector.getSubConnector(p
-							.getString(PREFS_SUBCONNECTOR_ID, ""));
-					me.setButtons();
+				final String b = c.getBalance();
+				final String ob = c.getOldBalance();
+				if (b != null && (ob == null || !b.equals(ob))) {
+					me.updateBalance();
 				}
-			}
-			final String b = c.getBalance();
-			final String ob = c.getOldBalance();
-			if (b != null && (ob == null || !b.equals(ob))) {
-				me.updateBalance();
 			}
 		}
 	}
