@@ -1448,37 +1448,36 @@ public class WebSMS extends Activity implements OnClickListener,
 					CONNECTORS.add(connector);
 				}
 				c = connector;
+			}
+			if (me != null) {
+				final SharedPreferences p = PreferenceManager
+						.getDefaultSharedPreferences(me);
 
-				if (me != null) {
-					final SharedPreferences p = PreferenceManager
-							.getDefaultSharedPreferences(me);
-
-					// update connectors balance if needed
-					if (c.getBalance() == null && c.isReady() && !c.isRunning()
-							&& c.hasCapabilities(// .
-									ConnectorSpec.CAPABILITIES_UPDATE)
-							&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
-						final String defPrefix = p.getString(PREFS_DEFPREFIX,
-								"+49");
-						final String defSender = p.getString(PREFS_SENDER, "");
-						runCommand(me, c, ConnectorCommand.update(defPrefix,
-								defSender));
-					}
-
-					if (prefsConnectorSpec == null
-							&& prefsConnectorID.equals(connector.getID())) {
-						prefsConnectorSpec = connector;
-
-						prefsSubConnectorSpec = connector.getSubConnector(p
-								.getString(PREFS_SUBCONNECTOR_ID, ""));
-						me.setButtons();
-					}
+				// update connectors balance if needed
+				if (c.getBalance() == null && c.isReady() && !c.isRunning()
+						&& c.hasCapabilities(// .
+								ConnectorSpec.CAPABILITIES_UPDATE)
+						&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
+					final String defPrefix = p
+							.getString(PREFS_DEFPREFIX, "+49");
+					final String defSender = p.getString(PREFS_SENDER, "");
+					runCommand(me, c, ConnectorCommand.update(defPrefix,
+							defSender));
 				}
-				final String b = c.getBalance();
-				final String ob = c.getOldBalance();
-				if (b != null && (ob == null || !b.equals(ob))) {
-					me.updateBalance();
+
+				if (prefsConnectorSpec == null
+						&& prefsConnectorID.equals(connector.getID())) {
+					prefsConnectorSpec = connector;
+
+					prefsSubConnectorSpec = connector.getSubConnector(p
+							.getString(PREFS_SUBCONNECTOR_ID, ""));
+					me.setButtons();
 				}
+			}
+			final String b = c.getBalance();
+			final String ob = c.getOldBalance();
+			if (b != null && (ob == null || !b.equals(ob))) {
+				me.updateBalance();
 			}
 		}
 	}

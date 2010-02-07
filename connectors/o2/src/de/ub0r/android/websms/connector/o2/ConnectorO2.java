@@ -103,13 +103,16 @@ public class ConnectorO2 extends Connector {
 	/** Check if captcha was solved wrong. */
 	private static final String CHECK_WRONGCAPTCHA = // .
 	"Sie haben einen falschen Code eingegeben.";
+	/** Check for _flowExecutionKey. */
+	private static final String CHECK_FLOW = // .
+	"name=\"_flowExecutionKey\" value=\"";
 
 	/** Stip bytes from stream: prelogin. */
 	private static final int STRIP_PRELOGIN_START = 8000;
 	/** Stip bytes from stream: prelogin. */
 	private static final int STRIP_PRELOGIN_END = 11000;
 	/** Stip bytes from stream: presend. */
-	private static final int STRIP_PRESEND_START = 58000;
+	private static final int STRIP_PRESEND_START = 56000;
 	/** Stip bytes from stream: presend. */
 	private static final int STRIP_PRESEND_END = 62000;
 	/** Stip bytes from stream: send. */
@@ -180,7 +183,7 @@ public class ConnectorO2 extends Connector {
 	 */
 	private static String getFlowExecutionkey(final String html) {
 		String ret = "";
-		int i = html.indexOf("name=\"_flowExecutionKey\" value=\"");
+		int i = html.indexOf(CHECK_FLOW);
 		if (i > 0) {
 			int j = html.indexOf("\"", i + 35);
 			if (j >= 0) {
@@ -442,16 +445,19 @@ public class ConnectorO2 extends Connector {
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
 		}
-		final String htmlText1 = Utils.stream2str(response.getEntity()
-				.getContent(), STRIP_SEND_START, STRIP_SEND_END);
 		String check = CHECK_SENT;
 		if (sendLater > 0) {
 			check = CHECK_SCHED;
 		}
-		if (htmlText1.indexOf(check) < 0) {
+		final String htmlText1 = Utils.stream2str(response.getEntity()
+				.getContent(), STRIP_SEND_START, Utils.ONLY_MATCHING_LINE,
+				check);
+		if (htmlText1 == null) {
+			throw new WebSMSException("error parsing website");
+		} else if (htmlText1.indexOf(check) < 0) {
 			// check output html for success message
 			Log.d(TAG, htmlText1);
-			throw new WebSMSException(context, R.string.error);
+			throw new WebSMSException("error parsing website");
 		}
 	}
 
@@ -497,9 +503,8 @@ public class ConnectorO2 extends Connector {
 				}
 				Utils.updateCookies(cookies, response.getAllHeaders(),
 						URL_PRELOGIN);
-				String htmlText = Utils
-						.stream2str(response.getEntity().getContent(),
-								STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
+				String htmlText = Utils.stream2str(response.getEntity()
+						.getContent(), 0, Utils.ONLY_MATCHING_LINE, CHECK_FLOW);
 				final String flowExecutionKey = ConnectorO2
 						.getFlowExecutionkey(htmlText);
 				htmlText = null;
@@ -541,20 +546,41 @@ public class ConnectorO2 extends Connector {
 			}
 			Utils.updateCookies(cookies, response.getAllHeaders(), URL_PRESEND);
 			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END);
+					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END,
+					CHECK_FREESMS);
+			if (htmlText == null) {
+				if (reuseSession) {
+					this.sendData(context, command, false);
+					return;
+				} else {
+					Log.d(TAG, htmlText);
+					throw new WebSMSException(// .
+							"faild to locate freesms on site");
+				}
+			}
 			int i = htmlText.indexOf(CHECK_FREESMS);
 			if (i > 0) {
 				int j = htmlText.indexOf(CHECK_WEB2SMS, i);
 				if (j > 0) {
+					ConnectorSpec c = this.getSpec(context);
 					this.getSpec(context)
 							.setBalance(
 									htmlText.substring(i + 9, j).trim().split(
 											" ", 2)[0]);
+					Log.d(TAG, "balance: " + c.getBalance());
 				} else if (reuseSession) {
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
+				} else {
+					Log.d(TAG, htmlText);
+					throw new WebSMSException(// .
+							"faild to locate freesms on site (2)");
 				}
+			} else {
+				Log.d(TAG, htmlText);
+				throw new WebSMSException(// .
+						"faild to locate freesms on site (3)");
 			}
 
 			// send
