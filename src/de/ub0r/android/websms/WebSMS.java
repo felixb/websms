@@ -729,6 +729,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
+		} else {
+			Toast.makeText(this, R.string.log_noselectedconnector,
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
