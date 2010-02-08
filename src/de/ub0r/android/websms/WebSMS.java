@@ -691,17 +691,19 @@ public class WebSMS extends Activity implements OnClickListener,
 		prefsNoAds = this.hideAds();
 		// TODO: remove following lines
 		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
-		for (String h : NO_AD_HASHS) {
-			if (hash.equals(h)) {
-				prefsNoAds = true;
-				break;
-			}
-		}
-		if (!prefsNoAds && this.getImeiHash() != null) {
+		if (!prefsNoAds) {
 			for (String h : NO_AD_HASHS) {
-				if (imeiHash.equals(h)) {
+				if (hash.equals(h)) {
 					prefsNoAds = true;
 					break;
+				}
+			}
+			if (!prefsNoAds && this.getImeiHash() != null) {
+				for (String h : NO_AD_HASHS) {
+					if (imeiHash.equals(h)) {
+						prefsNoAds = true;
+						break;
+					}
 				}
 			}
 		}
