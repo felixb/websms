@@ -28,7 +28,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URI;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -321,7 +320,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * parseSchemeSpecificPart from {@link URI} and initialize WebSMS
+	 * parseSchemeSpecificPart from {@link Uri} and initialize WebSMS
 	 * properties.
 	 * 
 	 * @param part
@@ -875,7 +874,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ConnectorSpec connector, final ConnectorCommand command) {
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
-		switch (command.getType()) {
+		short t = command.getType();
+		switch (t) {
 		case ConnectorCommand.TYPE_BOOTSTRAP:
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_BOOTSTRAP);
@@ -885,15 +885,19 @@ public class WebSMS extends Activity implements OnClickListener,
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
-			// FIXME: connector.addStatus(ConnectorSpec.STATUS_SENDING);
+			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			break;
 		case ConnectorCommand.TYPE_UPDATE:
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_UPDATE);
-			// FIXME: connector.addStatus(ConnectorSpec.STATUS_UPDATING);
+			connector.addStatus(ConnectorSpec.STATUS_UPDATING);
 			break;
 		default:
 			break;
+		}
+		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
+				t == ConnectorCommand.TYPE_UPDATE)) {
+			me.setProgressBarIndeterminateVisibility(true);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		context.sendBroadcast(intent);
@@ -1552,11 +1556,22 @@ public class WebSMS extends Activity implements OnClickListener,
 							.getString(PREFS_SUBCONNECTOR_ID, ""));
 					me.setButtons();
 				}
-			}
-			final String b = c.getBalance();
-			final String ob = c.getOldBalance();
-			if (b != null && (ob == null || !b.equals(ob))) {
-				me.updateBalance();
+
+				final String b = c.getBalance();
+				final String ob = c.getOldBalance();
+				if (b != null && (ob == null || !b.equals(ob))) {
+					me.updateBalance();
+				}
+
+				// FIXME: returns []
+				final ConnectorSpec[] connectors = getConnectors(
+						ConnectorSpec.CAPABILITIES_BOOTSTRAP
+								| ConnectorSpec.CAPABILITIES_UPDATE,
+						ConnectorSpec.STATUS_ENABLED
+								| ConnectorSpec.STATUS_BOOTSTRAPPING
+								| ConnectorSpec.STATUS_UPDATING);
+				me.setProgressBarIndeterminateVisibility(// .
+						connectors.length != 0);
 			}
 		}
 	}
@@ -1639,15 +1654,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            status required {@link SubConnectorSpec}
 	 * @return {@link ConnectorSpec}s
 	 */
-	static final ConnectorSpec[] getConnectors(final short capabilities,
-			final short status) {
+	static final ConnectorSpec[] getConnectors(final int capabilities,
+			final int status) {
 		synchronized (CONNECTORS) {
 			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
 					CONNECTORS.size());
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);
-				if (c.hasCapabilities(capabilities) && c.hasStatus(status)) {
+				if (c.hasCapabilities((short) capabilities)
+						&& c.hasStatus((short) status)) {
 					ret.add(c);
 				}
 			}
