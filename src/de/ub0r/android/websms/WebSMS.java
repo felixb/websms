@@ -28,6 +28,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -320,12 +321,14 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * parseSchemeSpecificPart from uri and init WebSMS properties
+	 * parseSchemeSpecificPart from {@link URI} and initialize WebSMS
+	 * properties.
 	 * 
-	 * @param s
+	 * @param part
+	 *            scheme specific part
 	 */
-	private void parseSchemeSpecificPart(String s) {
-
+	private void parseSchemeSpecificPart(final String part) {
+		String s = part;
 		if (s == null) {
 			return;
 		}
