@@ -20,11 +20,18 @@ package de.ub0r.android.websms;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -120,6 +127,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
+	/** Preference's name: hide ads. */
+	private static final String PREFS_HIDEADS = "hideads";
+
+	/** Path to file containing signatures of UID Hash. */
+	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
 
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
@@ -151,9 +163,19 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
 	new ArrayList<ConnectorSpec>();
 
+	/** Crypto algorithm for signing UID hashs. */
+	private static final String ALGO = "RSA";
+	/** Crypto hash algorithm for signing UID hashs. */
+	private static final String SIGALGO = "SHA1with" + ALGO;
+	/** My public key for verifying UID hashs. */
+	private static final String KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNAD"
+			+ "CBiQKBgQCgnfT4bRMLOv3rV8tpjcEqsNmC1OJaaEYRaTHOCC"
+			+ "F4sCIZ3pEfDcNmrZZQc9Y0im351ekKOzUzlLLoG09bsaOeMd"
+			+ "Y89+o2O0mW9NnBch3l8K/uJ3FRn+8Li75SqoTqFj3yCrd9IT"
+			+ "sOJC7PxcR5TvNpeXsogcyxxo3fMdJdjkafYwIDAQAB";
+
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
-			"43dcb861b9588fb733300326b61dbab9", // flx
 			"57a3c7c19329fd84c2252a9b2866dd93", // mirweb
 			"10b7a2712beee096acbc67416d7d71a1", // mo
 			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
@@ -663,7 +685,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,
 				false));
 
-		prefsNoAds = false;
+		prefsNoAds = this.hideAds();
+		// TODO: remove following lines
 		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
 		for (String h : NO_AD_HASHS) {
 			if (hash.equals(h)) {
@@ -679,8 +702,56 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 			}
 		}
+		// this is for transition
+		p.edit().putBoolean(PREFS_HIDEADS, prefsNoAds).commit();
 
 		this.setButtons();
+	}
+
+	/**
+	 * Check for signature updates.
+	 * 
+	 * @return true if ads should be hidden
+	 */
+	private boolean hideAds() {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final File f = new File(NOADS_SIGNATURES);
+		try {
+			if (f.exists()) {
+				final BufferedReader br = new BufferedReader(new FileReader(f));
+				final byte[] publicKey = Base64Coder.decode(KEY);
+				final KeyFactory keyFactory = KeyFactory.getInstance(ALGO);
+				PublicKey pk = keyFactory
+						.generatePublic(new X509EncodedKeySpec(publicKey));
+				final String h = this.getImeiHash();
+				boolean ret = false;
+				while (true) {
+					String l = br.readLine();
+					if (l == null) {
+						break;
+					}
+					try {
+						byte[] signature = Base64Coder.decode(l);
+						Signature sig = Signature.getInstance(SIGALGO);
+						sig.initVerify(pk);
+						sig.update(h.getBytes());
+						ret = sig.verify(signature);
+						if (ret) {
+							break;
+						}
+					} catch (IllegalArgumentException e) {
+						Log.w(TAG, "error reading line", e);
+					}
+				}
+				br.close();
+				f.delete();
+				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "error reading signatures", e);
+		}
+		return p.getBoolean(PREFS_HIDEADS, false);
 	}
 
 	/**
