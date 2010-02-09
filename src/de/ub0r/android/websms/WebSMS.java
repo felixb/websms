@@ -1564,14 +1564,18 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 
 				// FIXME: returns []
-				final ConnectorSpec[] connectors = getConnectors(
-						ConnectorSpec.CAPABILITIES_BOOTSTRAP
-								| ConnectorSpec.CAPABILITIES_UPDATE,
+				boolean runningConnectors = getConnectors(
+								ConnectorSpec.CAPABILITIES_UPDATE,
+						ConnectorSpec.STATUS_ENABLED
+								| ConnectorSpec.STATUS_UPDATING).length != 0;
+				if (!runningConnectors) {
+					runningConnectors = getConnectors(
+						ConnectorSpec.CAPABILITIES_BOOTSTRAP,
 						ConnectorSpec.STATUS_ENABLED
 								| ConnectorSpec.STATUS_BOOTSTRAPPING
-								| ConnectorSpec.STATUS_UPDATING);
-				me.setProgressBarIndeterminateVisibility(// .
-						connectors.length != 0);
+							).length != 0;
+				}
+				me.setProgressBarIndeterminateVisibility(runningConnectors);
 			}
 		}
 	}
