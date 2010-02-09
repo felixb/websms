@@ -58,4 +58,9 @@
 		<intent android:action="android.intent.action.VIEW"
 			android:data="market://search?q=websms+connector" />
 	</PreferenceScreen>
+	<PreferenceScreen android:title="@string/more_connectors__"
+		android:summary="@string/more_connectors__hint">
+		<intent android:action="android.intent.action.SENDTO"
+			android:data="mailto:flx.yoo+websms@gmail.com" />
+	</PreferenceScreen>
 </PreferenceScreen>

@@ -42,7 +42,9 @@
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
-	<string name="more_connectors_hint">Look for more WebSMS Connectors in Android Market.</string>
+	<string name="more_connectors_hint">Look for more WebSMS Connectors in Android Market. Restart WebSMS after installing.</string>
+	<string name="more_connectors__">Even more Connectors..</string>
+	<string name="more_connectors__hint">You miss a connector for some service? Mail me!</string>
 	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
