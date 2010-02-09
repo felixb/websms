@@ -80,9 +80,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-
-import com.admob.android.ads.AdView;
-
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -150,6 +147,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
+	/** Show AdView on top. */
+	private boolean onTop = false;
 	/** Hased IMEI. */
 	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
@@ -311,12 +310,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 			}
 		}
-		if (!prefsNoAds) {
-			// do not display any ads for donators
-			// display ads
-			((AdView) WebSMS.this.findViewById(R.id.ad))
-					.setVisibility(View.VISIBLE);
-		}
+		this.displayAds(true);
 	}
 
 	/**
@@ -708,7 +702,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		// this is for transition
 		p.edit().putBoolean(PREFS_HIDEADS, prefsNoAds).commit();
-
+		this.displayAds(false);
 		this.setButtons();
 	}
 
@@ -1349,6 +1343,32 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Show AdView on top or on bottom.
+	 * 
+	 * @param top
+	 *            display ads on top.
+	 */
+	private void displayAds(final boolean top) {
+		if (prefsNoAds) {
+			// do not display any ads for donators
+			return;
+		}
+		if (top) {
+			// switch to AdView on top
+			this.onTop = true;
+		}
+		if (this.onTop) {
+			Log.d(TAG, "display ads on top");
+			this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
+			this.findViewById(R.id.ad_bottom).setVisibility(View.GONE);
+		} else {
+			Log.d(TAG, "display ads on bottom");
+			this.findViewById(R.id.ad).setVisibility(View.GONE);
+			this.findViewById(R.id.ad_bottom).setVisibility(View.VISIBLE);
+		}
+	}
+
+	/**
 	 * Send text.
 	 * 
 	 * @param connector
@@ -1365,12 +1385,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 
-		if (!prefsNoAds) {
-			// do not display any ads for donators
-			// display ads
-			((AdView) WebSMS.this.findViewById(R.id.ad))
-					.setVisibility(View.VISIBLE);
-		}
+		this.displayAds(true);
 
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
