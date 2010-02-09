@@ -1552,6 +1552,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						.getDefaultSharedPreferences(me);
 
 				// update connectors balance if needed
+				// FIXME: on error this results in endles loop
 				if (c.getBalance() == null && c.isReady() && !c.isRunning()
 						&& c.hasCapabilities(// .
 								ConnectorSpec.CAPABILITIES_UPDATE)
