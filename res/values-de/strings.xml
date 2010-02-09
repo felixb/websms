@@ -39,7 +39,7 @@
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>
-	<string name="more_connectors_hint">Suche nach WebSMS Connectoren im Android Market. Starte WebSMS neu nach dem installieren.</string>
+	<string name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
 	<string name="more_connectors__">Noch mehr Connectoren..</string>
 	<string name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Schreib mir!</string>
 	<string name="free_">Guthaben:</string>
