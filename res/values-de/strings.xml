@@ -35,7 +35,7 @@
 	<string name="donate_">Spenden</string>
 	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
 	<string name="remove_ads_">Werbung entfernen</string>
-	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung mit dem nächsten Release dann entfernen.</string>
+	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.</string>
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>

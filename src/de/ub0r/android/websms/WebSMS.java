@@ -1565,15 +1565,14 @@ public class WebSMS extends Activity implements OnClickListener,
 
 				// FIXME: returns []
 				boolean runningConnectors = getConnectors(
-								ConnectorSpec.CAPABILITIES_UPDATE,
+						ConnectorSpec.CAPABILITIES_UPDATE,
 						ConnectorSpec.STATUS_ENABLED
 								| ConnectorSpec.STATUS_UPDATING).length != 0;
 				if (!runningConnectors) {
 					runningConnectors = getConnectors(
-						ConnectorSpec.CAPABILITIES_BOOTSTRAP,
-						ConnectorSpec.STATUS_ENABLED
-								| ConnectorSpec.STATUS_BOOTSTRAPPING
-							).length != 0;
+							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
+							ConnectorSpec.STATUS_ENABLED
+									| ConnectorSpec.STATUS_BOOTSTRAPPING).length != 0;
 				}
 				me.setProgressBarIndeterminateVisibility(runningConnectors);
 			}

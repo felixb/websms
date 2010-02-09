@@ -38,7 +38,7 @@
 	<string name="donate_">Donate</string>
 	<string name="donate_remove_ads_">Donate/remove ads</string>
 	<string name="remove_ads_">Remove ads</string>
-	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you with the next release.\nThank you!</string>
+	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you as soon as possible.\nThank you!</string>
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
