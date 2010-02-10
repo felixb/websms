@@ -66,7 +66,7 @@ public class ConnectorO2 extends Connector {
 			+ "comcenter-login&scheme=http&port=80&server=email"
 			+ ".o2online.de&url=%2Fssomanager.osp%3FAPIID%3D"
 			+ "AUTH-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp"
-			+ "%253f%26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
+			+ "%253f%26o2_type%3Durl%26o2_label%3Dweb2sms-o2online";
 	/** URL for login. */
 	private static final String URL_LOGIN = "https://login.o2online.de"
 			+ "/loginRegistration/loginAction.do";
@@ -75,7 +75,7 @@ public class ConnectorO2 extends Connector {
 			+ "/loginRegistration/jcaptcha";
 	/** URL for solving captcha. */
 	private static final String URL_SOLVECAPTCHA = "https://login.o2online.de"
-			+ "/loginRegistration" + "/loginAction.do";
+			+ "/loginRegistration/loginAction.do";
 	/** URL for sms center. */
 	private static final String URL_SMSCENTER = "http://email.o2online.de:80"
 			+ "/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
@@ -126,9 +126,11 @@ public class ConnectorO2 extends Connector {
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
 	/** Solved Captcha. */
-	static String captchaSolve = null;
+	private static String captchaSolve = null;
 	/** Object to sync with. */
-	static final Object CAPTCHA_SYNC = new Object();
+	private static final Object CAPTCHA_SYNC = new Object();
+	/** Timeout for entering the captcha. */
+	private static final long CAPTCHA_TIMEOUT = 60000;
 
 	/** Static cookies. */
 	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
@@ -227,17 +229,22 @@ public class ConnectorO2 extends Connector {
 				.getContent());
 		final Intent intent = new Intent(Connector.ACTION_CAPTCHA_REQUEST);
 		intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, captcha.getBitmap());
+		captcha = null;
+		this.getSpec(context).setToIntent(intent);
 		context.sendBroadcast(intent);
 		try {
 			synchronized (CAPTCHA_SYNC) {
-				CAPTCHA_SYNC.wait();
+				CAPTCHA_SYNC.wait(CAPTCHA_TIMEOUT);
 			}
 		} catch (InterruptedException e) {
 			Log.e(TAG, null, e);
 			return false;
 		}
+		if (captchaSolve == null) {
+			return false;
+		}
 		// got user response, try to solve captcha
-		captcha = null;
+		Log.d(TAG, "got solved captcha: " + captchaSolve);
 		final ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(3);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
@@ -245,6 +252,8 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
 		response = Utils.getHttpClient(URL_SOLVECAPTCHA, cookies, postData,
 				TARGET_AGENT, URL_LOGIN);
+		Log.d(TAG, cookies.toString());
+		Log.d(TAG, postData.toString());
 		resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
@@ -308,12 +317,12 @@ public class ConnectorO2 extends Connector {
 					.getContent(), STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
 			response = null;
 			if (htmlText.indexOf("captcha") > 0) {
-				// final String newFlow = getFlowExecutionkey(htmlText);
+				final String newFlow = getFlowExecutionkey(htmlText);
 				htmlText = null;
-				// FIXME: !this.solveCaptcha(newFlow)) {
-				throw new WebSMSException("you have to solve a captcha,"
-						+ "\nplease contact the developer");
-				// }
+				if (!this.solveCaptcha(context, cookies, newFlow)) {
+					throw new WebSMSException(context,
+							R.string.error_wrongcaptcha);
+				}
 			} else {
 				throw new WebSMSException(context, R.string.error_pw);
 			}
@@ -626,6 +635,8 @@ public class ConnectorO2 extends Connector {
 	protected final void gotSolvedCaptcha(final Context context,
 			final String solvedCaptcha) {
 		captchaSolve = solvedCaptcha;
-		CAPTCHA_SYNC.notify();
+		synchronized (CAPTCHA_SYNC) {
+			CAPTCHA_SYNC.notify();
+		}
 	}
 }
