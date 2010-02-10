@@ -51,6 +51,7 @@
 	<string name="enable_sipgate">Enable Sipgate</string>
 	<string name="enable_sipgate_team">Sipgate Team</string>
 	<string name="enable_sms">Enable SMS</string>
+	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 	<string name="enable_innosend">Enable Innosend</string>
 	<string name="enable_cherrysms">Enable CherrySMS</string>
 	<string name="enable_sloono">Enable Sloono</string>

@@ -48,7 +48,7 @@
 	<PreferenceCategory android:title="@string/settings_connectors">
 
 		<CheckBoxPreference android:key="enable_sms"
-			android:title="@string/enable_sms" android:defaultValue="true" />
+			android:title="@string/enable_sms" android:defaultValue="true" android:summary="@string/enable_sms_hint" />
 
 		<PreferenceScreen android:title="@string/settings_gmx">
 			<CheckBoxPreference android:key="enable_gmx"
