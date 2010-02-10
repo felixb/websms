@@ -21,7 +21,10 @@ package de.ub0r.android.websms.connector.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.WebSMSException;
@@ -93,6 +96,17 @@ public class ConnectorTest extends Connector {
 				"fail", false)) {
 			throw new WebSMSException("fail");
 		}
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				"need_captcha", false)) {
+			final Intent intent = new Intent(Connector.ACTION_CAPTCHA_REQUEST);
+			BitmapDrawable d = (BitmapDrawable) context.getResources()
+					.getDrawable(R.drawable.icon);
+			intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, d.getBitmap());
+			// intent.putExtra(Connector.EXTRA_CAPTCHA_MESSAGE, "solv it!");
+			this.getSpec(context).setToIntent(intent);
+			Log.d(TAG, "send broadcast: " + intent.getAction());
+			context.sendBroadcast(intent);
+		}
 	}
 
 	/**
@@ -120,5 +134,15 @@ public class ConnectorTest extends Connector {
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
 		this.doStuff(context);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void gotSolvedCaptcha(final Context context,
+			final String solvedCaptcha) {
+		Toast.makeText(context, "solved: " + solvedCaptcha, Toast.LENGTH_LONG)
+				.show();
 	}
 }

@@ -24,8 +24,6 @@
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
-	<string name="captcha_">Enter the word below</string>
-	<string name="captcha_btn_">Submit</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
 	<string name="changelog_">Changelog</string>
@@ -84,4 +82,6 @@
 	<string name="send_later">Send later</string>
 	<string name="emo_">Emoticons</string>
 	<string name="connectors_switch">Switched connector:</string>
+	<string name="captcha_">Captcha</string>
+	<string name="captcha_solve_it">Please enter the text below:</string>
 </resources>

@@ -40,10 +40,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="Preferences" />
+		<activity android:name="CaptchaActivity" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.INFO" />
+				<action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
 			</intent-filter>
 		</receiver>
 

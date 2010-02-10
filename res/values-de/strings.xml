@@ -23,8 +23,6 @@
 	<string name="app_version">2.9.90 beta1</string>
 	<string name="author_">Autor:</string>
 	<string name="author_connectors_">Autor der Connectoren:</string>
-	<string name="captcha_">Gib das Wort unten ein</string>
-	<string name="captcha_btn_">Absenden</string>
 	<string name="change_connector_">Anderer Provider</string>
 	<string name="change_connector_nl">Anderer\nProvider</string>
 	<string name="click_for_update">(update: klick)</string>
@@ -73,4 +71,6 @@
 	<string name="send_later">Später senden</string>
 	<string name="emo_">Smilies</string>
 	<string name="connectors_switch">Connector wurde gewechselt:</string>
+	<string name="captcha_">Captcha</string>
+	<string name="captcha_solve_it">Bitte gib den Text unten ein:</string>
 </resources>
