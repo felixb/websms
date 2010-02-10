@@ -1546,23 +1546,26 @@ public class WebSMS extends Activity implements OnClickListener,
 					CONNECTORS.add(connector);
 				}
 				c = connector;
+				if (me != null) {
+					final SharedPreferences p = PreferenceManager
+							.getDefaultSharedPreferences(me);
+
+					// update connectors balance if needed
+					if (c.getBalance() == null && c.isReady() && !c.isRunning()
+							&& c.hasCapabilities(// .
+									ConnectorSpec.CAPABILITIES_UPDATE)
+							&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
+						final String defPrefix = p.getString(PREFS_DEFPREFIX,
+								"+49");
+						final String defSender = p.getString(PREFS_SENDER, "");
+						runCommand(me, c, ConnectorCommand.update(defPrefix,
+								defSender));
+					}
+				}
 			}
 			if (me != null) {
 				final SharedPreferences p = PreferenceManager
 						.getDefaultSharedPreferences(me);
-
-				// update connectors balance if needed
-				// FIXME: on error this results in endles loop
-				if (c.getBalance() == null && c.isReady() && !c.isRunning()
-						&& c.hasCapabilities(// .
-								ConnectorSpec.CAPABILITIES_UPDATE)
-						&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
-					final String defPrefix = p
-							.getString(PREFS_DEFPREFIX, "+49");
-					final String defSender = p.getString(PREFS_SENDER, "");
-					runCommand(me, c, ConnectorCommand.update(defPrefix,
-							defSender));
-				}
 
 				if (prefsConnectorSpec == null
 						&& prefsConnectorID.equals(connector.getID())) {
@@ -1579,7 +1582,6 @@ public class WebSMS extends Activity implements OnClickListener,
 					me.updateBalance();
 				}
 
-				// FIXME: returns []
 				boolean runningConnectors = getConnectors(
 						ConnectorSpec.CAPABILITIES_UPDATE,
 						ConnectorSpec.STATUS_ENABLED
