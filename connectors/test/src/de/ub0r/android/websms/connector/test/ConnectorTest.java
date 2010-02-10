@@ -94,7 +94,8 @@ public class ConnectorTest extends Connector {
 	private void doStuff(final Context context) throws WebSMSException {
 		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
 				"fail", false)) {
-			throw new WebSMSException("fail");
+			throw new WebSMSException("fail " + System.currentTimeMillis()
+					% 100);
 		}
 		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
 				"need_captcha", false)) {
