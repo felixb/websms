@@ -39,8 +39,10 @@
 				<data android:scheme="smsto" />
 			</intent-filter>
 		</activity>
-		<activity android:name="Preferences" />
-		<activity android:name="CaptchaActivity" />
+		<activity android:name="Preferences" android:configChanges="orientation"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="CaptchaActivity"
+			android:configChanges="orientation" android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>

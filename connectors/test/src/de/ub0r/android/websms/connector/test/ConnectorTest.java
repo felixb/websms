@@ -103,7 +103,7 @@ public class ConnectorTest extends Connector {
 			BitmapDrawable d = (BitmapDrawable) context.getResources()
 					.getDrawable(R.drawable.icon);
 			intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, d.getBitmap());
-			// intent.putExtra(Connector.EXTRA_CAPTCHA_MESSAGE, "solv it!");
+			// intent.putExtra(Connector.EXTRA_CAPTCHA_MESSAGE, "solve it!");
 			this.getSpec(context).setToIntent(intent);
 			Log.d(TAG, "send broadcast: " + intent.getAction());
 			context.sendBroadcast(intent);

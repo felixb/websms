@@ -3,11 +3,8 @@
  */
 package de.ub0r.android.websms;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -95,7 +92,6 @@ public class CaptchaActivity extends Activity implements OnClickListener {
 			intent.putExtra(Connector.EXTRA_CAPTCHA_SOLVED, s);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
-		final List<ResolveInfo> ri = this.getPackageManager()
-				.queryBroadcastReceivers(intent, 0);
+		this.sendBroadcast(intent);
 	}
 }
