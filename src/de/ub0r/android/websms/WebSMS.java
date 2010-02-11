@@ -243,6 +243,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** {@link TextView} holding balances. */
 	private TextView tvBalances;
 
+	/** {@link View} holding extras. */
+	private View vExtras;
+	/** {@link View} holding custom sender. */
+	private View vCustomSender;
+	/** {@link View} holding flashsms. */
+	private View vFlashSMS;
+	/** {@link View} holding send later. */
+	private View vSendLater;
+
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
 
@@ -388,6 +397,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
 		this.tvBalances = (TextView) this.findViewById(R.id.freecount);
 
+		this.vExtras = this.findViewById(R.id.extras);
+		this.vCustomSender = this.findViewById(R.id.custom_sender);
+		this.vFlashSMS = this.findViewById(R.id.flashsms);
+		this.vSendLater = this.findViewById(R.id.send_later);
+
 		// display changelog?
 		String v0 = p.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getString(R.string.app_version);
@@ -438,9 +452,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 		this.findViewById(R.id.change_connector).setOnClickListener(this);
 		this.findViewById(R.id.change_connector_u).setOnClickListener(this);
-		this.findViewById(R.id.extras).setOnClickListener(this);
-		this.findViewById(R.id.custom_sender).setOnClickListener(this);
-		this.findViewById(R.id.send_later).setOnClickListener(this);
+		this.vExtras.setOnClickListener(this);
+		this.vCustomSender.setOnClickListener(this);
+		this.vSendLater.setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
@@ -756,13 +770,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		Button btn = (Button) this.findViewById(R.id.send_);
-		// show/hide buttons
-		btn.setEnabled(prefsConnectorSpec != null
-				&& prefsSubConnectorSpec != null);
-		btn.setVisibility(View.VISIBLE);
-
-		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
+		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null
+				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
 			final boolean sFlashsms = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_FLASHSMS);
 			final boolean sCustomsender = prefsSubConnectorSpec
@@ -770,25 +779,24 @@ public class WebSMS extends Activity implements OnClickListener,
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 			if (sFlashsms || sCustomsender || sSendLater) {
-				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
+				this.vExtras.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.extras).setVisibility(View.GONE);
+				this.vExtras.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sFlashsms) {
-				this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
+				this.vFlashSMS.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.flashsms).setVisibility(View.GONE);
+				this.vFlashSMS.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sCustomsender) {
-				this.findViewById(R.id.custom_sender).setVisibility(
-						View.VISIBLE);
+				this.vCustomSender.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+				this.vCustomSender.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sSendLater) {
-				this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
+				this.vSendLater.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.send_later).setVisibility(View.GONE);
+				this.vSendLater.setVisibility(View.GONE);
 			}
 
 			String t = this.getString(R.string.app_name) + " - "
@@ -798,7 +806,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
+			((Button) this.findViewById(R.id.send_)).setEnabled(true);
 		} else {
+			this.setTitle(R.string.app_name);
+			((Button) this.findViewById(R.id.send_)).setEnabled(false);
 			Toast.makeText(this, R.string.log_noselectedconnector,
 					Toast.LENGTH_SHORT).show();
 		}
@@ -920,8 +931,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setButtons();
 			return;
 		case R.id.custom_sender:
-			final CheckBox cs = (CheckBox) this
-					.findViewById(R.id.custom_sender);
+			final CheckBox cs = (CheckBox) this.vCustomSender;
 			if (cs.isChecked()) {
 				this.showDialog(DIALOG_CUSTOMSENDER);
 			} else {
@@ -929,7 +939,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.send_later:
-			final CheckBox sl = (CheckBox) this.findViewById(R.id.send_later);
+			final CheckBox sl = (CheckBox) this.vSendLater;
 			if (sl.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
