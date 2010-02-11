@@ -72,10 +72,9 @@ public class ConnectorO2 extends Connector {
 			+ "/loginRegistration/loginAction.do";
 	/** URL of captcha. */
 	private static final String URL_CAPTCHA = "https://login.o2online.de"
-			+ "/loginRegistration/jcaptcha";
+			+ "/loginRegistration/jcaptchaReg";
 	/** URL for solving captcha. */
-	private static final String URL_SOLVECAPTCHA = "https://login.o2online.de"
-			+ "/loginRegistration/loginAction.do";
+	private static final String URL_SOLVECAPTCHA =  URL_LOGIN;
 	/** URL for sms center. */
 	private static final String URL_SMSCENTER = "http://email.o2online.de:80"
 			+ "/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
