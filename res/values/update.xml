@@ -21,7 +21,7 @@
 	<string-array name="updates">
 		<item>WebSMS-3 is available via market. You may install both versions in parallel. Users are encouraged to migrate to WebSMS-3, as this will be the last version of WebSMS-2.x!</item>
 		<item>--------</item>
-		<item>v2.9.3: minor changes, remove ads for donators</item>
+		<item>v2.9.3: minor changes, fix o2 captcha, remove ads for donators</item>
 		<item>v2.9.2: fix arcor with unlimited sms, allow to hide cancel button</item>
 		<item>v2.9.1: fix arcor prefs</item>
 		<item>v2.9: add support for arcor.de, add hdpi icon</item>

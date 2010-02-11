@@ -84,9 +84,9 @@ public class ConnectorO2 extends Connector {
 					+ "AUTH-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp"
 					+ "%253f%26o2_type"
 					+ "%3Durl%26o2_label%3Dweb2sms-o2online",
-			"https://login.o2online.de/loginRegistration" + "/loginAction.do",
-			"https://login.o2online.de/loginRegistration/jcaptcha",
-			"https://login.o2online.de/loginRegistration" + "/loginAction.do",
+			"https://login.o2online.de/loginRegistration/loginAction.do",
+			"https://login.o2online.de/loginRegistration/jcaptchaReg",
+			"https://login.o2online.de/loginRegistration/loginAction.do",
 			"http://email.o2online.de:80/ssomanager.osp"
 					+ "?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
 					+ "?&o2_type=url&o2_label=web2sms-o2online",
