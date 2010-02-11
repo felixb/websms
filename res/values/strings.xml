@@ -20,7 +20,7 @@
 	<string name="about_">About WebSMS</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="app_name">WebSMS 3</string>
-	<string name="app_version">2.9.96 rc1</string>
+	<string name="app_version">2.9.97 rc2</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
