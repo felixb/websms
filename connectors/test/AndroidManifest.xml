@@ -42,7 +42,7 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connectors.test.PREFS" />
+				<action android:name="de.ub0r.android.websms.connector.test.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>

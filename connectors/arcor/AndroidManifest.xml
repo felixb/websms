@@ -41,7 +41,7 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connectors.arcor.PREFS" />
+				<action android:name="de.ub0r.android.websms.connector.arcor.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>

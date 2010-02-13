@@ -42,7 +42,7 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connectors.sipgate.PREFS" />
+				<action android:name="de.ub0r.android.websms.connector.sipgate.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
