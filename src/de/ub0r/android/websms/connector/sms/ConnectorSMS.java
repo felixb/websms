@@ -41,7 +41,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * @author flx
  */
 @SuppressWarnings("deprecation")
-public class CommandReceiverSMS extends Connector {
+public class ConnectorSMS extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
 
