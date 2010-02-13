@@ -174,14 +174,16 @@ public class ConnectorCherrySMS extends Connector {
 					url.append("&from=1");
 				}
 				url.append("&message=");
-				url.append(URLEncoder.encode(text));
+				url.append(URLEncoder.encode(text, "ISO-8859-15"));
 				url.append("&to=");
 				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
 						";", true));
 			} else {
 				url.append("&check=guthaben");
 			}
+			Log.d(TAG, "--HTTP GET--");
 			Log.d(TAG, url.toString());
+			Log.d(TAG, "--HTTP GET--");
 			// send data
 			HttpResponse response = Utils.getHttpClient(url.toString(), null,
 					null, null, null);
