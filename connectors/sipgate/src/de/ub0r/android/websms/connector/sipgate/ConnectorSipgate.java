@@ -48,10 +48,6 @@ public class ConnectorSipgate extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.Sipg";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.sipgate.PREFS";
-
 	/** Sipgate.de API URL. */
 	private static final String SIPGATE_URL = "https://"
 			+ "samurai.sipgate.net/RPC2";
@@ -69,11 +65,11 @@ public class ConnectorSipgate extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_sipgate_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context
 				.getString(R.string.connector_sipgate_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(TAG, c.getName(),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
 		return c;

@@ -39,10 +39,6 @@ public class ConnectorExample extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.example";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.example.PREFS";
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -53,12 +49,12 @@ public class ConnectorExample extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_example_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context
 				.getString(R.string.connector_example_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(TAG, c.getName(),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 						| SubConnectorSpec.FEATURE_CUSTOMSENDER

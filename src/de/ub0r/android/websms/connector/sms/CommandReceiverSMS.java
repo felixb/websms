@@ -57,7 +57,6 @@ public class CommandReceiverSMS extends Connector {
 		final ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_sms_author));
 		c.setBalance(null);
-		c.setPrefsIntent(null);
 		c.setPrefsTitle(null);
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(TAG, name, SubConnectorSpec.FEATURE_MULTIRECIPIENTS);

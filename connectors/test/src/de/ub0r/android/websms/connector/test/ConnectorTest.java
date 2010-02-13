@@ -39,10 +39,6 @@ public class ConnectorTest extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.test";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.test.PREFS";
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,11 +50,11 @@ public class ConnectorTest extends Connector {
 
 		c.setAuthor(context.getString(R.string.connector_test_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.connector_test_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(TAG, name, SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 				| SubConnectorSpec.FEATURE_CUSTOMSENDER
 				| SubConnectorSpec.FEATURE_SENDLATER

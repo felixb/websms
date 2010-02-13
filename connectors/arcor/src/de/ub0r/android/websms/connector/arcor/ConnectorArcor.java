@@ -53,10 +53,6 @@ public class ConnectorArcor extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.arcor";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.arcor.PREFS";
-
 	/**
 	 * Pattern to extract free sms count from sms page. Looks like.
 	 */
@@ -121,10 +117,10 @@ public class ConnectorArcor extends Connector {
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.settings));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector("dymmy", "dummy", 0);
 		return c;
 	}

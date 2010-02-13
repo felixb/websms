@@ -46,10 +46,6 @@ public class ConnectorGMX extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.GMX";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.gmx.PREFS";
-
 	/** Custom {@link DateFormat}. */
 	private static final String DATEFORMAT = "yyyy-MM-dd kk-mm-00";
 
@@ -91,11 +87,11 @@ public class ConnectorGMX extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_gmx_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.connector_gmx_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(TAG, c.getName(),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 						| SubConnectorSpec.FEATURE_CUSTOMSENDER

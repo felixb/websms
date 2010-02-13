@@ -52,10 +52,6 @@ public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.o2.PREFS";
-
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy,MM,dd,kk,mm,00";
 
@@ -116,8 +112,6 @@ public class ConnectorO2 extends Connector {
 	private static final int STRIP_PRESEND_END = 62000;
 	/** Stip bytes from stream: send. */
 	private static final int STRIP_SEND_START = 2000;
-	/** Stip bytes from stream: send. */
-	private static final int STRIP_SEND_END = 4000;
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -143,10 +137,10 @@ public class ConnectorO2 extends Connector {
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_o2_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.connector_o2_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(c.getID(), c.getName(),
 				SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER

@@ -408,6 +408,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (!v0.equals(v1)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.putString(PREFS_LAST_RUN, v1);
+			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
 			this.showDialog(DIALOG_UPDATE);
 		}
@@ -419,6 +420,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (s.length() == 0) {
 			this.updateConnectors();
 		} else if (CONNECTORS.size() == 0) {
+			// remove cache
+			p.edit().remove(PREFS_CONNECTORS).commit();
 			// skip static remaining connectors
 			try {
 				ArrayList<ConnectorSpec> cache;
