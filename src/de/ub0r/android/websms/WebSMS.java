@@ -420,8 +420,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (s.length() == 0) {
 			this.updateConnectors();
 		} else if (CONNECTORS.size() == 0) {
-			// remove cache
-			p.edit().remove(PREFS_CONNECTORS).commit();
 			// skip static remaining connectors
 			try {
 				ArrayList<ConnectorSpec> cache;
@@ -815,8 +813,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setTitle(R.string.app_name);
 			((TextView) this.findViewById(R.id.text_connector)).setText("");
 			((Button) this.findViewById(R.id.send_)).setEnabled(false);
-			Toast.makeText(this, R.string.log_noselectedconnector,
-					Toast.LENGTH_SHORT).show();
+			if (getConnectors(0, 0).length != 0) {
+				Toast.makeText(this, R.string.log_noselectedconnector,
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 
