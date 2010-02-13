@@ -51,7 +51,7 @@
 			</intent-filter>
 		</receiver>
 
-		<receiver android:name="de.ub0r.android.websms.connector.sms.CommandReceiverSMS"
+		<receiver android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
