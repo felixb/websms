@@ -801,14 +801,16 @@ public class WebSMS extends Activity implements OnClickListener,
 
 			String t = this.getString(R.string.app_name) + " - "
 					+ prefsConnectorSpec.getName();
-			if (prefsSubConnectorSpec != null
-					&& prefsConnectorSpec.getSubConnectorCount() > 1) {
+			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
+			((TextView) this.findViewById(R.id.text_connector))
+					.setText(prefsConnectorSpec.getName());
 			((Button) this.findViewById(R.id.send_)).setEnabled(true);
 		} else {
 			this.setTitle(R.string.app_name);
+			((TextView) this.findViewById(R.id.text_connector)).setText("");
 			((Button) this.findViewById(R.id.send_)).setEnabled(false);
 			Toast.makeText(this, R.string.log_noselectedconnector,
 					Toast.LENGTH_SHORT).show();
