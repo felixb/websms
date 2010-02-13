@@ -71,7 +71,7 @@
 		android:layout_height="wrap_content" android:layout_weight="0"
 		android:visibility="visible" android:id="@+id/upper">
 		<Button android:text="@string/change_connector_" android:id="@+id/change_connector_u"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_width="0dip" android:layout_height="fill_parent"
 			android:layout_weight="1" />
 		<ImageButton android:id="@+id/emo_u" android:layout_width="wrap_content"
 			android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons" />
