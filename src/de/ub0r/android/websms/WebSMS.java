@@ -1605,7 +1605,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					runningConnectors = getConnectors(
 							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
 							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING).length != 0;
+									| ConnectorSpec.STATUS_BOOTSTRAPPING// .
+					).length != 0;
 				}
 				me.setProgressBarIndeterminateVisibility(runningConnectors);
 				if (prefsConnectorSpec.equals(c)) {
