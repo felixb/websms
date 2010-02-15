@@ -24,4 +24,6 @@
 	<string name="connector_o2_preferences">Preferences - o2</string>
 	<string name="enable_o2">Enable o2</string>
 	<string name="password_o2_hint">Password for o2online.de</string>
+	<string name="tweak_">Tweak Connector</string>
+	<string name="tweak_hint">Try to tweak reading of the o2 website. This might fail for some.</string>
 </resources>

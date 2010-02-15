@@ -306,8 +306,14 @@ public class ConnectorO2 extends Connector {
 		resp = cookies.size();
 		Utils.updateCookies(cookies, response.getAllHeaders(), URL_LOGIN);
 		if (resp == cookies.size()) {
-			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent(), STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
+			String htmlText = null;
+			if (PreferenceManager.getDefaultSharedPreferences(context)
+					.getBoolean(Preferences.PREFS_TWEAK, false)) {
+				htmlText = Utils.stream2str(response.getEntity().getContent(),
+						STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
+			} else {
+				htmlText = Utils.stream2str(response.getEntity().getContent());
+			}
 			response = null;
 			if (htmlText.indexOf("captcha") > 0) {
 				final String newFlow = getFlowExecutionkey(htmlText);
@@ -451,9 +457,15 @@ public class ConnectorO2 extends Connector {
 		if (sendLater > 0) {
 			check = CHECK_SCHED;
 		}
-		final String htmlText1 = Utils.stream2str(response.getEntity()
-				.getContent(), STRIP_SEND_START, Utils.ONLY_MATCHING_LINE,
-				check);
+		String htmlText1 = null;
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				Preferences.PREFS_TWEAK, false)) {
+			htmlText1 = Utils.stream2str(response.getEntity().getContent(),
+					STRIP_SEND_START, Utils.ONLY_MATCHING_LINE, check);
+		} else {
+			htmlText1 = Utils.stream2str(response.getEntity().getContent(), 0,
+					Utils.ONLY_MATCHING_LINE, check);
+		}
 		if (htmlText1 == null) {
 			throw new WebSMSException("error parsing website");
 		} else if (htmlText1.indexOf(check) < 0) {
@@ -547,9 +559,15 @@ public class ConnectorO2 extends Connector {
 						+ resp);
 			}
 			Utils.updateCookies(cookies, response.getAllHeaders(), URL_PRESEND);
-			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END,
-					CHECK_FREESMS);
+			String htmlText = null;
+			if (PreferenceManager.getDefaultSharedPreferences(context)
+					.getBoolean(Preferences.PREFS_TWEAK, false)) {
+				htmlText = Utils.stream2str(response.getEntity().getContent(),
+						STRIP_PRESEND_START, STRIP_PRESEND_END, CHECK_FREESMS);
+			} else {
+				htmlText = Utils.stream2str(response.getEntity().getContent(),
+						0, -1, CHECK_FREESMS);
+			}
 			if (htmlText == null) {
 				if (reuseSession) {
 					this.sendData(context, command, false);

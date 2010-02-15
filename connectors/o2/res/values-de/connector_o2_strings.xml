@@ -20,4 +20,6 @@
 	<string name="connector_o2_preferences">Einstellungen - o2</string>
 	<string name="enable_o2">Aktiviere o2</string>
 	<string name="password_o2_hint">Passwort für o2online.de</string>
+	<string name="tweak_">Tweak Connector</string>
+	<string name="tweak_hint">Versuche das lesen der o2 Website zu verschnellern. Führt evtl. zu fehlern.</string>
 </resources>
