@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS Connector: sipgate</string>
-	<string name="app_version">0.4</string>
+	<string name="app_version">1.0</string>
 	<string name="connector_sipgate_author">Mirko Weber &lt;mirko.weber@gmail.com&gt;</string>
 	<string name="connector_sipgate_name">sipgate</string>
 	<string name="connector_sipgate_preferences">Preferences - sipgate</string>
