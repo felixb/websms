@@ -18,7 +18,7 @@
         --> 
 <resources>
 	<string name="app_name">WebSMS Connector: innosend</string>
-	<string name="app_version">0.4</string>
+	<string name="app_version">1.0</string>
 	<string name="connector_innosend_name">innosend</string>
 	<string name="connector_innosend_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="innosend_next_free">next free:</string>
