@@ -21,5 +21,7 @@
 	<CheckBoxPreference android:key="enable_test"
 		android:title="@string/connector_test_enable_" />
 	<CheckBoxPreference android:key="fail"
-		android:title="fail" />
+		android:title="fail" android:dependency="enable_test" />
+	<CheckBoxPreference android:key="need_captcha"
+		android:title="need captcha" android:dependency="enable_test" />
 </PreferenceScreen>

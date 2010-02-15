@@ -53,10 +53,6 @@ public class ConnectorSloono extends Connector {
 	/** {@link SubConnectorSpec} ID: flash. */
 	private static final String ID_FLASH = "3";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.sloono.PREFS";
-
 	/** Sloono Gateway URL. */
 	private static final String URL_SEND = // .
 	"http://www.sloono.de/API/httpsms.php";
@@ -74,10 +70,10 @@ public class ConnectorSloono extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_sloono_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.settings_sloono));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		final short f = (short) (SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 				| SubConnectorSpec.FEATURE_FLASHSMS | // .
 		SubConnectorSpec.FEATURE_SENDLATER);

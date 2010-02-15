@@ -52,10 +52,6 @@ public class ConnectorO2 extends Connector {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.o2";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.o2.PREFS";
-
 	/** Custom Dateformater. */
 	private static final String DATEFORMAT = "yyyy,MM,dd,kk,mm,00";
 
@@ -66,16 +62,15 @@ public class ConnectorO2 extends Connector {
 			+ "comcenter-login&scheme=http&port=80&server=email"
 			+ ".o2online.de&url=%2Fssomanager.osp%3FAPIID%3D"
 			+ "AUTH-WEBSSO%26TargetApp%3D%2Fsmscenter_new.osp"
-			+ "%253f%26o2_type" + "%3Durl%26o2_label%3Dweb2sms-o2online";
+			+ "%253f%26o2_type%3Durl%26o2_label%3Dweb2sms-o2online";
 	/** URL for login. */
 	private static final String URL_LOGIN = "https://login.o2online.de"
 			+ "/loginRegistration/loginAction.do";
 	/** URL of captcha. */
 	private static final String URL_CAPTCHA = "https://login.o2online.de"
-			+ "/loginRegistration/jcaptcha";
+			+ "/loginRegistration/jcaptchaReg";
 	/** URL for solving captcha. */
-	private static final String URL_SOLVECAPTCHA = "https://login.o2online.de"
-			+ "/loginRegistration" + "/loginAction.do";
+	private static final String URL_SOLVECAPTCHA = URL_LOGIN;
 	/** URL for sms center. */
 	private static final String URL_SMSCENTER = "http://email.o2online.de:80"
 			+ "/ssomanager.osp?APIID=AUTH-WEBSSO&TargetApp=/smscenter_new.osp"
@@ -103,19 +98,20 @@ public class ConnectorO2 extends Connector {
 	/** Check if captcha was solved wrong. */
 	private static final String CHECK_WRONGCAPTCHA = // .
 	"Sie haben einen falschen Code eingegeben.";
+	/** Check for _flowExecutionKey. */
+	private static final String CHECK_FLOW = // .
+	"name=\"_flowExecutionKey\" value=\"";
 
 	/** Stip bytes from stream: prelogin. */
 	private static final int STRIP_PRELOGIN_START = 8000;
 	/** Stip bytes from stream: prelogin. */
 	private static final int STRIP_PRELOGIN_END = 11000;
 	/** Stip bytes from stream: presend. */
-	private static final int STRIP_PRESEND_START = 58000;
+	private static final int STRIP_PRESEND_START = 56000;
 	/** Stip bytes from stream: presend. */
 	private static final int STRIP_PRESEND_END = 62000;
 	/** Stip bytes from stream: send. */
 	private static final int STRIP_SEND_START = 2000;
-	/** Stip bytes from stream: send. */
-	private static final int STRIP_SEND_END = 4000;
 
 	/** HTTP Useragent. */
 	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
@@ -123,9 +119,11 @@ public class ConnectorO2 extends Connector {
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
 	/** Solved Captcha. */
-	static String captchaSolve = null;
+	private static String captchaSolve = null;
 	/** Object to sync with. */
-	static final Object CAPTCHA_SYNC = new Object();
+	private static final Object CAPTCHA_SYNC = new Object();
+	/** Timeout for entering the captcha. */
+	private static final long CAPTCHA_TIMEOUT = 60000;
 
 	/** Static cookies. */
 	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
@@ -139,10 +137,10 @@ public class ConnectorO2 extends Connector {
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_o2_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.connector_o2_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(c.getID(), c.getName(),
 				SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER
@@ -180,7 +178,7 @@ public class ConnectorO2 extends Connector {
 	 */
 	private static String getFlowExecutionkey(final String html) {
 		String ret = "";
-		int i = html.indexOf("name=\"_flowExecutionKey\" value=\"");
+		int i = html.indexOf(CHECK_FLOW);
 		if (i > 0) {
 			int j = html.indexOf("\"", i + 35);
 			if (j >= 0) {
@@ -224,17 +222,22 @@ public class ConnectorO2 extends Connector {
 				.getContent());
 		final Intent intent = new Intent(Connector.ACTION_CAPTCHA_REQUEST);
 		intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, captcha.getBitmap());
+		captcha = null;
+		this.getSpec(context).setToIntent(intent);
 		context.sendBroadcast(intent);
 		try {
 			synchronized (CAPTCHA_SYNC) {
-				CAPTCHA_SYNC.wait();
+				CAPTCHA_SYNC.wait(CAPTCHA_TIMEOUT);
 			}
 		} catch (InterruptedException e) {
 			Log.e(TAG, null, e);
 			return false;
 		}
+		if (captchaSolve == null) {
+			return false;
+		}
 		// got user response, try to solve captcha
-		captcha = null;
+		Log.d(TAG, "got solved captcha: " + captchaSolve);
 		final ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(3);
 		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
@@ -242,6 +245,8 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
 		response = Utils.getHttpClient(URL_SOLVECAPTCHA, cookies, postData,
 				TARGET_AGENT, URL_LOGIN);
+		Log.d(TAG, cookies.toString());
+		Log.d(TAG, postData.toString());
 		resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
@@ -305,12 +310,12 @@ public class ConnectorO2 extends Connector {
 					.getContent(), STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
 			response = null;
 			if (htmlText.indexOf("captcha") > 0) {
-				// final String newFlow = getFlowExecutionkey(htmlText);
+				final String newFlow = getFlowExecutionkey(htmlText);
 				htmlText = null;
-				// FIXME: !this.solveCaptcha(newFlow)) {
-				throw new WebSMSException("you have to solve a captcha,"
-						+ "\nplease contact the developer");
-				// }
+				if (!this.solveCaptcha(context, cookies, newFlow)) {
+					throw new WebSMSException(context,
+							R.string.error_wrongcaptcha);
+				}
 			} else {
 				throw new WebSMSException(context, R.string.error_pw);
 			}
@@ -442,16 +447,19 @@ public class ConnectorO2 extends Connector {
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, "" + resp);
 		}
-		final String htmlText1 = Utils.stream2str(response.getEntity()
-				.getContent(), STRIP_SEND_START, STRIP_SEND_END);
 		String check = CHECK_SENT;
 		if (sendLater > 0) {
 			check = CHECK_SCHED;
 		}
-		if (htmlText1.indexOf(check) < 0) {
+		final String htmlText1 = Utils.stream2str(response.getEntity()
+				.getContent(), STRIP_SEND_START, Utils.ONLY_MATCHING_LINE,
+				check);
+		if (htmlText1 == null) {
+			throw new WebSMSException("error parsing website");
+		} else if (htmlText1.indexOf(check) < 0) {
 			// check output html for success message
 			Log.d(TAG, htmlText1);
-			throw new WebSMSException(context, R.string.error);
+			throw new WebSMSException("error parsing website");
 		}
 	}
 
@@ -497,9 +505,8 @@ public class ConnectorO2 extends Connector {
 				}
 				Utils.updateCookies(cookies, response.getAllHeaders(),
 						URL_PRELOGIN);
-				String htmlText = Utils
-						.stream2str(response.getEntity().getContent(),
-								STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
+				String htmlText = Utils.stream2str(response.getEntity()
+						.getContent(), 0, Utils.ONLY_MATCHING_LINE, CHECK_FLOW);
 				final String flowExecutionKey = ConnectorO2
 						.getFlowExecutionkey(htmlText);
 				htmlText = null;
@@ -541,20 +548,41 @@ public class ConnectorO2 extends Connector {
 			}
 			Utils.updateCookies(cookies, response.getAllHeaders(), URL_PRESEND);
 			String htmlText = Utils.stream2str(response.getEntity()
-					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END);
+					.getContent(), STRIP_PRESEND_START, STRIP_PRESEND_END,
+					CHECK_FREESMS);
+			if (htmlText == null) {
+				if (reuseSession) {
+					this.sendData(context, command, false);
+					return;
+				} else {
+					Log.d(TAG, htmlText);
+					throw new WebSMSException(// .
+							"faild to locate freesms on site");
+				}
+			}
 			int i = htmlText.indexOf(CHECK_FREESMS);
 			if (i > 0) {
 				int j = htmlText.indexOf(CHECK_WEB2SMS, i);
 				if (j > 0) {
+					ConnectorSpec c = this.getSpec(context);
 					this.getSpec(context)
 							.setBalance(
 									htmlText.substring(i + 9, j).trim().split(
 											" ", 2)[0]);
+					Log.d(TAG, "balance: " + c.getBalance());
 				} else if (reuseSession) {
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
+				} else {
+					Log.d(TAG, htmlText);
+					throw new WebSMSException(// .
+							"faild to locate freesms on site (2)");
 				}
+			} else {
+				Log.d(TAG, htmlText);
+				throw new WebSMSException(// .
+						"faild to locate freesms on site (3)");
 			}
 
 			// send
@@ -600,6 +628,8 @@ public class ConnectorO2 extends Connector {
 	protected final void gotSolvedCaptcha(final Context context,
 			final String solvedCaptcha) {
 		captchaSolve = solvedCaptcha;
-		CAPTCHA_SYNC.notify();
+		synchronized (CAPTCHA_SYNC) {
+			CAPTCHA_SYNC.notify();
+		}
 	}
 }

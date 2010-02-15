@@ -20,11 +20,18 @@ package de.ub0r.android.websms;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -73,9 +80,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-
-import com.admob.android.ads.AdView;
-
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -120,6 +124,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
+	/** Preference's name: hide ads. */
+	private static final String PREFS_HIDEADS = "hideads";
+
+	/** Path to file containing signatures of UID Hash. */
+	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
 
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
@@ -138,6 +147,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
+	/** Show AdView on top. */
+	private boolean onTop = false;
 	/** Hased IMEI. */
 	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
@@ -151,9 +162,19 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
 	new ArrayList<ConnectorSpec>();
 
+	/** Crypto algorithm for signing UID hashs. */
+	private static final String ALGO = "RSA";
+	/** Crypto hash algorithm for signing UID hashs. */
+	private static final String SIGALGO = "SHA1with" + ALGO;
+	/** My public key for verifying UID hashs. */
+	private static final String KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNAD"
+			+ "CBiQKBgQCgnfT4bRMLOv3rV8tpjcEqsNmC1OJaaEYRaTHOCC"
+			+ "F4sCIZ3pEfDcNmrZZQc9Y0im351ekKOzUzlLLoG09bsaOeMd"
+			+ "Y89+o2O0mW9NnBch3l8K/uJ3FRn+8Li75SqoTqFj3yCrd9IT"
+			+ "sOJC7PxcR5TvNpeXsogcyxxo3fMdJdjkafYwIDAQAB";
+
 	/** Array of md5(prefsSender) for which no ads should be displayed. */
 	private static final String[] NO_AD_HASHS = {
-			"43dcb861b9588fb733300326b61dbab9", // flx
 			"57a3c7c19329fd84c2252a9b2866dd93", // mirweb
 			"10b7a2712beee096acbc67416d7d71a1", // mo
 			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
@@ -222,6 +243,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** {@link TextView} holding balances. */
 	private TextView tvBalances;
 
+	/** {@link View} holding extras. */
+	private View vExtras;
+	/** {@link View} holding custom sender. */
+	private View vCustomSender;
+	/** {@link View} holding flashsms. */
+	private View vFlashSMS;
+	/** {@link View} holding send later. */
+	private View vSendLater;
+
 	/** Helper for API 5. */
 	static HelperAPI5Contacts helperAPI5c = null;
 
@@ -289,21 +319,18 @@ public class WebSMS extends Activity implements OnClickListener,
 				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 			}
 		}
-		if (!prefsNoAds) {
-			// do not display any ads for donators
-			// display ads
-			((AdView) WebSMS.this.findViewById(R.id.ad))
-					.setVisibility(View.VISIBLE);
-		}
+		this.displayAds(true);
 	}
 
 	/**
-	 * parseSchemeSpecificPart from uri and init WebSMS properties
+	 * parseSchemeSpecificPart from {@link Uri} and initialize WebSMS
+	 * properties.
 	 * 
-	 * @param s
+	 * @param part
+	 *            scheme specific part
 	 */
-	private void parseSchemeSpecificPart(String s) {
-
+	private void parseSchemeSpecificPart(final String part) {
+		String s = part;
 		if (s == null) {
 			return;
 		}
@@ -370,12 +397,18 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
 		this.tvBalances = (TextView) this.findViewById(R.id.freecount);
 
+		this.vExtras = this.findViewById(R.id.extras);
+		this.vCustomSender = this.findViewById(R.id.custom_sender);
+		this.vFlashSMS = this.findViewById(R.id.flashsms);
+		this.vSendLater = this.findViewById(R.id.send_later);
+
 		// display changelog?
 		String v0 = p.getString(PREFS_LAST_RUN, "");
-		String v1 = this.getResources().getString(R.string.app_version);
+		String v1 = this.getString(R.string.app_version);
 		if (!v0.equals(v1)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.putString(PREFS_LAST_RUN, v1);
+			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
 			this.showDialog(DIALOG_UPDATE);
 		}
@@ -420,9 +453,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 		this.findViewById(R.id.change_connector).setOnClickListener(this);
 		this.findViewById(R.id.change_connector_u).setOnClickListener(this);
-		this.findViewById(R.id.extras).setOnClickListener(this);
-		this.findViewById(R.id.custom_sender).setOnClickListener(this);
-		this.findViewById(R.id.send_later).setOnClickListener(this);
+		this.vExtras.setOnClickListener(this);
+		this.vCustomSender.setOnClickListener(this);
+		this.vSendLater.setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
@@ -663,37 +696,83 @@ public class WebSMS extends Activity implements OnClickListener,
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,
 				false));
 
-		prefsNoAds = false;
+		prefsNoAds = this.hideAds();
+		// TODO: remove following lines
 		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
-		for (String h : NO_AD_HASHS) {
-			if (hash.equals(h)) {
-				prefsNoAds = true;
-				break;
-			}
-		}
-		if (!prefsNoAds && this.getImeiHash() != null) {
+		if (!prefsNoAds) {
 			for (String h : NO_AD_HASHS) {
-				if (imeiHash.equals(h)) {
+				if (hash.equals(h)) {
 					prefsNoAds = true;
 					break;
 				}
 			}
+			if (!prefsNoAds && this.getImeiHash() != null) {
+				for (String h : NO_AD_HASHS) {
+					if (imeiHash.equals(h)) {
+						prefsNoAds = true;
+						break;
+					}
+				}
+			}
 		}
-
+		// this is for transition
+		p.edit().putBoolean(PREFS_HIDEADS, prefsNoAds).commit();
+		this.displayAds(false);
 		this.setButtons();
+	}
+
+	/**
+	 * Check for signature updates.
+	 * 
+	 * @return true if ads should be hidden
+	 */
+	private boolean hideAds() {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final File f = new File(NOADS_SIGNATURES);
+		try {
+			if (f.exists()) {
+				final BufferedReader br = new BufferedReader(new FileReader(f));
+				final byte[] publicKey = Base64Coder.decode(KEY);
+				final KeyFactory keyFactory = KeyFactory.getInstance(ALGO);
+				PublicKey pk = keyFactory
+						.generatePublic(new X509EncodedKeySpec(publicKey));
+				final String h = this.getImeiHash();
+				boolean ret = false;
+				while (true) {
+					String l = br.readLine();
+					if (l == null) {
+						break;
+					}
+					try {
+						byte[] signature = Base64Coder.decode(l);
+						Signature sig = Signature.getInstance(SIGALGO);
+						sig.initVerify(pk);
+						sig.update(h.getBytes());
+						ret = sig.verify(signature);
+						if (ret) {
+							break;
+						}
+					} catch (IllegalArgumentException e) {
+						Log.w(TAG, "error reading line", e);
+					}
+				}
+				br.close();
+				f.delete();
+				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "error reading signatures", e);
+		}
+		return p.getBoolean(PREFS_HIDEADS, false);
 	}
 
 	/**
 	 * Show/hide, enable/disable send buttons.
 	 */
 	private void setButtons() {
-		Button btn = (Button) this.findViewById(R.id.send_);
-		// show/hide buttons
-		btn.setEnabled(prefsConnectorSpec != null
-				&& prefsSubConnectorSpec != null);
-		btn.setVisibility(View.VISIBLE);
-
-		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
+		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null
+				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
 			final boolean sFlashsms = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_FLASHSMS);
 			final boolean sCustomsender = prefsSubConnectorSpec
@@ -701,34 +780,43 @@ public class WebSMS extends Activity implements OnClickListener,
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 			if (sFlashsms || sCustomsender || sSendLater) {
-				this.findViewById(R.id.extras).setVisibility(View.VISIBLE);
+				this.vExtras.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.extras).setVisibility(View.GONE);
+				this.vExtras.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sFlashsms) {
-				this.findViewById(R.id.flashsms).setVisibility(View.VISIBLE);
+				this.vFlashSMS.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.flashsms).setVisibility(View.GONE);
+				this.vFlashSMS.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sCustomsender) {
-				this.findViewById(R.id.custom_sender).setVisibility(
-						View.VISIBLE);
+				this.vCustomSender.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.custom_sender).setVisibility(View.GONE);
+				this.vCustomSender.setVisibility(View.GONE);
 			}
 			if (this.showExtras && sSendLater) {
-				this.findViewById(R.id.send_later).setVisibility(View.VISIBLE);
+				this.vSendLater.setVisibility(View.VISIBLE);
 			} else {
-				this.findViewById(R.id.send_later).setVisibility(View.GONE);
+				this.vSendLater.setVisibility(View.GONE);
 			}
 
 			String t = this.getString(R.string.app_name) + " - "
 					+ prefsConnectorSpec.getName();
-			if (prefsSubConnectorSpec != null
-					&& prefsConnectorSpec.getSubConnectorCount() > 1) {
+			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
+			((TextView) this.findViewById(R.id.text_connector))
+					.setText(prefsConnectorSpec.getName());
+			((Button) this.findViewById(R.id.send_)).setEnabled(true);
+		} else {
+			this.setTitle(R.string.app_name);
+			((TextView) this.findViewById(R.id.text_connector)).setText("");
+			((Button) this.findViewById(R.id.send_)).setEnabled(false);
+			if (getConnectors(0, 0).length != 0) {
+				Toast.makeText(this, R.string.log_noselectedconnector,
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 
@@ -796,7 +884,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ConnectorSpec connector, final ConnectorCommand command) {
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
-		switch (command.getType()) {
+		short t = command.getType();
+		switch (t) {
 		case ConnectorCommand.TYPE_BOOTSTRAP:
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_BOOTSTRAP);
@@ -806,15 +895,19 @@ public class WebSMS extends Activity implements OnClickListener,
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
-			// FIXME: connector.addStatus(ConnectorSpec.STATUS_SENDING);
+			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			break;
 		case ConnectorCommand.TYPE_UPDATE:
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_UPDATE);
-			// FIXME: connector.addStatus(ConnectorSpec.STATUS_UPDATING);
+			connector.addStatus(ConnectorSpec.STATUS_UPDATING);
 			break;
 		default:
 			break;
+		}
+		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
+				t == ConnectorCommand.TYPE_UPDATE)) {
+			me.setProgressBarIndeterminateVisibility(true);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		context.sendBroadcast(intent);
@@ -843,8 +936,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setButtons();
 			return;
 		case R.id.custom_sender:
-			final CheckBox cs = (CheckBox) this
-					.findViewById(R.id.custom_sender);
+			final CheckBox cs = (CheckBox) this.vCustomSender;
 			if (cs.isChecked()) {
 				this.showDialog(DIALOG_CUSTOMSENDER);
 			} else {
@@ -852,7 +944,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.send_later:
-			final CheckBox sl = (CheckBox) this.findViewById(R.id.send_later);
+			final CheckBox sl = (CheckBox) this.vSendLater;
 			if (sl.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
@@ -1266,6 +1358,32 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Show AdView on top or on bottom.
+	 * 
+	 * @param top
+	 *            display ads on top.
+	 */
+	private void displayAds(final boolean top) {
+		if (prefsNoAds) {
+			// do not display any ads for donators
+			return;
+		}
+		if (top) {
+			// switch to AdView on top
+			this.onTop = true;
+		}
+		if (this.onTop) {
+			Log.d(TAG, "display ads on top");
+			this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
+			this.findViewById(R.id.ad_bottom).setVisibility(View.GONE);
+		} else {
+			Log.d(TAG, "display ads on bottom");
+			this.findViewById(R.id.ad).setVisibility(View.GONE);
+			this.findViewById(R.id.ad_bottom).setVisibility(View.VISIBLE);
+		}
+	}
+
+	/**
 	 * Send text.
 	 * 
 	 * @param connector
@@ -1282,12 +1400,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 
-		if (!prefsNoAds) {
-			// do not display any ads for donators
-			// display ads
-			((AdView) WebSMS.this.findViewById(R.id.ad))
-					.setVisibility(View.VISIBLE);
-		}
+		this.displayAds(true);
 
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
@@ -1448,7 +1561,6 @@ public class WebSMS extends Activity implements OnClickListener,
 					CONNECTORS.add(connector);
 				}
 				c = connector;
-
 				if (me != null) {
 					final SharedPreferences p = PreferenceManager
 							.getDefaultSharedPreferences(me);
@@ -1464,20 +1576,41 @@ public class WebSMS extends Activity implements OnClickListener,
 						runCommand(me, c, ConnectorCommand.update(defPrefix,
 								defSender));
 					}
-
-					if (prefsConnectorSpec == null
-							&& prefsConnectorID.equals(connector.getID())) {
-						prefsConnectorSpec = connector;
-
-						prefsSubConnectorSpec = connector.getSubConnector(p
-								.getString(PREFS_SUBCONNECTOR_ID, ""));
-						me.setButtons();
-					}
 				}
+			}
+			if (me != null) {
+				final SharedPreferences p = PreferenceManager
+						.getDefaultSharedPreferences(me);
+
+				if (prefsConnectorSpec == null
+						&& prefsConnectorID.equals(connector.getID())) {
+					prefsConnectorSpec = connector;
+
+					prefsSubConnectorSpec = connector.getSubConnector(p
+							.getString(PREFS_SUBCONNECTOR_ID, ""));
+					me.setButtons();
+				}
+
 				final String b = c.getBalance();
 				final String ob = c.getOldBalance();
 				if (b != null && (ob == null || !b.equals(ob))) {
 					me.updateBalance();
+				}
+
+				boolean runningConnectors = getConnectors(
+						ConnectorSpec.CAPABILITIES_UPDATE,
+						ConnectorSpec.STATUS_ENABLED
+								| ConnectorSpec.STATUS_UPDATING).length != 0;
+				if (!runningConnectors) {
+					runningConnectors = getConnectors(
+							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
+							ConnectorSpec.STATUS_ENABLED
+									| ConnectorSpec.STATUS_BOOTSTRAPPING// .
+					).length != 0;
+				}
+				me.setProgressBarIndeterminateVisibility(runningConnectors);
+				if (prefsConnectorSpec.equals(c)) {
+					me.setButtons();
 				}
 			}
 		}
@@ -1561,15 +1694,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            status required {@link SubConnectorSpec}
 	 * @return {@link ConnectorSpec}s
 	 */
-	static final ConnectorSpec[] getConnectors(final short capabilities,
-			final short status) {
+	static final ConnectorSpec[] getConnectors(final int capabilities,
+			final int status) {
 		synchronized (CONNECTORS) {
 			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
 					CONNECTORS.size());
 			final int l = CONNECTORS.size();
 			for (int i = 0; i < l; i++) {
 				final ConnectorSpec c = CONNECTORS.get(i);
-				if (c.hasCapabilities(capabilities) && c.hasStatus(status)) {
+				if (c.hasCapabilities((short) capabilities)
+						&& c.hasStatus((short) status)) {
 					ret.add(c);
 				}
 			}

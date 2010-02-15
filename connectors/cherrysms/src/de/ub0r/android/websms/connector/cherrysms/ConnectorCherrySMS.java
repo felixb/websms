@@ -49,10 +49,6 @@ public class ConnectorCherrySMS extends Connector {
 	/** {@link SubConnectorSpec} ID: without sender. */
 	private static final String ID_WO_SENDER = "wo_sender";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.cherrysms.PREFS";
-
 	/** CherrySMS Gateway URL. */
 	private static final String URL = "https://gw.cherry-sms.com/";
 
@@ -67,11 +63,11 @@ public class ConnectorCherrySMS extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_cherrysms_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context
 				.getString(R.string.connector_cherrysms_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
 		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender),
@@ -178,14 +174,16 @@ public class ConnectorCherrySMS extends Connector {
 					url.append("&from=1");
 				}
 				url.append("&message=");
-				url.append(URLEncoder.encode(text));
+				url.append(URLEncoder.encode(text, "ISO-8859-15"));
 				url.append("&to=");
 				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
 						";", true));
 			} else {
 				url.append("&check=guthaben");
 			}
+			Log.d(TAG, "--HTTP GET--");
 			Log.d(TAG, url.toString());
+			Log.d(TAG, "--HTTP GET--");
 			// send data
 			HttpResponse response = Utils.getHttpClient(url.toString(), null,
 					null, null, null);

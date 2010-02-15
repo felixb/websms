@@ -42,7 +42,7 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connectors.test.PREFS" />
+				<action android:name="de.ub0r.android.websms.connector.test.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
@@ -52,12 +52,13 @@
 				<action android:name="de.ub0r.android.websms.connector.test.RUN_BOOTSTRAP" />
 				<action android:name="de.ub0r.android.websms.connector.test.RUN_UPDATE" />
 				<action android:name="de.ub0r.android.websms.connector.test.RUN_SEND" />
+				<action android:name="de.ub0r.android.websms.connector.test.CAPTCHA_SOLVED" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>
 	</application>
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7" />
-	<supports-screen android:largeScreens="true"
+	<supports-screens android:largeScreens="true"
 		android:normalScreens="true" android:smallScreens="true"
 		android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />

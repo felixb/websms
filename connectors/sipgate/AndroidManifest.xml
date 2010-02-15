@@ -17,8 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms.connector.sipgate" android:versionName="0.3"
-	android:versionCode="300">
+	package="de.ub0r.android.websms.connector.sipgate" android:versionName="1.0"
+	android:versionCode="1000">
 	<application android:label="@string/app_name" android:icon="@drawable/icon"
 		android:debuggable="true">
 
@@ -42,7 +42,7 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connectors.sipgate.PREFS" />
+				<action android:name="de.ub0r.android.websms.connector.sipgate.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
@@ -56,7 +56,7 @@
 		</receiver>
 	</application>
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7" />
-	<supports-screen android:largeScreens="true"
+	<supports-screens android:largeScreens="true"
 		android:normalScreens="true" android:smallScreens="true"
 		android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />

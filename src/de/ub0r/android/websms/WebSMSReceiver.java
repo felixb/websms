@@ -77,6 +77,11 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 		if (Connector.ACTION_INFO.equals(action)) {
 			this.handleInfoAction(context, intent);
+		} else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
+			final Intent i = new Intent(context, CaptchaActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			i.putExtras(intent.getExtras());
+			context.startActivity(i);
 		}
 	}
 
@@ -150,9 +155,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		i.putExtra(Intent.EXTRA_TEXT, command.getText());
 		i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, specs.getErrorMessage());
 		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
-
 		final PendingIntent cIntent = PendingIntent.getActivity(context, 0, i,
-				0);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 		n.setLatestEventInfo(context, context.getString(R.string.notify_failed)
 				+ " " + specs.getErrorMessage(), to + ": " + command.getText(),
 				cIntent);

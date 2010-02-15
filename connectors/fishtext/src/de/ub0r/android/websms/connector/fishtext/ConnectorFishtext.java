@@ -50,10 +50,6 @@ public class ConnectorFishtext extends Connector {
 	private static final String TAG = "WebSMS.fishtext";
 	/** {@link SubConnectorSpec} ID: basic. */
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.fishtext.PREFS";
-
 	/** Fishtext URL: login. */
 	private static final String URL_LOGIN = // .
 	"https://www.fishtext.com/cgi-bin/account";
@@ -103,10 +99,10 @@ public class ConnectorFishtext extends Connector {
 		c.setAuthor(// .
 				context.getString(R.string.connector_fishtext_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context.getString(R.string.settings_fishtext));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(// .
 				c.getID(), c.getName(), SubConnectorSpec.FEATURE_NONE);
 		return c;

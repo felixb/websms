@@ -54,10 +54,6 @@ public class ConnectorInnosend extends Connector {
 	/** {@link SubConnectorSpec} ID: without sender. */
 	private static final String ID_WO_SENDER = "wo_sender";
 
-	/** Preferences intent action. */
-	private static final String PREFS_INTENT_ACTION = "de.ub0r.android."
-			+ "websms.connectors.innosend.PREFS";
-
 	/** Innosend Gateway URL. */
 	private static final String URL = "https://www.innosend.de/gateway/";
 
@@ -73,11 +69,11 @@ public class ConnectorInnosend extends Connector {
 		ConnectorSpec c = new ConnectorSpec(TAG, name);
 		c.setAuthor(context.getString(R.string.connector_innosend_author));
 		c.setBalance(null);
-		c.setPrefsIntent(PREFS_INTENT_ACTION);
 		c.setPrefsTitle(context
 				.getString(R.string.connector_innosend_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
-				| ConnectorSpec.CAPABILITIES_SEND);
+				| ConnectorSpec.CAPABILITIES_SEND
+				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(ID_FREE, context.getString(R.string.free),
 				SubConnectorSpec.FEATURE_NONE);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),

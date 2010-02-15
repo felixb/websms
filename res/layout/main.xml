@@ -50,6 +50,10 @@
 			android:paddingRight="3dip" android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true" android:textStyle="bold"
 			android:background="#88000000" android:textColor="#ffffffff" />
+		<TextView android:id="@+id/text_connector"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_centerInParent="true" android:textStyle="bold"
+			android:textColor="#40606060" android:textSize="50dip" />
 	</RelativeLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
@@ -71,7 +75,7 @@
 		android:layout_height="wrap_content" android:layout_weight="0"
 		android:visibility="visible" android:id="@+id/upper">
 		<Button android:text="@string/change_connector_" android:id="@+id/change_connector_u"
-			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_width="0dip" android:layout_height="fill_parent"
 			android:layout_weight="1" />
 		<ImageButton android:id="@+id/emo_u" android:layout_width="wrap_content"
 			android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons" />
@@ -93,4 +97,8 @@
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
 			android:layout_weight="1" />
 	</LinearLayout>
+	<com.admob.android.ads.AdView android:id="@+id/ad_bottom"
+		android:visibility="gone" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" app:isGoneWithoutAd="true"
+		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2 sipgate innosend" />
 </LinearLayout>

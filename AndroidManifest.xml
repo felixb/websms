@@ -17,12 +17,12 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms" android:versionName="2.9.93 beta3"
-	android:versionCode="2993">
+	package="de.ub0r.android.websms" android:versionName="3.0"
+	android:versionCode="3000">
 	<application android:label="@string/app_name" android:icon="@drawable/icon"
 		android:debuggable="true">
 		<activity android:label="@string/app_name"
-			android:configChanges="orientation" android:name="WebSMS"
+			android:configChanges="orientation|keyboardHidden" android:name="WebSMS"
 			android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -39,15 +39,19 @@
 				<data android:scheme="smsto" />
 			</intent-filter>
 		</activity>
-		<activity android:name="Preferences" />
+		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="CaptchaActivity"
+			android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.INFO" />
+				<action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
 			</intent-filter>
 		</receiver>
 
-		<receiver android:name="de.ub0r.android.websms.connector.sms.CommandReceiverSMS"
+		<receiver android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
 				<action android:name="de.ub0r.android.websms.connector.RUN_SEND" />
@@ -58,7 +62,7 @@
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
 	</application>
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7" />
-	<supports-screen android:largeScreens="true"
+	<supports-screens android:largeScreens="true"
 		android:normalScreens="true" android:smallScreens="true"
 		android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />
