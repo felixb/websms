@@ -1631,7 +1631,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					).length != 0;
 				}
 				me.setProgressBarIndeterminateVisibility(runningConnectors);
-				if (prefsConnectorSpec.equals(c)) {
+				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
 					me.setButtons();
 				}
 			}
