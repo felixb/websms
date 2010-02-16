@@ -43,16 +43,16 @@
 
 		<activity android:name="Preferences">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.example.PREFS" />
+				<action android:name="com.yourcompany.android.exampleconnector.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 		<receiver android:name="com.yourcompany.android.exampleconnector.ConnectorExample"
 			android:enabled="true" android:exported="true">
 			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.example.RUN_BOOTSTRAP" />
-				<action android:name="de.ub0r.android.websms.connector.example.RUN_UPDATE" />
-				<action android:name="de.ub0r.android.websms.connector.example.RUN_SEND" />
+				<action android:name="com.yourcompany.android.exampleconnector.RUN_BOOTSTRAP" />
+				<action android:name="com.yourcompany.android.exampleconnector.RUN_UPDATE" />
+				<action android:name="com.yourcompany.android.exampleconnector.RUN_SEND" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>
