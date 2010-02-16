@@ -200,12 +200,10 @@ public class ConnectorCherrySMS extends Connector {
 			Log.d(TAG, "--HTTP RESPONSE--");
 			htmlText = null;
 			int l = lines.length;
-			if (l > 0) {
+			cs.setBalance(lines[l - 1].trim());
+			if (l > 1) {
 				final int ret = Integer.parseInt(lines[0].trim());
 				checkReturnCode(context, ret);
-			}
-			if (l > 1) {
-				cs.setBalance(lines[l - 1].trim());
 			}
 		} catch (IOException e) {
 			Log.e(TAG, null, e);
