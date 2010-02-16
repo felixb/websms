@@ -109,7 +109,7 @@ public class ConnectorArcor extends Connector {
 			+ "/ums/ums_neu_sms.jsp";
 
 	/** Encoding to use. */
-	private static final String AROCR_ENCODING = "ISO-8859-15";
+	private static final String ARCOR_ENCODING = "ISO-8859-15";
 
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
@@ -269,9 +269,9 @@ public class ConnectorArcor extends Connector {
 			final String password) throws UnsupportedEncodingException {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("user_name=");
-		sb.append(URLEncoder.encode(username, AROCR_ENCODING));
+		sb.append(URLEncoder.encode(username, ARCOR_ENCODING));
 		sb.append("&password=");
-		sb.append(URLEncoder.encode(password, AROCR_ENCODING));
+		sb.append(URLEncoder.encode(password, ARCOR_ENCODING));
 		sb
 				.append("&login=Login&protocol="
 						+ "https&info=Online-Passwort&goto=");
@@ -295,13 +295,13 @@ public class ConnectorArcor extends Connector {
 		}
 		final StringBuilder sb1 = new StringBuilder();
 		sb1.append("empfaengerAn=");
-		sb1.append(URLEncoder.encode(sb.toString(), AROCR_ENCODING));
+		sb1.append(URLEncoder.encode(sb.toString(), ARCOR_ENCODING));
 		sb1.append("&emailAdressen=");
 		sb1.append(URLEncoder.encode(Utils.getSender(ctx.getContext(), ctx
-				.getCommand().getDefSender()), AROCR_ENCODING));
+				.getCommand().getDefSender()), ARCOR_ENCODING));
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder
-				.encode(ctx.getCommand().getText(), AROCR_ENCODING));
+				.encode(ctx.getCommand().getText(), ARCOR_ENCODING));
 		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden");
 
 		if (ctx.getPreferences().getBoolean(Preferences.COPY_SENT_SMS,
