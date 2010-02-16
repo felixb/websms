@@ -90,8 +90,10 @@ public class ConnectorSMS extends Connector {
 	private void send(final ConnectorCommand command) throws WebSMSException {
 		try {
 			SmsManager sm = SmsManager.getDefault();
-			for (String t : command.getRecipients()) {
-				ArrayList<String> messages = sm
+			final String[] r = command.getRecipients();
+			ArrayList<String> messages;
+			for (String t : r) {
+				messages = sm
 						.divideMessage(command.getText());
 				sm.sendMultipartTextMessage(Utils.getRecipientsNumber(t), null,
 						messages, null, null);

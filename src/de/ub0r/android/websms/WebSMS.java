@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2010 Felix Bechstein, Lado Kumsiashvili
  * 
  * This file is part of WebSMS.
  * 
@@ -983,17 +983,21 @@ public class WebSMS extends Activity implements OnClickListener,
 		final ArrayList<String> items = new ArrayList<String>();
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
+		SubConnectorSpec[] scs;
+		String n;
 		for (ConnectorSpec cs : css) {
-			final SubConnectorSpec[] scs = cs.getSubConnectors();
+			scs = cs.getSubConnectors();
 			if (scs.length <= 1) {
 				items.add(cs.getName());
 			} else {
-				final String n = cs.getName() + " - ";
+				n = cs.getName() + " - ";
 				for (SubConnectorSpec sc : scs) {
 					items.add(n + sc.getName());
 				}
 			}
 		}
+		scs = null;
+		n = null;
 
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
@@ -1274,8 +1278,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ConnectorSpec[] css = getConnectors(
 					ConnectorSpec.CAPABILITIES_NONE,
 					ConnectorSpec.STATUS_INACTIVE);
+			String a;
 			for (ConnectorSpec cs : css) {
-				final String a = cs.getAuthor();
+				a = cs.getAuthor();
 				if (a != null && a.length() > 0) {
 					authors.append(cs.getName());
 					authors.append(":\t");
@@ -1283,6 +1288,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					authors.append("\n");
 				}
 			}
+			a = null;
 			((TextView) d.findViewById(R.id.author_connectors)).setText(authors
 					.toString().trim());
 			return d;
@@ -1545,9 +1551,10 @@ public class WebSMS extends Activity implements OnClickListener,
 				Log.d(TAG, "add connector with name: " + name);
 				boolean added = false;
 				final int l = CONNECTORS.size();
+				ConnectorSpec cs;
 				try {
 					for (int i = 0; i < l; i++) {
-						final ConnectorSpec cs = CONNECTORS.get(i);
+						cs = CONNECTORS.get(i);
 						if (name.compareToIgnoreCase(cs.getName()) < 0) {
 							CONNECTORS.add(i, connector);
 							added = true;
@@ -1629,8 +1636,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				return null;
 			}
 			final int l = CONNECTORS.size();
+			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
-				final ConnectorSpec c = CONNECTORS.get(i);
+				c = CONNECTORS.get(i);
 				if (id.equals(c.getID())) {
 					return c;
 				}
@@ -1656,9 +1664,12 @@ public class WebSMS extends Activity implements OnClickListener,
 				return null;
 			}
 			final int l = CONNECTORS.size();
+			ConnectorSpec c;
+			String n;
+			SubConnectorSpec scs[];
 			for (int i = 0; i < l; i++) {
-				final ConnectorSpec c = CONNECTORS.get(i);
-				final String n = c.getName();
+				c = CONNECTORS.get(i);
+				n = c.getName();
 				if (name.startsWith(n)) {
 					if (name.length() == n.length()) {
 						if (returnSelectedSubConnector != null) {
@@ -1667,8 +1678,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						}
 						return c;
 					} else if (returnSelectedSubConnector != null) {
-
-						final SubConnectorSpec[] scs = c.getSubConnectors();
+						scs = c.getSubConnectors();
 						if (scs == null || scs.length == 0) {
 							continue;
 						}
@@ -1700,8 +1710,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
 					CONNECTORS.size());
 			final int l = CONNECTORS.size();
+			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
-				final ConnectorSpec c = CONNECTORS.get(i);
+				c = CONNECTORS.get(i);
 				if (c.hasCapabilities((short) capabilities)
 						&& c.hasStatus((short) status)) {
 					ret.add(c);

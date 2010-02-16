@@ -22,7 +22,7 @@
 	<string name="app_name">WebSMS</string>
 	<string name="app_version">3.0</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>

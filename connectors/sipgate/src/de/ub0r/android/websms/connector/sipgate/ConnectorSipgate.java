@@ -110,9 +110,10 @@ public class ConnectorSipgate extends Connector {
 			Vector<String> remoteUris = new Vector<String>();
 			ConnectorCommand command = new ConnectorCommand(intent);
 			final String defPrefx = command.getDefPrefix();
+			String u;
 			for (String t : command.getRecipients()) {
 				if (t != null && t.length() > 1) {
-					final String u = "sip:"
+					u = "sip:"
 							+ Utils.national2international(defPrefx,
 									Utils.getRecipientsNumber(t)).replaceAll(
 									"\\+", "") + "@sipgate.net";
@@ -120,6 +121,7 @@ public class ConnectorSipgate extends Connector {
 					Log.d(TAG, "Mobile number: " + u);
 				}
 			}
+			u = null;
 			Hashtable<String, Serializable> params = // .
 			new Hashtable<String, Serializable>();
 			final String sender = Utils.getSender(context, command
