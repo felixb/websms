@@ -315,7 +315,7 @@ public class ConnectorO2 extends Connector {
 				htmlText = Utils.stream2str(response.getEntity().getContent());
 			}
 			response = null;
-			if (htmlText.indexOf("captcha") > 0) {
+			if (htmlText != null && htmlText.indexOf("captcha") > 0) {
 				final String newFlow = getFlowExecutionkey(htmlText);
 				htmlText = null;
 				if (!this.solveCaptcha(context, cookies, newFlow)) {
@@ -573,9 +573,8 @@ public class ConnectorO2 extends Connector {
 					this.sendData(context, command, false);
 					return;
 				} else {
-					Log.d(TAG, htmlText);
 					throw new WebSMSException(// .
-							"faild to locate freesms on site");
+							"failed to locate freesms on site");
 				}
 			}
 			int i = htmlText.indexOf(CHECK_FREESMS);
@@ -595,12 +594,12 @@ public class ConnectorO2 extends Connector {
 				} else {
 					Log.d(TAG, htmlText);
 					throw new WebSMSException(// .
-							"faild to locate freesms on site (2)");
+							"failed to locate freesms on site (2)");
 				}
 			} else {
 				Log.d(TAG, htmlText);
 				throw new WebSMSException(// .
-						"faild to locate freesms on site (3)");
+						"failed to locate freesms on site (3)");
 			}
 
 			// send

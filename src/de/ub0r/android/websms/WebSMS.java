@@ -1416,13 +1416,28 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
 
+		final String[] tos = to.split(",");
 		final ConnectorCommand command = ConnectorCommand.send(subconnector,
-				defPrefix, defSender, to.split(","), text, flashSMS);
+				defPrefix, defSender, tos, text, flashSMS);
 		command.setCustomSender(lastCustomSender);
 		command.setSendLater(lastSendLater);
 
 		try {
-			runCommand(this, connector, command);
+			if (connector.getSubConnector(subconnector).hasFeatures(
+					SubConnectorSpec.FEATURE_MULTIRECIPIENTS)
+					|| tos.length == 1) {
+				runCommand(this, connector, command);
+			} else {
+				ConnectorCommand cc;
+				for (String t : tos) {
+					if (t.trim().length() < 1) {
+						continue;
+					}
+					cc = (ConnectorCommand) command.clone();
+					cc.setRecipients(t);
+					runCommand(this, connector, cc);
+				}
+			}
 		} catch (Exception e) {
 			Log.e(TAG, null, e);
 		} finally {
@@ -1666,7 +1681,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			final int l = CONNECTORS.size();
 			ConnectorSpec c;
 			String n;
-			SubConnectorSpec scs[];
+			SubConnectorSpec[] scs;
 			for (int i = 0; i < l; i++) {
 				c = CONNECTORS.get(i);
 				n = c.getName();
