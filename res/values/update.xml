@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v3.0.2: fix layout</item>
 		<item>v3.0.1: fix migration from beta, fix sending to multiple recipients for some connectors</item>
 		<item>v3.0: split connectors to separate packages (check market!), add emoticons button</item>
 		<item>v2.9.3: minor changes, fix o2 captcha</item>
