@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>WebSMS-3 is available via market. You may install both versions in parallel. Users are encouraged to migrate to WebSMS-3, as this will be the last version of WebSMS-2.x!</item>
+		<item>WebSMS-3 ist im Market verfügbar. Du kannst beide Versionen parallel installieren. Benutzer sind aber angehalten zu WebSMS-3 zu wechseln, da dies die letzte Version von WebSMS-2.x sein wird!</item>
 		<item>--------</item>
 		<item>v2.9.4: encourage users to migrate</item>
 		<item>v2.9.3: minor changes, fix o2 captcha, remove ads for donators</item>
