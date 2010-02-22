@@ -582,10 +582,8 @@ public class ConnectorO2 extends Connector {
 				int j = htmlText.indexOf(CHECK_WEB2SMS, i);
 				if (j > 0) {
 					ConnectorSpec c = this.getSpec(context);
-					this.getSpec(context)
-							.setBalance(
-									htmlText.substring(i + 9, j).trim().split(
-											" ", 2)[0]);
+					c.setBalance(htmlText.substring(i + 9, j).trim().split(" ",
+							2)[0]);
 					Log.d(TAG, "balance: " + c.getBalance());
 				} else if (reuseSession) {
 					// try again with clear session
