@@ -17,8 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms" android:versionName="3.0.2"
-	android:versionCode="3020">
+	package="de.ub0r.android.websms" android:versionName="3.0.3"
+	android:versionCode="3030">
 	<application android:label="@string/app_name" android:icon="@drawable/icon"
 		android:debuggable="true">
 		<activity android:label="@string/app_name"
