@@ -32,6 +32,7 @@ import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Fetch all incomming Broadcasts and forward them to WebSMS.
@@ -215,17 +216,21 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 		final String[] recipients = command.getRecipients();
 		for (int i = 0; i < recipients.length; i++) {
-			if (recipients[i] == null || recipients[i].length() == 0) {
+			if (recipients[i] == null || recipients[i].trim().length() == 0) {
 				continue; // skip empty recipients
 			}
 			// save sms to content://sms/sent
+			Log.d(TAG, "save message:");
+			Log.d(TAG, "TO: " + Utils.getRecipientsNumber(recipients[i]));
+			Log.d(TAG, "TEXT: " + command.getText());
 			ContentValues values = new ContentValues();
-			values.put(ADDRESS, recipients[i]);
+			values.put(ADDRESS, Utils.getRecipientsNumber(recipients[i]));
 			values.put(READ, 1);
 			values.put(TYPE, MESSAGE_TYPE_SENT);
 			values.put(BODY, command.getText());
 			if (command.getSendLater() > 0) {
 				values.put(DATE, command.getSendLater());
+				Log.d(TAG, "DATE: " + command.getSendLater());
 			}
 			context.getContentResolver().insert(
 					Uri.parse("content://sms/sent"), values);
