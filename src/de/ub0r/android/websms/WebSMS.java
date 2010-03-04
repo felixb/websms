@@ -1414,7 +1414,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
 
-		final String[] tos = to.split(",");
+		final String[] tos = Utils.parseRecipients(to);
 		final ConnectorCommand command = ConnectorCommand.send(subconnector,
 				defPrefix, defSender, tos, text, flashSMS);
 		command.setCustomSender(lastCustomSender);
