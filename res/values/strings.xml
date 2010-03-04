@@ -49,6 +49,7 @@
 	<string name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
 	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="log_noselectedconnector">No Connector selected. Please choose one with "Change Provider".</string>
+	<string name="log_noreadyconnector">No Connector installed or ready. Please check preferences.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>

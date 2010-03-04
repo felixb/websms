@@ -997,6 +997,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		scs = null;
 		n = null;
 
+		if (items.size() == 0) {
+			Toast.makeText(this, R.string.log_noreadyconnector,
+					Toast.LENGTH_LONG).show();
+		}
+
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface d, // .

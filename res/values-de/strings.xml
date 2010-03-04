@@ -44,6 +44,7 @@
 	<string name="log_wrong_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
 	<string name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
 	<string name="log_noselectedconnector">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
+	<string name="log_noreadyconnector">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Mobilnummer</string>
