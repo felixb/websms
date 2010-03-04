@@ -118,6 +118,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
 	"hide_change_connector_button";
+	/** Preferemce's name: hide clear recipients button. */
+	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
+	"hide_clear_recipients_button";
 	/** Preferemce's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preferemce's name: hide cancel button. */
@@ -454,6 +457,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vExtras.setOnClickListener(this);
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
+		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
@@ -632,6 +636,14 @@ public class WebSMS extends Activity implements OnClickListener,
 				false);
 		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
 				false);
+		final boolean bShowClearRecipients = !p.getBoolean(
+				PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON, false);
+		View v = this.findViewById(R.id.clear);
+		if (bShowClearRecipients) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
 
 		if (bShowChangeConnector && bShowEmoticons && bShowCancel) {
 			this.findViewById(R.id.upper).setVisibility(View.VISIBLE);
@@ -640,7 +652,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			this.findViewById(R.id.upper).setVisibility(View.GONE);
 
-			View v = this.findViewById(R.id.change_connector);
+			v = this.findViewById(R.id.change_connector);
 			if (bShowChangeConnector) {
 				v.setVisibility(View.VISIBLE);
 			} else {
@@ -924,6 +936,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		case R.id.cancel:
 			this.reset();
+			return;
+		case R.id.clear:
+			this.etTo.setText("");
+			lastTo = null;
 			return;
 		case R.id.change_connector:
 		case R.id.change_connector_u:

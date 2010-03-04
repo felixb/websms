@@ -61,6 +61,8 @@
 	<string name="hide_change_connector_button_hint">Hide "Change provider" button on main screen.</string>
 	<string name="hide_cancel_button">Hide "Cancel" button</string>
 	<string name="hide_cancel_button_hint">Hide "Cancel" button on main screen.</string>
+	<string name="hide_clear_recipients_button_">Hide "Clear recipients" button</string>
+	<string name="hide_clear_recipients_button_hint">Hide "Clear recipients" button on main screen.</string>
 	<string name="hide_emo_button">Hide "Emoticons" button</string>
 	<string name="hide_emo_button_hint">Hide "Emoticons" button on main screen.</string>
 	<string name="autoupdate_">Autoupdate</string>
