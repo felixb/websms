@@ -69,9 +69,8 @@ public class ConnectorCherrySMS extends Connector {
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
-		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+				0);
+		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender), 0);
 		return c;
 	}
 
@@ -176,8 +175,9 @@ public class ConnectorCherrySMS extends Connector {
 				url.append("&message=");
 				url.append(URLEncoder.encode(text, "ISO-8859-15"));
 				url.append("&to=");
-				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
-						";", true));
+				url.append(Utils.joinRecipientsNumbers(Utils
+						.national2international(command.getDefPrefix(), command
+								.getRecipients()), ";", true));
 			} else {
 				url.append("&check=guthaben");
 			}
