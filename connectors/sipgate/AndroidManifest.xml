@@ -17,8 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms.connector.sipgate" android:versionName="1.0"
-	android:versionCode="1000">
+	package="de.ub0r.android.websms.connector.sipgate" android:versionName="1.1"
+	android:versionCode="1100">
 	<application android:label="@string/app_name" android:icon="@drawable/icon"
 		android:debuggable="true">
 
