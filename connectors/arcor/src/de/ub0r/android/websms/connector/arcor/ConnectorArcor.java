@@ -91,10 +91,10 @@ public class ConnectorArcor extends Connector {
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_POSITION = 18000;
+	private static final int APPROXIMATE_SMS_COUNT_POSITION = 18100;
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 3000;
+	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 3500;
 
 	/** where to find logout link. */
 	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
