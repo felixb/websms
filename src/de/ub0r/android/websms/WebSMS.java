@@ -121,6 +121,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferemce's name: hide clear recipients button. */
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
 	"hide_clear_recipients_button";
+	/** If the Send button also is shown in the Main Menu */
+	private static final String PREFS_HIDE_SEND_IN_MENU = // .
+	"hide_send_in_menu";
 	/** Preferemce's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preferemce's name: hide cancel button. */
@@ -984,6 +987,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (prefsNoAds) {
 			menu.removeItem(R.id.item_donate);
 		}
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean bShowSendButton = !p.getBoolean(PREFS_HIDE_SEND_IN_MENU,
+				false);
+		if (!bShowSendButton) {
+			menu.removeItem(R.id.item_send);
+		}
 		return true;
 	}
 
@@ -1048,6 +1058,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
+
+		case R.id.item_send:
+			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID()); // send by menu button
+			return true;
 		case R.id.item_about: // start about dialog
 			this.showDialog(DIALOG_ABOUT);
 			return true;
