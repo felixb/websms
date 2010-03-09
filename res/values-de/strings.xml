@@ -59,8 +59,8 @@
 	<string name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_clear_recipients_button_">\"Empfänger löschen\" Button verstecken</string>
 	<string name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
-	<string name="hide_send_in_menu">\"Send\" Button im Menü verstecken</string>
-	<string name="hide_send_in_menu_hint">Kein \"Send\" Button in dem Hauptmenü. Neustart der Anwendung erforderlich.</string>
+	<string name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
+	<string name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
 	<string name="hide_emo_button">\"Smiley\" Button versteckenn</string>
 	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>

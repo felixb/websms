@@ -63,8 +63,8 @@
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
 	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
-	<string name="hide_send_in_menu">Hide \"Send\" button</string>
-	<string name="hide_send_in_menu_hint">Hide \"Send\" button in the main menu. Requires restart.</string>
+	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
+	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
 	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
 	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
 	<string name="autoupdate_">Autoupdate</string>
