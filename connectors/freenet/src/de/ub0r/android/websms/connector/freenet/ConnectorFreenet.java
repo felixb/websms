@@ -20,10 +20,20 @@ package de.ub0r.android.websms.connector.freenet;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.RedirectHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,11 +57,16 @@ public class ConnectorFreenet extends Connector {
 	private static final String TAG = "WebSMS.freenet";
 
 	/** Freenet.de Gateway URL for login. */
-	private static final String URL_LOGIN = "http://"
-			+ "e-tools.freenet.de//freenetLogin.php3";
+	private static final String URL_LOGIN = "https://"
+			+ "e-tools.mobil.freenet.de/login.php3";
+	// "https://secure.freenet.de/etools.freenet.de/login.php3";
+	// "http://e-tools.freenet.de//freenetLogin.php3";
 	/** Freenet.de Gateway URL for send. */
 	private static final String URL_SEND = "http://"
 			+ "e-tools.freenet.de/sms.php3";
+
+	/** Static cookies. */
+	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
 
 	/**
 	 * {@inheritDoc}
@@ -99,37 +114,80 @@ public class ConnectorFreenet extends Connector {
 	 * Login to freenet.de.
 	 * 
 	 * @param context
-	 *            Context
-	 * @param command
-	 *            ConnectorCommand
+	 *            {@link Context}
+	 * @param client
+	 *            {@link DefaultHttpClient}
 	 * @return Session ID
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 * @throws IOException
 	 *             IOException
 	 */
-	private String login(final Context context, final ConnectorCommand command)
+	private String login(final Context context, final DefaultHttpClient client)
 			throws WebSMSException, IOException {
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		final StringBuilder url = new StringBuilder(URL_LOGIN);
-		final ArrayList<BasicNameValuePair> d = // .
-		new ArrayList<BasicNameValuePair>();
-		d.add(new BasicNameValuePair("callback",
-				"http://etools.freenet.de/etools.php3&password="
-						+ p.getString(Preferences.PREFS_PASSWORD, "")
-						+ "&username="
-						+ p.getString(Preferences.PREFS_USER, "")));
-		HttpResponse response = Utils.getHttpClient(url.toString(), null, d,
-				null, null);
+		HttpResponse response = client.execute(new HttpGet(
+				"http://email.mobil.freenet.de/"));
+
 		int resp = response.getStatusLine().getStatusCode();
 		if (resp != HttpURLConnection.HTTP_OK) {
 			throw new WebSMSException(context, R.string.error_http, " " + resp);
 		}
-		String htmlText = Utils.stream2str(response.getEntity().getContent())
-				.trim();
-		// TODO: get session id
-		return null;
+
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final ArrayList<BasicNameValuePair> d = // .
+		new ArrayList<BasicNameValuePair>();
+		d.add(new BasicNameValuePair("callback",
+				"http://email.mobil.freenet.de/login/index.html"));
+		d.add(new BasicNameValuePair("returnto", ""));
+		d.add(new BasicNameValuePair("tplversion", ""));
+		d.add(new BasicNameValuePair("login", "action"));
+		d.add(new BasicNameValuePair("Login", "Login"));
+		d.add(new BasicNameValuePair("world", "bml_DE"));
+		d.add(new BasicNameValuePair("username", p.getString(
+				Preferences.PREFS_USER, "")));
+		d.add(new BasicNameValuePair("password", p.getString(
+				Preferences.PREFS_PASSWORD, "")));
+		Log.d(TAG, "---HTTP POST---");
+		Log.d(TAG, URL_LOGIN + " data: " + d);
+		Log.d(TAG, "---HTTP POST---");
+
+		HttpPost request = new HttpPost(URL_LOGIN);
+		request.setEntity(new UrlEncodedFormEntity(d));
+		request.setHeader("Referer", "http://email.mobil.freenet.de/");
+		response = client.execute(request);
+		List<Cookie> cookies = client.getCookieStore().getCookies();
+		int l = cookies.size();
+		Cookie c;
+		String ret = null;
+		for (int i = 0; i < l; i++) {
+			c = cookies.get(i);
+			if (c.getName().equals("SIS")) {
+				ret = c.getValue();
+				break;
+			}
+		}
+		Log.d(TAG, "session id: " + ret);
+		if (ret == null) {
+			return null;
+		}
+		Log.d(TAG, "---HTTP GET---");
+		Log.d(TAG, "https://email.mobil.freenet.de/Email/View/SmsEdit");
+		Log.d(TAG, "---HTTP GET---");
+		response = client.execute(new HttpGet(
+				"https://email.mobil.freenet.de/Email/View/SmsEdit"));
+		if (resp != HttpURLConnection.HTTP_OK) {
+			throw new WebSMSException(context, R.string.error_http, " " + resp);
+		}
+
+		String htmlText = Utils.stream2str(response.getEntity().getContent());
+		Log.d(TAG, "---HTTP RESPONSE---");
+		for (Header h : response.getAllHeaders()) {
+			Log.d(TAG, "HEADER: " + h.getName() + ": " + h.getValue());
+		}
+		Log.d(TAG, htmlText);
+		Log.d(TAG, "---HTTP RESPONSE---");
+		return ret;
 	}
 
 	/**
@@ -146,7 +204,22 @@ public class ConnectorFreenet extends Connector {
 			throws WebSMSException {
 		// do IO
 		try { // get Connection
-			final String sessionID = this.login(context, command);
+			final DefaultHttpClient client = new DefaultHttpClient();
+			client.setRedirectHandler(new RedirectHandler() {
+				@Override
+				public boolean isRedirectRequested(final HttpResponse response,
+						final HttpContext context) {
+					return false;
+				}
+
+				@Override
+				public URI getLocationURI(final HttpResponse response,
+						final HttpContext context) {
+					return null;
+				}
+			});
+
+			final String sessionID = this.login(context, client);
 			final String text = command.getText();
 			if (text == null || text.length() == 0) {
 				return;
@@ -178,7 +251,7 @@ public class ConnectorFreenet extends Connector {
 			String htmlText = Utils.stream2str(
 					response.getEntity().getContent()).trim();
 			// TODO: parse html
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.getMessage());
 		}
