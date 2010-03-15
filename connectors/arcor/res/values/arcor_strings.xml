@@ -24,7 +24,7 @@
 	<string name="settings">Preferences - Arcor</string>
 	<string name="enable">Enable Arcor</string>
 	<string name="copy_sent_sms">Copy sent sms to Sent Folder</string>
-<!-- 
+<!--
 	<string name="enable_sender_number">Use custom number</string>
 	<string name="enable_sender_number_hint">Use custom number for arcor connector.</string>
 -->
