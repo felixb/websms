@@ -296,13 +296,11 @@ public class ConnectorArcor extends Connector {
 		final StringBuilder sb1 = new StringBuilder();
 		sb1.append("empfaengerAn=");
 		sb1.append(URLEncoder.encode(sb.toString(), ARCOR_ENCODING));
-		sb1.append("&emailAdressen=");
-		sb1.append(URLEncoder.encode(Utils.getSender(ctx.getContext(), ctx
-				.getCommand().getDefSender()), ARCOR_ENCODING));
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder
 				.encode(ctx.getCommand().getText(), ARCOR_ENCODING));
-		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden");
+		sb1
+				.append("&firstVisitOfPage=foo&part=0&senden=Senden&ordnername=Posteingang");
 
 		if (ctx.getPreferences().getBoolean(Preferences.COPY_SENT_SMS,
 				Boolean.TRUE)) {
@@ -311,8 +309,16 @@ public class ConnectorArcor extends Connector {
 		if (ctx.getPreferences().getBoolean(
 				Preferences.ENABLE_VALIDATED_NUMBER, Boolean.FALSE)) {
 			sb1.append("&useOwnMobile=on");
+		} else {
+			sb1.append("&emailAdressen=");
+			String email = ctx.getPreferences().getString(Preferences.USER, "")
+					+ "@arcor.de";
+			email = URLEncoder.encode(email, ARCOR_ENCODING);
+			sb1.append(email);
 		}
-
+		Log.w(TAG, sb1.toString());
+		System.out.println(sb1.toString());
+		System.err.println(sb1.toString());
 		return sb1.toString();
 	}
 
@@ -331,6 +337,7 @@ public class ConnectorArcor extends Connector {
 			final String urlencodedparams) throws Exception {
 		final HttpPost post = new HttpPost(url);
 		post.setHeader("User-Agent", FAKE_USER_AGENT);
+		post.setHeader("Referer", "https://www.arcor.de/ums/ums_neu_sms.jsp");
 		post.setHeader(new BasicHeader(HTTP.CONTENT_TYPE,
 				URLEncodedUtils.CONTENT_TYPE));
 		post.setEntity(new StringEntity(urlencodedparams));
