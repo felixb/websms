@@ -65,7 +65,7 @@
 	</PreferenceScreen>
 	<PreferenceScreen android:title="@string/more_connectors__"
 		android:summary="@string/more_connectors__hint">
-		<intent android:action="android.intent.action.SENDTO"
-			android:data="mailto:flx.yoo%2Bwebsms@gmail.com" />
+		<intent android:action="android.intent.action.VIEW"
+			android:data="http://code.google.com/p/websmsdroid/wiki/ConnectorsFAQ" />
 	</PreferenceScreen>
 </PreferenceScreen>
