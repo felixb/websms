@@ -91,16 +91,16 @@ public class ConnectorArcor extends Connector {
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_POSITION = 18100;
+	private static final int SMS_COUNT_AREA_START = 16100;
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 3500;
+	private static final int SMS_COUNT_AREA_END = SMS_COUNT_AREA_START + 8000;
 
 	/** where to find logout link. */
-	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
+	private static final int LOGOUT_LINK_AREA_START = 4000;
 
 	/** where to find logout link. */
-	private static final int APPROXIMATE_LOGOUT_LINK_LENGTH = 2000;
+	private static final int LOGOUT_LINK_AREAD_END = LOGOUT_LINK_AREA_START + 8000;
 	/** Login URL, to send Login (POST). */
 	private static final String LOGIN_URL = "https://www.arcor.de"
 			+ "/login/login.jsp";
@@ -144,6 +144,7 @@ public class ConnectorArcor extends Connector {
 			final HttpResponse response = ctx.getClient().execute(request);
 			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
+			int idx = cutContent.indexOf(MATCH_LOGIN_SUCCESS);
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
 				throw new WebSMSException(ctx.getContext(), R.string.error_pw);
 			}
@@ -399,9 +400,9 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutLoginInfoFromContent(final InputStream is)
 			throws IOException {
-		return Utils.stream2str(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION,
-				APPROXIMATE_LOGOUT_LINK_COUNT_POSITION
-						+ APPROXIMATE_LOGOUT_LINK_LENGTH);
+		// return Utils.stream2str(is);
+		return Utils.stream2str(is, LOGOUT_LINK_AREA_START,
+				+LOGOUT_LINK_AREAD_END);
 	}
 
 	/**
@@ -416,7 +417,7 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutFreeCountFromContent(final InputStream is)
 			throws IOException {
-		return Utils.stream2str(is, APPROXIMATE_SMS_COUNT_POSITION,
-				APPROXIMATE_SMS_COUNT_POSITION + APPROXIMATE_SMS_COUNT_LENGTH);
+		// return Utils.stream2str(is);
+		return Utils.stream2str(is, SMS_COUNT_AREA_START, SMS_COUNT_AREA_END);
 	}
 }
