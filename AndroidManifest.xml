@@ -41,8 +41,10 @@
 		</activity>
 		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="About" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="CaptchaActivity"
-			android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="adjustResize" />
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>

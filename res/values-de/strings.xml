@@ -17,8 +17,11 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about_">Über WebSMS</string>
+	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+	<string name="about_hint">Über diese App</string>
+	<string name="feedback_">Feedback</string>
+	<string name="feedback_hint">Bugreports, feature requests ...</string>
 	<string name="author_">Autor:</string>
 	<string name="author_connectors_">Autor der Connectoren:</string>
 	<string name="change_connector_">Anderer Provider</string>
@@ -31,7 +34,7 @@
 	<string name="donate_">Spenden</string>
 	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
 	<string name="remove_ads_">Werbung entfernen</string>
-	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.</string>
+	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.\n\nAn alle SMSdroid Spender: Der noads code funktioniert auch mit WebSMS.</string>
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>

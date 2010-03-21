@@ -206,8 +206,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
 
-	/** Dialog: about. */
-	private static final int DIALOG_ABOUT = 0;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: custom sender. */
@@ -1061,22 +1059,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			// send by menu item
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			return true;
-		case R.id.item_about: // start about dialog
-			this.showDialog(DIALOG_ABOUT);
-			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
 		case R.id.item_donate:
 			this.showDialog(DIALOG_PREDONATE);
-			return true;
-		case R.id.item_more:
-			try {
-				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-						.parse("market://search?q=pub:\"Felix Bechstein\"")));
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, "no market", e);
-			}
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
@@ -1301,29 +1288,6 @@ public class WebSMS extends Activity implements OnClickListener,
 					});
 			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
-		case DIALOG_ABOUT:
-			d = new Dialog(this);
-			d.setContentView(R.layout.about);
-			d.setTitle(this.getString(R.string.about_) + " v"
-					+ this.getString(R.string.app_version));
-			StringBuffer authors = new StringBuffer();
-			final ConnectorSpec[] css = getConnectors(
-					ConnectorSpec.CAPABILITIES_NONE,
-					ConnectorSpec.STATUS_INACTIVE);
-			String a;
-			for (ConnectorSpec cs : css) {
-				a = cs.getAuthor();
-				if (a != null && a.length() > 0) {
-					authors.append(cs.getName());
-					authors.append(":\t");
-					authors.append(a);
-					authors.append("\n");
-				}
-			}
-			a = null;
-			((TextView) d.findViewById(R.id.author_connectors)).setText(authors
-					.toString().trim());
-			return d;
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);
 			builder.setIcon(android.R.drawable.ic_dialog_info);
@@ -1339,6 +1303,22 @@ public class WebSMS extends Activity implements OnClickListener,
 			builder.setMessage(buf.toString());
 			builder.setCancelable(true);
 			builder.setPositiveButton(android.R.string.ok, null);
+			builder.setNeutralButton("get SMSdroid",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(final DialogInterface d,
+								final int which) {
+							try {
+								WebSMS.this.startActivity(// .
+										new Intent(
+												Intent.ACTION_VIEW,
+												Uri.parse(// .
+														"market://search?q=pname:de.ub0r.android.smsdroid")));
+							} catch (ActivityNotFoundException e) {
+								Log.e(TAG, "no market", e);
+							}
+						}
+					});
 			return builder.create();
 		case DIALOG_CUSTOMSENDER:
 			builder = new AlertDialog.Builder(this);
