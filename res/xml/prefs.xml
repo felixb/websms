@@ -30,6 +30,8 @@
 			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
 		<CheckBoxPreference android:key="hide_cancel_button"
 			android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
+		<CheckBoxPreference android:key="hide_send_in_menu"
+			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
 		<CheckBoxPreference android:key="hide_clear_recipients_button"
 			android:title="@string/hide_clear_recipients_button_"
 			android:summary="@string/hide_clear_recipients_button_hint" />
