@@ -17,8 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms" android:versionName="3.0.4"
-	android:versionCode="3040">
+	package="de.ub0r.android.websms" android:versionName="3.0.6"
+	android:versionCode="3060">
 	<application android:label="@string/app_name" android:icon="@drawable/icon"
 		android:debuggable="true">
 		<activity android:label="@string/app_name"
@@ -41,8 +41,10 @@
 		</activity>
 		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="About" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="CaptchaActivity"
-			android:configChanges="orientation|keyboardHidden" android:windowSoftInputMode="adjustResize" />
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>

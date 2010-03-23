@@ -300,8 +300,8 @@ public class ConnectorArcor extends Connector {
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder
 				.encode(ctx.getCommand().getText(), ARCOR_ENCODING));
-		sb1
-				.append("&firstVisitOfPage=foo&part=0&senden=Senden&ordnername=Posteingang");
+		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden"
+				+ "&ordnername=Posteingang");
 
 		if (ctx.getPreferences().getBoolean(Preferences.COPY_SENT_SMS,
 				Boolean.TRUE)) {
@@ -317,9 +317,9 @@ public class ConnectorArcor extends Connector {
 			email = URLEncoder.encode(email, ARCOR_ENCODING);
 			sb1.append(email);
 		}
-		Log.w(TAG, sb1.toString());
-		System.out.println(sb1.toString());
-		System.err.println(sb1.toString());
+		Log.d(TAG, sb1.toString());
+		// System.out.println(sb1.toString());
+		// System.err.println(sb1.toString());
 		return sb1.toString();
 	}
 

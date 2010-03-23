@@ -17,10 +17,13 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about_">About WebSMS</string>
-	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.0.4</string>
+	<string name="app_version">3.0.6</string>
+	<string name="about_">About</string>
+	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
+	<string name="about_hint">About this app</string>
+	<string name="feedback_">Feedback</string>
+	<string name="feedback_hint">Report bugs, request features ...</string>
 	<string name="author_">Author:</string>
 	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
@@ -36,13 +39,13 @@
 	<string name="donate_">Donate</string>
 	<string name="donate_remove_ads_">Donate/remove ads</string>
 	<string name="remove_ads_">Remove ads</string>
-	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you as soon as possible.\nThank you!</string>
+	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you as soon as possible.\nThank you!\n\nFor all the SMSdroid donators: the noads code is working for WebSMS as well.</string>
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
 	<string name="more_connectors__">Even more Connectors..</string>
-	<string name="more_connectors__hint">You miss a connector for some service? Mail me!</string>
+	<string name="more_connectors__hint">You are missing a connector for some service? View the FAQ to get it.</string>
 	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
@@ -63,8 +66,8 @@
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
 	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
-	<string name="hide_send_in_menu">Hide \"Send\" button</string>
-	<string name="hide_send_in_menu_hint">Hide \"Send\" button in the main menu. Requires restart.</string>
+	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
+	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
 	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
 	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
 	<string name="autoupdate_">Autoupdate</string>

@@ -17,8 +17,11 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about_">Über WebSMS</string>
+	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+	<string name="about_hint">Über diese App</string>
+	<string name="feedback_">Feedback</string>
+	<string name="feedback_hint">Bugreports, feature requests ...</string>
 	<string name="author_">Autor:</string>
 	<string name="author_connectors_">Autor der Connectoren:</string>
 	<string name="change_connector_">Anderer Provider</string>
@@ -31,13 +34,13 @@
 	<string name="donate_">Spenden</string>
 	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
 	<string name="remove_ads_">Werbung entfernen</string>
-	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.</string>
+	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.\n\nAn alle SMSdroid Spender: Der noads code funktioniert auch mit WebSMS.</string>
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>
 	<string name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
 	<string name="more_connectors__">Noch mehr Connectoren..</string>
-	<string name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Schreib mir!</string>
+	<string name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
 	<string name="free_">Guthaben:</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Lizens:</string>
@@ -59,8 +62,8 @@
 	<string name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_clear_recipients_button_">\"Empfänger löschen\" Button verstecken</string>
 	<string name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
-	<string name="hide_send_in_menu">\"Send\" Button im Menü verstecken</string>
-	<string name="hide_send_in_menu_hint">Kein \"Send\" Button in dem Hauptmenü. Neustart der Anwendung erforderlich.</string>
+	<string name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
+	<string name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
 	<string name="hide_emo_button">\"Smiley\" Button versteckenn</string>
 	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
