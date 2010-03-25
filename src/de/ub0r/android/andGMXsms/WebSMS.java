@@ -486,12 +486,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		// display changelog?
 		String v0 = this.preferences.getString(PREFS_LAST_RUN, "");
 		String v1 = this.getResources().getString(R.string.app_version);
-		// if (!v0.equals(v1)) { // force display of changelog/hint for v3
-		SharedPreferences.Editor editor = this.preferences.edit();
-		editor.putString(PREFS_LAST_RUN, v1);
-		editor.commit();
-		this.showDialog(DIALOG_UPDATE);
-		// }
+		if (!v0.equals(v1)) {
+			SharedPreferences.Editor editor = this.preferences.edit();
+			editor.putString(PREFS_LAST_RUN, v1);
+			editor.commit();
+			this.showDialog(DIALOG_UPDATE);
+		}
 		// listen on changes to prefs
 		this.preferences
 				.registerOnSharedPreferenceChangeListener(this.prefsOnChgListener);
