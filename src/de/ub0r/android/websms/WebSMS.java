@@ -295,22 +295,18 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 
-		// launched by clicking a sms: link, target number is in URI.
 		final Uri uri = intent.getData();
-		if (uri == null) {
-			return;
+		if (uri != null) {
+			// launched by clicking a sms: link, target number is in URI.
+			final String scheme = uri.getScheme();
+			if (scheme.equals("sms") || scheme.equals("smsto")) {
+				final String s = uri.getSchemeSpecificPart();
+				this.parseSchemeSpecificPart(s);
+			}
 		}
-		final String scheme = uri.getScheme();
-		if (!scheme.equals("sms") && !scheme.equals("smsto")) {
-			return;
-		}
-
-		String s = uri.getSchemeSpecificPart();
-		this.parseSchemeSpecificPart(s);
-
 		final Bundle extras = intent.getExtras();
 		if (extras != null) {
-			s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
+			String s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
 			if (s != null) {
 				((EditText) this.findViewById(R.id.text)).setText(s);
 				lastMsg = s;
@@ -1294,31 +1290,38 @@ public class WebSMS extends Activity implements OnClickListener,
 			builder.setTitle(R.string.changelog_);
 			final String[] changes = this.getResources().getStringArray(
 					R.array.updates);
-			final StringBuilder buf = new StringBuilder(changes[0]);
+			final StringBuilder buf = new StringBuilder();
+			Object o = this.getPackageManager().getLaunchIntentForPackage(
+					"de.ub0r.android.smsdroid");
+			if (o == null) {
+				buf.append(changes[0]);
+			}
 			for (int i = 1; i < changes.length; i++) {
 				buf.append("\n\n");
 				buf.append(changes[i]);
 			}
 			builder.setIcon(android.R.drawable.ic_menu_info_details);
-			builder.setMessage(buf.toString());
+			builder.setMessage(buf.toString().trim());
 			builder.setCancelable(true);
 			builder.setPositiveButton(android.R.string.ok, null);
-			builder.setNeutralButton("get SMSdroid",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface d,
-								final int which) {
-							try {
-								WebSMS.this.startActivity(// .
-										new Intent(
-												Intent.ACTION_VIEW,
-												Uri.parse(// .
-														"market://search?q=pname:de.ub0r.android.smsdroid")));
-							} catch (ActivityNotFoundException e) {
-								Log.e(TAG, "no market", e);
+			if (o == null) {
+				builder.setNeutralButton("get SMSdroid",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface d,
+									final int which) {
+								try {
+									WebSMS.this.startActivity(// .
+											new Intent(
+													Intent.ACTION_VIEW,
+													Uri.parse(// .
+															"market://search?q=pname:de.ub0r.android.smsdroid")));
+								} catch (ActivityNotFoundException e) {
+									Log.e(TAG, "no market", e);
+								}
 							}
-						}
-					});
+						});
+			}
 			return builder.create();
 		case DIALOG_CUSTOMSENDER:
 			builder = new AlertDialog.Builder(this);

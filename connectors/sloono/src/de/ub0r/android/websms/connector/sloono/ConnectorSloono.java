@@ -175,7 +175,7 @@ public class ConnectorSloono extends Connector {
 					url.append(sendLater / 1000);
 				}
 				url.append("&text=");
-				url.append(URLEncoder.encode(text));
+				url.append(URLEncoder.encode(text, "ISO-8859-15"));
 				url.append("&to=");
 				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
 						",", true));
