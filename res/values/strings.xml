@@ -84,4 +84,7 @@
 	<string name="connectors_switch">Switched connector:</string>
 	<string name="captcha_">Captcha</string>
 	<string name="captcha_solve_it">Please enter the text below:</string>
+	<string name="status_disabled">Status: disabled</string>
+	<string name="status_enabled">Status: enabled</string>
+	<string name="status_ready">Status: ready</string>
 </resources>

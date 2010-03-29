@@ -155,7 +155,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
 	private static SubConnectorSpec prefsSubConnectorSpec = null;
-	/** Save prefsConnectorSpec.getID() here. */
+	/** Save prefsConnectorSpec.getPackage() here. */
 	private static String prefsConnectorID = null;
 
 	/** List of available {@link ConnectorSpec}s. */
@@ -843,7 +843,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void savePreferences() {
 		if (prefsConnectorSpec != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getID())
+					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage())
 					.commit();
 		}
 	}
@@ -1014,7 +1014,7 @@ public class WebSMS extends Activity implements OnClickListener,
 								.getDefaultSharedPreferences(WebSMS.this)
 								.edit();
 						e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
-								.getID());
+								.getPackage());
 						e.putString(PREFS_SUBCONNECTOR_ID,
 								prefsSubConnectorSpec.getID());
 						e.commit();
@@ -1547,22 +1547,22 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	static final void addConnector(final ConnectorSpec connector) {
 		synchronized (CONNECTORS) {
-			if (connector == null || connector.getID() == null
+			if (connector == null || connector.getPackage() == null
 					|| connector.getName() == null) {
 				return;
 			}
-			ConnectorSpec c = getConnectorByID(connector.getID());
+			ConnectorSpec c = getConnectorByID(connector.getPackage());
 			if (c != null) {
 				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
 			} else {
 				final String name = connector.getName();
 				if (connector.getSubConnectorCount() == 0 || name == null
-						|| connector.getID() == null) {
+						|| connector.getPackage() == null) {
 					Log.w(TAG, "skipped adding defect connector: " + name);
 					return;
 				}
-				Log.d(TAG, "add connector with id: " + connector.getID());
+				Log.d(TAG, "add connector with id: " + connector.getPackage());
 				Log.d(TAG, "add connector with name: " + name);
 				boolean added = false;
 				final int l = CONNECTORS.size();
@@ -1605,7 +1605,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						.getDefaultSharedPreferences(me);
 
 				if (prefsConnectorSpec == null
-						&& prefsConnectorID.equals(connector.getID())) {
+						&& prefsConnectorID.equals(connector.getPackage())) {
 					prefsConnectorSpec = connector;
 
 					prefsSubConnectorSpec = connector.getSubConnector(p
@@ -1654,7 +1654,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
 				c = CONNECTORS.get(i);
-				if (id.equals(c.getID())) {
+				if (id.equals(c.getPackage())) {
 					return c;
 				}
 			}

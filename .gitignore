@@ -9,3 +9,6 @@ doc
 *.zip
 *.jar
 *.swp
+*~
+uml/*.png
+web2sms

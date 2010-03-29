@@ -61,25 +61,31 @@ public class Preferences extends PreferenceActivity implements
 		final ConnectorSpec[] css = WebSMS.getConnectors(
 				ConnectorSpec.CAPABILITIES_PREFS, // .
 				ConnectorSpec.STATUS_INACTIVE);
-		String id;
+		String pkg;
 		Preference cp;
 		String action;
 		for (ConnectorSpec cs : css) {
 			if (cs.getPackage() == null) {
 				continue;
 			}
-			id = cs.getID();
-			if (pc.findPreference(id) != null) {
-				// FIXME: this is broken!
-				continue;
+			pkg = cs.getPackage();
+			cp = pc.findPreference(pkg);
+			if (cp == null) {
+				cp = new Preference(this);
+				cp.setKey(pkg);
+				cp.setTitle(this.getString(R.string.settings) + " - " + cs.getName());
+				action = cs.getPackage() + Connector.ACTION_PREFS;
+				cp.setIntent(new Intent(action));
+				pc.addPreference(cp);
+				Log.d("WebSMS.prefs", "added: " + action);
 			}
-			cp = new Preference(this);
-			cp.setKey(id);
-			cp.setTitle(cs.getPrefsTitle());
-			action = cs.getPackage() + Connector.ACTION_PREFS;
-			cp.setIntent(new Intent(action));
-			pc.addPreference(cp);
-			Log.d("WebSMS.prefs", "added: " + action);
+			if (cs.isReady()) {
+				cp.setSummary(R.string.status_ready);
+			} else if (cs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+				cp.setSummary(R.string.status_enabled);
+			} else {
+				cp.setSummary(R.string.status_disabled);
+			}
 		}
 	}
 
