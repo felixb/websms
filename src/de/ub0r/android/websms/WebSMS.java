@@ -303,6 +303,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				final String s = uri.getSchemeSpecificPart();
 				this.parseSchemeSpecificPart(s);
 			}
+			this.displayAds(true);
 		}
 		final Bundle extras = intent.getExtras();
 		if (extras != null) {
@@ -316,7 +317,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 			}
 		}
-		this.displayAds(true);
 	}
 
 	/**
@@ -849,8 +849,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void savePreferences() {
 		if (prefsConnectorSpec != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage())
-					.commit();
+					.putString(PREFS_CONNECTOR_ID,
+							prefsConnectorSpec.getPackage()).commit();
 		}
 	}
 
