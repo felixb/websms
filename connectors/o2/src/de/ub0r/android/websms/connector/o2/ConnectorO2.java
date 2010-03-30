@@ -183,6 +183,7 @@ public class ConnectorO2 extends Connector {
 	private boolean solveCaptcha(final Context context,
 			final ApacheNetworkHandler netHandler) throws IOException,
 			MalformedCookieException, URISyntaxException, WebSMSException {
+		final String flow = netHandler.getFlowExecutionKey();
 		netHandler.httpHandler(Constants.HTTP_GET, URL_CAPTCHA, null, false,
 				URL_LOGIN, -1, -1);
 		BitmapDrawable captcha = new BitmapDrawable(netHandler
@@ -207,14 +208,13 @@ public class ConnectorO2 extends Connector {
 		Log.d(TAG, "got solved captcha: " + captchaSolve);
 		final ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(3);
-		postData.add(new BasicNameValuePair("_flowExecutionKey", netHandler
-				.getFlowExecutionKey()));
+		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
 		postData.add(new BasicNameValuePair("_eventId", "submit"));
 		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
 		netHandler.httpHandler(Constants.HTTP_POST, URL_SOLVECAPTCHA, postData,
 				true, URL_LOGIN, 1, -1);
-		final String mHtmlText = netHandler.getContent();
-		if (mHtmlText.indexOf(CHECK_WRONGCAPTCHA) > 0) {
+		final String htmlText = netHandler.getContent();
+		if (htmlText.indexOf(CHECK_WRONGCAPTCHA) > 0) {
 			throw new WebSMSException(context, R.string.error_wrongcaptcha);
 		}
 		return true;
