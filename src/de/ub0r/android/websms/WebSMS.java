@@ -48,13 +48,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Contacts.PeopleColumns;
-import android.provider.Contacts.Phones;
-import android.provider.Contacts.PhonesColumns;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
@@ -253,9 +249,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** {@link View} holding send later. */
 	private View vSendLater;
 
-	/** Helper for API 5. */
-	static HelperAPI5Contacts helperAPI5c = null;
-
 	/** Text's label. */
 	private TextView etTextLabel;
 
@@ -337,24 +330,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (s.indexOf('<') < 0) {
 			// try to fetch recipient's name from phonebook
-			String n = null;
-			if (helperAPI5c != null) {
-				try {
-					n = helperAPI5c.getNameForNumber(this, s);
-				} catch (NoClassDefFoundError e) {
-					helperAPI5c = null;
-				}
-			}
-			if (helperAPI5c == null) {
-				Cursor c = this.managedQuery(Phones.CONTENT_URI, new String[] {
-						PhonesColumns.NUMBER, PeopleColumns.// .
-						DISPLAY_NAME },
-						PhonesColumns.NUMBER + " = '" + s + "'", null, null);
-				if (c.moveToFirst()) {
-					n = c.getString(c.getColumnIndex(// .
-							PeopleColumns.DISPLAY_NAME));
-				}
-			}
+			String n = ContactsWrapper.getInstance().getNameForNumber(this, s);
 			if (n != null) {
 				s = n + " <" + s + ">, ";
 			}
@@ -374,15 +350,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// save ref to me.
 		me = this;
-		try {
-			WebSMS.helperAPI5c = new HelperAPI5Contacts();
-			if (!helperAPI5c.isAvailable()) {
-				WebSMS.helperAPI5c = null;
-			}
-		} catch (VerifyError e) {
-			WebSMS.helperAPI5c = null;
-			Log.d(TAG, "no api5 running", e);
-		}
 		// Restore preferences
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
