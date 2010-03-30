@@ -19,13 +19,10 @@
 package de.ub0r.android.websms.connector.o2;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.MalformedCookieException;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -98,9 +95,6 @@ public class ConnectorO2 extends Connector {
 	/** Check if captcha was solved wrong. */
 	private static final String CHECK_WRONGCAPTCHA = // .
 	"Sie haben einen falschen Code eingegeben.";
-	/** Check for _flowExecutionKey. */
-	private static final String CHECK_FLOW = // .
-	"name=\"_flowExecutionKey\" value=\"";
 
 	/** Stip bytes from stream: prelogin. */
 	private static final int STRIP_PRELOGIN_START = 8000;
@@ -125,8 +119,8 @@ public class ConnectorO2 extends Connector {
 	/** Timeout for entering the captcha. */
 	private static final long CAPTCHA_TIMEOUT = 60000;
 
-	/** Static cookies. */
-	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
+	/** Key to safe cookies. */
+	private static final String PREFS_SAFECOOKIES = "cookie_store";
 
 	/**
 	 * {@inheritDoc}
@@ -134,14 +128,14 @@ public class ConnectorO2 extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_o2_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_o2_author));
 		c.setBalance(null);
 		c.setPrefsTitle(context.getString(R.string.connector_o2_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c.addSubConnector(c.getID(), c.getName(),
+		c.addSubConnector("sub", c.getName(),
 				SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER
 						| SubConnectorSpec.FEATURE_SENDLATER_QUARTERS
@@ -170,33 +164,12 @@ public class ConnectorO2 extends Connector {
 	}
 
 	/**
-	 * Extract _flowExecutionKey from HTML output.
-	 * 
-	 * @param html
-	 *            input
-	 * @return _flowExecutionKey
-	 */
-	private static String getFlowExecutionkey(final String html) {
-		String ret = "";
-		int i = html.indexOf(CHECK_FLOW);
-		if (i > 0) {
-			int j = html.indexOf("\"", i + 35);
-			if (j >= 0) {
-				ret = html.substring(i + 32, j);
-			}
-		}
-		return ret;
-	}
-
-	/**
 	 * Load captcha and wait for user input to solve it.
 	 * 
 	 * @param context
 	 *            {@link Context}
-	 * @param cookies
-	 *            {@link Cookie}s
-	 * @param flow
-	 *            _flowExecutionKey
+	 * @param netHandler
+	 *            {@link ApacheNetworkHandler}
 	 * @return true if captcha was solved
 	 * @throws IOException
 	 *             IOException
@@ -208,18 +181,12 @@ public class ConnectorO2 extends Connector {
 	 *             WebSMSException
 	 */
 	private boolean solveCaptcha(final Context context,
-			final ArrayList<Cookie> cookies, final String flow)
-			throws IOException, MalformedCookieException, URISyntaxException,
-			WebSMSException {
-		HttpResponse response = Utils.getHttpClient(URL_CAPTCHA, cookies, null,
-				TARGET_AGENT, URL_LOGIN);
-		int resp = response.getStatusLine().getStatusCode();
-		if (resp != HttpURLConnection.HTTP_OK) {
-			throw new WebSMSException(context, R.string.error_http, "" + resp);
-		}
-		Utils.updateCookies(cookies, response.getAllHeaders(), URL_CAPTCHA);
-		BitmapDrawable captcha = new BitmapDrawable(response.getEntity()
-				.getContent());
+			final ApacheNetworkHandler netHandler) throws IOException,
+			MalformedCookieException, URISyntaxException, WebSMSException {
+		netHandler.httpHandler(Constants.HTTP_GET, URL_CAPTCHA, null, false,
+				URL_LOGIN, -1, -1);
+		BitmapDrawable captcha = new BitmapDrawable(netHandler
+				.getContentStream());
 		final Intent intent = new Intent(Connector.ACTION_CAPTCHA_REQUEST);
 		intent.putExtra(Connector.EXTRA_CAPTCHA_DRAWABLE, captcha.getBitmap());
 		captcha = null;
@@ -240,23 +207,17 @@ public class ConnectorO2 extends Connector {
 		Log.d(TAG, "got solved captcha: " + captchaSolve);
 		final ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(3);
-		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
+		postData.add(new BasicNameValuePair("_flowExecutionKey", netHandler
+				.getFlowExecutionKey()));
 		postData.add(new BasicNameValuePair("_eventId", "submit"));
 		postData.add(new BasicNameValuePair("riddleValue", captchaSolve));
-		response = Utils.getHttpClient(URL_SOLVECAPTCHA, cookies, postData,
-				TARGET_AGENT, URL_LOGIN);
-		Log.d(TAG, cookies.toString());
-		Log.d(TAG, postData.toString());
-		resp = response.getStatusLine().getStatusCode();
-		if (resp != HttpURLConnection.HTTP_OK) {
-			throw new WebSMSException(context, R.string.error_http, "" + resp);
-		}
-		Utils.updateCookies(cookies, response.getAllHeaders(), URL_CAPTCHA);
-		final String mHtmlText = Utils.stream2str(response.getEntity()
-				.getContent());
+		netHandler.httpHandler(Constants.HTTP_POST, URL_SOLVECAPTCHA, postData,
+				true, URL_LOGIN, 1, -1);
+		final String mHtmlText = netHandler.getContent();
 		if (mHtmlText.indexOf(CHECK_WRONGCAPTCHA) > 0) {
 			throw new WebSMSException(context, R.string.error_wrongcaptcha);
 		}
+		System.out.println(mHtmlText);
 		return true;
 	}
 
@@ -267,10 +228,8 @@ public class ConnectorO2 extends Connector {
 	 *            Context
 	 * @param command
 	 *            ConnectorCommand
-	 * @param cookies
-	 *            {@link Cookie}s
-	 * @param flow
-	 *            _flowExecutionKey
+	 * @param netHandler
+	 *            {@link ApacheNetworkHandler}
 	 * @return true if logged in
 	 * @throws IOException
 	 *             IOException
@@ -282,13 +241,14 @@ public class ConnectorO2 extends Connector {
 	 *             WebSMSException
 	 */
 	private boolean login(final Context context,
-			final ConnectorCommand command, final ArrayList<Cookie> cookies,
-			final String flow) throws IOException, MalformedCookieException,
-			URISyntaxException, WebSMSException {
+			final ConnectorCommand command,
+			final ApacheNetworkHandler netHandler) throws IOException,
+			MalformedCookieException, URISyntaxException, WebSMSException {
 		// post data
 		final ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>(4);
-		postData.add(new BasicNameValuePair("_flowExecutionKey", flow));
+		postData.add(new BasicNameValuePair("_flowExecutionKey", netHandler
+				.getFlowExecutionKey()));
 		postData.add(new BasicNameValuePair("loginName", Utils
 				.international2national(command.getDefPrefix(), Utils
 						.getSender(context, command.getDefSender()))));
@@ -297,28 +257,13 @@ public class ConnectorO2 extends Connector {
 		postData.add(new BasicNameValuePair("password", p.getString(
 				Preferences.PREFS_PASSWORD, "")));
 		postData.add(new BasicNameValuePair("_eventId", "login"));
-		HttpResponse response = Utils.getHttpClient(URL_LOGIN, cookies,
-				postData, TARGET_AGENT, URL_PRELOGIN);
-		int resp = response.getStatusLine().getStatusCode();
-		if (resp != HttpURLConnection.HTTP_OK) {
-			throw new WebSMSException(context, R.string.error_http, "" + resp);
-		}
-		resp = cookies.size();
-		Utils.updateCookies(cookies, response.getAllHeaders(), URL_LOGIN);
-		if (resp == cookies.size()) {
-			String htmlText = null;
-			if (PreferenceManager.getDefaultSharedPreferences(context)
-					.getBoolean(Preferences.PREFS_TWEAK, false)) {
-				htmlText = Utils.stream2str(response.getEntity().getContent(),
-						STRIP_PRELOGIN_START, STRIP_PRELOGIN_END);
-			} else {
-				htmlText = Utils.stream2str(response.getEntity().getContent());
-			}
-			response = null;
+		String oldCookie = netHandler.getCookie();
+		netHandler.httpHandler(Constants.HTTP_POST, URL_LOGIN, postData, true,
+				URL_PRELOGIN, -1, -1);
+		if (netHandler.getCookie().equals(oldCookie)) {
+			String htmlText = netHandler.getContent();
 			if (htmlText != null && htmlText.indexOf("captcha") > 0) {
-				final String newFlow = getFlowExecutionkey(htmlText);
-				htmlText = null;
-				if (!this.solveCaptcha(context, cookies, newFlow)) {
+				if (!this.solveCaptcha(context, netHandler)) {
 					throw new WebSMSException(context,
 							R.string.error_wrongcaptcha);
 				}
@@ -357,10 +302,8 @@ public class ConnectorO2 extends Connector {
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
-	 * @param cookies
-	 *            {@link Cookie}s
-	 * @param htmlText
-	 *            html source of previous site
+	 * @param netHandler
+	 *            {@link ApacheNetworkHandler}
 	 * @throws IOException
 	 *             IOException
 	 * @throws MalformedCookieException
@@ -371,8 +314,8 @@ public class ConnectorO2 extends Connector {
 	 *             WebSMSException
 	 */
 	private void sendToO2(final Context context,
-			final ConnectorCommand command, final ArrayList<Cookie> cookies,
-			final String htmlText) throws IOException,
+			final ConnectorCommand command,
+			final ApacheNetworkHandler netHandler) throws IOException,
 			MalformedCookieException, URISyntaxException, WebSMSException {
 		ArrayList<BasicNameValuePair> postData = // .
 		new ArrayList<BasicNameValuePair>();
@@ -432,7 +375,7 @@ public class ConnectorO2 extends Connector {
 			postData.add(new BasicNameValuePair("RepeatType", "5"));
 			postData.add(new BasicNameValuePair("RepeatEndType", "0"));
 		}
-		String[] st = htmlText.split("<input type=\"Hidden\" ");
+		String[] st = netHandler.getContent().split("<input type=\"Hidden\" ");
 		for (String s : st) {
 			if (s.startsWith("name=")) {
 				String[] subst = s.split("\"", 5);
@@ -446,26 +389,13 @@ public class ConnectorO2 extends Connector {
 		}
 		st = null;
 
-		HttpResponse response = Utils.getHttpClient(url, cookies, postData,
-				TARGET_AGENT, URL_PRESEND);
-		postData = null;
-		int resp = response.getStatusLine().getStatusCode();
-		if (resp != HttpURLConnection.HTTP_OK) {
-			throw new WebSMSException(context, R.string.error_http, "" + resp);
-		}
+		netHandler.httpHandler(Constants.HTTP_POST, url, postData, true,
+				URL_PRESEND, -1, -1);
 		String check = CHECK_SENT;
 		if (sendLater > 0) {
 			check = CHECK_SCHED;
 		}
-		String htmlText1 = null;
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				Preferences.PREFS_TWEAK, false)) {
-			htmlText1 = Utils.stream2str(response.getEntity().getContent(),
-					STRIP_SEND_START, Utils.ONLY_MATCHING_LINE, check);
-		} else {
-			htmlText1 = Utils.stream2str(response.getEntity().getContent(), 0,
-					Utils.ONLY_MATCHING_LINE, check);
-		}
+		String htmlText1 = netHandler.getContent();
 		if (htmlText1 == null) {
 			throw new WebSMSException("error parsing website");
 		} else if (htmlText1.indexOf(check) < 0) {
@@ -487,123 +417,79 @@ public class ConnectorO2 extends Connector {
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
-	@SuppressWarnings("unchecked")
 	private void sendData(final Context context,
 			final ConnectorCommand command, final boolean reuseSession)
 			throws WebSMSException {
 		Log.d(TAG, "sendData(" + reuseSession + ")");
-		ArrayList<Cookie> cookies;
-		if (staticCookies == null) {
-			cookies = new ArrayList<Cookie>();
-		} else {
-			cookies = (ArrayList<Cookie>) staticCookies.clone();
+		String cookies = null;
+		if (reuseSession) {
+			cookies = PreferenceManager.getDefaultSharedPreferences(context)
+					.getString(PREFS_SAFECOOKIES, null);
+			Log.d(TAG, "loaded cookies: " + cookies);
 		}
+		ApacheNetworkHandler netHandler = new ApacheNetworkHandler(cookies);
+		cookies = null;
 		// do IO
 		try {
 			// get Connection
-			HttpResponse response;
-			int resp;
-			if (!reuseSession || cookies.size() == 0) {
+			if (!reuseSession || netHandler.getCookie().length() == 0) {
 				// clear session data
-				cookies.clear();
+				netHandler = new ApacheNetworkHandler(null);
 				Log.d(TAG, "init session");
 				// pre-login
-				response = Utils.getHttpClient(URL_PRELOGIN, cookies, null,
-						TARGET_AGENT, null);
-				resp = response.getStatusLine().getStatusCode();
-				if (resp != HttpURLConnection.HTTP_OK) {
-					throw new WebSMSException(context, R.string.error_http, ""
-							+ resp);
-				}
-				Utils.updateCookies(cookies, response.getAllHeaders(),
-						URL_PRELOGIN);
-				String htmlText = Utils.stream2str(response.getEntity()
-						.getContent(), 0, Utils.ONLY_MATCHING_LINE, CHECK_FLOW);
-				final String flowExecutionKey = ConnectorO2
-						.getFlowExecutionkey(htmlText);
-				htmlText = null;
-
+				netHandler.httpHandler(Constants.HTTP_GET, URL_PRELOGIN, null,
+						true, null, -1, -1);
 				// login
-				if (!this.login(context, command, cookies, flowExecutionKey)) {
+				if (!this.login(context, command, netHandler)) {
 					throw new WebSMSException(context, R.string.error);
 				}
-
 				// sms-center
-				response = Utils.getHttpClient(URL_SMSCENTER, cookies, null,
-						TARGET_AGENT, URL_LOGIN);
-				resp = response.getStatusLine().getStatusCode();
-				if (resp != HttpURLConnection.HTTP_OK) {
-					if (reuseSession) {
-						// try again with clear session
-						this.sendData(context, command, false);
-						return;
-					}
-					throw new WebSMSException(context, R.string.error_http, ""
-							+ resp);
-				}
-				Utils.updateCookies(cookies, response.getAllHeaders(),
-						URL_SMSCENTER);
+				netHandler.httpHandler(Constants.HTTP_GET, URL_SMSCENTER, null,
+						true, URL_LOGIN, -1, -1);
 			}
-
 			// pre-send
-			response = Utils.getHttpClient(URL_PRESEND, cookies, null,
-					TARGET_AGENT, URL_SMSCENTER);
-			resp = response.getStatusLine().getStatusCode();
-			if (resp != HttpURLConnection.HTTP_OK) {
+			try {
+				netHandler.httpHandler(Constants.HTTP_GET, URL_PRESEND, null,
+						true, URL_SMSCENTER, -1, -1);
+			} catch (WebSMSException e) {
 				if (reuseSession) {
+					System.out.println(netHandler.getContent());
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
 				}
-				throw new WebSMSException(context, R.string.error_http, ""
-						+ resp);
+				throw e;
 			}
-			Utils.updateCookies(cookies, response.getAllHeaders(), URL_PRESEND);
-			String htmlText = null;
-			if (PreferenceManager.getDefaultSharedPreferences(context)
-					.getBoolean(Preferences.PREFS_TWEAK, false)) {
-				htmlText = Utils.stream2str(response.getEntity().getContent(),
-						STRIP_PRESEND_START, STRIP_PRESEND_END, CHECK_FREESMS);
-			} else {
-				htmlText = Utils.stream2str(response.getEntity().getContent(),
-						0, -1, CHECK_FREESMS);
-			}
+			String htmlText = netHandler.getContent();
 			if (htmlText == null) {
 				if (reuseSession) {
+					Log.d(TAG, "htmlText == null");
 					this.sendData(context, command, false);
 					return;
 				} else {
-					throw new WebSMSException(// .
-							"failed to locate freesms on site");
+					throw new WebSMSException("failed to locate freesms"
+							+ " on site\nplease deactivate tweak.");
 				}
 			}
-			int i = htmlText.indexOf(CHECK_FREESMS);
-			if (i > 0) {
-				int j = htmlText.indexOf(CHECK_WEB2SMS, i);
-				if (j > 0) {
-					ConnectorSpec c = this.getSpec(context);
-					c.setBalance(htmlText.substring(i + 9, j).trim().split(" ",
-							2)[0]);
-					Log.d(TAG, "balance: " + c.getBalance());
-				} else if (reuseSession) {
+			try {
+				ConnectorSpec c = this.getSpec(context);
+				c.setBalance(netHandler.getFreeSMS());
+				Log.d(TAG, "balance: " + c.getBalance());
+			} catch (WebSMSException e) {
+				if (reuseSession) {
+					System.out.println(htmlText);
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
 				} else {
-					Log.d(TAG, htmlText);
-					throw new WebSMSException(// .
-							"failed to locate freesms on site (2)");
+					throw e;
 				}
-			} else {
-				Log.d(TAG, htmlText);
-				throw new WebSMSException(// .
-						"failed to locate freesms on site (3)");
 			}
 
 			// send
 			final String text = command.getText();
 			if (text != null && text.length() > 0) {
-				this.sendToO2(context, command, cookies, htmlText);
+				this.sendToO2(context, command, netHandler);
 			}
 			htmlText = null;
 		} catch (IOException e) {
@@ -616,7 +502,9 @@ public class ConnectorO2 extends Connector {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.toString());
 		}
-		staticCookies = cookies;
+		// save cookies
+		PreferenceManager.getDefaultSharedPreferences(context).edit()
+				.putString(PREFS_SAFECOOKIES, netHandler.getCookie()).commit();
 	}
 
 	/**
@@ -640,6 +528,7 @@ public class ConnectorO2 extends Connector {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected final void gotSolvedCaptcha(final Context context,
 			final String solvedCaptcha) {
 		captchaSolve = solvedCaptcha;

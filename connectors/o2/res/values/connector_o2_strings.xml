@@ -19,7 +19,7 @@
 <resources>
 	<string name="app_name">WebSMS Connector: o2</string>
 	<string name="app_version">1.2</string>
-	<string name="connector_o2_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="connector_o2_author">Felix Bechstein &lt;f@ub0r.de&gt;\n\tSascha F. Sambale&lt;mastixmc@googlemail.com&gt;</string>
 	<string name="connector_o2_name">o2</string>
 	<string name="connector_o2_preferences">Preferences - o2</string>
 	<string name="enable_o2">Enable o2</string>
