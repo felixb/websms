@@ -104,76 +104,6 @@ public final class Constants {
 	/** The Constant REGEX_REMAINING_SMS. */
 	public static final String REGEX_OWN_SENDERNAME = "^[a-zA-Z]+$";
 
-	/** The Constant LOGIN_PARAMS. */
-	public static final String[] LOGIN_PARAMS = new String[] {
-			"_flowExecutionKey", "loginName", "password", "_eventId" };;
-
-	/** The Constant LOGIN_PARAM_LOGIN. */
-	public static final String LOGIN_PARAM_LOGIN = "login";
-
-	/** The Constant PARAM_FREESMS. */
-	public static final String PARAM_FREESMS = "freeSMS";
-
-	/** The Constant PARAM_SMS_TO. */
-	public static final String PARAM_SMS_TO = "SMSTo";
-
-	/** The Constant PARAM_SMS_TEXT. */
-	public static final String PARAM_SMS_TEXT = "SMSText";
-
-	/** The Constant PARAM_SMS_TO_NORM. */
-	public static final String PARAM_SMS_TO_NORM = "SMSToNormalized";
-
-	/** The Constant PARAM_FLAG_ANONYMOUS. */
-	public static final String PARAM_FLAG_ANONYMOUS = "FlagAnonymous";
-
-	/** The Constant PARAM_FLAG_FLASH. */
-	public static final String PARAM_FLAG_FLASH = "FlagFlash";
-
-	/** The Constant PARAM_FLAG_DEF_SENDER. */
-	public static final String PARAM_FLAG_DEF_SENDER = "FlagDefSender";
-
-	/** The Constant PARAM_SMS_FROM. */
-	public static final String PARAM_SMS_FROM = "SMSFrom";
-
-	/** The Constant PARAMS_SMS_DATE. */
-	public static final String PARAMS_SMS_DATE = "StartDateDay"
-			+ "=%s&StartDateMonth=%s&StartDateYear=%s&StartDateHour"
-			+ "=%s&StartDateMin=%s&EndDateDay=%s&EndDateMonth="
-			+ "%s&EndDateYear=%s&EndDateHour=%s&EndDateMin=%s&"
-			+ "RepeatStartDate=%s&RepeatEndDate=%s&RepeatType=%s"
-			+ "&RepeatEndType=%s&Frequency=%s";
-
-	/** The Constant ADDRESS. */
-	public static final String ADDRESS = "address";
-
-	/** The Constant DATE. */
-	public static final String DATE = "date";
-
-	/** The Constant READ. */
-	public static final String READ = "read";
-
-	/** The Constant STATUS. */
-	public static final String STATUS = "status";
-
-	/** The Constant TYPE. */
-	public static final String TYPE = "type";
-
-	/** The Constant BODY. */
-	public static final String BODY = "body";
-
-	/** The Constant DATESEPARATOR. */
-	public static final String DATESEPARATOR = ",";
-
-	/** The Constant MESSAGE_TYPE_SENT. */
-	public static final int MESSAGE_TYPE_SENT = 2;
-
-	/** This Constant is needed to check for incoming SMS. */
-	// public static final String SMS_RECEIVED =
-	// "android.provider.Telephony.SMS_RECEIVED";
-
-	/** The length of a usual SMS. */
-	public static final double SMS_LENGTH = 160.0;
-
 	/**
 	 * Tells whether how many lines before and after a given line need to be
 	 * fetched.
@@ -182,24 +112,6 @@ public final class Constants {
 
 	/** Sets the time patter for the Free SMS String. * */
 	public static final String DATE_TIME_PATTERN = "dd.MM.yyyy - HH:mm";
-
-	/** dummy key when doing an auto login. * */
-	public static final String AUTO_LOGIN_KEY = "DO_AUTOLOGIN_!SEND";
-
-	/** dummy key when just fetching free sms. * */
-	public static final String FREESMS_KEY = "DO_GETFREESMS_!SEND";
-
-	/** the options dialog. */
-	public static final int DIALOG_OPTION = 0;
-
-	/** The Constant REPEAT_END_TYPE. */
-	public static final int REPEAT_END_TYPE = 0;
-
-	/** The Constant REPEAT_TYPE. */
-	public static final int REPEAT_TYPE = 5;
-
-	/** The Constant MIN_SIZE_USERNAME. */
-	public static final int MIN_SIZE_USERNAME = 11;
 
 	/** The Constant MIN_SIZE_MANUALSENDERNAME. */
 	public static final int MIN_SIZE_MANUALSENDERNAME = 4;
@@ -222,9 +134,6 @@ public final class Constants {
 	/** The Constant SLEEP_TIME_LONG. */
 	public static final int SLEEP_TIME_LONG = 3000;
 
-	/** The Constant MAX_LOGIN_TRIALS sets the maximum login trials. */
-	public static final int MAX_LOGIN_TRIALS = 3;
-
 	/**
 	 * The Constant TIME_MAX_SESSIONTIMEOUT sets the time to check if a session
 	 * timeout occured.
@@ -236,12 +145,6 @@ public final class Constants {
 
 	/** The Constant FREE_SMS_COUNTRIES_US. */
 	public static final int FREE_SMS_COUNTRIES_US = 19;
-
-	/** The Constant MAX_SMSLENGTH. */
-	public static final int MAX_SMSLENGTH = 160;
-
-	/** The Constant MAX_SMILEY_CHAR_LENGTH. */
-	public static final int MAX_SMILEY_CHAR_LENGTH = 4;
 
 	/** The Constant MAX_COUNTRYCODE_CHAR_LENGTH. */
 	public static final int MAX_COUNTRYCODE_CHAR_LENGTH = 4;

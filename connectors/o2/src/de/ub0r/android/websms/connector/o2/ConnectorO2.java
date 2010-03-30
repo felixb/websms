@@ -217,7 +217,6 @@ public class ConnectorO2 extends Connector {
 		if (mHtmlText.indexOf(CHECK_WRONGCAPTCHA) > 0) {
 			throw new WebSMSException(context, R.string.error_wrongcaptcha);
 		}
-		System.out.println(mHtmlText);
 		return true;
 	}
 
@@ -453,7 +452,6 @@ public class ConnectorO2 extends Connector {
 						true, URL_SMSCENTER, -1, -1);
 			} catch (WebSMSException e) {
 				if (reuseSession) {
-					System.out.println(netHandler.getContent());
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
@@ -477,7 +475,6 @@ public class ConnectorO2 extends Connector {
 				Log.d(TAG, "balance: " + c.getBalance());
 			} catch (WebSMSException e) {
 				if (reuseSession) {
-					System.out.println(htmlText);
 					// try again with clear session
 					this.sendData(context, command, false);
 					return;
