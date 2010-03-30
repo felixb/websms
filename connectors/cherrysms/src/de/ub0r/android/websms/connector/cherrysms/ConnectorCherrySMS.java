@@ -69,9 +69,8 @@ public class ConnectorCherrySMS extends Connector {
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
-		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender),
-				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
+				0);
+		c.addSubConnector(ID_W_SENDER, context.getString(R.string.w_sender), 0);
 		return c;
 	}
 
@@ -176,8 +175,9 @@ public class ConnectorCherrySMS extends Connector {
 				url.append("&message=");
 				url.append(URLEncoder.encode(text, "ISO-8859-15"));
 				url.append("&to=");
-				url.append(Utils.joinRecipientsNumbers(command.getRecipients(),
-						";", true));
+				url.append(Utils.joinRecipientsNumbers(Utils
+						.national2international(command.getDefPrefix(), command
+								.getRecipients()), ";", true));
 			} else {
 				url.append("&check=guthaben");
 			}
@@ -200,11 +200,13 @@ public class ConnectorCherrySMS extends Connector {
 			Log.d(TAG, "--HTTP RESPONSE--");
 			htmlText = null;
 			int l = lines.length;
-			if (l > 0) {
+			if (text != null && text.length() > 0) {
 				final int ret = Integer.parseInt(lines[0].trim());
 				checkReturnCode(context, ret);
-			}
-			if (l > 1) {
+				if (l > 1) {
+					cs.setBalance(lines[l - 1].trim());
+				}
+			} else {
 				cs.setBalance(lines[l - 1].trim());
 			}
 		} catch (IOException e) {

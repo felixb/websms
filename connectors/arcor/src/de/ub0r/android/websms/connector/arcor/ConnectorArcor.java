@@ -91,16 +91,16 @@ public class ConnectorArcor extends Connector {
 			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_POSITION = 18000;
+	private static final int SMS_COUNT_AREA_START = 16100;
 
 	/** where to find sms count. */
-	private static final int APPROXIMATE_SMS_COUNT_LENGTH = 3000;
+	private static final int SMS_COUNT_AREA_END = SMS_COUNT_AREA_START + 8000;
 
 	/** where to find logout link. */
-	private static final int APPROXIMATE_LOGOUT_LINK_COUNT_POSITION = 4000;
+	private static final int LOGOUT_LINK_AREA_START = 4000;
 
 	/** where to find logout link. */
-	private static final int APPROXIMATE_LOGOUT_LINK_LENGTH = 2000;
+	private static final int LOGOUT_LINK_AREAD_END = LOGOUT_LINK_AREA_START + 8000;
 	/** Login URL, to send Login (POST). */
 	private static final String LOGIN_URL = "https://www.arcor.de"
 			+ "/login/login.jsp";
@@ -144,6 +144,7 @@ public class ConnectorArcor extends Connector {
 			final HttpResponse response = ctx.getClient().execute(request);
 			final String cutContent = cutLoginInfoFromContent(response
 					.getEntity().getContent());
+			int idx = cutContent.indexOf(MATCH_LOGIN_SUCCESS);
 			if (cutContent.indexOf(MATCH_LOGIN_SUCCESS) == -1) {
 				throw new WebSMSException(ctx.getContext(), R.string.error_pw);
 			}
@@ -296,13 +297,11 @@ public class ConnectorArcor extends Connector {
 		final StringBuilder sb1 = new StringBuilder();
 		sb1.append("empfaengerAn=");
 		sb1.append(URLEncoder.encode(sb.toString(), ARCOR_ENCODING));
-		sb1.append("&emailAdressen=");
-		sb1.append(URLEncoder.encode(Utils.getSender(ctx.getContext(), ctx
-				.getCommand().getDefSender()), ARCOR_ENCODING));
 		sb1.append("&nachricht=");
 		sb1.append(URLEncoder
 				.encode(ctx.getCommand().getText(), ARCOR_ENCODING));
-		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden");
+		sb1.append("&firstVisitOfPage=foo&part=0&senden=Senden"
+				+ "&ordnername=Posteingang");
 
 		if (ctx.getPreferences().getBoolean(Preferences.COPY_SENT_SMS,
 				Boolean.TRUE)) {
@@ -311,8 +310,16 @@ public class ConnectorArcor extends Connector {
 		if (ctx.getPreferences().getBoolean(
 				Preferences.ENABLE_VALIDATED_NUMBER, Boolean.FALSE)) {
 			sb1.append("&useOwnMobile=on");
+		} else {
+			sb1.append("&emailAdressen=");
+			String email = ctx.getPreferences().getString(Preferences.USER, "")
+					+ "@arcor.de";
+			email = URLEncoder.encode(email, ARCOR_ENCODING);
+			sb1.append(email);
 		}
-
+		Log.d(TAG, sb1.toString());
+		// System.out.println(sb1.toString());
+		// System.err.println(sb1.toString());
 		return sb1.toString();
 	}
 
@@ -331,6 +338,7 @@ public class ConnectorArcor extends Connector {
 			final String urlencodedparams) throws Exception {
 		final HttpPost post = new HttpPost(url);
 		post.setHeader("User-Agent", FAKE_USER_AGENT);
+		post.setHeader("Referer", "https://www.arcor.de/ums/ums_neu_sms.jsp");
 		post.setHeader(new BasicHeader(HTTP.CONTENT_TYPE,
 				URLEncodedUtils.CONTENT_TYPE));
 		post.setEntity(new StringEntity(urlencodedparams));
@@ -392,9 +400,9 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutLoginInfoFromContent(final InputStream is)
 			throws IOException {
-		return Utils.stream2str(is, APPROXIMATE_LOGOUT_LINK_COUNT_POSITION,
-				APPROXIMATE_LOGOUT_LINK_COUNT_POSITION
-						+ APPROXIMATE_LOGOUT_LINK_LENGTH);
+		// return Utils.stream2str(is);
+		return Utils.stream2str(is, LOGOUT_LINK_AREA_START,
+				+LOGOUT_LINK_AREAD_END);
 	}
 
 	/**
@@ -409,7 +417,7 @@ public class ConnectorArcor extends Connector {
 	 */
 	private static String cutFreeCountFromContent(final InputStream is)
 			throws IOException {
-		return Utils.stream2str(is, APPROXIMATE_SMS_COUNT_POSITION,
-				APPROXIMATE_SMS_COUNT_POSITION + APPROXIMATE_SMS_COUNT_LENGTH);
+		// return Utils.stream2str(is);
+		return Utils.stream2str(is, SMS_COUNT_AREA_START, SMS_COUNT_AREA_END);
 	}
 }

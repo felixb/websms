@@ -118,6 +118,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
 	"hide_change_connector_button";
+	/** Preferemce's name: hide clear recipients button. */
+	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
+	"hide_clear_recipients_button";
+	/** Preference's name: hide send menu item. */
+	private static final String PREFS_HIDE_SEND_IN_MENU = "hide_send_in_menu";
 	/** Preferemce's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preferemce's name: hide cancel button. */
@@ -190,11 +195,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			"ca56e7518fdbda832409ef07edd4c273", // michael s.
 			"bed2f068ca8493da4179807d1afdbd83", // axel q.
 			"4c35400c4fa3ffe2aefcf1f9131eb855", // gerhard s.
-			"02158d2a80b1ef9c4d684a4ca808b93d", // camilo s.
 			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
 			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
 			"5383540b2f8c298532f874126b021e73", // marco a.
-			"19124ddf6a73b7845a9fc40e7cdb953d", // lado
 			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
 			"9f01eae4eaecd9158a2caddc04bad77e", // andreas p.
 			"6c9620882d65a1700f223a3f30952c07", // steffen e.
@@ -203,8 +206,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
 
-	/** Dialog: about. */
-	private static final int DIALOG_ABOUT = 0;
 	/** Dialog: updates. */
 	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: custom sender. */
@@ -294,22 +295,18 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 
-		// launched by clicking a sms: link, target number is in URI.
 		final Uri uri = intent.getData();
-		if (uri == null) {
-			return;
+		if (uri != null) {
+			// launched by clicking a sms: link, target number is in URI.
+			final String scheme = uri.getScheme();
+			if (scheme.equals("sms") || scheme.equals("smsto")) {
+				final String s = uri.getSchemeSpecificPart();
+				this.parseSchemeSpecificPart(s);
+			}
 		}
-		final String scheme = uri.getScheme();
-		if (!scheme.equals("sms") && !scheme.equals("smsto")) {
-			return;
-		}
-
-		String s = uri.getSchemeSpecificPart();
-		this.parseSchemeSpecificPart(s);
-
 		final Bundle extras = intent.getExtras();
 		if (extras != null) {
-			s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
+			String s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
 			if (s != null) {
 				((EditText) this.findViewById(R.id.text)).setText(s);
 				lastMsg = s;
@@ -456,6 +453,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vExtras.setOnClickListener(this);
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
+		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
@@ -634,6 +632,14 @@ public class WebSMS extends Activity implements OnClickListener,
 				false);
 		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
 				false);
+		final boolean bShowClearRecipients = !p.getBoolean(
+				PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON, false);
+		View v = this.findViewById(R.id.clear);
+		if (bShowClearRecipients) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
 
 		if (bShowChangeConnector && bShowEmoticons && bShowCancel) {
 			this.findViewById(R.id.upper).setVisibility(View.VISIBLE);
@@ -642,7 +648,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			this.findViewById(R.id.upper).setVisibility(View.GONE);
 
-			View v = this.findViewById(R.id.change_connector);
+			v = this.findViewById(R.id.change_connector);
 			if (bShowChangeConnector) {
 				v.setVisibility(View.VISIBLE);
 			} else {
@@ -927,6 +933,10 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.cancel:
 			this.reset();
 			return;
+		case R.id.clear:
+			this.etTo.setText("");
+			lastTo = null;
+			return;
 		case R.id.change_connector:
 		case R.id.change_connector_u:
 			this.changeConnectorMenu();
@@ -970,6 +980,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (prefsNoAds) {
 			menu.removeItem(R.id.item_donate);
 		}
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean bShowSendButton = !p.getBoolean(PREFS_HIDE_SEND_IN_MENU,
+				false);
+		if (!bShowSendButton) {
+			menu.removeItem(R.id.item_send);
+		}
 		return true;
 	}
 
@@ -998,6 +1015,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		scs = null;
 		n = null;
+
+		if (items.size() == 0) {
+			Toast.makeText(this, R.string.log_noreadyconnector,
+					Toast.LENGTH_LONG).show();
+		}
 
 		builder.setItems(items.toArray(new String[0]),
 				new DialogInterface.OnClickListener() {
@@ -1029,22 +1051,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.item_about: // start about dialog
-			this.showDialog(DIALOG_ABOUT);
+		case R.id.item_send:
+			// send by menu item
+			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
 		case R.id.item_donate:
 			this.showDialog(DIALOG_PREDONATE);
-			return true;
-		case R.id.item_more:
-			try {
-				this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-						.parse("market://search?q=pub:\"Felix Bechstein\"")));
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, "no market", e);
-			}
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
@@ -1269,44 +1284,44 @@ public class WebSMS extends Activity implements OnClickListener,
 					});
 			builder.setNegativeButton(android.R.string.cancel, null);
 			return builder.create();
-		case DIALOG_ABOUT:
-			d = new Dialog(this);
-			d.setContentView(R.layout.about);
-			d.setTitle(this.getString(R.string.about_) + " v"
-					+ this.getString(R.string.app_version));
-			StringBuffer authors = new StringBuffer();
-			final ConnectorSpec[] css = getConnectors(
-					ConnectorSpec.CAPABILITIES_NONE,
-					ConnectorSpec.STATUS_INACTIVE);
-			String a;
-			for (ConnectorSpec cs : css) {
-				a = cs.getAuthor();
-				if (a != null && a.length() > 0) {
-					authors.append(cs.getName());
-					authors.append(":\t");
-					authors.append(a);
-					authors.append("\n");
-				}
-			}
-			a = null;
-			((TextView) d.findViewById(R.id.author_connectors)).setText(authors
-					.toString().trim());
-			return d;
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);
 			builder.setIcon(android.R.drawable.ic_dialog_info);
 			builder.setTitle(R.string.changelog_);
 			final String[] changes = this.getResources().getStringArray(
 					R.array.updates);
-			final StringBuilder buf = new StringBuilder(changes[0]);
+			final StringBuilder buf = new StringBuilder();
+			Object o = this.getPackageManager().getLaunchIntentForPackage(
+					"de.ub0r.android.smsdroid");
+			if (o == null) {
+				buf.append(changes[0]);
+			}
 			for (int i = 1; i < changes.length; i++) {
 				buf.append("\n\n");
 				buf.append(changes[i]);
 			}
 			builder.setIcon(android.R.drawable.ic_menu_info_details);
-			builder.setMessage(buf.toString());
+			builder.setMessage(buf.toString().trim());
 			builder.setCancelable(true);
 			builder.setPositiveButton(android.R.string.ok, null);
+			if (o == null) {
+				builder.setNeutralButton("get SMSdroid",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface d,
+									final int which) {
+								try {
+									WebSMS.this.startActivity(// .
+											new Intent(
+													Intent.ACTION_VIEW,
+													Uri.parse(// .
+															"market://search?q=pname:de.ub0r.android.smsdroid")));
+								} catch (ActivityNotFoundException e) {
+									Log.e(TAG, "no market", e);
+								}
+							}
+						});
+			}
 			return builder.create();
 		case DIALOG_CUSTOMSENDER:
 			builder = new AlertDialog.Builder(this);
@@ -1416,7 +1431,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
 
-		final String[] tos = to.split(",");
+		final String[] tos = Utils.parseRecipients(to);
 		final ConnectorCommand command = ConnectorCommand.send(subconnector,
 				defPrefix, defSender, tos, text, flashSMS);
 		command.setCustomSender(lastCustomSender);

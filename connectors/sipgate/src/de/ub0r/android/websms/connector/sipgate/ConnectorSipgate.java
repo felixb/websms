@@ -111,7 +111,8 @@ public class ConnectorSipgate extends Connector {
 			ConnectorCommand command = new ConnectorCommand(intent);
 			final String defPrefx = command.getDefPrefix();
 			String u;
-			for (String t : command.getRecipients()) {
+			String[] rr = command.getRecipients();
+			for (String t : rr) {
 				if (t != null && t.length() > 1) {
 					u = "sip:"
 							+ Utils.national2international(defPrefx,
@@ -122,6 +123,7 @@ public class ConnectorSipgate extends Connector {
 				}
 			}
 			u = null;
+			rr = null;
 			Hashtable<String, Serializable> params = // .
 			new Hashtable<String, Serializable>();
 			final String sender = Utils.getSender(context, command
@@ -133,7 +135,7 @@ public class ConnectorSipgate extends Connector {
 			}
 			params.put("RemoteUri", remoteUris);
 			params.put("TOS", "text");
-			params.put("Content", command.getText());
+			params.put("Content", command.getText().replace("\n", " "));
 			back = client.call("samurai.SessionInitiateMulti", params);
 			Log.d(TAG, back.toString());
 		} catch (XMLRPCFault e) {

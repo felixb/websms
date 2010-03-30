@@ -30,6 +30,11 @@
 			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
 		<CheckBoxPreference android:key="hide_cancel_button"
 			android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
+		<CheckBoxPreference android:key="hide_clear_recipients_button"
+			android:title="@string/hide_clear_recipients_button_"
+			android:summary="@string/hide_clear_recipients_button_hint" />
+		<CheckBoxPreference android:key="hide_send_in_menu"
+			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
 		<CheckBoxPreference android:key="autoupdate"
 			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
 		<CheckBoxPreference android:key="autoexit"
@@ -60,7 +65,24 @@
 	</PreferenceScreen>
 	<PreferenceScreen android:title="@string/more_connectors__"
 		android:summary="@string/more_connectors__hint">
-		<intent android:action="android.intent.action.SENDTO"
-			android:data="mailto:flx.yoo+websms@gmail.com" />
+		<intent android:action="android.intent.action.VIEW"
+			android:data="http://code.google.com/p/websmsdroid/wiki/ConnectorsFAQ" />
 	</PreferenceScreen>
+	<PreferenceCategory android:title="@string/about_">
+		<PreferenceScreen android:title="@string/about_"
+			android:summary="@string/about_hint">
+			<intent android:action="android.intent.action.MAIN"
+				android:targetPackage="de.ub0r.android.websms"
+				android:targetClass="de.ub0r.android.websms.About" />
+		</PreferenceScreen>
+		<PreferenceScreen android:title="@string/feedback_"
+			android:summary="@string/feedback_hint">
+			<intent android:action="android.intent.action.VIEW"
+				android:data="http://code.google.com/p/websmsdroid/issues/list" />
+		</PreferenceScreen>
+		<PreferenceScreen android:title="@string/more_apps_">
+			<intent android:action="android.intent.action.VIEW"
+				android:data="market://search?q=pub:&quot;Felix Bechstein&quot;" />
+		</PreferenceScreen>
+	</PreferenceCategory>
 </PreferenceScreen>

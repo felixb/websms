@@ -1,18 +1,4 @@
 check for new connectors
 implement limitLength in websms
-add notification for IO to websms statusbar
 fix $(grep -Fr FIXME)
 fix $(grep -Fr TODO)
-add captcha handling:
-	connector -broadcast-> websms.bcr
-	websms.bcr -startActivity->captchaActivity
-	user: solve it
-	captchaActivity -broadcast-> connector.bcr
-
-	broadcast ->:
-		return intent
-		bitmap as parcable
-		text
-	
-	broadcast <-:
-		solved captcha

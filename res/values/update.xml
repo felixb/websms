@@ -19,6 +19,13 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>v3.0.7: Allow to send text/plain via standard Intents</item>
+		<item>v3.0.6: minor changes</item>
+		<item>v3.0.5: set textview to autotext, add send to menu</item>
+		<item>v3.0.4: add clear recipients button, fix some minor issues</item>
+		<item>v3.0.3: fix thread for sent messages</item>
+		<item>v3.0.2: fix layout</item>
 		<item>v3.0.1: fix migration from beta, fix sending to multiple recipients for some connectors</item>
 		<item>v3.0: split connectors to separate packages (check market!), add emoticons button</item>
 		<item>v2.9.3: minor changes, fix o2 captcha</item>

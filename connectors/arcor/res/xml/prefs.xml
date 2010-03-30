@@ -34,12 +34,16 @@
 		android:inputType="text" android:dependency="enable"
 		android:summary="@string/enable_validated_number_hint"
 		android:disableDependentsState="true" />
+<!--
 	<CheckBoxPreference android:key="use_default_sender"
 		android:defaultValue="true" android:title="@string/use_derfault_sender_"
 		android:summary="@string/use_derfault_sender_hint"
 		android:disableDependentsState="true" android:dependency="enable_validated_number" />
+-->
+<!--
 	<EditTextPreference android:key="custom_sender"
-		android:inputType="phone" android:title="@string/custom_sender_"
+		android:inputType="text" android:title="@string/custom_sender_"
 		android:dialogTitle="@string/custom_sender_" android:summary="@string/sender_hint"
 		android:dependency="use_default_sender" />
+-->
 </PreferenceScreen>
