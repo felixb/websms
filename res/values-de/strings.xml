@@ -71,7 +71,7 @@
 	<string name="connectors_switch">Connector wurde gewechselt:</string>
 	<string name="captcha_">Captcha</string>
 	<string name="captcha_solve_it">Bitte gib den Text unten ein:</string>
-	<string name="status_disabled">Status: deaktiviert</string>
-	<string name="status_enabled">Status: aktiviert</string>
-	<string name="status_ready">Status: bereit</string>
+	<string name="status_disabled">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+	<string name="status_enabled">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+	<string name="status_ready">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 </resources>
