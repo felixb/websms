@@ -119,6 +119,9 @@ public class ConnectorO2 extends Connector {
 	/** Timeout for entering the captcha. */
 	private static final long CAPTCHA_TIMEOUT = 60000;
 
+	/** Object to sync with. */
+	private static final Object SYNC = new Object();
+
 	/** Key to safe cookies. */
 	private static final String PREFS_SAFECOOKIES = "cookie_store";
 
@@ -396,10 +399,11 @@ public class ConnectorO2 extends Connector {
 		}
 		String htmlText1 = netHandler.getContent();
 		if (htmlText1 == null) {
+			Log.e(TAG, "htmlText1 == null");
 			throw new WebSMSException("error parsing website");
 		} else if (htmlText1.indexOf(check) < 0) {
 			// check output html for success message
-			Log.d(TAG, htmlText1);
+			Log.w(TAG, htmlText1);
 			throw new WebSMSException("error parsing website");
 		}
 	}
@@ -510,7 +514,11 @@ public class ConnectorO2 extends Connector {
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent), true);
+		Log.d(TAG, "doUpdate()");
+		synchronized (SYNC) {
+			Log.d(TAG, "doUpdate(): passed sync");
+			this.sendData(context, new ConnectorCommand(intent), true);
+		}
 	}
 
 	/**
@@ -519,7 +527,11 @@ public class ConnectorO2 extends Connector {
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent), true);
+		Log.d(TAG, "doSend()");
+		synchronized (SYNC) {
+			Log.d(TAG, "doSend(): passed sync");
+			this.sendData(context, new ConnectorCommand(intent), true);
+		}
 	}
 
 	/**
