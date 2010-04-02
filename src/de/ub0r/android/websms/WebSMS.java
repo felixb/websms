@@ -287,23 +287,23 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (action == null) {
 			return;
 		}
-
 		final Uri uri = intent.getData();
 		if (uri != null) {
 			// launched by clicking a sms: link, target number is in URI.
 			final String scheme = uri.getScheme();
-			if (scheme.equals("sms") || scheme.equals("smsto")) {
+			if (scheme != null
+					&& (scheme.equals("sms") || scheme.equals("smsto"))) {
 				final String s = uri.getSchemeSpecificPart();
 				this.parseSchemeSpecificPart(s);
+				this.displayAds(true);
 			}
-			this.displayAds(true);
 		}
 		final Bundle extras = intent.getExtras();
 		if (extras != null) {
-			String s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
+			CharSequence s = extras.getCharSequence(Intent.EXTRA_TEXT);
 			if (s != null) {
 				((EditText) this.findViewById(R.id.text)).setText(s);
-				lastMsg = s;
+				lastMsg = s.toString();
 			}
 			s = extras.getString(EXTRA_ERRORMESSAGE);
 			if (s != null) {
