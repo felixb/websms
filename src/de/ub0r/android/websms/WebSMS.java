@@ -48,13 +48,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Contacts.PeopleColumns;
-import android.provider.Contacts.Phones;
-import android.provider.Contacts.PhonesColumns;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
@@ -160,7 +156,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
 	private static SubConnectorSpec prefsSubConnectorSpec = null;
-	/** Save prefsConnectorSpec.getID() here. */
+	/** Save prefsConnectorSpec.getPackage() here. */
 	private static String prefsConnectorID = null;
 
 	/** List of available {@link ConnectorSpec}s. */
@@ -253,9 +249,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** {@link View} holding send later. */
 	private View vSendLater;
 
-	/** Helper for API 5. */
-	static HelperAPI5Contacts helperAPI5c = null;
-
 	/** Text's label. */
 	private TextView etTextLabel;
 
@@ -294,29 +287,29 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (action == null) {
 			return;
 		}
-
 		final Uri uri = intent.getData();
 		if (uri != null) {
 			// launched by clicking a sms: link, target number is in URI.
 			final String scheme = uri.getScheme();
-			if (scheme.equals("sms") || scheme.equals("smsto")) {
+			if (scheme != null
+					&& (scheme.equals("sms") || scheme.equals("smsto"))) {
 				final String s = uri.getSchemeSpecificPart();
 				this.parseSchemeSpecificPart(s);
+				this.displayAds(true);
 			}
 		}
 		final Bundle extras = intent.getExtras();
 		if (extras != null) {
-			String s = extras.getCharSequence(Intent.EXTRA_TEXT).toString();
+			CharSequence s = extras.getCharSequence(Intent.EXTRA_TEXT);
 			if (s != null) {
 				((EditText) this.findViewById(R.id.text)).setText(s);
-				lastMsg = s;
+				lastMsg = s.toString();
 			}
 			s = extras.getString(EXTRA_ERRORMESSAGE);
 			if (s != null) {
 				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 			}
 		}
-		this.displayAds(true);
 	}
 
 	/**
@@ -337,24 +330,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (s.indexOf('<') < 0) {
 			// try to fetch recipient's name from phonebook
-			String n = null;
-			if (helperAPI5c != null) {
-				try {
-					n = helperAPI5c.getNameForNumber(this, s);
-				} catch (NoClassDefFoundError e) {
-					helperAPI5c = null;
-				}
-			}
-			if (helperAPI5c == null) {
-				Cursor c = this.managedQuery(Phones.CONTENT_URI, new String[] {
-						PhonesColumns.NUMBER, PeopleColumns.// .
-						DISPLAY_NAME },
-						PhonesColumns.NUMBER + " = '" + s + "'", null, null);
-				if (c.moveToFirst()) {
-					n = c.getString(c.getColumnIndex(// .
-							PeopleColumns.DISPLAY_NAME));
-				}
-			}
+			String n = ContactsWrapper.getInstance().getNameForNumber(this, s);
 			if (n != null) {
 				s = n + " <" + s + ">, ";
 			}
@@ -374,15 +350,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// save ref to me.
 		me = this;
-		try {
-			WebSMS.helperAPI5c = new HelperAPI5Contacts();
-			if (!helperAPI5c.isAvailable()) {
-				WebSMS.helperAPI5c = null;
-			}
-		} catch (VerifyError e) {
-			WebSMS.helperAPI5c = null;
-			Log.d(TAG, "no api5 running", e);
-		}
 		// Restore preferences
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -849,8 +816,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	final void savePreferences() {
 		if (prefsConnectorSpec != null) {
 			PreferenceManager.getDefaultSharedPreferences(this).edit()
-					.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getID())
-					.commit();
+					.putString(PREFS_CONNECTOR_ID,
+							prefsConnectorSpec.getPackage()).commit();
 		}
 	}
 
@@ -1036,7 +1003,7 @@ public class WebSMS extends Activity implements OnClickListener,
 								.getDefaultSharedPreferences(WebSMS.this)
 								.edit();
 						e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
-								.getID());
+								.getPackage());
 						e.putString(PREFS_SUBCONNECTOR_ID,
 								prefsSubConnectorSpec.getID());
 						e.commit();
@@ -1562,22 +1529,22 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	static final void addConnector(final ConnectorSpec connector) {
 		synchronized (CONNECTORS) {
-			if (connector == null || connector.getID() == null
+			if (connector == null || connector.getPackage() == null
 					|| connector.getName() == null) {
 				return;
 			}
-			ConnectorSpec c = getConnectorByID(connector.getID());
+			ConnectorSpec c = getConnectorByID(connector.getPackage());
 			if (c != null) {
 				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
 			} else {
 				final String name = connector.getName();
 				if (connector.getSubConnectorCount() == 0 || name == null
-						|| connector.getID() == null) {
+						|| connector.getPackage() == null) {
 					Log.w(TAG, "skipped adding defect connector: " + name);
 					return;
 				}
-				Log.d(TAG, "add connector with id: " + connector.getID());
+				Log.d(TAG, "add connector with id: " + connector.getPackage());
 				Log.d(TAG, "add connector with name: " + name);
 				boolean added = false;
 				final int l = CONNECTORS.size();
@@ -1620,7 +1587,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						.getDefaultSharedPreferences(me);
 
 				if (prefsConnectorSpec == null
-						&& prefsConnectorID.equals(connector.getID())) {
+						&& prefsConnectorID.equals(connector.getPackage())) {
 					prefsConnectorSpec = connector;
 
 					prefsSubConnectorSpec = connector.getSubConnector(p
@@ -1669,7 +1636,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
 				c = CONNECTORS.get(i);
-				if (id.equals(c.getID())) {
+				if (id.equals(c.getPackage())) {
 					return c;
 				}
 			}

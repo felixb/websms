@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.0.6</string>
+	<string name="app_version">3.0.9</string>
 	<string name="about_">About</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="about_hint">About this app</string>
@@ -92,4 +92,7 @@
 	<string name="connectors_switch">Switched connector:</string>
 	<string name="captcha_">Captcha</string>
 	<string name="captcha_solve_it">Please enter the text below:</string>
+	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
+	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
+	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
 </resources>
