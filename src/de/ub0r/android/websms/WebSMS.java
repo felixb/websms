@@ -174,31 +174,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			+ "Y89+o2O0mW9NnBch3l8K/uJ3FRn+8Li75SqoTqFj3yCrd9IT"
 			+ "sOJC7PxcR5TvNpeXsogcyxxo3fMdJdjkafYwIDAQAB";
 
-	/** Array of md5(prefsSender) for which no ads should be displayed. */
-	private static final String[] NO_AD_HASHS = {
-			"57a3c7c19329fd84c2252a9b2866dd93", // mirweb
-			"10b7a2712beee096acbc67416d7d71a1", // mo
-			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
-			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
-			"7684154558d19383552388d9bc92d446", // henning k.
-			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
-			"c479a2e701291c751f0f91426bcaabf3", // bernhard g.
-			"ae7dfedf549f98a349ad8c2068473c6b", // dominik k.-v.
-			"18bc29cd511613552861da6ef51766ce", // niels b.
-			"2985011f56d0049b0f4f0caed3581123", // sven l.
-			"64724033da297a915a89023b11ac2e47", // wilfried m.
-			"cfd8d2efb3eac39705bd62c4dfe5e72d", // achim e.
-			"ca56e7518fdbda832409ef07edd4c273", // michael s.
-			"bed2f068ca8493da4179807d1afdbd83", // axel q.
-			"4c35400c4fa3ffe2aefcf1f9131eb855", // gerhard s.
-			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
-			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
-			"5383540b2f8c298532f874126b021e73", // marco a.
-			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
-			"9f01eae4eaecd9158a2caddc04bad77e", // andreas p.
-			"6c9620882d65a1700f223a3f30952c07", // steffen e.
-	};
-
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
 
@@ -670,26 +645,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				false));
 
 		prefsNoAds = this.hideAds();
-		// TODO: remove following lines
-		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
-		if (!prefsNoAds) {
-			for (String h : NO_AD_HASHS) {
-				if (hash.equals(h)) {
-					prefsNoAds = true;
-					break;
-				}
-			}
-			if (!prefsNoAds && this.getImeiHash() != null) {
-				for (String h : NO_AD_HASHS) {
-					if (imeiHash.equals(h)) {
-						prefsNoAds = true;
-						break;
-					}
-				}
-			}
-		}
-		// this is for transition
-		p.edit().putBoolean(PREFS_HIDEADS, prefsNoAds).commit();
 		this.displayAds(false);
 		this.setButtons();
 	}
@@ -1197,7 +1152,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
-		Dialog d;
 		AlertDialog.Builder builder;
 		switch (id) {
 		case DIALOG_PREDONATE:
