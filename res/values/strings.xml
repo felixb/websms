@@ -57,6 +57,7 @@
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
+	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
@@ -64,12 +65,16 @@
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
+	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
 	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
 	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
 	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
 	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
 	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
+	<string name="default_recipient_">Default recipient</string>
+	<string name="default_recipient_hint">Default recipient filled into address bar.</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>

@@ -48,6 +48,10 @@
 				android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
 				android:imeOptions="actionNext" android:singleLine="true"
 				android:layout_weight="1" />
+			<ImageButton android:id="@+id/select"
+				android:layout_width="wrap_content" android:layout_height="fill_parent"
+				android:src="@drawable/ic_menu_invite"
+				android:scaleType="fitCenter" />
 			<ImageButton android:id="@+id/clear"
 				android:layout_width="wrap_content" android:layout_height="fill_parent"
 				android:src="@android:drawable/ic_menu_close_clear_cancel"

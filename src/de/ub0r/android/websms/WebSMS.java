@@ -114,6 +114,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
 	"hide_change_connector_button";
+	/** Preferemce's name: hide select recipients button. */
+	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = // .
+	"hide_clear_recipients_button";
 	/** Preferemce's name: hide clear recipients button. */
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
 	"hide_clear_recipients_button";
@@ -127,6 +130,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: hide ads. */
 	private static final String PREFS_HIDEADS = "hideads";
+
+	/** Preference's name: default recipient. */
+	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
 
 	/** Path to file containing signatures of UID Hash. */
 	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
@@ -150,7 +156,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static boolean prefsNoAds = false;
 	/** Show AdView on top. */
 	private boolean onTop = false;
-	/** Hased IMEI. */
+	/** Hashed IMEI. */
 	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
@@ -473,6 +479,12 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		this.setButtons();
 
+		if (lastTo == null || lastTo.length() == 0) {
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			lastTo = p.getString(PREFS_DEFAULT_RECIPIENT, null);
+		}
+
 		// reload text/recipient from local store
 		if (lastMsg != null) {
 			this.etText.setText(lastMsg);
@@ -576,7 +588,15 @@ public class WebSMS extends Activity implements OnClickListener,
 				false);
 		final boolean bShowClearRecipients = !p.getBoolean(
 				PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON, false);
-		View v = this.findViewById(R.id.clear);
+		final boolean bShowSelectRecipients = !p.getBoolean(
+				PREFS_HIDE_SELECT_RECIPIENTS_BUTTON, false);
+		View v = this.findViewById(R.id.select);
+		if (bShowSelectRecipients) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.clear);
 		if (bShowClearRecipients) {
 			v.setVisibility(View.VISIBLE);
 		} else {
@@ -655,29 +675,35 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @return true if ads should be hidden
 	 */
 	private boolean hideAds() {
+		Log.d(TAG, "hideAds()");
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final File f = new File(NOADS_SIGNATURES);
 		try {
 			if (f.exists()) {
+				Log.d(TAG, "found file " + NOADS_SIGNATURES);
 				final BufferedReader br = new BufferedReader(new FileReader(f));
 				final byte[] publicKey = Base64Coder.decode(KEY);
 				final KeyFactory keyFactory = KeyFactory.getInstance(ALGO);
 				PublicKey pk = keyFactory
 						.generatePublic(new X509EncodedKeySpec(publicKey));
 				final String h = this.getImeiHash();
+				Log.d(TAG, "hash: " + h);
 				boolean ret = false;
 				while (true) {
 					String l = br.readLine();
 					if (l == null) {
+						Log.d(TAG, "break;");
 						break;
 					}
+					Log.d(TAG, "read line: " + l);
 					try {
 						byte[] signature = Base64Coder.decode(l);
 						Signature sig = Signature.getInstance(SIGALGO);
 						sig.initVerify(pk);
 						sig.update(h.getBytes());
 						ret = sig.verify(signature);
+						Log.d(TAG, "ret: " + ret);
 						if (ret) {
 							break;
 						}
@@ -687,11 +713,13 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				br.close();
 				f.delete();
+				Log.d(TAG, "put: " + ret);
 				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error reading signatures", e);
 		}
+		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
 		return p.getBoolean(PREFS_HIDEADS, false);
 	}
 
@@ -968,6 +996,31 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Save some characters by stripping blanks.
+	 */
+	private final void saveChars() {
+		String s = this.etText.getText().toString().trim();
+		if (s.length() == 0 || s.indexOf(" ") < 0) {
+			return;
+		}
+		StringBuilder buf = new StringBuilder();
+		final String[] ss = s.split(" ");
+		s = null;
+		for (String ts : ss) {
+			final int l = ts.length();
+			if (l == 0) {
+				continue;
+			}
+			buf.append(Character.toUpperCase(ts.charAt(0)));
+			if (l == 1) {
+				continue;
+			}
+			buf.append(ts.substring(1));
+		}
+		this.etText.setText(buf.toString());
+	}
+
+	/**
 	 *{@inheritDoc}
 	 */
 	@Override
@@ -976,6 +1029,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.item_send:
 			// send by menu item
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
+			return true;
+		case R.id.item_savechars:
+			this.saveChars();
 			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Preferences.class));
@@ -1140,7 +1196,15 @@ public class WebSMS extends Activity implements OnClickListener,
 				default:
 					break;
 				}
-				et.setText(et.getText() + e);
+				int i = et.getSelectionStart();
+				int j = et.getSelectionEnd();
+				String t = et.getText().toString();
+				StringBuilder buf = new StringBuilder();
+				buf.append(t.substring(0, i));
+				buf.append(e);
+				buf.append(t.substring(j));
+				et.setText(buf.toString());
+				et.setSelection(i + e.length());
 				d.dismiss();
 			}
 		});

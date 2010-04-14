@@ -30,6 +30,9 @@
 			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
 		<CheckBoxPreference android:key="hide_cancel_button"
 			android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
+		<CheckBoxPreference android:key="hide_select_recipients_button"
+			android:title="@string/hide_select_recipients_button_"
+			android:summary="@string/hide_select_recipients_button_hint" />
 		<CheckBoxPreference android:key="hide_clear_recipients_button"
 			android:title="@string/hide_clear_recipients_button_"
 			android:summary="@string/hide_clear_recipients_button_hint" />
@@ -48,7 +51,10 @@
 		<RingtonePreference android:key="fail_sound"
 			android:title="@string/sound_on_fail" android:ringtoneType="notification"
 			android:defaultValue="content://settings/system/notification_sound" />
-
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/default_recipient_">
+		<EditTextPreference android:key="default_recipient" android:title="@string/default_recipient_"
+			android:summary="@string/default_recipient_hint" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_connectors"
 		android:key="settings_connectors">
