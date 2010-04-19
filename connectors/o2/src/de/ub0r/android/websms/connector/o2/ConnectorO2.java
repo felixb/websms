@@ -572,8 +572,7 @@ public class ConnectorO2 extends Connector {
 					this.sendData(context, command, false);
 					return;
 				} else {
-					throw new WebSMSException(// .
-							"failed to locate freesms on site");
+					throw new WebSMSException(context, R.string.missing_freesms);
 				}
 			}
 			int i = htmlText.indexOf(CHECK_FREESMS);
@@ -590,13 +589,11 @@ public class ConnectorO2 extends Connector {
 					return;
 				} else {
 					Log.d(TAG, htmlText);
-					throw new WebSMSException(// .
-							"failed to locate freesms on site (2)");
+					throw new WebSMSException(context, R.string.missing_freesms);
 				}
 			} else {
 				Log.d(TAG, htmlText);
-				throw new WebSMSException(// .
-						"failed to locate freesms on site (3)");
+				throw new WebSMSException(context, R.string.missing_freesms);
 			}
 
 			// send
