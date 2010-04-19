@@ -1221,6 +1221,11 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				int i = et.getSelectionStart();
 				int j = et.getSelectionEnd();
+				if (i > j) {
+					int x = i;
+					i = j;
+					j = x;
+				}
 				String t = et.getText().toString();
 				StringBuilder buf = new StringBuilder();
 				buf.append(t.substring(0, i));
