@@ -50,12 +50,13 @@
 				android:layout_weight="1" />
 			<ImageButton android:id="@+id/select"
 				android:layout_width="wrap_content" android:layout_height="fill_parent"
-				android:src="@drawable/ic_menu_invite"
-				android:scaleType="fitCenter" />
+				android:src="@drawable/ic_menu_invite" android:scaleType="fitCenter" />
 			<ImageButton android:id="@+id/clear"
 				android:layout_width="wrap_content" android:layout_height="fill_parent"
 				android:src="@android:drawable/ic_menu_close_clear_cancel"
 				android:scaleType="fitCenter" />
+			<ImageButton android:id="@+id/emo" android:layout_width="wrap_content"
+				android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons" />
 		</LinearLayout>
 
 		<RelativeLayout android:layout_width="fill_parent"
@@ -92,16 +93,7 @@
 				android:layout_weight="1" android:gravity="center_vertical"
 				android:visibility="gone" />
 		</LinearLayout>
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:layout_weight="0"
-			android:visibility="visible" android:id="@+id/upper">
-			<Button android:text="@string/change_connector_" android:id="@+id/change_connector_u"
-				android:layout_width="0dip" android:layout_height="fill_parent"
-				android:layout_weight="1" />
-			<ImageButton android:id="@+id/emo_u"
-				android:layout_width="wrap_content" android:layout_height="fill_parent"
-				android:src="@drawable/ic_menu_emoticons" />
-		</LinearLayout>
+
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:layout_weight="0">
 			<Button android:text="@string/send_" android:id="@+id/send_"
@@ -113,8 +105,6 @@
 			<Button android:text="@string/extras_" android:id="@+id/extras"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
 				android:layout_weight="1" android:visibility="gone" />
-			<ImageButton android:id="@+id/emo" android:layout_width="wrap_content"
-				android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons" />
 			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
 				android:layout_weight="1" />

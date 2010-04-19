@@ -400,14 +400,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.send_).setOnClickListener(this);
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 		this.findViewById(R.id.change_connector).setOnClickListener(this);
-		this.findViewById(R.id.change_connector_u).setOnClickListener(this);
 		this.vExtras.setOnClickListener(this);
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
 		this.findViewById(R.id.select).setOnClickListener(this);
 		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
-		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.textWatcher);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
@@ -635,34 +633,24 @@ public class WebSMS extends Activity implements OnClickListener,
 		} else {
 			v.setVisibility(View.GONE);
 		}
-
-		if (bShowChangeConnector && bShowEmoticons && bShowCancel) {
-			this.findViewById(R.id.upper).setVisibility(View.VISIBLE);
-			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
-			this.findViewById(R.id.emo).setVisibility(View.GONE);
+		v = this.findViewById(R.id.emo);
+		if (bShowEmoticons) {
+			v.setVisibility(View.VISIBLE);
 		} else {
-			this.findViewById(R.id.upper).setVisibility(View.GONE);
+			v.setVisibility(View.GONE);
+		}
 
-			v = this.findViewById(R.id.change_connector);
-			if (bShowChangeConnector) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
-
-			v = this.findViewById(R.id.emo);
-			if (bShowEmoticons) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
-
-			v = this.findViewById(R.id.cancel);
-			if (bShowCancel) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
+		v = this.findViewById(R.id.change_connector);
+		if (bShowChangeConnector) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.cancel);
+		if (bShowCancel) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
 		}
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
@@ -925,7 +913,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			lastTo = null;
 			return;
 		case R.id.change_connector:
-		case R.id.change_connector_u:
 			this.changeConnectorMenu();
 			return;
 		case R.id.extras:
@@ -949,7 +936,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.emo:
-		case R.id.emo_u:
 			this.showDialog(DIALOG_EMO);
 			return;
 		default:
@@ -1035,7 +1021,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * Save some characters by stripping blanks.
 	 */
-	private final void saveChars() {
+	private void saveChars() {
 		String s = this.etText.getText().toString().trim();
 		if (s.length() == 0 || s.indexOf(" ") < 0) {
 			return;
@@ -1243,6 +1229,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				et.setText(buf.toString());
 				et.setSelection(i + e.length());
 				d.dismiss();
+				et.requestFocus();
 			}
 		});
 		return d;
@@ -1664,11 +1651,12 @@ public class WebSMS extends Activity implements OnClickListener,
 					runningConnectors = getConnectors(
 							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
 							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING// .
-					).length != 0;
+									| ConnectorSpec.STATUS_BOOTSTRAPPING).// .
+					length != 0;
 				}
 				me.setProgressBarIndeterminateVisibility(runningConnectors);
-				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
+				if (prefsConnectorSpec != null && // .
+						prefsConnectorSpec.equals(c)) {
 					me.setButtons();
 				}
 			}
