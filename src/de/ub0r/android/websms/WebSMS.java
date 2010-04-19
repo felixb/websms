@@ -25,7 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.KeyFactory;
@@ -34,6 +33,7 @@ import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -624,7 +624,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.toByteArray()));
 			Log.d(TAG, s);
 			editor.putString(PREFS_CONNECTORS, s);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			editor.remove(PREFS_CONNECTORS);
 			Log.e(TAG, "IO", e);
 		}
@@ -762,6 +762,12 @@ public class WebSMS extends Activity implements OnClickListener,
 				f.delete();
 				Log.d(TAG, "put: " + ret);
 				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
+				if (ret != prefsNoAds) {
+					final HashMap<String, String> params = // .
+					new HashMap<String, String>();
+					params.put("value", String.valueOf(ret));
+					FlurryAgent.onEvent("switch prefsNoAds", params);
+				}
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error reading signatures", e);
