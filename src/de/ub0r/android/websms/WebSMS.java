@@ -76,6 +76,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.flurry.android.FlurryAgent;
+
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -92,6 +95,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
+
+	/** Flury's API key. */
+	public static final String FLURYKEY = "VIY62GAS4ID67S2HRX8C";
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -323,6 +329,24 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		((EditText) this.findViewById(R.id.to)).setText(s);
 		lastTo = s;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, FLURYKEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
 	}
 
 	/**
