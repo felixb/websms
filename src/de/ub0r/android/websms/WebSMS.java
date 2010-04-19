@@ -96,8 +96,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
 
-	/** Flury's API key. */
-	public static final String FLURYKEY = "VIY62GAS4ID67S2HRX8C";
+	/** Flurry's API key. */
+	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -337,7 +337,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	public final void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, FLURYKEY);
+		FlurryAgent.onStartSession(this, FLURRYKEY);
 	}
 
 	/**
