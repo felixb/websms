@@ -762,18 +762,18 @@ public class WebSMS extends Activity implements OnClickListener,
 				f.delete();
 				Log.d(TAG, "put: " + ret);
 				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
-				if (ret != prefsNoAds) {
-					final HashMap<String, String> params = // .
-					new HashMap<String, String>();
-					params.put("value", String.valueOf(ret));
-					FlurryAgent.onEvent("switch prefsNoAds", params);
-				}
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error reading signatures", e);
 		}
 		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
-		return p.getBoolean(PREFS_HIDEADS, false);
+		final boolean ret = p.getBoolean(PREFS_HIDEADS, false);
+		if (ret != prefsNoAds) {
+			final HashMap<String, String> params = new HashMap<String, String>();
+			params.put("value", String.valueOf(ret));
+			FlurryAgent.onEvent("switch prefsNoAds", params);
+		}
+		return ret;
 	}
 
 	/**
@@ -901,6 +901,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			connector.addStatus(ConnectorSpec.STATUS_BOOTSTRAPPING);
 			break;
 		case ConnectorCommand.TYPE_SEND:
+			final HashMap<String, String> params = new HashMap<String, String>();
+			params.put("connector", connector.getName() + "-" + command.getSelectedSubConnector());
+			FlurryAgent.onEvent("send", params);
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
