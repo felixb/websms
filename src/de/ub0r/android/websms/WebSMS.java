@@ -902,7 +902,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			break;
 		case ConnectorCommand.TYPE_SEND:
 			final HashMap<String, String> params = new HashMap<String, String>();
-			params.put("connector", connector.getName() + "-" + command.getSelectedSubConnector());
+			params.put("connector", connector.getName() + "-"
+					+ command.getSelectedSubConnector());
 			FlurryAgent.onEvent("send", params);
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);

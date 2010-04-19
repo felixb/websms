@@ -93,8 +93,7 @@ public class ConnectorSMS extends Connector {
 			final String[] r = command.getRecipients();
 			ArrayList<String> messages;
 			for (String t : r) {
-				messages = sm
-						.divideMessage(command.getText());
+				messages = sm.divideMessage(command.getText());
 				sm.sendMultipartTextMessage(Utils.getRecipientsNumber(t), null,
 						messages, null, null);
 				for (String m : messages) {
