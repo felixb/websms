@@ -19,6 +19,8 @@
 
 package de.ub0r.android.websms;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -136,11 +138,29 @@ abstract class ContactsWrapper {
 	 * Get a Name for a given number.
 	 * 
 	 * @param act
-	 *            activity to get the cursor from
+	 *            {@link Activity} to get the cursor from
 	 * @param number
 	 *            number to look for
 	 * @return name matching the number
 	 */
 	public abstract String getNameForNumber(final WebSMS act,
 			final String number);
+
+	/**
+	 * Get "Name <Number>" from {@link Uri}. * @param act {@link Activity} to
+	 * get the cursor from.
+	 * 
+	 * @param uri
+	 *            {@link Uri}
+	 * @return "Name <Number>"
+	 */
+	// TODO: merge both APIs here?
+	public abstract String getNameAndNumber(final WebSMS act, final Uri uri);
+
+	/**
+	 * Pck a Contact's phone.
+	 * 
+	 * @return {@link Intent}
+	 */
+	public abstract Intent getPickPhoneIntent();
 }

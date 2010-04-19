@@ -116,7 +116,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	"hide_change_connector_button";
 	/** Preferemce's name: hide select recipients button. */
 	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = // .
-	"hide_clear_recipients_button";
+	"hide_select_recipients_button";
 	/** Preferemce's name: hide clear recipients button. */
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
 	"hide_clear_recipients_button";
@@ -197,6 +197,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_POSTDONATE = 7;
 	/** Dialog: emo. */
 	private static final int DIALOG_EMO = 8;
+
+	/** {@link Activity} result request. */
+	private static final int ARESULT_PICK_PHONE = 1;
 
 	/** Size of the emoticons png. */
 	private static final int EMOTICONS_SIZE = 30;
@@ -401,6 +404,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vExtras.setOnClickListener(this);
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
+		this.findViewById(R.id.select).setOnClickListener(this);
 		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.emo_u).setOnClickListener(this);
@@ -415,6 +419,35 @@ public class WebSMS extends Activity implements OnClickListener,
 		// check default prefix
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
 			WebSMS.this.log(R.string.log_wrong_defprefix);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
+		if (requestCode == ARESULT_PICK_PHONE) {
+			if (resultCode == RESULT_OK) {
+				final Uri u = data.getData();
+				if (u == null) {
+					return;
+				}
+				final String phone = ContactsWrapper.getInstance()
+						.getNameAndNumber(this, u)
+						+ ", ";
+				String t = this.etTo.getText().toString().trim();
+				if (t.length() == 0) {
+					t = phone;
+				} else if (t.endsWith(",")) {
+					t += " " + phone;
+				} else {
+					t += ", " + phone;
+				}
+				lastTo = t;
+				this.etTo.setText(t);
+			}
 		}
 	}
 
@@ -882,6 +915,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		case R.id.cancel:
 			this.reset();
+			return;
+		case R.id.select:
+			this.startActivityForResult(ContactsWrapper.getInstance()
+					.getPickPhoneIntent(), ARESULT_PICK_PHONE);
 			return;
 		case R.id.clear:
 			this.etTo.setText("");
