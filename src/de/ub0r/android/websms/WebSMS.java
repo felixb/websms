@@ -202,7 +202,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int ARESULT_PICK_PHONE = 1;
 
 	/** Size of the emoticons png. */
-	private static final int EMOTICONS_SIZE = 30;
+	private static final int EMOTICONS_SIZE = 50;
+	/** Padding for the emoticons png. */
+	private static final int EMOTICONS_PADDING = 5;
 
 	/** Intent's extra for error messages. */
 	static final String EXTRA_ERRORMESSAGE = // .
@@ -1119,7 +1121,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					imageView.setLayoutParams(new GridView.LayoutParams(
 							EMOTICONS_SIZE, EMOTICONS_SIZE));
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-					// imageView.setPadding(0, 0, 0, 0);
+					imageView.setPadding(EMOTICONS_PADDING, EMOTICONS_PADDING,
+							EMOTICONS_PADDING, EMOTICONS_PADDING);
 				} else {
 					imageView = (ImageView) convertView;
 				}
