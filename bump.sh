@@ -10,7 +10,7 @@ else
 fi
 
 v=${1}
-vv=$(echo ${v}0000 | tr -d . | head -c4 | sed -e 's:^0::g')
+vv=$(($(grep versionCode AndroidManifest.xml | cut -d\" -f2) + 1))
 
 if [ -n "$2" ] ; then
 	vn="$v $2"
