@@ -82,9 +82,9 @@ public class ConnectorFishtext extends Connector {
 	private static final int NUM_VARS_SEND = 6;
 
 	/** HTTP Useragent. */
-	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U;"
-			+ " Windows NT 5.1; de; rv:1.9.0.9) Gecko/2009040821"
-			+ " Firefox/3.0.9 (.NET CLR 3.5.30729)";
+	private static final String TARGET_AGENT = "Mozilla/5.0 (Windows; U; "
+			+ "Windows NT 5.1; ko; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 "
+			+ "(.NET CLR 3.5.30729)";
 
 	/** Static cookies. */
 	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
@@ -95,16 +95,15 @@ public class ConnectorFishtext extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_fishtext_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(// .
 				context.getString(R.string.connector_fishtext_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context.getString(R.string.settings_fishtext));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c.addSubConnector(// .
-				c.getID(), c.getName(), SubConnectorSpec.FEATURE_NONE);
+		c.addSubConnector("fishtext", c.getName(),
+				SubConnectorSpec.FEATURE_NONE);
 		return c;
 	}
 
@@ -241,6 +240,8 @@ public class ConnectorFishtext extends Connector {
 			if (throwOnFail) {
 				cookies.clear();
 				staticCookies = cookies;
+				Log.e(TAG, "presend check failed, response following:");
+				Log.e(TAG, htmlText);
 				throw new WebSMSException(context, R.string.error_service);
 			} else {
 				// try again with fresh session
@@ -250,12 +251,16 @@ public class ConnectorFishtext extends Connector {
 		}
 		int j = htmlText.indexOf("name=", i);
 		if (j < 0) {
+			Log.e(TAG, "did not found \"name=\", response following:");
+			Log.e(TAG, htmlText);
 			throw new WebSMSException(context, R.string.error_service);
 		}
 		Log.d(TAG, "j = " + j);
 		htmlText = htmlText.substring(j + 6);
 		j = htmlText.indexOf("\"", 1);
 		if (j < 0) {
+			Log.e(TAG, "did not found \'\"\', response following:");
+			Log.e(TAG, htmlText);
 			throw new WebSMSException(context, R.string.error_service);
 		}
 		final String messageID = htmlText.substring(0, j);
@@ -314,6 +319,8 @@ public class ConnectorFishtext extends Connector {
 
 		final int i = htmlText.indexOf(CHECK_SENT);
 		if (i < 0) {
+			Log.e(TAG, "failed to send message, response following:");
+			Log.e(TAG, htmlText);
 			throw new WebSMSException(context, R.string.error_service);
 		}
 	}
