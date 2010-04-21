@@ -52,7 +52,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -84,13 +83,13 @@ import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
+import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
 
 /**
  * Main Activity.
  * 
  * @author flx
  */
-@SuppressWarnings("deprecation")
 public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
@@ -98,6 +97,10 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Flurry's API key. */
 	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";
+
+	/** {@link TelephonyWrapper}. */
+	public static final TelephonyWrapper TWRAPPER = TelephonyWrapper
+			.getInstance();
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -253,7 +256,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		 * {@inheritDoc}
 		 */
 		public void afterTextChanged(final Editable s) {
-			int[] l = SmsMessage.calculateLength(s, false);
+			int[] l = TWRAPPER.calculateLength(s.toString(), false);
 			WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
 		}
 
