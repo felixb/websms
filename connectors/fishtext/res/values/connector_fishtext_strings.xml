@@ -25,7 +25,4 @@
 	<string name="settings_fishtext">Preferences - fishtext</string>
 	<string name="partner_fishtext_hint">Create new fishtext.de account</string>
 	<string name="partner_fishtext_url">http://www.fishtext.de/?ref=tzil5PslxBSLhluFQknvjA==</string>
-	<string name="basic">Basic</string>
-	<string name="discount">Discount</string>
-	<string name="pro">Pro</string>
 </resources>
