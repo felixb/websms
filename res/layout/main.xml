@@ -42,21 +42,32 @@
 
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<MultiAutoCompleteTextView android:text=""
-				android:id="@+id/to" android:hint="@string/to_hint"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
-				android:imeOptions="actionNext" android:singleLine="true"
-				android:layout_weight="1" />
-			<ImageButton android:id="@+id/select"
-				android:layout_width="wrap_content" android:layout_height="fill_parent"
-				android:src="@drawable/ic_menu_invite" android:scaleType="fitCenter" />
-			<ImageButton android:id="@+id/clear"
-				android:layout_width="wrap_content" android:layout_height="fill_parent"
-				android:src="@android:drawable/ic_menu_close_clear_cancel"
-				android:scaleType="fitCenter" />
-			<ImageButton android:id="@+id/emo" android:layout_width="wrap_content"
-				android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons" />
+			<RelativeLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_weight="1">
+				<MultiAutoCompleteTextView android:text=""
+					android:id="@+id/to" android:hint="@string/to_hint"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
+					android:imeOptions="actionNext" android:singleLine="true"
+					android:layout_weight="1" />
+				<ImageButton android:id="@+id/clear"
+					android:layout_height="fill_parent" android:layout_width="45dip"
+					android:src="@android:drawable/ic_menu_close_clear_cancel"
+					android:scaleType="fitXY" android:layout_marginTop="6dip"
+					android:layout_marginBottom="6dip" android:layout_alignParentRight="true"
+					android:layout_alignBottom="@+id/to" />
+				<ImageButton android:id="@+id/select"
+					android:layout_height="fill_parent" android:layout_width="45dip"
+					android:src="@drawable/ic_menu_invite" android:scaleType="fitXY"
+					android:layout_marginTop="6dip" android:layout_marginBottom="6dip"
+					android:layout_toLeftOf="@+id/clear"
+					android:layout_centerHorizontal="true"
+					android:layout_alignWithParentIfMissing="true"
+					android:layout_alignBottom="@+id/to" />
+			</RelativeLayout>
+			<ImageButton android:id="@+id/emo" android:layout_width="55dip"
+				android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons"
+				android:scaleType="fitXY" />
 		</LinearLayout>
 
 		<RelativeLayout android:layout_width="fill_parent"
