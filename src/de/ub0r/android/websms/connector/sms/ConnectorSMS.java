@@ -115,8 +115,10 @@ public class ConnectorSMS extends Connector {
 		}
 		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-			if (this.isOrderedBroadcast()) {
+			try {
 				this.setResultCode(Activity.RESULT_OK);
+			} catch (Exception e) {
+				Log.w(TAG, "not an ordered boradcast", e);
 			}
 		} else if (action.endsWith(ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
@@ -136,8 +138,10 @@ public class ConnectorSMS extends Connector {
 						specs.setErrorMessage(e);
 					}
 					this.sendInfo(context, specs, command);
-					if (this.isOrderedBroadcast()) {
+					try {
 						this.setResultCode(Activity.RESULT_OK);
+					} catch (Exception e) {
+						Log.w(TAG, "not an ordered boradcast", e);
 					}
 				}
 			}

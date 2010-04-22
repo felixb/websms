@@ -31,7 +31,6 @@ import android.telephony.SmsMessage;
  * @author flx
  */
 public final class TelephonyWrapper4 extends TelephonyWrapper {
-
 	/**
 	 * {@inheritDoc}
 	 */

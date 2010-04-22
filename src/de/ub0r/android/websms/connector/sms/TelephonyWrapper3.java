@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import android.app.PendingIntent;
 import android.telephony.gsm.SmsManager;
+import android.telephony.gsm.SmsMessage;
 
 /**
  * Wrap around Telephony API.
@@ -31,15 +32,13 @@ import android.telephony.gsm.SmsManager;
  */
 @SuppressWarnings("deprecation")
 public final class TelephonyWrapper3 extends TelephonyWrapper {
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int[] calculateLength(final String messageBody,
 			final boolean use7bitOnly) {
-		return android.telephony.gsm.SmsMessage.calculateLength(messageBody,
-				use7bitOnly);
+		return SmsMessage.calculateLength(messageBody, use7bitOnly);
 	}
 
 	/**
