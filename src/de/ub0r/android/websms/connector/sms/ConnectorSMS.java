@@ -20,6 +20,7 @@ package de.ub0r.android.websms.connector.sms;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -114,6 +115,9 @@ public class ConnectorSMS extends Connector {
 		}
 		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
+			if (this.isOrderedBroadcast()) {
+				this.setResultCode(Activity.RESULT_OK);
+			}
 		} else if (action.endsWith(ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
@@ -132,6 +136,9 @@ public class ConnectorSMS extends Connector {
 						specs.setErrorMessage(e);
 					}
 					this.sendInfo(context, specs, command);
+					if (this.isOrderedBroadcast()) {
+						this.setResultCode(Activity.RESULT_OK);
+					}
 				}
 			}
 		}
