@@ -22,4 +22,5 @@
 	<string name="password_o2_hint">Passwort für o2online.de</string>
 	<string name="tweak_">Tweak Connector</string>
 	<string name="tweak_hint">Versuche das lesen der o2 Website zu verschnellern. Führt evtl. zu fehlern.</string>
+	<string name="missing_freesms">"Konnte FreiSMS nicht finden.\nBitte überprüfe das o2 Communocation Center mit einem Browser.</string>
 </resources>

@@ -66,11 +66,10 @@ public class ConnectorSloono extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_sloono_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(// .
 				context.getString(R.string.connector_sloono_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context.getString(R.string.settings_sloono));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);

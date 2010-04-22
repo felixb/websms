@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS Connector: o2</string>
-	<string name="app_version">1.2</string>
+	<string name="app_version">1.3</string>
 	<string name="connector_o2_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string name="connector_o2_name">o2</string>
 	<string name="connector_o2_preferences">Preferences - o2</string>
@@ -26,4 +26,5 @@
 	<string name="password_o2_hint">Password for o2online.de</string>
 	<string name="tweak_">Tweak Connector</string>
 	<string name="tweak_hint">Try to tweak reading of the o2 website. This might fail for some.</string>
+	<string name="missing_freesms">"Failed to locate freesms on site.\nPlease check o2 Communocation Center with your browser.</string>
 </resources>

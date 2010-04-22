@@ -17,6 +17,7 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
+	<string name="lang">de</string>
 	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
 	<string name="about_hint">Über diese App</string>
@@ -36,6 +37,8 @@
 	<string name="remove_ads_">Werbung entfernen</string>
 	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.\n\nAn alle SMSdroid Spender: Der noads code funktioniert auch mit WebSMS.</string>
 	<string name="postdonate">Um die Werbung zu entfernen brauche ich den MD5 Hash deiner IMEI (Die eindeutige ID deines Handys) von dir. Der Hash ist eine Einwegfunktion und ist somit nicht zu deiner IMEI Rückverfolgbar.</string>
+	<string name="sig_loaded">Werbung entfernt!</string>
+	<string name="sig_failed">Fehler beim entfernen der Werbung!</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>
 	<string name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
@@ -52,6 +55,7 @@
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Mobilnummer</string>
 	<string name="send_">Senden</string>
+	<string name="save_chars_">Zeichen sparen</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="settings_connectors">Einstellungen - Connectoren</string>
@@ -60,12 +64,16 @@
 	<string name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_cancel_button">\"Abbrechen\" Button versteckenn</string>
 	<string name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
+	<string name="hide_select_recipients_button_">\"Empfänger auswählen\" Button verstecken</string>
+	<string name="hide_select_recipients_button_hint">\"Empfänger auswählen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_clear_recipients_button_">\"Empfänger löschen\" Button verstecken</string>
 	<string name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
 	<string name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
 	<string name="hide_emo_button">\"Smiley\" Button versteckenn</string>
 	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
+	<string name="default_recipient_">Default Empfänger</string>
+	<string name="default_recipient_hint">Default empfänger, der in die Adressleiste eingetragen wird.</string>
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
 	<string name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
 	<string name="mobile_only_">Nur Mobilnummern anzeigen</string>

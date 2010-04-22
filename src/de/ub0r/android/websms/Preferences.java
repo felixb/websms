@@ -73,7 +73,8 @@ public class Preferences extends PreferenceActivity implements
 			if (cp == null) {
 				cp = new Preference(this);
 				cp.setKey(pkg);
-				cp.setTitle(this.getString(R.string.settings) + " - " + cs.getName());
+				cp.setTitle(this.getString(R.string.settings) + " - "
+						+ cs.getName());
 				action = cs.getPackage() + Connector.ACTION_PREFS;
 				cp.setIntent(new Intent(action));
 				pc.addPreference(cp);

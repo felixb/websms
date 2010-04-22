@@ -61,16 +61,14 @@ public class ConnectorSipgate extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_sipgate_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(// .
 				context.getString(R.string.connector_sipgate_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context
-				.getString(R.string.connector_sipgate_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c.addSubConnector(TAG, c.getName(),
+		c.addSubConnector("sipgate", c.getName(),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
 		return c;
 	}

@@ -19,6 +19,7 @@
 
 package de.ub0r.android.websms;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
@@ -128,5 +129,30 @@ public final class ContactsWrapper3 extends ContactsWrapper {
 			ret = c.getString(0);
 		}
 		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNameAndNumber(final WebSMS act, final Uri uri) {
+		String ret = null;
+		Cursor c = act.managedQuery(uri, new String[] {
+				PeopleColumns.DISPLAY_NAME, PhonesColumns.NUMBER }, null, null,
+				null);
+		if (c.moveToFirst()) {
+			ret = c.getString(0) + " <" + c.getString(1) + ">";
+		}
+		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Intent getPickPhoneIntent() {
+		final Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+		i.setType(Phones.CONTENT_ITEM_TYPE);
+		return i;
 	}
 }

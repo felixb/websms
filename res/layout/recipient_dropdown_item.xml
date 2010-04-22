@@ -32,6 +32,6 @@
 	<TextView android:id="@+id/text1" android:textColor="?android:attr/textColorPrimaryInverse"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true" android:paddingLeft="5dip"
-		android:singleLine="true" />
+		android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/text2"
+		android:paddingLeft="5dip" android:singleLine="true" />
 </RelativeLayout>

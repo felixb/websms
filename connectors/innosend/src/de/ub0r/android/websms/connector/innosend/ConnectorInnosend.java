@@ -66,11 +66,9 @@ public class ConnectorInnosend extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_innosend_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_innosend_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context
-				.getString(R.string.connector_innosend_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);

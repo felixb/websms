@@ -47,6 +47,8 @@ public final class ConnectorSpec implements Serializable {
 	private static final String PACKAGE = "connector_package";
 	/** Connector: Name. */
 	private static final String NAME = "connector_name";
+	/** Connector's API version. */
+	private static final String APIVERSION = "api_version";
 	/** Connector: Status. */
 	private static final String STATUS = "connector_status";
 	/** Connector: Status: inactive. */
@@ -172,8 +174,8 @@ public final class ConnectorSpec implements Serializable {
 		 */
 		private void writeObject(final ObjectOutputStream stream)
 				throws IOException {
-			stream.writeUTF(this.getID());
-			stream.writeUTF(this.getName());
+			writeString(stream, this.getID());
+			writeString(stream, this.getName());
 			stream.writeInt(this.getFeatures());
 		}
 
@@ -190,8 +192,8 @@ public final class ConnectorSpec implements Serializable {
 		private void readObject(final ObjectInputStream stream)
 				throws IOException, ClassNotFoundException {
 			this.bundle = new Bundle();
-			this.bundle.putString(ID, stream.readUTF());
-			this.bundle.putString(NAME, stream.readUTF());
+			this.bundle.putString(ID, readString(stream));
+			this.bundle.putString(NAME, readString(stream));
 			this.bundle.putShort(FEATURES, (short) stream.readInt());
 		}
 
@@ -209,7 +211,6 @@ public final class ConnectorSpec implements Serializable {
 		 * 
 		 * @return ID
 		 */
-		@Deprecated
 		public String getID() {
 			return this.bundle.getString(ID);
 		}
@@ -257,7 +258,7 @@ public final class ConnectorSpec implements Serializable {
 	 * @throws IOException
 	 *             IOException
 	 */
-	private static String readString(final ObjectInputStream stream)
+	static String readString(final ObjectInputStream stream) // .
 			throws IOException {
 		String ret = stream.readUTF();
 		if (NULL.equals(ret)) {
@@ -276,7 +277,7 @@ public final class ConnectorSpec implements Serializable {
 	 * @throws IOException
 	 *             IOException
 	 */
-	private static void writeString(final ObjectOutputStream stream,
+	static void writeString(final ObjectOutputStream stream, // .
 			final String string) throws IOException {
 		if (string == null) {
 			stream.writeUTF(NULL);
@@ -295,11 +296,9 @@ public final class ConnectorSpec implements Serializable {
 	 */
 	private void writeObject(final ObjectOutputStream stream)
 			throws IOException {
-		writeString(stream, this.getID());
+		writeString(stream, this.getPackage());
 		writeString(stream, this.getName());
 		writeString(stream, this.getAuthor());
-		writeString(stream, this.getPackage());
-		writeString(stream, this.getPrefsTitle());
 		stream.writeInt(this.getCapabilities());
 		stream.writeInt(this.getStatus());
 		stream.writeInt(this.getLimitLength());
@@ -323,19 +322,17 @@ public final class ConnectorSpec implements Serializable {
 	private void readObject(final ObjectInputStream stream) throws IOException,
 			ClassNotFoundException {
 		this.bundle = new Bundle();
-		this.bundle.putInt(LENGTH, stream.readInt());
+		this.bundle.putString(PACKAGE, readString(stream));
 		this.bundle.putString(NAME, readString(stream));
 		this.bundle.putString(AUTHOR, readString(stream));
-		this.bundle.putString(PACKAGE, readString(stream));
-		this.bundle.putString(PREFSTITLE, readString(stream));
 		this.bundle.putShort(CAPABILITIES, (short) stream.readInt());
 		this.bundle.putShort(STATUS, (short) stream.readInt());
+		this.bundle.putInt(LENGTH, stream.readInt());
 
 		final int c = stream.readInt();
 		for (int i = 0; i < c; i++) {
 			this.addSubConnector((SubConnectorSpec) stream.readObject());
 		}
-
 	}
 
 	/**
@@ -351,20 +348,6 @@ public final class ConnectorSpec implements Serializable {
 		} else {
 			this.bundle = new Bundle();
 		}
-	}
-
-	/**
-	 * Create {@link ConnectorSpec}.
-	 * 
-	 * @param id
-	 *            ID
-	 * @param name
-	 *            name
-	 */
-	@Deprecated
-	public ConnectorSpec(final String id, final String name) {
-		this.bundle = new Bundle();
-		this.bundle.putString(NAME, name);
 	}
 
 	/**
@@ -436,9 +419,10 @@ public final class ConnectorSpec implements Serializable {
 		} else if (connector == null) {
 			return false;
 		} else if (connector instanceof ConnectorSpec) {
-			return this.getID().equals(((ConnectorSpec) connector).getID());
+			return this.getPackage().equals(
+					((ConnectorSpec) connector).getPackage());
 		} else if (connector instanceof String) {
-			return this.getID().equals(connector);
+			return this.getPackage().equals(connector);
 		} else {
 			return false;
 		}
@@ -499,6 +483,29 @@ public final class ConnectorSpec implements Serializable {
 	}
 
 	/**
+	 * @return API version
+	 */
+	public int getAPIVersion() {
+		if (this.bundle == null) {
+			return -1;
+		}
+		return this.bundle.getInt(APIVERSION);
+	}
+
+	/**
+	 * Do not run this method, internal use only.
+	 * 
+	 * @param v
+	 *            API version
+	 */
+	public void setAPIVersion(final int v) {
+		if (this.bundle == null) {
+			return;
+		}
+		this.bundle.putInt(APIVERSION, v);
+	}
+
+	/**
 	 * Get package name.
 	 * 
 	 * @return package
@@ -518,19 +525,6 @@ public final class ConnectorSpec implements Serializable {
 	 */
 	void setPackage(final String p) {
 		this.bundle.putString(PACKAGE, p);
-	}
-
-	/**
-	 * Get ID.
-	 * 
-	 * @return ID
-	 */
-	@Deprecated
-	public String getID() {
-		if (this.bundle == null) {
-			return null;
-		}
-		return this.bundle.getString(PACKAGE);
 	}
 
 	/**
@@ -660,28 +654,6 @@ public final class ConnectorSpec implements Serializable {
 	 */
 	public void setAuthor(final String author) {
 		this.bundle.putString(AUTHOR, author);
-	}
-
-	/**
-	 * get preference's title.
-	 * 
-	 * @return prefs title
-	 */
-	public String getPrefsTitle() {
-		if (this.bundle == null) {
-			return null;
-		}
-		return this.bundle.getString(PREFSTITLE);
-	}
-
-	/**
-	 * Set preference's title.
-	 * 
-	 * @param prefsTitle
-	 *            prefs title
-	 */
-	public void setPrefsTitle(final String prefsTitle) {
-		this.bundle.putString(PREFSTITLE, prefsTitle);
 	}
 
 	/**
@@ -868,6 +840,12 @@ public final class ConnectorSpec implements Serializable {
 	 * @return {@link SubConnectorSpec}
 	 */
 	public SubConnectorSpec getSubConnector(final String id) {
+		if (this.bundle == null) {
+			return null;
+		}
+		if (this.getSubConnectorCount() == 1) {
+			return new SubConnectorSpec(this.bundle.getBundle(SUB_PREFIX + 0));
+		}
 		if (id == null || this.bundle == null) {
 			return null;
 		}

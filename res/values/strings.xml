@@ -18,14 +18,15 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.0.9</string>
+	<string name="app_version">3.0.11</string>
+	<string name="lang">en</string>
 	<string name="about_">About</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="about_hint">About this app</string>
 	<string name="feedback_">Feedback</string>
 	<string name="feedback_hint">Report bugs, request features ...</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
+	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nRobert Priebs &lt;robert.priebs@t-online.de&gt; (emoticons)</string>
 	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
@@ -34,13 +35,15 @@
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
-	<string name="donate_mail">flx.yoo+websms.donator@gmail.com</string>
-	<string name="donate_subject">I\'m the donator. My sender hash is...</string>
+	<string name="donate_mail">flx.yoo@gmail.com</string>
+	<string name="donate_subject">I\'m the donator. My hash is...</string>
 	<string name="donate_">Donate</string>
 	<string name="donate_remove_ads_">Donate/remove ads</string>
 	<string name="remove_ads_">Remove ads</string>
 	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you as soon as possible.\nThank you!\n\nFor all the SMSdroid donators: the noads code is working for WebSMS as well.</string>
 	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
+	<string name="sig_loaded">Ads removed!</string>
+	<string name="sig_failed">Failed to remove ads!</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
@@ -57,6 +60,7 @@
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
+	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
@@ -64,12 +68,16 @@
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
+	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
 	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
 	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
 	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
 	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
 	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
+	<string name="default_recipient_">Default recipient</string>
+	<string name="default_recipient_hint">Default recipient filled into address bar.</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>

@@ -20,14 +20,15 @@ package de.ub0r.android.websms.connector.sms;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.telephony.gsm.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.WebSMS;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -40,7 +41,6 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * 
  * @author flx
  */
-@SuppressWarnings("deprecation")
 public class ConnectorSMS extends Connector {
 	/** Tag for debug output. */
 	private static final String TAG = "WebSMS.sms";
@@ -54,10 +54,9 @@ public class ConnectorSMS extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_sms_name);
-		final ConnectorSpec c = new ConnectorSpec(TAG, name);
+		final ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_sms_author));
 		c.setBalance(null);
-		c.setPrefsTitle(null);
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_SEND);
 		c.addSubConnector(TAG, name, SubConnectorSpec.FEATURE_MULTIRECIPIENTS);
 		return c;
@@ -83,20 +82,18 @@ public class ConnectorSMS extends Connector {
 	 * Send a message.
 	 * 
 	 * @param command
-	 *            command comming from intent
+	 *            command coming from intent
 	 * @throws WebSMSException
 	 *             WebSMSException
 	 */
 	private void send(final ConnectorCommand command) throws WebSMSException {
 		try {
-			SmsManager sm = SmsManager.getDefault();
 			final String[] r = command.getRecipients();
 			ArrayList<String> messages;
 			for (String t : r) {
-				messages = sm
-						.divideMessage(command.getText());
-				sm.sendMultipartTextMessage(Utils.getRecipientsNumber(t), null,
-						messages, null, null);
+				messages = WebSMS.TWRAPPER.divideMessage(command.getText());
+				WebSMS.TWRAPPER.sendMultipartTextMessage(Utils
+						.getRecipientsNumber(t), null, messages, null, null);
 				for (String m : messages) {
 					Log.d(TAG, "send sms: " + t + ", text: " + m);
 				}
@@ -118,12 +115,15 @@ public class ConnectorSMS extends Connector {
 		}
 		if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-		} else if (ACTION_RUN_SEND.equals(action)) {
+			if (this.isOrderedBroadcast()) {
+				this.setResultCode(Activity.RESULT_OK);
+			}
+		} else if (action.endsWith(ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
 				final ConnectorSpec origSpecs = new ConnectorSpec(intent);
 				final ConnectorSpec specs = this.getSpec(context);
-				if (specs.getPackage().equals(origSpecs.getPackage())
+				if (specs.equals(origSpecs)
 						&& specs.hasStatus(ConnectorSpec.STATUS_READY)) {
 					// check internal status
 					try {
@@ -136,6 +136,9 @@ public class ConnectorSMS extends Connector {
 						specs.setErrorMessage(e);
 					}
 					this.sendInfo(context, specs, command);
+					if (this.isOrderedBroadcast()) {
+						this.setResultCode(Activity.RESULT_OK);
+					}
 				}
 			}
 		}

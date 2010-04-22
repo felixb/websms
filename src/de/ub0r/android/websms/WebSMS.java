@@ -25,15 +25,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -51,8 +47,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
-import android.telephony.gsm.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -76,22 +70,32 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.flurry.android.FlurryAgent;
+
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
+import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
 
 /**
  * Main Activity.
  * 
  * @author flx
  */
-@SuppressWarnings("deprecation")
 public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS";
+
+	/** Flurry's API key. */
+	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";
+
+	/** {@link TelephonyWrapper}. */
+	public static final TelephonyWrapper TWRAPPER = TelephonyWrapper
+			.getInstance();
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -114,6 +118,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
 	"hide_change_connector_button";
+	/** Preferemce's name: hide select recipients button. */
+	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = // .
+	"hide_select_recipients_button";
 	/** Preferemce's name: hide clear recipients button. */
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
 	"hide_clear_recipients_button";
@@ -126,7 +133,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: hide ads. */
-	private static final String PREFS_HIDEADS = "hideads";
+	static final String PREFS_HIDEADS = "hideads";
+
+	/** Preference's name: default recipient. */
+	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
 
 	/** Path to file containing signatures of UID Hash. */
 	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
@@ -150,8 +160,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static boolean prefsNoAds = false;
 	/** Show AdView on top. */
 	private boolean onTop = false;
-	/** Hased IMEI. */
-	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
@@ -162,42 +170,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** List of available {@link ConnectorSpec}s. */
 	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
 	new ArrayList<ConnectorSpec>();
-
-	/** Crypto algorithm for signing UID hashs. */
-	private static final String ALGO = "RSA";
-	/** Crypto hash algorithm for signing UID hashs. */
-	private static final String SIGALGO = "SHA1with" + ALGO;
-	/** My public key for verifying UID hashs. */
-	private static final String KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNAD"
-			+ "CBiQKBgQCgnfT4bRMLOv3rV8tpjcEqsNmC1OJaaEYRaTHOCC"
-			+ "F4sCIZ3pEfDcNmrZZQc9Y0im351ekKOzUzlLLoG09bsaOeMd"
-			+ "Y89+o2O0mW9NnBch3l8K/uJ3FRn+8Li75SqoTqFj3yCrd9IT"
-			+ "sOJC7PxcR5TvNpeXsogcyxxo3fMdJdjkafYwIDAQAB";
-
-	/** Array of md5(prefsSender) for which no ads should be displayed. */
-	private static final String[] NO_AD_HASHS = {
-			"57a3c7c19329fd84c2252a9b2866dd93", // mirweb
-			"10b7a2712beee096acbc67416d7d71a1", // mo
-			"f6b3b72300e918436b4c4c9fdf909e8c", // joerg s.
-			"4c18f7549b643045f0ff69f61e8f7e72", // frank j.
-			"7684154558d19383552388d9bc92d446", // henning k.
-			"64c7414288e9a9b57a33e034f384ed30", // dominik l.
-			"c479a2e701291c751f0f91426bcaabf3", // bernhard g.
-			"ae7dfedf549f98a349ad8c2068473c6b", // dominik k.-v.
-			"18bc29cd511613552861da6ef51766ce", // niels b.
-			"2985011f56d0049b0f4f0caed3581123", // sven l.
-			"64724033da297a915a89023b11ac2e47", // wilfried m.
-			"cfd8d2efb3eac39705bd62c4dfe5e72d", // achim e.
-			"ca56e7518fdbda832409ef07edd4c273", // michael s.
-			"bed2f068ca8493da4179807d1afdbd83", // axel q.
-			"4c35400c4fa3ffe2aefcf1f9131eb855", // gerhard s.
-			"1177c6e67f98cdfed6c84d99e85d30de", // daniel p.
-			"3f082dd7e21d5c64f34a69942c474ce7", // andre j.
-			"5383540b2f8c298532f874126b021e73", // marco a.
-			"6e8bbb35091219a80e278ae61f31cce9", // mario s.
-			"9f01eae4eaecd9158a2caddc04bad77e", // andreas p.
-			"6c9620882d65a1700f223a3f30952c07", // steffen e.
-	};
 
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
@@ -217,8 +189,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Dialog: emo. */
 	private static final int DIALOG_EMO = 8;
 
+	/** {@link Activity} result request. */
+	private static final int ARESULT_PICK_PHONE = 1;
+
 	/** Size of the emoticons png. */
-	private static final int EMOTICONS_SIZE = 30;
+	private static final int EMOTICONS_SIZE = 50;
+	/** Padding for the emoticons png. */
+	private static final int EMOTICONS_PADDING = 5;
 
 	/** Intent's extra for error messages. */
 	static final String EXTRA_ERRORMESSAGE = // .
@@ -261,7 +238,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		 * {@inheritDoc}
 		 */
 		public void afterTextChanged(final Editable s) {
-			int[] l = SmsMessage.calculateLength(s, false);
+			int[] l = TWRAPPER.calculateLength(s.toString(), false);
 			WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
 		}
 
@@ -342,6 +319,24 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public final void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, FLURRYKEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
@@ -416,13 +411,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.send_).setOnClickListener(this);
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 		this.findViewById(R.id.change_connector).setOnClickListener(this);
-		this.findViewById(R.id.change_connector_u).setOnClickListener(this);
 		this.vExtras.setOnClickListener(this);
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
+		this.findViewById(R.id.select).setOnClickListener(this);
 		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
-		this.findViewById(R.id.emo_u).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.textWatcher);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
@@ -434,6 +428,35 @@ public class WebSMS extends Activity implements OnClickListener,
 		// check default prefix
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
 			WebSMS.this.log(R.string.log_wrong_defprefix);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
+		if (requestCode == ARESULT_PICK_PHONE) {
+			if (resultCode == RESULT_OK) {
+				final Uri u = data.getData();
+				if (u == null) {
+					return;
+				}
+				final String phone = ContactsWrapper.getInstance()
+						.getNameAndNumber(this, u)
+						+ ", ";
+				String t = this.etTo.getText().toString().trim();
+				if (t.length() == 0) {
+					t = phone;
+				} else if (t.endsWith(",")) {
+					t += " " + phone;
+				} else {
+					t += ", " + phone;
+				}
+				lastTo = t;
+				this.etTo.setText(t);
+			}
 		}
 	}
 
@@ -497,6 +520,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		this.setButtons();
+
+		if (lastTo == null || lastTo.length() == 0) {
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			lastTo = p.getString(PREFS_DEFAULT_RECIPIENT, null);
+		}
 
 		// reload text/recipient from local store
 		if (lastMsg != null) {
@@ -580,7 +609,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.toByteArray()));
 			Log.d(TAG, s);
 			editor.putString(PREFS_CONNECTORS, s);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			editor.remove(PREFS_CONNECTORS);
 			Log.e(TAG, "IO", e);
 		}
@@ -601,40 +630,38 @@ public class WebSMS extends Activity implements OnClickListener,
 				false);
 		final boolean bShowClearRecipients = !p.getBoolean(
 				PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON, false);
-		View v = this.findViewById(R.id.clear);
+		final boolean bShowSelectRecipients = !p.getBoolean(
+				PREFS_HIDE_SELECT_RECIPIENTS_BUTTON, false);
+		View v = this.findViewById(R.id.select);
+		if (bShowSelectRecipients) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.clear);
 		if (bShowClearRecipients) {
 			v.setVisibility(View.VISIBLE);
 		} else {
 			v.setVisibility(View.GONE);
 		}
-
-		if (bShowChangeConnector && bShowEmoticons && bShowCancel) {
-			this.findViewById(R.id.upper).setVisibility(View.VISIBLE);
-			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
-			this.findViewById(R.id.emo).setVisibility(View.GONE);
+		v = this.findViewById(R.id.emo);
+		if (bShowEmoticons) {
+			v.setVisibility(View.VISIBLE);
 		} else {
-			this.findViewById(R.id.upper).setVisibility(View.GONE);
+			v.setVisibility(View.GONE);
+		}
 
-			v = this.findViewById(R.id.change_connector);
-			if (bShowChangeConnector) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
-
-			v = this.findViewById(R.id.emo);
-			if (bShowEmoticons) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
-
-			v = this.findViewById(R.id.cancel);
-			if (bShowCancel) {
-				v.setVisibility(View.VISIBLE);
-			} else {
-				v.setVisibility(View.GONE);
-			}
+		v = this.findViewById(R.id.change_connector);
+		if (bShowChangeConnector) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.cancel);
+		if (bShowCancel) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
 		}
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
@@ -670,26 +697,6 @@ public class WebSMS extends Activity implements OnClickListener,
 				false));
 
 		prefsNoAds = this.hideAds();
-		// TODO: remove following lines
-		String hash = Utils.md5(p.getString(PREFS_SENDER, ""));
-		if (!prefsNoAds) {
-			for (String h : NO_AD_HASHS) {
-				if (hash.equals(h)) {
-					prefsNoAds = true;
-					break;
-				}
-			}
-			if (!prefsNoAds && this.getImeiHash() != null) {
-				for (String h : NO_AD_HASHS) {
-					if (imeiHash.equals(h)) {
-						prefsNoAds = true;
-						break;
-					}
-				}
-			}
-		}
-		// this is for transition
-		p.edit().putBoolean(PREFS_HIDEADS, prefsNoAds).commit();
 		this.displayAds(false);
 		this.setButtons();
 	}
@@ -700,44 +707,46 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @return true if ads should be hidden
 	 */
 	private boolean hideAds() {
+		Log.d(TAG, "hideAds()");
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final File f = new File(NOADS_SIGNATURES);
 		try {
 			if (f.exists()) {
+				Log.d(TAG, "found file " + NOADS_SIGNATURES);
 				final BufferedReader br = new BufferedReader(new FileReader(f));
-				final byte[] publicKey = Base64Coder.decode(KEY);
-				final KeyFactory keyFactory = KeyFactory.getInstance(ALGO);
-				PublicKey pk = keyFactory
-						.generatePublic(new X509EncodedKeySpec(publicKey));
-				final String h = this.getImeiHash();
+				final String h = DonationHelper.getImeiHash(this);
+				Log.d(TAG, "hash: " + h);
 				boolean ret = false;
 				while (true) {
 					String l = br.readLine();
 					if (l == null) {
+						Log.d(TAG, "break;");
 						break;
 					}
-					try {
-						byte[] signature = Base64Coder.decode(l);
-						Signature sig = Signature.getInstance(SIGALGO);
-						sig.initVerify(pk);
-						sig.update(h.getBytes());
-						ret = sig.verify(signature);
-						if (ret) {
-							break;
-						}
-					} catch (IllegalArgumentException e) {
-						Log.w(TAG, "error reading line", e);
+					Log.d(TAG, "read line: " + l);
+					ret = DonationHelper.checkSig(this, l);
+					if (ret) {
+						break;
 					}
 				}
 				br.close();
 				f.delete();
+				Log.d(TAG, "put: " + ret);
 				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error reading signatures", e);
 		}
-		return p.getBoolean(PREFS_HIDEADS, false);
+		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
+		final boolean ret = p.getBoolean(PREFS_HIDEADS, false);
+		if (ret != prefsNoAds) {
+			final HashMap<String, String> params = // .
+			new HashMap<String, String>();
+			params.put("value", String.valueOf(ret));
+			FlurryAgent.onEvent("switch prefsNoAds", params);
+		}
+		return ret;
 	}
 
 	/**
@@ -865,6 +874,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			connector.addStatus(ConnectorSpec.STATUS_BOOTSTRAPPING);
 			break;
 		case ConnectorCommand.TYPE_SEND:
+			final HashMap<String, String> params = new HashMap<String, String>();
+			params.put("connector", connector.getName() + "-"
+					+ command.getSelectedSubConnector());
+			FlurryAgent.onEvent("send", params);
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
@@ -900,12 +913,15 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.cancel:
 			this.reset();
 			return;
+		case R.id.select:
+			this.startActivityForResult(ContactsWrapper.getInstance()
+					.getPickPhoneIntent(), ARESULT_PICK_PHONE);
+			return;
 		case R.id.clear:
 			this.etTo.setText("");
 			lastTo = null;
 			return;
 		case R.id.change_connector:
-		case R.id.change_connector_u:
 			this.changeConnectorMenu();
 			return;
 		case R.id.extras:
@@ -929,7 +945,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.emo:
-		case R.id.emo_u:
 			this.showDialog(DIALOG_EMO);
 			return;
 		default:
@@ -1013,6 +1028,31 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
+	 * Save some characters by stripping blanks.
+	 */
+	private void saveChars() {
+		String s = this.etText.getText().toString().trim();
+		if (s.length() == 0 || s.indexOf(" ") < 0) {
+			return;
+		}
+		StringBuilder buf = new StringBuilder();
+		final String[] ss = s.split(" ");
+		s = null;
+		for (String ts : ss) {
+			final int l = ts.length();
+			if (l == 0) {
+				continue;
+			}
+			buf.append(Character.toUpperCase(ts.charAt(0)));
+			if (l == 1) {
+				continue;
+			}
+			buf.append(ts.substring(1));
+		}
+		this.etText.setText(buf.toString());
+	}
+
+	/**
 	 *{@inheritDoc}
 	 */
 	@Override
@@ -1021,6 +1061,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		case R.id.item_send:
 			// send by menu item
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
+			return true;
+		case R.id.item_savechars:
+			this.saveChars();
 			return true;
 		case R.id.item_settings: // start settings activity
 			this.startActivity(new Intent(this, Preferences.class));
@@ -1085,7 +1128,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					imageView.setLayoutParams(new GridView.LayoutParams(
 							EMOTICONS_SIZE, EMOTICONS_SIZE));
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-					// imageView.setPadding(0, 0, 0, 0);
+					imageView.setPadding(EMOTICONS_PADDING, EMOTICONS_PADDING,
+							EMOTICONS_PADDING, EMOTICONS_PADDING);
 				} else {
 					imageView = (ImageView) convertView;
 				}
@@ -1185,8 +1229,22 @@ public class WebSMS extends Activity implements OnClickListener,
 				default:
 					break;
 				}
-				et.setText(et.getText() + e);
+				int i = et.getSelectionStart();
+				int j = et.getSelectionEnd();
+				if (i > j) {
+					int x = i;
+					i = j;
+					j = x;
+				}
+				String t = et.getText().toString();
+				StringBuilder buf = new StringBuilder();
+				buf.append(t.substring(0, i));
+				buf.append(e);
+				buf.append(t.substring(j));
+				et.setText(buf.toString());
+				et.setSelection(i + e.length());
 				d.dismiss();
+				et.requestFocus();
 			}
 		});
 		return d;
@@ -1197,7 +1255,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
-		Dialog d;
 		AlertDialog.Builder builder;
 		switch (id) {
 		case DIALOG_PREDONATE:
@@ -1238,8 +1295,8 @@ public class WebSMS extends Activity implements OnClickListener,
 											R.string.donate_mail), "" });
 							// FIXME: "" is a k9 hack. This is fixed in market
 							// on 26.01.10. wait some more time..
-							in.putExtra(Intent.EXTRA_TEXT, WebSMS.this
-									.getImeiHash());
+							in.putExtra(Intent.EXTRA_TEXT, DonationHelper
+									.getImeiHash(WebSMS.this));
 							in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
 									.getString(// .
 									R.string.app_name)
@@ -1504,24 +1561,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Get MD5 hash of the IMEI (device id).
-	 * 
-	 * @return MD5 hash of IMEI
-	 */
-	private String getImeiHash() {
-		if (imeiHash == null) {
-			// get imei
-			TelephonyManager mTelephonyMgr = (TelephonyManager) this
-					.getSystemService(TELEPHONY_SERVICE);
-			final String did = mTelephonyMgr.getDeviceId();
-			if (did != null) {
-				imeiHash = Utils.md5(did);
-			}
-		}
-		return imeiHash;
-	}
-
-	/**
 	 * Add or update a {@link ConnectorSpec}.
 	 * 
 	 * @param connector
@@ -1609,11 +1648,12 @@ public class WebSMS extends Activity implements OnClickListener,
 					runningConnectors = getConnectors(
 							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
 							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING// .
-					).length != 0;
+									| ConnectorSpec.STATUS_BOOTSTRAPPING).// .
+					length != 0;
 				}
 				me.setProgressBarIndeterminateVisibility(runningConnectors);
-				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
+				if (prefsConnectorSpec != null && // .
+						prefsConnectorSpec.equals(c)) {
 					me.setButtons();
 				}
 			}
