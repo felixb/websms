@@ -26,7 +26,7 @@
 	<string name="feedback_">Feedback</string>
 	<string name="feedback_hint">Report bugs, request features ...</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nRobert Priebs &lt;robert.priebs@t-online.de&gt;(emoticons)</string>
+	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nRobert Priebs &lt;robert.priebs@t-online.de&gt; (emoticons)</string>
 	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
