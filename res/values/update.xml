@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>v3.0.12: Hotfix for android-1.5 and -1.6</item>
 		<item>v3.0.11: Fix layout, new emoticons (thanks to robert priebs)</item>
 		<item>v3.0.10: Add option to strip blanks, add default recipient, add contacts button to main, fix smiley/cursor position</item>
 		<item>v3.0.9: Fix FC when launched by shortcut</item>
