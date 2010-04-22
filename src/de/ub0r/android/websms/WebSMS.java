@@ -27,10 +27,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -51,7 +47,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -138,7 +133,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: hide ads. */
-	private static final String PREFS_HIDEADS = "hideads";
+	static final String PREFS_HIDEADS = "hideads";
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
@@ -165,8 +160,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static boolean prefsNoAds = false;
 	/** Show AdView on top. */
 	private boolean onTop = false;
-	/** Hashed IMEI. */
-	private static String imeiHash = null;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
@@ -177,17 +170,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** List of available {@link ConnectorSpec}s. */
 	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
 	new ArrayList<ConnectorSpec>();
-
-	/** Crypto algorithm for signing UID hashs. */
-	private static final String ALGO = "RSA";
-	/** Crypto hash algorithm for signing UID hashs. */
-	private static final String SIGALGO = "SHA1with" + ALGO;
-	/** My public key for verifying UID hashs. */
-	private static final String KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNAD"
-			+ "CBiQKBgQCgnfT4bRMLOv3rV8tpjcEqsNmC1OJaaEYRaTHOCC"
-			+ "F4sCIZ3pEfDcNmrZZQc9Y0im351ekKOzUzlLLoG09bsaOeMd"
-			+ "Y89+o2O0mW9NnBch3l8K/uJ3FRn+8Li75SqoTqFj3yCrd9IT"
-			+ "sOJC7PxcR5TvNpeXsogcyxxo3fMdJdjkafYwIDAQAB";
 
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
@@ -733,11 +715,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (f.exists()) {
 				Log.d(TAG, "found file " + NOADS_SIGNATURES);
 				final BufferedReader br = new BufferedReader(new FileReader(f));
-				final byte[] publicKey = Base64Coder.decode(KEY);
-				final KeyFactory keyFactory = KeyFactory.getInstance(ALGO);
-				PublicKey pk = keyFactory
-						.generatePublic(new X509EncodedKeySpec(publicKey));
-				final String h = this.getImeiHash();
+				final String h = DonationHelper.getImeiHash(this);
 				Log.d(TAG, "hash: " + h);
 				boolean ret = false;
 				while (true) {
@@ -747,18 +725,9 @@ public class WebSMS extends Activity implements OnClickListener,
 						break;
 					}
 					Log.d(TAG, "read line: " + l);
-					try {
-						byte[] signature = Base64Coder.decode(l);
-						Signature sig = Signature.getInstance(SIGALGO);
-						sig.initVerify(pk);
-						sig.update(h.getBytes());
-						ret = sig.verify(signature);
-						Log.d(TAG, "ret: " + ret);
-						if (ret) {
-							break;
-						}
-					} catch (IllegalArgumentException e) {
-						Log.w(TAG, "error reading line", e);
+					ret = DonationHelper.checkSig(this, l);
+					if (ret) {
+						break;
 					}
 				}
 				br.close();
@@ -1325,8 +1294,8 @@ public class WebSMS extends Activity implements OnClickListener,
 											R.string.donate_mail), "" });
 							// FIXME: "" is a k9 hack. This is fixed in market
 							// on 26.01.10. wait some more time..
-							in.putExtra(Intent.EXTRA_TEXT, WebSMS.this
-									.getImeiHash());
+							in.putExtra(Intent.EXTRA_TEXT, DonationHelper
+									.getImeiHash(WebSMS.this));
 							in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
 									.getString(// .
 									R.string.app_name)
@@ -1588,24 +1557,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		c.set(Calendar.HOUR_OF_DAY, hour);
 		c.set(Calendar.MINUTE, minutes);
 		lastSendLater = c.getTimeInMillis();
-	}
-
-	/**
-	 * Get MD5 hash of the IMEI (device id).
-	 * 
-	 * @return MD5 hash of IMEI
-	 */
-	private String getImeiHash() {
-		if (imeiHash == null) {
-			// get imei
-			TelephonyManager mTelephonyMgr = (TelephonyManager) this
-					.getSystemService(TELEPHONY_SERVICE);
-			final String did = mTelephonyMgr.getDeviceId();
-			if (did != null) {
-				imeiHash = Utils.md5(did);
-			}
-		}
-		return imeiHash;
 	}
 
 	/**

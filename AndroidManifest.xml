@@ -50,6 +50,13 @@
 		<activity android:name="CaptchaActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="DonationHelper"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize">
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<data android:scheme="http" android:host="websms.noads" />
+		</activity>
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
