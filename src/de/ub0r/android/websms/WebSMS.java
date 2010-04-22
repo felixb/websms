@@ -741,7 +741,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
 		final boolean ret = p.getBoolean(PREFS_HIDEADS, false);
 		if (ret != prefsNoAds) {
-			final HashMap<String, String> params = new HashMap<String, String>();
+			final HashMap<String, String> params = // .
+			new HashMap<String, String>();
 			params.put("value", String.valueOf(ret));
 			FlurryAgent.onEvent("switch prefsNoAds", params);
 		}
