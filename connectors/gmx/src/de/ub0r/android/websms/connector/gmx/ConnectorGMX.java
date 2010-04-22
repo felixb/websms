@@ -74,6 +74,9 @@ public class ConnectorGMX extends Connector {
 	/** Result: sender is unregistered by gmx. */
 	private static final int RSLT_UNREGISTERED_SENDER = 71;
 
+	/** Max custom sender length. */
+	private static final int CUSTOM_SENDER_LEN = 10;
+
 	/** Check whether this connector is bootstrapping. */
 	private static boolean inBootstrap = false;
 
@@ -83,19 +86,18 @@ public class ConnectorGMX extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_gmx_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
-		c.setAuthor(// .
-				context.getString(R.string.connector_gmx_author));
+		ConnectorSpec c = new ConnectorSpec(name);
+		c.setAuthor(context.getString(R.string.connector_gmx_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context.getString(R.string.connector_gmx_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c.addSubConnector(TAG, c.getName(),
+		c.addSubConnector("gmx", c.getName(),
 				SubConnectorSpec.FEATURE_MULTIRECIPIENTS
 						| SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER);
+		c.setLimitLength(CUSTOM_SENDER_LEN);
 		return c;
 	}
 
