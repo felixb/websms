@@ -46,11 +46,10 @@ public class ConnectorTest extends Connector {
 	public final ConnectorSpec initSpec(// .
 			final Context context) {
 		final String name = context.getString(R.string.connector_test_name);
-		final ConnectorSpec c = new ConnectorSpec(TAG, name);
+		final ConnectorSpec c = new ConnectorSpec(name);
 
 		c.setAuthor(context.getString(R.string.connector_test_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context.getString(R.string.connector_test_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_BOOTSTRAP
 				| ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
