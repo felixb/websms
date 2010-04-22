@@ -117,7 +117,6 @@ public class ConnectorArcor extends Connector {
 		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context.getString(R.string.settings));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
