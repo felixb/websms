@@ -18,10 +18,16 @@
  */
 package de.ub0r.android.websms;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +42,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.flurry.android.FlurryAgent;
+
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
@@ -65,6 +74,24 @@ public class DonationHelper extends Activity implements OnClickListener {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public final void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, WebSMS.FLURRYKEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.donation);
@@ -81,14 +108,75 @@ public class DonationHelper extends Activity implements OnClickListener {
 		if (u == null) {
 			return;
 		}
-		final String p = u.getPath();
-
-		if (p == null || p.length() == 0) {
-			// send imei hash via mail
-			sendImeiHash(this);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("uri", u.toString());
+		FlurryAgent.onEvent("donation helper", map);
+		if (u.getScheme().equals("noads")) {
+			final String p = u.getPath();
+			if (p == null || p.length() <= 1) {
+				// send IMEI hash via mail
+				sendImeiHash(this);
+				this.finish();
+			} else {
+				// check signature encoded in path
+				loadSig(this, p.substring(1).trim());
+				this.finish();
+			}
+		} else if (u.getScheme().equals("content")) {
+			InputStream is = null;
+			try {
+				is = this.getContentResolver().openInputStream(u);
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(is));
+				String s;
+				do {
+					s = reader.readLine();
+					if (s != null) {
+						EditText et = (EditText) this.findViewById(R.id.sig);
+						et.setText(s);
+						et.requestFocus();
+						if (loadSig(this, s)) {
+							break;
+						}
+					}
+				} while (s != null);
+			} catch (IOException e) {
+				Log.e(TAG, "Failed to load part data", e);
+			} finally {
+				if (is != null) {
+					try {
+						is.close();
+					} catch (IOException e) {
+						Log.e(TAG, "Failed to close stream", e);
+					}
+				}
+			}
+			this.finish();
+		} else if (u.getScheme().equals("file")) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(u
+						.toString().substring("file://".length())));
+				String s;
+				do {
+					s = reader.readLine();
+					if (s != null) {
+						EditText et = (EditText) this.findViewById(R.id.sig);
+						et.setText(s);
+						et.requestFocus();
+						if (loadSig(this, s)) {
+							break;
+						}
+					}
+				} while (s != null);
+			} catch (IOException e) {
+				Log.e(TAG, "file loading file");
+			}
+			this.finish();
 		} else {
-			// check signature encoded in path
-			loadSig(this, p);
+			Toast.makeText(this, "unsupported intent", Toast.LENGTH_LONG)
+					.show();
+			FlurryAgent.onError("unsupported intent0", u.getScheme(),
+					"unsupported intent2");
 		}
 	}
 
@@ -97,24 +185,24 @@ public class DonationHelper extends Activity implements OnClickListener {
 	 */
 	public final void onClick(final View v) {
 		switch (v.getId()) {
-			case R.id.donate:
-				this.startActivity(new Intent(Intent.ACTION_VIEW,
-						Uri.parse(this.getString(R.string.donate_url))));
-				return;
-			case R.id.send:
-				sendImeiHash(this);
-				return;
-			case R.id.ok:
-				final String s = ((EditText) this.findViewById(R.id.sig))
-						.getText().toString();
-				Log.i(TAG, "signature: " + s);
-				if (s != null && s.length() > 0) {
-					loadSig(this, s);
-				}
-				this.finish();
-				return;
-			default:
-				return;
+		case R.id.donate:
+			this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this
+					.getString(R.string.donate_url))));
+			return;
+		case R.id.send:
+			sendImeiHash(this);
+			return;
+		case R.id.ok:
+			final String s = ((EditText) this.findViewById(R.id.sig)).getText()
+					.toString();
+			Log.i(TAG, "signature: " + s);
+			if (s != null && s.length() > 0) {
+				loadSig(this, s);
+			}
+			this.finish();
+			return;
+		default:
+			return;
 		}
 	}
 
@@ -141,7 +229,8 @@ public class DonationHelper extends Activity implements OnClickListener {
 		in.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name)
 				+ " " + context.getString(R.string.donate_subject));
 		in.setType("text/plain");
-		context.startActivity(in);
+		context.startActivity(Intent.createChooser(in, context
+				.getString(R.string.send_hash_)));
 	}
 
 	/**
@@ -164,6 +253,15 @@ public class DonationHelper extends Activity implements OnClickListener {
 		return imeiHash;
 	}
 
+	/**
+	 * Load signature.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @param s
+	 *            signature
+	 * @return true if good signature
+	 */
 	public static boolean loadSig(final Context context, final String s) {
 		Log.i(TAG, "loadSig(ctx, " + s + ")");
 		final boolean ret = checkSig(context, s);
@@ -199,8 +297,7 @@ public class DonationHelper extends Activity implements OnClickListener {
 					publicKey));
 			final String h = getImeiHash(context);
 			Log.d(TAG, "hash: " + h);
-			final String cs = s.replace(" ", "").replace("\n", "")
-					.replace("\t", "");
+			final String cs = s.replaceAll(" |\n|\t", "");
 			Log.d(TAG, "read sig: " + cs);
 			try {
 				byte[] signature = Base64Coder.decode(cs);

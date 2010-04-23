@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009 Felix Bechstein
+		Copyright (C) 2010 Felix Bechstein
 	-->
 	<!--
 		This file is part of AndGMXsms. This program is free software; you can
@@ -53,9 +53,16 @@
 		<activity android:name="DonationHelper"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
-			<action android:name="android.intent.action.VIEW" />
-			<category android:name="android.intent.category.DEFAULT" />
-			<data android:scheme="http" android:host="websms.noads" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="noads" android:host="websms" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="application/octet-stream" />
+			</intent-filter>
 		</activity>
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
