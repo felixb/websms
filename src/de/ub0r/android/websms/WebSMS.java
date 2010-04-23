@@ -182,12 +182,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_SENDLATER_DATE = 4;
 	/** Dialog: send later: time. */
 	private static final int DIALOG_SENDLATER_TIME = 5;
-	/** Dialog: pre donate. */
-	private static final int DIALOG_PREDONATE = 6;
-	/** Dialog: post donate. */
-	private static final int DIALOG_POSTDONATE = 7;
 	/** Dialog: emo. */
-	private static final int DIALOG_EMO = 8;
+	private static final int DIALOG_EMO = 6;
 
 	/** {@link Activity} result request. */
 	private static final int ARESULT_PICK_PHONE = 1;
@@ -1069,7 +1065,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
 		case R.id.item_donate:
-			this.showDialog(DIALOG_PREDONATE);
+			this.startActivity(new Intent(this, DonationHelper.class));
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
@@ -1257,57 +1253,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	protected final Dialog onCreateDialog(final int id) {
 		AlertDialog.Builder builder;
 		switch (id) {
-		case DIALOG_PREDONATE:
-			builder = new AlertDialog.Builder(this);
-			builder.setIcon(R.drawable.ic_menu_star);
-			builder.setTitle(R.string.donate_);
-			builder.setMessage(R.string.predonate);
-			builder.setPositiveButton(R.string.donate_,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int which) {
-							try {
-								WebSMS.this.startActivity(new Intent(
-										Intent.ACTION_VIEW, Uri.parse(// .
-												WebSMS.this.getString(// .
-														R.string.donate_url))));
-							} catch (ActivityNotFoundException e) {
-								Log.e(TAG, "no browser", e);
-							} finally {
-								WebSMS.this.showDialog(DIALOG_POSTDONATE);
-							}
-						}
-					});
-			builder.setNegativeButton(android.R.string.cancel, null);
-			return builder.create();
-		case DIALOG_POSTDONATE:
-			builder = new AlertDialog.Builder(this);
-			builder.setIcon(R.drawable.ic_menu_star);
-			builder.setTitle(R.string.remove_ads_);
-			builder.setMessage(R.string.postdonate);
-			builder.setPositiveButton(R.string.send_,
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface dialog,
-								final int which) {
-							final Intent in = new Intent(Intent.ACTION_SEND);
-							in.putExtra(Intent.EXTRA_EMAIL, new String[] {
-									WebSMS.this.getString(// .
-											R.string.donate_mail), "" });
-							// FIXME: "" is a k9 hack. This is fixed in market
-							// on 26.01.10. wait some more time..
-							in.putExtra(Intent.EXTRA_TEXT, DonationHelper
-									.getImeiHash(WebSMS.this));
-							in.putExtra(Intent.EXTRA_SUBJECT, WebSMS.this
-									.getString(// .
-									R.string.app_name)
-									+ " " + WebSMS.this.getString(// .
-											R.string.donate_subject));
-							in.setType("text/plain");
-							WebSMS.this.startActivity(in);
-						}
-					});
-			builder.setNegativeButton(android.R.string.cancel, null);
-			return builder.create();
 		case DIALOG_UPDATE:
 			builder = new AlertDialog.Builder(this);
 			builder.setIcon(android.R.drawable.ic_dialog_info);

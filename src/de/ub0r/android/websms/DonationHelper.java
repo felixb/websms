@@ -32,6 +32,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Utils;
 
@@ -40,7 +43,7 @@ import de.ub0r.android.websms.connector.common.Utils;
  * 
  * @author flx
  */
-public class DonationHelper extends Activity {
+public class DonationHelper extends Activity implements OnClickListener {
 	/** Tag for output. */
 	private static final String TAG = "WebSMS.dh";
 
@@ -64,10 +67,20 @@ public class DonationHelper extends Activity {
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// this.setContentView(R.layout.about);
+		this.setContentView(R.layout.donation);
+
+		this.findViewById(R.id.donate).setOnClickListener(this);
+		this.findViewById(R.id.send).setOnClickListener(this);
+		this.findViewById(R.id.ok).setOnClickListener(this);
 
 		final Intent i = this.getIntent();
+		if (i == null) {
+			return;
+		}
 		final Uri u = i.getData();
+		if (u == null) {
+			return;
+		}
 		final String p = u.getPath();
 
 		if (p == null || p.length() == 0) {
@@ -75,17 +88,33 @@ public class DonationHelper extends Activity {
 			sendImeiHash(this);
 		} else {
 			// check signature encoded in path
-			final boolean ret = DonationHelper.checkSig(this, p);
-			Log.d(TAG, "put: " + ret);
-			final SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(this);
-			prefs.edit().putBoolean(WebSMS.PREFS_HIDEADS, ret).commit();
-			// notify user
-			int text = R.string.sig_loaded;
-			if (!ret) {
-				text = R.string.sig_failed;
-			}
-			Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+			loadSig(this, p);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void onClick(final View v) {
+		switch (v.getId()) {
+			case R.id.donate:
+				this.startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(this.getString(R.string.donate_url))));
+				return;
+			case R.id.send:
+				sendImeiHash(this);
+				return;
+			case R.id.ok:
+				final String s = ((EditText) this.findViewById(R.id.sig))
+						.getText().toString();
+				Log.i(TAG, "signature: " + s);
+				if (s != null && s.length() > 0) {
+					loadSig(this, s);
+				}
+				this.finish();
+				return;
+			default:
+				return;
 		}
 	}
 
@@ -105,9 +134,10 @@ public class DonationHelper extends Activity {
 		buf.append(context.getString(R.string.app_name).split(" ", 2)[0]
 				.toLowerCase());
 		buf.append(':');
-		in.putExtra(Intent.EXTRA_TEXT, getImeiHash(context));
+		buf.append(getImeiHash(context));
 		buf.append(':');
 		buf.append(context.getString(R.string.lang));
+		in.putExtra(Intent.EXTRA_TEXT, buf.toString());
 		in.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name)
 				+ " " + context.getString(R.string.donate_subject));
 		in.setType("text/plain");
@@ -134,6 +164,22 @@ public class DonationHelper extends Activity {
 		return imeiHash;
 	}
 
+	public static boolean loadSig(final Context context, final String s) {
+		Log.i(TAG, "loadSig(ctx, " + s + ")");
+		final boolean ret = checkSig(context, s);
+		Log.i(TAG, "result: " + ret);
+		final SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		prefs.edit().putBoolean(WebSMS.PREFS_HIDEADS, ret).commit();
+		// notify user
+		int text = R.string.sig_loaded;
+		if (!ret) {
+			text = R.string.sig_failed;
+		}
+		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+		return ret;
+	}
+
 	/**
 	 * Check for signature updates.
 	 * 
@@ -153,9 +199,11 @@ public class DonationHelper extends Activity {
 					publicKey));
 			final String h = getImeiHash(context);
 			Log.d(TAG, "hash: " + h);
-			Log.d(TAG, "read sig: " + s);
+			final String cs = s.replace(" ", "").replace("\n", "")
+					.replace("\t", "");
+			Log.d(TAG, "read sig: " + cs);
 			try {
-				byte[] signature = Base64Coder.decode(s);
+				byte[] signature = Base64Coder.decode(cs);
 				Signature sig = Signature.getInstance(SIGALGO);
 				sig.initVerify(pk);
 				sig.update(h.getBytes());
