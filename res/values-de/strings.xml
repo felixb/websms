@@ -32,7 +32,7 @@
 	<string name="defprefix_hint">z.B. +49</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=11046415</string>
 	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...</string>
-	<string name="donate_">Spenden</string>
+	<string name="donate_">Spenden (Paypal)</string>
 	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
 	<string name="remove_ads_">Werbung entfernen</string>
 	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.\n\nAn alle SMSdroid Spender: Der noads code funktioniert auch mit WebSMS.</string>
