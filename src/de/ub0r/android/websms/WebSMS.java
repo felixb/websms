@@ -708,14 +708,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		try {
 			if (f.exists()) {
 				if (DonationHelper.loadSig(this, Uri.fromFile(f))) {
-					if (!f.delete()) {
-						Log.w(TAG, "error deleting signature!");
-						Toast.makeText(
-								this,
-								"could not delete .noads file!\n"
-										+ "please delete it yourself.",
-								Toast.LENGTH_LONG).show();
-					}
+					f.delete();
 				}
 			}
 		} catch (Exception e) {
