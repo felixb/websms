@@ -20,11 +20,9 @@ package de.ub0r.android.websms;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -709,27 +707,16 @@ public class WebSMS extends Activity implements OnClickListener,
 		final File f = new File(NOADS_SIGNATURES);
 		try {
 			if (f.exists()) {
-				Log.d(TAG, "found file " + NOADS_SIGNATURES);
-				final BufferedReader br = new BufferedReader(new FileReader(f));
-				final String h = DonationHelper.getImeiHash(this);
-				Log.d(TAG, "hash: " + h);
-				boolean ret = false;
-				while (true) {
-					String l = br.readLine();
-					if (l == null) {
-						Log.d(TAG, "break;");
-						break;
-					}
-					Log.d(TAG, "read line: " + l);
-					ret = DonationHelper.checkSig(this, l);
-					if (ret) {
-						break;
+				if (DonationHelper.loadSig(this, Uri.fromFile(f))) {
+					if (!f.delete()) {
+						Log.w(TAG, "error deleting signature!");
+						Toast.makeText(
+								this,
+								"could not delete .noads file!\n"
+										+ "please delete it yourself.",
+								Toast.LENGTH_LONG).show();
 					}
 				}
-				br.close();
-				f.delete();
-				Log.d(TAG, "put: " + ret);
-				p.edit().putBoolean(PREFS_HIDEADS, ret).commit();
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error reading signatures", e);
