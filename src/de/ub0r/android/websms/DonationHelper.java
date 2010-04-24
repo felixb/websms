@@ -276,7 +276,7 @@ public class DonationHelper extends Activity implements OnClickListener {
 		Log.i(TAG, "result: " + ret);
 		prefs.edit().putBoolean(WebSMS.PREFS_HIDEADS, ret).commit();
 		// notify user
-		if (!orig) {
+		if (!orig || !ret) {
 			int text = R.string.sig_loaded;
 			if (!ret) {
 				text = R.string.sig_failed;
