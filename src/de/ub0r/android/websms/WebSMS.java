@@ -271,9 +271,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					this.parseSchemeSpecificPart(s);
 					this.displayAds(true);
 				} else if (scheme.equals("content")) {
-					final List<String> p = uri.getPathSegments();
-					final String threadId = p.get(p.size() - 1);
-					this.parseThreadId(threadId);
+					this.parseThreadId(uri.getLastPathSegment());
 				}
 			}
 		}
