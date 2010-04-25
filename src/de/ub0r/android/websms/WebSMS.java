@@ -42,6 +42,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -259,14 +261,20 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 		final Uri uri = intent.getData();
-		if (uri != null) {
+		if (uri != null && uri.toString().length() > 0) {
+			Log.i(TAG, "launched with uri: " + uri);
 			// launched by clicking a sms: link, target number is in URI.
 			final String scheme = uri.getScheme();
-			if (scheme != null
-					&& (scheme.equals("sms") || scheme.equals("smsto"))) {
-				final String s = uri.getSchemeSpecificPart();
-				this.parseSchemeSpecificPart(s);
-				this.displayAds(true);
+			if (scheme != null) {
+				if (scheme.equals("sms") || scheme.equals("smsto")) {
+					final String s = uri.getSchemeSpecificPart();
+					this.parseSchemeSpecificPart(s);
+					this.displayAds(true);
+				} else if (scheme.equals("content")) {
+					final List<String> p = uri.getPathSegments();
+					final String threadId = p.get(p.size() - 1);
+					this.parseThreadId(threadId);
+				}
 			}
 		}
 		final Bundle extras = intent.getExtras();
@@ -308,6 +316,38 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		((EditText) this.findViewById(R.id.to)).setText(s);
 		lastTo = s;
+	}
+
+	/**
+	 * Load data from Conversation.
+	 * 
+	 * @param threadId
+	 *            ThreadId
+	 */
+	private void parseThreadId(final String threadId) {
+		Log.d(TAG, "thradId: " + threadId);
+		final Uri uri = Uri
+				.parse("content://mms-sms/conversations/" + threadId);
+		final String[] proj = new String[] { "thread_id", "address" };
+		Cursor cursor;
+		try {
+			cursor = this.getContentResolver().query(uri, proj, null, null,
+					null);
+		} catch (SQLException e) {
+			Log.e(TAG, null, e);
+			proj[0] = "_id";
+			proj[1] = "recipient_address";
+			cursor = this.getContentResolver().query(uri, proj, null, null,
+					null);
+		}
+		if (cursor != null && cursor.moveToFirst()) {
+			String a = null;
+			do {
+				a = cursor.getString(1);
+			} while (a == null && cursor.moveToNext());
+			Log.d(TAG, "found address: " + a);
+			this.parseSchemeSpecificPart(a);
+		}
 	}
 
 	/**
