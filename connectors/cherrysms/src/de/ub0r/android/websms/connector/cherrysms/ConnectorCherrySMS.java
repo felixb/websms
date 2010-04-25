@@ -18,7 +18,6 @@
  */
 package de.ub0r.android.websms.connector.cherrysms;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
@@ -192,22 +191,30 @@ public class ConnectorCherrySMS extends Connector {
 			}
 			String htmlText = Utils.stream2str(
 					response.getEntity().getContent()).trim();
-			String[] lines = htmlText.split("\n");
+			if (htmlText == null || htmlText.length() == 0) {
+				throw new WebSMSException(context, R.string.error_service);
+			}
 			Log.d(TAG, "--HTTP RESPONSE--");
 			Log.d(TAG, htmlText);
 			Log.d(TAG, "--HTTP RESPONSE--");
+			String[] lines = htmlText.split("\n");
 			htmlText = null;
 			int l = lines.length;
 			if (text != null && text.length() > 0) {
-				final int ret = Integer.parseInt(lines[0].trim());
-				checkReturnCode(context, ret);
-				if (l > 1) {
-					cs.setBalance(lines[l - 1].trim());
+				try {
+					final int ret = Integer.parseInt(lines[0].trim());
+					checkReturnCode(context, ret);
+					if (l > 1) {
+						cs.setBalance(lines[l - 1].trim());
+					}
+				} catch (NumberFormatException e) {
+					Log.e(TAG, "could not parse ret", e);
+					throw new WebSMSException(e.getMessage());
 				}
 			} else {
 				cs.setBalance(lines[l - 1].trim());
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Log.e(TAG, null, e);
 			throw new WebSMSException(e.getMessage());
 		}
