@@ -21,8 +21,10 @@
 	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
 	<string name="about_hint">Über diese App</string>
+	<string name="faq_hint">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
 	<string name="feedback_">Feedback</string>
 	<string name="feedback_hint">Bugreports, feature requests ...</string>
+	<string name="twitter_hint">Follow auf twitter.\nUpdate Infos etc...</string>
 	<string name="author_">Autor:</string>
 	<string name="author_connectors_">Autor der Connectoren:</string>
 	<string name="change_connector_">Anderer Provider</string>
@@ -48,7 +50,7 @@
 	<string name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
 	<string name="free_">Guthaben:</string>
 	<string name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
-	<string name="license_">Lizens:</string>
+	<string name="license_">Lizenz:</string>
 	<string name="log_wrong_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
 	<string name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
 	<string name="log_noselectedconnector">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
