@@ -28,6 +28,7 @@ import android.provider.Contacts;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Implement {@link ContactsWrapper} for API 3 and 4.
@@ -141,7 +142,8 @@ public final class ContactsWrapper3 extends ContactsWrapper {
 				PeopleColumns.DISPLAY_NAME, PhonesColumns.NUMBER }, null, null,
 				null);
 		if (c.moveToFirst()) {
-			ret = c.getString(0) + " <" + c.getString(1) + ">";
+			ret = c.getString(0) + " <" + Utils.cleanRecipient(c.getString(1))
+					+ ">";
 		}
 		return ret;
 	}

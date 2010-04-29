@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Helper class to set/unset background for api5 systems.
@@ -133,7 +134,8 @@ public final class ContactsWrapper5 extends ContactsWrapper {
 				ContactsContract.CommonDataKinds.Phone.NUMBER }, null, null,
 				null);
 		if (c.moveToFirst()) {
-			ret = c.getString(0) + " <" + c.getString(1) + ">";
+			ret = c.getString(0) + " <" + Utils.cleanRecipient(c.getString(1))
+					+ ">";
 		}
 		return ret;
 	}
