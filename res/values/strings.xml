@@ -109,4 +109,24 @@
 	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
 	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
 	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
+
+	<!-- keep the emoticons array synced with code! -->
+	<string-array name="emoticons">
+		<item>O:-)</item>
+		<item>8-)</item>
+		<item>;-)</item>
+		<item>:-?</item>
+		<item>:-)</item>
+		<item>:-*</item>
+		<item>:-D</item>
+		<item>:-X</item>
+		<item>:-$</item>
+		<item>:-(</item>
+		<item>:o</item>
+		<item>:-P</item>
+		<item>:-\\</item>
+		<item>;-)</item>
+		<item>o.O</item>
+		<item>:O</item>
+	</string-array>
 </resources>

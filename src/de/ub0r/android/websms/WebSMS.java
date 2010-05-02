@@ -1103,9 +1103,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		d.setTitle(R.string.emo_);
 		d.setContentView(R.layout.emo);
 		d.setCancelable(true);
+		final String[] emoticons = this.getResources().getStringArray(
+				R.array.emoticons);
 		final GridView gridview = (GridView) d.findViewById(R.id.gridview);
 		gridview.setAdapter(new BaseAdapter() {
 			// references to our images
+			// keep order and count synced with string-array!
 			private Integer[] mThumbIds = { R.drawable.emo_im_angel,
 					R.drawable.emo_im_cool, R.drawable.emo_im_crying,
 					R.drawable.emo_im_foot_in_mouth, R.drawable.emo_im_happy,
@@ -1153,96 +1156,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		});
 		gridview.setOnItemClickListener(new OnItemClickListener() {
-			/** Emoticon id: angel. */
-			private static final int EMO_ANGEL = 0;
-			/** Emoticon id: cool. */
-			private static final int EMO_COOL = 1;
-			/** Emoticon id: crying. */
-			private static final int EMO_CRYING = 2;
-			/** Emoticon id: foot in mouth. */
-			private static final int EMO_FOOT_IN_MOUTH = 3;
-			/** Emoticon id: happy. */
-			private static final int EMO_HAPPY = 4;
-			/** Emoticon id: kissing. */
-			private static final int EMO_KISSING = 5;
-			/** Emoticon id: laughing. */
-			private static final int EMO_LAUGHING = 6;
-			/** Emoticon id: lips are sealed. */
-			private static final int EMO_LIPS_SEALED = 7;
-			/** Emoticon id: money. */
-			private static final int EMO_MONEY = 8;
-			/** Emoticon id: sad. */
-			private static final int EMO_SAD = 9;
-			/** Emoticon id: suprised. */
-			private static final int EMO_SUPRISED = 10;
-			/** Emoticon id: tongue sticking out. */
-			private static final int EMO_TONGUE = 11;
-			/** Emoticon id: undecided. */
-			private static final int EMO_UNDICIDED = 12;
-			/** Emoticon id: winking. */
-			private static final int EMO_WINKING = 13;
-			/** Emoticon id: wtf. */
-			private static final int EMO_WTF = 14;
-			/** Emoticon id: yell. */
-			private static final int EMO_YELL = 15;
 
 			@Override
 			public void onItemClick(final AdapterView<?> adapter, final View v,
 					final int id, final long arg3) {
 				EditText et = WebSMS.this.etText;
-				String e = null;
-				switch (id) {
-				case EMO_ANGEL:
-					e = "O:-)";
-					break;
-				case EMO_COOL:
-					e = "8-)";
-					break;
-				case EMO_CRYING:
-					e = ";-)";
-					break;
-				case EMO_FOOT_IN_MOUTH:
-					e = ":-?";
-					break;
-				case EMO_HAPPY:
-					e = ":-)";
-					break;
-				case EMO_KISSING:
-					e = ":-*";
-					break;
-				case EMO_LAUGHING:
-					e = ":-D";
-					break;
-				case EMO_LIPS_SEALED:
-					e = ":-X";
-					break;
-				case EMO_MONEY:
-					e = ":-$";
-					break;
-				case EMO_SAD:
-					e = ":-(";
-					break;
-				case EMO_SUPRISED:
-					e = ":o";
-					break;
-				case EMO_TONGUE:
-					e = ":-P";
-					break;
-				case EMO_UNDICIDED:
-					e = ":-\\";
-					break;
-				case EMO_WINKING:
-					e = ";-)";
-					break;
-				case EMO_WTF:
-					e = "o.O";
-					break;
-				case EMO_YELL:
-					e = ":O";
-					break;
-				default:
-					break;
-				}
+				final String e = emoticons[id];
 				int i = et.getSelectionStart();
 				int j = et.getSelectionEnd();
 				if (i > j) {
