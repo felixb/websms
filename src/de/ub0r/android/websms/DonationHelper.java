@@ -179,7 +179,12 @@ public class DonationHelper extends Activity implements OnClickListener {
 			final String did = mTelephonyMgr.getDeviceId();
 			if (did != null) {
 				imeiHash = Utils.md5(did);
+				Log.i(TAG, "generate hash: " + imeiHash);
+			} else {
+				Log.e(TAG, "IMEI is null");
 			}
+		} else {
+			Log.d(TAG, "got hash: " + imeiHash);
 		}
 		return imeiHash;
 	}
