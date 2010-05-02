@@ -158,8 +158,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
-	/** Show AdView on top. */
-	private boolean onTop = false;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
@@ -269,7 +267,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (scheme.equals("sms") || scheme.equals("smsto")) {
 					final String s = uri.getSchemeSpecificPart();
 					this.parseSchemeSpecificPart(s);
-					this.displayAds(true);
+					this.displayAds();
 				} else if (scheme.equals("content")) {
 					this.parseThreadId(uri.getLastPathSegment());
 				}
@@ -729,7 +727,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				false));
 
 		prefsNoAds = this.hideAds();
-		this.displayAds(false);
+		this.displayAds();
 		this.setButtons();
 	}
 
@@ -1286,28 +1284,13 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/**
 	 * Show AdView on top or on bottom.
-	 * 
-	 * @param top
-	 *            display ads on top.
 	 */
-	private void displayAds(final boolean top) {
+	private void displayAds() {
 		if (prefsNoAds) {
 			// do not display any ads for donators
 			return;
 		}
-		if (top) {
-			// switch to AdView on top
-			this.onTop = true;
-		}
-		if (this.onTop) {
-			Log.d(TAG, "display ads on top");
-			this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
-			this.findViewById(R.id.ad_bottom).setVisibility(View.GONE);
-		} else {
-			Log.d(TAG, "display ads on bottom");
-			this.findViewById(R.id.ad).setVisibility(View.GONE);
-			this.findViewById(R.id.ad_bottom).setVisibility(View.VISIBLE);
-		}
+		this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
 	}
 
 	/**
@@ -1327,7 +1310,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 
-		this.displayAds(true);
+		this.displayAds();
 
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)

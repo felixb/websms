@@ -16,25 +16,18 @@
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
 	-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res/de.ub0r.android.websms"
 	android:layout_width="fill_parent" android:layout_height="fill_parent">
-
-	<!-- Place an AdMob ad at the bottom of the screen. -->
-	<!-- It has white text on a black background. -->
-	<!-- The description of the surrounding context is 'Android game'. -->
-	<com.admob.android.ads.AdView android:id="@+id/ad"
-		android:visibility="gone" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_alignParentTop="true"
-		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2 sipgate innosend" />
-	<com.admob.android.ads.AdView android:id="@+id/ad_bottom"
-		android:visibility="gone" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
-		app:keywords="android mobile handy cellphone google htc market app free sms gmx o2 sipgate innosend" />
-
 	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_below="@id/ad" android:layout_above="@id/ad_bottom">
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<!-- Place an AdMob ad at the bottom of the screen. -->
+		<!-- It has white text on a black background. -->
+		<!-- The description of the surrounding context is 'Android game'. -->
+		<com.admob.android.ads.AdView android:id="@+id/ad"
+			android:visibility="gone" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			app:keywords="android mobile handy cellphone google htc market app free sms gmx o2 sipgate innosend" />
 
 		<TextView android:text="@string/free_" android:id="@+id/freecount"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -77,11 +70,12 @@
 				android:layout_height="fill_parent" android:layout_weight="1"
 				android:hint="@string/text_hint" android:imeOptions="actionDone|flagNoEnterAction"
 				android:nextFocusRight="@+id/send_" android:gravity="top"
-				android:autoText="true" android:inputType="textAutoCorrect|textMultiLine" />
+				android:autoText="true" android:inputType="textAutoCorrect|textMultiLine"
+				android:minLines="3" />
 			<TextView android:id="@+id/text_" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:paddingLeft="3dip"
 				android:paddingRight="3dip" android:layout_alignParentRight="true"
-				android:layout_alignParentTop="true" android:textStyle="bold"
+				android:layout_alignParentBottom="true" android:textStyle="bold"
 				android:background="#88000000" android:textColor="#ffffffff" />
 			<TextView android:id="@+id/text_connector"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -121,4 +115,4 @@
 				android:layout_weight="1" />
 		</LinearLayout>
 	</LinearLayout>
-</RelativeLayout>
+</ScrollView>
