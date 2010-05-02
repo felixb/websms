@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>v3.0.15: Fix ;( emoticon, change layout</item>
 		<item>v3.0.14: Fix cleaning the numbers before sending a message</item>
 		<item>v3.0.13: Allow to reply from smspopup</item>
 		<item>v3.0.12: Hotfix for android-1.5 and -1.6</item>
