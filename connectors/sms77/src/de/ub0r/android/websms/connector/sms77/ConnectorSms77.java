@@ -47,7 +47,7 @@ public class ConnectorSms77 extends Connector {
 	private static final String TAG = "WebSMS.sms77";
 
 	/** Gateway URL. */
-	private static final String URL = "https://gateway.sms77.de/";
+	private static final String URL = "http://gateway.sms77.de/";
 	/** Gateway URL for sending. */
 	private static final String URL_SEND = URL;
 	/** Gateway URL for balance update. */
