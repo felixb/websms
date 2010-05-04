@@ -54,7 +54,7 @@ import de.ub0r.android.websms.connector.common.Utils;
  */
 public class DonationHelper extends Activity implements OnClickListener {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.dh";
+	private static final String TAG = WebSMS.TAG + ".dh";
 
 	/** Crypto algorithm for signing UID hashs. */
 	private static final String ALGO = "RSA";
@@ -159,7 +159,7 @@ public class DonationHelper extends Activity implements OnClickListener {
 		in.putExtra(Intent.EXTRA_TEXT, buf.toString());
 		in.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name)
 				+ " " + context.getString(R.string.donate_subject));
-		in.setType("text/plain");
+		in.setType("message/rfc822");
 		context.startActivity(Intent.createChooser(in, context
 				.getString(R.string.send_hash_)));
 	}

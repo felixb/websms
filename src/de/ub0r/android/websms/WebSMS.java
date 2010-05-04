@@ -88,7 +88,7 @@ import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
 public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS";
+	public static final String TAG = "WebSMS";
 
 	/** Flurry's API key. */
 	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";
