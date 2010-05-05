@@ -94,4 +94,7 @@
 	<string name="status_disabled">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="status_enabled">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="status_ready">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+	<string name="debug_">Debug</string>
+	<string name="send_logs_">Logs senden</string>
+	<string name="send_logs_hint">Logs von deinem Handy an den Entwickler senden.</string>
 </resources>

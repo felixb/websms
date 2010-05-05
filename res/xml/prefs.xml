@@ -101,4 +101,9 @@
 				android:data="market://search?q=pub:&quot;Felix Bechstein&quot;" />
 		</PreferenceScreen>
 	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/debug_">
+		<PreferenceScreen android:key="send_logs"
+			android:title="@string/send_logs_" android:summary="@string/send_logs_hint" />
+	</PreferenceCategory>
 </PreferenceScreen>

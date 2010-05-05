@@ -109,6 +109,9 @@
 	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
 	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
 	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
+	<string name="debug_">Debug</string>
+	<string name="send_logs_">Send logs</string>
+	<string name="send_logs_hint">Send your device \'s logs to the developer.</string>
 
 	<!-- keep the emoticons array synced with code! -->
 	<string-array name="emoticons">
