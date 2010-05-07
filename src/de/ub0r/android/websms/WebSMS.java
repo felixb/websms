@@ -37,6 +37,8 @@ import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -879,14 +881,18 @@ public class WebSMS extends Activity implements OnClickListener,
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
 		short t = command.getType();
+		boolean sendOrdered = false;
 		switch (t) {
 		case ConnectorCommand.TYPE_BOOTSTRAP:
+			sendOrdered = true;
 			intent.setAction(connector.getPackage()
 					+ Connector.ACTION_RUN_BOOTSTRAP);
 			connector.addStatus(ConnectorSpec.STATUS_BOOTSTRAPPING);
 			break;
 		case ConnectorCommand.TYPE_SEND:
-			final HashMap<String, String> params = new HashMap<String, String>();
+			sendOrdered = true;
+			final HashMap<String, String> params = // .
+			new HashMap<String, String>();
 			params.put("connector", connector.getName() + "-"
 					+ command.getSelectedSubConnector());
 			FlurryAgent.onEvent("send", params);
@@ -908,7 +914,24 @@ public class WebSMS extends Activity implements OnClickListener,
 			me.setProgressBarIndeterminateVisibility(true);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
-		context.sendBroadcast(intent);
+		if (sendOrdered) {
+			context.sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
+				@Override
+				public void onReceive(final Context context, // .
+						final Intent intent) {
+					if (this.getResultCode() != Activity.RESULT_OK) {
+						ConnectorCommand command = new ConnectorCommand(intent);
+						ConnectorSpec specs = new ConnectorSpec(intent);
+						specs.setErrorMessage(// TODO: localize
+								"Connector did not react on message");
+						WebSMSReceiver.handleSendCommand(specs, context,
+								intent, command);
+					}
+				}
+			}, null, Activity.RESULT_CANCELED, null, null);
+		} else {
+			context.sendBroadcast(intent);
+		}
 	}
 
 	/**

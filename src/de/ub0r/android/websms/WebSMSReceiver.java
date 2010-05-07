@@ -84,7 +84,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			return;
 		}
 		if (Connector.ACTION_INFO.equals(action)) {
-			this.handleInfoAction(context, intent);
+			WebSMSReceiver.handleInfoAction(context, intent);
 		} else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
 			final Intent i = new Intent(context, CaptchaActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -101,7 +101,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param intent
 	 *            intent
 	 */
-	private void handleInfoAction(final Context context, final Intent intent) {
+	private static void handleInfoAction(final Context context,
+			final Intent intent) {
 		final ConnectorSpec specs = new ConnectorSpec(intent);
 		final ConnectorCommand command = new ConnectorCommand(intent);
 
@@ -118,7 +119,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		// save send messages
 		if (command != null && // .
 				command.getType() == ConnectorCommand.TYPE_SEND) {
-			this.handleSendCommand(specs, context, intent, command);
+			handleSendCommand(specs, context, intent, command);
 		}
 	}
 
@@ -134,12 +135,12 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	private void handleSendCommand(final ConnectorSpec specs,
+	static void handleSendCommand(final ConnectorSpec specs,
 			final Context context, final Intent intent,
 			final ConnectorCommand command) {
 
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-			this.saveMessage(context, command);
+			saveMessage(context, command);
 			return;
 		}
 		// Display notification if sending failed
@@ -216,7 +217,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	private void saveMessage(final Context context,
+	private static void saveMessage(final Context context,
 			final ConnectorCommand command) {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
