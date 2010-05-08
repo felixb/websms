@@ -20,6 +20,7 @@ package de.ub0r.android.websms.connector.sms77;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -52,6 +53,8 @@ public class ConnectorSms77 extends Connector {
 	private static final String URL_SEND = URL;
 	/** Gateway URL for balance update. */
 	private static final String URL_BALACNCE = URL + "balance.php";
+	/** Use HTTP POST. */
+	private static final boolean USE_POST = false;
 	/** Username. */
 	private static final String PARAM_USERNAME = "u";
 	/** Password. */
@@ -181,7 +184,7 @@ public class ConnectorSms77 extends Connector {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			String url;
-			final ArrayList<BasicNameValuePair> d = // .
+			ArrayList<BasicNameValuePair> d = // .
 			new ArrayList<BasicNameValuePair>();
 			final String text = command.getText();
 			if (text != null && text.length() > 0) {
@@ -219,6 +222,22 @@ public class ConnectorSms77 extends Connector {
 					Preferences.PREFS_USER, "")));
 			d.add(new BasicNameValuePair(PARAM_PASSWORD, Utils.md5(p.getString(
 					Preferences.PREFS_PASSWORD, ""))));
+
+			if (!USE_POST) {
+				StringBuilder u = new StringBuilder(url);
+				u.append("?");
+				final int l = d.size();
+				for (int i = 0; i < l; i++) {
+					BasicNameValuePair nv = d.get(i);
+					u.append(nv.getName());
+					u.append("=");
+					u.append(URLEncoder.encode(nv.getValue()));
+					u.append("&");
+				}
+				url = u.toString();
+				d = null;
+			}
+			Log.d(TAG, "HTTP REQUEST: " + url);
 			HttpResponse response = Utils.getHttpClient(url, null, d, null,
 					null);
 			int resp = response.getStatusLine().getStatusCode();
@@ -228,6 +247,7 @@ public class ConnectorSms77 extends Connector {
 			}
 			String htmlText = Utils.stream2str(
 					response.getEntity().getContent()).trim();
+			Log.d(TAG, "HTTP RESPONSE: " + htmlText);
 			int i = htmlText.indexOf('.');
 			if (i > 0) {
 				cs.setBalance(htmlText.replace('.', ',') + "\u20AC");
