@@ -28,10 +28,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
@@ -43,7 +43,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  */
 public class ConnectorSloono extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.sloono";
+	private static final String TAG = "sloono";
 	/** {@link SubConnectorSpec} ID: basic. */
 	private static final String ID_BASIC = "1";
 	/** {@link SubConnectorSpec} ID: discount. */

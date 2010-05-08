@@ -39,10 +39,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
@@ -54,7 +54,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  */
 public class ConnectorFreenet extends Connector {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.freenet";
+	private static final String TAG = "freenet";
 
 	/** Freenet.de Gateway URL for login. */
 	private static final String URL_LOGIN = "https://"
@@ -74,17 +74,13 @@ public class ConnectorFreenet extends Connector {
 	@Override
 	public final ConnectorSpec initSpec(final Context context) {
 		final String name = context.getString(R.string.connector_freenet_name);
-		ConnectorSpec c = new ConnectorSpec(TAG, name);
+		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_freenet_author));
 		c.setBalance(null);
-		c.setPrefsTitle(context
-				.getString(R.string.connector_freenet_preferences));
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c
-				.addSubConnector(c.getID(), c.getName(),
-						SubConnectorSpec.FEATURE_NONE);
+		c.addSubConnector(TAG, c.getName(), SubConnectorSpec.FEATURE_NONE);
 		return c;
 	}
 
