@@ -18,22 +18,17 @@
  */
 package de.ub0r.android.websms;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 
 /**
  * Preferences.
@@ -42,11 +37,6 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  */
 public class Preferences extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
-	/** Packagename of SendLog. */
-	public static final String SENDLOG_PACKAGE_NAME = "org.l6n.sendlog";
-	/** Classname of SendLog. */
-	public static final String SENDLOG_CLASS_NAME = ".SendLog";
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -60,74 +50,11 @@ public class Preferences extends PreferenceActivity implements
 					new Preference.OnPreferenceClickListener() {
 						public boolean onPreferenceClick(
 								final Preference preference) {
-							Preferences.this.collectAndSendLog();
+							Log.collectAndSendLog(Preferences.this);
 							return true;
 						}
 					});
 		}
-	}
-
-	/**
-	 * Fire a given {@link Intent}.
-	 * 
-	 * @author flx
-	 */
-	private static class FireIntent implements DialogInterface.OnClickListener {
-		/** {@link Activity}. */
-		private final Activity a;
-		/** {@link Intent}. */
-		private final Intent i;
-
-		/**
-		 * Default Constructor.
-		 * 
-		 * @param activity
-		 *            {@link Activity}
-		 * @param intent
-		 *            {@link Intent}
-		 */
-		public FireIntent(final Activity activity, final Intent intent) {
-			this.a = activity;
-			this.i = intent;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		public void onClick(final DialogInterface dialog, // .
-				final int whichButton) {
-			this.a.startActivity(this.i);
-		}
-	}
-
-	/**
-	 * Collect and send Log.
-	 */
-	final void collectAndSendLog() {
-		final PackageManager packageManager = this.getPackageManager();
-		Intent intent = packageManager
-				.getLaunchIntentForPackage(SENDLOG_PACKAGE_NAME);
-		String message;
-		if (intent == null) {
-			intent = new Intent(Intent.ACTION_VIEW, Uri
-					.parse("market://search?q=pname:" + SENDLOG_PACKAGE_NAME));
-			message = "Install the free SendLog application to "
-					+ "collect the device log and send "
-					+ "it to the developer.";
-		} else {
-			intent.setType("0||flx.yoo@gmail.com");
-			message = "Run SendLog application.\nIt will collect the "
-					+ "device log and send it to the developer." + "\n"
-					+ "You will have an opportunity to review "
-					+ "and modify the data being sent.";
-		}
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		new AlertDialog.Builder(this).setTitle(
-				this.getString(R.string.app_name)).setIcon(
-				android.R.drawable.ic_dialog_info).setMessage(message)
-				.setPositiveButton(android.R.string.ok,
-						new FireIntent(this, intent)).setNegativeButton(
-						android.R.string.cancel, null).show();
 	}
 
 	/**

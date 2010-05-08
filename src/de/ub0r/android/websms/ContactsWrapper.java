@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
+import de.ub0r.android.websms.connector.common.Log;
 
 /**
  * Wrap around contacts API.
@@ -32,7 +32,7 @@ import android.util.Log;
  */
 abstract class ContactsWrapper {
 	/** Tag for output. */
-	private static final String TAG = "WEBsms.cw";
+	private static final String TAG = "cw";
 
 	/**
 	 * Static singleton instance of {@link ContactsWrapper} holding the
@@ -138,7 +138,7 @@ abstract class ContactsWrapper {
 	 * Get a Name for a given number.
 	 * 
 	 * @param act
-	 *            {@link Activity} to get the cursor from
+	 *            Activity to get the cursor from
 	 * @param number
 	 *            number to look for
 	 * @return name matching the number

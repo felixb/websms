@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -16,13 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 
 /**
  * @author flx
  */
 public class CaptchaActivity extends Activity implements OnClickListener {
 	/** Tag for output. */
-	private static final String TAG = "WebSMS.cpt";
+	private static final String TAG = "cpt";
 
 	/** Connector which sent the request. */
 	private ConnectorSpec connector = null;

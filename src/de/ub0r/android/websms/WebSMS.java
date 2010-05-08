@@ -51,7 +51,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,6 +77,7 @@ import com.flurry.android.FlurryAgent;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
@@ -90,7 +90,7 @@ import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
 public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
-	public static final String TAG = "WebSMS";
+	public static final String TAG = "main";
 
 	/** Flurry's API key. */
 	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";

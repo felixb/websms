@@ -28,10 +28,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
@@ -41,7 +41,7 @@ import de.ub0r.android.websms.connector.common.Utils;
  */
 public final class WebSMSReceiver extends BroadcastReceiver {
 	/** Tag for debug output. */
-	private static final String TAG = "WebSMS.bcr";
+	private static final String TAG = "bcr";
 
 	/** Intent's scheme to send sms. */
 	private static final String INTENT_SCHEME_SMSTO = "smsto";
