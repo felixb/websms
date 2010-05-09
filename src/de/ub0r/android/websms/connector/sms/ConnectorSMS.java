@@ -118,7 +118,7 @@ public class ConnectorSMS extends Connector {
 			try {
 				this.setResultCode(Activity.RESULT_OK);
 			} catch (Exception e) {
-				Log.w(TAG, "not an ordered boradcast", e);
+				Log.w(TAG, "not an ordered boradcast: " + e.toString());
 			}
 		} else if (action.endsWith(ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);

@@ -18,10 +18,13 @@
  */
 package de.ub0r.android.websms;
 
+import java.util.ArrayList;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +65,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	static final String BODY = "body";
 	/** SMS DB: type - sent. */
 	static final int MESSAGE_TYPE_SENT = 2;
+	/** SMS DB: type - draft. */
+	static final int MESSAGE_TYPE_DRAFT = 3;
 
 	/** Next notification ID. */
 	private static int nextNotificationID = 1;
@@ -140,7 +145,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			final ConnectorCommand command) {
 
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-			saveMessage(context, command);
+			saveMessage(context, command, MESSAGE_TYPE_SENT);
 			return;
 		}
 		// Display notification if sending failed
@@ -216,32 +221,58 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
+	 * @param msgType
+	 *            sent or draft?
 	 */
-	private static void saveMessage(final Context context,
-			final ConnectorCommand command) {
+	static void saveMessage(final Context context,
+			final ConnectorCommand command, final int msgType) {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
 		}
+		final ContentResolver cr = context.getContentResolver();
+		final ContentValues values = new ContentValues();
+		values.put(TYPE, msgType);
+
+		if (msgType == MESSAGE_TYPE_SENT) {
+			final String[] uris = command.getMsgUris();
+			if (uris != null && uris.length > 0) {
+				for (String s : uris) {
+					final Uri u = Uri.parse(s);
+					final int updated = cr.update(u, values, null, null);
+					Log.d(TAG, "updated: " + updated);
+				}
+				return; // skip legacy saving
+			}
+		}
+
+		Log.d(TAG, "save message(s):");
+		Log.d(TAG, "type: " + msgType);
+		Log.d(TAG, "TEXT: " + command.getText());
+		values.put(READ, 1);
+		values.put(BODY, command.getText());
+		if (command.getSendLater() > 0) {
+			values.put(DATE, command.getSendLater());
+			Log.d(TAG, "DATE: " + command.getSendLater());
+		}
 		final String[] recipients = command.getRecipients();
+		final ArrayList<String> inserted = new ArrayList<String>(
+				recipients.length);
 		for (int i = 0; i < recipients.length; i++) {
 			if (recipients[i] == null || recipients[i].trim().length() == 0) {
 				continue; // skip empty recipients
+
 			}
+			String address = Utils.getRecipientsNumber(recipients[i]);
+			Log.d(TAG, "TO: " + address);
+			final ContentValues cv = new ContentValues(values);
+			cv.put(ADDRESS, address);
 			// save sms to content://sms/sent
-			Log.d(TAG, "save message:");
-			Log.d(TAG, "TO: " + Utils.getRecipientsNumber(recipients[i]));
-			Log.d(TAG, "TEXT: " + command.getText());
-			ContentValues values = new ContentValues();
 			values.put(ADDRESS, Utils.getRecipientsNumber(recipients[i]));
-			values.put(READ, 1);
-			values.put(TYPE, MESSAGE_TYPE_SENT);
-			values.put(BODY, command.getText());
-			if (command.getSendLater() > 0) {
-				values.put(DATE, command.getSendLater());
-				Log.d(TAG, "DATE: " + command.getSendLater());
-			}
-			context.getContentResolver().insert(
-					Uri.parse("content://sms/sent"), values);
+			inserted.add(cr.insert(Uri.parse("content://sms/sent"), values)
+					.toString());
+		}
+		if (msgType == MESSAGE_TYPE_DRAFT) {
+			command.setMsgUris(inserted.toArray(new String[] {}));
 		}
 	}
 }
