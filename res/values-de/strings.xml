@@ -66,7 +66,7 @@
 	<string name="extras_">Extras</string>
 	<string name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
 	<string name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
-	<string name="hide_cancel_button">\"Abbrechen\" Button versteckenn</string>
+	<string name="hide_cancel_button">\"Abbrechen\" Button verstecken</string>
 	<string name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_select_recipients_button_">\"Empfänger auswählen\" Button verstecken</string>
 	<string name="hide_select_recipients_button_hint">\"Empfänger auswählen\" Button auf dem Main Screen verstecken.</string>
@@ -74,7 +74,7 @@
 	<string name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
 	<string name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
-	<string name="hide_emo_button">\"Smiley\" Button versteckenn</string>
+	<string name="hide_emo_button">\"Smiley\" Button verstecken</string>
 	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
 	<string name="default_recipient_">Default Empfänger</string>
 	<string name="default_recipient_hint">Default empfänger, der in die Adressleiste eingetragen wird.</string>
