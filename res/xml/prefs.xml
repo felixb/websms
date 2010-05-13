@@ -36,6 +36,8 @@
 		<CheckBoxPreference android:key="hide_clear_recipients_button"
 			android:title="@string/hide_clear_recipients_button_"
 			android:summary="@string/hide_clear_recipients_button_hint" />
+		<CheckBoxPreference android:key="hide_update"
+			android:title="@string/hide_update" android:summary="@string/hide_update_hint" />
 		<CheckBoxPreference android:key="hide_send_in_menu"
 			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
 		<CheckBoxPreference android:key="autoupdate"
@@ -53,8 +55,8 @@
 			android:defaultValue="content://settings/system/notification_sound" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/default_recipient_">
-		<EditTextPreference android:key="default_recipient" android:title="@string/default_recipient_"
-			android:summary="@string/default_recipient_hint" />
+		<EditTextPreference android:key="default_recipient"
+			android:title="@string/default_recipient_" android:summary="@string/default_recipient_hint" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_connectors"
 		android:key="settings_connectors">
@@ -78,8 +80,7 @@
 		<PreferenceScreen android:title="@string/about_"
 			android:summary="@string/about_hint">
 			<intent android:action="android.intent.action.MAIN"
-				android:targetPackage="de.ub0r.android.websms"
-				android:targetClass="de.ub0r.android.websms.About" />
+				android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.About" />
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/faq_"
 			android:summary="@string/faq_hint">

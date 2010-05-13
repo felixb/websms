@@ -128,10 +128,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	"hide_clear_recipients_button";
 	/** Preference's name: hide send menu item. */
 	private static final String PREFS_HIDE_SEND_IN_MENU = "hide_send_in_menu";
-	/** Preferemce's name: hide emoticons button. */
+	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
-	/** Preferemce's name: hide cancel button. */
+	/** Preference's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
+	/** Preference's name: hide update text. */
+	private static final String PREFS_HIDE_UPDATE = "hide_update";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: hide ads. */
@@ -599,9 +601,13 @@ public class WebSMS extends Activity implements OnClickListener,
 			buf.append(b);
 		}
 
-		this.tvBalances.setText(this.getString(R.string.free_) + " "
-				+ buf.toString() + " "
-				+ this.getString(R.string.click_for_update));
+		buf.insert(0, this.getString(R.string.free_) + " ");
+		if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+				PREFS_HIDE_UPDATE, false)) {
+			buf.append(" ");
+			buf.append(this.getString(R.string.click_for_update));
+		}
+		this.tvBalances.setText(buf.toString());
 	}
 
 	/**
