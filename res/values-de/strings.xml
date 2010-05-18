@@ -67,6 +67,8 @@
 	<string name="extras_">Extras</string>
 	<string name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
 	<string name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
+	<string name="hide_send_button">\"Senden\" Button verstecken</string>
+	<string name="hide_send_button_hint">\"Senden\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_cancel_button">\"Abbrechen\" Button verstecken</string>
 	<string name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_select_recipients_button_">\"Empfänger auswählen\" Button verstecken</string>

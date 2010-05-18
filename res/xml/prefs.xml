@@ -24,12 +24,14 @@
 		<EditTextPreference android:key="defprefix"
 			android:title="@string/defprefix_" android:dialogTitle="@string/defprefix_"
 			android:summary="@string/defprefix_hint" android:inputType="phone" />
+		<CheckBoxPreference android:key="hide_send_button"
+			android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
 		<CheckBoxPreference android:key="hide_change_connector_button"
 			android:title="@string/hide_change_connector_button" android:summary="@string/hide_change_connector_button_hint" />
-		<CheckBoxPreference android:key="hide_emo_button"
-			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
 		<CheckBoxPreference android:key="hide_cancel_button"
 			android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
+		<CheckBoxPreference android:key="hide_emo_button"
+			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
 		<CheckBoxPreference android:key="hide_select_recipients_button"
 			android:title="@string/hide_select_recipients_button_"
 			android:summary="@string/hide_select_recipients_button_hint" />

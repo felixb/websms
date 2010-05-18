@@ -122,6 +122,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_SEND_IN_MENU = "hide_send_in_menu";
 	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
+	/** Preference's name: hide send button. */
+	private static final String PREFS_HIDE_SEND_BUTTON = "hide_send_button";
 	/** Preference's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: hide update text. */
@@ -638,6 +640,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				PREFS_HIDE_CHANGE_CONNECTOR_BUTTON, false);
 		final boolean bShowEmoticons = !p.getBoolean(PREFS_HIDE_EMO_BUTTON,
 				false);
+		final boolean bShowSend = !p.getBoolean(PREFS_HIDE_SEND_BUTTON, false);
 		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
 				false);
 		final boolean bShowClearRecipients = !p.getBoolean(
@@ -663,6 +666,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
+		v = this.findViewById(R.id.send_);
+		if (bShowSend) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
 		v = this.findViewById(R.id.change_connector);
 		if (bShowChangeConnector) {
 			v.setVisibility(View.VISIBLE);
