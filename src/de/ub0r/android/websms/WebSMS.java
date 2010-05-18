@@ -22,7 +22,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -748,16 +747,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		Log.d(TAG, "hideAds()");
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		final File f = new File(NOADS_SIGNATURES);
-		try {
-			if (f.exists()) {
-				if (DonationHelper.loadSig(this, Uri.fromFile(f))) {
-					f.delete();
-				}
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "error reading signatures", e);
-		}
 		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
 		final boolean ret = p.getBoolean(PREFS_HIDEADS, false);
 		if (ret != prefsNoAds) {

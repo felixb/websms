@@ -59,16 +59,6 @@
 		<activity android:name="DonationHelper"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="noads" android:host="websms" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="application/octet-stream" />
-			</intent-filter>
 		</activity>
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
