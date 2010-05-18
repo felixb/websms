@@ -43,9 +43,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.flurry.android.FlurryAgent;
-
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 
@@ -83,24 +80,6 @@ public class DonationHelper extends Activity implements OnClickListener {
 
 	/** Hashed IMEI. */
 	private static String imeiHash = null;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void onStart() {
-		super.onStart();
-		FlurryAgent.onStartSession(this, WebSMS.FLURRYKEY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void onStop() {
-		super.onStop();
-		FlurryAgent.onEndSession(this);
-	}
 
 	/**
 	 * {@inheritDoc}

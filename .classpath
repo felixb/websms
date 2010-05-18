@@ -5,6 +5,5 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/admob-sdk-android.jar"/>
 	<classpathentry kind="lib" path="libs/WebSMS-Connector-API.jar"/>
-	<classpathentry kind="lib" path="libs/FlurryAgent.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

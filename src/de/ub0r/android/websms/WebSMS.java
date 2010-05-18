@@ -26,7 +26,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -70,9 +69,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-
-import com.flurry.android.FlurryAgent;
-
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -90,9 +86,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
-
-	/** Flurry's API key. */
-	public static final String FLURRYKEY = "VIY62GAS4ID67S2HRX8C";
 
 	/** {@link TelephonyWrapper}. */
 	public static final TelephonyWrapper TWRAPPER = TelephonyWrapper
@@ -347,24 +340,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			Log.d(TAG, "found address: " + a);
 			this.parseSchemeSpecificPart(a);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void onStart() {
-		super.onStart();
-		FlurryAgent.onStartSession(this, FLURRYKEY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void onStop() {
-		super.onStop();
-		FlurryAgent.onEndSession(this);
 	}
 
 	/**
@@ -748,14 +723,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
-		final boolean ret = p.getBoolean(PREFS_HIDEADS, false);
-		if (ret != prefsNoAds) {
-			final HashMap<String, String> params = // .
-			new HashMap<String, String>();
-			params.put("value", String.valueOf(ret));
-			FlurryAgent.onEvent("switch prefsNoAds", params);
-		}
-		return ret;
+		return p.getBoolean(PREFS_HIDEADS, false);
 	}
 
 	/**
@@ -886,11 +854,6 @@ public class WebSMS extends Activity implements OnClickListener,
 			break;
 		case ConnectorCommand.TYPE_SEND:
 			sendOrdered = true;
-			final HashMap<String, String> params = // .
-			new HashMap<String, String>();
-			params.put("connector", connector.getName() + "-"
-					+ command.getSelectedSubConnector());
-			FlurryAgent.onEvent("send", params);
 			intent.setAction(connector.getPackage() // .
 					+ Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
