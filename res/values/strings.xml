@@ -74,7 +74,7 @@
 	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
-	<string name="hide_send_button_">Hide \"Send\" button</string>
+	<string name="hide_send_button">Hide \"Send\" button</string>
 	<string name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
