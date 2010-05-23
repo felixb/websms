@@ -1002,33 +1002,58 @@ public class WebSMS extends Activity implements OnClickListener,
 		scs = null;
 		n = null;
 
+		String name = "";
 		if (items.size() == 0) {
 			Toast.makeText(this, R.string.log_noreadyconnector,
 					Toast.LENGTH_LONG).show();
+		} else if (items.size() == 1) {
+			name = css[0].getName();
+		}
+		if (items.size() == 2) {
+			// Find actual connector, pick the other one from css
+			if (css[0].getName().equals(prefsConnectorSpec.getName())) {
+				name = css[1].getName();
+			} else if (css[1].getName().equals(prefsConnectorSpec.getName())) {
+				name = css[0].getName();
+			}
+		} else {
+			builder.setItems(items.toArray(new String[0]),
+					new DialogInterface.OnClickListener() {
+						public void onClick(final DialogInterface d, // .
+								final int item) {
+							final SubConnectorSpec[] ret = ConnectorSpec
+									.getSubConnectorReturnArray();
+							prefsConnectorSpec = getConnectorByName(items
+									.get(item), ret);
+							prefsSubConnectorSpec = ret[0];
+							WebSMS.this.setButtons();
+							// save user preferences
+							final Editor e = PreferenceManager
+									.getDefaultSharedPreferences(WebSMS.this)
+									.edit();
+							e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
+									.getPackage());
+							e.putString(PREFS_SUBCONNECTOR_ID,
+									prefsSubConnectorSpec.getID());
+							e.commit();
+						}
+					});
+			builder.create().show();
+			return;
 		}
 
-		builder.setItems(items.toArray(new String[0]),
-				new DialogInterface.OnClickListener() {
-					public void onClick(final DialogInterface d, // .
-							final int item) {
-						final SubConnectorSpec[] ret = ConnectorSpec
-								.getSubConnectorReturnArray();
-						prefsConnectorSpec = getConnectorByName(
-								items.get(item), ret);
-						prefsSubConnectorSpec = ret[0];
-						WebSMS.this.setButtons();
-						// save user preferences
-						final Editor e = PreferenceManager
-								.getDefaultSharedPreferences(WebSMS.this)
-								.edit();
-						e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
-								.getPackage());
-						e.putString(PREFS_SUBCONNECTOR_ID,
-								prefsSubConnectorSpec.getID());
-						e.commit();
-					}
-				});
-		builder.create().show();
+		// TODO: Can String name be empty here?
+		final SubConnectorSpec[] ret = ConnectorSpec
+				.getSubConnectorReturnArray();
+		prefsConnectorSpec = getConnectorByName(name, ret);
+		prefsSubConnectorSpec = ret[0];
+		WebSMS.this.setButtons();
+		// save user preferences
+		final Editor e = PreferenceManager.getDefaultSharedPreferences(
+				WebSMS.this).edit();
+		e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage());
+		e.putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID());
+		e.commit();
 	}
 
 	/**
