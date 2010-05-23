@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!--                                                                                                                                          
+                Copyright (C) 2010 Felix Bechstein 
+        --> 
+        <!-- 
+                This file is part of WebSMS. This program is free software; you can 
+                redistribute it and/or modify it under the terms of the GNU General 
+                Public License as published by the Free Software Foundation; either 
+                version 3 of the License, or (at your option) any later version. 
+        --> 
+        <!-- 
+                This program is distributed in the hope that it will be useful, but 
+                WITHOUT ANY WARRANTY; without even the implied warranty of 
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+                General Public License for more details. You should have received a 
+                copy of the GNU General Public License along with this program; If 
+                not, see <http://www.gnu.org/licenses/>. 
+        --> 
+<resources>
+	<string name="app_name">WebSMS Connector: SMStrade</string>
+	<string name="app_version">1.0</string>
+	<string name="connector_smstrade_author">Ditschi</string>
+	<string name="connector_smstrade_name">SMStrade</string>
+	<string name="connector_smstrade_preferences">Preferences - SMStrade</string>
+	<string name="enable_smstrade">Enable SMStrade</string>
+	<string name="partner_smstrade_hint">Create new smstrade.de account</string>
+	<string name="partner_smstrade_url">http://www.smstrade.de</string>
+	<string name="wo_sender">w/o sender</string>
+	<string name="w_sender">w/ sender</string>
+	
+	<string name="error_trade_10">Wrong reciepient!</string>
+	<string name="error_trade_20">Sender incorrect!</string>
+	<string name="error_trade_30">Messagetext incorrect!</string>
+	<string name="error_trade_31">Messagetype incorrect!</string>
+	<string name="error_trade_40">SMS route incorrect!</string>
+	<string name="error_trade_50">Authentification failed!</string>
+	<string name="error_trade_60">Not enough credits!</string>
+	<string name="error_trade_70">Target net is not covered by this route!</string>
+	<string name="error_trade_71">A feature is impossible via this route!</string>
+	<string name="error_trade_80">Handing out SMS failed!</string>
+	<string name="error_trade_90">Sending impossible!</string>
+	<string name="error_trade_100">SMS sent</string>
+</resources>
