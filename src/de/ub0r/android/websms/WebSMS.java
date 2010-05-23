@@ -976,6 +976,21 @@ public class WebSMS extends Activity implements OnClickListener,
 		return true;
 	}
 
+	private void saveSelectedConnector(final String name) {
+		// TODO: Can String name be empty here?
+		final SubConnectorSpec[] ret = ConnectorSpec
+				.getSubConnectorReturnArray();
+		prefsConnectorSpec = getConnectorByName(name, ret);
+		prefsSubConnectorSpec = ret[0];
+		this.setButtons();
+		// save user preferences
+		final Editor e = PreferenceManager.getDefaultSharedPreferences(
+				WebSMS.this).edit();
+		e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage());
+		e.putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID());
+		e.commit();
+	}
+
 	/**
 	 * Display "change connector" menu.
 	 */
@@ -1016,6 +1031,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			} else if (css[1].getName().equals(prefsConnectorSpec.getName())) {
 				name = css[0].getName();
 			}
+			this.saveSelectedConnector(name);
 		} else {
 			builder.setItems(items.toArray(new String[0]),
 					new DialogInterface.OnClickListener() {
@@ -1023,37 +1039,12 @@ public class WebSMS extends Activity implements OnClickListener,
 								final int item) {
 							final SubConnectorSpec[] ret = ConnectorSpec
 									.getSubConnectorReturnArray();
-							prefsConnectorSpec = getConnectorByName(items
-									.get(item), ret);
-							prefsSubConnectorSpec = ret[0];
-							WebSMS.this.setButtons();
-							// save user preferences
-							final Editor e = PreferenceManager
-									.getDefaultSharedPreferences(WebSMS.this)
-									.edit();
-							e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec
-									.getPackage());
-							e.putString(PREFS_SUBCONNECTOR_ID,
-									prefsSubConnectorSpec.getID());
-							e.commit();
+							WebSMS.this.saveSelectedConnector(items.get(item));
 						}
 					});
 			builder.create().show();
 			return;
 		}
-
-		// TODO: Can String name be empty here?
-		final SubConnectorSpec[] ret = ConnectorSpec
-				.getSubConnectorReturnArray();
-		prefsConnectorSpec = getConnectorByName(name, ret);
-		prefsSubConnectorSpec = ret[0];
-		WebSMS.this.setButtons();
-		// save user preferences
-		final Editor e = PreferenceManager.getDefaultSharedPreferences(
-				WebSMS.this).edit();
-		e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage());
-		e.putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID());
-		e.commit();
 	}
 
 	/**
