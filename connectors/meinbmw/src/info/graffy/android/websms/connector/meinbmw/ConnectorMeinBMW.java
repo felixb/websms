@@ -200,8 +200,7 @@ public class ConnectorMeinBMW extends Connector {
 	}
 
 	private String cleanPhonenumber(String phonenumber) {
-		phonenumber = phonenumber.replace("+", "00").replace(" ", "").replace("(", "").replace(")", "").replace("/", "").replace("-", "");
-		return phonenumber;
+		return Utils.international2oldformat(Utils.cleanRecipient(phonenumber));
 	}
 	
 	private final StatusLine performRawLogin(final String user, final String password, final String postDestinationUrl, final String sessionInputValueLogin) throws WebSMSException {
