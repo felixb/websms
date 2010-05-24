@@ -94,7 +94,7 @@ public class ConnectorO2 extends Connector {
 	"Ihre SMS wurde erfolgreich versendet.";
 	// private static final String CHECK_SENT = "/app_pic/ico_mail_send_ok.gif";
 	/** Check if message was scheduled. */
-	private static final String CHECK_SCHED = "Ihre Web2SMS ist geplant.";
+	private static final String CHECK_SCHED = "Ihre Web2SMS ist geplant";
 	/** Check if captcha was solved wrong. */
 	private static final String CHECK_WRONGCAPTCHA = // .
 	"Sie haben einen falschen Code eingegeben.";
@@ -457,8 +457,9 @@ public class ConnectorO2 extends Connector {
 			check = CHECK_SCHED;
 		}
 		String htmlText1 = null;
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				Preferences.PREFS_TWEAK, false)) {
+		if (sendLater <= 0
+				&& PreferenceManager.getDefaultSharedPreferences(context)
+						.getBoolean(Preferences.PREFS_TWEAK, false)) {
 			htmlText1 = Utils.stream2str(response.getEntity().getContent(),
 					STRIP_SEND_START, Utils.ONLY_MATCHING_LINE, check);
 		} else {
@@ -469,7 +470,7 @@ public class ConnectorO2 extends Connector {
 			throw new WebSMSException("error parsing website");
 		} else if (htmlText1.indexOf(check) < 0) {
 			// check output html for success message
-			Log.d(TAG, htmlText1);
+			Log.w(TAG, htmlText1);
 			throw new WebSMSException("error parsing website");
 		}
 	}
