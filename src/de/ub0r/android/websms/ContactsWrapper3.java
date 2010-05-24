@@ -19,6 +19,7 @@
 
 package de.ub0r.android.websms;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -28,7 +29,8 @@ import android.provider.Contacts;
 import android.provider.Contacts.PeopleColumns;
 import android.provider.Contacts.Phones;
 import android.provider.Contacts.PhonesColumns;
-import de.ub0r.android.websms.connector.common.Utils;
+import android.provider.Contacts.People.Extensions;
+import de.ub0r.android.websms.connector.common.Log;
 
 /**
  * Implement {@link ContactsWrapper} for API 3 and 4.
@@ -37,6 +39,8 @@ import de.ub0r.android.websms.connector.common.Utils;
  */
 @SuppressWarnings("deprecation")
 public final class ContactsWrapper3 extends ContactsWrapper {
+	/** Tag for output. */
+	private static final String TAG = "cw3";
 
 	/** SQL to select mobile numbers only. */
 	private static final String MOBILES_ONLY = ") AND (" + PhonesColumns.TYPE
@@ -58,6 +62,11 @@ public final class ContactsWrapper3 extends ContactsWrapper {
 			PhonesColumns.NUMBER, // 2
 			PhonesColumns.TYPE // 3
 	};
+
+	/** Projection for persons query, filter. */
+	private static final String[] PROJECTION_FILTER = // .
+	new String[] { Extensions.PERSON_ID, PeopleColumns.DISPLAY_NAME,
+			PhonesColumns.NUMBER };
 
 	/** Projection for persons query, plain. */
 
@@ -120,32 +129,36 @@ public final class ContactsWrapper3 extends ContactsWrapper {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getNameForNumber(final WebSMS act, final String number) {
-		String ret = null;
-		Cursor c = act.managedQuery(
-				android.provider.Contacts.People.CONTENT_URI, new String[] {
-						PeopleColumns.DISPLAY_NAME, PhonesColumns.NUMBER },
-				PhonesColumns.NUMBER + " = '" + number + "'", null, null);
+	public Cursor getContact(final ContentResolver cr, // .
+			final String number) {
+		final Uri uri = Uri.withAppendedPath(
+				Contacts.Phones.CONTENT_FILTER_URL, number);
+		Log.d(TAG, "query: " + uri);
+		Cursor c = cr.query(uri, PROJECTION_FILTER, null, null, null);
 		if (c.moveToFirst()) {
-			ret = c.getString(0);
+			Log.d(TAG, "id: " + c.getString(FILTER_INDEX_ID));
+			Log.d(TAG, "name: " + c.getString(FILTER_INDEX_NAME));
+			Log.d(TAG, "number: " + c.getString(FILTER_INDEX_NUMBER));
+			return c;
 		}
-		return ret;
+		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getNameAndNumber(final WebSMS act, final Uri uri) {
-		String ret = null;
-		Cursor c = act.managedQuery(uri, new String[] {
-				PeopleColumns.DISPLAY_NAME, PhonesColumns.NUMBER }, null, null,
-				null);
+	public Cursor getContact(final ContentResolver cr, // .
+			final Uri uri) {
+		Log.d(TAG, "query: " + uri);
+		Cursor c = cr.query(uri, PROJECTION_FILTER, null, null, null);
 		if (c.moveToFirst()) {
-			ret = c.getString(0) + " <" + Utils.cleanRecipient(c.getString(1))
-					+ ">";
+			Log.d(TAG, "id: " + c.getString(FILTER_INDEX_ID));
+			Log.d(TAG, "name: " + c.getString(FILTER_INDEX_NAME));
+			Log.d(TAG, "number: " + c.getString(FILTER_INDEX_NUMBER));
+			return c;
 		}
-		return ret;
+		return null;
 	}
 
 	/**

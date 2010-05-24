@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.websms;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -25,7 +26,8 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
-import de.ub0r.android.websms.connector.common.Utils;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import de.ub0r.android.websms.connector.common.Log;
 
 /**
  * Helper class to set/unset background for api5 systems.
@@ -33,6 +35,9 @@ import de.ub0r.android.websms.connector.common.Utils;
  * @author flx
  */
 public final class ContactsWrapper5 extends ContactsWrapper {
+	/** Tag for output. */
+	private static final String TAG = "cw5";
+
 	/** SQL to select mobile numbers only. */
 	private static final String MOBILES_ONLY = ") AND ("
 			+ ContactsContract.CommonDataKinds.Phone.TYPE + " = "
@@ -52,6 +57,12 @@ public final class ContactsWrapper5 extends ContactsWrapper {
 			ContactsContract.CommonDataKinds.Phone.NUMBER, // 2
 			ContactsContract.CommonDataKinds.Phone.TYPE // 3
 	};
+
+	/** Projection for persons query, filter. */
+	private static final String[] PROJECTION_FILTER = // .
+	new String[] { ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY,
+			ContactsContract.PhoneLookup.DISPLAY_NAME,
+			ContactsContract.CommonDataKinds.Phone.NUMBER };
 
 	/**
 	 * {@inheritDoc}
@@ -110,34 +121,49 @@ public final class ContactsWrapper5 extends ContactsWrapper {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getNameForNumber(final WebSMS act, final String number) {
-		String ret = null;
-		Cursor c = act.managedQuery(Uri.withAppendedPath(
-				ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI,
-				number), new String[] { ContactsContract.Data.DISPLAY_NAME,
-				ContactsContract.CommonDataKinds.Phone.NUMBER }, null, null,
-				null);
-		if (c.moveToFirst()) {
-			ret = c.getString(0);
+	public Cursor getContact(final ContentResolver cr, // .
+			final Uri uri) {
+		// FIXME: this is broken in android os; issue #8255
+		Log.d(TAG, "query: " + uri);
+		Cursor c = cr.query(uri, PROJECTION_FILTER, null, null, null);
+		if (c != null && c.moveToFirst()) {
+			return c;
 		}
-		return ret;
+		return null;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getNameAndNumber(final WebSMS act, final Uri uri) {
-		String ret = null;
-		Cursor c = act.managedQuery(uri, new String[] {
-				ContactsContract.Data.DISPLAY_NAME,
-				ContactsContract.CommonDataKinds.Phone.NUMBER }, null, null,
-				null);
-		if (c.moveToFirst()) {
-			ret = c.getString(0) + " <" + Utils.cleanRecipient(c.getString(1))
-					+ ">";
+	public Cursor getContact(final ContentResolver cr, // .
+			final String number) {
+		Uri uri = Uri.withAppendedPath(
+				ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI,
+				number);
+		// FIXME: this is broken in android os; issue #8255
+		Log.d(TAG, "query: " + uri);
+		Cursor c = cr.query(uri, PROJECTION_FILTER, null, null, null);
+		if (c != null && c.moveToFirst()) {
+			return c;
 		}
-		return ret;
+		// Fallback to API3
+		c = new ContactsWrapper3().getContact(cr, number);
+		if (c != null && c.moveToFirst()) {
+			// get orig API5 cursor for the real number
+			final String where = PROJECTION_FILTER[FILTER_INDEX_NUMBER]
+					+ " = '" + c.getString(FILTER_INDEX_NUMBER) + "'";
+			Log.d(TAG, "query: " + Phone.CONTENT_URI + " # " + where);
+			Cursor c0 = cr.query(Phone.CONTENT_URI, PROJECTION_FILTER, where,
+					null, null);
+			if (c0 != null && c0.moveToFirst()) {
+				Log.d(TAG, "id: " + c0.getString(FILTER_INDEX_ID));
+				Log.d(TAG, "name: " + c0.getString(FILTER_INDEX_NAME));
+				Log.d(TAG, "number: " + c0.getString(FILTER_INDEX_NUMBER));
+				return c0;
+			}
+		}
+		return null;
 	}
 
 	/**

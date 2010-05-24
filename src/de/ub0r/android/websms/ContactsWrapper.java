@@ -19,11 +19,13 @@
 
 package de.ub0r.android.websms;
 
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import de.ub0r.android.websms.connector.common.Log;
+import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Wrap around contacts API.
@@ -33,6 +35,13 @@ import de.ub0r.android.websms.connector.common.Log;
 abstract class ContactsWrapper {
 	/** Tag for output. */
 	private static final String TAG = "cw";
+
+	/** Index of id. */
+	public static final int FILTER_INDEX_ID = 0;
+	/** Index of name. */
+	public static final int FILTER_INDEX_NAME = 1;
+	/** Index of number. */
+	public static final int FILTER_INDEX_NUMBER = 2;
 
 	/**
 	 * Static singleton instance of {@link ContactsWrapper} holding the
@@ -135,27 +144,65 @@ abstract class ContactsWrapper {
 	public abstract String getMobilesOnlyString();
 
 	/**
+	 * Get a {@link Cursor} with <id,name,number> for a given number.
+	 * 
+	 * @param cr
+	 *            {@link ContentResolver}
+	 * @param number
+	 *            number to look for
+	 * @return a {@link Cursor} matching the number
+	 */
+	public abstract Cursor getContact(final ContentResolver cr,
+			final String number);
+
+	/**
+	 * Get a {@link Cursor} with <id,name,number> for a given number.
+	 * 
+	 * @param cr
+	 *            {@link ContentResolver}
+	 * @param uri
+	 *            {@link Uri} to get the contact from
+	 * @return a {@link Cursor} matching the number
+	 */
+	public abstract Cursor getContact(final ContentResolver cr, final Uri uri);
+
+	/**
 	 * Get a Name for a given number.
 	 * 
-	 * @param act
-	 *            Activity to get the cursor from
+	 * @param cr
+	 *            {@link ContentResolver}
 	 * @param number
 	 *            number to look for
 	 * @return name matching the number
 	 */
-	public abstract String getNameForNumber(final WebSMS act,
-			final String number);
+	public final String getNameForNumber(final ContentResolver cr,
+			final String number) {
+		final Cursor c = this.getContact(cr, number);
+		if (c != null) {
+			return c.getString(FILTER_INDEX_NAME);
+		}
+		return null;
+	}
 
 	/**
-	 * Get "Name <Number>" from {@link Uri}. * @param act {@link Activity} to
-	 * get the cursor from.
+	 * Get "Name <Number>" from {@link Uri}.
 	 * 
+	 * @param cr
+	 *            {@link ContentResolver}
 	 * @param uri
 	 *            {@link Uri}
 	 * @return "Name <Number>"
 	 */
-	// TODO: merge both APIs here?
-	public abstract String getNameAndNumber(final WebSMS act, final Uri uri);
+	public final String getNameAndNumber(final ContentResolver cr, // .
+			final Uri uri) {
+		final Cursor c = this.getContact(cr, uri);
+		if (c != null) {
+			return c.getString(FILTER_INDEX_NAME) + " <"
+					+ Utils.cleanRecipient(c.getString(FILTER_INDEX_NAME))
+					+ ">";
+		}
+		return null;
+	}
 
 	/**
 	 * Pck a Contact's phone.

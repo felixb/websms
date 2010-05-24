@@ -303,7 +303,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (s.indexOf('<') < 0) {
 			// try to fetch recipient's name from phonebook
-			String n = ContactsWrapper.getInstance().getNameForNumber(this, s);
+			String n = ContactsWrapper.getInstance().getNameForNumber(
+					this.getContentResolver(), s);
 			if (n != null) {
 				s = n + " <" + s + ">, ";
 			}
@@ -454,7 +455,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					return;
 				}
 				final String phone = ContactsWrapper.getInstance()
-						.getNameAndNumber(this, u)
+						.getNameAndNumber(this.getContentResolver(), u)
 						+ ", ";
 				String t = this.etTo.getText().toString().trim();
 				if (t.length() == 0) {
