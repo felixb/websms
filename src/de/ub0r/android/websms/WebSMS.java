@@ -1339,6 +1339,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (connector.getSubConnector(subconnector).hasFeatures(
 					SubConnectorSpec.FEATURE_MULTIRECIPIENTS)
 					|| tos.length == 1) {
+				Log.d(TAG, "text: " + text);
+				Log.d(TAG, "to: ", tos);
 				runCommand(this, connector, command);
 			} else {
 				ConnectorCommand cc;
@@ -1348,6 +1350,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					}
 					cc = (ConnectorCommand) command.clone();
 					cc.setRecipients(t);
+					Log.d(TAG, "text: " + text);
+					Log.d(TAG, "to: ", tos);
 					runCommand(this, connector, cc);
 				}
 			}
