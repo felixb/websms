@@ -86,6 +86,9 @@ public class ConnectorFishtext extends Connector {
 			+ "Windows NT 5.1; ko; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 "
 			+ "(.NET CLR 3.5.30729)";
 
+	/** Object to sync with. */
+	private static final Object SYNC = new Object();
+
 	/** Static cookies. */
 	private static ArrayList<Cookie> staticCookies = new ArrayList<Cookie>();
 
@@ -331,10 +334,12 @@ public class ConnectorFishtext extends Connector {
 	@Override
 	protected final void doUpdate(final Context context, final Intent intent)
 			throws WebSMSException {
-		final ArrayList<Cookie> cookies = new ArrayList<Cookie>();
 		try {
-			this.doLogin(context, new ConnectorCommand(intent), cookies);
-			staticCookies = cookies;
+			synchronized (SYNC) {
+				ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+				this.doLogin(context, new ConnectorCommand(intent), cookies);
+				staticCookies = cookies;
+			}
 		} catch (final IOException e) {
 			throw new WebSMSException(e);
 		} catch (final URISyntaxException e) {
@@ -351,16 +356,18 @@ public class ConnectorFishtext extends Connector {
 	@Override
 	protected final void doSend(final Context context, final Intent intent)
 			throws WebSMSException {
-		ArrayList<Cookie> cookies;
-		if (staticCookies == null) {
-			cookies = new ArrayList<Cookie>();
-		} else {
-			cookies = (ArrayList<Cookie>) staticCookies.clone();
-		}
 		try {
-			final ConnectorCommand command = new ConnectorCommand(intent);
-			this.sendText(context, command, cookies);
-			staticCookies = cookies;
+			synchronized (SYNC) {
+				ArrayList<Cookie> cookies;
+				if (staticCookies == null) {
+					cookies = new ArrayList<Cookie>();
+				} else {
+					cookies = (ArrayList<Cookie>) staticCookies.clone();
+				}
+				final ConnectorCommand command = new ConnectorCommand(intent);
+				this.sendText(context, command, cookies);
+				staticCookies = cookies;
+			}
 		} catch (final IOException e) {
 			throw new WebSMSException(e);
 		} catch (final URISyntaxException e) {
