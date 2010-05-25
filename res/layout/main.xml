@@ -21,7 +21,7 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:layout_weight="1" android:fillViewport="true">
 	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
 		<!-- Place an AdMob ad at the bottom of the screen. -->
 		<!-- It has white text on a black background. -->
 		<!-- The description of the surrounding context is 'Android game'. -->
@@ -71,8 +71,8 @@
 				android:layout_height="fill_parent" android:layout_weight="1"
 				android:hint="@string/text_hint" android:imeOptions="actionDone|flagNoEnterAction"
 				android:nextFocusRight="@+id/send_" android:gravity="top"
-				android:autoText="true" android:inputType="textAutoCorrect|textMultiLine"
-				android:minLines="3" />
+				android:autoText="true" android:minLines="3"
+				android:inputType="textMultiLine|textAutoCorrect|textCapSentences" />
 			<TextView android:id="@+id/text_" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:paddingLeft="3dip"
 				android:paddingRight="3dip" android:paddingBottom="3dip"
