@@ -131,6 +131,9 @@ public final class ContactsWrapper3 extends ContactsWrapper {
 	@Override
 	public Cursor getContact(final ContentResolver cr, // .
 			final String number) {
+		if (number == null || number.length() == 0) {
+			return null;
+		}
 		final Uri uri = Uri.withAppendedPath(
 				Contacts.Phones.CONTENT_FILTER_URL, number);
 		Log.d(TAG, "query: " + uri);

@@ -138,6 +138,9 @@ public final class ContactsWrapper5 extends ContactsWrapper {
 	@Override
 	public Cursor getContact(final ContentResolver cr, // .
 			final String number) {
+		if (number == null || number.length() == 0) {
+			return null;
+		}
 		Uri uri = Uri.withAppendedPath(
 				ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI,
 				number);
