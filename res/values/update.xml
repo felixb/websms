@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>v3.1.3: Add autocaps., fix some bugs, easy provider switch</item>
 		<item>v3.1.2: Allow to hide send button</item>
 		<item>v3.1.1: Allow to hide "click for update", minor inner changes</item>
 		<item>v3.1: Fix ;( emoticon, change layout, save messages as pending</item>
@@ -37,9 +38,5 @@
 		<item>v3.0.2: fix layout</item>
 		<item>v3.0.1: fix migration from beta, fix sending to multiple recipients for some connectors</item>
 		<item>v3.0: split connectors to separate packages (check market!), add emoticons button</item>
-		<item>v2.9.3: minor changes, fix o2 captcha</item>
-		<item>v2.9.2: fix arcor with unlimited sms, allow to hide cancel button</item>
-		<item>v2.9.1: fix arcor prefs</item>
-		<item>v2.9: add support for arcor.de, add hdpi icon</item>
 	</string-array>
 </resources>
