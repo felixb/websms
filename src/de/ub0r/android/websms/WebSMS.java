@@ -977,8 +977,13 @@ public class WebSMS extends Activity implements OnClickListener,
 		return true;
 	}
 
+	/**
+	 * Save selected connector.
+	 * 
+	 * @param name
+	 *            name of the item
+	 */
 	private void saveSelectedConnector(final String name) {
-		// TODO: Can String name be empty here?
 		final SubConnectorSpec[] ret = ConnectorSpec
 				.getSubConnectorReturnArray();
 		prefsConnectorSpec = getConnectorByName(name, ret);
@@ -1018,21 +1023,28 @@ public class WebSMS extends Activity implements OnClickListener,
 		scs = null;
 		n = null;
 
-		String name = "";
 		if (items.size() == 0) {
 			Toast.makeText(this, R.string.log_noreadyconnector,
 					Toast.LENGTH_LONG).show();
 		} else if (items.size() == 1) {
-			name = css[0].getName();
-		}
-		if (items.size() == 2) {
+			this.saveSelectedConnector(css[0].getName());
+		} else if (items.size() == 2) {
 			// Find actual connector, pick the other one from css
-			if (css[0].getName().equals(prefsConnectorSpec.getName())) {
-				name = css[1].getName();
-			} else if (css[1].getName().equals(prefsConnectorSpec.getName())) {
-				name = css[0].getName();
+			final SubConnectorSpec[] ret = ConnectorSpec
+					.getSubConnectorReturnArray();
+			final ConnectorSpec cs = getConnectorByName(items.get(0), ret);
+			final SubConnectorSpec subcs = ret[0];
+			String name;
+			if (prefsConnectorSpec.equals(cs)
+					&& prefsSubConnectorSpec.getID().equals(subcs.getID())) {
+				name = items.get(1);
+			} else {
+				name = items.get(0);
 			}
 			this.saveSelectedConnector(name);
+			Toast.makeText(this,
+					this.getString(R.string.connectors_switch) + " " + name,
+					Toast.LENGTH_SHORT).show();
 		} else {
 			builder.setItems(items.toArray(new String[0]),
 					new DialogInterface.OnClickListener() {
