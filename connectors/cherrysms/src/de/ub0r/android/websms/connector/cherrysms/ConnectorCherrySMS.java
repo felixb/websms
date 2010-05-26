@@ -20,14 +20,15 @@ package de.ub0r.android.websms.connector.cherrysms;
 
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import de.ub0r.android.websms.connector.common.Connector;
+import de.ub0r.android.websms.connector.common.BasicConnector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
@@ -40,7 +41,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * 
  * @author flx
  */
-public class ConnectorCherrySMS extends Connector {
+public final class ConnectorCherrySMS extends BasicConnector {
 	/** Tag for output. */
 	private static final String TAG = "cherry";
 	/** {@link SubConnectorSpec} ID: with sender. */
@@ -55,7 +56,7 @@ public class ConnectorCherrySMS extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ConnectorSpec initSpec(final Context context) {
+	public ConnectorSpec initSpec(final Context context) {
 		final String name = context
 				.getString(R.string.connector_cherrysms_name);
 		ConnectorSpec c = new ConnectorSpec(name);
@@ -75,7 +76,7 @@ public class ConnectorCherrySMS extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ConnectorSpec updateSpec(final Context context,
+	public ConnectorSpec updateSpec(final Context context,
 			final ConnectorSpec connectorSpec) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
@@ -224,17 +225,149 @@ public class ConnectorCherrySMS extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Context context, final Intent intent)
-			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent));
+	protected String getParamUsername() {
+		return "user";
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Context context, final Intent intent)
-			throws WebSMSException {
-		this.sendData(context, new ConnectorCommand(intent));
+	protected String getParamPassword() {
+		return "password";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getParamRecipients() {
+		return "to";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getParamSender() {
+		return "xxx";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getParamText() {
+		return "message";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getUsername(final Context context,
+			final ConnectorCommand command, final ConnectorSpec cs) {
+		return Utils.international2oldformat(Utils.getSender(context, command
+				.getDefSender()));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getPassword(final Context context,
+			final ConnectorCommand command, final ConnectorSpec cs) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		return Utils.md5(p.getString(Preferences.PREFS_PASSWORD, ""));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getRecipients(final ConnectorCommand command) {
+		return Utils.joinRecipientsNumbers(Utils.national2international(command
+				.getDefPrefix(), command.getRecipients()), ";", true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getSender(final Context context,
+			final ConnectorCommand command, final ConnectorSpec cs) {
+		return "xxx";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getUrlBalance(final ArrayList<BasicNameValuePair> d) {
+		d.add(new BasicNameValuePair("check", "guthaben"));
+		return URL;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getUrlSend(final ArrayList<BasicNameValuePair> d) {
+		return URL;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean usePost() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void addExtraArgs(final Context context,
+			final ConnectorCommand command, final ConnectorSpec cs,
+			final ArrayList<BasicNameValuePair> d) {
+		boolean sendWithSender = false;
+		final String sub = command.getSelectedSubConnector();
+		if (sub != null && sub.equals(ID_W_SENDER)) {
+			sendWithSender = true;
+		}
+		Log.d(TAG, "send with sender = " + sendWithSender);
+		if (sendWithSender) {
+			d.add(new BasicNameValuePair("from", "1"));
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void parseResponse(final Context context,
+			final ConnectorCommand command, final ConnectorSpec cs,
+			final String htmlText) throws WebSMSException {
+		if (htmlText == null || htmlText.length() == 0) {
+			throw new WebSMSException(context, R.string.error_service);
+		}
+		String[] lines = htmlText.split("\n");
+		int l = lines.length;
+		if (command.getType() == ConnectorCommand.TYPE_SEND) {
+			try {
+				final int ret = Integer.parseInt(lines[0].trim());
+				checkReturnCode(context, ret);
+				if (l > 1) {
+					cs.setBalance(lines[l - 1].trim());
+				}
+			} catch (NumberFormatException e) {
+				Log.e(TAG, "could not parse ret", e);
+				throw new WebSMSException(e.getMessage());
+			}
+		} else {
+			cs.setBalance(lines[l - 1].trim());
+		}
 	}
 }
