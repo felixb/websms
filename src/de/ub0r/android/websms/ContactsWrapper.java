@@ -198,7 +198,7 @@ abstract class ContactsWrapper {
 		final Cursor c = this.getContact(cr, uri);
 		if (c != null) {
 			return c.getString(FILTER_INDEX_NAME) + " <"
-					+ Utils.cleanRecipient(c.getString(FILTER_INDEX_NAME))
+					+ Utils.cleanRecipient(c.getString(FILTER_INDEX_NUMBER))
 					+ ">";
 		}
 		return null;
