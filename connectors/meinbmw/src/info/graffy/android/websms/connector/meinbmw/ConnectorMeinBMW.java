@@ -183,7 +183,7 @@ public class ConnectorMeinBMW extends Connector {
 	}
 
 	private final void sendSms(String phonenumber, final String message) throws WebSMSException {
-		phonenumber = cleanPhonenumber(phonenumber);
+		phonenumber = Utils.international2oldformat(phonenumber);
 
 		if (areSmsExiredForToday())
 			throw new WebSMSException(getStringResource(R.string.error_sms_expired));
@@ -197,10 +197,6 @@ public class ConnectorMeinBMW extends Connector {
 
 		if (sendingFailed())
 			throw new WebSMSException(getStringResource(R.string.error_sending_sms_unknown));
-	}
-
-	private String cleanPhonenumber(String phonenumber) {
-		return Utils.international2oldformat(Utils.cleanRecipient(phonenumber));
 	}
 	
 	private final StatusLine performRawLogin(final String user, final String password, final String postDestinationUrl, final String sessionInputValueLogin) throws WebSMSException {
