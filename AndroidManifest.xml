@@ -19,8 +19,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="de.ub0r.android.websms" android:versionName="3.1.4"
 	android:versionCode="3102">
-	<application android:label="@string/app_name" android:icon="@drawable/icon"
-		android:debuggable="true">
+	<application android:name=".WebSMSApp" android:label="@string/app_name"
+		android:icon="@drawable/icon" android:debuggable="true">
 		<activity android:label="@string/app_name"
 			android:configChanges="orientation|keyboardHidden" android:name="WebSMS"
 			android:launchMode="singleTop" android:windowSoftInputMode="adjustResize">
@@ -56,7 +56,7 @@
 		<activity android:name="CaptchaActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="DonationHelper"
+		<activity android:name="de.ub0r.android.lib.DonationHelper"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize">
 		</activity>

@@ -17,7 +17,6 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="lang">de</string>
 	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
 	<string name="about_hint">Über diese App</string>
@@ -33,17 +32,6 @@
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=11046415</string>
-	<string name="donate_subject">Ich bin der Spender. Mein Hash ist...</string>
-	<string name="donate_">Spenden (Paypal)</string>
-	<string name="donate_remove_ads_">Spenden/Werbung entfernen</string>
-	<string name="remove_ads_">Werbung entfernen</string>
-	<string name="predonate">Dies ist eine open-source App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden. Ich werde die Werbung so schnell wie möglich entfernen.\n\nAn alle SMSdroid Spender: Der noads code funktioniert auch mit WebSMS.</string>
-	<string name="postdonate">Um die Werbung zu entfernen musst du den noads Code laden. Er steht erst zur Verfügung, wenn die Spende bei mir eingegangen ist. Bitte sei geduldig und melde dich bei mir, wenn es nach einem Tag immernoch nicht funktioniert hat.</string>
-	<string name="paypal_id_">Um die Spende zu überprüfen, wird deine Paypal Id (Mail Adresse) benötigt:</string>
-	<string name="load_hash_">Noads Code laden</string>
-	<string name="signature_">Ich werde dir dann einen Code schicken, mit dem du die Werbung dann abschalten kannst.\Du kannst diesen Code hier unten einfügen:</string>
-	<string name="sig_loaded">Werbung entfernt!</string>
-	<string name="sig_failed">Fehler beim entfernen der Werbung!</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>
 	<string name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>

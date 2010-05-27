@@ -69,13 +69,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import de.ub0r.android.lib.Base64Coder;
+import de.ub0r.android.lib.DonationHelper;
+import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
-import de.ub0r.android.websms.connector.sms.TelephonyWrapper;
 
 /**
  * Main Activity.
@@ -130,8 +132,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_UPDATE = "hide_update";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
-	/** Preference's name: hide ads. */
-	static final String PREFS_HIDEADS = "hideads";
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
@@ -718,22 +718,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,
 				false));
 
-		prefsNoAds = this.hideAds();
+		prefsNoAds = DonationHelper.hideAds(this);
 		this.displayAds();
 		this.setButtons();
-	}
-
-	/**
-	 * Check for signature updates.
-	 * 
-	 * @return true if ads should be hidden
-	 */
-	private boolean hideAds() {
-		Log.d(TAG, "hideAds()");
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		Log.d(TAG, "return: " + p.getBoolean(PREFS_HIDEADS, false));
-		return p.getBoolean(PREFS_HIDEADS, false);
 	}
 
 	/**
