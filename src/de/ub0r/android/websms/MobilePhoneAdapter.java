@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
+import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
@@ -60,10 +61,10 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	public final void bindView(final View view, final Context context,
 			final Cursor cursor) {
 		((TextView) view.findViewById(R.id.text1)).setText(cursor
-				.getString(ContactsWrapper.INDEX_NAME));
+				.getString(ContactsWrapper.FILTER_INDEX_NAME));
 		((TextView) view.findViewById(R.id.text2)).setText(cursor
-				.getString(ContactsWrapper.INDEX_NUMBER));
-		int i = cursor.getInt(ContactsWrapper.INDEX_NUMBER_TYPE) - 1;
+				.getString(ContactsWrapper.FILTER_INDEX_NUMBER));
+		int i = cursor.getInt(ContactsWrapper.FILTER_INDEX_TYPE) - 1;
 		String[] types = context.getResources().getStringArray(
 				android.R.array.phoneTypes);
 		if (i >= 0 && i < types.length) {
@@ -78,8 +79,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 */
 	@Override
 	public final String convertToString(final Cursor cursor) {
-		String name = cursor.getString(ContactsWrapper.INDEX_NAME);
-		String number = cursor.getString(ContactsWrapper.INDEX_NUMBER);
+		String name = cursor.getString(ContactsWrapper.FILTER_INDEX_NAME);
+		String number = cursor.getString(ContactsWrapper.FILTER_INDEX_NUMBER);
 		if (name == null || name.length() == 0) {
 			return Utils.cleanRecipient(number);
 		}
@@ -95,7 +96,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		String where = null;
 		if (constraint != null) {
 			StringBuilder s = new StringBuilder(WRAPPER
-					.getFilterWhere(constraint.toString()));
+					.getContentWhere(constraint.toString()));
 			if (prefsMobilesOnly) {
 				s.insert(0, "(");
 				s.append(WRAPPER.getMobilesOnlyString());
@@ -104,8 +105,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			where = s.toString();
 		}
 
-		return this.mContentResolver.query(WRAPPER.getFilterUri(), WRAPPER
-				.getFilterProjection(), where, null, WRAPPER.getFilterSort());
+		return this.mContentResolver.query(WRAPPER.getContentUri(), WRAPPER
+				.getContentProjection(), where, null, WRAPPER.getContentSort());
 	}
 
 	/**

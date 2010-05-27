@@ -71,6 +71,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.DonationHelper;
+import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
