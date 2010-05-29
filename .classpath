@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/admob-sdk-android.jar"/>
-	<classpathentry kind="lib" path="libs/WebSMS-Connector-API.jar"/>
 	<classpathentry kind="src" path="ub0rlib"/>
+	<classpathentry kind="src" path="websmsAPI"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

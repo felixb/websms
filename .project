@@ -42,5 +42,10 @@
 			<type>2</type>
 			<locationURI>_android_ub0rlib/src</locationURI>
 		</link>
+		<link>
+			<name>websmsAPI</name>
+			<type>2</type>
+			<locationURI>_android_websmsAPI/src</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>
