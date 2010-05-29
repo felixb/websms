@@ -1023,7 +1023,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			final ConnectorSpec cs = getConnectorByName(items.get(0), ret);
 			final SubConnectorSpec subcs = ret[0];
 			String name;
-			if (cs.equals(prefsConnectorSpec)
+			if (prefsConnectorSpec == null || prefsSubConnectorSpec == null
+					|| cs == null || subcs == null) {
+				name = items.get(0);
+			} else if (cs.equals(prefsConnectorSpec)
 					&& subcs.getID().equals(prefsSubConnectorSpec.getID())) {
 				name = items.get(1);
 			} else {
