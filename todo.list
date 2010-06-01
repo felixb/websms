@@ -1,4 +1,0 @@
-check for new connectors
-implement limitLength in websms
-fix $(grep -Fr FIXME)
-fix $(grep -Fr TODO)
