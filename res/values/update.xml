@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>v3.1.5: Fix some bugs, inner changes</item>
 		<item>v3.1.4: Hotfix switching subconnectors, hotfix selecting contact</item>
 		<item>v3.1.3: Add autocaps., fix some bugs, easy provider switch</item>
 		<item>v3.1.2: Allow to hide send button</item>
