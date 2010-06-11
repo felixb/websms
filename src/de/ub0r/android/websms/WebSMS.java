@@ -1457,6 +1457,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (c != null) {
 				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
+				final String em = c.getErrorMessage();
+				if (em != null && me != null) {
+					Toast.makeText(me, em, Toast.LENGTH_LONG).show();
+				}
 			} else {
 				final String name = connector.getName();
 				if (connector.getSubConnectorCount() == 0 || name == null

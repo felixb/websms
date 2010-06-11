@@ -38,7 +38,7 @@ import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
- * Fetch all incomming Broadcasts and forward them to WebSMS.
+ * Fetch all incoming Broadcasts and forward them to WebSMS.
  * 
  * @author flx
  */
