@@ -57,6 +57,7 @@
 	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
+	<string name="appearance_">Appearance</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
@@ -75,7 +76,9 @@
 	<string name="hide_update">Hide \"Click for update\"</string>
 	<string name="hide_update_hint">Hide \"Click for update\" on main screen.</string>
 	<string name="default_recipient_">Default recipient</string>
-	<string name="default_recipient_hint">Default recipient filled into address bar.</string>
+	<string name="default_recipient_hint">Default recipient filled into address bar on app start.</string>
+	<string name="signature_">Signature</string>
+	<string name="signature_hint">Text attached on every message. No extra spacing is done. Start signature with \" \" if needed.</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>

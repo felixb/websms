@@ -51,6 +51,7 @@
 	<string name="save_chars_">Zeichen sparen</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
+	<string name="appearance_">Oberfläche</string>
 	<string name="settings_connectors">Einstellungen - Connectoren</string>
 	<string name="extras_">Extras</string>
 	<string name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
@@ -70,7 +71,9 @@
 	<string name="hide_update">\"Kick zum Update\" verstecken</string>
 	<string name="hide_update_hint">\"Klick zum Update\" auf Main Screen verstecken.</string>
 	<string name="default_recipient_">Default Empfänger</string>
-	<string name="default_recipient_hint">Default empfänger, der in die Adressleiste eingetragen wird.</string>
+	<string name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
+	<string name="signature_">Signatur</string>
+	<string name="signature_hint">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
 	<string name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
 	<string name="mobile_only_">Nur Mobilnummern anzeigen</string>

@@ -136,6 +136,8 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
+	/** Preference's name: signature. */
+	private static final String PREFS_SIGNATURE = "signature";
 
 	/** Path to file containing signatures of UID Hash. */
 	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
@@ -1317,9 +1319,16 @@ public class WebSMS extends Activity implements OnClickListener,
 			final String subconnector) {
 		// fetch text/recipient
 		final String to = this.etTo.getText().toString();
-		final String text = this.etText.getText().toString();
+		String text = this.etText.getText().toString();
 		if (to.length() == 0 || text.length() == 0) {
 			return;
+		}
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final String signature = p.getString(PREFS_SIGNATURE, null);
+		if (signature != null && signature.length() > 0 && !text.endsWith(signature)) {
+			text = text + signature;
+			this.etText.setText(text);
 		}
 
 		this.displayAds();
@@ -1327,8 +1336,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
 				&& v.isEnabled() && v.isChecked();
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
 
