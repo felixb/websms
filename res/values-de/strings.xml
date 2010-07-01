@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2010 Felix Bechstein
+		Copyright (C) 2009-2010 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,6 +17,28 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
+<!--	<string name="version_">Version:</string> -->
+	<string name="debug_">Debug</string>
+<!--	<string name="send_logs_">Send logs</string> -->
+<!--	<string name="send_logs_hint">Send your device\'s logs to the developer.\nDo this only if you was asked to do so.</string> -->
+<!--	<string name="sendlog_run_">Run SendLog</string> -->
+<!--	<string name="sendlog_run">SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.</string> -->
+<!--	<string name="sendlog_install_">Install SendLog</string> -->
+<!--	<string name="sendlog_install">Install the free SendLog application to collect the device log and send it to the developer.</string> -->
+<!--	<string name="donate_paypal_">Donate (Paypal)</string> -->
+<!--	<string name="donate_market_">Donate (Market)</string> -->
+<!--	<string name="donate_remove_ads_">Donate/remove ads</string> -->
+<!--	<string name="remove_ads_">Remove ads</string> -->
+<!--	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating. I\'ll remove the ads for you as soon as possible.\nThank you!\n\nThe donation will remove the ads in all apps provided by me.</string> -->
+<!--	<string name="postdonate">To remove ads, you need to load the noads code. It is available as soon the donation arrives. Please be patient and drop me a mail if it does not work after one day.</string> -->
+<!--	<string name="donator_id_">To verify your donation your donation id (paypal mail address for paypal; gmail address for market) is needed:</string> -->
+<!--	<string name="donator_id_hint">Paypal/gmail address</string> -->
+<!--	<string name="load_hash_">Load noads code</string> -->
+<!--	<string name="sig_loaded">Ads removed!</string> -->
+<!--	<string name="sig_failed">Failed to remove ads!</string> -->
+<!--	<string name="accept_">Accept Terms</string> -->
+<!--	<string name="accept_missing">Please accept terms before sending the data.</string> -->
+<!--	<string name="terms">The app will send your donation id along with the md5-hash of your IMEI to the server (http://ub0r.de/donation/). The data is needed to verify your donation.\nThe data is never given to third party and used only for verifying your donation.\n\nIf your phone changes, the noads code will not work anymore. Please drop me a mail to get a new one.</string> -->
 	<string name="about_">Über</string>
 	<string name="about">Mit WebSMS kannst du kostenlose und sehr g&#252;nstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterst&#252;t. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
 	<string name="about_hint">Über diese App</string>
@@ -31,7 +53,6 @@
 	<string name="click_for_update">(update: klick)</string>
 	<string name="defprefix_">Standard int. Prefix</string>
 	<string name="defprefix_hint">z.B. +49</string>
-	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=11046415</string>
 	<string name="more_apps_">Mehr Apps..</string>
 	<string name="more_connectors_">Mehr Connectoren..</string>
 	<string name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
@@ -53,7 +74,6 @@
 	<string name="settings_common">Einstellungen - Allgemein</string>
 	<string name="appearance_">Oberfläche</string>
 	<string name="settings_connectors">Einstellungen - Connectoren</string>
-	<string name="extras_">Extras</string>
 	<string name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
 	<string name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_send_button">\"Senden\" Button verstecken</string>
@@ -74,13 +94,20 @@
 	<string name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
 	<string name="signature_">Signatur</string>
 	<string name="signature_hint">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
+<!--	<string name="autoupdate_">Autoupdate</string> -->
 	<string name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
+<!--	<string name="autoexit_">Autoexit</string> -->
 	<string name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
 	<string name="mobile_only_">Nur Mobilnummern anzeigen</string>
 	<string name="mobile_only_hint">Zeige nur Mobilnummern an.</string>
 	<string name="vibrate_on_fail">Vibration wenn Senden fehlgeschlagen</string>
 	<string name="sound_on_fail">Ton wenn Senden fehlgeschlagen</string>
+<!--	<string name="source_">Sourcescode:</string> -->
+<!--	<string name="website_">Website:</string> -->
 	<string name="to_hint">Name oder Nummer</string>
+<!--	<string name="text_hint">Text</string> -->
+	<string name="extras_">Extras</string>
+<!--	<string name="flashsms">Flash SMS</string> -->
 	<string name="custom_sender">Anderer Absender</string>
 	<string name="send_later">Später senden</string>
 	<string name="emo_">Smilies</string>
@@ -90,5 +117,9 @@
 	<string name="status_disabled">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="status_enabled">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="status_ready">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-	<string name="debug_">Debug</string>
+	<string name="connectors_switch">Connector wurde gewechselt:</string>
+	<string name="connector vanished">Der Connector ist verschwunden!</string>
+<!--	<string name="connector_sms_name">SMS</string> -->
+	<string name="enable_sms">Aktiviere SMS</string>
+	<string name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
 </resources>

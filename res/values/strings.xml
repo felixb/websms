@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2010 Felix Bechstein
+		Copyright (C) 2009-2010 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,27 +17,20 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.1.6</string>
 	<string name="about_">About</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="about_hint">About this app</string>
-	<string name="faq_">FAQ</string>
 	<string name="faq_hint">Some tips and tricks, how to set up this app.</string>
 	<string name="feedback_">Feedback</string>
 	<string name="feedback_hint">Report bugs, request features ...</string>
-	<string name="twitter_">twitter</string>
 	<string name="twitter_hint">Follow me on twitter.\nGet update notifications etc.</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)</string>
 	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
-	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
-	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
@@ -87,10 +80,8 @@
 	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
-	<string name="source">http://github.com/felixb/websms</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
-	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
 	<string name="extras_">Extras</string>
@@ -104,25 +95,8 @@
 	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
 	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
 	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
-	<string name="debug_">Debug</string>
-
-	<!-- keep the emoticons array synced with code! -->
-	<string-array name="emoticons">
-		<item>O:-)</item>
-		<item>8-)</item>
-		<item>;-(</item>
-		<item>:-?</item>
-		<item>:-)</item>
-		<item>:-*</item>
-		<item>:-D</item>
-		<item>:-X</item>
-		<item>:-$</item>
-		<item>:-(</item>
-		<item>:o</item>
-		<item>:-P</item>
-		<item>:-\\</item>
-		<item>;-)</item>
-		<item>o.O</item>
-		<item>:O</item>
-	</string-array>
+	<string name="connector vanished">Connector vanished!</string>
+	<string name="connector_sms_name">SMS</string>
+	<string name="enable_sms">Enable SMS</string>
+	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 </resources>
