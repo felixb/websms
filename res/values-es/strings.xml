@@ -95,11 +95,11 @@
 	<string name="signature_">Firma</string>
 <!--	<string name="signature_hint">Text attached on every message. No extra spacing is done. Start signature with \" \" if needed.</string> -->
 	<string name="autoupdate_">Actualizar automáticamente</string>
-	<string name="autoupdate_hint">Actualizar el saldo de la cuenta al arrancar.</string>
+	<string name="autoupdate_hint">Actualiza el saldo de la cuenta al arrancar.</string>
 	<string name="autoexit_">Salir automáticamente</string>
-	<string name="autoexit_hint">Salir de WebSMS tras enviar sms.</string>
+	<string name="autoexit_hint">Salie de WebSMS tras enviar sms.</string>
 	<string name="mobile_only_">Mostrar únicamente móviles</string>
-	<string name="mobile_only_hint">Mostrar únicamente números de teléfono móvil.</string>
+	<string name="mobile_only_hint">Muestra únicamente números de teléfono móvil.</string>
 	<string name="vibrate_on_fail">Vibrar si falla el envío</string>
 	<string name="sound_on_fail">Reproducir un sonido si falla el envío</string>
 	<string name="source_">Código fuente:</string>
