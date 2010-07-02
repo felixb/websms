@@ -118,7 +118,7 @@
 	<string name="status_enabled">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="status_ready">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
 	<string name="connectors_switch">Connector wurde gewechselt:</string>
-	<string name="connector vanished">Der Connector ist verschwunden!</string>
+	<string name="connector_vanished">Der Connector ist verschwunden!</string>
 <!--	<string name="connector_sms_name">SMS</string> -->
 	<string name="enable_sms">Aktiviere SMS</string>
 	<string name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>

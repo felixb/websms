@@ -38,7 +38,7 @@
 	<string name="sig_failed">¡Error al eliminar la publicidad!</string>
 	<string name="accept_">Aceptar Condiciones</string>
 	<string name="accept_missing">Por favor, acepte las condiciones antes de enviar la información.</string>
-<!--	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información no será nunca revelada a terceras personas o entidades y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código <<<<<noads>>>>> no funcionará más. Por favor, escríbame un correo para obtener uno nuevo.</string> -->
+	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información no será nunca revelada a terceras personas o entidades y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código &gt;&gt;&gt;noads&lt;&lt;&lt; no funcionará más. Por favor, escríbame un correo para obtener uno nuevo.</string>
 	<string name="about_">Acerca de</string>
 	<string name="about">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
 	<string name="about_hint">Acerca de esta aplicación</string>
@@ -118,7 +118,7 @@
 <!--	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string> -->
 <!--	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string> -->
 	<string name="connector_sms_name">SMS</string>
-	<string name="connector vanished">¡Conector no encontrado!</string>
+	<string name="connector_vanished">¡Conector no encontrado!</string>
 	<string name="connector_sms_name">SMS</string>
 	<string name="enable_sms">Permitir SMS</string>
 	<string name="enable_sms_hint">El Conector SMS enviará SMS normales (ej: a través de GSM).</string>
