@@ -20,7 +20,7 @@
 	<string name="version_">Versión:</string>
 	<string name="debug_">Depurar</string>
 	<string name="send_logs_">Enviar logs</string>
-	<string name="send_logs_hint">Envía los logs de su dispositivo al desarrollador.\nHágalo únicamente si se le pidió que lo hiciera.</string>
+	<string name="send_logs_hint">Envía los logs de su dispositivo al desarrollador.\nHágalo sólo si se le solicitó.</string>
 	<string name="sendlog_run_">Ejecutar SendLog</string>
 	<string name="sendlog_run">SendLog recogerá los log del dispositivo y los enviará al desarrollador.\nPodrá revisar y modificar la información antes de enviarla.</string>
 	<string name="sendlog_install_">Instalar SendLog</string>
@@ -30,7 +30,7 @@
 	<string name="donate_remove_ads_">Donar/eliminar publicidad</string>
 	<string name="remove_ads_">Eliminar publicidad</string>
 	<string name="predonate">Esta es una aplicación de código abierto liberada bajo licencia GPLv3. Es gratuita y lo seguirá siendo. Si realmente le gusta o le molesta la publicidad, por favor considere donar. La publicidad será eliminada lo antes posible.\n¡Gracias!\n\nLa donación eliminará la publicidad de todas las aplicaciones que proporciono.</string>
-	<string name="postdonate">Para eliminar la publicidad, necesita el código no-publi (<i>noads</i> code). Estará disponible tan pronto como llegue el donativo. Por favor, sea paciente y mándeme un correo si no funciona transcurrido un día.</string>
+	<string name="postdonate">Para eliminar la publicidad, necesita el código no-publi (<i>noads code</i>). Estará disponible tan pronto como llegue el donativo. Por favor, sea paciente y mándeme un correo si no funciona transcurrido un día.</string>
 	<string name="donator_id_">Para verificar su donativo es necesario su ID de donativo (dirección de correo de paypal para paypal; dirección de correo de gmail para el Market):</string>
 	<string name="donator_id_hint">Dirección de Paypal/gmail</string>
 	<string name="load_hash_">Cargar código no-publi</string>
@@ -38,7 +38,7 @@
 	<string name="sig_failed">¡Error al eliminar la publicidad!</string>
 	<string name="accept_">Aceptar Condiciones</string>
 	<string name="accept_missing">Por favor, acepte las condiciones antes de enviar la información.</string>
-	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información no será nunca revelada a terceras personas o entidades y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código no-publi (<i>noads</i> code) no funcionará más. Por favor, contacte conmigo para obtener uno nuevo.</string>
+	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información nunca será revelada a terceras personas o entidades, y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código no-publi (<i>noads code</i>) ya no funcionará. Por favor, contacte conmigo para obtener uno nuevo.</string>
 	<string name="about_">Acerca de</string>
 	<string name="about">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
 	<string name="about_hint">Acerca de esta aplicación</string>
@@ -57,7 +57,7 @@
 	<string name="more_connectors_">Más Conectores..</string>
 	<string name="more_connectors_hint">Busque más Conectores en el Market. ¡Reinicie WebSMS después de instalarlos!</string>
 	<string name="more_connectors__">Aún más Conectores..</string>
-	<string name="more_connectors__hint">¿Echa en falta conectores para algún servicio? Lea el FAQ para conseguirlo.</string>
+	<string name="more_connectors__hint">¿Echa en falta conectores para algún servicio? Lea el FAQ para conseguirlos.</string>
 	<string name="free_">Saldo:</string>
 	<string name="license">GPLv3 - leer http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">Licencia:</string>
@@ -84,10 +84,10 @@
 	<string name="hide_select_recipients_button_hint">Oculta el botón \"Elegir destinatarios\" de la pantalla principal.</string>
 	<string name="hide_clear_recipients_button_">Ocultar botón \"Limpiar\"</string>
 	<string name="hide_clear_recipients_button_hint">Oculta el botón \"Limpiar destinatarios\" de la pantalla principal.</string>
-	<string name="hide_send_in_menu">Ocultar elemento de menú \"Enviar\"</string>
-	<string name="hide_send_in_menu_hint">Oculta el elemento de menú \"Ennviar\" del menú principal. Requiere reiniciar WebSMS.</string>
-	<string name="hide_emo_button">Ocultar botón \"Emoticones\"</string>
-	<string name="hide_emo_button_hint">Oculta el botón \"Emoticones\" de la pantalla principal.</string>
+	<string name="hide_send_in_menu">Ocultar \"Enviar\" en menú</string>
+	<string name="hide_send_in_menu_hint">Oculta el elemento \"Enviar\" del menú principal. Requiere reiniciar WebSMS.</string>
+	<string name="hide_emo_button">Ocultar botón \"Emoticonos\"</string>
+	<string name="hide_emo_button_hint">Oculta el botón \"Emoticonos\" de la pantalla principal.</string>
 	<string name="hide_update">Ocultar \"Click para actualizar\"</string>
 	<string name="hide_update_hint">Oculta \"Click para actualizar\" de la pantalla principal.</string>
 	<string name="default_recipient_">Destinatario por defecto</string>
@@ -98,7 +98,7 @@
 	<string name="autoupdate_hint">Actualiza el saldo de la cuenta al arrancar.</string>
 	<string name="autoexit_">Salir automáticamente</string>
 	<string name="autoexit_hint">Sale de WebSMS tras enviar sms.</string>
-	<string name="mobile_only_">Mostrar únicamente móviles</string>
+	<string name="mobile_only_">Mostrar sólo móviles</string>
 	<string name="mobile_only_hint">Muestra únicamente números de teléfono móvil.</string>
 	<string name="vibrate_on_fail">Vibrar si falla el envío</string>
 	<string name="sound_on_fail">Reproducir sonido si falla el envío</string>
@@ -107,10 +107,10 @@
 	<string name="to_hint">Nombre o Número</string>
 	<string name="text_hint">Texto</string>
 	<string name="extras_">Extras</string>
-<!--	<string name="flashsms">Flash SMS</string> -->
+	<string name="flashsms">Flash SMS</string>
 	<string name="custom_sender">Remitente personalizado</string>
 	<string name="send_later">Enviar después</string>
-	<string name="emo_">Emoticones</string>
+	<string name="emo_">Emoticonos</string>
 	<string name="connectors_switch">Conector cambiado:</string>
 	<string name="captcha_">Captcha</string>
 	<string name="captcha_solve_it">Por favor, introduzca el texto a continuación:</string>
