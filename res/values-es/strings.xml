@@ -30,7 +30,7 @@
 	<string name="donate_remove_ads_">Donar/eliminar publicidad</string>
 	<string name="remove_ads_">Eliminar publicidad</string>
 	<string name="predonate">Esta es una aplicación de código abierto liberada bajo licencia GPLv3. Es gratuita y lo seguirá siendo. Si realmente le gusta o le molesta la publicidad, por favor considere donar. La publicidad será eliminada lo antes posible.\n¡Gracias!\n\nLa donación eliminará la publicidad de todas las aplicaciones que proporciono.</string>
-	<string name="postdonate">Para eliminar la publicidad, necesita el código no-publi (noads code). Estará disponible tan pronto como llegue el donativo. Por favor, sea paciente y mándeme un correo si no funciona transcurrido un día.</string>
+	<string name="postdonate">Para eliminar la publicidad, necesita el código no-publi (<i>noads</i> code). Estará disponible tan pronto como llegue el donativo. Por favor, sea paciente y mándeme un correo si no funciona transcurrido un día.</string>
 	<string name="donator_id_">Para verificar su donativo es necesario su ID de donativo (dirección de correo de paypal para paypal; dirección de correo de gmail para el Market):</string>
 	<string name="donator_id_hint">Dirección de Paypal/gmail</string>
 	<string name="load_hash_">Cargar código no-publi</string>
@@ -38,7 +38,7 @@
 	<string name="sig_failed">¡Error al eliminar la publicidad!</string>
 	<string name="accept_">Aceptar Condiciones</string>
 	<string name="accept_missing">Por favor, acepte las condiciones antes de enviar la información.</string>
-	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información no será nunca revelada a terceras personas o entidades y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código no-publi (noads code) no funcionará más. Por favor, contacte conmigo para obtener uno nuevo.</string>
+	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información no será nunca revelada a terceras personas o entidades y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código no-publi (<i>noads</i> code) no funcionará más. Por favor, contacte conmigo para obtener uno nuevo.</string>
 	<string name="about_">Acerca de</string>
 	<string name="about">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
 	<string name="about_hint">Acerca de esta aplicación</string>
