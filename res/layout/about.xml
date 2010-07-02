@@ -39,7 +39,7 @@
 		<TextView android:text="@string/author0"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:paddingLeft="15dip" android:paddingRight="5dip"
-			android:autoLink="email" />
+			android:autoLink="email|web" />
 
 		<TextView android:text="@string/author_connectors_"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
