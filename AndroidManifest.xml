@@ -77,6 +77,7 @@
 		</receiver>
 
 		<meta-data android:value="a14a4523fe4e4f0" android:name="ADMOB_PUBLISHER_ID" />
+		<meta-data android:value="true" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS" />
 	</application>
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7" />
 	<supports-screens android:largeScreens="true"
