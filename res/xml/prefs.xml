@@ -32,6 +32,10 @@
 		<EditTextPreference android:key="signature"
 			android:title="@string/signature_" android:dialogTitle="@string/signature_"
 			android:summary="@string/signature_hint" />
+		<CheckBoxPreference android:key="autoupdate"
+			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
+		<CheckBoxPreference android:key="autoexit"
+			android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
 	</PreferenceCategory>
 	<PreferenceScreen android:title="@string/appearance_">
 		<CheckBoxPreference android:key="hide_send_button"
@@ -50,10 +54,6 @@
 			android:title="@string/hide_update" android:summary="@string/hide_update_hint" />
 		<CheckBoxPreference android:key="hide_send_in_menu"
 			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
-		<CheckBoxPreference android:key="autoupdate"
-			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
-		<CheckBoxPreference android:key="autoexit"
-			android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
 		<CheckBoxPreference android:key="mobiles_only"
 			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
 	</PreferenceScreen>
