@@ -72,7 +72,7 @@
 				android:hint="@string/text_hint" android:imeOptions="actionDone|flagNoEnterAction"
 				android:nextFocusRight="@+id/send_" android:gravity="top"
 				android:autoText="true" android:minLines="3"
-				android:inputType="textShortMessage|textMultiLine|textAutoCorrect|textCapSentences" />
+				android:inputType="textMultiLine|textAutoCorrect|textCapSentences" />
 			<TextView android:id="@+id/text_" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:paddingLeft="3dip"
 				android:paddingRight="3dip" android:paddingBottom="3dip"

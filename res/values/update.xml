@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>HEAD: Readd emoticons+return button, fix some more FCs</item>
 		<item>v3.1.10: Fix some FCs, input emoticons via softkeyboard</item>
 		<item>v3.1.9: Allow install on sd card</item>
 		<item>v3.1.8: Fix noads for donators</item>
