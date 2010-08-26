@@ -53,16 +53,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.apis.ContactsWrapper;
@@ -117,6 +123,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	"hide_clear_recipients_button";
 	/** Preference's name: hide send menu item. */
 	private static final String PREFS_HIDE_SEND_IN_MENU = "hide_send_in_menu";
+	/** Preference's name: hide emoticons button. */
+	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preference's name: hide send button. */
 	private static final String PREFS_HIDE_SEND_BUTTON = "hide_send_button";
 	/** Preference's name: hide cancel button. */
@@ -130,6 +138,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
 	/** Preference's name: signature. */
 	private static final String PREFS_SIGNATURE = "signature";
+
+	/** Path to file containing signatures of UID Hash. */
+	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
 
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
@@ -170,9 +181,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int DIALOG_SENDLATER_DATE = 4;
 	/** Dialog: send later: time. */
 	private static final int DIALOG_SENDLATER_TIME = 5;
+	/** Dialog: emo. */
+	private static final int DIALOG_EMO = 6;
 
 	/** {@link Activity} result request. */
 	private static final int ARESULT_PICK_PHONE = 1;
+
+	/** Size of the emoticons png. */
+	private static final int EMOTICONS_SIZE = 50;
+	/** Padding for the emoticons png. */
+	private static final int EMOTICONS_PADDING = 5;
 
 	/** Intent's extra for error messages. */
 	static final String EXTRA_ERRORMESSAGE = // .
@@ -412,6 +430,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vSendLater.setOnClickListener(this);
 		this.findViewById(R.id.select).setOnClickListener(this);
 		this.findViewById(R.id.clear).setOnClickListener(this);
+		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.textWatcher);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
@@ -623,6 +642,8 @@ public class WebSMS extends Activity implements OnClickListener,
 				.getDefaultSharedPreferences(this);
 		final boolean bShowChangeConnector = !p.getBoolean(
 				PREFS_HIDE_CHANGE_CONNECTOR_BUTTON, false);
+		final boolean bShowEmoticons = !p.getBoolean(PREFS_HIDE_EMO_BUTTON,
+				false);
 		final boolean bShowSend = !p.getBoolean(PREFS_HIDE_SEND_BUTTON, false);
 		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
 				false);
@@ -638,6 +659,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		v = this.findViewById(R.id.clear);
 		if (bShowClearRecipients) {
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.emo);
+		if (bShowEmoticons) {
 			v.setVisibility(View.VISIBLE);
 		} else {
 			v.setVisibility(View.GONE);
@@ -912,6 +939,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				lastSendLater = -1;
 			}
 			return;
+		case R.id.emo:
+			this.showDialog(DIALOG_EMO);
+			return;
 		default:
 			return;
 		}
@@ -1013,6 +1043,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface d, // .
 								final int item) {
+							final SubConnectorSpec[] ret = ConnectorSpec
+									.getSubConnectorReturnArray();
 							WebSMS.this.saveSelectedConnector(items.get(item));
 						}
 					});
@@ -1071,6 +1103,96 @@ public class WebSMS extends Activity implements OnClickListener,
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Create a Emoticons {@link Dialog}.
+	 * 
+	 * @return Emoticons {@link Dialog}
+	 */
+	private Dialog createEmoticonsDialog() {
+		final Dialog d = new Dialog(this);
+		d.setTitle(R.string.emo_);
+		d.setContentView(R.layout.emo);
+		d.setCancelable(true);
+		final String[] emoticons = this.getResources().getStringArray(
+				R.array.emoticons);
+		final GridView gridview = (GridView) d.findViewById(R.id.gridview);
+		gridview.setAdapter(new BaseAdapter() {
+			// references to our images
+			// keep order and count synced with string-array!
+			private Integer[] mThumbIds = { R.drawable.emo_im_angel,
+					R.drawable.emo_im_cool, R.drawable.emo_im_crying,
+					R.drawable.emo_im_foot_in_mouth, R.drawable.emo_im_happy,
+					R.drawable.emo_im_kissing, R.drawable.emo_im_laughing,
+					R.drawable.emo_im_lips_are_sealed,
+					R.drawable.emo_im_money_mouth, R.drawable.emo_im_sad,
+					R.drawable.emo_im_surprised,
+					R.drawable.emo_im_tongue_sticking_out,
+					R.drawable.emo_im_undecided, R.drawable.emo_im_winking,
+					R.drawable.emo_im_wtf, R.drawable.emo_im_yelling };
+
+			@Override
+			public long getItemId(final int position) {
+				return 0;
+			}
+
+			@Override
+			public Object getItem(final int position) {
+				return null;
+			}
+
+			@Override
+			public int getCount() {
+				return this.mThumbIds.length;
+			}
+
+			@Override
+			public View getView(final int position, final View convertView,
+					final ViewGroup parent) {
+				ImageView imageView;
+				if (convertView == null) { // if it's not recycled,
+					// initialize some attributes
+					imageView = new ImageView(WebSMS.this);
+					imageView.setLayoutParams(new GridView.LayoutParams(
+							EMOTICONS_SIZE, EMOTICONS_SIZE));
+					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					imageView.setPadding(EMOTICONS_PADDING, EMOTICONS_PADDING,
+							EMOTICONS_PADDING, EMOTICONS_PADDING);
+				} else {
+					imageView = (ImageView) convertView;
+				}
+
+				imageView.setImageResource(this.mThumbIds[position]);
+				return imageView;
+			}
+		});
+		gridview.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(final AdapterView<?> adapter, final View v,
+					final int id, final long arg3) {
+				EditText et = WebSMS.this.etText;
+				final String e = emoticons[id];
+				int i = et.getSelectionStart();
+				int j = et.getSelectionEnd();
+				if (i > j) {
+					int x = i;
+					i = j;
+					j = x;
+				}
+				String t = et.getText().toString();
+				StringBuilder buf = new StringBuilder();
+				buf.append(t.substring(0, i));
+				buf.append(e);
+				buf.append(t.substring(j));
+				et.setText(buf.toString());
+				et.setSelection(i + e.length());
+				d.dismiss();
+				et.requestFocus();
+			}
+		});
+		return d;
 	}
 
 	/**
@@ -1142,6 +1264,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			c = Calendar.getInstance();
 			return new MyTimePickerDialog(this, this, c
 					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
+		case DIALOG_EMO:
+			return this.createEmoticonsDialog();
 		default:
 			return null;
 		}
@@ -1202,8 +1326,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String signature = p.getString(PREFS_SIGNATURE, null);
-		if (signature != null && signature.length() > 0
-				&& !text.endsWith(signature)) {
+		if (signature != null && signature.length() > 0 && !text.endsWith(signature)) {
 			text = text + signature;
 			this.etText.setText(text);
 		}

@@ -86,6 +86,8 @@
 	<string name="hide_clear_recipients_button_hint">Oculta el botón \"Limpiar destinatarios\" de la pantalla principal.</string>
 	<string name="hide_send_in_menu">Ocultar \"Enviar\" en menú</string>
 	<string name="hide_send_in_menu_hint">Oculta el elemento \"Enviar\" del menú principal. Requiere reiniciar WebSMS.</string>
+	<string name="hide_emo_button">Ocultar botón \"Emoticonos\"</string>
+	<string name="hide_emo_button_hint">Oculta el botón \"Emoticonos\" de la pantalla principal.</string>
 	<string name="hide_update">Ocultar \"Click para actualizar\"</string>
 	<string name="hide_update_hint">Oculta \"Click para actualizar\" de la pantalla principal.</string>
 	<string name="default_recipient_">Destinatario por defecto</string>

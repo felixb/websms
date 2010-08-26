@@ -86,6 +86,8 @@
 	<string name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
 	<string name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
+	<string name="hide_emo_button">\"Smiley\" Button verstecken</string>
+	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_update">\"Kick zum Update\" verstecken</string>
 	<string name="hide_update_hint">\"Klick zum Update\" auf Main Screen verstecken.</string>
 	<string name="default_recipient_">Default Empfänger</string>
