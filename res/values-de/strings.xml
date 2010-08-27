@@ -92,6 +92,8 @@
 	<string name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
 	<string name="hide_update">\"Kick zum Update\" verstecken</string>
 	<string name="hide_update_hint">\"Klick zum Update\" auf Main Screen verstecken.</string>
+	<string name="hide_bg_connector_">Connectornamen verstecken</string>
+	<string name="hide_bg_connector_hint">Verstecke den Namen des aktiven Connectors im Hintergrund.</string>
 	<string name="default_recipient_">Default Empfänger</string>
 	<string name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
 	<string name="signature_">Signatur</string>

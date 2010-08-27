@@ -131,6 +131,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: hide update text. */
 	private static final String PREFS_HIDE_UPDATE = "hide_update";
+	/** Preference's name: hide bg connector. */
+	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
 	/** Preference's name: show titlebar. */
 	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
@@ -692,6 +694,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.VISIBLE);
 		} else {
 			v.setVisibility(View.GONE);
+		}
+		v = this.findViewById(R.id.text_connector);
+		if (p.getBoolean(PREFS_HIDE_BG_CONNECTOR, false)) {
+			v.setVisibility(View.INVISIBLE);
+		} else {
+			v.setVisibility(View.VISIBLE);
 		}
 
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");

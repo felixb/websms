@@ -56,6 +56,8 @@
 			android:title="@string/hide_update" android:summary="@string/hide_update_hint" />
 		<CheckBoxPreference android:key="hide_send_in_menu"
 			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
+		<CheckBoxPreference android:key="hide_bg_connector"
+			android:title="@string/hide_bg_connector_" android:summary="@string/hide_bg_connector_hint" />
 		<CheckBoxPreference android:key="mobiles_only"
 			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
 		<CheckBoxPreference android:key="show_titlebar"
