@@ -131,6 +131,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: hide update text. */
 	private static final String PREFS_HIDE_UPDATE = "hide_update";
+	/** Preference's name: show titlebar. */
+	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 
@@ -355,13 +357,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Restore preferences
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		}
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		// save ref to me.
 		me = this;
-		// Restore preferences
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
 		// inflate XML
 		this.setContentView(R.layout.main);
 
@@ -1326,7 +1331,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String signature = p.getString(PREFS_SIGNATURE, null);
-		if (signature != null && signature.length() > 0 && !text.endsWith(signature)) {
+		if (signature != null && signature.length() > 0
+				&& !text.endsWith(signature)) {
 			text = text + signature;
 			this.etText.setText(text);
 		}

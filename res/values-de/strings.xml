@@ -72,7 +72,9 @@
 	<string name="save_chars_">Zeichen sparen</string>
 	<string name="settings">Einstellungen</string>
 	<string name="settings_common">Einstellungen - Allgemein</string>
-	<string name="appearance_">Oberfläche</string>
+	<string name="appearance_">Erscheinung</string>
+	<string name="show_titlebar_">Zeige Titelleiste</string>
+	<string name="show_titlebar_hint">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
 	<string name="settings_connectors">Einstellungen - Connectoren</string>
 	<string name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
 	<string name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
