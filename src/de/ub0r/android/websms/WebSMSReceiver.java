@@ -29,8 +29,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -238,8 +240,15 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			if (uris != null && uris.length > 0) {
 				for (String s : uris) {
 					final Uri u = Uri.parse(s);
-					final int updated = cr.update(u, values, null, null);
-					Log.d(TAG, "updated: " + updated);
+					try {
+						final int updated = cr.update(u, values, null, null);
+						Log.d(TAG, "updated: " + updated);
+					} catch (SQLiteException e) {
+						Log.e(TAG, "error updating sent message: " + u, e);
+						Toast.makeText(context,
+								R.string.log_error_saving_message,
+								Toast.LENGTH_LONG).show();
+					}
 				}
 				return; // skip legacy saving
 			}
