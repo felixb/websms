@@ -39,6 +39,8 @@
 	<string name="accept_">Aceptar Condiciones</string>
 	<string name="accept_missing">Por favor, acepte las condiciones antes de enviar la información.</string>
 	<string name="terms">Esta aplicación enviará el identificador de su donativo junto con el md5-hash de su IMEI al servidor (http://ub0r.de/donation/). Esta información es necesaria para verificar su donativo.\nEsta información nunca será revelada a terceras personas o entidades, y únicamente será utilizada para verificar su donativo.\n\nSi cambia de teléfono el código no-publi (<i>noads code</i>) ya no funcionará. Por favor, contacte conmigo para obtener uno nuevo.</string>
+<!--	<string name="notify_">Forgot to remove the ads?</string> -->
+<!--	<string name="notify_text">To finally remove the ads, you nead to load the <b>noads</b> Code. Click to proceed.</string> -->
 	<string name="about_">Acerca de</string>
 	<string name="about">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
 	<string name="about_hint">Acerca de esta aplicación</string>
@@ -65,6 +67,7 @@
 	<string name="log_wrong_sender">¡Remitente incorrecto! Introdúzcalo en formato internacional, similar a +3417012345689.</string>
 	<string name="log_noselectedconnector">Ningún Conector seleccionado. Por favor, escoja uno con "Cambiar proveedor".</string>
 	<string name="log_noreadyconnector">Ningún Conector ha sido instalado todavía. Por favor, compruebe las preferencias.</string>
+<!--	<string name="log_error_saving_message">Error updating sent message in Database!</string> -->
 	<string name="notify_failed">Error al enviar SMS: </string>
 	<string name="notify_failed_">Error enviando SMS</string>
 	<string name="sender_">Su número de teléfono </string>
@@ -73,6 +76,8 @@
 	<string name="settings">Preferencias</string>
 	<string name="settings_common">Preferencias - Comunes</string>
 	<string name="appearance_">Apariencia</string>
+<!--	<string name="show_titlebar_">Show title bar</string> -->
+<!--	<string name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string> -->
 	<string name="settings_connectors">Preferencias - Conectores</string>
 	<string name="hide_change_connector_button">Ocultar botón \"Camb. proveedor\"</string>
 	<string name="hide_change_connector_button_hint">Oculta el botón \"Cambiar proveedor\" de la pantalla principal.</string>
@@ -90,6 +95,8 @@
 	<string name="hide_emo_button_hint">Oculta el botón \"Emoticonos\" de la pantalla principal.</string>
 	<string name="hide_update">Ocultar \"Click para actualizar\"</string>
 	<string name="hide_update_hint">Oculta \"Click para actualizar\" de la pantalla principal.</string>
+<!--	<string name="hide_bg_connector_">Hide connector name</string> -->
+<!--	<string name="hide_bg_connector_hint">Hide active connector\'s name in background.</string> -->
 	<string name="default_recipient_">Destinatario por defecto</string>
 	<string name="default_recipient_hint">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>
 	<string name="signature_">Firma</string>
@@ -117,7 +124,6 @@
 	<string name="status_disabled">Estado: desactivado\n(Se actualizará cuando regrese a la pantalla principal)</string>
 	<string name="status_enabled">Estado: activado\n(Se actualizará cuando regrese a la pantalla principal)</string>
 	<string name="status_ready">Estado: preparado\n(Se actualizará cuando regrese a la pantalla principal)</string>
-	<string name="connector_sms_name">SMS</string>
 	<string name="connector_vanished">¡Conector no encontrado!</string>
 	<string name="connector_sms_name">SMS</string>
 	<string name="enable_sms">Permitir SMS</string>
