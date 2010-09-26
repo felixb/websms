@@ -19,6 +19,8 @@
 <resources>
 	<string name="version_">Versión:</string>
 	<string name="debug_">Depurar</string>
+<!--	<string name="custom_language_">Custom language</stirng> -->
+<!--	<string name="custom_language_hint">Set a custom language.</stirng> -->
 	<string name="send_logs_">Enviar logs</string>
 	<string name="send_logs_hint">Envía los logs de su dispositivo al desarrollador.\nHágalo sólo si se le solicitó.</string>
 	<string name="sendlog_run_">Ejecutar SendLog</string>
