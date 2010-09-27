@@ -25,8 +25,10 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
+import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -51,6 +53,17 @@ public class Preferences extends PreferenceActivity implements
 						public boolean onPreferenceClick(
 								final Preference preference) {
 							Log.collectAndSendLog(Preferences.this);
+							return true;
+						}
+					});
+		}
+		p = this.findPreference("morelocale");
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Utils.startMoreLocale(Preferences.this);
 							return true;
 						}
 					});
