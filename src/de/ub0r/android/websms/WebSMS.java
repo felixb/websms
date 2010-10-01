@@ -367,6 +367,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
+		de.ub0r.android.lib.Utils.setLocale(this);
+
 		// save ref to me.
 		me = this;
 		// inflate XML

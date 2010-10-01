@@ -63,8 +63,9 @@
 		<CheckBoxPreference android:key="show_titlebar"
 			android:defaultValue="true" android:title="@string/show_titlebar_"
 			android:summary="@string/show_titlebar_hint" />
-		<PreferenceScreen android:key="morelocale"
-			android:title="@string/custom_language_" android:summary="@string/custom_language_hint" />
+		<ListPreference android:key="morelocale" android:title="@string/custom_language_"
+			android:summary="@string/custom_language_hint" android:entries="@array/lang_"
+			android:entryValues="@array/lang_values" />
 	</PreferenceScreen>
 	<PreferenceCategory android:title="@string/default_recipient_">
 		<EditTextPreference android:key="default_recipient"
