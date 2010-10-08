@@ -19,8 +19,8 @@
 <resources>
 	<string name="version_">Verzió:</string>
 	<string name="debug_">Hibakeresés</string>
-<!--	<string name="custom_language_">Custom language</stirng> -->
-<!--	<string name="custom_language_hint">Set a custom language.</stirng> -->
+<!--	<string name="custom_language_">Custom language</string> -->
+<!--	<string name="custom_language_hint">Set a custom language.</string> -->
 	<string name="send_logs_">Logok küldése</string>
 	<string name="send_logs_hint">Küldd be a program napló filejait a fejlesztőnek.\nCsak akkor küld be a fileokat, ha erre felkérést kaptál.</string>
 	<string name="sendlog_run_">SendLog futtatása</string>

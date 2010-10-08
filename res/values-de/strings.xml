@@ -19,8 +19,8 @@
 <resources>
 <!--	<string name="version_">Version:</string> -->
 	<string name="debug_">Debug</string>
-<!--	<string name="custom_language_">Custom language</stirng> -->
-<!--	<string name="custom_language_hint">Set a custom language.</stirng> -->
+<!--	<string name="custom_language_">Custom language</string> -->
+<!--	<string name="custom_language_hint">Set a custom language.</string> -->
 <!--	<string name="send_logs_">Send logs</string> -->
 <!--	<string name="send_logs_hint">Send your device\'s logs to the developer.\nDo this only if you were asked to do so.</string> -->
 <!--	<string name="sendlog_run_">Run SendLog</string> -->
