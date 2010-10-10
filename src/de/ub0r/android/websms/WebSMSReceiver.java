@@ -51,6 +51,14 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** Intent's scheme to send sms. */
 	private static final String INTENT_SCHEME_SMSTO = "smsto";
 
+	/** ACTION for publishing information about sent websms. */
+	private static final String ACTION_CM_WEBSMS = // .
+	"de.ub0r.android.callmeter.SAVE_WEBSMS";
+	/** Extra holding uri of sent sms. */
+	private static final String EXTRA_WEBSMS_URI = "uri";
+	/** Extra holding name of connector. */
+	private static final String EXTRA_WEBSMS_CONNECTOR = "connector";
+
 	/** SMS DB: address. */
 	static final String ADDRESS = "address";
 	/** SMS DB: person. */
@@ -147,7 +155,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			final ConnectorCommand command) {
 
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-			saveMessage(context, command, MESSAGE_TYPE_SENT);
+			saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
 			return;
 		}
 		// Display notification if sending failed
@@ -219,6 +227,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/**
 	 * Save Message to internal database.
 	 * 
+	 * @param specs
+	 *            {@link ConnectorSpec}
 	 * @param context
 	 *            {@link Context}
 	 * @param command
@@ -226,7 +236,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param msgType
 	 *            sent or draft?
 	 */
-	static void saveMessage(final Context context,
+	static void saveMessage(final ConnectorSpec specs, final Context context,
 			final ConnectorCommand command, final int msgType) {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
@@ -243,6 +253,16 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 					try {
 						final int updated = cr.update(u, values, null, null);
 						Log.d(TAG, "updated: " + updated);
+						if (updated > 0
+								&& !specs.getPackage().equals(
+										"de.ub0r.android.websms.connector."
+												+ "sms")) {
+							final Intent intent = new Intent(ACTION_CM_WEBSMS);
+							intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
+							intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs
+									.getName().toLowerCase());
+							context.sendBroadcast(intent);
+						}
 					} catch (SQLiteException e) {
 						Log.e(TAG, "error updating sent message: " + u, e);
 						Toast.makeText(context,

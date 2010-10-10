@@ -20,7 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
-		<item>HEAD: Add Russian translation</item>
+		<item>HEAD: Add Russian translation, integrate with Call Meter 3G</item>
 		<item>v3.1.13.1: fix default locale</item>
 		<item>v3.1.13: Add Hungarian translation, set custom locale</item>
 		<item>v3.1.12: Fix some FCs, hide background text</item>
