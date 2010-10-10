@@ -48,7 +48,7 @@
 	<string name="about_hint">Описание программы</string> 
 	<string name="faq_hint">Советы и подсказки по настройке программы.</string> 
 	<string name="feedback_">Отзывы</string> 
-	<string name="feedback_hint">Сообщить об ошибке, запросить на расширение функционала..</string> 
+	<string name="feedback_hint">Сообщить об ошибке, запрос на расширение функционала..</string> 
 	<string name="twitter_hint">Следите на Twitter.\nУзнайте об обновлениях и т.п.</string> 
 	<string name="author_">Автор:</string> 
 	<string name="author_connectors_">Автор Connector'а:</string> 
