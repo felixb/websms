@@ -72,7 +72,7 @@
 	<string name="log_error_saving_message">Ошибка сохранения отправленного СМС в базе!</string>
 	<string name="notify_failed">Ошибка отправки СМС: </string>
 	<string name="notify_failed_">Ошибка отправки СМС</string>
-	<string name="sender_">Номер Вашего мобильного телефона</string>
+	<string name="sender_">Ваш номер моб. тел.</string>
 	<string name="send_">Отправить</string>
 	<string name="save_chars_">Сохранить chars</string>
 	<string name="settings">Настройки</string>
@@ -109,8 +109,8 @@
 	<string name="autoexit_hint">Автовыход из программы после отправки СМС.</string>
 	<string name="mobile_only_">Показывать только мобильные</string>
 	<string name="mobile_only_hint">Показывать только мобильные номера.</string>
-	<string name="vibrate_on_fail">Вибрировать при ошибке отправки</string>
-	<string name="sound_on_fail">Звуковой сигнал при ошибке отправки</string>
+	<string name="vibrate_on_fail">Вибрир. при ошибке отправки</string>
+	<string name="sound_on_fail">Звук. сигнал при ошибке отправки</string>
 	<string name="source_">Исходники:</string>
 	<string name="website_">Сайт:</string>
 	<string name="to_hint">Имя или номер</string>
