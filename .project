@@ -38,12 +38,12 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>ub0rlib</name>
+			<name>ub0rlib_src</name>
 			<type>2</type>
 			<locationURI>_android_ub0rlib/src</locationURI>
 		</link>
 		<link>
-			<name>websmsAPI</name>
+			<name>websmsAPI_src</name>
 			<type>2</type>
 			<locationURI>_android_websmsAPI/src</locationURI>
 		</link>
