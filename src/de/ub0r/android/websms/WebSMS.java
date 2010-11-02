@@ -253,6 +253,23 @@ public class WebSMS extends Activity implements OnClickListener,
 	};
 
 	/**
+	 * Print extras to log.
+	 * 
+	 * @param extras
+	 *            {@link Bundle}
+	 * @return {@link Bundle}.toString()
+	 */
+	private String printExtras(final Bundle extras) {
+		if (extras == null) {
+			return "null";
+		}
+		for (String key : extras.keySet()) {
+			Log.d(TAG, key + ": " + extras.getByte(key));
+		}
+		return extras.toString();
+	}
+
+	/**
 	 * Parse data pushed by {@link Intent}.
 	 * 
 	 * @param intent
@@ -260,12 +277,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void parseIntent(final Intent intent) {
 		final String action = intent.getAction();
+		Log.d(TAG, "launched with action: " + action);
 		if (action == null) {
 			return;
 		}
 		final Uri uri = intent.getData();
+		Log.i(TAG, "launched with uri: " + uri);
 		if (uri != null && uri.toString().length() > 0) {
-			Log.i(TAG, "launched with uri: " + uri);
 			// launched by clicking a sms: link, target number is in URI.
 			final String scheme = uri.getScheme();
 			if (scheme != null) {
@@ -279,6 +297,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 		final Bundle extras = intent.getExtras();
+		Log.d(TAG, "launched with extras: " + this.printExtras(extras));
 		if (extras != null) {
 			CharSequence s = extras.getCharSequence(Intent.EXTRA_TEXT);
 			if (s != null) {
@@ -289,6 +308,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (s != null) {
 				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 			}
+
 		}
 	}
 
