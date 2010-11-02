@@ -87,18 +87,18 @@
 
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:layout_weight="0">
-			<CheckBox android:text="@string/flashsms" android:id="@+id/flashsms"
+			<ToggleButton android:textOn="@string/flashsms"
+				android:textOff="@string/flashsms" android:id="@+id/flashsms"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:gravity="center_vertical"
-				android:visibility="gone" />
-			<CheckBox android:text="@string/custom_sender" android:id="@+id/custom_sender"
+				android:layout_weight="1" android:visibility="gone" />
+			<ToggleButton android:textOn="@string/custom_sender"
+				android:textOff="@string/custom_sender" android:id="@+id/custom_sender"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:gravity="center_vertical"
-				android:visibility="gone" />
-			<CheckBox android:text="@string/send_later" android:id="@+id/send_later"
+				android:layout_weight="1" android:visibility="gone" />
+			<ToggleButton android:textOn="@string/send_later"
+				android:textOff="@string/send_later" android:id="@+id/send_later"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:gravity="center_vertical"
-				android:visibility="gone" />
+				android:layout_weight="1" android:visibility="gone" />
 		</LinearLayout>
 
 		<LinearLayout android:layout_width="fill_parent"

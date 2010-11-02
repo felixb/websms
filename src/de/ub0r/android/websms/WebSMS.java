@@ -59,7 +59,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -68,6 +67,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.DonationHelper;
@@ -939,7 +939,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setButtons();
 			return;
 		case R.id.custom_sender:
-			final CheckBox cs = (CheckBox) this.vCustomSender;
+			final ToggleButton cs = (ToggleButton) this.vCustomSender;
 			if (cs.isChecked()) {
 				this.showDialog(DIALOG_CUSTOMSENDER);
 			} else {
@@ -947,7 +947,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.send_later:
-			final CheckBox sl = (CheckBox) this.vSendLater;
+			final ToggleButton sl = (ToggleButton) this.vSendLater;
 			if (sl.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
@@ -1349,7 +1349,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		this.displayAds();
 
-		CheckBox v = (CheckBox) this.findViewById(R.id.flashsms);
+		ToggleButton v = (ToggleButton) this.findViewById(R.id.flashsms);
 		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
 				&& v.isEnabled() && v.isChecked();
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
