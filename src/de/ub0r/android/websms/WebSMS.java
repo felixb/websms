@@ -253,23 +253,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	};
 
 	/**
-	 * Print extras to log.
-	 * 
-	 * @param extras
-	 *            {@link Bundle}
-	 * @return {@link Bundle}.toString()
-	 */
-	private String printExtras(final Bundle extras) {
-		if (extras == null) {
-			return "null";
-		}
-		for (String key : extras.keySet()) {
-			Log.d(TAG, key + ": " + extras.getByte(key));
-		}
-		return extras.toString();
-	}
-
-	/**
 	 * Parse data pushed by {@link Intent}.
 	 * 
 	 * @param intent
@@ -297,9 +280,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 		final Bundle extras = intent.getExtras();
-		Log.d(TAG, "launched with extras: " + this.printExtras(extras));
+		Log.d(TAG, "launched with extras: " + extras);
 		if (extras != null) {
 			CharSequence s = extras.getCharSequence(Intent.EXTRA_TEXT);
+			if (s == null) {
+				s = extras.getCharSequence("sms_body");
+			}
 			if (s != null) {
 				((EditText) this.findViewById(R.id.text)).setText(s);
 				lastMsg = s.toString();

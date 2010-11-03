@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="updates">
 		<item>You may want to use SMSdroid to read incoming messages.\n</item>
+		<item>HEAD: Integrate with Samsung\'s "Write and go"</item>
 		<item>v3.2: Integrate with Call Meter 3G, add Russian translation</item>
 		<item>v3.1.13.1: fix default locale</item>
 		<item>v3.1.13: Add Hungarian translation, set custom locale</item>
