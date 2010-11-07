@@ -143,9 +143,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: signature. */
 	private static final String PREFS_SIGNATURE = "signature";
 
-	/** Path to file containing signatures of UID Hash. */
-	private static final String NOADS_SIGNATURES = "/sdcard/websms.noads";
-
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
 	/** Preference's name: text. */
@@ -337,24 +334,31 @@ public class WebSMS extends Activity implements OnClickListener,
 		final Uri uri = Uri
 				.parse("content://mms-sms/conversations/" + threadId);
 		final String[] proj = new String[] { "thread_id", "address" };
-		Cursor cursor;
+		Cursor cursor = null;
 		try {
-			cursor = this.getContentResolver().query(uri, proj, null, null,
-					null);
-		} catch (SQLException e) {
-			Log.e(TAG, null, e);
-			proj[0] = "_id";
-			proj[1] = "recipient_address";
-			cursor = this.getContentResolver().query(uri, proj, null, null,
-					null);
+			try {
+				cursor = this.getContentResolver().query(uri, proj, null, null,
+						null);
+			} catch (SQLException e) {
+				Log.e(TAG, null, e);
+				proj[0] = "_id";
+				proj[1] = "recipient_address";
+				cursor = this.getContentResolver().query(uri, proj, null, null,
+						null);
+			}
+			if (cursor != null && cursor.moveToFirst()) {
+				String a = null;
+				do {
+					a = cursor.getString(1);
+				} while (a == null && cursor.moveToNext());
+				Log.d(TAG, "found address: " + a);
+				this.parseSchemeSpecificPart(a);
+			}
+		} catch (IllegalStateException e) {
+			Log.e(TAG, "error parsing ThreadId: " + threadId, e);
 		}
-		if (cursor != null && cursor.moveToFirst()) {
-			String a = null;
-			do {
-				a = cursor.getString(1);
-			} while (a == null && cursor.moveToNext());
-			Log.d(TAG, "found address: " + a);
-			this.parseSchemeSpecificPart(a);
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
 		}
 	}
 
@@ -1064,8 +1068,6 @@ public class WebSMS extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(final DialogInterface d, // .
 								final int item) {
-							final SubConnectorSpec[] ret = ConnectorSpec
-									.getSubConnectorReturnArray();
 							WebSMS.this.saveSelectedConnector(items.get(item));
 						}
 					});
