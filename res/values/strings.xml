@@ -84,6 +84,7 @@
 	<string name="mobile_only_">Show mobiles only</string>
 	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
+	<string name="vibrate_on_send">Vibrate after sending</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>

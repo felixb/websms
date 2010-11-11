@@ -108,6 +108,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_AUTOEXIT = "autoexit";
 	/** Preference's name: show mobile numbers only. */
 	private static final String PREFS_MOBILES_ONLY = "mobiles_only";
+	/** Preference's name: vibrate on sending. */
+	static final String PREFS_SEND_VIBRATE = "send_vibrate";
 	/** Preference's name: vibrate on failed sending. */
 	static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
 	/** Preference's name: sound on failed sending. */

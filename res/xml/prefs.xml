@@ -24,6 +24,8 @@
 		<EditTextPreference android:key="defprefix"
 			android:title="@string/defprefix_" android:dialogTitle="@string/defprefix_"
 			android:summary="@string/defprefix_hint" android:inputType="phone" />
+		<CheckBoxPreference android:key="send_vibrate"
+			android:title="@string/vibrate_on_send" />
 		<CheckBoxPreference android:key="fail_vibrate"
 			android:title="@string/vibrate_on_fail" />
 		<RingtonePreference android:key="fail_sound"

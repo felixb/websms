@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -58,6 +59,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	private static final String EXTRA_WEBSMS_URI = "uri";
 	/** Extra holding name of connector. */
 	private static final String EXTRA_WEBSMS_CONNECTOR = "connector";
+
+	/** Vibrate x seconds on send. */
+	private static final long VIBRATOR_SEND = 100L;
 
 	/** SMS DB: address. */
 	static final String ADDRESS = "address";
@@ -156,6 +160,16 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
 			saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(context);
+			if (p.getBoolean(WebSMS.PREFS_SEND_VIBRATE, false)) {
+				final Vibrator v = (Vibrator) context
+						.getSystemService(Context.VIBRATOR_SERVICE);
+				if (v != null) {
+					v.vibrate(VIBRATOR_SEND);
+					v.cancel();
+				}
+			}
 			return;
 		}
 		// Display notification if sending failed
