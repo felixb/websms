@@ -29,10 +29,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.BaseColumns;
 import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
@@ -48,6 +50,14 @@ import de.ub0r.android.websms.connector.common.Utils;
 public final class WebSMSReceiver extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "bcr";
+
+	/** {@link Uri} for saving messages. */
+	private static final Uri URI_SMS = Uri.parse("content://sms");
+	/** {@link Uri} for saving sent messages. */
+	private static final Uri URI_SENT = Uri.parse("content://sms/sent");
+	/** Projection for getting the id. */
+	private static final String[] PROJECTION_ID = // .
+	new String[] { BaseColumns._ID };
 
 	/** Intent's scheme to send sms. */
 	private static final String INTENT_SCHEME_SMSTO = "smsto";
@@ -288,11 +298,13 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			}
 		}
 
+		final String text = command.getText();
+
 		Log.d(TAG, "save message(s):");
 		Log.d(TAG, "type: " + msgType);
-		Log.d(TAG, "TEXT: " + command.getText());
+		Log.d(TAG, "TEXT: " + text);
 		values.put(READ, 1);
-		values.put(BODY, command.getText());
+		values.put(BODY, text);
 		if (command.getSendLater() > 0) {
 			values.put(DATE, command.getSendLater());
 			Log.d(TAG, "DATE: " + command.getSendLater());
@@ -307,12 +319,24 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			}
 			String address = Utils.getRecipientsNumber(recipients[i]);
 			Log.d(TAG, "TO: " + address);
-			final ContentValues cv = new ContentValues(values);
-			cv.put(ADDRESS, address);
-			// save sms to content://sms/sent
-			values.put(ADDRESS, Utils.getRecipientsNumber(recipients[i]));
-			inserted.add(cr.insert(Uri.parse("content://sms/sent"), values)
-					.toString());
+			final Cursor c = cr.query(URI_SMS, PROJECTION_ID, TYPE + " = "
+					+ MESSAGE_TYPE_DRAFT + " AND " + ADDRESS + " = '" + address
+					+ "' AND " + BODY + " = '" + text + "'", null, DATE
+					+ " DESC");
+			if (c != null && c.moveToFirst()) {
+				final Uri u = URI_SENT.buildUpon().appendPath(c.getString(0))
+						.build();
+				Log.d(TAG, "skip saving draft: " + u);
+				inserted.add(u.toString());
+			} else {
+				final ContentValues cv = new ContentValues(values);
+				cv.put(ADDRESS, address);
+				// save sms to content://sms/sent
+				inserted.add(cr.insert(URI_SENT, cv).toString());
+			}
+			if (c != null && !c.isClosed()) {
+				c.close();
+			}
 		}
 		if (msgType == MESSAGE_TYPE_DRAFT) {
 			command.setMsgUris(inserted.toArray(new String[] {}));
