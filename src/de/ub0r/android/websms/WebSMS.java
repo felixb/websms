@@ -199,6 +199,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Intent's extra for error messages. */
 	static final String EXTRA_ERRORMESSAGE = // .
 	"de.ub0r.android.intent.extra.ERRORMESSAGE";
+	/** Intent's extra for sending message automatically. */
+	private static final String EXTRA_AUTOSEND = "AUTOSEND";
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -296,22 +298,28 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 			}
 		}
-		final Bundle extras = intent.getExtras();
-		Log.d(TAG, "launched with extras: " + extras);
-		if (extras != null) {
-			CharSequence s = extras.getCharSequence(Intent.EXTRA_TEXT);
-			if (s == null) {
-				s = extras.getCharSequence("sms_body");
+		// check for extras
+		CharSequence s = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+		if (s == null) {
+			s = intent.getCharSequenceExtra("sms_body");
+		}
+		if (s != null) {
+			((EditText) this.findViewById(R.id.text)).setText(s);
+			lastMsg = s.toString();
+		}
+		s = intent.getCharSequenceExtra(EXTRA_ERRORMESSAGE);
+		if (s != null) {
+			Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+		}
+		s = intent.getCharSequenceExtra(WebSMS.EXTRA_AUTOSEND);
+		if (s != null && lastMsg != null && lastMsg.length() > 0
+				&& lastTo != null && lastTo.length() > 0) {
+			// all data is here. push it to current active connector
+			final String subc = WebSMS.getSelectedSubConnectorID();
+			if (prefsConnectorSpec != null && subc != null) {
+				this.send(prefsConnectorSpec, WebSMS
+						.getSelectedSubConnectorID());
 			}
-			if (s != null) {
-				((EditText) this.findViewById(R.id.text)).setText(s);
-				lastMsg = s.toString();
-			}
-			s = extras.getString(EXTRA_ERRORMESSAGE);
-			if (s != null) {
-				Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-			}
-
 		}
 	}
 
