@@ -79,6 +79,13 @@
 				android:layout_alignParentRight="true" android:layout_alignBottom="@id/text"
 				android:textStyle="bold" android:background="#88000000"
 				android:textColor="#ffffffff" />
+			<TextView android:id="@+id/text_paste" android:text="@string/paste_"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingLeft="3dip" android:paddingRight="3dip"
+				android:paddingBottom="3dip" android:layout_alignParentLeft="true"
+				android:layout_alignBottom="@id/text" android:textStyle="bold"
+				android:background="#88000000" android:textColor="#ffffffff"
+				android:clickable="true" android:focusable="true" />
 			<TextView android:id="@+id/text_connector"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:layout_centerInParent="true" android:textStyle="bold"

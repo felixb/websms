@@ -47,6 +47,7 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -214,6 +215,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private EditText etText;
 	/** {@link TextView} holding balances. */
 	private TextView tvBalances;
+	/** {@link TextView} for pasting text. */
+	private TextView tvPaste;
 
 	/** {@link View} holding extras. */
 	private View vExtras;
@@ -223,6 +226,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	private View vFlashSMS;
 	/** {@link View} holding send later. */
 	private View vSendLater;
+
+	/** {@link ClipboardManager}. */
+	private ClipboardManager cbmgr;
 
 	/** Text's label. */
 	private TextView etTextLabel;
@@ -236,8 +242,20 @@ public class WebSMS extends Activity implements OnClickListener,
 		 * {@inheritDoc}
 		 */
 		public void afterTextChanged(final Editable s) {
-			int[] l = TWRAPPER.calculateLength(s.toString(), false);
-			WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
+			final int len = s.length();
+			if (len == 0) {
+				if (WebSMS.this.cbmgr.hasText()) {
+					WebSMS.this.tvPaste.setVisibility(View.VISIBLE);
+				} else {
+					WebSMS.this.tvPaste.setVisibility(View.GONE);
+				}
+				WebSMS.this.etTextLabel.setVisibility(View.GONE);
+			} else {
+				WebSMS.this.tvPaste.setVisibility(View.GONE);
+				WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
+				int[] l = TWRAPPER.calculateLength(s.toString(), false);
+				WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
+			}
 		}
 
 		/** Needed dummy. */
@@ -381,6 +399,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		de.ub0r.android.lib.Utils.setLocale(this);
 
+		this.cbmgr = (ClipboardManager) this
+				.getSystemService(CLIPBOARD_SERVICE);
+
 		// save ref to me.
 		me = this;
 		// inflate XML
@@ -390,6 +411,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.etText = (EditText) this.findViewById(R.id.text);
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
 		this.tvBalances = (TextView) this.findViewById(R.id.freecount);
+		this.tvPaste = (TextView) this.findViewById(R.id.text_paste);
 
 		this.vExtras = this.findViewById(R.id.extras);
 		this.vCustomSender = this.findViewById(R.id.custom_sender);
@@ -453,6 +475,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
+		this.tvPaste.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.textWatcher);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
 		this.etTo.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
@@ -968,6 +991,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		case R.id.emo:
 			this.showDialog(DIALOG_EMO);
+			return;
+		case R.id.text_paste:
+			final CharSequence s = this.cbmgr.getText();
+			this.etText.setText(s);
+			lastMsg = s.toString();
 			return;
 		default:
 			return;

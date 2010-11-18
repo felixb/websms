@@ -131,4 +131,5 @@
 <!--	<string name="connector_sms_name">SMS</string> -->
 	<string name="enable_sms">Aktiviere SMS</string>
 	<string name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
+	<string name="paste_">[ Aus Zwischenablage einfügen ]</string>
 </resources>

@@ -135,7 +135,7 @@ public class ConnectorSMS extends Connector {
 						Toast.makeText(context,
 								specs.getName() + ": " + e.getMessage(),
 								Toast.LENGTH_LONG).show();
-						specs.setErrorMessage(e);
+						specs.setErrorMessage(context, e);
 					}
 					this.sendInfo(context, specs, command);
 					try {
