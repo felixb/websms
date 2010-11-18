@@ -278,6 +278,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 						final int updated = cr.update(u, values, null, null);
 						Log.d(TAG, "updated: " + updated);
 						if (updated > 0
+								&& specs != null
 								&& !specs.getPackage().equals(
 										"de.ub0r.android.websms.connector."
 												+ "sms")) {

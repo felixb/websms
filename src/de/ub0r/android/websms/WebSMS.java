@@ -1149,6 +1149,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			// send by menu item
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			return true;
+		case R.id.item_draft:
+			this.saveDraft();
+			return true;
 		case R.id.item_savechars:
 			this.saveChars();
 			return true;
@@ -1366,6 +1369,27 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		}
 		this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
+	}
+
+	/**
+	 * Safe draft.
+	 */
+	private void saveDraft() {
+		// fetch text/recipient
+		final String to = this.etTo.getText().toString();
+		final String text = this.etText.getText().toString();
+		if (to.length() == 0 || text.length() == 0) {
+			return;
+		}
+
+		this.displayAds();
+
+		final String[] tos = Utils.parseRecipients(to);
+		final ConnectorCommand command = ConnectorCommand.send(null, null,
+				null, tos, text, false);
+		WebSMSReceiver.saveMessage(null, this, command,
+				WebSMSReceiver.MESSAGE_TYPE_DRAFT);
+		this.reset();
 	}
 
 	/**

@@ -19,6 +19,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:title="@string/send_" android:id="@+id/item_send"
 		android:icon="@android:drawable/ic_menu_send" />
+	<item android:title="@string/save_draft_" android:id="@+id/item_draft"
+		android:icon="@android:drawable/ic_menu_save" />
 	<item android:title="@string/change_connector_" android:id="@+id/item_connector"
 		android:icon="@android:drawable/ic_menu_share" />
 	<item android:title="@string/save_chars_" android:id="@+id/item_savechars"

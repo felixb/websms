@@ -48,6 +48,7 @@
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
+	<string name="save_draft_">Save draft</string>
 	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
