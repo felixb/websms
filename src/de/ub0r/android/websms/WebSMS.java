@@ -319,6 +319,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (prefsConnectorSpec != null && subc != null) {
 				this.send(prefsConnectorSpec, WebSMS
 						.getSelectedSubConnectorID());
+				if (!this.isFinishing()) {
+					this.finish();
+				}
 			}
 		}
 	}
