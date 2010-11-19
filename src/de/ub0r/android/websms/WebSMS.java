@@ -1431,6 +1431,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		command.setCustomSender(lastCustomSender);
 		command.setSendLater(lastSendLater);
 
+		boolean sent = false;
 		try {
 			if (connector.getSubConnector(subconnector).hasFeatures(
 					SubConnectorSpec.FEATURE_MULTIRECIPIENTS)
@@ -1451,9 +1452,12 @@ public class WebSMS extends Activity implements OnClickListener,
 					runCommand(this, connector, cc);
 				}
 			}
+			sent = true;
 		} catch (Exception e) {
-			Log.e(TAG, null, e);
-		} finally {
+			Log.e(TAG, "error running command", e);
+			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+		}
+		if (sent) {
 			this.reset();
 			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
 					PREFS_AUTOEXIT, false)) {

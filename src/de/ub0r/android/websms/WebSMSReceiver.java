@@ -322,8 +322,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			Log.d(TAG, "TO: " + address);
 			final Cursor c = cr.query(URI_SMS, PROJECTION_ID, TYPE + " = "
 					+ MESSAGE_TYPE_DRAFT + " AND " + ADDRESS + " = '" + address
-					+ "' AND " + BODY + " = '" + text + "'", null, DATE
-					+ " DESC");
+					+ "' AND " + BODY + " like '" + text.replace("'", "_")
+					+ "'", null, DATE + " DESC");
 			if (c != null && c.moveToFirst()) {
 				final Uri u = URI_SENT.buildUpon().appendPath(c.getString(0))
 						.build();
