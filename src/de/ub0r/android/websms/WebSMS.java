@@ -161,6 +161,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Buffersize for saving and loading Connectors. */
 	private static final int BUFSIZE = 4096;
 
+	/** Minimum length for showing sms length. */
+	private final int TEXT_LABLE_MIN_LEN = 50;
+
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
 	/** Preferences: selected {@link ConnectorSpec}. */
@@ -253,10 +256,14 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				WebSMS.this.etTextLabel.setVisibility(View.GONE);
 			} else {
-				WebSMS.this.tvPaste.setVisibility(View.GONE);
-				WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
-				int[] l = TWRAPPER.calculateLength(s.toString(), false);
-				WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
+				if (len > WebSMS.this.TEXT_LABLE_MIN_LEN) {
+					WebSMS.this.tvPaste.setVisibility(View.GONE);
+					WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
+					int[] l = TWRAPPER.calculateLength(s.toString(), false);
+					WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
+				} else {
+					WebSMS.this.etTextLabel.setVisibility(View.GONE);
+				}
 			}
 		}
 
