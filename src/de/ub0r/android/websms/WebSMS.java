@@ -27,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -1420,6 +1421,26 @@ public class WebSMS extends Activity implements OnClickListener,
 				&& !text.endsWith(signature)) {
 			text = text + signature;
 			this.etText.setText(text);
+		}
+
+        if (connector
+				.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
+			if (connector.getValidCharacters() == null) {
+				// TODO Replace hard coded error messages
+				Toast.makeText(this,
+						"Connector does not provide valid characters",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			Pattern check_pattern = Pattern.compile("^["
+					+ Pattern.quote(connector.getValidCharacters()) + "]+$");
+			if (!check_pattern.matcher(text).matches()) {
+				// TODO Replace hard coded error messages
+				Toast.makeText(this,
+						"This message contains not sendable characters",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
 		}
 
 		this.displayAds();
