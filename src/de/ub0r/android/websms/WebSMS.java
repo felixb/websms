@@ -162,7 +162,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final int BUFSIZE = 4096;
 
 	/** Minimum length for showing sms length. */
-	private final int TEXT_LABLE_MIN_LEN = 50;
+	private static final int TEXT_LABLE_MIN_LEN = 50;
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
@@ -249,18 +249,18 @@ public class WebSMS extends Activity implements OnClickListener,
 		public void afterTextChanged(final Editable s) {
 			final int len = s.length();
 			if (len == 0) {
+				WebSMS.this.etTextLabel.setVisibility(View.GONE);
 				if (WebSMS.this.cbmgr.hasText()) {
 					WebSMS.this.tvPaste.setVisibility(View.VISIBLE);
 				} else {
 					WebSMS.this.tvPaste.setVisibility(View.GONE);
 				}
-				WebSMS.this.etTextLabel.setVisibility(View.GONE);
 			} else {
-				if (len > WebSMS.this.TEXT_LABLE_MIN_LEN) {
-					WebSMS.this.tvPaste.setVisibility(View.GONE);
-					WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
+				WebSMS.this.tvPaste.setVisibility(View.GONE);
+				if (len > TEXT_LABLE_MIN_LEN) {
 					int[] l = TWRAPPER.calculateLength(s.toString(), false);
 					WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
+					WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
 				} else {
 					WebSMS.this.etTextLabel.setVisibility(View.GONE);
 				}
