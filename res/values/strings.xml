@@ -107,4 +107,7 @@
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 	<string name="paste_">[ Paste from clipboard ]</string>
+	<string-array name="notes_from_dev">
+		<item>You may want to use SMSdroid to read incoming messages.</item>
+	</string-array>
 </resources>

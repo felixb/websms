@@ -34,7 +34,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -71,6 +70,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
+import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.lib.apis.TelephonyWrapper;
@@ -97,8 +97,6 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
-	/** Preference's name: last version run. */
-	private static final String PREFS_LAST_RUN = "lastrun";
 	/** Preference's name: user's phonenumber. */
 	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
@@ -180,8 +178,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
 
-	/** Dialog: updates. */
-	private static final int DIALOG_UPDATE = 2;
 	/** Dialog: custom sender. */
 	private static final int DIALOG_CUSTOMSENDER = 3;
 	/** Dialog: send later: date. */
@@ -436,18 +432,23 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
 
-		// display changelog?
-		String v0 = p.getString(PREFS_LAST_RUN, "");
-		String v1 = this.getString(R.string.app_version);
-		if (!v0.equals(v1)) {
+		if (Changelog.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
-			editor.putString(PREFS_LAST_RUN, v1);
 			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
-			this.showDialog(DIALOG_UPDATE);
 		}
-		v0 = null;
-		v1 = null;
+		Changelog.showChangelog(this);
+
+		Object o = this.getPackageManager().getLaunchIntentForPackage(
+				"de.ub0r.android.smsdroid");
+		if (o == null) {
+			final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(// .
+					"market://details?id=de.ub0r.android.smsdroid"));
+			Changelog.showNotes(this, "get SMSdroid", null, intent);
+		} else {
+			Changelog.showNotes(this, null, null, null);
+		}
+		o = null;
 
 		// get cached Connectors
 		String s = p.getString(PREFS_CONNECTORS, "");
@@ -1276,45 +1277,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	protected final Dialog onCreateDialog(final int id) {
 		AlertDialog.Builder builder;
 		switch (id) {
-		case DIALOG_UPDATE:
-			builder = new AlertDialog.Builder(this);
-			builder.setIcon(android.R.drawable.ic_dialog_info);
-			builder.setTitle(R.string.changelog_);
-			final String[] changes = this.getResources().getStringArray(
-					R.array.updates);
-			final StringBuilder buf = new StringBuilder();
-			Object o = this.getPackageManager().getLaunchIntentForPackage(
-					"de.ub0r.android.smsdroid");
-			if (o == null) {
-				buf.append(changes[0]);
-			}
-			for (int i = 1; i < changes.length; i++) {
-				buf.append("\n\n");
-				buf.append(changes[i]);
-			}
-			builder.setIcon(android.R.drawable.ic_menu_info_details);
-			builder.setMessage(buf.toString().trim());
-			builder.setCancelable(true);
-			builder.setPositiveButton(android.R.string.ok, null);
-			if (o == null) {
-				builder.setNeutralButton("get SMSdroid",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface d,
-									final int which) {
-								try {
-									WebSMS.this.startActivity(// .
-											new Intent(
-													Intent.ACTION_VIEW,
-													Uri.parse(// .
-															"market://search?q=pname:de.ub0r.android.smsdroid")));
-								} catch (ActivityNotFoundException e) {
-									Log.e(TAG, "no market", e);
-								}
-							}
-						});
-			}
-			return builder.create();
 		case DIALOG_CUSTOMSENDER:
 			builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.custom_sender);
