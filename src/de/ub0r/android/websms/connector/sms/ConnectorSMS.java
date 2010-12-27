@@ -25,10 +25,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
+import de.ub0r.android.lib.Log;
+import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.R;
-import de.ub0r.android.websms.WebSMS;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -43,10 +43,14 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  */
 public class ConnectorSMS extends Connector {
 	/** Tag for debug output. */
-	private static final String TAG = "WebSMS.sms";
+	private static final String TAG = "sms";
 
 	/** Preference key: enabled. */
 	private static final String PREFS_ENABLED = "enable_sms";
+
+	/** {@link TelephonyWrapper}. */
+	private static final TelephonyWrapper TWRAPPER = TelephonyWrapper
+			.getInstance();
 
 	/**
 	 * {@inheritDoc}
@@ -83,20 +87,26 @@ public class ConnectorSMS extends Connector {
 	 * 
 	 * @param command
 	 *            command coming from intent
-	 * @throws WebSMSException
-	 *             WebSMSException
 	 */
-	private void send(final ConnectorCommand command) throws WebSMSException {
+	private void send(final ConnectorCommand command) {
 		try {
 			final String[] r = command.getRecipients();
-			ArrayList<String> messages;
+			final String text = command.getText();
+			Log.d(TAG, "text: " + text);
+			int[] l = TWRAPPER.calculateLength(text, false);
+			Log.i(TAG, "text7: " + text.length() + ", " + l[0] + " " + l[1]
+					+ " " + l[2] + " " + l[3]);
+			l = TWRAPPER.calculateLength(text, true);
+			Log.i(TAG, "text8: " + text.length() + ", " + l[0] + " " + l[1]
+					+ " " + l[2] + " " + l[3]);
 			for (String t : r) {
-				messages = WebSMS.TWRAPPER.divideMessage(command.getText());
-				WebSMS.TWRAPPER.sendMultipartTextMessage(Utils
-						.getRecipientsNumber(t), null, messages, null, null);
+				Log.d(TAG, "send messages to: " + t);
+				final ArrayList<String> messages = TWRAPPER.divideMessage(text);
 				for (String m : messages) {
-					Log.d(TAG, "send sms: " + t + ", text: " + m);
+					Log.d(TAG, "devided messages: " + m);
 				}
+				TWRAPPER.sendMultipartTextMessage(Utils.getRecipientsNumber(t),
+						null, messages, null, null);
 			}
 		} catch (Exception e) {
 			throw new WebSMSException(e.toString());

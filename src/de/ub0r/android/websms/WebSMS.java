@@ -95,7 +95,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	public static final String TAG = "main";
 
 	/** {@link TelephonyWrapper}. */
-	public static final TelephonyWrapper TWRAPPER = TelephonyWrapper
+	private static final TelephonyWrapper TWRAPPER = TelephonyWrapper
 			.getInstance();
 
 	/** Static reference to running Activity. */
