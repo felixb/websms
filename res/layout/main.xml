@@ -87,9 +87,10 @@
 				android:background="#88000000" android:textColor="#ffffffff"
 				android:clickable="true" android:focusable="true" />
 			<TextView android:id="@+id/text_connector"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:layout_centerInParent="true" android:textStyle="bold"
-				android:textColor="#40606060" android:textSize="50dip" />
+				android:layout_width="fill_parent" android:layout_height="fill_parent"
+				android:layout_alignBottom="@id/text" android:layout_alignTop="@id/text" android:textStyle="bold"
+				android:textColor="#40606060" android:textSize="40dip"
+				android:layout_weight="1" android:gravity="center" />
 		</RelativeLayout>
 
 		<LinearLayout android:layout_width="fill_parent"

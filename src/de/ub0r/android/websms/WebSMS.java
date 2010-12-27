@@ -49,6 +49,7 @@ import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -834,8 +835,16 @@ public class WebSMS extends Activity implements OnClickListener,
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
-			((TextView) this.findViewById(R.id.text_connector))
-					.setText(prefsConnectorSpec.getName());
+			String s = prefsConnectorSpec.getName();
+			if (lastSendLater > 0L) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(lastSendLater);
+				s += "\n@"
+						+ DateFormat.getDateFormat(this).format(cal.getTime());
+				s += " " + DateFormat.getTimeFormat(this).format(cal.getTime());
+			}
+			Log.d(TAG, "set backgroundtext: " + s);
+			((TextView) this.findViewById(R.id.text_connector)).setText(s);
 			((Button) this.findViewById(R.id.send_)).setEnabled(true);
 		} else {
 			this.setTitle(R.string.app_name);
@@ -1001,6 +1010,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return;
 		case R.id.send_later:
+			this.setButtons();
 			final ToggleButton sl = (ToggleButton) this.vSendLater;
 			if (sl.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
@@ -1479,6 +1489,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		MyTimePickerDialog.setOnlyQuaters(prefsSubConnectorSpec
 				.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER_QUARTERS));
 		this.showDialog(DIALOG_SENDLATER_TIME);
+		this.setButtons();
 	}
 
 	/**
@@ -1508,6 +1519,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		c.set(Calendar.HOUR_OF_DAY, hour);
 		c.set(Calendar.MINUTE, minutes);
 		lastSendLater = c.getTimeInMillis();
+		this.setButtons();
 	}
 
 	/**
