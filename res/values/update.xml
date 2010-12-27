@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: show send later date in background, add signature for length calculation</item>
 		<item>v3.3.1: Fix sending TXT with \'</item>
 		<item>v3.3: Vibrate on send, save draft, paste text from clipboard, strip control codes from recipient, fix some bugs</item>
 		<item>v3.2.1: Integrate with Samsung\'s "Write and go"</item>
