@@ -69,6 +69,8 @@
 			android:summary="@string/custom_language_hint" android:entries="@array/lang_"
 			android:entryValues="@array/lang_values" />
 	</PreferenceScreen>
+	<CheckBoxPreference android:key="try_send_invalid"
+		android:title="@string/try_send_invalid_characters_" android:summary="@string/try_send_invalid_characters_hint" />
 	<PreferenceCategory android:title="@string/default_recipient_">
 		<EditTextPreference android:key="default_recipient"
 			android:title="@string/default_recipient_" android:summary="@string/default_recipient_hint" />

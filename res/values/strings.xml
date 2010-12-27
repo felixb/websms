@@ -49,6 +49,8 @@
 	<string name="log_error_saving_message">Error updating sent message in Database!</string>
 	<string name="log_error_char_nonvalid">Connector does not provide valid characters</string>
 	<string name="log_error_char_notsendable">This message contains not sendable characters</string>
+	<string name="try_send_invalid_characters_">Try send invalid</string>
+	<string name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>

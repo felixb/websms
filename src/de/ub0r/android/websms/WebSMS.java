@@ -141,6 +141,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
+	/** Preference's name: try to send invalid characters. */
+	private static final String PREFS_TRY_SEND_INVALID = "try_send_invalid";
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
@@ -1423,15 +1425,17 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.etText.setText(text);
 		}
 
-		if (connector
-				.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
-			if (connector.getValidCharacters() == null) {
+		if (!p.getBoolean(PREFS_TRY_SEND_INVALID, false)
+				&& connector.hasCapabilities(// .
+						ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
+			final String valid = connector.getValidCharacters();
+			if (valid == null) {
 				Toast.makeText(this, R.string.log_error_char_nonvalid,
 						Toast.LENGTH_LONG).show();
 				return;
 			}
 			final Pattern checkPattern = Pattern.compile("^["
-					+ Pattern.quote(connector.getValidCharacters()) + "]+$");
+					+ Pattern.quote(valid) + "]+$");
 			if (!checkPattern.matcher(text).matches()) {
 				Toast.makeText(this, R.string.log_error_char_notsendable,
 						Toast.LENGTH_LONG).show();

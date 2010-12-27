@@ -97,13 +97,8 @@ public class Preferences extends PreferenceActivity implements
 									.getDefaultSharedPreferences(// .
 									Preferences.this);
 							final Editor e = p.edit();
-							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, p
-									.getString(WebSMS.PREFS_STANDARD_CONNECTOR,
-											""));
-							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, p
-									.getString(
-											WebSMS.PREFS_STANDARD_SUBCONNECTOR,
-											""));
+							e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
+							e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
 							e.commit();
 							return true;
 						}
