@@ -1423,21 +1423,17 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.etText.setText(text);
 		}
 
-        if (connector
+		if (connector
 				.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
 			if (connector.getValidCharacters() == null) {
-				// TODO Replace hard coded error messages
-				Toast.makeText(this,
-						"Connector does not provide valid characters",
+				Toast.makeText(this, R.string.log_error_char_nonvalid,
 						Toast.LENGTH_LONG).show();
 				return;
 			}
-			Pattern check_pattern = Pattern.compile("^["
+			final Pattern checkPattern = Pattern.compile("^["
 					+ Pattern.quote(connector.getValidCharacters()) + "]+$");
-			if (!check_pattern.matcher(text).matches()) {
-				// TODO Replace hard coded error messages
-				Toast.makeText(this,
-						"This message contains not sendable characters",
+			if (!checkPattern.matcher(text).matches()) {
+				Toast.makeText(this, R.string.log_error_char_notsendable,
 						Toast.LENGTH_LONG).show();
 				return;
 			}
