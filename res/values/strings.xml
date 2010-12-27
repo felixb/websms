@@ -36,6 +36,9 @@
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
 	<string name="more_connectors__">Even more Connectors..</string>
 	<string name="more_connectors__hint">You are missing a connector for some service? View the FAQ to get it.</string>
+	<string name="set_stdandard_connector_">Set standard Connector</string>
+	<string name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
+	<string name="clear_stdandard_connector_">Clear standard Connector</string>
 	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>

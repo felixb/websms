@@ -48,6 +48,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.Menu;
@@ -150,9 +151,14 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Preference's name: text. */
 	private static final String PREFS_TEXT = "text";
 	/** Preference's name: selected {@link ConnectorSpec} ID. */
-	private static final String PREFS_CONNECTOR_ID = "connector_id";
+	static final String PREFS_CONNECTOR_ID = "connector_id";
 	/** Preference's name: selected {@link SubConnectorSpec} ID. */
-	private static final String PREFS_SUBCONNECTOR_ID = "subconnector_id";
+	static final String PREFS_SUBCONNECTOR_ID = "subconnector_id";
+
+	/** Preference's name: standard connector. */
+	static final String PREFS_STANDARD_CONNECTOR = "std_connector";
+	/** Preference's name: standard sub connector. */
+	static final String PREFS_STANDARD_SUBCONNECTOR = "std_subconnector";
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
@@ -707,6 +713,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * Read static variables holding preferences.
 	 */
 	private void reloadPrefs() {
+		Log.d(TAG, "reloadPrefs()");
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final boolean bShowChangeConnector = !p.getBoolean(
@@ -764,10 +771,19 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.VISIBLE);
 		}
 
+		String s = p.getString(PREFS_STANDARD_CONNECTOR, "");
+		if (!TextUtils.isEmpty(s)) {
+			p.edit().putString(PREFS_CONNECTOR_ID, s).commit();
+		}
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
 		prefsConnectorSpec = getConnectorByID(prefsConnectorID);
 		if (prefsConnectorSpec != null
 				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+			prefsSubConnectorSpec = null;
+			s = p.getString(PREFS_STANDARD_SUBCONNECTOR, "");
+			if (!TextUtils.isEmpty(s)) {
+				p.edit().putString(PREFS_SUBCONNECTOR_ID, s).commit();
+			}
 			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
 					.getString(PREFS_SUBCONNECTOR_ID, ""));
 			if (prefsSubConnectorSpec == null) {
@@ -987,9 +1003,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			return;
 		case R.id.send_:
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
+			this.reloadPrefs();
 			return;
 		case R.id.cancel:
 			this.reset();
+			this.reloadPrefs();
 			return;
 		case R.id.select:
 			this.startActivityForResult(ContactsWrapper.getInstance()

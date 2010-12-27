@@ -20,6 +20,7 @@ package de.ub0r.android.websms;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -37,6 +38,14 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  */
 public class Preferences extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
+	/** Tag for output. */
+	public static final String TAG = "pref";
+
+	/** Preference's name: set standard connector. */
+	private static final String PREFS_STANDARD_CONNECTOR_SET = "set_std_connector";
+	/** Preference's name: clear standard connector. */
+	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = "clear_std_connector";
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,6 +60,51 @@ public class Preferences extends PreferenceActivity implements
 						public boolean onPreferenceClick(
 								final Preference preference) {
 							Log.collectAndSendLog(Preferences.this);
+							return true;
+						}
+					});
+		}
+		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_SET);
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									Preferences.this);
+							final String c = p.getString(
+									WebSMS.PREFS_CONNECTOR_ID, "");
+							final String sc = p.getString(
+									WebSMS.PREFS_SUBCONNECTOR_ID, "");
+							Log.i(TAG, "set std connector: " + c + "/" + sc);
+							final Editor e = p.edit();
+							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, c);
+							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, sc);
+							e.commit();
+							return true;
+						}
+					});
+		}
+		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_CLEAR);
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Log.i(TAG, "clear std connector");
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									Preferences.this);
+							final Editor e = p.edit();
+							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, p
+									.getString(WebSMS.PREFS_STANDARD_CONNECTOR,
+											""));
+							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, p
+									.getString(
+											WebSMS.PREFS_STANDARD_SUBCONNECTOR,
+											""));
+							e.commit();
 							return true;
 						}
 					});

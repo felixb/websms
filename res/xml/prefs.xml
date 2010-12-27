@@ -81,6 +81,10 @@
 		<!-- other connectors getting added dynamicaly -->
 
 	</PreferenceCategory>
+	<PreferenceScreen android:key="set_std_connector"
+		android:title="@string/set_stdandard_connector_" android:summary="@string/set_stdandard_connector_hint" />
+	<PreferenceScreen android:key="clear_std_connector"
+		android:title="@string/clear_stdandard_connector_" />
 	<PreferenceScreen android:title="@string/more_connectors_"
 		android:summary="@string/more_connectors_hint">
 		<intent android:action="android.intent.action.VIEW"
