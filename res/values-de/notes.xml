@@ -17,5 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string formatted="false" name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=11046415</string>
+	<string-array name="notes_from_dev">
+		<item>Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</item>
+		<item>Dez. 2010 Entwürfe: Entwürfe werden in Androids Nachrichten-Datenbank gespeichert. Verwende SMSdroid oder Androids Nachrichten-App, um sie später zu sende.</item>
+	</string-array>
 </resources>
