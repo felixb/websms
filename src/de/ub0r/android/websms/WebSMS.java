@@ -27,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
@@ -335,9 +336,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			// all data is here. push it to current active connector
 			final String subc = WebSMS.getSelectedSubConnectorID();
 			if (prefsConnectorSpec != null && subc != null) {
-				this.send(prefsConnectorSpec, WebSMS
-						.getSelectedSubConnectorID());
-				if (!this.isFinishing()) {
+				if (this.send(prefsConnectorSpec, WebSMS
+						.getSelectedSubConnectorID())
+						&& !this.isFinishing()) {
 					this.finish();
 				}
 			}
@@ -1408,13 +1409,13 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * @param subconnector
 	 *            selected {@link SubConnectorSpec} ID
 	 */
-	private void send(final ConnectorSpec connector, // .
+	private boolean send(final ConnectorSpec connector, // .
 			final String subconnector) {
 		// fetch text/recipient
 		final String to = this.etTo.getText().toString();
 		String text = this.etText.getText().toString();
 		if (to.length() == 0 || text.length() == 0) {
-			return;
+			return false;
 		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -1432,14 +1433,20 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (valid == null) {
 				Toast.makeText(this, R.string.log_error_char_nonvalid,
 						Toast.LENGTH_LONG).show();
-				return;
+				return false;
 			}
-			final Pattern checkPattern = Pattern.compile("^["
-					+ Pattern.quote(valid) + "]+$");
-			if (!checkPattern.matcher(text).matches()) {
-				Toast.makeText(this, R.string.log_error_char_notsendable,
-						Toast.LENGTH_LONG).show();
-				return;
+			final Pattern checkPattern = Pattern.compile("[^"
+					+ Pattern.quote(valid) + "]+");
+			Log.d(TAG, "pattern: " + checkPattern.pattern());
+			final Matcher m = checkPattern.matcher(text);
+			if (m.find()) {
+				final String illigal = m.group();
+				Log.i(TAG, "invalid character: " + illigal);
+				Toast.makeText(
+						this,
+						this.getString(R.string.log_error_char_notsendable)
+								+ ": " + illigal, Toast.LENGTH_LONG).show();
+				return false;
 			}
 		}
 
@@ -1494,7 +1501,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 				this.finish();
 			}
+			return true;
 		}
+		return false;
 	}
 
 	/**
