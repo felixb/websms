@@ -18,7 +18,7 @@
 	-->
 <resources>
   <string formatted="false" name="about_">Über</string>
-  <string formatted="false" name="about">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstüt. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string formatted="false" name="about">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string formatted="false" name="about_hint">Über diese App</string>
   <string formatted="false" name="faq_hint">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
   <string formatted="false" name="feedback_">Feedback</string>
@@ -36,6 +36,9 @@
   <string formatted="false" name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
   <string formatted="false" name="more_connectors__">Noch mehr Connectoren..</string>
   <string formatted="false" name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
+  <string formatted="false" name="set_stdandard_connector_">Standard Connector setzen</string>
+  <string formatted="false" name="set_stdandard_connector_hint">Setze den aktuellen Connector als Standard.</string>
+  <string formatted="false" name="clear_stdandard_connector_">Standard Connector löschen</string>
   <string formatted="false" name="free_">Guthaben:</string>
   <string formatted="false" name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string formatted="false" name="license_">Lizenz:</string>
@@ -44,16 +47,20 @@
   <string formatted="false" name="log_noselectedconnector">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
   <string formatted="false" name="log_noreadyconnector">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
   <string formatted="false" name="log_error_saving_message">Fehler beim Updaten der Nachricht in der Datenbank!</string>
-  <string formatted="false" name="notify_failed">Failed to send SMS: </string>
-  <string formatted="false" name="notify_failed_">failed sending SMS</string>
+  <string formatted="false" name="log_error_char_nonvalid">Der Connector stellt keine erlaubten Zeichen bereit</string>
+  <string formatted="false" name="log_error_char_notsendable">Die Nachricht enthält nicht erlaubte Zeichen</string>
+  <string formatted="false" name="try_send_invalid_characters_">Versuchen, ungültige zu senden</string>
+  <string formatted="false" name="try_send_invalid_characters_hint">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
+  <string formatted="false" name="notify_failed">Fehler beim senden der SMS: </string>
+  <string formatted="false" name="notify_failed_">fehler beim Senden der SMS</string>
   <string formatted="false" name="sender_">Mobilnummer</string>
   <string formatted="false" name="send_">Senden</string>
   <string formatted="false" name="save_draft_">Entwurf speichern</string>
   <string formatted="false" name="save_chars_">Zeichen sparen</string>
   <string formatted="false" name="settings">Einstellungen</string>
   <string formatted="false" name="settings_common">Einstellungen - Allgemein</string>
-  <string formatted="false" name="appearance_">Erscheinung</string>
-  <string formatted="false" name="show_titlebar_">Zeige Titelleiste</string>
+  <string formatted="false" name="appearance_">Darstellung</string>
+  <string formatted="false" name="show_titlebar_">Titelleiste anzeigen</string>
   <string formatted="false" name="show_titlebar_hint">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
   <string formatted="false" name="settings_connectors">Einstellungen - Connectoren</string>
   <string formatted="false" name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
@@ -78,9 +85,9 @@
   <string formatted="false" name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
   <string formatted="false" name="signature_">Signatur</string>
   <string formatted="false" name="signature_hint">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
-  <string formatted="false" name="autoupdate_">Autoupdate</string>
+  <string formatted="false" name="autoupdate_">Autom. aktualisieren</string>
   <string formatted="false" name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
-  <string formatted="false" name="autoexit_">Autoexit</string>
+  <string formatted="false" name="autoexit_">Autom. Beenden</string>
   <string formatted="false" name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
   <string formatted="false" name="mobile_only_">Nur Mobilnummern anzeigen</string>
   <string formatted="false" name="mobile_only_hint">Zeige nur Mobilnummern an.</string>
@@ -92,7 +99,7 @@
   <string formatted="false" name="to_hint">Name oder Nummer</string>
   <string formatted="false" name="text_hint">Text</string>
   <string formatted="false" name="extras_">Extras</string>
-  <string formatted="false" name="flashsms">Flash SMS</string>
+  <string formatted="false" name="flashsms">Flash-SMS</string>
   <string formatted="false" name="custom_sender">Anderer Absender</string>
   <string formatted="false" name="send_later">Später senden</string>
   <string formatted="false" name="emo_">Smilies</string>
@@ -107,9 +114,4 @@
   <string formatted="false" name="enable_sms">Aktiviere SMS</string>
   <string formatted="false" name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
   <string formatted="false" name="paste_">[ Aus Zwischenablage einfügen ]</string>
-  <string formatted="false" name="try_send_invalid_characters_">Versuchen, ungültige zu senden</string>
-  <string formatted="false" name="try_send_invalid_characters_hint">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
-  <string formatted="false" name="set_stdandard_connector_">Standard Connector setzen</string>
-  <string formatted="false" name="set_stdandard_connector_hint">Setze den aktuellen Connector als Standard.</string>
-  <string formatted="false" name="clear_stdandard_connector_">Standard Connector löschen</string>
 </resources>

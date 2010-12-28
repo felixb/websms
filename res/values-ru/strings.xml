@@ -36,6 +36,9 @@
   <string formatted="false" name="more_connectors_hint">Найдите больше Connector\'ов на Market. Перезапустите WebSMS после установки!</string>
   <string formatted="false" name="more_connectors__">Ещё больше Connector\'ов..</string>
   <string formatted="false" name="more_connectors__hint">Не нашли Connector для какого-то сервиса? Смотрите в FAQ как получить его.</string>
+  <string formatted="false" name="set_stdandard_connector_">Set standard Connector</string>
+  <string formatted="false" name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
+  <string formatted="false" name="clear_stdandard_connector_">Clear standard Connector</string>
   <string formatted="false" name="free_">Баланс:</string>
   <string formatted="false" name="license">GPLv3 - смотрите http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string formatted="false" name="license_">Лицензия:</string>
@@ -44,6 +47,10 @@
   <string formatted="false" name="log_noselectedconnector">Не выбран Connector. Выберете в "Сменить провайдера".</string>
   <string formatted="false" name="log_noreadyconnector">Connector не установлен или не настроен. Проверьте настройки.</string>
   <string formatted="false" name="log_error_saving_message">Ошибка сохранения отправленного СМС в базе!</string>
+  <string formatted="false" name="log_error_char_nonvalid">Connector does not provide valid characters</string>
+  <string formatted="false" name="log_error_char_notsendable">This message contains not sendable characters</string>
+  <string formatted="false" name="try_send_invalid_characters_">Try send invalid</string>
+  <string formatted="false" name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
   <string formatted="false" name="notify_failed">Ошибка отправки СМС: </string>
   <string formatted="false" name="notify_failed_">Ошибка отправки СМС</string>
   <string formatted="false" name="sender_">Ваш номер моб. тел.</string>
