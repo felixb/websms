@@ -20,5 +20,6 @@
 	<string-array name="notes_from_dev">
 		<item>Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</item>
 		<item>Dez. 2010 Entwürfe: Entwürfe werden in Androids Nachrichten-Datenbank gespeichert. Verwende SMSdroid oder Androids Nachrichten-App, um sie später zu sende.</item>
+		<item>Dez. 2010 GMX Downtime: Der GMX Service ist seit einigen Tagen down. Das ist kein Problem dieser App! Hier gibt es weitere Informationen dazu: http://code.google.com/p/websmsdroid/issues/detail?id=417</item>
 	</string-array>
 </resources>

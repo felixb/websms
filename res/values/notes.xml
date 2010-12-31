@@ -21,5 +21,6 @@
 	<string-array name="notes_from_dev">
 		<item>You may want to use SMSdroid to read incoming messages.</item>
 		<item>Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.</item>
+		<item>Dec. 2010 GMX Downtime: The GMX service is down for days now. This is not a problem of this app! Please read further information here: http://code.google.com/p/websmsdroid/issues/detail?id=417</item>
 	</string-array>
 </resources>
