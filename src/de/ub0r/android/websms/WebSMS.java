@@ -20,8 +20,12 @@ package de.ub0r.android.websms;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -318,19 +322,40 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 		// check for extras
-		CharSequence s = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
+		String s = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (s == null) {
-			s = intent.getCharSequenceExtra("sms_body");
+			s = intent.getStringExtra("sms_body");
+		}
+		if (s == null) {
+			final Uri stream = (Uri) intent
+					.getParcelableExtra(Intent.EXTRA_STREAM);
+			if (stream != null) {
+				try {
+					InputStream is = this.getContentResolver().openInputStream(
+							stream);
+					final BufferedReader r = new BufferedReader(
+							new InputStreamReader(is));
+					StringBuffer sb = new StringBuffer();
+					String line;
+					while ((line = r.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					s = sb.toString().trim();
+				} catch (IOException e) {
+					Log.e(TAG, "IO ERROR", e);
+				}
+
+			}
 		}
 		if (s != null) {
 			((EditText) this.findViewById(R.id.text)).setText(s);
 			lastMsg = s.toString();
 		}
-		s = intent.getCharSequenceExtra(EXTRA_ERRORMESSAGE);
+		s = intent.getStringExtra(EXTRA_ERRORMESSAGE);
 		if (s != null) {
 			Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 		}
-		s = intent.getCharSequenceExtra(WebSMS.EXTRA_AUTOSEND);
+		s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
 		if (s != null && lastMsg != null && lastMsg.length() > 0
 				&& lastTo != null && lastTo.length() > 0) {
 			// all data is here. push it to current active connector
