@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.websms;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -41,10 +42,19 @@ public class Preferences extends PreferenceActivity implements
 	/** Tag for output. */
 	public static final String TAG = "pref";
 
+	/** Preference's name: theme. */
+	private static final String PREFS_THEME = "theme";
+	/** Theme: black. */
+	private static final String THEME_BLACK = "black";
+	/** Theme: light. */
+	private static final String THEME_LIGHT = "light";
+
 	/** Preference's name: set standard connector. */
-	private static final String PREFS_STANDARD_CONNECTOR_SET = "set_std_connector";
+	private static final String PREFS_STANDARD_CONNECTOR_SET = // .
+	"set_std_connector";
 	/** Preference's name: clear standard connector. */
-	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = "clear_std_connector";
+	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = // .
+	"clear_std_connector";
 
 	/**
 	 * {@inheritDoc}
@@ -170,5 +180,22 @@ public class Preferences extends PreferenceActivity implements
 						Toast.LENGTH_LONG).show();
 			}
 		}
+	}
+
+	/**
+	 * Get Theme from Preferences.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @return theme
+	 */
+	static final int getTheme(final Context context) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final String s = p.getString(PREFS_THEME, THEME_BLACK);
+		if (s != null && THEME_LIGHT.equals(s)) {
+			return android.R.style.Theme_Light;
+		}
+		return android.R.style.Theme_Black;
 	}
 }

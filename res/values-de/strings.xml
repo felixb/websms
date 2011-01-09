@@ -114,4 +114,9 @@
   <string formatted="false" name="enable_sms">Aktiviere SMS</string>
   <string formatted="false" name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
   <string formatted="false" name="paste_">[ Aus Zwischenablage einfügen ]</string>
+  <string name="theme_">Theme</string>
+  <string-array name="themes">
+    <item>Dunkel</item>
+    <item>Hell</item>
+  </string-array>
 </resources>

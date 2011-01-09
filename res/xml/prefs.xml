@@ -40,6 +40,9 @@
 			android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
 	</PreferenceCategory>
 	<PreferenceScreen android:title="@string/appearance_">
+		<ListPreference android:title="@string/theme_"
+			android:key="theme" android:entries="@array/themes"
+			android:entryValues="@array/themes_values" />
 		<CheckBoxPreference android:key="hide_send_button"
 			android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
 		<CheckBoxPreference android:key="hide_change_connector_button"

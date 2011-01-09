@@ -444,6 +444,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setTheme(Preferences.getTheme(this));
 		// Restore preferences
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
