@@ -40,28 +40,28 @@
 				android:layout_height="wrap_content" android:layout_weight="1">
 				<MultiAutoCompleteTextView android:text=""
 					android:id="@+id/to" android:hint="@string/to_hint"
-					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:layout_width="fill_parent" android:layout_height="51dip"
 					android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
 					android:imeOptions="actionNext" android:singleLine="true"
 					android:layout_weight="1" />
 				<ImageButton android:id="@+id/clear"
-					android:layout_height="fill_parent" android:layout_width="45dip"
+					android:layout_height="42dip" android:layout_width="42dip"
 					android:src="@android:drawable/ic_menu_close_clear_cancel"
-					android:scaleType="fitXY" android:layout_marginTop="6dip"
-					android:layout_marginBottom="6dip" android:layout_alignParentRight="true"
-					android:layout_alignBottom="@+id/to" />
+					android:background="@android:drawable/btn_default_small"
+					android:scaleType="fitXY" android:layout_alignParentRight="true"
+					android:layout_marginTop="4dip" android:focusable="true" />
 				<ImageButton android:id="@+id/select"
-					android:layout_height="fill_parent" android:layout_width="45dip"
+					android:layout_height="42dip" android:layout_width="42dip"
 					android:src="@drawable/ic_menu_invite" android:scaleType="fitXY"
-					android:layout_marginTop="6dip" android:layout_marginBottom="6dip"
+					android:background="@android:drawable/btn_default_small"
 					android:layout_toLeftOf="@+id/clear"
-					android:layout_centerHorizontal="true"
 					android:layout_alignWithParentIfMissing="true"
-					android:layout_alignBottom="@+id/to" />
+					android:layout_marginTop="4dip" android:focusable="true" />
 			</RelativeLayout>
-			<ImageButton android:id="@+id/emo" android:layout_width="55dip"
-				android:layout_height="fill_parent" android:src="@drawable/ic_menu_emoticons"
-				android:scaleType="fitXY" />
+			<ImageButton android:id="@+id/emo" android:layout_width="51dip"
+				android:layout_height="51dip" android:src="@drawable/ic_menu_emoticons"
+				android:scaleType="fitXY" android:background="@android:drawable/btn_default_small"
+				android:focusable="true" />
 		</LinearLayout>
 
 		<RelativeLayout android:layout_width="fill_parent"
@@ -88,41 +88,49 @@
 				android:clickable="true" android:focusable="true" />
 			<TextView android:id="@+id/text_connector"
 				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_alignBottom="@id/text" android:layout_alignTop="@id/text" android:textStyle="bold"
-				android:textColor="#40606060" android:textSize="40dip"
-				android:layout_weight="1" android:gravity="center" />
+				android:layout_alignBottom="@id/text" android:layout_alignTop="@id/text"
+				android:textStyle="bold" android:textColor="#40606060"
+				android:textSize="40dip" android:layout_weight="1" android:gravity="center" />
 		</RelativeLayout>
 
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:layout_weight="0">
-			<ToggleButton android:textOn="@string/flashsms"
-				android:textOff="@string/flashsms" android:id="@+id/flashsms"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:visibility="gone" />
-			<ToggleButton android:textOn="@string/custom_sender"
-				android:textOff="@string/custom_sender" android:id="@+id/custom_sender"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:visibility="gone" />
-			<ToggleButton android:textOn="@string/send_later"
-				android:textOff="@string/send_later" android:id="@+id/send_later"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:visibility="gone" />
-		</LinearLayout>
 
 		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:layout_weight="0">
-			<Button android:text="@string/send_" android:id="@+id/send_"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" />
-			<Button android:text="@string/change_connector_nl" android:id="@+id/change_connector"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:visibility="gone" />
-			<Button android:text="@string/extras_" android:id="@+id/extras"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" android:visibility="gone" />
-			<Button android:id="@+id/cancel" android:text="@android:string/cancel"
-				android:layout_width="fill_parent" android:layout_height="fill_parent"
-				android:layout_weight="1" />
+			android:layout_height="wrap_content" android:layout_weight="0"
+			android:orientation="vertical" style="@android:style/ButtonBar">
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_weight="0">
+				<ToggleButton android:textOn="@string/flashsms"
+					android:textOff="@string/flashsms" android:id="@+id/flashsms"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" android:visibility="gone" />
+				<ToggleButton android:textOn="@string/custom_sender"
+					android:textOff="@string/custom_sender" android:id="@+id/custom_sender"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" android:visibility="gone" />
+				<ToggleButton android:textOn="@string/send_later"
+					android:textOff="@string/send_later" android:id="@+id/send_later"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" android:visibility="gone" />
+			</LinearLayout>
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_weight="0">
+				<Button android:text="@string/send_" android:id="@+id/send_"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" />
+				<Button android:text="@string/change_connector_nl"
+					android:id="@+id/change_connector" android:layout_width="fill_parent"
+					android:layout_height="fill_parent" android:layout_weight="1"
+					android:visibility="gone" />
+				<Button android:text="@string/extras_" android:id="@+id/extras"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" android:visibility="gone" />
+				<Button android:id="@+id/cancel" android:text="@android:string/cancel"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" />
+			</LinearLayout>
+
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>
