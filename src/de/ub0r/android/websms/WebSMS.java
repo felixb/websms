@@ -252,8 +252,34 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Show extras. */
 	private boolean showExtras = false;
 
+	/** TextWatcher en-/disable send/cancal buttons. */
+	private TextWatcher twButtons = new TextWatcher() {
+		/**
+		 * {@inheritDoc}
+		 */
+		public void afterTextChanged(final Editable s) {
+			final boolean b0 = prefsConnectorSpec != null
+					&& prefsConnectorSpec
+							.hasStatus(ConnectorSpec.STATUS_ENABLED);
+			final boolean b1 = WebSMS.this.etTo.getText().length() > 0;
+			final boolean b2 = WebSMS.this.etText.getText().length() > 0;
+			WebSMS.this.findViewById(R.id.send_).setEnabled(b0 && b1 && b2);
+			WebSMS.this.findViewById(R.id.cancel).setEnabled(b1 || b2);
+		}
+
+		/** Needed dummy. */
+		public void beforeTextChanged(final CharSequence s, final int start,
+				final int count, final int after) {
+		}
+
+		/** Needed dummy. */
+		public void onTextChanged(final CharSequence s, final int start,
+				final int before, final int count) {
+		}
+	};
+
 	/** TextWatcher updating char count on writing. */
-	private TextWatcher textWatcher = new TextWatcher() {
+	private TextWatcher twCount = new TextWatcher() {
 		/**
 		 * {@inheritDoc}
 		 */
@@ -537,7 +563,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.tvPaste.setOnClickListener(this);
-		this.etText.addTextChangedListener(this.textWatcher);
+		this.etText.addTextChangedListener(this.twCount);
+		this.etText.addTextChangedListener(this.twButtons);
+		this.etTo.addTextChangedListener(this.twButtons);
 		this.etTo.setAdapter(new MobilePhoneAdapter(this));
 		this.etTo.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 		this.etTo.requestFocus();
@@ -896,7 +924,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			Log.d(TAG, "set backgroundtext: " + s);
 			((TextView) this.findViewById(R.id.text_connector)).setText(s);
-			((Button) this.findViewById(R.id.send_)).setEnabled(true);
+			((Button) this.findViewById(R.id.send_)).setEnabled(this.etTo
+					.getText().length() > 0
+					&& this.etText.getText().length() > 0);
 		} else {
 			this.setTitle(R.string.app_name);
 			((TextView) this.findViewById(R.id.text_connector)).setText("");
@@ -1434,6 +1464,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *            which connector should be used.
 	 * @param subconnector
 	 *            selected {@link SubConnectorSpec} ID
+	 * @return true if message was sent
 	 */
 	private boolean send(final ConnectorSpec connector, // .
 			final String subconnector) {
