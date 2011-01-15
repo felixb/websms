@@ -62,7 +62,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -265,6 +264,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			final boolean b2 = WebSMS.this.etText.getText().length() > 0;
 			WebSMS.this.findViewById(R.id.send_).setEnabled(b0 && b1 && b2);
 			WebSMS.this.findViewById(R.id.cancel).setEnabled(b1 || b2);
+			WebSMS.this.findViewById(R.id.clear).setEnabled(b1);
 		}
 
 		/** Needed dummy. */
@@ -475,9 +475,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
-			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			this.findViewById(R.id.titlebar).setVisibility(View.GONE);
 		}
-		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		de.ub0r.android.lib.Utils.setLocale(this);
 
@@ -561,6 +560,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.findViewById(R.id.select).setOnClickListener(this);
 		this.findViewById(R.id.clear).setOnClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
+		this.findViewById(R.id.titlebar).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
 		this.tvPaste.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.twCount);
@@ -701,6 +701,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
 				ConnectorSpec.STATUS_ENABLED);
+		String singleb = null;
 		for (ConnectorSpec cs : css) {
 			final String b = cs.getBalance();
 			if (b == null || b.length() == 0) {
@@ -708,10 +709,16 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			if (buf.length() > 0) {
 				buf.append(", ");
+				singleb = null;
+			} else {
+				singleb = b;
 			}
 			buf.append(cs.getName());
 			buf.append(": ");
 			buf.append(b);
+		}
+		if (singleb != null) {
+			buf.replace(0, buf.length(), singleb);
 		}
 
 		buf.insert(0, this.getString(R.string.free_) + " ");
@@ -913,7 +920,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
-			this.setTitle(t);
+			((TextView) this.findViewById(R.id.title)).setText(t);
 			String s = prefsConnectorSpec.getName();
 			if (lastSendLater > 0L) {
 				Calendar cal = Calendar.getInstance();
@@ -928,7 +935,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					.getText().length() > 0
 					&& this.etText.getText().length() > 0);
 		} else {
-			this.setTitle(R.string.app_name);
+			((TextView) this.findViewById(R.id.title))
+					.setText(R.string.app_name);
 			((TextView) this.findViewById(R.id.text_connector)).setText("");
 			((Button) this.findViewById(R.id.send_)).setEnabled(false);
 			if (getConnectors(0, 0).length != 0) {
@@ -1030,7 +1038,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
-			me.setProgressBarIndeterminateVisibility(true);
+			me.findViewById(R.id.progess).setVisibility(View.GONE);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
@@ -1058,6 +1066,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	public final void onClick(final View v) {
 		switch (v.getId()) {
+		case R.id.titlebar:
 		case R.id.freecount:
 			this.updateFreecount();
 			return;
@@ -1727,7 +1736,11 @@ public class WebSMS extends Activity implements OnClickListener,
 									| ConnectorSpec.STATUS_BOOTSTRAPPING).// .
 					length != 0;
 				}
-				me.setProgressBarIndeterminateVisibility(runningConnectors);
+				if (runningConnectors) {
+					me.findViewById(R.id.progess).setVisibility(View.VISIBLE);
+				} else {
+					me.findViewById(R.id.progess).setVisibility(View.GONE);
+				}
 				if (prefsConnectorSpec != null && // .
 						prefsConnectorSpec.equals(c)) {
 					me.setButtons();
