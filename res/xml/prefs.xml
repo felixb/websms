@@ -17,6 +17,67 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/appearance_and_behavior_">
+		<PreferenceScreen android:title="@string/appearance_">
+			<ListPreference android:title="@string/theme_"
+				android:key="theme" android:entries="@array/themes"
+				android:entryValues="@array/themes_values" />
+			<CheckBoxPreference android:key="hide_send_button"
+				android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
+			<CheckBoxPreference android:key="hide_change_connector_button"
+				android:title="@string/hide_change_connector_button"
+				android:summary="@string/hide_change_connector_button_hint" />
+			<CheckBoxPreference android:key="hide_cancel_button"
+				android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
+			<CheckBoxPreference android:key="hide_emo_button"
+				android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
+			<CheckBoxPreference android:key="hide_select_recipients_button"
+				android:title="@string/hide_select_recipients_button_"
+				android:summary="@string/hide_select_recipients_button_hint" />
+			<CheckBoxPreference android:key="hide_clear_recipients_button"
+				android:title="@string/hide_clear_recipients_button_"
+				android:summary="@string/hide_clear_recipients_button_hint" />
+			<CheckBoxPreference android:key="hide_update"
+				android:title="@string/hide_update" android:summary="@string/hide_update_hint" />
+			<CheckBoxPreference android:key="hide_send_in_menu"
+				android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
+			<CheckBoxPreference android:key="hide_bg_connector"
+				android:title="@string/hide_bg_connector_" android:summary="@string/hide_bg_connector_hint" />
+			<CheckBoxPreference android:key="mobiles_only"
+				android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
+			<CheckBoxPreference android:key="show_titlebar"
+				android:defaultValue="true" android:title="@string/show_titlebar_"
+				android:summary="@string/show_titlebar_hint" />
+			<ListPreference android:key="morelocale"
+				android:title="@string/custom_language_" android:summary="@string/custom_language_hint"
+				android:entries="@array/lang_" android:entryValues="@array/lang_values" />
+		</PreferenceScreen>
+		<PreferenceScreen android:title="@string/behavior_">
+			<CheckBoxPreference android:key="send_vibrate"
+				android:title="@string/vibrate_on_send" />
+			<CheckBoxPreference android:key="fail_vibrate"
+				android:title="@string/vibrate_on_fail" />
+			<RingtonePreference android:key="fail_sound"
+				android:title="@string/sound_on_fail" android:ringtoneType="notification"
+				android:defaultValue="content://settings/system/notification_sound" />
+			<CheckBoxPreference android:key="autoupdate"
+				android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint"
+				android:defaultValue="true" />
+			<CheckBoxPreference android:key="autoexit"
+				android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
+			<CheckBoxPreference android:key="try_send_invalid"
+				android:title="@string/try_send_invalid_characters_"
+				android:summary="@string/try_send_invalid_characters_hint" />
+			<PreferenceCategory android:title="@string/autosend_">
+				<CheckBoxPreference android:key="enable_autosend"
+					android:title="@string/enable_autosend_" android:summary="@string/enable_autosend_hint"
+					android:defaultValue="true" />
+				<CheckBoxPreference android:key="use_current_connector"
+					android:title="@string/use_selected_connector_" android:summary="@string/use_selected_connector_hint"
+					android:dependency="enable_autosend" android:defaultValue="true" />
+			</PreferenceCategory>
+		</PreferenceScreen>
+	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/settings_common">
 		<EditTextPreference android:key="sender"
 			android:title="@string/sender_" android:dialogTitle="@string/sender_"
@@ -24,57 +85,9 @@
 		<EditTextPreference android:key="defprefix"
 			android:title="@string/defprefix_" android:dialogTitle="@string/defprefix_"
 			android:summary="@string/defprefix_hint" android:inputType="phone" />
-		<CheckBoxPreference android:key="send_vibrate"
-			android:title="@string/vibrate_on_send" />
-		<CheckBoxPreference android:key="fail_vibrate"
-			android:title="@string/vibrate_on_fail" />
-		<RingtonePreference android:key="fail_sound"
-			android:title="@string/sound_on_fail" android:ringtoneType="notification"
-			android:defaultValue="content://settings/system/notification_sound" />
 		<EditTextPreference android:key="signature"
 			android:title="@string/signature_" android:dialogTitle="@string/signature_"
 			android:summary="@string/signature_hint" />
-		<CheckBoxPreference android:key="autoupdate"
-			android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint" />
-		<CheckBoxPreference android:key="autoexit"
-			android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
-	</PreferenceCategory>
-	<PreferenceScreen android:title="@string/appearance_">
-		<ListPreference android:title="@string/theme_"
-			android:key="theme" android:entries="@array/themes"
-			android:entryValues="@array/themes_values" />
-		<CheckBoxPreference android:key="hide_send_button"
-			android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
-		<CheckBoxPreference android:key="hide_change_connector_button"
-			android:title="@string/hide_change_connector_button" android:summary="@string/hide_change_connector_button_hint" />
-		<CheckBoxPreference android:key="hide_cancel_button"
-			android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
-		<CheckBoxPreference android:key="hide_emo_button"
-			android:title="@string/hide_emo_button" android:summary="@string/hide_emo_button_hint" />
-		<CheckBoxPreference android:key="hide_select_recipients_button"
-			android:title="@string/hide_select_recipients_button_"
-			android:summary="@string/hide_select_recipients_button_hint" />
-		<CheckBoxPreference android:key="hide_clear_recipients_button"
-			android:title="@string/hide_clear_recipients_button_"
-			android:summary="@string/hide_clear_recipients_button_hint" />
-		<CheckBoxPreference android:key="hide_update"
-			android:title="@string/hide_update" android:summary="@string/hide_update_hint" />
-		<CheckBoxPreference android:key="hide_send_in_menu"
-			android:title="@string/hide_send_in_menu" android:summary="@string/hide_send_in_menu_hint" />
-		<CheckBoxPreference android:key="hide_bg_connector"
-			android:title="@string/hide_bg_connector_" android:summary="@string/hide_bg_connector_hint" />
-		<CheckBoxPreference android:key="mobiles_only"
-			android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
-		<CheckBoxPreference android:key="show_titlebar"
-			android:defaultValue="true" android:title="@string/show_titlebar_"
-			android:summary="@string/show_titlebar_hint" />
-		<ListPreference android:key="morelocale" android:title="@string/custom_language_"
-			android:summary="@string/custom_language_hint" android:entries="@array/lang_"
-			android:entryValues="@array/lang_values" />
-	</PreferenceScreen>
-	<CheckBoxPreference android:key="try_send_invalid"
-		android:title="@string/try_send_invalid_characters_" android:summary="@string/try_send_invalid_characters_hint" />
-	<PreferenceCategory android:title="@string/default_recipient_">
 		<EditTextPreference android:key="default_recipient"
 			android:title="@string/default_recipient_" android:summary="@string/default_recipient_hint" />
 	</PreferenceCategory>

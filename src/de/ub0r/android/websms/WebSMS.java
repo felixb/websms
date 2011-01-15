@@ -108,12 +108,16 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
 	static final String PREFS_DEFPREFIX = "defprefix";
-	/** Preference's name: update balace on start. */
+	/** Preference's name: update balance on start. */
 	private static final String PREFS_AUTOUPDATE = "autoupdate";
 	/** Preference's name: exit after sending. */
 	private static final String PREFS_AUTOEXIT = "autoexit";
 	/** Preference's name: show mobile numbers only. */
 	private static final String PREFS_MOBILES_ONLY = "mobiles_only";
+	/** Preference's name: enable autosend. */
+	private static final String PREFS_AUTOSEND = "enable_autosend";
+	/** Preference's name: use current connector for autosend. */
+	private static final String PREFS_USE_CURRENT_CON = "use_current_connector";
 	/** Preference's name: vibrate on sending. */
 	static final String PREFS_SEND_VIBRATE = "send_vibrate";
 	/** Preference's name: vibrate on failed sending. */
@@ -381,16 +385,55 @@ public class WebSMS extends Activity implements OnClickListener,
 		if (s != null) {
 			Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 		}
-		s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
-		if (s != null && lastMsg != null && lastMsg.length() > 0
-				&& lastTo != null && lastTo.length() > 0) {
-			// all data is here. push it to current active connector
-			final String subc = WebSMS.getSelectedSubConnectorID();
-			if (prefsConnectorSpec != null && subc != null) {
-				if (this.send(prefsConnectorSpec, WebSMS
-						.getSelectedSubConnectorID())
-						&& !this.isFinishing()) {
-					this.finish();
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		if (p.getBoolean(PREFS_AUTOSEND, true)) {
+			s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
+			if (s != null && lastMsg != null && lastMsg.length() > 0
+					&& lastTo != null && lastTo.length() > 0) {
+				// all data is here
+				if (p.getBoolean(PREFS_USE_CURRENT_CON, true)) {
+					// push it to current active connector
+					final String subc = WebSMS.getSelectedSubConnectorID();
+					if (prefsConnectorSpec != null && subc != null) {
+						if (this.send(prefsConnectorSpec, subc)
+								&& !this.isFinishing()) {
+							this.finish();
+						}
+					}
+				} else {
+					// show connector chooser
+					final AlertDialog.Builder b = new AlertDialog.Builder(this);
+					b.setTitle(R.string.change_connector_);
+					final String[] items = this.getConnectorMenuItems();
+					b.setItems(items, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(final DialogInterface dialog,
+								final int which) {
+							final String sel = items[which];
+							// save old selected connector
+							final ConnectorSpec pr0 = prefsConnectorSpec;
+							final SubConnectorSpec pr1 = prefsSubConnectorSpec;
+							// switch to selected
+							WebSMS.this.saveSelectedConnector(sel);
+							// send message
+							final String subc = WebSMS
+									.getSelectedSubConnectorID();
+							boolean sent = false;
+							if (prefsConnectorSpec != null && subc != null) {
+								sent = WebSMS.this.send(prefsConnectorSpec,
+										subc);
+							}
+							// restore old connector
+							WebSMS.this.saveSelectedConnector(pr0, pr1);
+							// quit
+							if (sent && !WebSMS.this.isFinishing()) {
+								WebSMS.this.finish();
+							}
+						}
+					});
+					b.setNegativeButton(android.R.string.cancel, null);
+					b.show();
 				}
 			}
 		}
@@ -529,7 +572,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						new BufferedInputStream(new ByteArrayInputStream(
 								Base64Coder.decode(s)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
-				if (p.getBoolean(PREFS_AUTOUPDATE, false)) {
+				if (p.getBoolean(PREFS_AUTOUPDATE, true)) {
 					final String defPrefix = p
 							.getString(PREFS_DEFPREFIX, "+49");
 					final String defSender = p.getString(PREFS_SENDER, "");
@@ -915,7 +958,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				this.vSendLater.setVisibility(View.GONE);
 			}
 
-			String t = this.getString(R.string.app_name) + " - "
+			String t = this.getString(R.string.app_name) + ": "
 					+ prefsConnectorSpec.getName();
 			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
@@ -1146,15 +1189,19 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * Save selected connector.
 	 * 
-	 * @param name
-	 *            name of the item
+	 * @param cs
+	 *            {@link ConnectorSpec}
+	 * @param scs
+	 *            {@link SubConnectorSpec}
 	 */
-	private void saveSelectedConnector(final String name) {
-		final SubConnectorSpec[] ret = ConnectorSpec
-				.getSubConnectorReturnArray();
-		prefsConnectorSpec = getConnectorByName(name, ret);
-		prefsSubConnectorSpec = ret[0];
+	private void saveSelectedConnector(final ConnectorSpec cs,
+			final SubConnectorSpec scs) {
+		prefsConnectorSpec = cs;
+		prefsSubConnectorSpec = scs;
 		this.setButtons();
+		if (cs == null || scs == null) {
+			return;
+		}
 		// save user preferences
 		final Editor e = PreferenceManager.getDefaultSharedPreferences(
 				WebSMS.this).edit();
@@ -1164,15 +1211,26 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Display "change connector" menu.
+	 * Save selected connector.
+	 * 
+	 * @param name
+	 *            name of the item
 	 */
-	private void changeConnectorMenu() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setIcon(android.R.drawable.ic_menu_share);
-		builder.setTitle(R.string.change_connector_);
-		final ArrayList<String> items = new ArrayList<String>();
+	private void saveSelectedConnector(final String name) {
+		final SubConnectorSpec[] ret = ConnectorSpec
+				.getSubConnectorReturnArray();
+		this.saveSelectedConnector(getConnectorByName(name, ret), ret[0]);
+	}
+
+	/**
+	 * Get all enabled {@link ConnectorSpec}s as name.
+	 * 
+	 * @return array of {@link Connector} names.
+	 */
+	private String[] getConnectorMenuItems() {
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
+		final ArrayList<String> items = new ArrayList<String>(css.length * 2);
 		SubConnectorSpec[] scs;
 		String n;
 		for (ConnectorSpec cs : css) {
@@ -1186,42 +1244,51 @@ public class WebSMS extends Activity implements OnClickListener,
 				}
 			}
 		}
-		scs = null;
-		n = null;
+		return items.toArray(new String[items.size()]);
+	}
 
-		if (items.size() == 0) {
+	/**
+	 * Display "change connector" menu.
+	 */
+	private void changeConnectorMenu() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(android.R.drawable.ic_menu_share);
+		builder.setTitle(R.string.change_connector_);
+		final String[] items = this.getConnectorMenuItems();
+		final int l = items.length;
+
+		if (l == 0) {
 			Toast.makeText(this, R.string.log_noreadyconnector,
 					Toast.LENGTH_LONG).show();
-		} else if (items.size() == 1) {
-			this.saveSelectedConnector(css[0].getName());
-		} else if (items.size() == 2) {
+		} else if (l == 1) {
+			this.saveSelectedConnector(items[0]);
+		} else if (l == 2) {
 			// Find actual connector, pick the other one from css
 			final SubConnectorSpec[] ret = ConnectorSpec
 					.getSubConnectorReturnArray();
-			final ConnectorSpec cs = getConnectorByName(items.get(0), ret);
+			final ConnectorSpec cs = getConnectorByName(items[0], ret);
 			final SubConnectorSpec subcs = ret[0];
 			String name;
 			if (prefsConnectorSpec == null || prefsSubConnectorSpec == null
 					|| cs == null || subcs == null) {
-				name = items.get(0);
+				name = items[0];
 			} else if (cs.equals(prefsConnectorSpec)
 					&& subcs.getID().equals(prefsSubConnectorSpec.getID())) {
-				name = items.get(1);
+				name = items[1];
 			} else {
-				name = items.get(0);
+				name = items[0];
 			}
 			this.saveSelectedConnector(name);
 			Toast.makeText(this,
 					this.getString(R.string.connectors_switch) + " " + name,
 					Toast.LENGTH_SHORT).show();
 		} else {
-			builder.setItems(items.toArray(new String[0]),
-					new DialogInterface.OnClickListener() {
-						public void onClick(final DialogInterface d, // .
-								final int item) {
-							WebSMS.this.saveSelectedConnector(items.get(item));
-						}
-					});
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				public void onClick(final DialogInterface d, // .
+						final int item) {
+					WebSMS.this.saveSelectedConnector(items[item]);
+				}
+			});
 			builder.create().show();
 			return;
 		}
@@ -1697,7 +1764,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					if (c.getBalance() == null && c.isReady() && !c.isRunning()
 							&& c.hasCapabilities(// .
 									ConnectorSpec.CAPABILITIES_UPDATE)
-							&& p.getBoolean(PREFS_AUTOUPDATE, false)) {
+							&& p.getBoolean(PREFS_AUTOUPDATE, true)) {
 						final String defPrefix = p.getString(PREFS_DEFPREFIX,
 								"+49");
 						final String defSender = p.getString(PREFS_SENDER, "");
