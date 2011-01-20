@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: send vcards, allow to disable autosend, show connecto chooser on autosend</item>
+		<item>v3.5: send vcards, allow to disable autosend, show connector chooser on autosend, light theme, new layout</item>
 		<item>v3.4: show send later date in background, add signature for length calculation, set standard connector</item>
 		<item>v3.3.1: Fix sending TXT with \'</item>
 		<item>v3.3: Vibrate on send, save draft, paste text from clipboard, strip control codes from recipient, fix some bugs</item>
