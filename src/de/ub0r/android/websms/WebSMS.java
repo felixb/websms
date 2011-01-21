@@ -352,7 +352,11 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 		}
 		// check for extras
-		String s = intent.getStringExtra(Intent.EXTRA_TEXT);
+		String s = intent.getStringExtra("address");
+		if (!TextUtils.isEmpty(s)) {
+			lastTo = s;
+		}
+		s = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (s == null) {
 			s = intent.getStringExtra("sms_body");
 		}
@@ -379,7 +383,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (s != null) {
 			((EditText) this.findViewById(R.id.text)).setText(s);
-			lastMsg = s.toString();
+			lastMsg = s;
 		}
 		s = intent.getStringExtra(EXTRA_ERRORMESSAGE);
 		if (s != null) {
