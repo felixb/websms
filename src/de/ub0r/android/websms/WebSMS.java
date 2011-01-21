@@ -515,11 +515,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		this.setTheme(Preferences.getTheme(this));
 		// Restore preferences
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
-			this.findViewById(R.id.titlebar).setVisibility(View.GONE);
-		}
 
 		de.ub0r.android.lib.Utils.setLocale(this);
 
@@ -530,6 +525,12 @@ public class WebSMS extends Activity implements OnClickListener,
 		me = this;
 		// inflate XML
 		this.setContentView(R.layout.main);
+
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
+			this.findViewById(R.id.titlebar).setVisibility(View.GONE);
+		}
 
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
