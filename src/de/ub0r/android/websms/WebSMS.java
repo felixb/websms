@@ -854,23 +854,28 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		v = this.findViewById(R.id.send_);
-		if (bShowSend) {
-			v.setVisibility(View.VISIBLE);
+		if (bShowSend || bShowChangeConnector || bShowCancel) {
+			v = this.findViewById(R.id.send_);
+			if (bShowSend) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
+			v = this.findViewById(R.id.change_connector);
+			if (bShowChangeConnector) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
+			v = this.findViewById(R.id.cancel);
+			if (bShowCancel) {
+				v.setVisibility(View.VISIBLE);
+			} else {
+				v.setVisibility(View.GONE);
+			}
+			this.findViewById(R.id.buttonbar).setVisibility(View.VISIBLE);
 		} else {
-			v.setVisibility(View.GONE);
-		}
-		v = this.findViewById(R.id.change_connector);
-		if (bShowChangeConnector) {
-			v.setVisibility(View.VISIBLE);
-		} else {
-			v.setVisibility(View.GONE);
-		}
-		v = this.findViewById(R.id.cancel);
-		if (bShowCancel) {
-			v.setVisibility(View.VISIBLE);
-		} else {
-			v.setVisibility(View.GONE);
+			this.findViewById(R.id.buttonbar).setVisibility(View.GONE);
 		}
 		v = this.findViewById(R.id.text_connector);
 		if (p.getBoolean(PREFS_HIDE_BG_CONNECTOR, false)) {
@@ -939,6 +944,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 			if (sFlashsms || sCustomsender || sSendLater) {
 				this.vExtras.setVisibility(View.VISIBLE);
+				this.findViewById(R.id.buttonbar).setVisibility(View.VISIBLE);
 			} else {
 				this.vExtras.setVisibility(View.GONE);
 			}

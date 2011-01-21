@@ -113,9 +113,10 @@
 			</RelativeLayout>
 
 
-			<LinearLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:layout_weight="0"
-				android:orientation="vertical" style="@android:style/ButtonBar">
+			<LinearLayout android:id="@+id/buttonbar"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="0" android:orientation="vertical"
+				style="@android:style/ButtonBar">
 
 				<LinearLayout android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:layout_weight="0">
