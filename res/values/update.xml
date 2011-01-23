@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: mod layout</item>
 		<item>v3.5.2: fix for android 1.5</item>
 		<item>v3.5.1: fix NPE on hideTitleBar, fix hidden buttonbar, integrate with widgetsoid</item>
 		<item>v3.5: send vcards, allow to disable autosend, show connector chooser on autosend, light theme, new layout</item>

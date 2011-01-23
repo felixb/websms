@@ -530,12 +530,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		// inflate XML
 		this.setContentView(R.layout.main);
 
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
-			this.findViewById(R.id.titlebar).setVisibility(View.GONE);
-		}
-
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
@@ -547,6 +541,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
 
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		if (Changelog.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache
@@ -829,6 +825,11 @@ public class WebSMS extends Activity implements OnClickListener,
 		Log.d(TAG, "reloadPrefs()");
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
+		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
+			this.findViewById(R.id.title).setVisibility(View.GONE);
+		} else {
+			this.findViewById(R.id.title).setVisibility(View.VISIBLE);
+		}
 		final boolean bShowChangeConnector = !p.getBoolean(
 				PREFS_HIDE_CHANGE_CONNECTOR_BUTTON, false);
 		final boolean bShowEmoticons = !p.getBoolean(PREFS_HIDE_EMO_BUTTON,
