@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein, Lado Kumsiashvili
+ * Copyright (C) 2010-2011 Felix Bechstein, Lado Kumsiashvili
  * 
  * This file is part of WebSMS.
  * 

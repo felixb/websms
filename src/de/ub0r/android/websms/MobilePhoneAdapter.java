@@ -21,6 +21,7 @@ package de.ub0r.android.websms;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
@@ -44,6 +45,16 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	private static final ContactsWrapper WRAPPER = ContactsWrapper
 			.getInstance();
 
+	/** {@link Uri} to content. */
+	private static final Uri URI = WRAPPER.getContentUri();
+	/** Projection for content. */
+	private static final String[] PROJECTION = WRAPPER.getContentProjection();
+	/** Order for content. */
+	private static final String SORT = WRAPPER.getContentSort();
+
+	/** List of number types. */
+	final String[] types;
+
 	/**
 	 * Constructor.
 	 * 
@@ -53,6 +64,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	public MobilePhoneAdapter(final Context context) {
 		super(context, R.layout.recipient_dropdown_item, null);
 		this.mContentResolver = context.getContentResolver();
+		this.types = context.getResources().getStringArray(
+				android.R.array.phoneTypes);
 	}
 
 	/**
@@ -66,10 +79,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 		((TextView) view.findViewById(R.id.text2)).setText(cursor
 				.getString(ContactsWrapper.CONTENT_INDEX_NUMBER));
 		final int i = cursor.getInt(ContactsWrapper.CONTENT_INDEX_TYPE) - 1;
-		String[] types = context.getResources().getStringArray(
-				android.R.array.phoneTypes);
-		if (i >= 0 && i < types.length) {
-			((TextView) view.findViewById(R.id.text3)).setText(types[i]);
+		if (i >= 0 && i < this.types.length) {
+			((TextView) view.findViewById(R.id.text3)).setText(this.types[i]);
 		} else {
 			((TextView) view.findViewById(R.id.text3)).setText("");
 		}
@@ -80,8 +91,10 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 */
 	@Override
 	public final String convertToString(final Cursor cursor) {
-		String name = cursor.getString(ContactsWrapper.CONTENT_INDEX_NAME);
-		String number = cursor.getString(ContactsWrapper.CONTENT_INDEX_NUMBER);
+		final String name = cursor
+				.getString(ContactsWrapper.CONTENT_INDEX_NAME);
+		final String number = cursor
+				.getString(ContactsWrapper.CONTENT_INDEX_NUMBER);
 		if (name == null || name.length() == 0) {
 			return Utils.cleanRecipient(number);
 		}
@@ -102,8 +115,9 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 			}
 		}
 
-		return this.mContentResolver.query(WRAPPER.getContentUri(), WRAPPER
-				.getContentProjection(), where, null, WRAPPER.getContentSort());
+		final Cursor cursor = this.mContentResolver.query(URI, PROJECTION,
+				where, null, SORT);
+		return cursor;
 	}
 
 	/**
