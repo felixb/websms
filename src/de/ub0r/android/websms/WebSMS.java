@@ -1556,10 +1556,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private boolean send(final ConnectorSpec connector, // .
 			final String subconnector) {
+		if (connector == null || TextUtils.isEmpty(subconnector)) {
+			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+			return false;
+		}
 		// fetch text/recipient
 		final String to = this.etTo.getText().toString();
 		String text = this.etText.getText().toString();
 		if (to.length() == 0 || text.length() == 0) {
+			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		final SharedPreferences p = PreferenceManager
@@ -1637,8 +1642,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (sent) {
 			this.reset();
-			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-					PREFS_AUTOEXIT, false)) {
+			if (p.getBoolean(PREFS_AUTOEXIT, false)) {
 				try {
 					Thread.sleep(SLEEP_BEFORE_EXIT);
 				} catch (InterruptedException e) {
