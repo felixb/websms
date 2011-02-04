@@ -60,7 +60,7 @@
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="appearance_">Appearance</string>
-  <string name="behavior_">Behavior</string>
+	<string name="behavior_">Behavior</string>
 	<string name="appearance_and_behavior_">Appearance &amp; behavior</string>
 	<string name="autosend_">Autosend</string>
 	<string name="show_titlebar_">Show title bar</string>
