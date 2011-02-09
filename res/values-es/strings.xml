@@ -46,22 +46,25 @@
   <string formatted="false" name="log_wrong_sender">¡Remitente incorrecto! Introdúzcalo en formato internacional, similar a +3417012345689.</string>
   <string formatted="false" name="log_noselectedconnector">Ningún Conector seleccionado. Por favor, escoja uno con "Cambiar proveedor".</string>
   <string formatted="false" name="log_noreadyconnector">Ningún Conector ha sido instalado todavía. Por favor, compruebe las preferencias.</string>
-  <string formatted="false" name="log_error_saving_message">Error updating sent message in Database!</string>
-  <string formatted="false" name="log_error_char_nonvalid">Connector does not provide valid characters</string>
-  <string formatted="false" name="log_error_char_notsendable">This message contains not sendable characters</string>
-  <string formatted="false" name="try_send_invalid_characters_">Try send invalid</string>
-  <string formatted="false" name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
+  <string formatted="false" name="log_error_saving_message">¡Error al guardar el mensaje enviado en la base de datos!</string>
+  <string formatted="false" name="log_error_char_nonvalid">El conector no proporciona caracteres válidos</string>
+  <string formatted="false" name="log_error_char_notsendable">Este mensaje contiene caracteres que no se pueden enviar</string>
+  <string formatted="false" name="try_send_invalid_characters_">Intentar mandar caracteres no válidos</string>
+  <string formatted="false" name="try_send_invalid_characters_hint">Intentar mandar mensajes con caracteres no válidos.</string>
   <string formatted="false" name="notify_failed">Error al enviar SMS: </string>
   <string formatted="false" name="notify_failed_">Error enviando SMS</string>
   <string formatted="false" name="sender_">Su número de teléfono </string>
   <string formatted="false" name="send_">Enviar</string>
-  <string formatted="false" name="save_draft_">Save draft</string>
+  <string formatted="false" name="save_draft_">Guardar borrador</string>
   <string formatted="false" name="save_chars_">Guardar caracteres</string>
   <string formatted="false" name="settings">Preferencias</string>
   <string formatted="false" name="settings_common">Preferencias - Comunes</string>
   <string formatted="false" name="appearance_">Apariencia</string>
-  <string formatted="false" name="show_titlebar_">Show title bar</string>
-  <string formatted="false" name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
+  <string formatted="false" name="behavior_">Behavior</string>
+  <string formatted="false" name="appearance_and_behavior_">Appearance &amp; behavior</string>
+  <string formatted="false" name="autosend_">Autosend</string>
+  <string formatted="false" name="show_titlebar_">Mostra la barra de título</string>
+  <string formatted="false" name="show_titlebar_hint">Mostrar la barra de título en la vista principal. Sin dicha barra no es posible ver la actividad en segundo plano.</string>
   <string formatted="false" name="settings_connectors">Preferencias - Conectores</string>
   <string formatted="false" name="hide_change_connector_button">Ocultar botón \"Camb. proveedor\"</string>
   <string formatted="false" name="hide_change_connector_button_hint">Oculta el botón \"Cambiar proveedor\" de la pantalla principal.</string>
@@ -79,8 +82,12 @@
   <string formatted="false" name="hide_emo_button_hint">Oculta el botón \"Emoticonos\" de la pantalla principal.</string>
   <string formatted="false" name="hide_update">Ocultar \"Click para actualizar\"</string>
   <string formatted="false" name="hide_update_hint">Oculta \"Click para actualizar\" de la pantalla principal.</string>
-  <string formatted="false" name="hide_bg_connector_">Hide connector name</string>
-  <string formatted="false" name="hide_bg_connector_hint">Hide active connector\'s name in background.</string>
+  <string formatted="false" name="hide_bg_connector_">Ocultar el nombre del conector</string>
+  <string formatted="false" name="hide_bg_connector_hint">Ocultar el nombre del conector actual en el  fondo.</string>
+  <string formatted="false" name="enable_autosend_">Enable autosend</string>
+  <string formatted="false" name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
+  <string formatted="false" name="use_selected_connector_">Use selected Connector</string>
+  <string formatted="false" name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
   <string formatted="false" name="default_recipient_">Destinatario por defecto</string>
   <string formatted="false" name="default_recipient_hint">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>
   <string formatted="false" name="signature_">Firma</string>
@@ -92,7 +99,7 @@
   <string formatted="false" name="mobile_only_">Mostrar sólo móviles</string>
   <string formatted="false" name="mobile_only_hint">Muestra únicamente números de teléfono móvil.</string>
   <string formatted="false" name="vibrate_on_fail">Vibrar si falla el envío</string>
-  <string formatted="false" name="vibrate_on_send">Vibrate after sending</string>
+  <string formatted="false" name="vibrate_on_send">Vibrar despues de enviar el mensaje</string>
   <string formatted="false" name="sound_on_fail">Reproducir sonido si falla el envío</string>
   <string formatted="false" name="source_">Código fuente:</string>
   <string formatted="false" name="website_">Página web:</string>
@@ -114,4 +121,5 @@
   <string formatted="false" name="enable_sms">Permitir SMS</string>
   <string formatted="false" name="enable_sms_hint">El Conector SMS enviará SMS normales (ej: a través de GSM).</string>
   <string formatted="false" name="paste_">[ Paste from clipboard ]</string>
+  <string formatted="false" name="theme_">Theme</string>
 </resources>

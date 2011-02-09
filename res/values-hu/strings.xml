@@ -60,6 +60,9 @@
   <string formatted="false" name="settings">Beállítások</string>
   <string formatted="false" name="settings_common">Beállítások - Általános</string>
   <string formatted="false" name="appearance_">Kinézet</string>
+  <string formatted="false" name="behavior_">Behavior</string>
+  <string formatted="false" name="appearance_and_behavior_">Appearance &amp; behavior</string>
+  <string formatted="false" name="autosend_">Autosend</string>
   <string formatted="false" name="show_titlebar_">Címsor mutatása</string>
   <string formatted="false" name="show_titlebar_hint">Címsor mutatása a fő nézetben. Címsor nélkül nem látszódnak a háttérben futó programok.</string>
   <string formatted="false" name="settings_connectors">Beállítások - Kiegészítők</string>
@@ -81,6 +84,10 @@
   <string formatted="false" name="hide_update_hint">Elrejtés \"Kattints a frissítéshez\" a főképernyőn.</string>
   <string formatted="false" name="hide_bg_connector_">Kiegészítő nevének...</string>
   <string formatted="false" name="hide_bg_connector_hint">Aktív kiegészítő nevének elrejtése a háttérben.</string>
+  <string formatted="false" name="enable_autosend_">Enable autosend</string>
+  <string formatted="false" name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
+  <string formatted="false" name="use_selected_connector_">Use selected Connector</string>
+  <string formatted="false" name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
   <string formatted="false" name="default_recipient_">Alapértelmezet címzett</string>
   <string formatted="false" name="default_recipient_hint">Címzett mező kitöltése a program indulásakor.</string>
   <string formatted="false" name="signature_">Aláírás</string>

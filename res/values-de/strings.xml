@@ -61,8 +61,8 @@
   <string formatted="false" name="settings_common">Einstellungen - Allgemein</string>
   <string formatted="false" name="appearance_">Darstellung</string>
   <string formatted="false" name="behavior_">Verhalten</string>
-	<string formatted="false" name="appearance_and_behavior_">Darstellung &amp; Verhalten</string>
-	<string formatted="false" name="autosend_">Autosend</string>
+  <string formatted="false" name="appearance_and_behavior_">Darstellung &amp; Verhalten</string>
+  <string formatted="false" name="autosend_">Autosend</string>
   <string formatted="false" name="show_titlebar_">Titelleiste anzeigen</string>
   <string formatted="false" name="show_titlebar_hint">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
   <string formatted="false" name="settings_connectors">Einstellungen - Connectoren</string>
@@ -84,10 +84,10 @@
   <string formatted="false" name="hide_update_hint">\"Klick zum Update\" auf Main Screen verstecken.</string>
   <string formatted="false" name="hide_bg_connector_">Connectornamen verstecken</string>
   <string formatted="false" name="hide_bg_connector_hint">Verstecke den Namen des aktiven Connectors im Hintergrund.</string>
-	<string formatted="false" name="enable_autosend_">Aktiviere Autosend</string>
-	<string formatted="false" name="enable_autosend_hint">Aktiviere SMSdroids Autosend Feature.</string>
-	<string formatted="false" name="use_selected_connector_">Benutze ausgewählten Connector</string>
-	<string formatted="false" name="use_selected_connector_hint">Benutze den momentan ausgewählten Connector für Autosend. Deaktivieren um eine Auswahl zu zeigen.</string>
+  <string formatted="false" name="enable_autosend_">Aktiviere Autosend</string>
+  <string formatted="false" name="enable_autosend_hint">Aktiviere SMSdroid\'s Autosend Funktion.</string>
+  <string formatted="false" name="use_selected_connector_">Ausgewählten Connector verwenden</string>
+  <string formatted="false" name="use_selected_connector_hint">Verwende den aktuell ausgewählten Connector für Autosend. Deaktivieren, um eine Auswahl zu zeigen.</string>
   <string formatted="false" name="default_recipient_">Default Empfänger</string>
   <string formatted="false" name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
   <string formatted="false" name="signature_">Signatur</string>
@@ -121,6 +121,7 @@
   <string formatted="false" name="enable_sms">Aktiviere SMS</string>
   <string formatted="false" name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
   <string formatted="false" name="paste_">[ Aus Zwischenablage einfügen ]</string>
+  <string formatted="false" name="theme_">Theme</string>
   <string name="theme_">Theme</string>
   <string-array name="themes">
     <item>Dunkel</item>

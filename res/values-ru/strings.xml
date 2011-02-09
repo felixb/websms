@@ -60,6 +60,9 @@
   <string formatted="false" name="settings">Настройки</string>
   <string formatted="false" name="settings_common">Настройки - Общие</string>
   <string formatted="false" name="appearance_">Внешний вид</string>
+  <string formatted="false" name="behavior_">Behavior</string>
+  <string formatted="false" name="appearance_and_behavior_">Appearance &amp;amp; behavior</string>
+  <string formatted="false" name="autosend_">Autosend</string>
   <string formatted="false" name="show_titlebar_">Показ в области уведомлений</string>
   <string formatted="false" name="show_titlebar_hint">Показывать фоновые процессы в области уведомлений в главном окне. Без этого фоновые процессы не видны.</string>
   <string formatted="false" name="settings_connectors">Настройки - Connector\'ы</string>
@@ -81,6 +84,10 @@
   <string formatted="false" name="hide_update_hint">Скрывает \"Обновить: нажмите\" в главном окне.</string>
   <string formatted="false" name="hide_bg_connector_">Скрыть название Connector\'а</string>
   <string formatted="false" name="hide_bg_connector_hint">Скрывает название активного Connector\'а на фоне.</string>
+  <string formatted="false" name="enable_autosend_">Enable autosend</string>
+  <string formatted="false" name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
+  <string formatted="false" name="use_selected_connector_">Use selected Connector</string>
+  <string formatted="false" name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
   <string formatted="false" name="default_recipient_">Получатель по умолчанию</string>
   <string formatted="false" name="default_recipient_hint">Вписывается автоматически в поле получателя при старте програмы.</string>
   <string formatted="false" name="signature_">Подпись</string>
