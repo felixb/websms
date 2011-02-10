@@ -1567,6 +1567,8 @@ public class WebSMS extends Activity implements OnClickListener,
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
+		text = text.trim();
+		this.etText.setText(text);
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final String signature = p.getString(PREFS_SIGNATURE, null);
