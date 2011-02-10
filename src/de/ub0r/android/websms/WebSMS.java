@@ -1557,6 +1557,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private boolean send(final ConnectorSpec connector, // .
 			final String subconnector) {
 		if (connector == null || TextUtils.isEmpty(subconnector)) {
+			Log.e(TAG, "connector: " + connector);
+			Log.e(TAG, "subconnector: " + subconnector);
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -1564,6 +1566,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		final String to = this.etTo.getText().toString();
 		String text = this.etText.getText().toString();
 		if (to.length() == 0 || text.length() == 0) {
+			Log.e(TAG, "to: " + to);
+			Log.e(TAG, "text: " + text);
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -1583,6 +1587,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
 			final String valid = connector.getValidCharacters();
 			if (valid == null) {
+				Log.i(TAG, "valid: " + valid);
 				Toast.makeText(this, R.string.log_error_char_nonvalid,
 						Toast.LENGTH_LONG).show();
 				return false;
