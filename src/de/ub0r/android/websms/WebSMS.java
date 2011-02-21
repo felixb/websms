@@ -642,6 +642,13 @@ public class WebSMS extends Activity implements OnClickListener,
 						+ ", ";
 				String t = this.etTo.getText().toString().trim();
 				if (t.length() == 0) {
+					if (TextUtils.isEmpty(lastTo)) {
+						lastTo = PreferenceManager.getDefaultSharedPreferences(
+								this).getString(PREFS_TO, "");
+					}
+					t = lastTo.trim();
+				}
+				if (t.length() == 0) {
 					t = phone;
 				} else if (t.endsWith(",")) {
 					t += " " + phone;
@@ -1020,7 +1027,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		lastCustomSender = null;
 		lastSendLater = -1;
 		// save user preferences
-		SharedPreferences.Editor editor = PreferenceManager
+		final SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(this).edit();
 		editor.putString(PREFS_TO, "");
 		editor.putString(PREFS_TEXT, "");
