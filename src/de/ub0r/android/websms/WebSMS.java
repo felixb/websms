@@ -63,6 +63,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -94,7 +95,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * @author flx
  */
 public class WebSMS extends Activity implements OnClickListener,
-		OnDateSetListener, OnTimeSetListener {
+		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
 
@@ -602,7 +603,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vCustomSender.setOnClickListener(this);
 		this.vSendLater.setOnClickListener(this);
 		this.findViewById(R.id.select).setOnClickListener(this);
-		this.findViewById(R.id.clear).setOnClickListener(this);
+		View v = this.findViewById(R.id.clear);
+		v.setOnClickListener(this);
+		v.setOnLongClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
 		this.findViewById(R.id.titlebar).setOnClickListener(this);
 		this.tvBalances.setOnClickListener(this);
@@ -719,19 +722,24 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		// reload text/recipient from local store
-		if (lastMsg != null) {
-			this.etText.setText(lastMsg);
-		} else {
-			this.etText.setText("");
+		if (TextUtils.isEmpty(this.etText.getText())) {
+			if (lastMsg != null) {
+				this.etText.setText(lastMsg);
+			} else {
+				this.etText.setText("");
+			}
 		}
-		if (lastTo != null) {
-			this.etTo.setText(lastTo);
-		} else {
-			this.etTo.setText("");
+		if (TextUtils.isEmpty(this.etTo.getText())) {
+			if (lastTo != null) {
+				this.etTo.setText(lastTo);
+			} else {
+				this.etTo.setText("");
+			}
 		}
 
 		if (lastTo != null && lastTo.length() > 0) {
 			this.etText.requestFocus();
+			this.etText.setSelection(this.etText.getText().length());
 		} else {
 			this.etTo.requestFocus();
 		}
@@ -1120,6 +1128,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	 * {@inheritDoc}
 	 */
 	public final void onClick(final View v) {
+		CharSequence s;
 		switch (v.getId()) {
 		case R.id.titlebar:
 		case R.id.freecount:
@@ -1138,8 +1147,21 @@ public class WebSMS extends Activity implements OnClickListener,
 					.getPickPhoneIntent(), ARESULT_PICK_PHONE);
 			return;
 		case R.id.clear:
-			this.etTo.setText("");
-			lastTo = null;
+			s = this.etTo.getText();
+			final String ss = s.toString();
+			int i = ss.lastIndexOf(",");
+			if (ss.substring(i + 1).trim().length() <= 0) {
+				i = ss.substring(0, i).lastIndexOf(",");
+			}
+
+			if (i <= 0) {
+				lastTo = null;
+				this.etTo.setText("");
+			} else {
+				lastTo = ss.substring(0, i) + ", ";
+				this.etTo.setText(lastTo);
+				this.etTo.setSelection(lastTo.length());
+			}
 			return;
 		case R.id.change_connector:
 			this.changeConnectorMenu();
@@ -1169,12 +1191,28 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.showDialog(DIALOG_EMO);
 			return;
 		case R.id.text_paste:
-			final CharSequence s = this.cbmgr.getText();
+			s = this.cbmgr.getText();
 			this.etText.setText(s);
+			this.etText.setSelection(s.length());
 			lastMsg = s.toString();
 			return;
 		default:
 			return;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean onLongClick(final View v) {
+		switch (v.getId()) {
+		case R.id.clear:
+			lastTo = null;
+			this.etTo.setText("");
+			return true;
+		default:
+			return false;
 		}
 	}
 

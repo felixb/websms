@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: trim text before sending</item>
+		<item>HEAD: trim text before sending, clear only last recipient with button (long press for all)</item>
 		<item>v3.5.3: mod layout, update translations</item>
 		<item>v3.5.2: fix for android 1.5</item>
 		<item>v3.5.1: fix NPE on hideTitleBar, fix hidden buttonbar, integrate with widgetsoid</item>
