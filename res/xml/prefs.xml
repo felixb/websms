@@ -45,6 +45,8 @@
 				android:title="@string/hide_bg_connector_" android:summary="@string/hide_bg_connector_hint" />
 			<CheckBoxPreference android:key="mobiles_only"
 				android:title="@string/mobile_only_" android:summary="@string/mobile_only_hint" />
+			<CheckBoxPreference android:key="hide_paste"
+				android:title="@string/hide_paste_" android:summary="@string/hide_paste_hint" />
 			<CheckBoxPreference android:key="show_titlebar"
 				android:defaultValue="true" android:title="@string/show_titlebar_"
 				android:summary="@string/show_titlebar_hint" />

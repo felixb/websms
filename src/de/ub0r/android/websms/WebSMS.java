@@ -146,6 +146,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_UPDATE = "hide_update";
 	/** Preference's name: hide bg connector. */
 	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
+	/** Prefernece's name: hide paste button. */
+	private static final String PREFS_HIDE_PASTE = "hide_paste";
 	/** Preference's name: show titlebar. */
 	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
@@ -292,7 +294,10 @@ public class WebSMS extends Activity implements OnClickListener,
 			int len = s.length();
 			if (len == 0) {
 				WebSMS.this.etTextLabel.setVisibility(View.GONE);
-				if (WebSMS.this.cbmgr.hasText()) {
+				if (WebSMS.this.cbmgr.hasText()
+						&& !PreferenceManager.getDefaultSharedPreferences(
+								WebSMS.this)
+								.getBoolean(PREFS_HIDE_PASTE, false)) {
 					WebSMS.this.tvPaste.setVisibility(View.VISIBLE);
 				} else {
 					WebSMS.this.tvPaste.setVisibility(View.GONE);
