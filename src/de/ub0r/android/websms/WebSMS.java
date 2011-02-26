@@ -80,6 +80,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
+import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -559,8 +560,8 @@ public class WebSMS extends Activity implements OnClickListener,
 		Object o = this.getPackageManager().getLaunchIntentForPackage(
 				"de.ub0r.android.smsdroid");
 		if (o == null) {
-			final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(// .
-					"market://details?id=de.ub0r.android.smsdroid"));
+			final Intent intent = Market.getInstallAppIntent(this,
+					"de.ub0r.android.smsdroid", Market.ALT_SMSDROID);
 			Changelog.showNotes(this, "get SMSdroid", null, intent);
 		} else {
 			Changelog.showNotes(this, null, null, null);

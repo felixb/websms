@@ -29,6 +29,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
+import de.ub0r.android.lib.Market;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -63,6 +64,13 @@ public class Preferences extends PreferenceActivity implements
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.prefs);
+		Market.setOnPreferenceClickListener(this, this
+				.findPreference("more_connectors"), null, "websms+connector",
+				"http://code.google.com/p/websmsdroid/downloads"
+						+ "/list?can=2&q=label%3AConnector");
+		Market.setOnPreferenceClickListener(this, this
+				.findPreference("more_apps"), null, "Felix+Bechstein",
+				"http://code.google.com/u/felix.bechstein/");
 		Preference p = this.findPreference("send_logs");
 		if (p != null) {
 			p.setOnPreferenceClickListener(// .

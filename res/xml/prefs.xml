@@ -105,11 +105,8 @@
 		android:title="@string/set_stdandard_connector_" android:summary="@string/set_stdandard_connector_hint" />
 	<PreferenceScreen android:key="clear_std_connector"
 		android:title="@string/clear_stdandard_connector_" />
-	<PreferenceScreen android:title="@string/more_connectors_"
-		android:summary="@string/more_connectors_hint">
-		<intent android:action="android.intent.action.VIEW"
-			android:data="market://search?q=websms+connector" />
-	</PreferenceScreen>
+	<PreferenceScreen android:key="more_connectors"
+		android:title="@string/more_connectors_" android:summary="@string/more_connectors_hint" />
 	<PreferenceScreen android:title="@string/more_connectors__"
 		android:summary="@string/more_connectors__hint">
 		<intent android:action="android.intent.action.VIEW"
@@ -136,10 +133,8 @@
 			<intent android:action="android.intent.action.VIEW"
 				android:data="http://twitter.com/flx_b" />
 		</PreferenceScreen>
-		<PreferenceScreen android:title="@string/more_apps_">
-			<intent android:action="android.intent.action.VIEW"
-				android:data="market://search?q=pub:&quot;Felix Bechstein&quot;" />
-		</PreferenceScreen>
+		<PreferenceScreen android:key="more_apps"
+			android:title="@string/more_apps_" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/debug_">
 		<PreferenceScreen android:key="send_logs"
