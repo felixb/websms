@@ -121,4 +121,5 @@
   <string formatted="false" name="enable_sms">SMS engedélyezése</string>
   <string formatted="false" name="enable_sms_hint">Az SMS kiegészítő sima smseket fog küldeni (T).</string>
   <string formatted="false" name="paste_">[ Paste from clipboard ]</string>
+  <string formatted="false" name="theme_">Theme</string>
 </resources>

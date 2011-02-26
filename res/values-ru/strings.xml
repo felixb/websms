@@ -61,7 +61,7 @@
   <string formatted="false" name="settings_common">Настройки - Общие</string>
   <string formatted="false" name="appearance_">Внешний вид</string>
   <string formatted="false" name="behavior_">Behavior</string>
-  <string formatted="false" name="appearance_and_behavior_">Appearance &amp;amp; behavior</string>
+  <string formatted="false" name="appearance_and_behavior_">Appearance &amp; behavior</string>
   <string formatted="false" name="autosend_">Autosend</string>
   <string formatted="false" name="show_titlebar_">Показ в области уведомлений</string>
   <string formatted="false" name="show_titlebar_hint">Показывать фоновые процессы в области уведомлений в главном окне. Без этого фоновые процессы не видны.</string>
@@ -121,4 +121,5 @@
   <string formatted="false" name="enable_sms">Включить СМС</string>
   <string formatted="false" name="enable_sms_hint">СМС Connector отправляет обычные СМС (Через GSM).</string>
   <string formatted="false" name="paste_">[ Paste from clipboard ]</string>
+  <string formatted="false" name="theme_">Theme</string>
 </resources>

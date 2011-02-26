@@ -61,7 +61,7 @@
   <string formatted="false" name="settings_common">Einstellungen - Allgemein</string>
   <string formatted="false" name="appearance_">Darstellung</string>
   <string formatted="false" name="behavior_">Verhalten</string>
-  <string formatted="false" name="appearance_and_behavior_">Darstellung &amp; Verhalten</string>
+  <string formatted="false" name="appearance_and_behavior_">Aussehen &amp; Verhalten</string>
   <string formatted="false" name="autosend_">Autosend</string>
   <string formatted="false" name="show_titlebar_">Titelleiste anzeigen</string>
   <string formatted="false" name="show_titlebar_hint">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
@@ -122,7 +122,6 @@
   <string formatted="false" name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
   <string formatted="false" name="paste_">[ Aus Zwischenablage einfügen ]</string>
   <string formatted="false" name="theme_">Theme</string>
-  <string name="theme_">Theme</string>
   <string-array name="themes">
     <item>Dunkel</item>
     <item>Hell</item>
