@@ -1,128 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Copyright (C) 2009-2010 Felix Bechstein
-	-->
-	<!--
-		This file is part of WebSMS. This program is free software; you can
-		redistribute it and/or modify it under the terms of the GNU General
-		Public License as published by the Free Software Foundation; either
-		version 3 of the License, or (at your option) any later version.
-	-->
-	<!--
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-		General Public License for more details. You should have received a
-		copy of the GNU General Public License along with this program; If
-		not, see <http://www.gnu.org/licenses/>.
-	-->
+       <!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+       <!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+       <!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+      <!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=strings.xml to edit the file.
+       -->
 <resources>
-  <string formatted="false" name="about_">Über</string>
-  <string formatted="false" name="about">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
-  <string formatted="false" name="about_hint">Über diese App</string>
-  <string formatted="false" name="faq_hint">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
-  <string formatted="false" name="feedback_">Feedback</string>
-  <string formatted="false" name="feedback_hint">Bugreports, feature requests ...</string>
-  <string formatted="false" name="twitter_hint">Follow auf twitter.\nUpdate Infos etc...</string>
-  <string formatted="false" name="author_">Autor:</string>
-  <string formatted="false" name="author_connectors_">Autor der Connectoren:</string>
-  <string formatted="false" name="change_connector_">Anderer Provider</string>
-  <string formatted="false" name="change_connector_nl">Anderer\nProvider</string>
-  <string formatted="false" name="click_for_update">(update: klick)</string>
-  <string formatted="false" name="defprefix_">Standard int. Prefix</string>
-  <string formatted="false" name="defprefix_hint">z.B. +49</string>
-  <string formatted="false" name="more_apps_">Mehr Apps..</string>
-  <string formatted="false" name="more_connectors_">Mehr Connectoren..</string>
-  <string formatted="false" name="more_connectors_hint">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
-  <string formatted="false" name="more_connectors__">Noch mehr Connectoren..</string>
-  <string formatted="false" name="more_connectors__hint">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
-  <string formatted="false" name="set_stdandard_connector_">Standard Connector setzen</string>
-  <string formatted="false" name="set_stdandard_connector_hint">Setze den aktuellen Connector als Standard.</string>
-  <string formatted="false" name="clear_stdandard_connector_">Standard Connector löschen</string>
-  <string formatted="false" name="free_">Guthaben:</string>
-  <string formatted="false" name="license">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
-  <string formatted="false" name="license_">Lizenz:</string>
-  <string formatted="false" name="log_wrong_defprefix">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
-  <string formatted="false" name="log_wrong_sender">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
-  <string formatted="false" name="log_noselectedconnector">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
-  <string formatted="false" name="log_noreadyconnector">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
-  <string formatted="false" name="log_error_saving_message">Fehler beim Updaten der Nachricht in der Datenbank!</string>
-  <string formatted="false" name="log_error_char_nonvalid">Der Connector stellt keine erlaubten Zeichen bereit</string>
-  <string formatted="false" name="log_error_char_notsendable">Die Nachricht enthält nicht erlaubte Zeichen</string>
-  <string formatted="false" name="try_send_invalid_characters_">Versuchen, ungültige zu senden</string>
-  <string formatted="false" name="try_send_invalid_characters_hint">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
-  <string formatted="false" name="notify_failed">Fehler beim senden der SMS: </string>
-  <string formatted="false" name="notify_failed_">fehler beim Senden der SMS</string>
-  <string formatted="false" name="sender_">Mobilnummer</string>
-  <string formatted="false" name="send_">Senden</string>
-  <string formatted="false" name="save_draft_">Entwurf speichern</string>
-  <string formatted="false" name="save_chars_">Zeichen sparen</string>
-  <string formatted="false" name="settings">Einstellungen</string>
-  <string formatted="false" name="settings_common">Einstellungen - Allgemein</string>
-  <string formatted="false" name="appearance_">Darstellung</string>
-  <string formatted="false" name="behavior_">Verhalten</string>
-  <string formatted="false" name="appearance_and_behavior_">Aussehen &amp; Verhalten</string>
-  <string formatted="false" name="autosend_">Autosend</string>
-  <string formatted="false" name="show_titlebar_">Titelleiste anzeigen</string>
-  <string formatted="false" name="show_titlebar_hint">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
-  <string formatted="false" name="settings_connectors">Einstellungen - Connectoren</string>
-  <string formatted="false" name="hide_change_connector_button">\"Anderer Provider\" Button verstecken</string>
-  <string formatted="false" name="hide_change_connector_button_hint">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_send_button">\"Senden\" Button verstecken</string>
-  <string formatted="false" name="hide_send_button_hint">\"Senden\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_cancel_button">\"Abbrechen\" Button verstecken</string>
-  <string formatted="false" name="hide_cancel_button_hint">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_select_recipients_button_">\"Empfänger auswählen\" Button verstecken</string>
-  <string formatted="false" name="hide_select_recipients_button_hint">\"Empfänger auswählen\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_clear_recipients_button_">\"Empfänger löschen\" Button verstecken</string>
-  <string formatted="false" name="hide_clear_recipients_button_hint">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_send_in_menu">\"Senden\" im Menü verstecken</string>
-  <string formatted="false" name="hide_send_in_menu_hint">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
-  <string formatted="false" name="hide_emo_button">\"Smiley\" Button verstecken</string>
-  <string formatted="false" name="hide_emo_button_hint">\"Smiley\" Button auf dem Main Screen verstecken.</string>
-  <string formatted="false" name="hide_update">\"Kick zum Update\" verstecken</string>
-  <string formatted="false" name="hide_update_hint">\"Klick zum Update\" auf Main Screen verstecken.</string>
-  <string formatted="false" name="hide_bg_connector_">Connectornamen verstecken</string>
-  <string formatted="false" name="hide_bg_connector_hint">Verstecke den Namen des aktiven Connectors im Hintergrund.</string>
-  <string formatted="false" name="enable_autosend_">Aktiviere Autosend</string>
-  <string formatted="false" name="enable_autosend_hint">Aktiviere SMSdroid\'s Autosend Funktion.</string>
-  <string formatted="false" name="use_selected_connector_">Ausgewählten Connector verwenden</string>
-  <string formatted="false" name="use_selected_connector_hint">Verwende den aktuell ausgewählten Connector für Autosend. Deaktivieren, um eine Auswahl zu zeigen.</string>
-  <string formatted="false" name="default_recipient_">Default Empfänger</string>
-  <string formatted="false" name="default_recipient_hint">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
-  <string formatted="false" name="signature_">Signatur</string>
-  <string formatted="false" name="signature_hint">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
-  <string formatted="false" name="autoupdate_">Autom. aktualisieren</string>
-  <string formatted="false" name="autoupdate_hint">Update Kontoguthaben beim Start.</string>
-  <string formatted="false" name="autoexit_">Autom. Beenden</string>
-  <string formatted="false" name="autoexit_hint">WebSMS verlassen, wenn SMS gesendet wird.</string>
-  <string formatted="false" name="mobile_only_">Nur Mobilnummern anzeigen</string>
-  <string formatted="false" name="mobile_only_hint">Zeige nur Mobilnummern an.</string>
-  <string formatted="false" name="vibrate_on_fail">Vibration wenn Senden fehlgeschlagen</string>
-  <string formatted="false" name="vibrate_on_send">Vibration wenn erfolgreich gesendet</string>
-  <string formatted="false" name="sound_on_fail">Ton wenn Senden fehlgeschlagen</string>
-  <string formatted="false" name="source_">Sourcescode:</string>
-  <string formatted="false" name="website_">Website:</string>
-  <string formatted="false" name="to_hint">Name oder Nummer</string>
-  <string formatted="false" name="text_hint">Text</string>
-  <string formatted="false" name="extras_">Extras</string>
-  <string formatted="false" name="flashsms">Flash-SMS</string>
-  <string formatted="false" name="custom_sender">Anderer Absender</string>
-  <string formatted="false" name="send_later">Später senden</string>
-  <string formatted="false" name="emo_">Smilies</string>
-  <string formatted="false" name="connectors_switch">Connector wurde gewechselt:</string>
-  <string formatted="false" name="captcha_">Captcha</string>
-  <string formatted="false" name="captcha_solve_it">Bitte gib den Text unten ein:</string>
-  <string formatted="false" name="status_disabled">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-  <string formatted="false" name="status_enabled">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-  <string formatted="false" name="status_ready">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-  <string formatted="false" name="connector_vanished">Der Connector ist verschwunden!</string>
-  <string formatted="false" name="connector_sms_name">SMS</string>
-  <string formatted="false" name="enable_sms">Aktiviere SMS</string>
-  <string formatted="false" name="enable_sms_hint">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
-  <string formatted="false" name="paste_">[ Aus Zwischenablage einfügen ]</string>
-  <string formatted="false" name="theme_">Theme</string>
-  <string-array name="themes">
+  <string name="about_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="About">Über</string>
+  <string name="about" formatted="false">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string name="about_hint" formatted="false">Über diese App</string>
+  <string name="faq_hint" formatted="false">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
+  <string name="feedback_" formatted="false">Feedback</string>
+  <string name="feedback_hint" formatted="false">Bugreports, feature requests ...</string>
+  <string name="twitter_hint" formatted="false">Follow auf twitter.\nUpdate Infos etc...</string>
+  <string name="author_" formatted="false">Autor:</string>
+  <string name="author_connectors_" formatted="false">Autor der Connectoren:</string>
+  <string name="change_connector_" formatted="false">Anderer Provider</string>
+  <string name="change_connector_nl" formatted="false">Anderer\nProvider</string>
+  <string name="click_for_update" formatted="false">(update: klick)</string>
+  <string name="defprefix_" formatted="false">Standard int. Prefix</string>
+  <string name="defprefix_hint" formatted="false">z.B. +49</string>
+  <string name="more_apps_" formatted="false">Mehr Apps..</string>
+  <string name="more_connectors_" formatted="false">Mehr Connectoren..</string>
+  <string name="more_connectors_hint" formatted="false">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
+  <string name="more_connectors__" formatted="false">Noch mehr Connectoren..</string>
+  <string name="more_connectors__hint" formatted="false">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
+  <string name="set_stdandard_connector_" formatted="false">Standard Connector setzen</string>
+  <string name="set_stdandard_connector_hint" formatted="false">Setze den aktuellen Connector als Standard.</string>
+  <string name="clear_stdandard_connector_" formatted="false">Standard Connector löschen</string>
+  <string name="free_" formatted="false">Guthaben:</string>
+  <string name="license" formatted="false">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false">Lizenz:</string>
+  <string name="log_wrong_defprefix" formatted="false">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
+  <string name="log_wrong_sender" formatted="false">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
+  <string name="log_noselectedconnector" formatted="false">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
+  <string name="log_noreadyconnector" formatted="false">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
+  <string name="log_error_saving_message" formatted="false">Fehler beim Updaten der Nachricht in der Datenbank!</string>
+  <string name="log_error_char_nonvalid" formatted="false">Der Connector stellt keine erlaubten Zeichen bereit</string>
+  <string name="log_error_char_notsendable" formatted="false">Die Nachricht enthält nicht erlaubte Zeichen</string>
+  <string name="try_send_invalid_characters_" formatted="false">Versuchen, ungültige zu senden</string>
+  <string name="try_send_invalid_characters_hint" formatted="false">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
+  <string name="notify_failed" formatted="false">Fehler beim senden der SMS: </string>
+  <string name="notify_failed_" formatted="false">fehler beim Senden der SMS</string>
+  <string name="sender_" formatted="false">Mobilnummer</string>
+  <string name="send_" formatted="false">Senden</string>
+  <string name="save_draft_" formatted="false">Entwurf speichern</string>
+  <string name="save_chars_" formatted="false">Zeichen sparen</string>
+  <string name="settings" formatted="false">Einstellungen</string>
+  <string name="settings_common" formatted="false">Einstellungen - Allgemein</string>
+  <string name="appearance_" formatted="false">Darstellung</string>
+  <string name="behavior_" formatted="false">Verhalten</string>
+  <string name="appearance_and_behavior_" formatted="false">Aussehen &amp;amp;amp;amp;amp;amp;amp;amp;amp; Verhalten</string>
+  <string name="autosend_" formatted="false">Autosend</string>
+  <string name="show_titlebar_" formatted="false">Titelleiste anzeigen</string>
+  <string name="show_titlebar_hint" formatted="false">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
+  <string name="settings_connectors" formatted="false">Einstellungen - Connectoren</string>
+  <string name="hide_change_connector_button" formatted="false">\"Anderer Provider\" Button verstecken</string>
+  <string name="hide_change_connector_button_hint" formatted="false">\"Anderer Provider\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_send_button" formatted="false">\"Senden\" Button verstecken</string>
+  <string name="hide_send_button_hint" formatted="false">\"Senden\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_cancel_button" formatted="false">\"Abbrechen\" Button verstecken</string>
+  <string name="hide_cancel_button_hint" formatted="false">\"Abbrechen\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_select_recipients_button_" formatted="false">\"Empfänger auswählen\" Button verstecken</string>
+  <string name="hide_select_recipients_button_hint" formatted="false">\"Empfänger auswählen\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_clear_recipients_button_" formatted="false">\"Empfänger löschen\" Button verstecken</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false">\"Empfänger löschen\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_send_in_menu" formatted="false">\"Senden\" im Menü verstecken</string>
+  <string name="hide_send_in_menu_hint" formatted="false">\"Senden\" im Hauptmenü verstecken. Neustart erforderlich.</string>
+  <string name="hide_emo_button" formatted="false">\"Smiley\" Button verstecken</string>
+  <string name="hide_emo_button_hint" formatted="false">\"Smiley\" Button auf dem Main Screen verstecken.</string>
+  <string name="hide_update" formatted="false">\"Kick zum Update\" verstecken</string>
+  <string name="hide_update_hint" formatted="false">\"Klick zum Update\" auf Main Screen verstecken.</string>
+  <string name="hide_bg_connector_" formatted="false">Connectornamen verstecken</string>
+  <string name="hide_bg_connector_hint" formatted="false">Verstecke den Namen des aktiven Connectors im Hintergrund.</string>
+  <string name="hide_paste_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide &quot;paste&quot; button">Verstecke "Einfügen" Button</string>
+  <string name="enable_autosend_" formatted="false">Aktiviere Autosend</string>
+  <string name="enable_autosend_hint" formatted="false">Aktiviere SMSdroid\'s Autosend Funktion.</string>
+  <string name="use_selected_connector_" formatted="false">Ausgewählten Connector verwenden</string>
+  <string name="use_selected_connector_hint" formatted="false">Verwende den aktuell ausgewählten Connector für Autosend. Deaktivieren, um eine Auswahl zu zeigen.</string>
+  <string name="default_recipient_" formatted="false">Default Empfänger</string>
+  <string name="default_recipient_hint" formatted="false">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
+  <string name="signature_" formatted="false">Signatur</string>
+  <string name="signature_hint" formatted="false">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
+  <string name="autoupdate_" formatted="false">Autom. aktualisieren</string>
+  <string name="autoupdate_hint" formatted="false">Update Kontoguthaben beim Start.</string>
+  <string name="autoexit_" formatted="false">Autom. Beenden</string>
+  <string name="autoexit_hint" formatted="false">WebSMS verlassen, wenn SMS gesendet wird.</string>
+  <string name="mobile_only_" formatted="false">Nur Mobilnummern anzeigen</string>
+  <string name="mobile_only_hint" formatted="false">Zeige nur Mobilnummern an.</string>
+  <string name="vibrate_on_fail" formatted="false">Vibration wenn Senden fehlgeschlagen</string>
+  <string name="vibrate_on_send" formatted="false">Vibration wenn erfolgreich gesendet</string>
+  <string name="sound_on_fail" formatted="false">Ton wenn Senden fehlgeschlagen</string>
+  <string name="source_" formatted="false">Sourcescode:</string>
+  <string name="website_" formatted="false">Website:</string>
+  <string name="to_hint" formatted="false">Name oder Nummer</string>
+  <string name="text_hint" formatted="false">Text</string>
+  <string name="extras_" formatted="false">Extras</string>
+  <string name="flashsms" formatted="false">Flash-SMS</string>
+  <string name="custom_sender" formatted="false">Anderer Absender</string>
+  <string name="send_later" formatted="false">Später senden</string>
+  <string name="emo_" formatted="false">Smilies</string>
+  <string name="connectors_switch" formatted="false">Connector wurde gewechselt:</string>
+  <string name="captcha_" formatted="false">Captcha</string>
+  <string name="captcha_solve_it" formatted="false">Bitte gib den Text unten ein:</string>
+  <string name="status_disabled" formatted="false">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+  <string name="status_enabled" formatted="false">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+  <string name="status_ready" formatted="false">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+  <string name="connector_vanished" formatted="false">Der Connector ist verschwunden!</string>
+  <string name="connector_sms_name" formatted="false">SMS</string>
+  <string name="enable_sms" formatted="false">Aktiviere SMS</string>
+  <string name="enable_sms_hint" formatted="false">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
+  <string name="paste_" formatted="false">[ Aus Zwischenablage einfügen ]</string>
+  <string name="theme_" formatted="false">Theme</string>
+  <string-array name="themes" username="flx &lt;f+translator@ub0r.de&gt;">
     <item>Dunkel</item>
     <item>Hell</item>
   </string-array>

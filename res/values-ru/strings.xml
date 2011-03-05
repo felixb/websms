@@ -1,125 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Copyright (C) 2009-2010 Felix Bechstein
-	-->
-	<!--
-		This file is part of WebSMS. This program is free software; you can
-		redistribute it and/or modify it under the terms of the GNU General
-		Public License as published by the Free Software Foundation; either
-		version 3 of the License, or (at your option) any later version.
-	-->
-	<!--
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-		General Public License for more details. You should have received a
-		copy of the GNU General Public License along with this program; If
-		not, see <http://www.gnu.org/licenses/>.
-	-->
+       <!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+       <!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+       <!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+      <!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=ru&file=strings.xml to edit the file.
+       -->
 <resources>
-  <string formatted="false" name="about_">О программе</string>
-  <string formatted="false" name="about">WebSMS позволит Вам отправлять бесплатные или дешёвые СМС через Глобальную сеть. Поддерживаются многие провайдеры. Чтобы получить поддержку, скачайте Connector из market по ссылке в настройках.</string>
-  <string formatted="false" name="about_hint">Описание программы</string>
-  <string formatted="false" name="faq_hint">Советы и подсказки по настройке программы.</string>
-  <string formatted="false" name="feedback_">Отзывы</string>
-  <string formatted="false" name="feedback_hint">Сообщить об ошибке, запрос на расширение функционала..</string>
-  <string formatted="false" name="twitter_hint">Следите на Twitter.\nУзнайте об обновлениях и т.п.</string>
-  <string formatted="false" name="author_">Автор:</string>
-  <string formatted="false" name="author_connectors_">Автор Connector\'а:</string>
-  <string formatted="false" name="change_connector_">Сменить провайдера</string>
-  <string formatted="false" name="change_connector_nl">Сменить\nпровайдера</string>
-  <string formatted="false" name="click_for_update">(обновить: нажмите)</string>
-  <string formatted="false" name="defprefix_">Внутр.префикс по умолчанию</string>
-  <string formatted="false" name="defprefix_hint">напр. +7</string>
-  <string formatted="false" name="more_apps_">Больше приложений..</string>
-  <string formatted="false" name="more_connectors_">Больше Connector\'ов..</string>
-  <string formatted="false" name="more_connectors_hint">Найдите больше Connector\'ов на Market. Перезапустите WebSMS после установки!</string>
-  <string formatted="false" name="more_connectors__">Ещё больше Connector\'ов..</string>
-  <string formatted="false" name="more_connectors__hint">Не нашли Connector для какого-то сервиса? Смотрите в FAQ как получить его.</string>
-  <string formatted="false" name="set_stdandard_connector_">Set standard Connector</string>
-  <string formatted="false" name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
-  <string formatted="false" name="clear_stdandard_connector_">Clear standard Connector</string>
-  <string formatted="false" name="free_">Баланс:</string>
-  <string formatted="false" name="license">GPLv3 - смотрите http://www.gnu.org/licenses/gpl-3.0.txt</string>
-  <string formatted="false" name="license_">Лицензия:</string>
-  <string formatted="false" name="log_wrong_defprefix">Пожалуйста, введите верный код страны. Напр. "+7".</string>
-  <string formatted="false" name="log_wrong_sender">Неверный номер отправителя! введите в международном формате напр. +79261234567.</string>
-  <string formatted="false" name="log_noselectedconnector">Не выбран Connector. Выберете в "Сменить провайдера".</string>
-  <string formatted="false" name="log_noreadyconnector">Connector не установлен или не настроен. Проверьте настройки.</string>
-  <string formatted="false" name="log_error_saving_message">Ошибка сохранения отправленного СМС в базе!</string>
-  <string formatted="false" name="log_error_char_nonvalid">Connector does not provide valid characters</string>
-  <string formatted="false" name="log_error_char_notsendable">This message contains not sendable characters</string>
-  <string formatted="false" name="try_send_invalid_characters_">Try send invalid</string>
-  <string formatted="false" name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
-  <string formatted="false" name="notify_failed">Ошибка отправки СМС: </string>
-  <string formatted="false" name="notify_failed_">Ошибка отправки СМС</string>
-  <string formatted="false" name="sender_">Ваш номер моб. тел.</string>
-  <string formatted="false" name="send_">Отправить</string>
-  <string formatted="false" name="save_draft_">Save draft</string>
-  <string formatted="false" name="save_chars_">Сохранить chars</string>
-  <string formatted="false" name="settings">Настройки</string>
-  <string formatted="false" name="settings_common">Настройки - Общие</string>
-  <string formatted="false" name="appearance_">Внешний вид</string>
-  <string formatted="false" name="behavior_">Behavior</string>
-  <string formatted="false" name="appearance_and_behavior_">Appearance &amp; behavior</string>
-  <string formatted="false" name="autosend_">Autosend</string>
-  <string formatted="false" name="show_titlebar_">Показ в области уведомлений</string>
-  <string formatted="false" name="show_titlebar_hint">Показывать фоновые процессы в области уведомлений в главном окне. Без этого фоновые процессы не видны.</string>
-  <string formatted="false" name="settings_connectors">Настройки - Connector\'ы</string>
-  <string formatted="false" name="hide_change_connector_button">Скрыть кнопку \"Смен.провайдера\"</string>
-  <string formatted="false" name="hide_change_connector_button_hint">Скрывает кнопку \"Смен.провайдера\" в главном окне.</string>
-  <string formatted="false" name="hide_send_button">Скрыть кнопку \"Отправить\"</string>
-  <string formatted="false" name="hide_send_button_hint">Скрывает кнопку \"Отправить\" в главном окне.</string>
-  <string formatted="false" name="hide_cancel_button">Скрыть кнопку \"Сброс\"</string>
-  <string formatted="false" name="hide_cancel_button_hint">Скрывает кнопку \"Сброс\" в главном окне.</string>
-  <string formatted="false" name="hide_select_recipients_button_">Скрыть кнопку \"Выбор получателя\"</string>
-  <string formatted="false" name="hide_select_recipients_button_hint">Скрывает кнопку \"Выбор получателя\" в главном окне.</string>
-  <string formatted="false" name="hide_clear_recipients_button_">Скрыть кнопку \"Очистить получателя\" </string>
-  <string formatted="false" name="hide_clear_recipients_button_hint">Скрывает кнопку \"Очистить получателя\" в главном окне.</string>
-  <string formatted="false" name="hide_send_in_menu">Скрыть пункт меню \"Отправить\"</string>
-  <string formatted="false" name="hide_send_in_menu_hint">Скрывает \"Отправить\" в главном меню. Необходим перезапуск.</string>
-  <string formatted="false" name="hide_emo_button">Скрыть кнопку \"Смайлы\"</string>
-  <string formatted="false" name="hide_emo_button_hint">Скрывает кнопку \"Смайлы\" в главном окне.</string>
-  <string formatted="false" name="hide_update">Скрыть \"Обновить: нажмите\"</string>
-  <string formatted="false" name="hide_update_hint">Скрывает \"Обновить: нажмите\" в главном окне.</string>
-  <string formatted="false" name="hide_bg_connector_">Скрыть название Connector\'а</string>
-  <string formatted="false" name="hide_bg_connector_hint">Скрывает название активного Connector\'а на фоне.</string>
-  <string formatted="false" name="enable_autosend_">Enable autosend</string>
-  <string formatted="false" name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
-  <string formatted="false" name="use_selected_connector_">Use selected Connector</string>
-  <string formatted="false" name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
-  <string formatted="false" name="default_recipient_">Получатель по умолчанию</string>
-  <string formatted="false" name="default_recipient_hint">Вписывается автоматически в поле получателя при старте програмы.</string>
-  <string formatted="false" name="signature_">Подпись</string>
-  <string formatted="false" name="signature_hint">Текст, прикрепляемый к каждому сообщению. Пробел не добавляется. Используйте \" \" если необходимо.</string>
-  <string formatted="false" name="autoupdate_">Автообновление</string>
-  <string formatted="false" name="autoupdate_hint">Обновляет баланс при старте.</string>
-  <string formatted="false" name="autoexit_">Автовыход</string>
-  <string formatted="false" name="autoexit_hint">Автовыход из программы после отправки СМС.</string>
-  <string formatted="false" name="mobile_only_">Показывать только мобильные</string>
-  <string formatted="false" name="mobile_only_hint">Показывать только мобильные номера.</string>
-  <string formatted="false" name="vibrate_on_fail">Вибрир. при ошибке отправки</string>
-  <string formatted="false" name="vibrate_on_send">Vibrate after sending</string>
-  <string formatted="false" name="sound_on_fail">Звук. сигнал при ошибке отправки</string>
-  <string formatted="false" name="source_">Исходники:</string>
-  <string formatted="false" name="website_">Сайт:</string>
-  <string formatted="false" name="to_hint">Имя или номер</string>
-  <string formatted="false" name="text_hint">Текст</string>
-  <string formatted="false" name="extras_">Дополнительно</string>
-  <string formatted="false" name="flashsms">Flash SMS</string>
-  <string formatted="false" name="custom_sender">Задать отправителя</string>
-  <string formatted="false" name="send_later">Отправить позже</string>
-  <string formatted="false" name="emo_">Иконки смайлов</string>
-  <string formatted="false" name="connectors_switch">Включённый Сonnector:</string>
-  <string formatted="false" name="captcha_">Капча</string>
-  <string formatted="false" name="captcha_solve_it">Введите текст с картинки:</string>
-  <string formatted="false" name="status_disabled">Статус: отключён\n(Обновляется при переходе в главное окно)</string>
-  <string formatted="false" name="status_enabled">Статус: включён\n(Обновляется при переходе в главное окно)</string>
-  <string formatted="false" name="status_ready">Status: готов\n(Обновляется при переходе в главное окно)</string>
-  <string formatted="false" name="connector_vanished">Connector исчез!</string>
-  <string formatted="false" name="connector_sms_name">СМС</string>
-  <string formatted="false" name="enable_sms">Включить СМС</string>
-  <string formatted="false" name="enable_sms_hint">СМС Connector отправляет обычные СМС (Через GSM).</string>
-  <string formatted="false" name="paste_">[ Paste from clipboard ]</string>
-  <string formatted="false" name="theme_">Theme</string>
+  <string name="about_" formatted="false">О программе</string>
+  <string name="about" formatted="false">WebSMS позволит Вам отправлять бесплатные или дешёвые СМС через Глобальную сеть. Поддерживаются многие провайдеры. Чтобы получить поддержку, скачайте Connector из market по ссылке в настройках.</string>
+  <string name="about_hint" formatted="false">Описание программы</string>
+  <string name="faq_hint" formatted="false">Советы и подсказки по настройке программы.</string>
+  <string name="feedback_" formatted="false">Отзывы</string>
+  <string name="feedback_hint" formatted="false">Сообщить об ошибке, запрос на расширение функционала..</string>
+  <string name="twitter_hint" formatted="false">Следите на Twitter.\nУзнайте об обновлениях и т.п.</string>
+  <string name="author_" formatted="false">Автор:</string>
+  <string name="author_connectors_" formatted="false">Автор Connector\'а:</string>
+  <string name="change_connector_" formatted="false">Сменить провайдера</string>
+  <string name="change_connector_nl" formatted="false">Сменить\nпровайдера</string>
+  <string name="click_for_update" formatted="false">(обновить: нажмите)</string>
+  <string name="defprefix_" formatted="false">Внутр.префикс по умолчанию</string>
+  <string name="defprefix_hint" formatted="false">напр. +7</string>
+  <string name="more_apps_" formatted="false">Больше приложений..</string>
+  <string name="more_connectors_" formatted="false">Больше Connector\'ов..</string>
+  <string name="more_connectors_hint" formatted="false">Найдите больше Connector\'ов на Market. Перезапустите WebSMS после установки!</string>
+  <string name="more_connectors__" formatted="false">Ещё больше Connector\'ов..</string>
+  <string name="more_connectors__hint" formatted="false">Не нашли Connector для какого-то сервиса? Смотрите в FAQ как получить его.</string>
+  <string name="free_" formatted="false">Баланс:</string>
+  <string name="license" formatted="false">GPLv3 - смотрите http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false">Лицензия:</string>
+  <string name="log_wrong_defprefix" formatted="false">Пожалуйста, введите верный код страны. Напр. "+7".</string>
+  <string name="log_wrong_sender" formatted="false">Неверный номер отправителя! введите в международном формате напр. +79261234567.</string>
+  <string name="log_noselectedconnector" formatted="false">Не выбран Connector. Выберете в "Сменить провайдера".</string>
+  <string name="log_noreadyconnector" formatted="false">Connector не установлен или не настроен. Проверьте настройки.</string>
+  <string name="log_error_saving_message" formatted="false">Ошибка сохранения отправленного СМС в базе!</string>
+  <string name="log_error_char_nonvalid" formatted="false">Connector does not provide valid characters</string>
+  <string name="notify_failed" formatted="false">Ошибка отправки СМС: </string>
+  <string name="notify_failed_" formatted="false">Ошибка отправки СМС</string>
+  <string name="sender_" formatted="false">Ваш номер моб. тел.</string>
+  <string name="send_" formatted="false">Отправить</string>
+  <string name="save_draft_" formatted="false">Save draft</string>
+  <string name="save_chars_" formatted="false">Сохранить chars</string>
+  <string name="settings" formatted="false">Настройки</string>
+  <string name="settings_common" formatted="false">Настройки - Общие</string>
+  <string name="appearance_" formatted="false">Внешний вид</string>
+  <string name="show_titlebar_" formatted="false">Показ в области уведомлений</string>
+  <string name="show_titlebar_hint" formatted="false">Показывать фоновые процессы в области уведомлений в главном окне. Без этого фоновые процессы не видны.</string>
+  <string name="settings_connectors" formatted="false">Настройки - Connector\'ы</string>
+  <string name="hide_change_connector_button" formatted="false">Скрыть кнопку \"Смен.провайдера\"</string>
+  <string name="hide_change_connector_button_hint" formatted="false">Скрывает кнопку \"Смен.провайдера\" в главном окне.</string>
+  <string name="hide_send_button" formatted="false">Скрыть кнопку \"Отправить\"</string>
+  <string name="hide_send_button_hint" formatted="false">Скрывает кнопку \"Отправить\" в главном окне.</string>
+  <string name="hide_cancel_button" formatted="false">Скрыть кнопку \"Сброс\"</string>
+  <string name="hide_cancel_button_hint" formatted="false">Скрывает кнопку \"Сброс\" в главном окне.</string>
+  <string name="hide_select_recipients_button_" formatted="false">Скрыть кнопку \"Выбор получателя\"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false">Скрывает кнопку \"Выбор получателя\" в главном окне.</string>
+  <string name="hide_clear_recipients_button_" formatted="false">Скрыть кнопку \"Очистить получателя\" </string>
+  <string name="hide_clear_recipients_button_hint" formatted="false">Скрывает кнопку \"Очистить получателя\" в главном окне.</string>
+  <string name="hide_send_in_menu" formatted="false">Скрыть пункт меню \"Отправить\"</string>
+  <string name="hide_send_in_menu_hint" formatted="false">Скрывает \"Отправить\" в главном меню. Необходим перезапуск.</string>
+  <string name="hide_emo_button" formatted="false">Скрыть кнопку \"Смайлы\"</string>
+  <string name="hide_emo_button_hint" formatted="false">Скрывает кнопку \"Смайлы\" в главном окне.</string>
+  <string name="hide_update" formatted="false">Скрыть \"Обновить: нажмите\"</string>
+  <string name="hide_update_hint" formatted="false">Скрывает \"Обновить: нажмите\" в главном окне.</string>
+  <string name="hide_bg_connector_" formatted="false">Скрыть название Connector\'а</string>
+  <string name="hide_bg_connector_hint" formatted="false">Скрывает название активного Connector\'а на фоне.</string>
+  <string name="default_recipient_" formatted="false">Получатель по умолчанию</string>
+  <string name="default_recipient_hint" formatted="false">Вписывается автоматически в поле получателя при старте програмы.</string>
+  <string name="signature_" formatted="false">Подпись</string>
+  <string name="signature_hint" formatted="false">Текст, прикрепляемый к каждому сообщению. Пробел не добавляется. Используйте \" \" если необходимо.</string>
+  <string name="autoupdate_" formatted="false">Автообновление</string>
+  <string name="autoupdate_hint" formatted="false">Обновляет баланс при старте.</string>
+  <string name="autoexit_" formatted="false">Автовыход</string>
+  <string name="autoexit_hint" formatted="false">Автовыход из программы после отправки СМС.</string>
+  <string name="mobile_only_" formatted="false">Показывать только мобильные</string>
+  <string name="mobile_only_hint" formatted="false">Показывать только мобильные номера.</string>
+  <string name="vibrate_on_fail" formatted="false">Вибрир. при ошибке отправки</string>
+  <string name="sound_on_fail" formatted="false">Звук. сигнал при ошибке отправки</string>
+  <string name="source_" formatted="false">Исходники:</string>
+  <string name="website_" formatted="false">Сайт:</string>
+  <string name="to_hint" formatted="false">Имя или номер</string>
+  <string name="text_hint" formatted="false">Текст</string>
+  <string name="extras_" formatted="false">Дополнительно</string>
+  <string name="flashsms" formatted="false">Flash SMS</string>
+  <string name="custom_sender" formatted="false">Задать отправителя</string>
+  <string name="send_later" formatted="false">Отправить позже</string>
+  <string name="emo_" formatted="false">Иконки смайлов</string>
+  <string name="connectors_switch" formatted="false">Включённый Сonnector:</string>
+  <string name="captcha_" formatted="false">Капча</string>
+  <string name="captcha_solve_it" formatted="false">Введите текст с картинки:</string>
+  <string name="status_disabled" formatted="false">Статус: отключён\n(Обновляется при переходе в главное окно)</string>
+  <string name="status_enabled" formatted="false">Статус: включён\n(Обновляется при переходе в главное окно)</string>
+  <string name="status_ready" formatted="false">Status: готов\n(Обновляется при переходе в главное окно)</string>
+  <string name="connector_vanished" formatted="false">Connector исчез!</string>
+  <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">СМС</string>
+  <string name="enable_sms" formatted="false">Включить СМС</string>
+  <string name="enable_sms_hint" formatted="false">СМС Connector отправляет обычные СМС (Через GSM).</string>
 </resources>
