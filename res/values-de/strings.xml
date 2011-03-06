@@ -65,7 +65,7 @@
   <string name="settings_common" formatted="false">Einstellungen - Allgemein</string>
   <string name="appearance_" formatted="false">Darstellung</string>
   <string name="behavior_" formatted="false">Verhalten</string>
-  <string name="appearance_and_behavior_" formatted="false">Aussehen &amp;amp;amp;amp;amp;amp;amp;amp;amp; Verhalten</string>
+  <string name="appearance_and_behavior_" formatted="false">Aussehen &amp; Verhalten</string>
   <string name="autosend_" formatted="false">Autosend</string>
   <string name="show_titlebar_" formatted="false">Titelleiste anzeigen</string>
   <string name="show_titlebar_hint" formatted="false">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
