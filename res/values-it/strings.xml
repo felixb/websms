@@ -21,4 +21,27 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=it&file=strings.xml to edit the file.
        -->
 <resources>
+  <string name="about_" formatted="false" username="antoniogallo@alice.de" orig="About">Info ...</string>
+  <string name="about" formatted="false" username="antoniogallo@alice.de" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS ti permette di inviare sms gratis o a basso costo via Internet, utilizzando uno dei tanti fornitori(connectors) disponibili che trovi nel Market.</string>
+  <string name="about_hint" formatted="false" username="antoniogallo@alice.de" orig="About this app">Info su quest\' App</string>
+  <string name="faq_hint" formatted="false" username="antoniogallo@alice.de" orig="Some tips and tricks, how to set up this app.">Suggerimenti,come impostare l\'applicazione.</string>
+  <string name="feedback_" formatted="false" username="antoniogallo@alice.de" orig="Feedback">Feedback</string>
+  <string name="feedback_hint" formatted="false" username="antoniogallo@alice.de" orig="Report bugs, request features ...">Segnala bugs,richiedi funzioni ...</string>
+  <string name="twitter_hint" formatted="false" username="antoniogallo@alice.de" orig="Follow me on twitter.\nGet update notifications etc.">Seguimi su Twitter.\nRicevi notifiche su aggiornamenti ecc.</string>
+  <string name="author_" formatted="false" username="antoniogallo@alice.de" orig="Author:">Autore:</string>
+  <string name="author_connectors_" formatted="false" username="antoniogallo@alice.de" orig="Author of Connectors:">Sviluppatore dei Connectors:</string>
+  <string name="change_connector_" formatted="false" username="antoniogallo@alice.de" orig="Change provider">Cambia provider</string>
+  <string name="click_for_update" formatted="false" username="antoniogallo@alice.de" orig="(update: click)">Aggiorna</string>
+  <string name="defprefix_hint" formatted="false" username="antoniogallo@alice.de" orig="e.g. +49">Es. +49</string>
+  <string name="settings" formatted="false" username="antoniogallo@alice.de" orig="Preferences">Preferenze</string>
+  <string name="settings_common" formatted="false" username="antoniogallo@alice.de" orig="Preferences - Common">Preferenze</string>
+  <string name="show_titlebar_" formatted="false" username="antoniogallo@alice.de" orig="Show title bar">Mostra barra del titolo</string>
+  <string name="connector_sms_name" formatted="false" username="antoniogallo@alice.de" orig="SMS">SMS</string>
+  <string name="enable_sms" formatted="false" username="antoniogallo@alice.de" orig="Enable SMS">Abilita SMS</string>
+  <string name="paste_" formatted="false" username="antoniogallo@alice.de" orig="[ Paste from clipboard ]">Incolla</string>
+  <string name="theme_" formatted="false" username="antoniogallo@alice.de" orig="Theme">Tema</string>
+  <string-array name="themes" username="antoniogallo@alice.de">
+    <item>Nero</item>
+    <item>Bianco</item>
+  </string-array>
 </resources>
