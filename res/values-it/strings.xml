@@ -21,7 +21,7 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=it&file=strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false" username="antoniogallo@alice.de" orig="About">Info ...</string>
+  <string name="about_" formatted="false" username="antoniogallo@alice.de" orig="About">Info</string>
   <string name="about" formatted="false" username="antoniogallo@alice.de" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS ti permette di inviare sms gratis o a basso costo via Internet, utilizzando uno dei tanti fornitori(connectors) disponibili che trovi nel Market.</string>
   <string name="about_hint" formatted="false" username="antoniogallo@alice.de" orig="About this app">Info su quest\' App</string>
   <string name="faq_hint" formatted="false" username="antoniogallo@alice.de" orig="Some tips and tricks, how to set up this app.">Suggerimenti,come impostare l\'applicazione.</string>
@@ -31,10 +31,35 @@
   <string name="author_" formatted="false" username="antoniogallo@alice.de" orig="Author:">Autore:</string>
   <string name="author_connectors_" formatted="false" username="antoniogallo@alice.de" orig="Author of Connectors:">Sviluppatore dei Connectors:</string>
   <string name="change_connector_" formatted="false" username="antoniogallo@alice.de" orig="Change provider">Cambia provider</string>
+  <string name="change_connector_nl" formatted="false" username="antoniogallo@alice.de" orig="Change\nprovider">Cambia provider</string>
   <string name="click_for_update" formatted="false" username="antoniogallo@alice.de" orig="(update: click)">Aggiorna</string>
+  <string name="defprefix_" formatted="false" username="antoniogallo@alice.de" orig="Default int. prefix">Prefisso predefinito internazionale</string>
   <string name="defprefix_hint" formatted="false" username="antoniogallo@alice.de" orig="e.g. +49">Es. +49</string>
-  <string name="settings" formatted="false" username="antoniogallo@alice.de" orig="Preferences">Preferenze</string>
-  <string name="settings_common" formatted="false" username="antoniogallo@alice.de" orig="Preferences - Common">Preferenze</string>
+  <string name="more_apps_" formatted="false" username="antoniogallo@alice.de" orig="More Apps..">Altre App..</string>
+  <string name="more_connectors_" formatted="false" username="antoniogallo@alice.de" orig="More Connectors..">Altri Connectors..</string>
+  <string name="more_connectors_hint" formatted="false" username="antoniogallo@alice.de" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Trova altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
+  <string name="more_connectors__" formatted="false" username="antoniogallo@alice.de" orig="Even more Connectors..">Ancora altri Connetrors..</string>
+  <string name="more_connectors__hint" formatted="false" username="antoniogallo@alice.de" orig="You are missing a connector for some service? View the FAQ to get it.">Ti serve un Connectors per qualche servizio? Leggi le FAG per trovarlo.</string>
+  <string name="set_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Set standard Connector">Imposta Connector come predefinito</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="antoniogallo@alice.de" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Imposta l\'attuale Connector come predefinito.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Clear standard Connector">Cancella Connector come predefinito</string>
+  <string name="free_" formatted="false" username="antoniogallo@alice.de" orig="Balances:">Credito:</string>
+  <string name="license" formatted="false" username="antoniogallo@alice.de" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - guarda http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="antoniogallo@alice.de" orig="License:">Licenza:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="antoniogallo@alice.de" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Inserire un valido prefisso internazionale predefinito. ES. "+49".</string>
+  <string name="log_wrong_sender" formatted="false" username="antoniogallo@alice.de" orig="Wrong sender! Set it in international form like +4917012345678.">Mittente errato!Impostalo nel formato internazionale. ES. +4917012345678.</string>
+  <string name="log_noselectedconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nessun Connector selezionato.Sceglierne uno tramite "Cambia Provider".</string>
+  <string name="log_noreadyconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector installed or ready. Please check preferences.">Connector non installato o non pronto. Controlla le impostazioni.</string>
+  <string name="log_error_saving_message" formatted="false" username="antoniogallo@alice.de" orig="Error updating sent message in Database!">Errore durante l\'aggiornamento degli SMS inviati!</string>
+  <string name="log_error_char_notsendable" formatted="false" username="antoniogallo@alice.de" orig="This message contains not sendable characters">Questo SMS contiene caratteri non validi</string>
+  <string name="notify_failed" formatted="false" username="antoniogallo@alice.de" orig="Failed to send SMS: ">SMS non inviato:</string>
+  <string name="notify_failed_" formatted="false" username="antoniogallo@alice.de" orig="failed sending SMS">Invio SMS fallito</string>
+  <string name="sender_" formatted="false" username="antoniogallo@alice.de" orig="Your mobile number">Tuo numero mobile</string>
+  <string name="send_" formatted="false" username="antoniogallo@alice.de" orig="Send">Invia</string>
+  <string name="save_draft_" formatted="false" username="antoniogallo@alice.de" orig="Save draft">Salva bozza</string>
+  <string name="save_chars_" formatted="false" username="antoniogallo@alice.de" orig="Save chars">Salva caratteri</string>
+  <string name="settings" formatted="false" username="antoniogallo@alice.de" orig="Preferences">Impostazioni</string>
+  <string name="settings_common" formatted="false" username="antoniogallo@alice.de" orig="Preferences - Common">Impostazioni - Comuni</string>
   <string name="show_titlebar_" formatted="false" username="antoniogallo@alice.de" orig="Show title bar">Mostra barra del titolo</string>
   <string name="connector_sms_name" formatted="false" username="antoniogallo@alice.de" orig="SMS">SMS</string>
   <string name="enable_sms" formatted="false" username="antoniogallo@alice.de" orig="Enable SMS">Abilita SMS</string>
