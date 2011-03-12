@@ -48,6 +48,7 @@
   <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a "Kiegészítő választása" gombbal.</string>
   <string name="log_noreadyconnector" formatted="false">Nincs kiegészítő telepítve, vagy nincs beállítva. Kérlek ellenőrizd a beállításokat.</string>
   <string name="log_error_saving_message" formatted="false">Hiba az elküldött üzenet frissítésénél az adatbázisban!</string>
+  <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Az üzenet nem támogatott karaktereket tartalmaz</string>
   <string name="notify_failed" formatted="false">SMS küldés meghíúsult: </string>
   <string name="notify_failed_" formatted="false">SMS küldés meghíúsult</string>
   <string name="sender_" formatted="false">A mobilszámod</string>
@@ -109,4 +110,8 @@
   <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">SMS</string>
   <string name="enable_sms" formatted="false">SMS engedélyezése</string>
   <string name="enable_sms_hint" formatted="false">Az SMS kiegészítő sima smseket fog küldeni (T).</string>
+  <string-array name="themes">
+    <item>Sötét</item>
+    <item>Világos</item>
+  </string-array>
 </resources>
