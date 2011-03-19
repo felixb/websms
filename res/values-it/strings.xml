@@ -52,7 +52,7 @@
   <string name="log_noreadyconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector installed or ready. Please check preferences.">Connector non installato o non pronto. Controlla le impostazioni.</string>
   <string name="log_error_saving_message" formatted="false" username="antoniogallo@alice.de" orig="Error updating sent message in Database!">Errore durante l\'aggiornamento degli SMS inviati!</string>
   <string name="log_error_char_notsendable" formatted="false" username="antoniogallo@alice.de" orig="This message contains not sendable characters">Questo SMS contiene caratteri non validi</string>
-  <string name="notify_failed" formatted="false" username="antoniogallo@alice.de" orig="Failed to send SMS: ">SMS non inviato:</string>
+  <string name="notify_failed" formatted="false" orig="Failed to send SMS: ">Invio SMS fallito:</string>
   <string name="notify_failed_" formatted="false" username="antoniogallo@alice.de" orig="failed sending SMS">Invio SMS fallito</string>
   <string name="sender_" formatted="false" username="antoniogallo@alice.de" orig="Your mobile number">Tuo numero mobile</string>
   <string name="send_" formatted="false" username="antoniogallo@alice.de" orig="Send">Invia</string>
