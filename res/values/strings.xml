@@ -86,6 +86,8 @@
 	<string name="hide_bg_connector_hint">Hide active connector\'s name in background.</string>
 	<string name="hide_paste_">Hide "paste" button</string>
 	<string name="hide_paste_hint">Hide "paste" button on text field.</string>
+	<string name="drop_sent_">Don\'t save sent SMS</string>
+	<string name="drop_sent_hint">Don\'t save sent messages in global database.</string>
 	<string name="enable_autosend_">Enable autosend</string>
 	<string name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
 	<string name="use_selected_connector_">Use selected Connector</string>
