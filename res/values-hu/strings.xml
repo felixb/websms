@@ -40,6 +40,9 @@
   <string name="more_connectors_hint" formatted="false">Keress még több kiegészítőt az android marketen. Indítsd újra a WebSMS-t a telepítés után!</string>
   <string name="more_connectors__" formatted="false">Még több kiegészítő..</string>
   <string name="more_connectors__hint" formatted="false">Hiányzik egy kiegészítő egy szolgáltatóhoz? Olvasd el a GYIK-ot.</string>
+  <string name="set_stdandard_connector_" formatted="false">Alapértelmezett csatoló beállítása</string>
+  <string name="set_stdandard_connector_hint" formatted="false">Jelenlegi csatoló alapértelmezettként beállítása. WebSMS erre fog automatikus visszaállni.</string>
+  <string name="clear_stdandard_connector_" formatted="false">Alapértelmezett csatoló törlése</string>
   <string name="free_" formatted="false">Egyenleg:</string>
   <string name="license" formatted="false">GPLv3 - lásd http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Licensz:</string>
@@ -47,16 +50,23 @@
   <string name="log_wrong_sender" formatted="false">Hibás szám! Nemzetközi telefonszámformátumot használj pl.: +36301112233.</string>
   <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a "Kiegészítő választása" gombbal.</string>
   <string name="log_noreadyconnector" formatted="false">Nincs kiegészítő telepítve, vagy nincs beállítva. Kérlek ellenőrizd a beállításokat.</string>
-  <string name="log_error_saving_message" formatted="false">Hiba az elküldött üzenet frissítésénél az adatbázisban!</string>
-  <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Az üzenet nem támogatott karaktereket tartalmaz</string>
+  <string name="log_error_saving_message" formatted="false">Hiba, az elküldött üzenet frissítésénél az adatbázisban!</string>
+  <string name="log_error_char_nonvalid" formatted="false">Hiba, ssatoló nem megengedett karaktereket küldött</string>
+  <string name="log_error_char_notsendable" formatted="false">Az üzenet nem engedett karaktereket tartalmaz</string>
+  <string name="try_send_invalid_characters_" formatted="false">Hibás karakterek küldése</string>
+  <string name="try_send_invalid_characters_hint" formatted="false">Hibás karakterek küldésének erőltetése.</string>
   <string name="notify_failed" formatted="false">SMS küldés meghíúsult: </string>
   <string name="notify_failed_" formatted="false">SMS küldés meghíúsult</string>
   <string name="sender_" formatted="false">A mobilszámod</string>
   <string name="send_" formatted="false">Küldés</string>
+  <string name="save_draft_" formatted="false">Piszkozat mentése</string>
   <string name="save_chars_" formatted="false">Karakterek mentése</string>
   <string name="settings" formatted="false">Beállítások</string>
   <string name="settings_common" formatted="false">Beállítások - Általános</string>
   <string name="appearance_" formatted="false">Kinézet</string>
+  <string name="behavior_" formatted="false">Működés</string>
+  <string name="appearance_and_behavior_" formatted="false">Kinézet &amp; működés</string>
+  <string name="autosend_" formatted="false">Automata küldés</string>
   <string name="show_titlebar_" formatted="false">Címsor mutatása</string>
   <string name="show_titlebar_hint" formatted="false">Címsor mutatása a fő nézetben. Címsor nélkül nem látszódnak a háttérben futó programok.</string>
   <string name="settings_connectors" formatted="false">Beállítások - Kiegészítők</string>
@@ -78,6 +88,10 @@
   <string name="hide_update_hint" formatted="false">Elrejtés \"Kattints a frissítéshez\" a főképernyőn.</string>
   <string name="hide_bg_connector_" formatted="false">Kiegészítő nevének...</string>
   <string name="hide_bg_connector_hint" formatted="false">Aktív kiegészítő nevének elrejtése a háttérben.</string>
+  <string name="enable_autosend_" formatted="false">Automata küldés</string>
+  <string name="enable_autosend_hint" formatted="false">SMSdroid automata küldés bekapcsolása.</string>
+  <string name="use_selected_connector_" formatted="false">Kiválasztott kapcsoló használata</string>
+  <string name="use_selected_connector_hint" formatted="false">Jelenlegi kijelölt kapcsoló automata küldés használata. Tiltsd le, hogy feldobja a választó menüt.</string>
   <string name="default_recipient_" formatted="false">Alapértelmezet címzett</string>
   <string name="default_recipient_hint" formatted="false">Címzett mező kitöltése a program indulásakor.</string>
   <string name="signature_" formatted="false">Aláírás</string>
@@ -89,7 +103,7 @@
   <string name="mobile_only_" formatted="false">Csak mobil számok</string>
   <string name="mobile_only_hint" formatted="false">Csak mobil számokat mutass.</string>
   <string name="vibrate_on_fail" formatted="false">Vibrálás hibás küldésnél</string>
-  <string name="vibrate_on_send" formatted="false">Vibrate after sending</string>
+  <string name="vibrate_on_send" formatted="false">Vibrálás küldés után</string>
   <string name="sound_on_fail" formatted="false">Hang hibás küldés esetén.</string>
   <string name="source_" formatted="false">Forráskód:</string>
   <string name="website_" formatted="false">Weboldal:</string>
@@ -107,10 +121,12 @@
   <string name="status_enabled" formatted="false">Állapot: engedélyezve\n(Frissítve a főképernyőre való visszatéréskor)</string>
   <string name="status_ready" formatted="false">Állapot: kész\n(Frissítve a főképernyőre való visszatéréskor)</string>
   <string name="connector_vanished" formatted="false">Kiegészítő eltűnt!</string>
-  <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">SMS</string>
+  <string name="connector_sms_name" formatted="false">SMS</string>
   <string name="enable_sms" formatted="false">SMS engedélyezése</string>
   <string name="enable_sms_hint" formatted="false">Az SMS kiegészítő sima smseket fog küldeni (T).</string>
-  <string-array name="themes">
+  <string name="paste_" formatted="false">[ Vágólapról beillesztés ]</string>
+  <string name="theme_" formatted="false">Téma</string>
+  <string-array name="themes" username="flx &lt;f+translator@ub0r.de&gt;">
     <item>Sötét</item>
     <item>Világos</item>
   </string-array>
