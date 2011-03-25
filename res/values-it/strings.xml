@@ -26,17 +26,17 @@
   <string name="about_hint" formatted="false" username="antoniogallo@alice.de" orig="About this app">Info su quest\' App</string>
   <string name="faq_hint" formatted="false" username="antoniogallo@alice.de" orig="Some tips and tricks, how to set up this app.">Suggerimenti,come impostare l\'applicazione.</string>
   <string name="feedback_" formatted="false" username="antoniogallo@alice.de" orig="Feedback">Feedback</string>
-  <string name="feedback_hint" formatted="false" username="antoniogallo@alice.de" orig="Report bugs, request features ...">Segnala bugs,richiedi funzioni ...</string>
+  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Segnala bugs, richiedi funzioni ...</string>
   <string name="twitter_hint" formatted="false" username="antoniogallo@alice.de" orig="Follow me on twitter.\nGet update notifications etc.">Seguimi su Twitter.\nRicevi notifiche su aggiornamenti ecc.</string>
   <string name="author_" formatted="false" username="antoniogallo@alice.de" orig="Author:">Autore:</string>
-  <string name="author_connectors_" formatted="false" username="antoniogallo@alice.de" orig="Author of Connectors:">Sviluppatore dei Connectors:</string>
+  <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Sviluppatore dei Connector:</string>
   <string name="change_connector_" formatted="false" username="antoniogallo@alice.de" orig="Change provider">Cambia provider</string>
-  <string name="change_connector_nl" formatted="false" username="antoniogallo@alice.de" orig="Change\nprovider">Cambia provider</string>
-  <string name="click_for_update" formatted="false" username="antoniogallo@alice.de" orig="(update: click)">Aggiorna</string>
+  <string name="change_connector_nl" formatted="false" orig="Change\nprovider">Cambia\nprovider</string>
+  <string name="click_for_update" formatted="false" orig="(update: click)">(Aggiorna: click)</string>
   <string name="defprefix_" formatted="false" username="antoniogallo@alice.de" orig="Default int. prefix">Prefisso predefinito internazionale</string>
-  <string name="defprefix_hint" formatted="false" username="antoniogallo@alice.de" orig="e.g. +49">Es. +49</string>
+  <string name="defprefix_hint" formatted="false" orig="e.g. +49">Es. +39</string>
   <string name="more_apps_" formatted="false" username="antoniogallo@alice.de" orig="More Apps..">Altre App..</string>
-  <string name="more_connectors_" formatted="false" username="antoniogallo@alice.de" orig="More Connectors..">Altri Connectors..</string>
+  <string name="more_connectors_" formatted="false" orig="More Connectors..">Altri Connector..</string>
   <string name="more_connectors_hint" formatted="false" username="antoniogallo@alice.de" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Trova altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
   <string name="more_connectors__" formatted="false" username="antoniogallo@alice.de" orig="Even more Connectors..">Ancora altri Connetrors..</string>
   <string name="more_connectors__hint" formatted="false" username="antoniogallo@alice.de" orig="You are missing a connector for some service? View the FAQ to get it.">Ti serve un Connectors per qualche servizio? Leggi le FAG per trovarlo.</string>
@@ -44,10 +44,10 @@
   <string name="set_stdandard_connector_hint" formatted="false" username="antoniogallo@alice.de" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Imposta l\'attuale Connector come predefinito.</string>
   <string name="clear_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Clear standard Connector">Cancella Connector come predefinito</string>
   <string name="free_" formatted="false" username="antoniogallo@alice.de" orig="Balances:">Credito:</string>
-  <string name="license" formatted="false" username="antoniogallo@alice.de" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - guarda http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license" formatted="false" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - vedi http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false" username="antoniogallo@alice.de" orig="License:">Licenza:</string>
   <string name="log_wrong_defprefix" formatted="false" username="antoniogallo@alice.de" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Inserire un valido prefisso internazionale predefinito. ES. "+49".</string>
-  <string name="log_wrong_sender" formatted="false" username="antoniogallo@alice.de" orig="Wrong sender! Set it in international form like +4917012345678.">Mittente errato!Impostalo nel formato internazionale. ES. +4917012345678.</string>
+  <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678.">Mittente errato!Impostalo nel formato internazionale. ES. +393201234567.</string>
   <string name="log_noselectedconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nessun Connector selezionato.Sceglierne uno tramite "Cambia Provider".</string>
   <string name="log_noreadyconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector installed or ready. Please check preferences.">Connector non installato o non pronto. Controlla le impostazioni.</string>
   <string name="log_error_saving_message" formatted="false" username="antoniogallo@alice.de" orig="Error updating sent message in Database!">Errore durante l\'aggiornamento degli SMS inviati!</string>
