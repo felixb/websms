@@ -84,6 +84,8 @@
   <string name="hide_update_hint" formatted="false">Oculta \"Click para actualizar\" de la pantalla principal.</string>
   <string name="hide_bg_connector_" formatted="false">Ocultar el nombre del conector</string>
   <string name="hide_bg_connector_hint" formatted="false">Ocultar el nombre del conector actual en el  fondo.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Ocultar el botón "pegar"</string>
+  <string name="enable_autosend_" formatted="false" orig="Enable autosend">Habilitar envio automático</string>
   <string name="default_recipient_" formatted="false">Destinatario por defecto</string>
   <string name="default_recipient_hint" formatted="false">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>
   <string name="signature_" formatted="false">Firma</string>
@@ -116,4 +118,5 @@
   <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">SMS</string>
   <string name="enable_sms" formatted="false">Permitir SMS</string>
   <string name="enable_sms_hint" formatted="false">El Conector SMS enviará SMS normales (ej: a través de GSM).</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Pegar desde el portapapeles]</string>
 </resources>
