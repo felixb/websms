@@ -155,6 +155,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: try to send invalid characters. */
 	private static final String PREFS_TRY_SEND_INVALID = "try_send_invalid";
+	/** Preference's name: drop sent messages. */
+	static final String PREFS_DROP_SENT = "drop_sent";
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";

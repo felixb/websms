@@ -70,6 +70,8 @@
 			<CheckBoxPreference android:key="try_send_invalid"
 				android:title="@string/try_send_invalid_characters_"
 				android:summary="@string/try_send_invalid_characters_hint" />
+			<CheckBoxPreference android:key="drop_sent"
+				android:title="@string/drop_sent_" android:summary="@string/drop_sent_hint" />
 			<PreferenceCategory android:title="@string/autosend_">
 				<CheckBoxPreference android:key="enable_autosend"
 					android:title="@string/enable_autosend_" android:summary="@string/enable_autosend_hint"

@@ -265,6 +265,11 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
 		}
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				WebSMS.PREFS_DROP_SENT, false)) {
+			Log.i(TAG, "drop sent messages");
+			return;
+		}
 		final ContentResolver cr = context.getContentResolver();
 		final ContentValues values = new ContentValues();
 		values.put(TYPE, msgType);
