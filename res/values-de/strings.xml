@@ -89,6 +89,7 @@
   <string name="hide_bg_connector_" formatted="false">Connectornamen verstecken</string>
   <string name="hide_bg_connector_hint" formatted="false">Verstecke den Namen des aktiven Connectors im Hintergrund.</string>
   <string name="hide_paste_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide &quot;paste&quot; button">Verstecke "Einfügen" Button</string>
+  <string name="hide_paste_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide &quot;paste&quot; button on text field.">"Einfüge" Button ausblenden</string>
   <string name="enable_autosend_" formatted="false">Aktiviere Autosend</string>
   <string name="enable_autosend_hint" formatted="false">Aktiviere SMSdroid\'s Autosend Funktion.</string>
   <string name="use_selected_connector_" formatted="false">Ausgewählten Connector verwenden</string>
