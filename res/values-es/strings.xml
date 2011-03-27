@@ -85,6 +85,7 @@
   <string name="hide_bg_connector_" formatted="false">Ocultar el nombre del conector</string>
   <string name="hide_bg_connector_hint" formatted="false">Ocultar el nombre del conector actual en el  fondo.</string>
   <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Ocultar el botón "pegar"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Ocultar el botón "pegar" en campo de texto</string>
   <string name="enable_autosend_" formatted="false" orig="Enable autosend">Habilitar envio automático</string>
   <string name="default_recipient_" formatted="false">Destinatario por defecto</string>
   <string name="default_recipient_hint" formatted="false">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>
