@@ -21,4 +21,9 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=hu&file=notes.xml to edit the file.
        -->
 <resources>
+  <string-array name="notes_from_dev" username="Tamás Béres &lt;berestamas2@gmail.com&gt;">
+    <item>Akarod, hogy az SMSdroid kezelje a bejövő üzeneteidet?</item>
+    <item>Dec. 2010 Piszkozatok: A piszkozatod az android belső üzenet tárába vannak mentve. Az SMSdroiddal vagy az alap androidos üzenetkezelővel is elküldheted azokat később.</item>
+    <item notranslation="true"></item>
+  </string-array>
 </resources>

@@ -90,6 +90,8 @@
   <string name="hide_bg_connector_hint" formatted="false">Aktív kiegészítő nevének elrejtése a háttérben.</string>
   <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Elrejtés "beillesztés" gomb</string>
   <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Beillesztés gomb elrejtése</string>
+  <string name="drop_sent_" formatted="false" orig="Don\'t save sent SMS">Elküldöttet ne mentse</string>
+  <string name="drop_sent_hint" formatted="false" orig="Don\'t save sent messages in global database.">Elküldött leveleket ne mentse el az adattárba</string>
   <string name="enable_autosend_" formatted="false">Automata küldés</string>
   <string name="enable_autosend_hint" formatted="false">SMSdroid automata küldés bekapcsolása.</string>
   <string name="use_selected_connector_" formatted="false">Kiválasztott kapcsoló használata</string>
