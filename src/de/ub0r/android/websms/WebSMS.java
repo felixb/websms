@@ -1116,7 +1116,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
-			me.findViewById(R.id.progess).setVisibility(View.GONE);
+			me.findViewById(R.id.progress).setVisibility(View.GONE);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
@@ -1880,9 +1880,9 @@ public class WebSMS extends Activity implements OnClickListener,
 					length != 0;
 				}
 				if (runningConnectors) {
-					me.findViewById(R.id.progess).setVisibility(View.VISIBLE);
+					me.findViewById(R.id.progress).setVisibility(View.VISIBLE);
 				} else {
-					me.findViewById(R.id.progess).setVisibility(View.GONE);
+					me.findViewById(R.id.progress).setVisibility(View.GONE);
 				}
 				if (prefsConnectorSpec != null && // .
 						prefsConnectorSpec.equals(c)) {
