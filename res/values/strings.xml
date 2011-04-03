@@ -128,6 +128,7 @@
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 	<string name="paste_">[ Paste from clipboard ]</string>
+	<string name="restore_">Restore last message</string>
 	<string name="theme_">Theme</string>
 	<string-array name="themes">
 		<item>Black</item>

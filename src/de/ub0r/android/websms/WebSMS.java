@@ -159,6 +159,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_TRY_SEND_INVALID = "try_send_invalid";
 	/** Preference's name: drop sent messages. */
 	static final String PREFS_DROP_SENT = "drop_sent";
+	/** Preference's name: backup of last sms. */
+	private static final String PREFS_BACKUPLASTTEXT = "backup_last_sms";
 
 	/** Preference's name: default recipient. */
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
@@ -203,6 +205,9 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
+
+	/** Menu item: restore. */
+	private static final int ITEM_RESTORE = 1;
 
 	/** Dialog: custom sender. */
 	private static final int DIALOG_CUSTOMSENDER = 3;
@@ -1039,21 +1044,34 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/**
 	 * Resets persistent store.
+	 * 
+	 * @param backupText
+	 *            backup text to {@link SharedPreferences}
 	 */
-	private void reset() {
+	private void reset(final boolean backupText) {
+		lastMsg = this.etText.getText().toString();
+
+		// save user preferences
+		final SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
+		if (backupText) {
+			if (!TextUtils.isEmpty(lastMsg)) {
+				editor.putString(PREFS_BACKUPLASTTEXT, lastMsg);
+			}
+		} else {
+			editor.remove(PREFS_BACKUPLASTTEXT);
+		}
+		editor.putString(PREFS_TO, "");
+		editor.putString(PREFS_TEXT, "");
+		// commit changes
+		editor.commit();
+
 		this.etText.setText("");
 		this.etTo.setText("");
 		lastMsg = null;
 		lastTo = null;
 		lastCustomSender = null;
 		lastSendLater = -1;
-		// save user preferences
-		final SharedPreferences.Editor editor = PreferenceManager
-				.getDefaultSharedPreferences(this).edit();
-		editor.putString(PREFS_TO, "");
-		editor.putString(PREFS_TEXT, "");
-		// commit changes
-		editor.commit();
 	}
 
 	/** Save prefs. */
@@ -1167,7 +1185,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.reloadPrefs();
 			return;
 		case R.id.cancel:
-			this.reset();
+			this.reset(true);
 			this.reloadPrefs();
 			return;
 		case R.id.select:
@@ -1401,7 +1419,25 @@ public class WebSMS extends Activity implements OnClickListener,
 	 *{@inheritDoc}
 	 */
 	@Override
+	public final boolean onPrepareOptionsMenu(final Menu menu) {
+		final boolean showRestore = !TextUtils.isEmpty(PreferenceManager
+				.getDefaultSharedPreferences(this).getString(
+						PREFS_BACKUPLASTTEXT, null));
+		menu.removeItem(ITEM_RESTORE);
+		if (showRestore) {
+			menu.add(0, ITEM_RESTORE, Menu.NONE, R.string.restore_);
+			menu.findItem(ITEM_RESTORE).setIcon(
+					android.R.drawable.ic_menu_revert);
+		}
+		return true;
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
+		Log.d(TAG, "onOptionsItemSelected(" + item.getItemId() + ")");
 		switch (item.getItemId()) {
 		case R.id.item_send:
 			// send by menu item
@@ -1421,6 +1457,15 @@ public class WebSMS extends Activity implements OnClickListener,
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
+			return true;
+		case ITEM_RESTORE:
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			final String s = p.getString(PREFS_BACKUPLASTTEXT, null);
+			if (!TextUtils.isEmpty(s)) {
+				this.etText.setText(s);
+			}
+			p.edit().remove(PREFS_BACKUPLASTTEXT).commit();
 			return true;
 		default:
 			return false;
@@ -1608,7 +1653,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				null, tos, text, false);
 		WebSMSReceiver.saveMessage(null, this, command,
 				WebSMSReceiver.MESSAGE_TYPE_DRAFT);
-		this.reset();
+		this.reset(false);
 	}
 
 	/**
@@ -1714,7 +1759,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 		}
 		if (sent) {
-			this.reset();
+			this.reset(false);
 			if (p.getBoolean(PREFS_AUTOEXIT, false)) {
 				try {
 					Thread.sleep(SLEEP_BEFORE_EXIT);
