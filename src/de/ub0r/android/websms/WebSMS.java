@@ -143,6 +143,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_SEND_BUTTON = "hide_send_button";
 	/** Preference's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
+	/** Preference's name: hide extras button. */
+	private static final String PREFS_HIDE_EXTRAS_BUTTON = "hide_extras_button";
 	/** Preference's name: hide update text. */
 	private static final String PREFS_HIDE_UPDATE = "hide_update";
 	/** Preference's name: hide bg connector. */
@@ -332,6 +334,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				final int before, final int count) {
 		}
 	};
+
+	/** Show extra button. */
+	private static boolean bShowExtras = true;
 
 	/**
 	 * Parse data pushed by {@link Intent}.
@@ -860,6 +865,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		final boolean bShowSend = !p.getBoolean(PREFS_HIDE_SEND_BUTTON, false);
 		final boolean bShowCancel = !p.getBoolean(PREFS_HIDE_CANCEL_BUTTON,
 				false);
+		bShowExtras = !p.getBoolean(PREFS_HIDE_EXTRAS_BUTTON, false);
 		final boolean bShowClearRecipients = !p.getBoolean(
 				PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON, false);
 		final boolean bShowSelectRecipients = !p.getBoolean(
@@ -883,7 +889,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			v.setVisibility(View.GONE);
 		}
 
-		if (bShowSend || bShowChangeConnector || bShowCancel) {
+		if (bShowSend || bShowChangeConnector || bShowCancel || bShowExtras) {
 			v = this.findViewById(R.id.send_);
 			if (bShowSend) {
 				v.setVisibility(View.VISIBLE);
@@ -902,9 +908,16 @@ public class WebSMS extends Activity implements OnClickListener,
 			} else {
 				v.setVisibility(View.GONE);
 			}
+			if (!bShowExtras) {
+				this.vExtras.setVisibility(View.GONE);
+			}
 			this.findViewById(R.id.buttonbar).setVisibility(View.VISIBLE);
 		} else {
 			this.findViewById(R.id.buttonbar).setVisibility(View.GONE);
+			this.findViewById(R.id.send_).setVisibility(View.GONE);
+			this.findViewById(R.id.change_connector).setVisibility(View.GONE);
+			this.findViewById(R.id.cancel).setVisibility(View.GONE);
+			this.vExtras.setVisibility(View.GONE);
 		}
 		v = this.findViewById(R.id.text_connector);
 		if (p.getBoolean(PREFS_HIDE_BG_CONNECTOR, false)) {
@@ -971,7 +984,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.hasFeatures(SubConnectorSpec.FEATURE_CUSTOMSENDER);
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
-			if (sFlashsms || sCustomsender || sSendLater) {
+			if (bShowExtras && (sFlashsms || sCustomsender || sSendLater)) {
 				this.vExtras.setVisibility(View.VISIBLE);
 				this.findViewById(R.id.buttonbar).setVisibility(View.VISIBLE);
 			} else {

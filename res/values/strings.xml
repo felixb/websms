@@ -72,6 +72,8 @@
 	<string name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+	<string name="hide_extras_button_">Hide \"Extras\" button</string>
+	<string name="hide_extras_button_hint">Hide \"Extras\" button on main screen.</string>
 	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
 	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
