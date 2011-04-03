@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: allow to not save sent messages, hide extras button, fix hide send/cancel button</item>
+		<item>HEAD: allow to not save sent messages, hide extras button, fix hide send/cancel button, handle status report in sms connector</item>
 		<item>v3.6: trim text before sending, clear only last recipient with button (long press for all), hide paste button, fix some minor issues</item>
 		<item>v3.5.3: mod layout, update translations</item>
 		<item>v3.5.2: fix for android 1.5</item>
