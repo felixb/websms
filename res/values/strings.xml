@@ -49,6 +49,7 @@
 	<string name="log_error_saving_message">Error updating sent message in Database!</string>
 	<string name="log_error_char_nonvalid">Connector does not provide valid characters</string>
 	<string name="log_error_char_notsendable">This message contains not sendable characters</string>
+	<string name="log_error_sms">Could not send SMS: ErrorCode=</string>
 	<string name="try_send_invalid_characters_">Try send invalid</string>
 	<string name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
@@ -72,6 +73,8 @@
 	<string name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+	<string name="hide_extras_button_">Hide \"Extras\" button</string>
+	<string name="hide_extras_button_hint">Hide \"Extras\" button on main screen.</string>
 	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
 	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
@@ -125,6 +128,7 @@
 	<string name="enable_sms">Enable SMS</string>
 	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 	<string name="paste_">[ Paste from clipboard ]</string>
+	<string name="restore_">Restore last message</string>
 	<string name="theme_">Theme</string>
 	<string-array name="themes">
 		<item>Black</item>
