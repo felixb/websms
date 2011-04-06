@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.6</string>
+	<string name="app_version">3.6.1</string>
 	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
 	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="source">http://github.com/felixb/websms</string>
