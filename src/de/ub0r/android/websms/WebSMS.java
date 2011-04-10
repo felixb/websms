@@ -30,6 +30,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,6 +78,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.google.ads.AdRequest.ErrorCode;
+
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
@@ -99,6 +107,28 @@ public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
+
+	/** Ad's keywords. */
+	public static final HashSet<String> AD_KEYWORDS = new HashSet<String>();
+	static {
+		AD_KEYWORDS.add("android");
+		AD_KEYWORDS.add("mobile");
+		AD_KEYWORDS.add("handy");
+		AD_KEYWORDS.add("cellphone");
+		AD_KEYWORDS.add("google");
+		AD_KEYWORDS.add("htc");
+		AD_KEYWORDS.add("samsung");
+		AD_KEYWORDS.add("motorola");
+		AD_KEYWORDS.add("market");
+		AD_KEYWORDS.add("app");
+		AD_KEYWORDS.add("message");
+		AD_KEYWORDS.add("txt");
+		AD_KEYWORDS.add("sms");
+		AD_KEYWORDS.add("mms");
+		AD_KEYWORDS.add("game");
+		AD_KEYWORDS.add("websms");
+		AD_KEYWORDS.add("amazon");
+	}
 
 	/** {@link TelephonyWrapper}. */
 	private static final TelephonyWrapper TWRAPPER = TelephonyWrapper
@@ -973,7 +1003,9 @@ public class WebSMS extends Activity implements OnClickListener,
 				false));
 
 		prefsNoAds = DonationHelper.hideAds(this);
-		this.displayAds();
+		if (!prefsNoAds) {
+			this.loadAd();
+		}
 		this.setButtons();
 	}
 
@@ -2047,5 +2079,41 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return ret.toArray(new ConnectorSpec[0]);
 		}
+	}
+
+	/** Load ads. */
+	private void loadAd() {
+		final AdView adv = (AdView) this.findViewById(R.id.ad);
+		final AdRequest ar = new AdRequest();
+		ar.setKeywords(AD_KEYWORDS);
+
+		adv.loadAd(ar);
+		adv.setAdListener(new AdListener() {
+			@Override
+			public void onReceiveAd(final Ad ad) {
+				Log.d(TAG, "got ad: " + ad.toString());
+				adv.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onPresentScreen(final Ad ad) {
+				// nothing todo
+			}
+
+			@Override
+			public void onLeaveApplication(final Ad ad) {
+				// nothing todo
+			}
+
+			@Override
+			public void onFailedToReceiveAd(final Ad ad, final ErrorCode err) {
+				Log.i(TAG, "failed to load ad: " + err);
+			}
+
+			@Override
+			public void onDismissScreen(final Ad arg0) {
+				// nothing todo
+			}
+		});
 	}
 }
