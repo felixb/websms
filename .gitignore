@@ -6,7 +6,6 @@ wiki
 build.properties
 doc
 *.zip
-*.jar
 *.swp
 *~
 uml/*.png
