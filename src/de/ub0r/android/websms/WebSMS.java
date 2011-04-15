@@ -685,26 +685,31 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (u == null) {
 					return;
 				}
-				final String phone = ContactsWrapper.getInstance()
-						.getNameAndNumber(this.getContentResolver(), u)
-						+ ", ";
-				String t = this.etTo.getText().toString().trim();
-				if (t.length() == 0) {
-					if (TextUtils.isEmpty(lastTo)) {
-						lastTo = PreferenceManager.getDefaultSharedPreferences(
-								this).getString(PREFS_TO, "");
+				try {
+					final String phone = ContactsWrapper.getInstance()
+							.getNameAndNumber(this.getContentResolver(), u)
+							+ ", ";
+					String t = this.etTo.getText().toString().trim();
+					if (t.length() == 0) {
+						if (TextUtils.isEmpty(lastTo)) {
+							lastTo = PreferenceManager
+									.getDefaultSharedPreferences(this)
+									.getString(PREFS_TO, "");
+						}
+						t = lastTo.trim();
 					}
-					t = lastTo.trim();
+					if (t.length() == 0) {
+						t = phone;
+					} else if (t.endsWith(",")) {
+						t += " " + phone;
+					} else {
+						t += ", " + phone;
+					}
+					lastTo = t;
+					this.etTo.setText(t);
+				} catch (IllegalStateException e) {
+					Log.e(TAG, "failed resolving name and number", e);
 				}
-				if (t.length() == 0) {
-					t = phone;
-				} else if (t.endsWith(",")) {
-					t += " " + phone;
-				} else {
-					t += ", " + phone;
-				}
-				lastTo = t;
-				this.etTo.setText(t);
 			}
 		}
 	}
