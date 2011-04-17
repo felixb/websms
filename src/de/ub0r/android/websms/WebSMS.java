@@ -78,13 +78,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
-
-import com.google.ads.Ad;
-import com.google.ads.AdListener;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-import com.google.ads.AdRequest.ErrorCode;
-
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
@@ -107,6 +100,9 @@ public class WebSMS extends Activity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
+
+	/** Ad's unit id. */
+	private static final String AD_UNITID = "a14c74c342a3f76";
 
 	/** Ad's keywords. */
 	public static final HashSet<String> AD_KEYWORDS = new HashSet<String>();
@@ -685,26 +681,31 @@ public class WebSMS extends Activity implements OnClickListener,
 				if (u == null) {
 					return;
 				}
-				final String phone = ContactsWrapper.getInstance()
-						.getNameAndNumber(this.getContentResolver(), u)
-						+ ", ";
-				String t = this.etTo.getText().toString().trim();
-				if (t.length() == 0) {
-					if (TextUtils.isEmpty(lastTo)) {
-						lastTo = PreferenceManager.getDefaultSharedPreferences(
-								this).getString(PREFS_TO, "");
+				try {
+					final String phone = ContactsWrapper.getInstance()
+							.getNameAndNumber(this.getContentResolver(), u)
+							+ ", ";
+					String t = this.etTo.getText().toString().trim();
+					if (t.length() == 0) {
+						if (TextUtils.isEmpty(lastTo)) {
+							lastTo = PreferenceManager
+									.getDefaultSharedPreferences(this)
+									.getString(PREFS_TO, "");
+						}
+						t = lastTo.trim();
 					}
-					t = lastTo.trim();
+					if (t.length() == 0) {
+						t = phone;
+					} else if (t.endsWith(",")) {
+						t += " " + phone;
+					} else {
+						t += ", " + phone;
+					}
+					lastTo = t;
+					this.etTo.setText(t);
+				} catch (IllegalStateException e) {
+					Log.e(TAG, "failed resolving name and number", e);
 				}
-				if (t.length() == 0) {
-					t = phone;
-				} else if (t.endsWith(",")) {
-					t += " " + phone;
-				} else {
-					t += ", " + phone;
-				}
-				lastTo = t;
-				this.etTo.setText(t);
 			}
 		}
 	}
@@ -1004,7 +1005,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		prefsNoAds = DonationHelper.hideAds(this);
 		if (!prefsNoAds) {
-			this.loadAd();
+			Ads.loadAd(this, R.id.ad, AD_UNITID, AD_KEYWORDS);
 		}
 		this.setButtons();
 	}
@@ -2079,41 +2080,5 @@ public class WebSMS extends Activity implements OnClickListener,
 			}
 			return ret.toArray(new ConnectorSpec[0]);
 		}
-	}
-
-	/** Load ads. */
-	private void loadAd() {
-		final AdView adv = (AdView) this.findViewById(R.id.ad);
-		final AdRequest ar = new AdRequest();
-		ar.setKeywords(AD_KEYWORDS);
-
-		adv.loadAd(ar);
-		adv.setAdListener(new AdListener() {
-			@Override
-			public void onReceiveAd(final Ad ad) {
-				Log.d(TAG, "got ad: " + ad.toString());
-				adv.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onPresentScreen(final Ad ad) {
-				// nothing todo
-			}
-
-			@Override
-			public void onLeaveApplication(final Ad ad) {
-				// nothing todo
-			}
-
-			@Override
-			public void onFailedToReceiveAd(final Ad ad, final ErrorCode err) {
-				Log.i(TAG, "failed to load ad: " + err);
-			}
-
-			@Override
-			public void onDismissScreen(final Ad arg0) {
-				// nothing todo
-			}
-		});
 	}
 }

@@ -39,17 +39,15 @@
 			android:text="@string/free_" android:textColor="#FFFFFFFF"
 			android:singleLine="false" />
 	</RelativeLayout>
-	<ScrollView xmlns:ads="http://schemas.android.com/apk/res/de.ub0r.android.websms"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_weight="1" android:fillViewport="true"
-		android:background="?android:attr/colorBackground">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:fillViewport="true" android:background="?android:attr/colorBackground">
 		<LinearLayout android:orientation="vertical"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<com.google.ads.AdView android:id="@+id/ad"
+			<LinearLayout android:id="@+id/ad"
 				android:layout_alignParentBottom="true" android:visibility="gone"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:gravity="bottom" android:cacheColorHint="?android:attr/colorBackground"
-				ads:adSize="BANNER" ads:adUnitId="a14c74c342a3f76" />
+				android:gravity="center_horizontal" />
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="wrap_content">
 				<RelativeLayout android:layout_width="0dip"
