@@ -22,12 +22,12 @@
        -->
 <resources>
   <string name="about_" formatted="false">О программе</string>
-  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет Вам отправлять бесплатные или дешёвые СМС через интернет. Поддерживаются многие провайдеры через Коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
+  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет отправлять бесплатные или дешёвые СМС через интернет. Поддерживаются многие провайдеры через Коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
   <string name="about_hint" formatted="false">Описание программы</string>
   <string name="faq_hint" formatted="false">Советы и подсказки по настройке программы.</string>
   <string name="feedback_" formatted="false">Отзывы</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Сообщите о найденной ошибке, отправьте запрос на расширение функционала...</string>
-  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc.">Следите за WebSMS на Twitter.</string>
+  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc.">Следите за WebSMS в Twitter и узнавайте об обновлениях</string>
   <string name="author_" formatted="false">Автор:</string>
   <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Автор Коннектора:</string>
   <string name="change_connector_" formatted="false">Сменить провайдера</string>
@@ -48,9 +48,9 @@
   <string name="license_" formatted="false">Лицензия:</string>
   <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Пожалуйста, введите правильный код страны. Например: +7</string>
   <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678.">Неверный номер отправителя! Введите в международном формате напр.: +79161234567</string>
-  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не выбран Коннектор. Выберете в "Сменить провайдера".</string>
+  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не выбран Коннектор. Выберете в "Сменить провайдера.</string>
   <string name="log_noreadyconnector" formatted="false" orig="No Connector installed or ready. Please check preferences.">Коннектор не установлен или не настроен. Проверьте настройки.</string>
-  <string name="log_error_saving_message" formatted="false">Ошибка сохранения отправленного СМС в базе!</string>
+  <string name="log_error_saving_message" formatted="false" orig="Error updating sent message in Database!">Ошибка сохранения отправленного СМС в базе данных!</string>
   <string name="log_error_char_nonvalid" formatted="false" orig="Connector does not provide valid characters">Коннектор не предоставляет допустимые символы</string>
   <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Данное сообщение содержит недопустимые символы</string>
   <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">Невозможно отправить СМС: ErrorCode=</string>
@@ -68,70 +68,70 @@
   <string name="behavior_" formatted="false" orig="Behavior">Поведение</string>
   <string name="appearance_and_behavior_" formatted="false" orig="Appearance &amp;amp; behavior">Внешний вид и поведение</string>
   <string name="autosend_" formatted="false" orig="Autosend">Автоотправка</string>
-  <string name="show_titlebar_" formatted="false" orig="Show title bar">Показывать статусбар</string>
-  <string name="show_titlebar_hint" formatted="false" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показывать фоновые процессы в статусбаре. Без этого фоновые процессы не видны.</string>
+  <string name="show_titlebar_" formatted="false" orig="Show title bar">Показывать уведомления</string>
+  <string name="show_titlebar_hint" formatted="false" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показывать уведомления в статусбаре. Без этого фоновые процессы не будут видны</string>
   <string name="settings_connectors" formatted="false" orig="Preferences - Connectors">Настройки коннекторов</string>
   <string name="hide_change_connector_button" formatted="false" orig="Hide \&quot;Chg. provider\&quot; button">Скрыть "Сменить провайдера"</string>
-  <string name="hide_change_connector_button_hint" formatted="false" orig="Hide \&quot;Change provider\&quot; button on main screen.">Не показывать кнопку "Сменить провайдера" в главном окне</string>
+  <string name="hide_change_connector_button_hint" formatted="false" orig="Hide \&quot;Change provider\&quot; button on main screen.">Не показывать кнопку "Сменить провайдера"</string>
   <string name="hide_send_button" formatted="false" orig="Hide \&quot;Send\&quot; button">Скрыть "Отправить"</string>
-  <string name="hide_send_button_hint" formatted="false" orig="Hide \&quot;Send\&quot; button in main screen.">Не показывать кнопку "Отправить" в главном окне</string>
-  <string name="hide_cancel_button" formatted="false" orig="Hide \&quot;Cancel\&quot; button">Скрыть "Сброс"</string>
-  <string name="hide_cancel_button_hint" formatted="false" orig="Hide \&quot;Cancel\&quot; button on main screen.">Не показывать кнопку "Сброс" в главном окне</string>
+  <string name="hide_send_button_hint" formatted="false" orig="Hide \&quot;Send\&quot; button in main screen.">Не показывать кнопку "Отправить" </string>
+  <string name="hide_cancel_button" formatted="false" orig="Hide \&quot;Cancel\&quot; button">Скрыть "Отмена"</string>
+  <string name="hide_cancel_button_hint" formatted="false" orig="Hide \&quot;Cancel\&quot; button on main screen.">Не показывать кнопку "Отмена"</string>
   <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">Скрыть "Опции"</string>
-  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Не показывать кнопку "Опции" в главном окне</string>
-  <string name="hide_select_recipients_button_" formatted="false" orig="Hide \&quot;Select\&quot; button">Скрыть "Выбор получателя"</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Не показывать кнопку "Выбор получателя" в главном окне</string>
-  <string name="hide_clear_recipients_button_" formatted="false" orig="Hide \&quot;Clear\&quot; button">Скрыть "Очистить получателя" </string>
-  <string name="hide_clear_recipients_button_hint" formatted="false" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Не показывать кнопку "Очистить получателя" в главном окне</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Не показывать кнопку "Опции"</string>
+  <string name="hide_select_recipients_button_" formatted="false" orig="Hide \&quot;Select\&quot; button">Скрыть "Получатель"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Не показывать кнопку "Получатель" в поле Кому:</string>
+  <string name="hide_clear_recipients_button_" formatted="false" orig="Hide \&quot;Clear\&quot; button">Скрыть "Очистить" </string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Не показывать кнопку "Очистить" в поле "Кому:"</string>
   <string name="hide_send_in_menu" formatted="false" orig="Hide \&quot;Send\&quot; menu item">Скрыть пункт "Отправить"</string>
   <string name="hide_send_in_menu_hint" formatted="false" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Не показывать "Отправить" в главном меню. Необходим перезапуск.</string>
-  <string name="hide_emo_button" formatted="false" orig="Hide \&quot;Emoticons\&quot; button">Скрыть "Эмоции"</string>
-  <string name="hide_emo_button_hint" formatted="false" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Не показывать кнопку "Эмоции" в главном окне</string>
-  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Скрыть "Обновить"</string>
-  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Не показывать "Обновить" в главном окне</string>
+  <string name="hide_emo_button" formatted="false" orig="Hide \&quot;Emoticons\&quot; button">Скрыть "Смайлики"</string>
+  <string name="hide_emo_button_hint" formatted="false" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Не показывать кнопку "Смайлики" в главном окне</string>
+  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Скрыть "обновить: нажмите"</string>
+  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Не показывать "обновить: нажмите" в заголовке</string>
   <string name="hide_bg_connector_" formatted="false" orig="Hide connector name">Скрыть название Коннектора</string>
   <string name="hide_bg_connector_hint" formatted="false" orig="Hide active connector\'s name in background.">Не показывает название активного Коннектора на фоне</string>
-  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Скрыть "Вставить"</string>
-  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Не показывать кнопку "Вставить" при печатании текста</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Скрыть "Вставить из буфера"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Не показывать кнопку "Вставить из буфера" в поле "Введите текст"</string>
   <string name="drop_sent_" formatted="false" orig="Don\'t save sent SMS">Не сохранять отправленные СМС</string>
   <string name="drop_sent_hint" formatted="false" orig="Don\'t save sent messages in global database.">Не сохранять отправленные СМС в общей базе</string>
-  <string name="enable_autosend_" formatted="false" orig="Enable autosend">Включить автоотправку</string>
-  <string name="enable_autosend_hint" formatted="false" orig="Enable SMSdroid\'s autosend feature.">Включить автоотправку в SMSdroid</string>
+  <string name="enable_autosend_" formatted="false" orig="Enable autosend">Автоотправка</string>
+  <string name="enable_autosend_hint" formatted="false" orig="Enable SMSdroid\'s autosend feature.">Включить функцию автоотправки SMSdroid</string>
   <string name="use_selected_connector_" formatted="false" orig="Use selected Connector">Использовать выбранный Коннектор</string>
-  <string name="use_selected_connector_hint" formatted="false" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Использовать текущий Коннектор для автоотправки. Не показывать меню выбора при отправки </string>
+  <string name="use_selected_connector_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Использовать текущий Коннектор для автоотправки. Не будет показываться меню выбора СМС приложений</string>
   <string name="default_recipient_" formatted="false">Получатель по умолчанию</string>
   <string name="default_recipient_hint" formatted="false" orig="Default recipient filled into address bar on app start.">Вписывается автоматически в поле получателя при старте программы</string>
   <string name="signature_" formatted="false">Подпись</string>
-  <string name="signature_hint" formatted="false">Текст, прикрепляемый к каждому сообщению. Пробел не добавляется. Используйте \" \" если необходимо.</string>
+  <string name="signature_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Текст в конце каждого сообщения. Пробел не добавляется. Используйте " " если необходимо.</string>
   <string name="autoupdate_" formatted="false">Автообновление</string>
   <string name="autoupdate_hint" formatted="false" orig="Update account balances on start.">Обновляет баланс при старте</string>
   <string name="autoexit_" formatted="false">Автовыход</string>
-  <string name="autoexit_hint" formatted="false" orig="Exit WebSMS when sending sms.">Автовыход из программы после отправки СМС</string>
-  <string name="mobile_only_" formatted="false">Показывать только мобильные</string>
-  <string name="mobile_only_hint" formatted="false">Показывать только мобильные номера.</string>
+  <string name="autoexit_hint" formatted="false" orig="Exit WebSMS when sending sms.">Автоматическое закрытие программы после отправки СМС</string>
+  <string name="mobile_only_" formatted="false" orig="Show mobiles only">Только мобильные</string>
+  <string name="mobile_only_hint" formatted="false" orig="Show mobile numbers only.">Показывать номера только мобильных телефонов</string>
   <string name="vibrate_on_fail" formatted="false" orig="Vibrate if sending fails">Вибрировать при ошибке</string>
   <string name="vibrate_on_send" formatted="false" orig="Vibrate after sending">Вибрировать после отправки</string>
   <string name="sound_on_fail" formatted="false" orig="Play sound if sending fails">Звуковой сигнал при ошибке</string>
-  <string name="source_" formatted="false" orig="Sourcescode:">Исходный код:</string>
+  <string name="source_" formatted="false" orig="Sourcescode:">Исходный код программы:</string>
   <string name="website_" formatted="false">Сайт:</string>
-  <string name="to_hint" formatted="false">Имя или номер</string>
-  <string name="text_hint" formatted="false">Текст</string>
+  <string name="to_hint" formatted="false" orig="Name or Number">Кому:</string>
+  <string name="text_hint" formatted="false" orig="Text">Введите текст</string>
   <string name="extras_" formatted="false" orig="Extras">Опции</string>
   <string name="flashsms" formatted="false">Flash SMS</string>
   <string name="custom_sender" formatted="false">Задать отправителя</string>
   <string name="send_later" formatted="false">Отправить позже</string>
-  <string name="emo_" formatted="false" orig="Emoticons">Иконки эмоций</string>
+  <string name="emo_" formatted="false" orig="Emoticons">Смайлики</string>
   <string name="connectors_switch" formatted="false" orig="Switched connector:">Включённый Коннектор:</string>
   <string name="captcha_" formatted="false" orig="Captcha">Защита от спама</string>
   <string name="captcha_solve_it" formatted="false">Введите текст с картинки:</string>
   <string name="status_disabled" formatted="false">Статус: отключён\n(Обновляется при переходе в главное окно)</string>
   <string name="status_enabled" formatted="false">Статус: включён\n(Обновляется при переходе в главное окно)</string>
   <string name="status_ready" formatted="false" orig="Status: ready\n(Updated when returning to main screen)">Статус: готов\n(Обновляется при переходе в главное окно)</string>
-  <string name="connector_vanished" formatted="false">Connector исчез!</string>
+  <string name="connector_vanished" formatted="false" orig="Connector vanished!">Коннектор исчез!</string>
   <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">СМС</string>
   <string name="enable_sms" formatted="false" orig="Enable SMS">СМС через GSM</string>
   <string name="enable_sms_hint" formatted="false" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Коннектор будет отправлять СМС через GSM (не только через интернет)</string>
-  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Скопировать из буфера ]</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[Вставить из буфера]</string>
   <string name="restore_" formatted="false" orig="Restore last message">Восстановить последнее сообщение</string>
   <string name="theme_" formatted="false" orig="Theme">Тема</string>
   <string-array name="themes">
