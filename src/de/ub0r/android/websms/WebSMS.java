@@ -132,7 +132,7 @@ public class WebSMS extends Activity implements OnClickListener,
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
-	/** Preference's name: user's phonenumber. */
+	/** Preference's name: user's phone number. */
 	static final String PREFS_SENDER = "sender";
 	/** Preference's name: default prefix. */
 	static final String PREFS_DEFPREFIX = "defprefix";
@@ -177,7 +177,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
 	/** Prefernece's name: hide paste button. */
 	private static final String PREFS_HIDE_PASTE = "hide_paste";
-	/** Preference's name: show titlebar. */
+	/** Preference's name: show title bar. */
 	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
@@ -505,7 +505,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			s = s.substring(0, s.length() - 1).trim();
 		}
 		if (s.indexOf('<') < 0) {
-			// try to fetch recipient's name from phonebook
+			// try to fetch recipient's name from phone book
 			String n = ContactsWrapper.getInstance().getNameForNumber(
 					this.getContentResolver(), s);
 			if (n != null) {
@@ -1180,7 +1180,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
-			me.findViewById(R.id.progress).setVisibility(View.GONE);
+			me.findViewById(R.id.progress).setVisibility(View.VISIBLE);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
