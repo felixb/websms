@@ -66,6 +66,7 @@ public final class Ads {
 	 */
 	public static void loadAd(final Activity activity, final int adBase,
 			final String unitId, final Set<String> keywords) {
+		Log.d(TAG, "loadAd(" + unitId + ")");
 		final LinearLayout adframe = (LinearLayout) activity
 				.findViewById(adBase);
 		if (adframe == null) {
@@ -96,7 +97,6 @@ public final class Ads {
 			ar.setKeywords(keywords);
 		}
 
-		adv.loadAd(ar);
 		adv.setAdListener(new AdListener() {
 			@Override
 			public void onReceiveAd(final Ad ad) {
@@ -124,5 +124,8 @@ public final class Ads {
 				// nothing todo
 			}
 		});
+		Log.d(TAG, "send request");
+		adv.loadAd(ar);
+		Log.d(TAG, "loadAd() end");
 	}
 }
