@@ -101,6 +101,12 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Tag for output. */
 	public static final String TAG = "main";
 
+	/** Threshold for ad requests filled by the active connector. */
+	private static final double AD_THRESHOLD_CONNECTOR = 0.5;
+
+	/** Current unitid. */
+	private String unitId = null;
+
 	/** Ad's unit id. */
 	private static final String AD_UNITID = "a14c74c342a3f76";
 
@@ -1004,9 +1010,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				false));
 
 		prefsNoAds = DonationHelper.hideAds(this);
-		if (!prefsNoAds) {
-			Ads.loadAd(this, R.id.ad, AD_UNITID, AD_KEYWORDS);
-		}
+		this.displayAds();
 		this.setButtons();
 	}
 
@@ -1665,7 +1669,23 @@ public class WebSMS extends Activity implements OnClickListener,
 			// do not display any ads for donators
 			return;
 		}
-		this.findViewById(R.id.ad).setVisibility(View.VISIBLE);
+
+		if (!prefsNoAds) {
+			if (this.unitId == null) {
+				this.unitId = AD_UNITID;
+				if (Math.random() > AD_THRESHOLD_CONNECTOR) {
+					// half of the requests are filled by the active connector
+					if (prefsConnectorSpec != null) {
+						final String s = prefsConnectorSpec.getAdUnitId();
+						Log.d(TAG, "load connectors ads: " + s);
+						if (s != null) {
+							this.unitId = s;
+						}
+					}
+				}
+			}
+			Ads.loadAd(this, R.id.ad, this.unitId, AD_KEYWORDS);
+		}
 	}
 
 	/**
