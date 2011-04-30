@@ -160,11 +160,6 @@ public class ConnectorSMS extends Connector {
 			ConnectorSMS.this.sendInfo(context, specs, command);
 		} else if (ACTION_CONNECTOR_UPDATE.equals(action)) {
 			this.sendInfo(context, null, null);
-			try {
-				this.setResultCode(Activity.RESULT_OK);
-			} catch (Exception e) {
-				Log.w(TAG, "not an ordered boradcast: " + e.toString());
-			}
 		} else if (action.endsWith(ACTION_RUN_SEND)) {
 			final ConnectorCommand command = new ConnectorCommand(intent);
 			if (command.getType() == ConnectorCommand.TYPE_SEND) {
