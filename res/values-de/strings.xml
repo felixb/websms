@@ -71,6 +71,8 @@
   <string name="show_titlebar_" formatted="false">Titelleiste anzeigen</string>
   <string name="show_titlebar_hint" formatted="false">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
   <string name="settings_connectors" formatted="false">Einstellungen - Connectoren</string>
+	<string name="alternative_layout_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Alternatives Layout</string>
+	<string name="alternative_layout_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Verschiebe die Senden Leiste nach oben. Braucht Neustart.</string>
   <string name="hide_change_connector_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider" Button ausblenden</string>
   <string name="hide_change_connector_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider" Button auf dem Main Screen ausblenden.</string>
   <string name="hide_send_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; button">"Senden" Button ausblenden</string>

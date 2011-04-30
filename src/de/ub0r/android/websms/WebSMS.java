@@ -158,6 +158,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
 	/** Preference's name: sound on failed sending. */
 	static final String PREFS_FAIL_SOUND = "fail_sound";
+	/** Preference's name: alternative layout. */
+	private static final String PREFS_ALTERNATIVE_LAYOUT = "alternative_layout";
 	/** Preferemce's name: enable change connector button. */
 	private static final String PREFS_HIDE_CHANGE_CONNECTOR_BUTTON = // .
 	"hide_change_connector_button";
@@ -578,8 +580,14 @@ public class WebSMS extends Activity implements OnClickListener,
 
 		// save ref to me.
 		me = this;
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		// inflate XML
-		this.setContentView(R.layout.main);
+		if (p.getBoolean(PREFS_ALTERNATIVE_LAYOUT, false)) {
+			this.setContentView(R.layout.main_alternative);
+		} else {
+			this.setContentView(R.layout.main);
+		}
 
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
@@ -592,8 +600,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
 
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
 		if (Changelog.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache

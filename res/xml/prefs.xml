@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009-2010 Felix Bechstein
+		Copyright (C) 2009-2011 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -22,6 +22,8 @@
 			<ListPreference android:title="@string/theme_"
 				android:key="theme" android:entries="@array/themes"
 				android:entryValues="@array/themes_values" />
+			<CheckBoxPreference android:key="alternative_layout"
+				android:title="@string/alternative_layout_" android:summary="@string/alternative_layout_hint" />
 			<CheckBoxPreference android:key="hide_send_button"
 				android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
 			<CheckBoxPreference android:key="hide_change_connector_button"
