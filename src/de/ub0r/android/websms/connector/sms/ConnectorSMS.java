@@ -21,6 +21,7 @@ package de.ub0r.android.websms.connector.sms;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
+import de.ub0r.android.websms.connector.common.ConnectorService;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
@@ -127,6 +129,10 @@ public class ConnectorSMS extends Connector {
 					sentIntents.add(PendingIntent.getBroadcast(context, 0,
 							sent, 0));
 				}
+				final NotificationManager nm = (NotificationManager) context
+						.getSystemService(Context.NOTIFICATION_SERVICE);
+				nm.notify(ConnectorService.NOTIFICATION_PENDING,
+						ConnectorService.getNotification(context, command));
 				TWRAPPER.sendMultipartTextMessage(Utils.getRecipientsNumber(t),
 						null, messages, sentIntents, null);
 			}
@@ -152,6 +158,10 @@ public class ConnectorSMS extends Connector {
 
 			final ConnectorSpec specs = new ConnectorSpec(intent);
 			final ConnectorCommand command = new ConnectorCommand(intent);
+
+			final NotificationManager nm = (NotificationManager) context
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			nm.cancel(ConnectorService.NOTIFICATION_PENDING);
 
 			if (resultCode != Activity.RESULT_OK) {
 				specs.setErrorMessage(context.getString(R.string.log_error_sms)
