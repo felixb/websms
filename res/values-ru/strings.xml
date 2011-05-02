@@ -36,7 +36,7 @@
   <string name="defprefix_" formatted="false" orig="Default int. prefix">Внутренний префикс</string>
   <string name="defprefix_hint" formatted="false" orig="e.g. +49">например: +7</string>
   <string name="more_apps_" formatted="false" orig="More Apps..">Другие приложения</string>
-  <string name="more_connectors_" formatted="false" orig="More Connectors..">Другие Коннекторы</string>
+  <string name="more_connectors_" formatted="false" username="ergodroid@gmail.com" orig="More Connectors..">Другие коннекторы</string>
   <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Загрузите другие Коннекторы на Маркете. Перезапустите WebSMS после установки!</string>
   <string name="more_connectors__" formatted="false" orig="Even more Connectors..">Ещё больше Коннекторов</string>
   <string name="more_connectors__hint" formatted="false" orig="You are missing a connector for some service? View the FAQ to get it.">Если не нашли нужный Коннектор для своего провайдера, то смотрите FAQ как получить его.</string>
@@ -121,7 +121,7 @@
   <string name="custom_sender" formatted="false">Задать отправителя</string>
   <string name="send_later" formatted="false">Отправить позже</string>
   <string name="emo_" formatted="false" orig="Emoticons">Смайлики</string>
-  <string name="connectors_switch" formatted="false" orig="Switched connector:">Включённый Коннектор:</string>
+  <string name="connectors_switch" formatted="false" username="ergodroid@gmail.com" orig="Switched connector:">Включённый коннектор:</string>
   <string name="captcha_" formatted="false" orig="Captcha">Защита от спама</string>
   <string name="captcha_solve_it" formatted="false">Введите текст с картинки:</string>
   <string name="status_disabled" formatted="false">Статус: отключён\n(Обновляется при переходе в главное окно)</string>
