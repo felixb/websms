@@ -29,8 +29,8 @@
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Сообщите о найденной ошибке, отправьте запрос на расширение функционала...</string>
   <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc.">Следите за WebSMS в Twitter и узнавайте об обновлениях</string>
   <string name="author_" formatted="false">Автор:</string>
-  <string name="author_connectors_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Author of Connectors:">Автор коннектора:</string>
-  <string name="change_connector_" formatted="false">Сменить провайдера</string>
+  <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Автор коннектора:</string>
+  <string name="change_connector_" formatted="false" orig="Change provider">Сменить провайдера</string>
   <string name="change_connector_nl" formatted="false">Сменить\nпровайдера</string>
   <string name="click_for_update" formatted="false">(обновить: нажмите)</string>
   <string name="defprefix_" formatted="false" orig="Default int. prefix">Внутренний префикс</string>
