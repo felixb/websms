@@ -22,11 +22,11 @@
        -->
 <resources>
   <string name="about_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="About">Über</string>
-  <string name="about" formatted="false">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
   <string name="faq_hint" formatted="false">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
   <string name="feedback_" formatted="false">Feedback</string>
-  <string name="feedback_hint" formatted="false">Bugreports, feature requests ...</string>
+  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
   <string name="twitter_hint" formatted="false">Follow auf twitter.\nUpdate Infos etc...</string>
   <string name="author_" formatted="false">Autor:</string>
   <string name="author_connectors_" formatted="false">Autor der Connectoren:</string>
@@ -71,8 +71,8 @@
   <string name="show_titlebar_" formatted="false">Titelleiste anzeigen</string>
   <string name="show_titlebar_hint" formatted="false">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
   <string name="settings_connectors" formatted="false">Einstellungen - Connectoren</string>
-	<string name="alternative_layout_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Alternatives Layout</string>
-	<string name="alternative_layout_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Verschiebe die Senden Leiste nach oben. Braucht Neustart.</string>
+  <string name="alternative_layout_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Alternatives Layout</string>
+  <string name="alternative_layout_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Verschiebe die Senden Leiste nach oben. Braucht Neustart.</string>
   <string name="hide_change_connector_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider" Button ausblenden</string>
   <string name="hide_change_connector_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider" Button auf dem Main Screen ausblenden.</string>
   <string name="hide_send_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; button">"Senden" Button ausblenden</string>
