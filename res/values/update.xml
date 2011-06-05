@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v3.7.2: translation update</item>
 		<item>v3.7.1: fix sending notification for "SMS" connector, add multi unit ids for connector provided ads</item>
 		<item>v3.7: minor fixes, share ad revenue with connector authors, alternative layout, update translations</item>
 		<item>v3.6.1: allow to not save sent messages, hide extras button, fix hide send/cancel button, handle status report in sms connector, save text on cancel</item>
