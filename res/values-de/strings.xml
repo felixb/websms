@@ -21,18 +21,18 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="About">Über</string>
-  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du kostenlose und sehr günstige SMS via Webservices verschicken. Es werden viele verschiedenen Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string name="about_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="About">Über</string>
+  <string name="about" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
   <string name="faq_hint" formatted="false">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
   <string name="feedback_" formatted="false">Feedback</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
-  <string name="twitter_hint" formatted="false">Follow auf twitter.\nUpdate Infos etc...</string>
-  <string name="author_" formatted="false">Autor:</string>
-  <string name="author_connectors_" formatted="false">Autor der Connectoren:</string>
-  <string name="change_connector_" formatted="false">Anderer Provider</string>
-  <string name="change_connector_nl" formatted="false">Anderer\nProvider</string>
-  <string name="click_for_update" formatted="false">(update: klick)</string>
+  <string name="twitter_hint" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Follow me on twitter.\nGet update notifications etc.">Follow auf Twitter.\nUpdate Infos etc.</string>
+  <string name="author_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Author of Connectors:">Autor der Connectoren:</string>
+  <string name="change_connector_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Change provider">Wechsle Provider</string>
+  <string name="change_connector_nl" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Change\nprovider">Wechsle\nProvider</string>
+  <string name="click_for_update" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="(update: click)">(update: klick)</string>
   <string name="defprefix_" formatted="false">Standard int. Prefix</string>
   <string name="defprefix_hint" formatted="false">z.B. +49</string>
   <string name="more_apps_" formatted="false">Mehr Apps..</string>
