@@ -24,6 +24,9 @@
 				android:entryValues="@array/themes_values" />
 			<CheckBoxPreference android:key="alternative_layout"
 				android:title="@string/alternative_layout_" android:summary="@string/alternative_layout_hint" />
+			<EditTextPreference android:key="textsizen"
+				android:title="@string/textsize_" android:summary="@string/textsize_hint"
+				android:inputType="number" />
 			<CheckBoxPreference android:key="hide_send_button"
 				android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
 			<CheckBoxPreference android:key="hide_change_connector_button"
