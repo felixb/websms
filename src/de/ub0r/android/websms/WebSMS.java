@@ -1927,13 +1927,14 @@ public class WebSMS extends Activity implements OnClickListener,
 					Toast.makeText(me, em, Toast.LENGTH_LONG).show();
 				}
 			} else {
+				final String pkg = connector.getPackage();
 				final String name = connector.getName();
 				if (connector.getSubConnectorCount() == 0 || name == null
-						|| connector.getPackage() == null) {
-					Log.w(TAG, "skipped adding defect connector: " + name);
+						|| pkg == null) {
+					Log.w(TAG, "skipped adding defect connector: " + pkg);
 					return;
 				}
-				Log.d(TAG, "add connector with id: " + connector.getPackage());
+				Log.d(TAG, "add connector with id: " + pkg);
 				Log.d(TAG, "add connector with name: " + name);
 				boolean added = false;
 				final int l = CONNECTORS.size();
@@ -1941,7 +1942,7 @@ public class WebSMS extends Activity implements OnClickListener,
 				try {
 					for (int i = 0; i < l; i++) {
 						cs = CONNECTORS.get(i);
-						if (name.compareToIgnoreCase(cs.getName()) < 0) {
+						if (pkg.compareToIgnoreCase(cs.getPackage()) < 0) {
 							CONNECTORS.add(i, connector);
 							added = true;
 							break;
