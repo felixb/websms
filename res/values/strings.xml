@@ -69,6 +69,8 @@
 	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="alternative_layout_">Alternative layout</string>
 	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
+	<string name="textsize_">Text size</string>
+	<string name="textsize_hint">Text size in pixels; leave empty for default</string>
 	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
 	<string name="hide_send_button">Hide \"Send\" button</string>

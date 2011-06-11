@@ -899,6 +899,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	 */
 	private void reloadPrefs() {
 		Log.d(TAG, "reloadPrefs()");
+		int ts = Preferences.getTextsize(this);
+		if (ts != 0) {
+			this.etTo.setTextSize(ts);
+			this.etText.setTextSize(ts);
+		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {

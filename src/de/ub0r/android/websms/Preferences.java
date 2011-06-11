@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2010-2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Market;
+import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -49,6 +50,8 @@ public class Preferences extends PreferenceActivity implements
 	private static final String THEME_BLACK = "black";
 	/** Theme: light. */
 	private static final String THEME_LIGHT = "light";
+	/** Preference's name: text size. */
+	private static final String PREFS_TEXTSIZE = "textsizen";
 
 	/** Preference's name: set standard connector. */
 	private static final String PREFS_STANDARD_CONNECTOR_SET = // .
@@ -205,5 +208,20 @@ public class Preferences extends PreferenceActivity implements
 			return android.R.style.Theme_Light;
 		}
 		return android.R.style.Theme_Black;
+	}
+
+	/**
+	 * Get text's size from Preferences.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @return theme
+	 */
+	static final int getTextsize(final Context context) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final String s = p.getString(PREFS_TEXTSIZE, null);
+		Log.d(TAG, "text size: " + s);
+		return Utils.parseInt(s, 0);
 	}
 }
