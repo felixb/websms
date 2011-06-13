@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: set text size, fix moving connectors</item>
+		<item>v3.7.3: set text size, fix moving connectors</item>
 		<item>v3.7.2: translation update</item>
 		<item>v3.7.1: fix sending notification for "SMS" connector, add multi unit ids for connector provided ads</item>
 		<item>v3.7: minor fixes, share ad revenue with connector authors, alternative layout, update translations</item>
