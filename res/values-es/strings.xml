@@ -25,9 +25,10 @@
   <string name="about" formatted="false">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
   <string name="about_hint" formatted="false">Acerca de esta aplicación</string>
   <string name="faq_hint" formatted="false">Algunos trucos y consejos acerca de cómo configurar esta aplicación.</string>
-  <string name="feedback_" formatted="false">Retroalimentación</string>
+  <string name="feedback_" formatted="false" orig="Feedback">Danos tu opinión</string>
   <string name="feedback_hint" formatted="false">Avise sobre errores, sugiera características...</string>
   <string name="twitter_hint" formatted="false">Sígame en twitter.\nObtenga notificaciones sobre actualizaciones, etc.</string>
+  <string name="author_" formatted="false" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false">Autor de los Conectores:</string>
   <string name="change_connector_" formatted="false">Cambiar proveedor</string>
   <string name="change_connector_nl" formatted="false">Cambiar\nproveedor</string>
@@ -40,8 +41,8 @@
   <string name="more_connectors__" formatted="false">Aún más Conectores..</string>
   <string name="more_connectors__hint" formatted="false">¿Echa en falta conectores para algún servicio? Lea el FAQ para conseguirlos.</string>
   <string name="set_stdandard_connector_" formatted="false">Set standard Connector</string>
-  <string name="set_stdandard_connector_hint" formatted="false">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
-  <string name="clear_stdandard_connector_" formatted="false">Clear standard Connector</string>
+  <string name="set_stdandard_connector_hint" formatted="false" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Establecer el conector actual como el predeterminado. WebSMS lo cambiará de nuevo automaticamente.</string>
+  <string name="clear_stdandard_connector_" formatted="false" orig="Clear standard Connector">Borrar el conector estandar</string>
   <string name="free_" formatted="false">Saldo:</string>
   <string name="license" formatted="false">GPLv3 - leer http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Licencia:</string>
@@ -52,6 +53,7 @@
   <string name="log_error_saving_message" formatted="false">¡Error al guardar el mensaje enviado en la base de datos!</string>
   <string name="log_error_char_nonvalid" formatted="false">El conector no proporciona caracteres válidos</string>
   <string name="log_error_char_notsendable" formatted="false">Este mensaje contiene caracteres que no se pueden enviar</string>
+  <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">No se pudo enviar el SMS: Código de error=</string>
   <string name="try_send_invalid_characters_" formatted="false">Intentar mandar caracteres no válidos</string>
   <string name="try_send_invalid_characters_hint" formatted="false">Intentar mandar mensajes con caracteres no válidos.</string>
   <string name="notify_failed" formatted="false">Error al enviar SMS: </string>
@@ -63,6 +65,7 @@
   <string name="settings" formatted="false">Preferencias</string>
   <string name="settings_common" formatted="false">Preferencias - Comunes</string>
   <string name="appearance_" formatted="false">Apariencia</string>
+  <string name="autosend_" formatted="false" orig="Autosend">Autoenvio</string>
   <string name="show_titlebar_" formatted="false">Mostra la barra de título</string>
   <string name="show_titlebar_hint" formatted="false">Mostrar la barra de título en la vista principal. Sin dicha barra no es posible ver la actividad en segundo plano.</string>
   <string name="settings_connectors" formatted="false">Preferencias - Conectores</string>
@@ -120,4 +123,10 @@
   <string name="enable_sms" formatted="false">Permitir SMS</string>
   <string name="enable_sms_hint" formatted="false">El Conector SMS enviará SMS normales (ej: a través de GSM).</string>
   <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Pegar desde el portapapeles]</string>
+  <string name="restore_" formatted="false" orig="Restore last message">Restaurar el último mensaje</string>
+  <string name="theme_" formatted="false" orig="Theme">Tema</string>
+  <string-array name="themes">
+    <item>Oscuro</item>
+    <item>Claro</item>
+  </string-array>
 </resources>
