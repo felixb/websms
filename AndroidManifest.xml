@@ -64,11 +64,6 @@
 		<activity android:name="de.ub0r.android.lib.Changelog"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
-		<receiver android:name="de.ub0r.android.lib.DonationReceiver">
-			<intent-filter>
-				<action android:name="de.ub0r.android.donator.REGISTERED" />
-			</intent-filter>
-		</receiver>
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
