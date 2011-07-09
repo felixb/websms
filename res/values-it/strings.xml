@@ -22,14 +22,14 @@
        -->
 <resources>
   <string name="about_" formatted="false" username="antoniogallo@alice.de" orig="About">Info</string>
-  <string name="about" formatted="false" username="antoniogallo@alice.de" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS ti permette di inviare sms gratis o a basso costo via Internet, utilizzando uno dei tanti fornitori(connectors) disponibili che trovi nel Market.</string>
-  <string name="about_hint" formatted="false" username="antoniogallo@alice.de" orig="About this app">Info su quest\' App</string>
-  <string name="faq_hint" formatted="false" username="antoniogallo@alice.de" orig="Some tips and tricks, how to set up this app.">Suggerimenti,come impostare l\'applicazione.</string>
+  <string name="about" formatted="false" username="carloraudino@fedoraproject.org" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS permette l\'invio di SMS gratis o a basso costo via servizi web. I provider supportati via Connector sono tanti. Si può trovare il link per scaricarli dal market nelle impostazioni di WebSMS.</string>
+  <string name="about_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="About this app">Info sull\'app</string>
+  <string name="faq_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Some tips and tricks, how to set up this app.">Alcuni trucchi e suggerimenti su come impostare l\'applicazione.</string>
   <string name="feedback_" formatted="false" username="antoniogallo@alice.de" orig="Feedback">Feedback</string>
-  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Segnala bugs, richiedi funzioni ...</string>
+  <string name="feedback_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Report bugs, request features ...">Segnala bug, richiedi funzioni ...</string>
   <string name="twitter_hint" formatted="false" username="antoniogallo@alice.de" orig="Follow me on twitter.\nGet update notifications etc.">Seguimi su Twitter.\nRicevi notifiche su aggiornamenti ecc.</string>
   <string name="author_" formatted="false" username="antoniogallo@alice.de" orig="Author:">Autore:</string>
-  <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Sviluppatore dei Connector:</string>
+  <string name="author_connectors_" formatted="false" username="carloraudino@fedoraproject.org" orig="Author of Connectors:">Sviluppatore dei Connector:</string>
   <string name="change_connector_" formatted="false" username="antoniogallo@alice.de" orig="Change provider">Cambia provider</string>
   <string name="change_connector_nl" formatted="false" orig="Change\nprovider">Cambia\nprovider</string>
   <string name="click_for_update" formatted="false" orig="(update: click)">(Aggiorna: click)</string>
@@ -38,32 +38,104 @@
   <string name="more_apps_" formatted="false" username="antoniogallo@alice.de" orig="More Apps..">Altre App..</string>
   <string name="more_connectors_" formatted="false" orig="More Connectors..">Altri Connector..</string>
   <string name="more_connectors_hint" formatted="false" username="antoniogallo@alice.de" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Trova altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
-  <string name="more_connectors__" formatted="false" username="antoniogallo@alice.de" orig="Even more Connectors..">Ancora altri Connetrors..</string>
-  <string name="more_connectors__hint" formatted="false" username="antoniogallo@alice.de" orig="You are missing a connector for some service? View the FAQ to get it.">Ti serve un Connectors per qualche servizio? Leggi le FAG per trovarlo.</string>
-  <string name="set_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Set standard Connector">Imposta Connector come predefinito</string>
+  <string name="more_connectors__" formatted="false" username="carloraudino@fedoraproject.org" orig="Even more Connectors..">Ancora più Connector..</string>
+  <string name="more_connectors__hint" formatted="false" username="carloraudino@fedoraproject.org" orig="You are missing a connector for some service? View the FAQ to get it.">Manca un Connector per qualche servizio? Leggere le FAQ per trovarlo.</string>
+  <string name="set_stdandard_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Set standard Connector">Imposta Connector predefinito</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="antoniogallo@alice.de" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Imposta l\'attuale Connector come predefinito.</string>
   <string name="clear_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Clear standard Connector">Cancella Connector come predefinito</string>
   <string name="free_" formatted="false" username="antoniogallo@alice.de" orig="Balances:">Credito:</string>
-  <string name="license" formatted="false" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - vedi http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license" formatted="false" username="carloraudino@fedoraproject.org" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - vedere http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false" username="antoniogallo@alice.de" orig="License:">Licenza:</string>
-  <string name="log_wrong_defprefix" formatted="false" username="antoniogallo@alice.de" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Inserire un valido prefisso internazionale predefinito. ES. "+49".</string>
-  <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678.">Mittente errato!Impostalo nel formato internazionale. ES. +393201234567.</string>
+  <string name="log_wrong_defprefix" formatted="false" username="carloraudino@fedoraproject.org" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Inserire un prefisso internazionale valido predefinito. Es. "+39".</string>
+  <string name="log_wrong_sender" formatted="false" username="carloraudino@fedoraproject.org" orig="Wrong sender! Set it in international form like +4917012345678.">Mittente errato! Impostare nel formato internazionale. Es. +393201234567.</string>
   <string name="log_noselectedconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nessun Connector selezionato.Sceglierne uno tramite "Cambia Provider".</string>
-  <string name="log_noreadyconnector" formatted="false" username="antoniogallo@alice.de" orig="No Connector installed or ready. Please check preferences.">Connector non installato o non pronto. Controlla le impostazioni.</string>
+  <string name="log_noreadyconnector" formatted="false" username="carloraudino@fedoraproject.org" orig="No Connector installed or ready. Please check preferences.">Connector non installato o non pronto. Controllare le impostazioni.</string>
   <string name="log_error_saving_message" formatted="false" username="antoniogallo@alice.de" orig="Error updating sent message in Database!">Errore durante l\'aggiornamento degli SMS inviati!</string>
-  <string name="log_error_char_notsendable" formatted="false" username="antoniogallo@alice.de" orig="This message contains not sendable characters">Questo SMS contiene caratteri non validi</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="carloraudino@fedoraproject.org" orig="Connector does not provide valid characters">Il Connector non fornisce caratteri validi</string>
+  <string name="log_error_char_notsendable" formatted="false" username="carloraudino@fedoraproject.org" orig="This message contains not sendable characters">Questo messaggio contiene caratteri non validi</string>
+  <string name="log_error_sms" formatted="false" username="carloraudino@fedoraproject.org" orig="Could not send SMS: ErrorCode=">Invio SMS fallito: ErrorCode=</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="carloraudino@fedoraproject.org" orig="Try send invalid">Provare invio con caratteri non validi</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Try to send messages with invalid.">Prova ad inviare messaggi con caratteri non validi.</string>
   <string name="notify_failed" formatted="false" orig="Failed to send SMS: ">Invio SMS fallito:</string>
-  <string name="notify_failed_" formatted="false" username="antoniogallo@alice.de" orig="failed sending SMS">Invio SMS fallito</string>
+  <string name="notify_failed_" formatted="false" username="carloraudino@fedoraproject.org" orig="failed sending SMS">invio SMS fallito</string>
   <string name="sender_" formatted="false" username="antoniogallo@alice.de" orig="Your mobile number">Tuo numero mobile</string>
   <string name="send_" formatted="false" username="antoniogallo@alice.de" orig="Send">Invia</string>
   <string name="save_draft_" formatted="false" username="antoniogallo@alice.de" orig="Save draft">Salva bozza</string>
   <string name="save_chars_" formatted="false" username="antoniogallo@alice.de" orig="Save chars">Salva caratteri</string>
   <string name="settings" formatted="false" username="antoniogallo@alice.de" orig="Preferences">Impostazioni</string>
   <string name="settings_common" formatted="false" username="antoniogallo@alice.de" orig="Preferences - Common">Impostazioni - Comuni</string>
-  <string name="show_titlebar_" formatted="false" username="antoniogallo@alice.de" orig="Show title bar">Mostra barra del titolo</string>
+  <string name="appearance_" formatted="false" username="carloraudino@fedoraproject.org" orig="Appearance">Aspetto</string>
+  <string name="behavior_" formatted="false" username="carloraudino@fedoraproject.org" orig="Behavior">Comportamento</string>
+  <string name="appearance_and_behavior_" formatted="false" username="carloraudino@fedoraproject.org" orig="Appearance &amp;amp; behavior">Aspetto e comportamento</string>
+  <string name="autosend_" formatted="false" username="carloraudino@fedoraproject.org" orig="Autosend">Autoinvio</string>
+  <string name="show_titlebar_" formatted="false" username="carloraudino@fedoraproject.org" orig="Show title bar">Mostrare barra del titolo</string>
+  <string name="show_titlebar_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Mostra la barra del titolo nella schermata principale. Senza la barra del titolo non si possono vedere le attività in background.</string>
+  <string name="settings_connectors" formatted="false" username="carloraudino@fedoraproject.org" orig="Preferences - Connectors">Preferenze - Connector</string>
+  <string name="alternative_layout_" formatted="false" username="carloraudino@fedoraproject.org" orig="Alternative layout">Disposizione alternativa</string>
+  <string name="alternative_layout_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Move send bar to the top. Needs restart.">Sposta la barra d\'invio in testa. Riavvio necessario.</string>
+  <string name="textsize_" formatted="false" username="carloraudino@fedoraproject.org" orig="Text size">Dimensione testo</string>
+  <string name="textsize_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Text size in pixels; leave empty for default">Dimensione testo in pixel; lasciare bianco per la predefinita</string>
+  <string name="hide_change_connector_button" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Chg. provider\&quot; button">Nascondere pulsante "Cambia provider"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Change provider\&quot; button on main screen.">Nasconde il pulsante "Cambia provider" nella schermata principale.</string>
+  <string name="hide_send_button" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Send\&quot; button">Nascondere pulsante "Invia"</string>
+  <string name="hide_send_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Send\&quot; button in main screen.">Nasconde il pulsante "Invia" nella schermata principale.</string>
+  <string name="hide_cancel_button" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Cancel\&quot; button">Nascondere pulsante "Cancella"</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Cancel\&quot; button on main screen.">Nasconde il pulsante "Cancella" nella schermata principale.</string>
+  <string name="hide_extras_button_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Extras\&quot; button">Nascondere pulsante "Extra"</string>
+  <string name="hide_extras_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Extras\&quot; button on main screen.">Nasconde il pulsante "Extra" nella schermata principale.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Select\&quot; button">Nascondere pulsante "Seleziona"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Nasconde il pulsante "Seleziona destinatari" nella schermata principale.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Clear\&quot; button">Nascondere pulsante "Pulisci"</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Nasconde il pulsante "Pulisci destinatari" nella schermata principale.</string>
+  <string name="hide_send_in_menu" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Send\&quot; menu item">Nascondere "Invia" nel menu</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Nasconde "Invia" nel menu principale. Riavvio richiesto.</string>
+  <string name="hide_emo_button" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Emoticons\&quot; button">Nascondere pulsante "Emoticon"</string>
+  <string name="hide_emo_button_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Nasconde il pulsante "Emoticon" nella schermata principale.</string>
+  <string name="hide_update" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Click for update\&quot;">Nascondere "Clicca per aggiornare"</string>
+  <string name="hide_update_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide \&quot;Click for update\&quot; on main screen.">Nasconde il "Clicca per aggiornare" nella schermata principale.</string>
+  <string name="hide_bg_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide connector name">Nascondere nome connector</string>
+  <string name="hide_bg_connector_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide active connector\'s name in background.">Nasconde il nome del connector attivo sullo sfondo.</string>
+  <string name="hide_paste_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide &quot;paste&quot; button">Nascondere pulsante "Incolla"</string>
+  <string name="hide_paste_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide &quot;paste&quot; button on text field.">Nasconde il pulsante "Incolla" nel campo del testo.</string>
+  <string name="drop_sent_" formatted="false" username="carloraudino@fedoraproject.org" orig="Don\'t save sent SMS">Non salvare l\'SMS inviato</string>
+  <string name="drop_sent_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Don\'t save sent messages in global database.">Non salva i messaggi inviati nel database globale.</string>
+  <string name="enable_autosend_" formatted="false" username="carloraudino@fedoraproject.org" orig="Enable autosend">Abilitare autoinvio</string>
+  <string name="enable_autosend_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Enable SMSdroid\'s autosend feature.">Abilita la funzione di autoinvio di SMSdroid.</string>
+  <string name="use_selected_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Use selected Connector">Usare connector selezionato</string>
+  <string name="use_selected_connector_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Usa il connector selezionato correntemente per l\'autoinvio. Disabilitare per mostrare un selezionatore.</string>
+  <string name="default_recipient_" formatted="false" username="carloraudino@fedoraproject.org" orig="Default recipient">Destinatario predefinito</string>
+  <string name="default_recipient_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Default recipient filled into address bar on app start.">Destinatario predefinito inserito nella barra d\'indirizzo all\'avvio dell\'app.</string>
+  <string name="signature_" formatted="false" username="carloraudino@fedoraproject.org" orig="Signature">Firma</string>
+  <string name="signature_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Testo allegato ad ogni messaggio. Non viene inserito spazio bianco. Iniziare la firma con " " se necessario.</string>
+  <string name="autoupdate_" formatted="false" username="carloraudino@fedoraproject.org" orig="Autoupdate">Autoaggiorna</string>
+  <string name="autoupdate_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Update account balances on start.">Aggiorna il credito dell\'account all\'avvio.</string>
+  <string name="autoexit_" formatted="false" username="carloraudino@fedoraproject.org" orig="Autoexit">Uscita automatica</string>
+  <string name="autoexit_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Exit WebSMS when sending sms.">Esce da WebSMS all\'invio di SMS.</string>
+  <string name="mobile_only_" formatted="false" username="carloraudino@fedoraproject.org" orig="Show mobiles only">Mostrare solo numeri mobili</string>
+  <string name="mobile_only_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Show mobile numbers only.">Mostra solo numeri di telefonia mobile.</string>
+  <string name="vibrate_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate if sending fails">Vibrare all\'invio fallito</string>
+  <string name="vibrate_on_send" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate after sending">Vibrare dopo l\'invio</string>
+  <string name="sound_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Play sound if sending fails">Suono d\'avviso all\'invio fallito</string>
+  <string name="source_" formatted="false" username="carloraudino@fedoraproject.org" orig="Sourcescode:">Codice sorgente:</string>
+  <string name="website_" formatted="false" username="carloraudino@fedoraproject.org" orig="Website:">Sito web:</string>
+  <string name="to_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Name or Number">Nome o numero</string>
+  <string name="text_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Text">Testo</string>
+  <string name="extras_" formatted="false" username="carloraudino@fedoraproject.org" orig="Extras">Extra</string>
+  <string name="flashsms" formatted="false" username="carloraudino@fedoraproject.org" orig="Flash SMS">Flash SMS</string>
+  <string name="custom_sender" formatted="false" username="carloraudino@fedoraproject.org" orig="Custom sender">Mittente personalizzato</string>
+  <string name="send_later" formatted="false" username="carloraudino@fedoraproject.org" orig="Send later">Inviare dopo</string>
+  <string name="emo_" formatted="false" username="carloraudino@fedoraproject.org" orig="Emoticons">Emoticon</string>
+  <string name="connectors_switch" formatted="false" username="carloraudino@fedoraproject.org" orig="Switched connector:">Connector cambiato:</string>
+  <string name="captcha_solve_it" formatted="false" username="carloraudino@fedoraproject.org" orig="Please enter the text below:">Inserire il testo sottostante:</string>
+  <string name="status_disabled" formatted="false" username="carloraudino@fedoraproject.org" orig="Status: disabled\n(Updated when returning to main screen)">Stato: disabilitato\n(Aggiornato al ritorno sulla schermata principale)</string>
+  <string name="status_enabled" formatted="false" username="carloraudino@fedoraproject.org" orig="Status: enabled\n(Updated when returning to main screen)">Stato: abilitato\n(Aggiornato al ritorno sulla schermata principale)</string>
+  <string name="status_ready" formatted="false" username="carloraudino@fedoraproject.org" orig="Status: ready\n(Updated when returning to main screen)">Stato: pronto\n(Aggiornato al ritorno sulla schermata principale)</string>
+  <string name="connector_vanished" formatted="false" username="carloraudino@fedoraproject.org" orig="Connector vanished!">Connector scomparso!</string>
   <string name="connector_sms_name" formatted="false" username="antoniogallo@alice.de" orig="SMS">SMS</string>
   <string name="enable_sms" formatted="false" username="antoniogallo@alice.de" orig="Enable SMS">Abilita SMS</string>
+  <string name="enable_sms_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Il connector SMS invierà normali SMS (ad es. via GSM)</string>
   <string name="paste_" formatted="false" username="antoniogallo@alice.de" orig="[ Paste from clipboard ]">Incolla</string>
+  <string name="restore_" formatted="false" username="carloraudino@fedoraproject.org" orig="Restore last message">Ripristinare ultimo messaggio</string>
   <string name="theme_" formatted="false" username="antoniogallo@alice.de" orig="Theme">Tema</string>
   <string-array name="themes" username="antoniogallo@alice.de">
     <item>Nero</item>
