@@ -22,7 +22,7 @@
        -->
 <resources>
   <string name="about_" formatted="false">О программе</string>
-  <string name="about" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет отправлять бесплатные или дешёвые SMS через интернет. Поддерживаются многие провайдеры через коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
+  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет отправлять бесплатные или дешёвые SMS через интернет. Поддерживаются многие провайдеры через коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
   <string name="about_hint" formatted="false">Описание программы</string>
   <string name="faq_hint" formatted="false">Советы и подсказки по настройке программы.</string>
   <string name="feedback_" formatted="false">Отзывы</string>
