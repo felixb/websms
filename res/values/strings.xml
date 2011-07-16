@@ -50,6 +50,7 @@
 	<string name="log_error_char_nonvalid">Connector does not provide valid characters</string>
 	<string name="log_error_char_notsendable">This message contains not sendable characters</string>
 	<string name="log_error_sms">Could not send SMS: ErrorCode=</string>
+	<string name="log_error_connector_not_found">Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.</string>
 	<string name="try_send_invalid_characters_">Try send invalid</string>
 	<string name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
 	<string name="notify_failed">Failed to send SMS: </string>

@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.websms;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Market;
@@ -144,7 +146,6 @@ public class Preferences extends PreferenceActivity implements
 				ConnectorSpec.STATUS_INACTIVE);
 		String pkg;
 		Preference cp;
-		String action;
 		for (ConnectorSpec cs : css) {
 			if (cs.getPackage() == null) {
 				continue;
@@ -156,8 +157,25 @@ public class Preferences extends PreferenceActivity implements
 				cp.setKey(pkg);
 				cp.setTitle(this.getString(R.string.settings) + " - "
 						+ cs.getName());
-				action = cs.getPackage() + Connector.ACTION_PREFS;
-				cp.setIntent(new Intent(action));
+				final String action = cs.getPackage() + Connector.ACTION_PREFS;
+				cp.setOnPreferenceClickListener(// .
+						new OnPreferenceClickListener() {
+							@Override
+							public boolean onPreferenceClick(
+									final Preference preference) {
+								try {
+									Preferences.this.startActivity(new Intent(
+											action));
+									return true;
+								} catch (ActivityNotFoundException e) {
+									Toast.makeText(Preferences.this,
+											R.string.// .
+											log_error_connector_not_found,
+											Toast.LENGTH_LONG).show();
+									return false;
+								}
+							}
+						});
 				pc.addPreference(cp);
 				Log.d("WebSMS.prefs", "added: " + action);
 			}
