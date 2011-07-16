@@ -38,7 +38,7 @@
   <string name="defprefix_hint" formatted="false" orig="e.g. +49">Es. +39</string>
   <string name="more_apps_" formatted="false" username="carloraudino@fedoraproject.org" orig="More Apps..">Altre app..</string>
   <string name="more_connectors_" formatted="false" orig="More Connectors..">Altri Connector..</string>
-  <string name="more_connectors_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Cerca altri Connectors nel Market. Riavvia WebSMS dopo l'installazione!</string>
+  <string name="more_connectors_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Cerca altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
   <string name="more_connectors__" formatted="false" username="carloraudino@fedoraproject.org" orig="Even more Connectors..">Ancora più Connector..</string>
   <string name="more_connectors__hint" formatted="false" username="carloraudino@fedoraproject.org" orig="You are missing a connector for some service? View the FAQ to get it.">Manca un Connector per qualche servizio? Leggere le FAQ per trovarlo.</string>
   <string name="set_stdandard_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Set standard Connector">Imposta Connector predefinito</string>
@@ -111,11 +111,11 @@
   <string name="autoupdate_" formatted="false" username="carloraudino@fedoraproject.org" orig="Autoupdate">Autoaggiorna</string>
   <string name="autoupdate_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Update account balances on start.">Aggiorna il credito dell\'account all\'avvio.</string>
   <string name="autoexit_" formatted="false" username="carloraudino@fedoraproject.org" orig="Autoexit">Uscita automatica</string>
-  <string name="autoexit_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Exit WebSMS when sending sms.">Esci da WebSMS all'invio di SMS.</string>
+  <string name="autoexit_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Exit WebSMS when sending sms.">Esci da WebSMS all\'invio di SMS.</string>
   <string name="mobile_only_" formatted="false" username="carloraudino@fedoraproject.org" orig="Show mobiles only">Mostra solo numeri mobili</string>
   <string name="mobile_only_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Show mobile numbers only.">Mostra solo numeri di telefonia mobile.</string>
-  <string name="vibrate_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate if sending fails">Vibra all'invio fallito</string>
-  <string name="vibrate_on_send" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate after sending">Vibra dopo l'invio</string>
+  <string name="vibrate_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate if sending fails">Vibra all\'invio fallito</string>
+  <string name="vibrate_on_send" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate after sending">Vibra dopo l\'invio</string>
   <string name="sound_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Play sound if sending fails">Suono d\'avviso all\'invio fallito</string>
   <string name="source_" formatted="false" username="carloraudino@fedoraproject.org" orig="Sourcescode:">Codice sorgente:</string>
   <string name="website_" formatted="false" username="carloraudino@fedoraproject.org" orig="Website:">Sito web:</string>
