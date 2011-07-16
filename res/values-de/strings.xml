@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-       <!--
+<!--
                Copyright (C) 2009-2011 Felix Bechstein
        -->
-       <!--
+<!--
                This file is part of WebSMS. This program is free software; you can
                redistribute it and/or modify it under the terms of the GNU General
                Public License as published by the Free Software Foundation; either
                version 3 of the License, or (at your option) any later version.
        -->
-       <!--
+<!--
                This program is distributed in the hope that it will be useful, but
                WITHOUT ANY WARRANTY; without even the implied warranty of
                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -16,23 +16,23 @@
                copy of the GNU General Public License along with this program; If
                not, see <http://www.gnu.org/licenses/>.
        -->
-      <!--
+<!--
                This file is generated automatically by ub0rlib/php.
                Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="About">Über</string>
-  <string name="about" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string name="about_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="About">Über</string>
+  <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
   <string name="faq_hint" formatted="false">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
   <string name="feedback_" formatted="false">Feedback</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
-  <string name="twitter_hint" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Follow me on twitter.\nGet update notifications etc.">Follow auf Twitter.\nUpdate Infos etc.</string>
-  <string name="author_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Author:">Autor:</string>
-  <string name="author_connectors_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Author of Connectors:">Autor der Connectoren:</string>
-  <string name="change_connector_" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Change provider">Wechsle Provider</string>
-  <string name="change_connector_nl" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="Change\nprovider">Wechsle\nProvider</string>
-  <string name="click_for_update" formatted="false" username="&quot;Andi &lt;communities@andi-fr.de&gt;&quot;" orig="(update: click)">(update: klick)</string>
+  <string name="twitter_hint" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Follow auf Twitter.\nUpdate Infos etc.</string>
+  <string name="author_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author of Connectors:">Autor der Connectoren:</string>
+  <string name="change_connector_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Change provider">Wechsle Provider</string>
+  <string name="change_connector_nl" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Change\nprovider">Wechsle\nProvider</string>
+  <string name="click_for_update" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="(update: click)">(update: klick)</string>
   <string name="defprefix_" formatted="false">Standard int. Prefix</string>
   <string name="defprefix_hint" formatted="false">z.B. +49</string>
   <string name="more_apps_" formatted="false">Mehr Apps..</string>
@@ -142,4 +142,5 @@
     <item>Dunkel</item>
     <item>Hell</item>
   </string-array>
+  <string name="log_error_connector_not_found" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Connector wurde nicht gefunden. Bitte öffne und schließe einmal die Einstellungen von WebSMS, um das neu laden der Connectoren zu erzwingen.</string>
 </resources>
