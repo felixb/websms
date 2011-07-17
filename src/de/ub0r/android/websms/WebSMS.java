@@ -53,16 +53,18 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
@@ -96,7 +98,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
  * 
  * @author flx
  */
-public class WebSMS extends Activity implements OnClickListener,
+public class WebSMS extends FragmentActivity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
@@ -185,8 +187,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
 	/** Prefernece's name: hide paste button. */
 	private static final String PREFS_HIDE_PASTE = "hide_paste";
-	/** Preference's name: show title bar. */
-	public static final String PREFS_SHOWTITLEBAR = "show_titlebar";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: try to send invalid characters. */
@@ -264,7 +264,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	static final String EXTRA_ERRORMESSAGE = // .
 	"de.ub0r.android.intent.extra.ERRORMESSAGE";
 	/** Intent's extra for sending message automatically. */
-	private static final String EXTRA_AUTOSEND = "AUTOSEND";
+	static final String EXTRA_AUTOSEND = "AUTOSEND";
 
 	/** Persistent Message store. */
 	private static String lastMsg = null;
@@ -279,8 +279,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	private MultiAutoCompleteTextView etTo;
 	/** {@link EditText} holding text. */
 	private EditText etText;
-	/** {@link TextView} holding balances. */
-	private TextView tvBalances;
 	/** {@link TextView} for pasting text. */
 	private TextView tvPaste;
 
@@ -569,10 +567,11 @@ public class WebSMS extends Activity implements OnClickListener,
 	@SuppressWarnings("unchecked")
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		this.setTheme(Preferences.getTheme(this));
-		// Restore preferences
+		super.onCreate(savedInstanceState);
 
+		// Restore preferences
 		de.ub0r.android.lib.Utils.setLocale(this);
 
 		this.cbmgr = (ClipboardManager) this
@@ -589,10 +588,15 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.setContentView(R.layout.main);
 		}
 
+		final ActionBar ab = this.getSupportActionBar();
+
+		ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE
+				| ActionBar.DISPLAY_SHOW_HOME, ActionBar.DISPLAY_SHOW_TITLE
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
-		this.tvBalances = (TextView) this.findViewById(R.id.freecount);
 		this.tvPaste = (TextView) this.findViewById(R.id.text_paste);
 
 		this.vExtras = this.findViewById(R.id.extras);
@@ -663,8 +667,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		v.setOnClickListener(this);
 		v.setOnLongClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
-		this.findViewById(R.id.titlebar).setOnClickListener(this);
-		this.tvBalances.setOnClickListener(this);
 		this.tvPaste.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.twCount);
 		this.etText.addTextChangedListener(this.twButtons);
@@ -842,12 +844,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 
 		buf.insert(0, this.getString(R.string.free_) + " ");
-		if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-				PREFS_HIDE_UPDATE, false)) {
-			buf.append(" ");
-			buf.append(this.getString(R.string.click_for_update));
-		}
-		this.tvBalances.setText(buf.toString());
+		this.getSupportActionBar().setSubtitle(buf.toString());
 	}
 
 	/**
@@ -906,11 +903,6 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		if (!p.getBoolean(PREFS_SHOWTITLEBAR, true)) {
-			this.findViewById(R.id.title).setVisibility(View.GONE);
-		} else {
-			this.findViewById(R.id.title).setVisibility(View.VISIBLE);
-		}
 		final boolean bShowChangeConnector = !p.getBoolean(
 				PREFS_HIDE_CHANGE_CONNECTOR_BUTTON, false);
 		final boolean bShowEmoticons = !p.getBoolean(PREFS_HIDE_EMO_BUTTON,
@@ -1064,7 +1056,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
-			((TextView) this.findViewById(R.id.title)).setText(t);
+			this.setTitle(t);
 			String s = prefsConnectorSpec.getName();
 			if (lastSendLater > 0L) {
 				Calendar cal = Calendar.getInstance();
@@ -1079,8 +1071,7 @@ public class WebSMS extends Activity implements OnClickListener,
 					.getText().length() > 0
 					&& this.etText.getText().length() > 0);
 		} else {
-			((TextView) this.findViewById(R.id.title))
-					.setText(R.string.app_name);
+			this.setTitle(R.string.app_name);
 			((TextView) this.findViewById(R.id.text_connector)).setText("");
 			((Button) this.findViewById(R.id.send_)).setEnabled(false);
 			if (getConnectors(0, 0).length != 0) {
@@ -1195,7 +1186,7 @@ public class WebSMS extends Activity implements OnClickListener,
 		}
 		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
-			me.findViewById(R.id.progress).setVisibility(View.VISIBLE);
+			me.setProgressBarIndeterminateVisibility(true);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
@@ -1224,10 +1215,10 @@ public class WebSMS extends Activity implements OnClickListener,
 	public final void onClick(final View v) {
 		CharSequence s;
 		switch (v.getId()) {
-		case R.id.titlebar:
-		case R.id.freecount:
-			this.updateFreecount();
-			return;
+		// FIXME case R.id.titlebar:
+		// FIXME case R.id.freecount:
+		// this.updateFreecount();
+		// return;
 		case R.id.send_:
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			this.reloadPrefs();
@@ -1313,10 +1304,8 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
-		MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		this.getMenuInflater().inflate(R.menu.menu, menu);
 		if (prefsNoAds) {
 			menu.removeItem(R.id.item_donate);
 		}
@@ -1466,12 +1455,15 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 *{@inheritDoc}
 	 */
-	@Override
 	public final boolean onPrepareOptionsMenu(final Menu menu) {
 		final boolean showRestore = !TextUtils.isEmpty(PreferenceManager
 				.getDefaultSharedPreferences(this).getString(
 						PREFS_BACKUPLASTTEXT, null));
-		menu.removeItem(ITEM_RESTORE);
+		try {
+			menu.removeItem(ITEM_RESTORE);
+		} catch (Exception e) {
+			Log.w(TAG, "error removing item: " + ITEM_RESTORE, e);
+		}
 		if (showRestore) {
 			menu.add(0, ITEM_RESTORE, Menu.NONE, R.string.restore_);
 			menu.findItem(ITEM_RESTORE).setIcon(
@@ -1483,7 +1475,6 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 *{@inheritDoc}
 	 */
-	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		Log.d(TAG, "onOptionsItemSelected(" + item.getItemId() + ")");
 		switch (item.getItemId()) {
@@ -1505,6 +1496,9 @@ public class WebSMS extends Activity implements OnClickListener,
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
+			return true;
+		case R.id.item_update:
+			this.updateBalance();
 			return true;
 		case ITEM_RESTORE:
 			final SharedPreferences p = PreferenceManager
@@ -1840,7 +1834,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	/**
 	 * @return ID of selected {@link SubConnectorSpec}
 	 */
-	private static String getSelectedSubConnectorID() {
+	static String getSelectedSubConnectorID() {
 		if (prefsSubConnectorSpec == null) {
 			return null;
 		}
@@ -2003,9 +1997,9 @@ public class WebSMS extends Activity implements OnClickListener,
 					length != 0;
 				}
 				if (runningConnectors) {
-					me.findViewById(R.id.progress).setVisibility(View.VISIBLE);
+					me.setProgressBarIndeterminateVisibility(true);
 				} else {
-					me.findViewById(R.id.progress).setVisibility(View.GONE);
+					me.setProgressBarIndeterminateVisibility(false);
 				}
 				if (prefsConnectorSpec != null && // .
 						prefsConnectorSpec.equals(c)) {

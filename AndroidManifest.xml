@@ -24,7 +24,7 @@
 		<activity android:name="WebSMS" android:label="@string/app_name"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="stateHidden|adjustResize"
-			android:launchMode="singleTop" android:theme="@android:style/Theme.NoTitleBar">
+			android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -52,6 +52,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="PreferencesAppearance"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="PreferencesBehavior"
+			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
 		<activity android:name="About" android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="CaptchaActivity"
@@ -83,7 +89,7 @@
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
 	</application>
-	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10" />
+	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="13" />
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
 		android:anyDensity="true" />

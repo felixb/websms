@@ -29,6 +29,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.view.MenuItem;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Market;
@@ -44,7 +45,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
 public class Preferences extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
 	/** Tag for output. */
-	public static final String TAG = "pref";
+	private static final String TAG = "pref";
 
 	/** Preference's name: theme. */
 	private static final String PREFS_THEME = "theme";
@@ -67,8 +68,10 @@ public class Preferences extends PreferenceActivity implements
 	 */
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
+		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.prefs);
+		this.setTitle(R.string.settings);
 		Market.setOnPreferenceClickListener(this, this
 				.findPreference("more_connectors"), null, "websms+connector",
 				"http://code.google.com/p/websmsdroid/downloads"
@@ -223,9 +226,9 @@ public class Preferences extends PreferenceActivity implements
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, THEME_BLACK);
 		if (s != null && THEME_LIGHT.equals(s)) {
-			return android.R.style.Theme_Light;
+			return R.style.Theme_Sherlock_Light;
 		}
-		return android.R.style.Theme_Black;
+		return R.style.Theme_Sherlock;
 	}
 
 	/**
@@ -241,5 +244,22 @@ public class Preferences extends PreferenceActivity implements
 		final String s = p.getString(PREFS_TEXTSIZE, null);
 		Log.d(TAG, "text size: " + s);
 		return Utils.parseInt(s, 0);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in Action Bar clicked; go home
+			Intent intent = new Intent(this, WebSMS.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			this.startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }
