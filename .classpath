@@ -3,7 +3,8 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/admob-sdk-android.jar"/>
-	<classpathentry kind="lib" path="libs/WebSMS-Connector-API.jar"/>
+	<classpathentry kind="src" path="ub0rlib_src"/>
+	<classpathentry kind="src" path="websmsAPI_src"/>
+	<classpathentry kind="lib" path="libs/GoogleAdMobAdsSdk-4.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

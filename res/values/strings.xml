@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2010 Felix Bechstein
+		Copyright (C) 2009-2011 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,35 +17,28 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS</string>
-	<string name="app_version">3.0.8</string>
 	<string name="about_">About</string>
 	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
 	<string name="about_hint">About this app</string>
+	<string name="faq_hint">Some tips and tricks, how to set up this app.</string>
 	<string name="feedback_">Feedback</string>
 	<string name="feedback_hint">Report bugs, request features ...</string>
+	<string name="twitter_hint">Follow me on twitter.\nGet update notifications etc.</string>
 	<string name="author_">Author:</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;</string>
 	<string name="author_connectors_">Author of Connectors:</string>
 	<string name="change_connector_">Change provider</string>
 	<string name="change_connector_nl">Change\nprovider</string>
-	<string name="changelog_">Changelog</string>
 	<string name="click_for_update">(update: click)</string>
 	<string name="defprefix_">Default int. prefix</string>
 	<string name="defprefix_hint">e.g. +49</string>
-	<string name="donate_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=5779152</string>
-	<string name="donate_mail">flx.yoo+websms.donator@gmail.com</string>
-	<string name="donate_subject">I\'m the donator. My sender hash is...</string>
-	<string name="donate_">Donate</string>
-	<string name="donate_remove_ads_">Donate/remove ads</string>
-	<string name="remove_ads_">Remove ads</string>
-	<string name="predonate">This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating (via paypal). I\'ll remove the ads for you as soon as possible.\nThank you!\n\nFor all the SMSdroid donators: the noads code is working for WebSMS as well.</string>
-	<string name="postdonate">To remove ads, you need to send me the MD5 hash of your IMEI (unique id of your phone). This hash is a one-way-function. It is not traceable back to you.</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
 	<string name="more_connectors__">Even more Connectors..</string>
 	<string name="more_connectors__hint">You are missing a connector for some service? View the FAQ to get it.</string>
+	<string name="set_stdandard_connector_">Set standard Connector</string>
+	<string name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
+	<string name="clear_stdandard_connector_">Clear standard Connector</string>
 	<string name="free_">Balances:</string>
 	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
 	<string name="license_">License:</string>
@@ -53,23 +46,64 @@
 	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
 	<string name="log_noselectedconnector">No Connector selected. Please choose one with "Change Provider".</string>
 	<string name="log_noreadyconnector">No Connector installed or ready. Please check preferences.</string>
+	<string name="log_error_saving_message">Error updating sent message in Database!</string>
+	<string name="log_error_char_nonvalid">Connector does not provide valid characters</string>
+	<string name="log_error_char_notsendable">This message contains not sendable characters</string>
+	<string name="log_error_sms">Could not send SMS: ErrorCode=</string>
+	<string name="log_error_connector_not_found">Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.</string>
+	<string name="try_send_invalid_characters_">Try send invalid</string>
+	<string name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
 	<string name="notify_failed">Failed to send SMS: </string>
 	<string name="notify_failed_">failed sending SMS</string>
 	<string name="sender_">Your mobile number</string>
 	<string name="send_">Send</string>
+	<string name="save_draft_">Save draft</string>
+	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
+	<string name="appearance_">Appearance</string>
+	<string name="behavior_">Behavior</string>
+	<string name="appearance_and_behavior_">Appearance &amp; behavior</string>
+	<string name="autosend_">Autosend</string>
+	<string name="show_titlebar_">Show title bar</string>
+	<string name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
+	<string name="alternative_layout_">Alternative layout</string>
+	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
+	<string name="textsize_">Text size</string>
+	<string name="textsize_hint">Text size in pixels; leave empty for default</string>
 	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
+	<string name="hide_send_button">Hide \"Send\" button</string>
+	<string name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
 	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
 	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+	<string name="hide_extras_button_">Hide \"Extras\" button</string>
+	<string name="hide_extras_button_hint">Hide \"Extras\" button on main screen.</string>
+	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
+	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
 	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
 	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
 	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
 	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
 	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
 	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
+	<string name="hide_update">Hide \"Click for update\"</string>
+	<string name="hide_update_hint">Hide \"Click for update\" on main screen.</string>
+	<string name="hide_bg_connector_">Hide connector name</string>
+	<string name="hide_bg_connector_hint">Hide active connector\'s name in background.</string>
+	<string name="hide_paste_">Hide "paste" button</string>
+	<string name="hide_paste_hint">Hide "paste" button on text field.</string>
+	<string name="drop_sent_">Don\'t save sent SMS</string>
+	<string name="drop_sent_hint">Don\'t save sent messages in global database.</string>
+	<string name="enable_autosend_">Enable autosend</string>
+	<string name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
+	<string name="use_selected_connector_">Use selected Connector</string>
+	<string name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
+	<string name="default_recipient_">Default recipient</string>
+	<string name="default_recipient_hint">Default recipient filled into address bar on app start.</string>
+	<string name="signature_">Signature</string>
+	<string name="signature_hint">Text attached on every message. No extra spacing is done. Start signature with \" \" if needed.</string>
 	<string name="autoupdate_">Autoupdate</string>
 	<string name="autoupdate_hint">Update account balances on start.</string>
 	<string name="autoexit_">Autoexit</string>
@@ -77,11 +111,10 @@
 	<string name="mobile_only_">Show mobiles only</string>
 	<string name="mobile_only_hint">Show mobile numbers only.</string>
 	<string name="vibrate_on_fail">Vibrate if sending fails</string>
+	<string name="vibrate_on_send">Vibrate after sending</string>
 	<string name="sound_on_fail">Play sound if sending fails</string>
-	<string name="source">http://github.com/felixb/websms</string>
 	<string name="source_">Sourcescode:</string>
 	<string name="website_">Website:</string>
-	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="to_hint">Name or Number</string>
 	<string name="text_hint">Text</string>
 	<string name="extras_">Extras</string>
@@ -95,4 +128,15 @@
 	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
 	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
 	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
+	<string name="connector_vanished">Connector vanished!</string>
+	<string name="connector_sms_name">SMS</string>
+	<string name="enable_sms">Enable SMS</string>
+	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
+	<string name="paste_">[ Paste from clipboard ]</string>
+	<string name="restore_">Restore last message</string>
+	<string name="theme_">Theme</string>
+	<string-array name="themes">
+		<item>Black</item>
+		<item>Light</item>
+	</string-array>
 </resources>

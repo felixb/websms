@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2010-2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -18,15 +18,21 @@
  */
 package de.ub0r.android.websms;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
+import de.ub0r.android.lib.Log;
+import de.ub0r.android.lib.Market;
+import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -37,6 +43,25 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  */
 public class Preferences extends PreferenceActivity implements
 		SharedPreferences.OnSharedPreferenceChangeListener {
+	/** Tag for output. */
+	public static final String TAG = "pref";
+
+	/** Preference's name: theme. */
+	private static final String PREFS_THEME = "theme";
+	/** Theme: black. */
+	private static final String THEME_BLACK = "black";
+	/** Theme: light. */
+	private static final String THEME_LIGHT = "light";
+	/** Preference's name: text size. */
+	private static final String PREFS_TEXTSIZE = "textsizen";
+
+	/** Preference's name: set standard connector. */
+	private static final String PREFS_STANDARD_CONNECTOR_SET = // .
+	"set_std_connector";
+	/** Preference's name: clear standard connector. */
+	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = // .
+	"clear_std_connector";
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -44,6 +69,64 @@ public class Preferences extends PreferenceActivity implements
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.prefs);
+		Market.setOnPreferenceClickListener(this, this
+				.findPreference("more_connectors"), null, "websms+connector",
+				"http://code.google.com/p/websmsdroid/downloads"
+						+ "/list?can=2&q=label%3AConnector");
+		Market.setOnPreferenceClickListener(this, this
+				.findPreference("more_apps"), null, "Felix+Bechstein",
+				"http://code.google.com/u/felix.bechstein/");
+		Preference p = this.findPreference("send_logs");
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Log.collectAndSendLog(Preferences.this);
+							return true;
+						}
+					});
+		}
+		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_SET);
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									Preferences.this);
+							final String c = p.getString(
+									WebSMS.PREFS_CONNECTOR_ID, "");
+							final String sc = p.getString(
+									WebSMS.PREFS_SUBCONNECTOR_ID, "");
+							Log.i(TAG, "set std connector: " + c + "/" + sc);
+							final Editor e = p.edit();
+							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, c);
+							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, sc);
+							e.commit();
+							return true;
+						}
+					});
+		}
+		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_CLEAR);
+		if (p != null) {
+			p.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Log.i(TAG, "clear std connector");
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									Preferences.this);
+							final Editor e = p.edit();
+							e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
+							e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
+							e.commit();
+							return true;
+						}
+					});
+		}
 	}
 
 	/**
@@ -63,7 +146,6 @@ public class Preferences extends PreferenceActivity implements
 				ConnectorSpec.STATUS_INACTIVE);
 		String pkg;
 		Preference cp;
-		String action;
 		for (ConnectorSpec cs : css) {
 			if (cs.getPackage() == null) {
 				continue;
@@ -73,9 +155,27 @@ public class Preferences extends PreferenceActivity implements
 			if (cp == null) {
 				cp = new Preference(this);
 				cp.setKey(pkg);
-				cp.setTitle(this.getString(R.string.settings) + " - " + cs.getName());
-				action = cs.getPackage() + Connector.ACTION_PREFS;
-				cp.setIntent(new Intent(action));
+				cp.setTitle(this.getString(R.string.settings) + " - "
+						+ cs.getName());
+				final String action = cs.getPackage() + Connector.ACTION_PREFS;
+				cp.setOnPreferenceClickListener(// .
+						new OnPreferenceClickListener() {
+							@Override
+							public boolean onPreferenceClick(
+									final Preference preference) {
+								try {
+									Preferences.this.startActivity(new Intent(
+											action));
+									return true;
+								} catch (ActivityNotFoundException e) {
+									Toast.makeText(Preferences.this,
+											R.string.// .
+											log_error_connector_not_found,
+											Toast.LENGTH_LONG).show();
+									return false;
+								}
+							}
+						});
 				pc.addPreference(cp);
 				Log.d("WebSMS.prefs", "added: " + action);
 			}
@@ -109,5 +209,37 @@ public class Preferences extends PreferenceActivity implements
 						Toast.LENGTH_LONG).show();
 			}
 		}
+	}
+
+	/**
+	 * Get Theme from Preferences.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @return theme
+	 */
+	static final int getTheme(final Context context) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final String s = p.getString(PREFS_THEME, THEME_BLACK);
+		if (s != null && THEME_LIGHT.equals(s)) {
+			return android.R.style.Theme_Light;
+		}
+		return android.R.style.Theme_Black;
+	}
+
+	/**
+	 * Get text's size from Preferences.
+	 * 
+	 * @param context
+	 *            {@link Context}
+	 * @return theme
+	 */
+	static final int getTextsize(final Context context) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final String s = p.getString(PREFS_TEXTSIZE, null);
+		Log.d(TAG, "text size: " + s);
+		return Utils.parseInt(s, 0);
 	}
 }

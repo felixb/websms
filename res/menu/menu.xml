@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2010 Felix Bechstein
+		Copyright (C) 2009-2010 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -19,8 +19,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:title="@string/send_" android:id="@+id/item_send"
 		android:icon="@android:drawable/ic_menu_send" />
+	<item android:title="@string/save_draft_" android:id="@+id/item_draft"
+		android:icon="@android:drawable/ic_menu_save" />
 	<item android:title="@string/change_connector_" android:id="@+id/item_connector"
 		android:icon="@android:drawable/ic_menu_share" />
+	<item android:title="@string/save_chars_" android:id="@+id/item_savechars"
+		android:icon="@android:drawable/ic_menu_sort_alphabetically" />
 	<item android:title="@string/settings" android:id="@+id/item_settings"
 		android:icon="@android:drawable/ic_menu_preferences" />
 	<item android:id="@+id/item_donate" android:icon="@drawable/ic_menu_star"

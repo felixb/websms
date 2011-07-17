@@ -3,12 +3,11 @@ gen
 .ant-targets-build.xml
 local.properties
 wiki
-src/de/ub0r/android/andGMXsms/IIOOp.java
 build.properties
 doc
 *.zip
-*.jar
 *.swp
 *~
 uml/*.png
 web2sms
+commit.log

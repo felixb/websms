@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+       <!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+       <!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+       <!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+      <!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=hu&file=market.xml to edit the file.
+       -->
+<resources>
+  <string name="market_about" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="WebSMS let\'s you send free and very cheap TXT/SMS via different webservices.\n\nYou will need at least one WebSMS Connector (plugin/extension) from the market to connect this app to the webservice of your choice.\nPricing depends on the webservice provider connected with the connector.\nThe &quot;SMS&quot; Connector shipped with the app itself sends messages via standard GSM method and is billed by your operator. It is installed for backup reasons and deactivated by default.">WebSMS-el ingyen, vagy nagyon olcsón tudsz smseket küldeni különböző webes szolgáltatókon keresztül.\n\nLegalább egy csatolóra szükséged lesz a program használatához, ezeket szintén ingyen letöltheted a marketről.\nAz smsek díja több mindentől függ, pl a kiválasztott webes szolgáltatódtól.\nAz sms csatoló ami már benne van az alap programban, a rendes mobilhálózatodat használja, amiért a telefonszolgáltatódnál fizetsz. Alapértelmezetként ki van kapcsolva.</string>
+  <string name="market_oss" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="This app is open source software build in spare time. Adding bad comments in market won't help much to make it better.\nPlease add your issues with this app on the app\'s website.">Ez a program nyílt forráskódú, amit a szabadidőmben készítettem. Negatív hangvételű megjegyzések nem segítenek sokat a problémák megoldásában. Kérlek a problémás esetekben a megjegyzéseidet inkább a program honlapján keresztül juttasd el hozzám.</string>
+  <string name="market_smsdroid" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="As WebSMS is not able to read messages you might find SMSdroid useful.\nSMSdroid is an alternativ message reader for people who are sending messages with any other messaging app like WebSMS.">Mivel a WebSMS csak az üzenetek elküldésére való, ezért az smseid kezelésére az SMSdroid programot tudom ajánlani. Ez egy alternatív sms kezelő program, olyanoknak, akik a WebSMS-hez hasonló programokat használnak.</string>
+  <string name="market_translation" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="Feel free to help translating this app to your language here: http://ub0r.de/translate/websms/">Kapcsolódj be a fordítási munkába: http://ub0r.de/translate/websms/</string>
+  <string name="market_keywords" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="Keywords: freesms sms txt websms messages">Kulcsszavak: ingyensms text websms üzenet</string>
+</resources>

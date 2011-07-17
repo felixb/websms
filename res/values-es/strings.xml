@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+       <!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+       <!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+       <!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+      <!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=es&file=strings.xml to edit the file.
+       -->
+<resources>
+  <string name="about_" formatted="false">Acerca de</string>
+  <string name="about" formatted="false">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
+  <string name="about_hint" formatted="false">Acerca de esta aplicación</string>
+  <string name="faq_hint" formatted="false">Algunos trucos y consejos acerca de cómo configurar esta aplicación.</string>
+  <string name="feedback_" formatted="false" orig="Feedback">Danos tu opinión</string>
+  <string name="feedback_hint" formatted="false">Avise sobre errores, sugiera características...</string>
+  <string name="twitter_hint" formatted="false">Sígame en twitter.\nObtenga notificaciones sobre actualizaciones, etc.</string>
+  <string name="author_" formatted="false" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false">Autor de los Conectores:</string>
+  <string name="change_connector_" formatted="false">Cambiar proveedor</string>
+  <string name="change_connector_nl" formatted="false">Cambiar\nproveedor</string>
+  <string name="click_for_update" formatted="false">(actualizar: click)</string>
+  <string name="defprefix_" formatted="false">Prefijo internacional por defecto</string>
+  <string name="defprefix_hint" formatted="false">ej: +34</string>
+  <string name="more_apps_" formatted="false">Más Aplicaciones..</string>
+  <string name="more_connectors_" formatted="false">Más Conectores..</string>
+  <string name="more_connectors_hint" formatted="false">Busque más Conectores en el Market. ¡Reinicie WebSMS después de instalarlos!</string>
+  <string name="more_connectors__" formatted="false">Aún más Conectores..</string>
+  <string name="more_connectors__hint" formatted="false">¿Echa en falta conectores para algún servicio? Lea el FAQ para conseguirlos.</string>
+  <string name="set_stdandard_connector_" formatted="false">Set standard Connector</string>
+  <string name="set_stdandard_connector_hint" formatted="false" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Establecer el conector actual como el predeterminado. WebSMS lo cambiará de nuevo automaticamente.</string>
+  <string name="clear_stdandard_connector_" formatted="false" orig="Clear standard Connector">Borrar el conector estandar</string>
+  <string name="free_" formatted="false">Saldo:</string>
+  <string name="license" formatted="false">GPLv3 - leer http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false">Licencia:</string>
+  <string name="log_wrong_defprefix" formatted="false">Por favor, introduzca un código válido como prefijo internacional por defecto. Ej: "+34".</string>
+  <string name="log_wrong_sender" formatted="false">¡Remitente incorrecto! Introdúzcalo en formato internacional, similar a +3417012345689.</string>
+  <string name="log_noselectedconnector" formatted="false">Ningún Conector seleccionado. Por favor, escoja uno con "Cambiar proveedor".</string>
+  <string name="log_noreadyconnector" formatted="false">Ningún Conector ha sido instalado todavía. Por favor, compruebe las preferencias.</string>
+  <string name="log_error_saving_message" formatted="false">¡Error al guardar el mensaje enviado en la base de datos!</string>
+  <string name="log_error_char_nonvalid" formatted="false">El conector no proporciona caracteres válidos</string>
+  <string name="log_error_char_notsendable" formatted="false">Este mensaje contiene caracteres que no se pueden enviar</string>
+  <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">No se pudo enviar el SMS: Código de error=</string>
+  <string name="try_send_invalid_characters_" formatted="false">Intentar mandar caracteres no válidos</string>
+  <string name="try_send_invalid_characters_hint" formatted="false">Intentar mandar mensajes con caracteres no válidos.</string>
+  <string name="notify_failed" formatted="false">Error al enviar SMS: </string>
+  <string name="notify_failed_" formatted="false">Error enviando SMS</string>
+  <string name="sender_" formatted="false">Su número de teléfono </string>
+  <string name="send_" formatted="false">Enviar</string>
+  <string name="save_draft_" formatted="false">Guardar borrador</string>
+  <string name="save_chars_" formatted="false">Guardar caracteres</string>
+  <string name="settings" formatted="false">Preferencias</string>
+  <string name="settings_common" formatted="false">Preferencias - Comunes</string>
+  <string name="appearance_" formatted="false">Apariencia</string>
+  <string name="autosend_" formatted="false" orig="Autosend">Autoenvio</string>
+  <string name="show_titlebar_" formatted="false">Mostra la barra de título</string>
+  <string name="show_titlebar_hint" formatted="false">Mostrar la barra de título en la vista principal. Sin dicha barra no es posible ver la actividad en segundo plano.</string>
+  <string name="settings_connectors" formatted="false">Preferencias - Conectores</string>
+  <string name="hide_change_connector_button" formatted="false">Ocultar botón \"Camb. proveedor\"</string>
+  <string name="hide_change_connector_button_hint" formatted="false">Oculta el botón \"Cambiar proveedor\" de la pantalla principal.</string>
+  <string name="hide_send_button" formatted="false">Ocultar botón \"Enviar\"</string>
+  <string name="hide_send_button_hint" formatted="false">Oculta el botón \"Enviar\" de la pantalla principal.</string>
+  <string name="hide_cancel_button" formatted="false">Ocultar botón \"Cancelar\"</string>
+  <string name="hide_cancel_button_hint" formatted="false">Oculta el botón \"Cancelar\" de la pantalla principal.</string>
+  <string name="hide_select_recipients_button_" formatted="false">Ocultar botón \"Elegir\"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false">Oculta el botón \"Elegir destinatarios\" de la pantalla principal.</string>
+  <string name="hide_clear_recipients_button_" formatted="false">Ocultar botón \"Limpiar\"</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false">Oculta el botón \"Limpiar destinatarios\" de la pantalla principal.</string>
+  <string name="hide_send_in_menu" formatted="false">Ocultar \"Enviar\" en menú</string>
+  <string name="hide_send_in_menu_hint" formatted="false">Oculta el elemento \"Enviar\" del menú principal. Requiere reiniciar WebSMS.</string>
+  <string name="hide_emo_button" formatted="false">Ocultar botón \"Emoticonos\"</string>
+  <string name="hide_emo_button_hint" formatted="false">Oculta el botón \"Emoticonos\" de la pantalla principal.</string>
+  <string name="hide_update" formatted="false">Ocultar \"Click para actualizar\"</string>
+  <string name="hide_update_hint" formatted="false">Oculta \"Click para actualizar\" de la pantalla principal.</string>
+  <string name="hide_bg_connector_" formatted="false">Ocultar el nombre del conector</string>
+  <string name="hide_bg_connector_hint" formatted="false">Ocultar el nombre del conector actual en el  fondo.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Ocultar el botón "pegar"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Ocultar el botón "pegar" en campo de texto</string>
+  <string name="enable_autosend_" formatted="false" orig="Enable autosend">Habilitar envio automático</string>
+  <string name="default_recipient_" formatted="false">Destinatario por defecto</string>
+  <string name="default_recipient_hint" formatted="false">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>
+  <string name="signature_" formatted="false">Firma</string>
+  <string name="signature_hint" formatted="false">Texto adjuntado en cada mensaje. No se obtiene espacio adicional. Comience la firma con \" \" si es necesario.</string>
+  <string name="autoupdate_" formatted="false">Actualizar automáticamente</string>
+  <string name="autoupdate_hint" formatted="false">Actualiza el saldo de la cuenta al arrancar.</string>
+  <string name="autoexit_" formatted="false">Salir automáticamente</string>
+  <string name="autoexit_hint" formatted="false">Sale de WebSMS tras enviar sms.</string>
+  <string name="mobile_only_" formatted="false">Mostrar sólo móviles</string>
+  <string name="mobile_only_hint" formatted="false">Muestra únicamente números de teléfono móvil.</string>
+  <string name="vibrate_on_fail" formatted="false">Vibrar si falla el envío</string>
+  <string name="vibrate_on_send" formatted="false">Vibrar despues de enviar el mensaje</string>
+  <string name="sound_on_fail" formatted="false">Reproducir sonido si falla el envío</string>
+  <string name="source_" formatted="false">Código fuente:</string>
+  <string name="website_" formatted="false">Página web:</string>
+  <string name="to_hint" formatted="false">Nombre o Número</string>
+  <string name="text_hint" formatted="false">Texto</string>
+  <string name="extras_" formatted="false">Extras</string>
+  <string name="flashsms" formatted="false">Flash SMS</string>
+  <string name="custom_sender" formatted="false">Remitente personalizado</string>
+  <string name="send_later" formatted="false">Enviar después</string>
+  <string name="emo_" formatted="false">Emoticonos</string>
+  <string name="connectors_switch" formatted="false">Conector cambiado:</string>
+  <string name="captcha_" formatted="false">Captcha</string>
+  <string name="captcha_solve_it" formatted="false">Por favor, introduzca el texto a continuación:</string>
+  <string name="status_disabled" formatted="false">Estado: desactivado\n(Se actualizará cuando regrese a la pantalla principal)</string>
+  <string name="status_enabled" formatted="false">Estado: activado\n(Se actualizará cuando regrese a la pantalla principal)</string>
+  <string name="status_ready" formatted="false">Estado: preparado\n(Se actualizará cuando regrese a la pantalla principal)</string>
+  <string name="connector_vanished" formatted="false">¡Conector no encontrado!</string>
+  <string name="connector_sms_name" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="SMS">SMS</string>
+  <string name="enable_sms" formatted="false">Permitir SMS</string>
+  <string name="enable_sms_hint" formatted="false">El Conector SMS enviará SMS normales (ej: a través de GSM).</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Pegar desde el portapapeles]</string>
+  <string name="restore_" formatted="false" orig="Restore last message">Restaurar el último mensaje</string>
+  <string name="theme_" formatted="false" orig="Theme">Tema</string>
+  <string-array name="themes">
+    <item>Oscuro</item>
+    <item>Claro</item>
+  </string-array>
+</resources>

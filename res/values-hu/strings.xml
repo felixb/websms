@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+       <!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+       <!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+       <!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+      <!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=hu&file=strings.xml to edit the file.
+       -->
+<resources>
+  <string name="about_" formatted="false">A programról</string>
+  <string name="about" formatted="false">A WebSMS segítségével ingyenes és olcsó smseket küldhetsz, webes szolgáltatókon keresztül. Sok szolgáltatóhoz van támogatás. A program beállítások menüjén belül találhatsz linket a marketen levő kiegészítőkhöz.</string>
+  <string name="about_hint" formatted="false">A programról</string>
+  <string name="faq_hint" formatted="false">Tippek és trükkök, a program használatához.</string>
+  <string name="feedback_" formatted="false">Visszajelzés</string>
+  <string name="feedback_hint" formatted="false">Hibajelentés küldése, új funkciók kérése ...</string>
+  <string name="twitter_hint" formatted="false">Kövess a twitteren.\nFrissítések, infók, stb.</string>
+  <string name="author_" formatted="false">Készítette:</string>
+  <string name="author_connectors_" formatted="false">Kiegészítő készítője:</string>
+  <string name="change_connector_" formatted="false">Szolgáltató váltása</string>
+  <string name="change_connector_nl" formatted="false">Szolgáltató\nváltása</string>
+  <string name="click_for_update" formatted="false">(frissítés: kattints)</string>
+  <string name="defprefix_" formatted="false">Alap előhívó</string>
+  <string name="defprefix_hint" formatted="false">p.l. +36</string>
+  <string name="more_apps_" formatted="false">Még több program..</string>
+  <string name="more_connectors_" formatted="false">Még több kiegészítő..</string>
+  <string name="more_connectors_hint" formatted="false">Keress még több kiegészítőt az android marketen. Indítsd újra a WebSMS-t a telepítés után!</string>
+  <string name="more_connectors__" formatted="false">Még több kiegészítő..</string>
+  <string name="more_connectors__hint" formatted="false">Hiányzik egy kiegészítő egy szolgáltatóhoz? Olvasd el a GYIK-ot.</string>
+  <string name="set_stdandard_connector_" formatted="false">Alapértelmezett csatoló beállítása</string>
+  <string name="set_stdandard_connector_hint" formatted="false">Jelenlegi csatoló alapértelmezettként beállítása. WebSMS erre fog automatikus visszaállni.</string>
+  <string name="clear_stdandard_connector_" formatted="false">Alapértelmezett csatoló törlése</string>
+  <string name="free_" formatted="false">Egyenleg:</string>
+  <string name="license" formatted="false">GPLv3 - lásd http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false">Licensz:</string>
+  <string name="log_wrong_defprefix" formatted="false">Kérlek adj meg egy érvényes ország előhívót alapértelmezett előhívónak. P.l. "+36".</string>
+  <string name="log_wrong_sender" formatted="false">Hibás szám! Nemzetközi telefonszámformátumot használj pl.: +36301112233.</string>
+  <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a "Kiegészítő választása" gombbal.</string>
+  <string name="log_noreadyconnector" formatted="false">Nincs kiegészítő telepítve, vagy nincs beállítva. Kérlek ellenőrizd a beállításokat.</string>
+  <string name="log_error_saving_message" formatted="false">Hiba, az elküldött üzenet frissítésénél az adatbázisban!</string>
+  <string name="log_error_char_nonvalid" formatted="false">Hiba, ssatoló nem megengedett karaktereket küldött</string>
+  <string name="log_error_char_notsendable" formatted="false">Az üzenet nem engedett karaktereket tartalmaz</string>
+  <string name="try_send_invalid_characters_" formatted="false">Hibás karakterek küldése</string>
+  <string name="try_send_invalid_characters_hint" formatted="false">Hibás karakterek küldésének erőltetése.</string>
+  <string name="notify_failed" formatted="false">SMS küldés meghíúsult: </string>
+  <string name="notify_failed_" formatted="false">SMS küldés meghíúsult</string>
+  <string name="sender_" formatted="false">A mobilszámod</string>
+  <string name="send_" formatted="false">Küldés</string>
+  <string name="save_draft_" formatted="false">Piszkozat mentése</string>
+  <string name="save_chars_" formatted="false">Karakterek mentése</string>
+  <string name="settings" formatted="false">Beállítások</string>
+  <string name="settings_common" formatted="false">Beállítások - Általános</string>
+  <string name="appearance_" formatted="false">Kinézet</string>
+  <string name="behavior_" formatted="false">Működés</string>
+  <string name="appearance_and_behavior_" formatted="false">Kinézet &amp; működés</string>
+  <string name="autosend_" formatted="false">Automata küldés</string>
+  <string name="show_titlebar_" formatted="false">Címsor mutatása</string>
+  <string name="show_titlebar_hint" formatted="false">Címsor mutatása a fő nézetben. Címsor nélkül nem látszódnak a háttérben futó programok.</string>
+  <string name="settings_connectors" formatted="false">Beállítások - Kiegészítők</string>
+  <string name="hide_change_connector_button" formatted="false">Elrejtés \"Kiegészítő..."</string>
+  <string name="hide_change_connector_button_hint" formatted="false">Elrejtés \"Kiegészítő vált...</string>
+  <string name="hide_send_button" formatted="false">Elrejtés \"Küldés\" gomb</string>
+  <string name="hide_send_button_hint" formatted="false">Elrejtés \"Küldés\" gomb</string>
+  <string name="hide_cancel_button" formatted="false">Elrejtés \"Mégsem\" gomb</string>
+  <string name="hide_cancel_button_hint" formatted="false">Elrejtés \"Mégsem\" gomb</string>
+  <string name="hide_select_recipients_button_" formatted="false">Elrejtés \"Kiválaszt\" gomb</string>
+  <string name="hide_select_recipients_button_hint" formatted="false">Elrejtés \"Címzettek kiválasztása\" gomb</string>
+  <string name="hide_clear_recipients_button_" formatted="false">Elrejtés \"Törlés\" gomb</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false">Elrejtés \"Címzettek törlése\" gomb</string>
+  <string name="hide_send_in_menu" formatted="false">Elrejtés \"Küldés\" menü elem</string>
+  <string name="hide_send_in_menu_hint" formatted="false">Elrejtés \"Küldés\" a menüben. Újraindítás szükséges!.</string>
+  <string name="hide_emo_button" formatted="false">Elrejtés \"Emóciók\" gomb</string>
+  <string name="hide_emo_button_hint" formatted="false">Elrejtés \"hangulatjelek\" gomb</string>
+  <string name="hide_update" formatted="false">Elrejtés \"Kattints a frissít...</string>
+  <string name="hide_update_hint" formatted="false">Elrejtés \"Kattints a frissítéshez\" a főképernyőn.</string>
+  <string name="hide_bg_connector_" formatted="false">Kiegészítő nevének...</string>
+  <string name="hide_bg_connector_hint" formatted="false">Aktív kiegészítő nevének elrejtése a háttérben.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Elrejtés "beillesztés" gomb</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Beillesztés gomb elrejtése</string>
+  <string name="drop_sent_" formatted="false" orig="Don\'t save sent SMS">Elküldöttet ne mentse</string>
+  <string name="drop_sent_hint" formatted="false" orig="Don\'t save sent messages in global database.">Elküldött leveleket ne mentse el az adattárba</string>
+  <string name="enable_autosend_" formatted="false">Automata küldés</string>
+  <string name="enable_autosend_hint" formatted="false">SMSdroid automata küldés bekapcsolása.</string>
+  <string name="use_selected_connector_" formatted="false">Kiválasztott kapcsoló használata</string>
+  <string name="use_selected_connector_hint" formatted="false">Jelenlegi kijelölt kapcsoló automata küldés használata. Tiltsd le, hogy feldobja a választó menüt.</string>
+  <string name="default_recipient_" formatted="false">Alapértelmezet címzett</string>
+  <string name="default_recipient_hint" formatted="false">Címzett mező kitöltése a program indulásakor.</string>
+  <string name="signature_" formatted="false">Aláírás</string>
+  <string name="signature_hint" formatted="false">Aláírás hozzácsatolása minden kimenő üzenethez. Kezdd az aláírást \" \" -vel ha szükséges.</string>
+  <string name="autoupdate_" formatted="false">Automatikus frissítés</string>
+  <string name="autoupdate_hint" formatted="false">Egyenleg frissítése a program indulásakor.</string>
+  <string name="autoexit_" formatted="false">Automatikus kilépés</string>
+  <string name="autoexit_hint" formatted="false">Kilépés a WebSMS-ből üzenet küldése után.</string>
+  <string name="mobile_only_" formatted="false">Csak mobil számok</string>
+  <string name="mobile_only_hint" formatted="false">Csak mobil számokat mutass.</string>
+  <string name="vibrate_on_fail" formatted="false">Vibrálás hibás küldésnél</string>
+  <string name="vibrate_on_send" formatted="false">Vibrálás küldés után</string>
+  <string name="sound_on_fail" formatted="false">Hang hibás küldés esetén.</string>
+  <string name="source_" formatted="false">Forráskód:</string>
+  <string name="website_" formatted="false">Weboldal:</string>
+  <string name="to_hint" formatted="false">Név vagy szám</string>
+  <string name="text_hint" formatted="false">Szöveg</string>
+  <string name="extras_" formatted="false">Extrák</string>
+  <string name="flashsms" formatted="false">Villogó SMS</string>
+  <string name="custom_sender" formatted="false">Tetszőleges feladó</string>
+  <string name="send_later" formatted="false">Későbbi küldés</string>
+  <string name="emo_" formatted="false">Hangulatjelek</string>
+  <string name="connectors_switch" formatted="false">Kiegészítő váltva:</string>
+  <string name="captcha_" formatted="false">Captcha</string>
+  <string name="captcha_solve_it" formatted="false">Kérlek írd be a lenti szöveget:</string>
+  <string name="status_disabled" formatted="false">Állapot: letiltva\n(Frissítve a főképernyőre való visszatéréskor)</string>
+  <string name="status_enabled" formatted="false">Állapot: engedélyezve\n(Frissítve a főképernyőre való visszatéréskor)</string>
+  <string name="status_ready" formatted="false">Állapot: kész\n(Frissítve a főképernyőre való visszatéréskor)</string>
+  <string name="connector_vanished" formatted="false">Kiegészítő eltűnt!</string>
+  <string name="connector_sms_name" formatted="false">SMS</string>
+  <string name="enable_sms" formatted="false">SMS engedélyezése</string>
+  <string name="enable_sms_hint" formatted="false">Az SMS kiegészítő sima smseket fog küldeni (T).</string>
+  <string name="paste_" formatted="false">[ Vágólapról beillesztés ]</string>
+  <string name="theme_" formatted="false">Téma</string>
+  <string-array name="themes" username="flx &lt;f+translator@ub0r.de&gt;">
+    <item>Sötét</item>
+    <item>Világos</item>
+  </string-array>
+</resources>

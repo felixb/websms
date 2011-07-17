@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2010-2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -18,33 +18,60 @@
  */
 package de.ub0r.android.websms;
 
+import java.util.ArrayList;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.provider.BaseColumns;
+import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
- * Fetch all incomming Broadcasts and forward them to WebSMS.
+ * Fetch all incoming Broadcasts and forward them to WebSMS.
  * 
  * @author flx
  */
 public final class WebSMSReceiver extends BroadcastReceiver {
 	/** Tag for debug output. */
-	private static final String TAG = "WebSMS.bcr";
+	private static final String TAG = "bcr";
+
+	/** {@link Uri} for saving messages. */
+	private static final Uri URI_SMS = Uri.parse("content://sms");
+	/** {@link Uri} for saving sent messages. */
+	private static final Uri URI_SENT = Uri.parse("content://sms/sent");
+	/** Projection for getting the id. */
+	private static final String[] PROJECTION_ID = // .
+	new String[] { BaseColumns._ID };
 
 	/** Intent's scheme to send sms. */
 	private static final String INTENT_SCHEME_SMSTO = "smsto";
+
+	/** ACTION for publishing information about sent websms. */
+	private static final String ACTION_CM_WEBSMS = // .
+	"de.ub0r.android.callmeter.SAVE_WEBSMS";
+	/** Extra holding uri of sent sms. */
+	private static final String EXTRA_WEBSMS_URI = "uri";
+	/** Extra holding name of connector. */
+	private static final String EXTRA_WEBSMS_CONNECTOR = "connector";
+
+	/** Vibrate x seconds on send. */
+	private static final long VIBRATOR_SEND = 100L;
 
 	/** SMS DB: address. */
 	static final String ADDRESS = "address";
@@ -62,6 +89,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	static final String BODY = "body";
 	/** SMS DB: type - sent. */
 	static final int MESSAGE_TYPE_SENT = 2;
+	/** SMS DB: type - draft. */
+	static final int MESSAGE_TYPE_DRAFT = 3;
 
 	/** Next notification ID. */
 	private static int nextNotificationID = 1;
@@ -84,7 +113,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			return;
 		}
 		if (Connector.ACTION_INFO.equals(action)) {
-			this.handleInfoAction(context, intent);
+			WebSMSReceiver.handleInfoAction(context, intent);
 		} else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
 			final Intent i = new Intent(context, CaptchaActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -101,7 +130,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param intent
 	 *            intent
 	 */
-	private void handleInfoAction(final Context context, final Intent intent) {
+	private static void handleInfoAction(final Context context,
+			final Intent intent) {
 		final ConnectorSpec specs = new ConnectorSpec(intent);
 		final ConnectorCommand command = new ConnectorCommand(intent);
 
@@ -118,7 +148,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		// save send messages
 		if (command != null && // .
 				command.getType() == ConnectorCommand.TYPE_SEND) {
-			this.handleSendCommand(specs, context, intent, command);
+			handleSendCommand(specs, context, intent, command);
 		}
 	}
 
@@ -134,12 +164,22 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	private void handleSendCommand(final ConnectorSpec specs,
+	static void handleSendCommand(final ConnectorSpec specs,
 			final Context context, final Intent intent,
 			final ConnectorCommand command) {
 
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
-			this.saveMessage(context, command);
+			saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
+			final SharedPreferences p = PreferenceManager
+					.getDefaultSharedPreferences(context);
+			if (p.getBoolean(WebSMS.PREFS_SEND_VIBRATE, false)) {
+				final Vibrator v = (Vibrator) context
+						.getSystemService(Context.VIBRATOR_SERVICE);
+				if (v != null) {
+					v.vibrate(VIBRATOR_SEND);
+					v.cancel();
+				}
+			}
 			return;
 		}
 		// Display notification if sending failed
@@ -211,36 +251,101 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/**
 	 * Save Message to internal database.
 	 * 
+	 * @param specs
+	 *            {@link ConnectorSpec}
 	 * @param context
 	 *            {@link Context}
 	 * @param command
 	 *            {@link ConnectorCommand}
+	 * @param msgType
+	 *            sent or draft?
 	 */
-	private void saveMessage(final Context context,
-			final ConnectorCommand command) {
+	static void saveMessage(final ConnectorSpec specs, final Context context,
+			final ConnectorCommand command, final int msgType) {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
 		}
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				WebSMS.PREFS_DROP_SENT, false)) {
+			Log.i(TAG, "drop sent messages");
+			return;
+		}
+		final ContentResolver cr = context.getContentResolver();
+		final ContentValues values = new ContentValues();
+		values.put(TYPE, msgType);
+
+		if (msgType == MESSAGE_TYPE_SENT) {
+			final String[] uris = command.getMsgUris();
+			if (uris != null && uris.length > 0) {
+				for (String s : uris) {
+					final Uri u = Uri.parse(s);
+					try {
+						final int updated = cr.update(u, values, null, null);
+						Log.d(TAG, "updated: " + updated);
+						if (updated > 0
+								&& specs != null
+								&& !specs.getPackage().equals(
+										"de.ub0r.android.websms.connector."
+												+ "sms")) {
+							final Intent intent = new Intent(ACTION_CM_WEBSMS);
+							intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
+							intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs
+									.getName().toLowerCase());
+							context.sendBroadcast(intent);
+						}
+					} catch (SQLiteException e) {
+						Log.e(TAG, "error updating sent message: " + u, e);
+						Toast.makeText(context,
+								R.string.log_error_saving_message,
+								Toast.LENGTH_LONG).show();
+					}
+				}
+				return; // skip legacy saving
+			}
+		}
+
+		final String text = command.getText();
+
+		Log.d(TAG, "save message(s):");
+		Log.d(TAG, "type: " + msgType);
+		Log.d(TAG, "TEXT: " + text);
+		values.put(READ, 1);
+		values.put(BODY, text);
+		if (command.getSendLater() > 0) {
+			values.put(DATE, command.getSendLater());
+			Log.d(TAG, "DATE: " + command.getSendLater());
+		}
 		final String[] recipients = command.getRecipients();
+		final ArrayList<String> inserted = new ArrayList<String>(
+				recipients.length);
 		for (int i = 0; i < recipients.length; i++) {
 			if (recipients[i] == null || recipients[i].trim().length() == 0) {
 				continue; // skip empty recipients
+
 			}
-			// save sms to content://sms/sent
-			Log.d(TAG, "save message:");
-			Log.d(TAG, "TO: " + Utils.getRecipientsNumber(recipients[i]));
-			Log.d(TAG, "TEXT: " + command.getText());
-			ContentValues values = new ContentValues();
-			values.put(ADDRESS, Utils.getRecipientsNumber(recipients[i]));
-			values.put(READ, 1);
-			values.put(TYPE, MESSAGE_TYPE_SENT);
-			values.put(BODY, command.getText());
-			if (command.getSendLater() > 0) {
-				values.put(DATE, command.getSendLater());
-				Log.d(TAG, "DATE: " + command.getSendLater());
+			String address = Utils.getRecipientsNumber(recipients[i]);
+			Log.d(TAG, "TO: " + address);
+			final Cursor c = cr.query(URI_SMS, PROJECTION_ID, TYPE + " = "
+					+ MESSAGE_TYPE_DRAFT + " AND " + ADDRESS + " = '" + address
+					+ "' AND " + BODY + " like '" + text.replace("'", "_")
+					+ "'", null, DATE + " DESC");
+			if (c != null && c.moveToFirst()) {
+				final Uri u = URI_SENT.buildUpon().appendPath(c.getString(0))
+						.build();
+				Log.d(TAG, "skip saving draft: " + u);
+				inserted.add(u.toString());
+			} else {
+				final ContentValues cv = new ContentValues(values);
+				cv.put(ADDRESS, address);
+				// save sms to content://sms/sent
+				inserted.add(cr.insert(URI_SENT, cv).toString());
 			}
-			context.getContentResolver().insert(
-					Uri.parse("content://sms/sent"), values);
+			if (c != null && !c.isClosed()) {
+				c.close();
+			}
+		}
+		if (msgType == MESSAGE_TYPE_DRAFT) {
+			command.setMsgUris(inserted.toArray(new String[] {}));
 		}
 	}
 }

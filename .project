@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>WebSMS</name>
+	<name>websms</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -36,4 +36,16 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>ub0rlib_src</name>
+			<type>2</type>
+			<locationURI>_android_ub0rlib_d74dde96/src</locationURI>
+		</link>
+		<link>
+			<name>websmsAPI_src</name>
+			<type>2</type>
+			<locationURI>_android_websmsAPI_f23b9255/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
