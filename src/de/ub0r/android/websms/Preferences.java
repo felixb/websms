@@ -18,19 +18,23 @@
  */
 package de.ub0r.android.websms;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.MenuItem;
 import android.widget.Toast;
+import de.ub0r.android.lib.IPreferenceContainer;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.Utils;
@@ -43,7 +47,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  * @author flx
  */
 public class Preferences extends PreferenceActivity implements
-		SharedPreferences.OnSharedPreferenceChangeListener {
+		IPreferenceContainer {
 	/** Tag for output. */
 	private static final String TAG = "pref";
 
@@ -68,68 +72,55 @@ public class Preferences extends PreferenceActivity implements
 	 */
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.prefs);
+		this.addPreferencesFromResource(R.xml.prefs_common);
+		this.addPreferencesFromResource(R.xml.prefs_appearance_behavior);
+		this.addPreferencesFromResource(R.xml.prefs_connectors);
+		this.addPreferencesFromResource(R.xml.prefs_about);
+		this.addPreferencesFromResource(R.xml.prefs_debug);
 		this.setTitle(R.string.settings);
-		Market.setOnPreferenceClickListener(this, this
-				.findPreference("more_connectors"), null, "websms+connector",
-				"http://code.google.com/p/websmsdroid/downloads"
-						+ "/list?can=2&q=label%3AConnector");
-		Market.setOnPreferenceClickListener(this, this
-				.findPreference("more_apps"), null, "Felix+Bechstein",
-				"http://code.google.com/u/felix.bechstein/");
-		Preference p = this.findPreference("send_logs");
-		if (p != null) {
-			p.setOnPreferenceClickListener(// .
-					new Preference.OnPreferenceClickListener() {
-						public boolean onPreferenceClick(
-								final Preference preference) {
-							Log.collectAndSendLog(Preferences.this);
-							return true;
+		registerPreferenceChecker(this);
+		registerOnSharedPreferenceChangeListener(this);
+	}
+
+	/**
+	 * Register {@link OnSharedPreferenceChangeListener}.
+	 * 
+	 * @param pc
+	 *            {@link IPreferenceContainer}
+	 */
+	static void registerOnSharedPreferenceChangeListener(
+			final IPreferenceContainer pc) {
+		final SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(pc.getContext());
+		prefs.registerOnSharedPreferenceChangeListener(// .
+				new OnSharedPreferenceChangeListener() {
+					@Override
+					public void onSharedPreferenceChanged(
+							final SharedPreferences sharedPreferences,
+							final String key) {
+						if (key.equals(WebSMS.PREFS_SENDER)) {
+							// check for wrong sender format. people can't
+							// read..
+							final String p = prefs.getString(
+									WebSMS.PREFS_SENDER, "");
+							if (!p.startsWith("+")) {
+								Toast.makeText(pc.getContext(),
+										R.string.log_wrong_sender,
+										Toast.LENGTH_LONG).show();
+							}
 						}
-					});
-		}
-		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_SET);
-		if (p != null) {
-			p.setOnPreferenceClickListener(// .
-					new Preference.OnPreferenceClickListener() {
-						public boolean onPreferenceClick(
-								final Preference preference) {
-							final SharedPreferences p = PreferenceManager
-									.getDefaultSharedPreferences(// .
-									Preferences.this);
-							final String c = p.getString(
-									WebSMS.PREFS_CONNECTOR_ID, "");
-							final String sc = p.getString(
-									WebSMS.PREFS_SUBCONNECTOR_ID, "");
-							Log.i(TAG, "set std connector: " + c + "/" + sc);
-							final Editor e = p.edit();
-							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, c);
-							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, sc);
-							e.commit();
-							return true;
+						if (key.equals(WebSMS.PREFS_DEFPREFIX)) {
+							final String p = prefs.getString(
+									WebSMS.PREFS_DEFPREFIX, "");
+							if (!p.startsWith("+")) {
+								Toast.makeText(pc.getContext(),
+										R.string.log_wrong_defprefix,
+										Toast.LENGTH_LONG).show();
+							}
 						}
-					});
-		}
-		p = this.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_CLEAR);
-		if (p != null) {
-			p.setOnPreferenceClickListener(// .
-					new Preference.OnPreferenceClickListener() {
-						public boolean onPreferenceClick(
-								final Preference preference) {
-							Log.i(TAG, "clear std connector");
-							final SharedPreferences p = PreferenceManager
-									.getDefaultSharedPreferences(// .
-									Preferences.this);
-							final Editor e = p.edit();
-							e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
-							e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
-							e.commit();
-							return true;
-						}
-					});
-		}
+					}
+				});
 	}
 
 	/**
@@ -139,79 +130,7 @@ public class Preferences extends PreferenceActivity implements
 	public final void onResume() {
 		super.onResume();
 		WebSMS.doPreferences = true;
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		p.registerOnSharedPreferenceChangeListener(this);
-		PreferenceCategory pc = (PreferenceCategory) this
-				.findPreference("settings_connectors");
-		final ConnectorSpec[] css = WebSMS.getConnectors(
-				ConnectorSpec.CAPABILITIES_PREFS, // .
-				ConnectorSpec.STATUS_INACTIVE);
-		String pkg;
-		Preference cp;
-		for (ConnectorSpec cs : css) {
-			if (cs.getPackage() == null) {
-				continue;
-			}
-			pkg = cs.getPackage();
-			cp = pc.findPreference(pkg);
-			if (cp == null) {
-				cp = new Preference(this);
-				cp.setKey(pkg);
-				cp.setTitle(this.getString(R.string.settings) + " - "
-						+ cs.getName());
-				final String action = cs.getPackage() + Connector.ACTION_PREFS;
-				cp.setOnPreferenceClickListener(// .
-						new OnPreferenceClickListener() {
-							@Override
-							public boolean onPreferenceClick(
-									final Preference preference) {
-								try {
-									Preferences.this.startActivity(new Intent(
-											action));
-									return true;
-								} catch (ActivityNotFoundException e) {
-									Toast.makeText(Preferences.this,
-											R.string.// .
-											log_error_connector_not_found,
-											Toast.LENGTH_LONG).show();
-									return false;
-								}
-							}
-						});
-				pc.addPreference(cp);
-				Log.d("WebSMS.prefs", "added: " + action);
-			}
-			if (cs.isReady()) {
-				cp.setSummary(R.string.status_ready);
-			} else if (cs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
-				cp.setSummary(R.string.status_enabled);
-			} else {
-				cp.setSummary(R.string.status_disabled);
-			}
-		}
-	}
-
-	/**
-	 *{@inheritDoc}
-	 */
-	public final void onSharedPreferenceChanged(final SharedPreferences prefs,
-			final String key) {
-		if (key.equals(WebSMS.PREFS_SENDER)) {
-			// check for wrong sender format. people can't read..
-			final String p = prefs.getString(WebSMS.PREFS_SENDER, "");
-			if (!p.startsWith("+")) {
-				Toast.makeText(this, R.string.log_wrong_sender,
-						Toast.LENGTH_LONG).show();
-			}
-		}
-		if (key.equals(WebSMS.PREFS_DEFPREFIX)) {
-			final String p = prefs.getString(WebSMS.PREFS_DEFPREFIX, "");
-			if (!p.startsWith("+")) {
-				Toast.makeText(this, R.string.log_wrong_defprefix,
-						Toast.LENGTH_LONG).show();
-			}
-		}
+		addConnectorPreferences(this);
 	}
 
 	/**
@@ -226,9 +145,9 @@ public class Preferences extends PreferenceActivity implements
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, THEME_BLACK);
 		if (s != null && THEME_LIGHT.equals(s)) {
-			return R.style.Theme_Sherlock_Light;
+			return R.style.Theme_SherlockUb0r_Light;
 		}
-		return R.style.Theme_Sherlock;
+		return R.style.Theme_SherlockUb0r;
 	}
 
 	/**
@@ -260,6 +179,150 @@ public class Preferences extends PreferenceActivity implements
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Context getContext() {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Activity getActivity() {
+		return this;
+	}
+
+	/**
+	 * Check all {@link SharedPreferences} and register
+	 * {@link OnPreferenceChangeListener}.
+	 * 
+	 * @param pc
+	 *            {@link IPreferenceContainer}
+	 */
+	static void registerPreferenceChecker(final IPreferenceContainer pc) {
+		Market.setOnPreferenceClickListener(pc.getActivity(), pc
+				.findPreference("more_connectors"), null, "websms+connector",
+				"http://code.google.com/p/websmsdroid/downloads"
+						+ "/list?can=2&q=label%3AConnector");
+		Market.setOnPreferenceClickListener(pc.getActivity(), pc
+				.findPreference("more_apps"), null, "Felix+Bechstein",
+				"http://code.google.com/u/felix.bechstein/");
+		Preference pr = pc.findPreference("send_logs");
+		if (pr != null) {
+			pr.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Log.collectAndSendLog(pc.getActivity());
+							return true;
+						}
+					});
+		}
+		pr = pc.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_SET);
+		if (pr != null) {
+			pr.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									pc.getContext());
+							final String c = p.getString(
+									WebSMS.PREFS_CONNECTOR_ID, "");
+							final String sc = p.getString(
+									WebSMS.PREFS_SUBCONNECTOR_ID, "");
+							Log.i(TAG, "set std connector: " + c + "/" + sc);
+							final Editor e = p.edit();
+							e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, c);
+							e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, sc);
+							e.commit();
+							return true;
+						}
+					});
+		}
+		pr = pc.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_CLEAR);
+		if (pr != null) {
+			pr.setOnPreferenceClickListener(// .
+					new Preference.OnPreferenceClickListener() {
+						public boolean onPreferenceClick(
+								final Preference preference) {
+							Log.i(TAG, "clear std connector");
+							final SharedPreferences p = PreferenceManager
+									.getDefaultSharedPreferences(// .
+									pc.getContext());
+							final Editor e = p.edit();
+							e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
+							e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
+							e.commit();
+							return true;
+						}
+					});
+		}
+	}
+
+	/**
+	 * Add preferences of connectors.
+	 * 
+	 * @param pc
+	 *            {@link IPreferenceContainer}
+	 */
+	static void addConnectorPreferences(final IPreferenceContainer pc) {
+		PreferenceCategory pcat = (PreferenceCategory) pc
+				.findPreference("settings_connectors");
+		if (pcat == null) {
+			return;
+		}
+		final ConnectorSpec[] css = WebSMS.getConnectors(
+				ConnectorSpec.CAPABILITIES_PREFS, // .
+				ConnectorSpec.STATUS_INACTIVE);
+		String pkg;
+		Preference cp;
+		for (ConnectorSpec cs : css) {
+			if (cs.getPackage() == null) {
+				continue;
+			}
+			pkg = cs.getPackage();
+			cp = pcat.findPreference(pkg);
+			if (cp == null) {
+				cp = new Preference(pc.getContext());
+				cp.setKey(pkg);
+				cp.setTitle(pc.getContext().getString(R.string.settings)
+						+ " - " + cs.getName());
+				final String action = cs.getPackage() + Connector.ACTION_PREFS;
+				cp.setOnPreferenceClickListener(// .
+						new OnPreferenceClickListener() {
+							@Override
+							public boolean onPreferenceClick(
+									final Preference preference) {
+								try {
+									pc.getActivity().startActivity(
+											new Intent(action));
+									return true;
+								} catch (ActivityNotFoundException e) {
+									Toast.makeText(pc.getContext(),
+											R.string.// .
+											log_error_connector_not_found,
+											Toast.LENGTH_LONG).show();
+									return false;
+								}
+							}
+						});
+				pcat.addPreference(cp);
+				Log.d("WebSMS.prefs", "added: " + action);
+			}
+			if (cs.isReady()) {
+				cp.setSummary(R.string.status_ready);
+			} else if (cs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+				cp.setSummary(R.string.status_enabled);
+			} else {
+				cp.setSummary(R.string.status_disabled);
+			}
 		}
 	}
 }

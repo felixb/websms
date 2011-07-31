@@ -20,7 +20,7 @@
 	<item android:title="@string/update_" android:id="@+id/item_update"
 		android:icon="@drawable/ic_menu_refresh" android:showAsAction="always" />
 	<item android:title="@string/send_" android:id="@+id/item_send"
-		android:icon="@android:drawable/ic_menu_send" android:showAsAction="never" />
+		android:icon="@android:drawable/ic_menu_send" android:showAsAction="ifRoom|withText" />
 	<item android:title="@string/save_draft_" android:id="@+id/item_draft"
 		android:icon="@android:drawable/ic_menu_save" android:showAsAction="never" />
 	<item android:title="@string/change_connector_" android:id="@+id/item_connector"

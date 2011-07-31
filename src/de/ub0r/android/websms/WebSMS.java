@@ -51,6 +51,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBar;
@@ -819,6 +820,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 * Update balance.
 	 */
 	private void updateBalance() {
+		Log.d(TAG, "updateBalance()");
 		final StringBuilder buf = new StringBuilder();
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE, // .
@@ -1479,7 +1481,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		Log.d(TAG, "onOptionsItemSelected(" + item.getItemId() + ")");
 		switch (item.getItemId()) {
 		case R.id.item_send:
-			// send by menu item
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			return true;
 		case R.id.item_draft:
@@ -1488,8 +1489,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.item_savechars:
 			this.saveChars();
 			return true;
-		case R.id.item_settings: // start settings activity
-			this.startActivity(new Intent(this, Preferences.class));
+		case R.id.item_settings:
+			if (de.ub0r.android.lib.Utils.isApi(// .
+					Build.VERSION_CODES.HONEYCOMB)) {
+				this.startActivity(new Intent(this, Preferences11.class));
+			} else {
+				this.startActivity(new Intent(this, Preferences.class));
+			}
 			return true;
 		case R.id.item_donate:
 			this.startActivity(new Intent(this, DonationHelper.class));
@@ -1498,7 +1504,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			this.changeConnectorMenu();
 			return true;
 		case R.id.item_update:
-			this.updateBalance();
+			this.updateFreecount();
 			return true;
 		case ITEM_RESTORE:
 			final SharedPreferences p = PreferenceManager
