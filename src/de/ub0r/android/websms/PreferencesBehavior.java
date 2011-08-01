@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2011 Felix Bechstein
+ * Copyright (C) 2010-2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -20,51 +20,32 @@ package de.ub0r.android.websms;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
-import android.widget.TextView;
-import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
 /**
- * Display About {@link FragmentActivity}.
+ * Preferences.
  * 
  * @author flx
  */
-public final class About extends FragmentActivity {
+public class PreferencesBehavior extends PreferenceActivity {
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(Preferences.getTheme(this));
+	public final void onCreate(final Bundle savedInstanceState) {
+		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.about);
-		this.setTitle(this.getString(R.string.about_) + " "
-				+ this.getString(R.string.app_name) + " v"
-				+ this.getString(R.string.app_version));
-		StringBuffer authors = new StringBuffer();
-		final ConnectorSpec[] css = WebSMS.getConnectors(
-				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE);
-		String a;
-		for (ConnectorSpec cs : css) {
-			a = cs.getAuthor();
-			if (a != null && a.length() > 0) {
-				authors.append(cs.getName());
-				authors.append(":\t");
-				authors.append(a);
-				authors.append("\n");
-			}
-		}
-		a = null;
-		((TextView) this.findViewById(R.id.author_connectors)).setText(authors
-				.toString().trim());
+		this.addPreferencesFromResource(R.xml.prefs_behavior);
+		this.setTitle(this.getString(R.string.settings) + " > "
+				+ this.getString(R.string.behavior_));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
+	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in Action Bar clicked; go home

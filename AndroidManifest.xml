@@ -24,7 +24,7 @@
 		<activity android:name="WebSMS" android:label="@string/app_name"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="stateHidden|adjustResize"
-			android:launchMode="singleTop" android:theme="@android:style/Theme.NoTitleBar">
+			android:launchMode="singleTop" android:theme="@style/Theme.SherlockUb0r">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -53,17 +53,26 @@
 		</activity>
 		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="About" android:configChanges="orientation|keyboardHidden" />
-		<activity android:name="CaptchaActivity"
+		<activity android:name="Preferences11" android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="PreferencesAppearance"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="PreferencesBehavior"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="About" android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/Theme.SherlockUb0r" />
+		<activity android:name="CaptchaActivity"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r" />
 		<activity android:name="de.ub0r.android.lib.DonationHelper"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize">
+			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light">
 		</activity>
 		<activity android:name="de.ub0r.android.lib.Changelog"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
+			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
@@ -83,7 +92,7 @@
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
 	</application>
-	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="10" />
+	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="13" />
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
 		android:anyDensity="true" />

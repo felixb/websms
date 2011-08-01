@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009-2011 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/behavior_">
+	<CheckBoxPreference android:key="send_vibrate"
+		android:title="@string/vibrate_on_send" />
+	<CheckBoxPreference android:key="fail_vibrate"
+		android:title="@string/vibrate_on_fail" />
+	<RingtonePreference android:key="fail_sound"
+		android:title="@string/sound_on_fail" android:ringtoneType="notification"
+		android:defaultValue="content://settings/system/notification_sound" />
+	<CheckBoxPreference android:key="autoupdate"
+		android:title="@string/autoupdate_" android:summary="@string/autoupdate_hint"
+		android:defaultValue="true" />
+	<CheckBoxPreference android:key="autoexit"
+		android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
+	<CheckBoxPreference android:key="try_send_invalid"
+		android:title="@string/try_send_invalid_characters_" android:summary="@string/try_send_invalid_characters_hint" />
+	<CheckBoxPreference android:key="drop_sent"
+		android:title="@string/drop_sent_" android:summary="@string/drop_sent_hint" />
+	<PreferenceCategory android:title="@string/autosend_">
+		<CheckBoxPreference android:key="enable_autosend"
+			android:title="@string/enable_autosend_" android:summary="@string/enable_autosend_hint"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="use_current_connector"
+			android:title="@string/use_selected_connector_" android:summary="@string/use_selected_connector_hint"
+			android:dependency="enable_autosend" android:defaultValue="true" />
+	</PreferenceCategory>
+</PreferenceScreen>
