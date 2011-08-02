@@ -36,6 +36,7 @@
 	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
 	<string name="more_connectors__">Even more Connectors..</string>
 	<string name="more_connectors__hint">You are missing a connector for some service? View the FAQ to get it.</string>
+	<string name="standard_connector_">Standard Connector</string>
 	<string name="set_stdandard_connector_">Set standard Connector</string>
 	<string name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
 	<string name="clear_stdandard_connector_">Clear standard Connector</string>
@@ -61,6 +62,7 @@
 	<string name="save_chars_">Save chars</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
+	<string name="common_">Common</string>
 	<string name="appearance_">Appearance</string>
 	<string name="behavior_">Behavior</string>
 	<string name="appearance_and_behavior_">Appearance &amp; behavior</string>
@@ -68,6 +70,7 @@
 	<string name="show_titlebar_">Show title bar</string>
 	<string name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
+	<string name="connectors_">Connectors</string>
 	<string name="alternative_layout_">Alternative layout</string>
 	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
 	<string name="textsize_">Text size</string>
@@ -134,6 +137,7 @@
 	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
 	<string name="paste_">[ Paste from clipboard ]</string>
 	<string name="restore_">Restore last message</string>
+	<string name="update_">Update</string>
 	<string name="theme_">Theme</string>
 	<string-array name="themes">
 		<item>Black</item>

@@ -19,5 +19,5 @@
 	</LinearLayout>
 	<EditText android:text="" android:id="@+id/solved"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_above="@id/buttons" />
+		android:singleLine="true" android:layout_above="@id/buttons" />
 </RelativeLayout>

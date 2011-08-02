@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009-2011 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/connectors_"
+		android:key="settings_connectors">
+		<CheckBoxPreference android:key="enable_sms"
+			android:title="@string/enable_sms" android:summary="@string/enable_sms_hint" />
+
+		<!-- other connectors getting added dynamicaly -->
+
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/standard_connector_">
+		<PreferenceScreen android:key="set_std_connector"
+			android:title="@string/set_stdandard_connector_" android:summary="@string/set_stdandard_connector_hint" />
+		<PreferenceScreen android:key="clear_std_connector"
+			android:title="@string/clear_stdandard_connector_" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/more_connectors_">
+		<PreferenceScreen android:key="more_connectors"
+			android:title="@string/more_connectors_" android:summary="@string/more_connectors_hint" />
+		<PreferenceScreen android:title="@string/more_connectors__"
+			android:summary="@string/more_connectors__hint">
+			<intent android:action="android.intent.action.VIEW"
+				android:data="http://code.google.com/p/websmsdroid/wiki/ConnectorsFAQ" />
+		</PreferenceScreen>
+	</PreferenceCategory>
+</PreferenceScreen>

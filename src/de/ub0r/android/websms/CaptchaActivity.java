@@ -1,13 +1,29 @@
-/**
+/*
+ * Copyright (C) 2009-2011 Felix Bechstein
  * 
+ * This file is part of WebSMS.
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; If not, see <http://www.gnu.org/licenses/>.
  */
 package de.ub0r.android.websms;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -20,7 +36,8 @@ import de.ub0r.android.websms.connector.common.Log;
 /**
  * @author flx
  */
-public class CaptchaActivity extends Activity implements OnClickListener {
+public final class CaptchaActivity extends FragmentActivity implements
+		OnClickListener {
 	/** Tag for output. */
 	private static final String TAG = "cpt";
 
@@ -31,7 +48,8 @@ public class CaptchaActivity extends Activity implements OnClickListener {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
+		this.setTheme(Preferences.getTheme(this));
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate();");
 		final Bundle extras = this.getIntent().getExtras();
@@ -67,7 +85,7 @@ public class CaptchaActivity extends Activity implements OnClickListener {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void onClick(final View v) {
+	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.cancel:
 			((EditText) this.findViewById(R.id.solved)).setText("");
@@ -81,7 +99,7 @@ public class CaptchaActivity extends Activity implements OnClickListener {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void onDestroy() {
+	protected void onDestroy() {
 		super.onDestroy();
 		final Intent intent = new Intent(this.connector.getPackage()
 				+ Connector.ACTION_CAPTCHA_SOLVED);
@@ -93,5 +111,22 @@ public class CaptchaActivity extends Activity implements OnClickListener {
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		this.sendBroadcast(intent);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in Action Bar clicked; go home
+			Intent intent = new Intent(this, WebSMS.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			this.startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }
