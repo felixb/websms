@@ -143,4 +143,8 @@
     <item>Hell</item>
   </string-array>
   <string name="log_error_connector_not_found" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Connector wurde nicht gefunden. Bitte öffne und schließe einmal die Einstellungen von WebSMS, um das neu laden der Connectoren zu erzwingen.</string>
+  <string name="standard_connector_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Standard Connector">Standard Connector</string>
+  <string name="common_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Common">Allgemein</string>
+  <string name="connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connectors">Connectoren</string>
+  <string name="update_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Update">Update</string>
 </resources>

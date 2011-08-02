@@ -17,17 +17,9 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-<<<<<<< HEAD
   <string-array name="notes_from_dev" username="Schiri &lt;schirinowski@gmail.com&gt;">
     <item>Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</item>
     <item>Dez. 2010 Entwürfe: Entwürfe werden in Androids Nachrichten-Datenbank gespeichert. Verwende SMSdroid oder Androids Nachrichten-App, um sie später zu senden.</item>
     <item notranslation="true"/>
   </string-array>
-=======
-	<string-array name="notes_from_dev">
-		<item>Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</item>
-		<item>Dez. 2010 Entwürfe: Entwürfe werden in Androids Nachrichten-Datenbank gespeichert. Verwende SMSdroid oder Androids Nachrichten-App, um sie später zu senden.</item>
-		<item></item>
-	</string-array>
->>>>>>> origin/master
 </resources>
