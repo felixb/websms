@@ -362,6 +362,19 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 										+ s.length() + " to "
 										+ newText.length());
 						s.replace(0, s.length(), newText);
+						if (me != null) {
+							String sigText = sig.length() > 0 ? me
+									.getString(
+											R.string.connector_message_length_reached_signature,
+											sig.length())
+									: "";
+							String messageText = me.getString(
+									R.string.connector_message_length_reached,
+									maxLength, prefsConnectorSpec.getName(),
+									sigText);
+							Toast.makeText(me, messageText, Toast.LENGTH_SHORT)
+									.show();
+						}
 					}
 				}
 			}
