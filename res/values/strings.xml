@@ -143,4 +143,6 @@
 		<item>Black</item>
 		<item>Light</item>
 	</string-array>
+	<string name="connector_message_length_reached">Reached maximum length of %1$d characters for connector %2$s. %3$s</string>
+	<string name="connector_message_length_reached_signature">(Of which %1$d characters were your signature).</string>
 </resources>
