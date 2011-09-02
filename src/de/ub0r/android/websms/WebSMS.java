@@ -58,6 +58,7 @@ import android.support.v4.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
+import android.support.v4.view.Window;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -65,7 +66,6 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
@@ -1054,6 +1054,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				Toast.makeText(this, R.string.log_noselectedconnector,
 						Toast.LENGTH_SHORT).show();
 			}
+			this.findViewById(R.id.extraButtons).setVisibility(View.GONE);
 		}
 	}
 
@@ -1162,7 +1163,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		}
 		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
-			me.setProgressBarIndeterminateVisibility(true);
+			me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 		}
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
@@ -1968,9 +1969,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					length != 0;
 				}
 				if (runningConnectors) {
-					me.setProgressBarIndeterminateVisibility(true);
+					me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 				} else {
-					me.setProgressBarIndeterminateVisibility(false);
+					me.setProgressBarIndeterminateVisibility(Boolean.FALSE);
 				}
 				if (prefsConnectorSpec != null && // .
 						prefsConnectorSpec.equals(c)) {
