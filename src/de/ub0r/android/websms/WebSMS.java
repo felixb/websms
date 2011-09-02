@@ -1031,8 +1031,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				this.findViewById(R.id.extraButtons).setVisibility(View.GONE);
 			}
 
-			String t = this.getString(R.string.app_name) + ": "
-					+ prefsConnectorSpec.getName();
+			String t = prefsConnectorSpec.getName();
 			if (prefsConnectorSpec.getSubConnectorCount() > 1) {
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
