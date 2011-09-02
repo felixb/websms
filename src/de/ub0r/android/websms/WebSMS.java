@@ -85,11 +85,11 @@ import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.apis.ContactsWrapper;
-import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
+import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
@@ -134,9 +134,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		AD_KEYWORDS.add("amazon");
 	}
 
-	/** {@link TelephonyWrapper}. */
-	private static final TelephonyWrapper TWRAPPER = TelephonyWrapper
-			.getInstance();
+	/** Default sms length calculator */
+	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -341,8 +340,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				len += sig.length();
 				WebSMS.this.tvPaste.setVisibility(View.GONE);
 				if (len > TEXT_LABLE_MIN_LEN) {
-					int[] l = TWRAPPER.calculateLength(s.toString() + sig,
-							false);
+					SMSLengthCalculator calc = prefsConnectorSpec
+							.getSMSLengthCalculator();
+					if (calc == null) {
+						calc = SMS_LENGTH_CALCULATOR;
+					}
+					int[] l = calc.calculateLength(s.toString() + sig, false);
 					WebSMS.this.etTextLabel.setText(l[0] + "/" + l[2]);
 					WebSMS.this.etTextLabel.setVisibility(View.VISIBLE);
 				} else {
