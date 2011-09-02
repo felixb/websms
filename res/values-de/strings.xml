@@ -24,44 +24,44 @@
   <string name="about_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="About">Über</string>
   <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
-  <string name="faq_hint" formatted="false">Ein paar Tipps und Tricks, wie man diese App einstellt.</string>
+  <string name="faq_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
   <string name="feedback_" formatted="false">Feedback</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
-  <string name="twitter_hint" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Follow auf Twitter.\nUpdate Infos etc.</string>
+  <string name="twitter_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Folge auf Twitter.\nBekomme darüber Update-Infos, etc.</string>
   <string name="author_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author of Connectors:">Autor der Connectoren:</string>
   <string name="change_connector_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Change provider">Wechsle Provider</string>
   <string name="change_connector_nl" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Change\nprovider">Wechsle\nProvider</string>
   <string name="click_for_update" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="(update: click)">(update: klick)</string>
-  <string name="defprefix_" formatted="false">Standard int. Prefix</string>
+  <string name="defprefix_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Default int. prefix">Standard int. Präfix</string>
   <string name="defprefix_hint" formatted="false">z.B. +49</string>
   <string name="more_apps_" formatted="false">Mehr Apps..</string>
   <string name="more_connectors_" formatted="false">Mehr Connectoren..</string>
-  <string name="more_connectors_hint" formatted="false">Suche nach Connectoren im Market. Starte WebSMS neu nach dem installieren!</string>
+  <string name="more_connectors_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Suche nach Connectoren im Market. Starte WebSMS neu nach der Installation!</string>
   <string name="more_connectors__" formatted="false">Noch mehr Connectoren..</string>
-  <string name="more_connectors__hint" formatted="false">Du kennst einen Service ohne einen passenden Connector? Hier steht wie man ihn bekommt.</string>
+  <string name="more_connectors__hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Du kennst einen Service ohne einen passenden Connector? Erfahre, wie man ihn bekommt.</string>
   <string name="set_stdandard_connector_" formatted="false">Standard Connector setzen</string>
   <string name="set_stdandard_connector_hint" formatted="false">Setze den aktuellen Connector als Standard.</string>
   <string name="clear_stdandard_connector_" formatted="false">Standard Connector löschen</string>
   <string name="free_" formatted="false">Guthaben:</string>
   <string name="license" formatted="false">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Lizenz:</string>
-  <string name="log_wrong_defprefix" formatted="false">Bitte setze ein korrektes Länderprefix als Standardprefix. Z.B. "+49".</string>
-  <string name="log_wrong_sender" formatted="false">Falscher Absender! Das Format muss im internationalen Format sein. z.B. +4917012345678.</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Bitte setze ein korrektes Länderpräfix als Standardpräfix, z.B. "+49".</string>
+  <string name="log_wrong_sender" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Falscher Absender! Das Format muss im internationalen Format sein, z.B. +4917012345678.</string>
   <string name="log_noselectedconnector" formatted="false">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
   <string name="log_noreadyconnector" formatted="false">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
-  <string name="log_error_saving_message" formatted="false">Fehler beim Updaten der Nachricht in der Datenbank!</string>
+  <string name="log_error_saving_message" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Error updating sent message in Database!">Fehler beim Aktualisieren der Nachricht in der Datenbank!</string>
   <string name="log_error_char_nonvalid" formatted="false">Der Connector stellt keine erlaubten Zeichen bereit</string>
   <string name="log_error_char_notsendable" formatted="false">Die Nachricht enthält nicht erlaubte Zeichen</string>
   <string name="log_error_sms" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Could not send SMS: ErrorCode=">Konnte SMS nicht senden: FehlerCode=</string>
   <string name="try_send_invalid_characters_" formatted="false">Versuchen, ungültige zu senden</string>
   <string name="try_send_invalid_characters_hint" formatted="false">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
-  <string name="notify_failed" formatted="false">Fehler beim senden der SMS: </string>
+  <string name="notify_failed" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Failed to send SMS: ">Fehler beim Senden der SMS: </string>
   <string name="notify_failed_" formatted="false">fehler beim Senden der SMS</string>
   <string name="sender_" formatted="false">Mobilnummer</string>
   <string name="send_" formatted="false">Senden</string>
   <string name="save_draft_" formatted="false">Entwurf speichern</string>
-  <string name="save_chars_" formatted="false">Zeichen sparen</string>
+  <string name="save_chars_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Save chars">Zeichen einsparen</string>
   <string name="settings" formatted="false">Einstellungen</string>
   <string name="settings_common" formatted="false">Einstellungen - Allgemein</string>
   <string name="appearance_" formatted="false">Darstellung</string>
@@ -72,43 +72,43 @@
   <string name="show_titlebar_hint" formatted="false">Zeige Titelleiste im Hauptbildschirm. Ohne Titelleiste wirst du nicht mehr auf Hintergrundaktivitäten hingewiesen.</string>
   <string name="settings_connectors" formatted="false">Einstellungen - Connectoren</string>
   <string name="alternative_layout_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Alternatives Layout</string>
-  <string name="alternative_layout_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Verschiebe die Senden Leiste nach oben. Braucht Neustart.</string>
+  <string name="alternative_layout_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Verschiebe die Senden-Leiste nach oben. Benötigt Neustart.</string>
   <string name="textsize_" formatted="false">Schriftgrad</string>
   <string name="textsize_hint" formatted="false">Schriftgrad in Punkten; leer lassen für Standard</string>
-  <string name="hide_change_connector_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider" Button ausblenden</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider" Button auf dem Main Screen ausblenden.</string>
-  <string name="hide_send_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; button">"Senden" Button ausblenden</string>
-  <string name="hide_send_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">"Senden" Button auf dem Main Screen ausblenden.</string>
-  <string name="hide_cancel_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Cancel\&quot; button">"Abbrechen" Button ausblenden</string>
-  <string name="hide_cancel_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">"Abbrechen" Button auf dem Main Screen ausblenden.</string>
-  <string name="hide_extras_button_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Extras\&quot; button">"Extras" Button ausblenden</string>
-  <string name="hide_extras_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extras" Button auf dem Main Screen ausblenden</string>
-  <string name="hide_select_recipients_button_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Select\&quot; button">"Empfänger auswählen" Button ausblenden</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">"Empfänger auswählen" Button auf dem Main Screen ausblenden.</string>
-  <string name="hide_clear_recipients_button_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Clear\&quot; button">"Empfänger löschen" Button ausblenden</string>
-  <string name="hide_clear_recipients_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">"Empfänger löschen" Button auf dem Main Screen ausblenden.</string>
+  <string name="hide_change_connector_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider"-Button ausblenden</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_send_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">"Senden"-Button ausblenden</string>
+  <string name="hide_send_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">"Senden"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_cancel_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button">"Abbrechen"-Button ausblenden</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">"Abbrechen"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_extras_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">"Extras"-Button ausblenden</string>
+  <string name="hide_extras_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extras"-Button auf dem Hauptbildschirm  ausblenden</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">"Empfänger auswählen"-Button ausblenden</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">"Empfänger auswählen"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">"Empfänger löschen"-Button ausblenden</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">"Empfänger löschen"-Button auf dem Hauptbildschirm ausblenden.</string>
   <string name="hide_send_in_menu" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; menu item">"Senden" im Menü ausblenden</string>
   <string name="hide_send_in_menu_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">"Senden" im Hauptmenü ausblenden. Neustart erforderlich.</string>
-  <string name="hide_emo_button" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Emoticons\&quot; button">"Smiley" Button ausblenden</string>
-  <string name="hide_emo_button_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">"Smiley" Button auf dem Main Screen ausblenden.</string>
-  <string name="hide_update" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Click for update\&quot;">"Kick zum Update" ausblenden</string>
-  <string name="hide_update_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">"Klick zum Update" auf Main Screen ausblenden.</string>
+  <string name="hide_emo_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">"Smiley"-Button ausblenden</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">"Smiley"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_update" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">"Klick zum Update" ausblenden</string>
+  <string name="hide_update_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">"Klick zum Update" auf Hauptbildschirm ausblenden.</string>
   <string name="hide_bg_connector_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide connector name">Connectornamen ausblenden</string>
   <string name="hide_bg_connector_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide active connector\'s name in background.">Namen des aktiven Connectors im Hintergrund ausblenden.</string>
-  <string name="hide_paste_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide &quot;paste&quot; button">"Einfügen" Button ausblenden</string>
-  <string name="hide_paste_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide &quot;paste&quot; button on text field.">"Einfüge" Button ausblenden.</string>
+  <string name="hide_paste_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button">"Einfügen"-Button ausblenden</string>
+  <string name="hide_paste_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">"Einfügen"-Button ausblenden.</string>
   <string name="drop_sent_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent SMS">Gesendete SMS nicht speichern</string>
   <string name="drop_sent_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent messages in global database.">Gesendete Nachrichten nicht in der globalen Datenbank speichern.</string>
   <string name="enable_autosend_" formatted="false">Aktiviere Autosend</string>
   <string name="enable_autosend_hint" formatted="false">Aktiviere SMSdroid\'s Autosend Funktion.</string>
   <string name="use_selected_connector_" formatted="false">Ausgewählten Connector verwenden</string>
   <string name="use_selected_connector_hint" formatted="false">Verwende den aktuell ausgewählten Connector für Autosend. Deaktivieren, um eine Auswahl zu zeigen.</string>
-  <string name="default_recipient_" formatted="false">Default Empfänger</string>
-  <string name="default_recipient_hint" formatted="false">Default empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
+  <string name="default_recipient_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Default recipient">Standard-Empfänger</string>
+  <string name="default_recipient_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Default recipient filled into address bar on app start.">Standard-Empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
   <string name="signature_" formatted="false">Signatur</string>
-  <string name="signature_hint" formatted="false">Text, der an jede Nachricht angehängt wird. (Ohne extra Spacing, beginne die Sigatur mit \" \" wenn nötig.)</string>
+  <string name="signature_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Text, der an jede Nachricht angehängt wird. (Ohne extra Leerzeichen, beginne die Signatur mit " " wenn nötig.)</string>
   <string name="autoupdate_" formatted="false">Autom. aktualisieren</string>
-  <string name="autoupdate_hint" formatted="false">Update Kontoguthaben beim Start.</string>
+  <string name="autoupdate_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Update account balances on start.">Aktualisiere Kontoguthaben beim Start.</string>
   <string name="autoexit_" formatted="false">Autom. Beenden</string>
   <string name="autoexit_hint" formatted="false">WebSMS verlassen, wenn SMS gesendet wird.</string>
   <string name="mobile_only_" formatted="false">Nur Mobilnummern anzeigen</string>
@@ -116,7 +116,7 @@
   <string name="vibrate_on_fail" formatted="false">Vibration wenn Senden fehlgeschlagen</string>
   <string name="vibrate_on_send" formatted="false">Vibration wenn erfolgreich gesendet</string>
   <string name="sound_on_fail" formatted="false">Ton wenn Senden fehlgeschlagen</string>
-  <string name="source_" formatted="false">Sourcescode:</string>
+  <string name="source_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Sourcescode:">Quelltext:</string>
   <string name="website_" formatted="false">Website:</string>
   <string name="to_hint" formatted="false">Name oder Nummer</string>
   <string name="text_hint" formatted="false">Text</string>
@@ -128,13 +128,13 @@
   <string name="connectors_switch" formatted="false">Connector wurde gewechselt:</string>
   <string name="captcha_" formatted="false">Captcha</string>
   <string name="captcha_solve_it" formatted="false">Bitte gib den Text unten ein:</string>
-  <string name="status_disabled" formatted="false">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-  <string name="status_enabled" formatted="false">Status: aktiviert\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
-  <string name="status_ready" formatted="false">Status: bereit\n(Statusupdate bei Rückkehr zum Mainscreen)</string>
+  <string name="status_disabled" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: disabled\n(Updated when returning to main screen)">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
+  <string name="status_enabled" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: enabled\n(Updated when returning to main screen)">Status: aktiviert\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
+  <string name="status_ready" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: ready\n(Updated when returning to main screen)">Status: bereit\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
   <string name="connector_vanished" formatted="false">Der Connector ist verschwunden!</string>
   <string name="connector_sms_name" formatted="false">SMS</string>
   <string name="enable_sms" formatted="false">Aktiviere SMS</string>
-  <string name="enable_sms_hint" formatted="false">Der SMS Connector sendet normale SMS (zB. über GSM).</string>
+  <string name="enable_sms_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Der SMS Connector sendet normale SMS (z.B. über GSM).</string>
   <string name="paste_" formatted="false">[ Aus Zwischenablage einfügen ]</string>
   <string name="restore_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Restore last message">Letzte SMS wiederherstellen</string>
   <string name="theme_" formatted="false">Theme</string>
@@ -143,4 +143,8 @@
     <item>Hell</item>
   </string-array>
   <string name="log_error_connector_not_found" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Connector wurde nicht gefunden. Bitte öffne und schließe einmal die Einstellungen von WebSMS, um das neu laden der Connectoren zu erzwingen.</string>
+  <string name="standard_connector_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Standard Connector">Standard Connector</string>
+  <string name="common_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Common">Allgemein</string>
+  <string name="connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connectors">Connectoren</string>
+  <string name="update_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Update">Update</string>
 </resources>
