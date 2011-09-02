@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: prepare for honeycomb devices</item>
+		<item>HEAD: prepare for honeycomb devices, ui redesign, check message length for supported connectors</item>
 		<item>v3.7.4: fix FCs, translation update</item>
 		<item>v3.7.3: set text size, fix moving connectors, translation updates</item>
 		<item>v3.7.2: translation update</item>
