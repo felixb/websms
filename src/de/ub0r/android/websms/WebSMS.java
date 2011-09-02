@@ -1413,10 +1413,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 */
 	@Override
 	public final boolean onPrepareOptionsMenu(final Menu menu) {
+		final ConnectorSpec[] connectors = getConnectors(
+				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_READY
+						| ConnectorSpec.STATUS_ENABLED);
 		menu.findItem(R.id.item_connector).setVisible(
-				getConnectors(ConnectorSpec.CAPABILITIES_SEND,
-						ConnectorSpec.STATUS_READY
-								| ConnectorSpec.STATUS_ENABLED).length > 1);
+				connectors.length > 1
+						|| (connectors.length == 1 && connectors[0]
+								.getSubConnectorCount() > 1));
 		boolean hasText = this.etText.getText().length() > 0;
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
 		menu.findItem(R.id.item_draft).setVisible(hasText);
