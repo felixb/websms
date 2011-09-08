@@ -59,6 +59,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.support.v4.view.Window;
+import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -134,8 +135,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		AD_KEYWORDS.add("amazon");
 	}
 
-	/** Default sms length calculator */
-	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
+	/** Default SMS length calculator. */
+	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = // .
+	new DefaultSMSLengthCalculator();
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -321,6 +323,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		/**
 		 * {@inheritDoc}
 		 */
+		@SuppressWarnings("deprecation")
 		public void afterTextChanged(final Editable s) {
 			int len = s.length();
 			if (len == 0) {
@@ -586,7 +589,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( { "unchecked", "deprecation" })
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -691,6 +694,33 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		this.etTo.requestFocus();
 
 		this.parseIntent(this.getIntent());
+
+		if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))
+				|| TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
+			TelephonyManager tm = (TelephonyManager) this
+					.getSystemService(TELEPHONY_SERVICE);
+			String number = tm.getLine1Number();
+			Log.i(TAG, "line1: " + number);
+			Editor e = p.edit();
+			if (!TextUtils.isEmpty(number)) {
+				if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))) {
+					Log.i(TAG, "set number=" + number);
+					e.putString(PREFS_SENDER, number);
+				}
+				if (TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
+					String prefix = de.ub0r.android.lib.Utils
+							.getPrefixFromTelephoneNumber(number);
+					if (!TextUtils.isEmpty(prefix)) {
+						Log.i(TAG, "set prefix=" + prefix);
+						e.putString(PREFS_DEFPREFIX, prefix);
+					} else {
+						Log.w(TAG, "unable to get prefix from number: "
+								+ number);
+					}
+				}
+			}
+			e.commit();
+		}
 
 		// check default prefix
 		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
@@ -1191,6 +1221,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("deprecation")
 	public final void onClick(final View v) {
 		CharSequence s;
 		switch (v.getId()) {
