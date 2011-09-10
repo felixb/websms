@@ -109,6 +109,8 @@ public final class CaptchaActivity extends FragmentActivity implements
 			Log.d(TAG, "solved: " + s);
 			intent.putExtra(Connector.EXTRA_CAPTCHA_SOLVED, s);
 		}
+		intent.setFlags(intent.getFlags()
+				| Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		this.sendBroadcast(intent);
 	}

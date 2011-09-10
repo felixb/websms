@@ -42,7 +42,6 @@ public final class Preferences11Activity extends PreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		this.setTitle(R.string.settings);
 		Utils.setLocale(this);
-		PreferencesActivity.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	/**

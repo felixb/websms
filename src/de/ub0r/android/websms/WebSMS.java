@@ -644,8 +644,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		o = null;
 
 		// get cached Connectors
-		String s = p.getString(PREFS_CONNECTORS, "");
-		if (s.length() == 0) {
+		String s = p.getString(PREFS_CONNECTORS, null);
+		if (TextUtils.isEmpty(s)) {
 			this.updateConnectors();
 		} else if (CONNECTORS.size() == 0) {
 			// skip static remaining connectors
@@ -796,6 +796,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private void updateConnectors() {
 		// query for connectors
 		final Intent i = new Intent(Connector.ACTION_CONNECTOR_UPDATE);
+		i.setFlags(i.getFlags() | Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 		Log.d(TAG, "send broadcast: " + i.getAction());
 		this.sendBroadcast(i);
 	}
@@ -1209,6 +1210,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				t == ConnectorCommand.TYPE_UPDATE)) {
 			me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 		}
+		intent.setFlags(intent.getFlags()
+				| Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 		Log.d(TAG, "send broadcast: " + intent.getAction());
 		if (sendOrdered) {
 			context.sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
@@ -1506,7 +1509,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.item_settings:
 			if (de.ub0r.android.lib.Utils.isApi(// .
 					Build.VERSION_CODES.HONEYCOMB)) {
-				this.startActivity(new Intent(this, Preferences11Activity.class));
+				this
+						.startActivity(new Intent(this,
+								Preferences11Activity.class));
 			} else {
 				this.startActivity(new Intent(this, PreferencesActivity.class));
 			}
@@ -1956,7 +1961,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				try {
 					for (int i = 0; i < l; i++) {
 						cs = CONNECTORS.get(i);
-						if (pkg.compareToIgnoreCase(cs.getPackage()) < 0) {
+						if (name.compareToIgnoreCase(cs.getName()) < 0) {
 							CONNECTORS.add(i, connector);
 							added = true;
 							break;

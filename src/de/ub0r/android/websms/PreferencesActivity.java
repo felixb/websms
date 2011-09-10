@@ -32,6 +32,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 import de.ub0r.android.lib.IPreferenceContainer;
@@ -99,6 +100,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 					public void onSharedPreferenceChanged(
 							final SharedPreferences sharedPreferences,
 							final String key) {
+						Log.d(TAG, "onSharedPreferenceChanged(" + key + ")");
 						if (key.equals(WebSMS.PREFS_SENDER)) {
 							// check for wrong sender format. people can't
 							// read..
@@ -108,6 +110,13 @@ public class PreferencesActivity extends PreferenceActivity implements
 								Toast.makeText(pc.getContext(),
 										R.string.log_wrong_sender,
 										Toast.LENGTH_LONG).show();
+							} else if (TextUtils.isEmpty(prefs.getString(
+									WebSMS.PREFS_DEFPREFIX, null))) {
+								final String prefix = Utils
+										.getPrefixFromTelephoneNumber(p);
+								prefs.edit().putString(WebSMS.PREFS_DEFPREFIX,
+										prefix).commit();
+								Log.i(TAG, "set prefix=" + prefix);
 							}
 						}
 						if (key.equals(WebSMS.PREFS_DEFPREFIX)) {
@@ -224,7 +233,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 						}
 					});
 		}
-		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_SET);
+		pr = pc
+				.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_SET);
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(// .
 					new Preference.OnPreferenceClickListener() {
@@ -246,7 +256,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 						}
 					});
 		}
-		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_CLEAR);
+		pr = pc
+				.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_CLEAR);
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(// .
 					new Preference.OnPreferenceClickListener() {
@@ -273,23 +284,31 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 *            {@link IPreferenceContainer}
 	 */
 	static void addConnectorPreferences(final IPreferenceContainer pc) {
+		Log.d(TAG, "addConnectorPreferences()");
 		PreferenceCategory pcat = (PreferenceCategory) pc
 				.findPreference("settings_connectors");
 		if (pcat == null) {
+			Log.d(TAG, "settings_connectors not found; exit");
 			return;
 		}
 		final ConnectorSpec[] css = WebSMS.getConnectors(
 				ConnectorSpec.CAPABILITIES_PREFS, // .
 				ConnectorSpec.STATUS_INACTIVE);
+		if (css.length == 0) {
+			Log.i(TAG, "css.length == 0");
+		}
 		String pkg;
 		Preference cp;
 		for (ConnectorSpec cs : css) {
-			if (cs.getPackage() == null) {
+			pkg = cs.getPackage();
+			if (pkg == null) {
+				Log.w(TAG, "pkg == null");
 				continue;
 			}
-			pkg = cs.getPackage();
 			cp = pcat.findPreference(pkg);
-			if (cp == null) {
+			if (cp != null) {
+				Log.i(TAG, "pkg " + pkg + "already added..");
+			} else {
 				cp = new Preference(pc.getContext());
 				cp.setKey(pkg);
 				cp.setTitle(pc.getContext().getString(R.string.settings)

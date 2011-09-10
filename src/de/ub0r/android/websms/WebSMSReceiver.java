@@ -288,6 +288,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 										"de.ub0r.android.websms.connector."
 												+ "sms")) {
 							final Intent intent = new Intent(ACTION_CM_WEBSMS);
+							intent.setFlags(intent.getFlags()
+									| Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 							intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
 							intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs
 									.getName().toLowerCase());

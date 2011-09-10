@@ -45,6 +45,7 @@ public final class HeaderPreferenceFragment extends PreferenceFragment
 
 		this.addPreferencesFromResource(res);
 		PreferencesActivity.registerPreferenceChecker(this);
+		PreferencesActivity.registerOnSharedPreferenceChangeListener(this);
 		PreferencesActivity.addConnectorPreferences(this);
 	}
 
