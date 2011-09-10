@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009-2011 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+	<string name="help_title">Introducing WebSMS</string>
+	<string name="get_connectors">Get Connectors</string>
+	<string name="help_conenctors">There is a huge number of Connectors available in Android Market.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend cherry-sms for almost everybody. Users with non latin alphabets might want to try my-cool-sms first.</string>
+	<string name="help_prefs">To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.</string>
+</resources>

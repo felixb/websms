@@ -63,6 +63,8 @@
 			android:windowSoftInputMode="adjustResize" />
 		<activity android:name="About" android:configChanges="orientation|keyboardHidden"
 			android:theme="@style/Theme.SherlockUb0r" />
+		<activity android:name=".HelpActivity"
+			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
 		<activity android:name="CaptchaActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r" />

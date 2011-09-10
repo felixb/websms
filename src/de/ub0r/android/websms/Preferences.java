@@ -211,8 +211,8 @@ public class Preferences extends PreferenceActivity implements
 				"http://code.google.com/p/websmsdroid/downloads"
 						+ "/list?can=2&q=label%3AConnector");
 		Market.setOnPreferenceClickListener(pc.getActivity(), pc
-				.findPreference("more_apps"), null, "Felix+Bechstein",
-				"http://code.google.com/u/felix.bechstein/");
+				.findPreference("more_apps"), null, Market.SEARCH_APPS,
+				Market.ALT_APPS);
 		Preference pr = pc.findPreference("send_logs");
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(// .

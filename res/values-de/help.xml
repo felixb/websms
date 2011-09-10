@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+<!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+<!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+<!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=help.xml to edit the file.
+       -->
+<resources>
+	<string name="help_title" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Einführung: WebSMS</string>
+	<string name="get_connectors" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Connectoren installieren</string>
+	<string name="help_conenctors" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Es gibt eine große Auswahl an Connectoren im Android Market.\nDrücke den Knopf unten und installiere den Connector, der dir am besten passt.\nFür die meisten Nutzer ohne einen Account bei einem der Anbieter, kann ich cherry-sms empfehlen. Nutzer mit nich lateinischen Zeichen sollten sich my-cool-sms als erstes ansehen.</string>
+  <string name="help_prefs" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Zum Starten musst du wenigstens deine eigene Rufnummer und dein internationales Prefix in den Einstellungen von WebSMS setzen.</string>
+</resources>

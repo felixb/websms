@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (C) 2009-2011 Felix Bechstein
+	-->
+	<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+	<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1">
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:paddingLeft="5dip" android:paddingRight="5dip"
+			android:layout_gravity="center_vertical">
+			<TextView android:text="@string/market_about"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium" />
+			<TextView android:text="@string/help_conenctors"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingTop="5dip" android:textAppearance="?android:attr/textAppearanceMedium" />
+			<TextView android:id="@+id/help_prefs" android:text="@string/help_prefs"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:paddingTop="5dip" android:textAppearance="?android:attr/textAppearanceMedium"
+				android:visibility="gone" />
+		</LinearLayout>
+	</ScrollView>
+	<LinearLayout android:id="@+id/extraButtons"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_weight="0" style="@android:style/ButtonBar"
+		android:gravity="center_vertical">
+		<Button android:id="@+id/connectors" android:text="@string/get_connectors"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_weight="1" />
+		<Button android:id="@+id/ok" android:text="@android:string/ok"
+			android:layout_width="fill_parent" android:layout_height="match_parent"
+			android:layout_weight="1" />
+	</LinearLayout>
+</LinearLayout>

@@ -695,6 +695,14 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 
 		this.parseIntent(this.getIntent());
 
+		boolean checkPrefix = true;
+		boolean showIntro = false;
+		if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))
+				&& TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
+			checkPrefix = false;
+			showIntro = true;
+		}
+
 		if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))
 				|| TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
 			TelephonyManager tm = (TelephonyManager) this
@@ -723,8 +731,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		}
 
 		// check default prefix
-		if (!p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
-			WebSMS.this.log(R.string.log_wrong_defprefix);
+		if (checkPrefix && !p.getString(PREFS_DEFPREFIX, "").startsWith("+")) {
+			this.log(R.string.log_wrong_defprefix);
+		}
+
+		if (showIntro) {
+			this.startActivity(new Intent(this, HelpActivity.class));
 		}
 	}
 
