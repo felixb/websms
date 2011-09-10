@@ -28,7 +28,7 @@ import android.view.MenuItem;
  * 
  * @author flx
  */
-public class PreferencesAppearance extends PreferenceActivity {
+public class PreferencesBehaviorActivity extends PreferenceActivity {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -36,9 +36,9 @@ public class PreferencesAppearance extends PreferenceActivity {
 	public final void onCreate(final Bundle savedInstanceState) {
 		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.prefs_appearance);
+		this.addPreferencesFromResource(R.xml.prefs_behavior);
 		this.setTitle(this.getString(R.string.settings) + " > "
-				+ this.getString(R.string.appearance_));
+				+ this.getString(R.string.behavior_));
 	}
 
 	/**

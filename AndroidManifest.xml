@@ -51,18 +51,19 @@
 				<data android:mimeType="text/x-vcard" />
 			</intent-filter>
 		</activity>
-		<activity android:name="Preferences" android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="Preferences11" android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="PreferencesAppearance"
+		<activity android:name=".PreferencesActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="PreferencesBehavior"
+		<activity android:name=".Preferences11Activity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="About" android:configChanges="orientation|keyboardHidden"
-			android:theme="@style/Theme.SherlockUb0r" />
+		<activity android:name=".PreferencesAppearanceActivity"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name=".PreferencesBehaviorActivity"
+			android:configChanges="orientation|keyboardHidden"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name=".AboutActivity" android:theme="@style/Theme.SherlockUb0r_Light" />
 		<activity android:name=".HelpActivity"
 			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
 		<activity android:name="CaptchaActivity"

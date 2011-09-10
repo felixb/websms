@@ -49,7 +49,7 @@ public final class CaptchaActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(Preferences.getTheme(this));
+		this.setTheme(PreferencesActivity.getTheme(this));
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate();");
 		final Bundle extras = this.getIntent().getExtras();

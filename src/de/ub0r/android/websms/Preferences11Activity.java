@@ -32,7 +32,7 @@ import de.ub0r.android.lib.Utils;
  * 
  * @author flx
  */
-public final class Preferences11 extends PreferenceActivity implements
+public final class Preferences11Activity extends PreferenceActivity implements
 		IPreferenceContainer {
 	/**
 	 * {@inheritDoc}
@@ -42,7 +42,7 @@ public final class Preferences11 extends PreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		this.setTitle(R.string.settings);
 		Utils.setLocale(this);
-		Preferences.registerOnSharedPreferenceChangeListener(this);
+		PreferencesActivity.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	/**

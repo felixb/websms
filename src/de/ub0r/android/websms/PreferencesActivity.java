@@ -46,7 +46,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  * 
  * @author flx
  */
-public class Preferences extends PreferenceActivity implements
+public class PreferencesActivity extends PreferenceActivity implements
 		IPreferenceContainer {
 	/** Tag for output. */
 	private static final String TAG = "pref";
@@ -224,7 +224,7 @@ public class Preferences extends PreferenceActivity implements
 						}
 					});
 		}
-		pr = pc.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_SET);
+		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_SET);
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(// .
 					new Preference.OnPreferenceClickListener() {
@@ -246,7 +246,7 @@ public class Preferences extends PreferenceActivity implements
 						}
 					});
 		}
-		pr = pc.findPreference(Preferences.PREFS_STANDARD_CONNECTOR_CLEAR);
+		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_CLEAR);
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(// .
 					new Preference.OnPreferenceClickListener() {

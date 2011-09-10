@@ -20,7 +20,7 @@
 	<PreferenceScreen android:title="@string/about_"
 		android:summary="@string/about_hint">
 		<intent android:action="android.intent.action.MAIN"
-			android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.About" />
+			android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.AboutActivity" />
 	</PreferenceScreen>
 	<PreferenceScreen android:title="@string/faq_"
 		android:summary="@string/faq_hint">

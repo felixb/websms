@@ -593,7 +593,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		this.setTheme(Preferences.getTheme(this));
+		this.setTheme(PreferencesActivity.getTheme(this));
 		super.onCreate(savedInstanceState);
 
 		// Restore preferences
@@ -954,7 +954,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 */
 	private void reloadPrefs() {
 		Log.d(TAG, "reloadPrefs()");
-		int ts = Preferences.getTextsize(this);
+		int ts = PreferencesActivity.getTextsize(this);
 		if (ts != 0) {
 			this.etTo.setTextSize(ts);
 			this.etText.setTextSize(ts);
@@ -1506,9 +1506,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.item_settings:
 			if (de.ub0r.android.lib.Utils.isApi(// .
 					Build.VERSION_CODES.HONEYCOMB)) {
-				this.startActivity(new Intent(this, Preferences11.class));
+				this.startActivity(new Intent(this, Preferences11Activity.class));
 			} else {
-				this.startActivity(new Intent(this, Preferences.class));
+				this.startActivity(new Intent(this, PreferencesActivity.class));
 			}
 			return true;
 		case R.id.item_donate:

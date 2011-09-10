@@ -30,13 +30,12 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  * 
  * @author flx
  */
-public final class About extends FragmentActivity {
+public final class AboutActivity extends FragmentActivity {
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(Preferences.getTheme(this));
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.about);
 		this.setTitle(this.getString(R.string.about_) + " "
