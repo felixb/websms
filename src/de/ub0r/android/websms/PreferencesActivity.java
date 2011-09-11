@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -81,7 +82,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 		this.addPreferencesFromResource(R.xml.prefs_debug);
 		this.setTitle(R.string.settings);
 		registerPreferenceChecker(this);
-		registerOnSharedPreferenceChangeListener(this);
+		registerOnPreferenceChangeListener(this);
 	}
 
 	/**
@@ -90,46 +91,62 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 * @param pc
 	 *            {@link IPreferenceContainer}
 	 */
-	static void registerOnSharedPreferenceChangeListener(
-			final IPreferenceContainer pc) {
+	static void registerOnPreferenceChangeListener(final IPreferenceContainer pc) {
+		Log.d(TAG, "registerOnSharedPreferenceChangeListener()");
 		final SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(pc.getContext());
-		prefs.registerOnSharedPreferenceChangeListener(// .
-				new OnSharedPreferenceChangeListener() {
-					@Override
-					public void onSharedPreferenceChanged(
-							final SharedPreferences sharedPreferences,
-							final String key) {
-						Log.d(TAG, "onSharedPreferenceChanged(" + key + ")");
-						if (key.equals(WebSMS.PREFS_SENDER)) {
-							// check for wrong sender format. people can't
-							// read..
-							final String p = prefs.getString(
-									WebSMS.PREFS_SENDER, "");
-							if (!p.startsWith("+")) {
-								Toast.makeText(pc.getContext(),
-										R.string.log_wrong_sender,
-										Toast.LENGTH_LONG).show();
-							} else if (TextUtils.isEmpty(prefs.getString(
-									WebSMS.PREFS_DEFPREFIX, null))) {
-								final String prefix = Utils
-										.getPrefixFromTelephoneNumber(p);
-								prefs.edit().putString(WebSMS.PREFS_DEFPREFIX,
-										prefix).commit();
-								Log.i(TAG, "set prefix=" + prefix);
-							}
+
+		final Preference ps = pc.findPreference(WebSMS.PREFS_SENDER);
+		final Preference pp = pc.findPreference(WebSMS.PREFS_DEFPREFIX);
+		if (ps != null) {
+			Log.d(TAG, "found: " + WebSMS.PREFS_SENDER);
+			ps.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(final Preference preference,
+						final Object newValue) {
+					// check for wrong sender format. people can't
+					// read..
+					final String n = (String) newValue;
+					if (n == null || !n.startsWith("+")) {
+						Toast.makeText(pc.getContext(),
+								R.string.log_wrong_sender, Toast.LENGTH_LONG)
+								.show();
+						return false;
+					} else if (TextUtils.isEmpty(prefs.getString(
+							WebSMS.PREFS_DEFPREFIX, null))) {
+						final String p = Utils.getPrefixFromTelephoneNumber(n);
+						final Editor e = prefs.edit();
+						if (pp != null) {
+							EditTextPreference epp = (EditTextPreference) pp;
+							epp.getEditText().setText(p);
+							epp.setText(p);
 						}
-						if (key.equals(WebSMS.PREFS_DEFPREFIX)) {
-							final String p = prefs.getString(
-									WebSMS.PREFS_DEFPREFIX, "");
-							if (!p.startsWith("+")) {
-								Toast.makeText(pc.getContext(),
+						e.putString(WebSMS.PREFS_DEFPREFIX, p).commit();
+						Log.i(TAG, "set prefix=" + p);
+					}
+					return true;
+				}
+			});
+		}
+
+		if (pp != null) {
+			Log.d(TAG, "found: " + WebSMS.PREFS_DEFPREFIX);
+			pp.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(final Preference preference,
+						final Object newValue) {
+					final String p = (String) newValue;
+					if (p == null || !p.startsWith("+") || p.length() < 2) {
+						Toast
+								.makeText(pc.getContext(),
 										R.string.log_wrong_defprefix,
 										Toast.LENGTH_LONG).show();
-							}
-						}
+						return false;
 					}
-				});
+					return true;
+				}
+			});
+		}
 	}
 
 	/**

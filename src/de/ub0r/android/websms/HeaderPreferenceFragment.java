@@ -42,11 +42,11 @@ public final class HeaderPreferenceFragment extends PreferenceFragment
 		int res = a.getResources().getIdentifier(
 				this.getArguments().getString("resource"), "xml",
 				a.getPackageName());
-
 		this.addPreferencesFromResource(res);
+
 		PreferencesActivity.registerPreferenceChecker(this);
-		PreferencesActivity.registerOnSharedPreferenceChangeListener(this);
 		PreferencesActivity.addConnectorPreferences(this);
+		PreferencesActivity.registerOnPreferenceChangeListener(this);
 	}
 
 	/**
