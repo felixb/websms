@@ -1944,6 +1944,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 			ConnectorSpec c = getConnectorByID(connector.getPackage());
 			if (c != null) {
+				Log.d(TAG, "update connector with id: " + c.getPackage());
+				Log.d(TAG, "update connector with name: " + c.getName());
 				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
 				final String em = c.getErrorMessage();
