@@ -738,6 +738,10 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		if (showIntro) {
 			this.startActivity(new Intent(this, HelpActivity.class));
 		}
+
+		if (prefsConnectorSpec == null) {
+			this.setProgressBarIndeterminateVisibility(Boolean.FALSE);
+		}
 	}
 
 	/**
@@ -1206,7 +1210,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		default:
 			break;
 		}
-		if (me != null && (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
+		if (me != null && prefsConnectorSpec != null
+				&& (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
 				t == ConnectorCommand.TYPE_UPDATE)) {
 			me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 		}
