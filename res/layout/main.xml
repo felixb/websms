@@ -18,7 +18,7 @@
 	-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	 android:orientation="vertical">
+	android:orientation="vertical">
 	<ScrollView android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_weight="1"
 		android:fillViewport="true">
@@ -37,7 +37,8 @@
 						android:layout_width="fill_parent" android:layout_height="51dip"
 						android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
 						android:imeOptions="actionNext" android:singleLine="true"
-						android:layout_weight="1" android:textColor="?android:attr/textColorPrimary" />
+						android:layout_weight="1"
+						style="@android:style/TextAppearance.Widget.EditText" />
 					<ImageButton android:id="@+id/clear"
 						android:layout_height="42dip" android:layout_width="42dip"
 						android:src="@android:drawable/ic_menu_close_clear_cancel"
@@ -94,9 +95,9 @@
 					android:textSize="40dip" android:layout_weight="1" android:gravity="center" />
 			</RelativeLayout>
 
-			<LinearLayout android:id="@+id/extraButtons" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:layout_weight="0"
-				style="@android:style/ButtonBar">
+			<LinearLayout android:id="@+id/extraButtons"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="0" style="@android:style/ButtonBar">
 				<ToggleButton android:textOn="@string/flashsms"
 					android:textOff="@string/flashsms" android:id="@+id/flashsms"
 					android:layout_width="fill_parent" android:layout_height="fill_parent"
