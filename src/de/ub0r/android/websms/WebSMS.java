@@ -363,7 +363,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 						// Truncate to maxLength-sig.length() chars
 						int actualMax = maxLength - sig.length();
 						String newText = s.toString().substring(0, actualMax);
-						Log.d(TAG,
+						Log.i(TAG,
 								"Message text was too long, so truncating from "
 										+ s.length() + " to "
 										+ newText.length());
