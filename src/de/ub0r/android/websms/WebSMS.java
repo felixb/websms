@@ -343,8 +343,10 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				len += sig.length();
 				WebSMS.this.tvPaste.setVisibility(View.GONE);
 				if (len > TEXT_LABLE_MIN_LEN) {
-					SMSLengthCalculator calc = prefsConnectorSpec
-							.getSMSLengthCalculator();
+					SMSLengthCalculator calc = null;
+					if (prefsConnectorSpec != null) {
+						calc = prefsConnectorSpec.getSMSLengthCalculator();
+					}
 					if (calc == null) {
 						calc = SMS_LENGTH_CALCULATOR;
 					}
