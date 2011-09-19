@@ -24,6 +24,8 @@
 	<EditTextPreference android:key="textsizen"
 		android:title="@string/textsize_" android:summary="@string/textsize_hint"
 		android:inputType="number" />
+	<CheckBoxPreference android:key="hide_send_button"
+		android:title="@string/hide_send_button" android:summary="@string/hide_send_button_hint" />
 	<CheckBoxPreference android:key="hide_cancel_button"
 		android:title="@string/hide_cancel_button" android:summary="@string/hide_cancel_button_hint" />
 	<CheckBoxPreference android:key="hide_extras_button"

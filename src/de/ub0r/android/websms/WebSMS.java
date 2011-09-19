@@ -71,6 +71,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -169,6 +170,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	"hide_clear_recipients_button";
 	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
+	/** Preference's name: hide send button. */
+	private static final String PREFS_HIDE_SEND_BUTTON = "hide_send_button";
 	/** Preference's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: hide extras button. */
@@ -274,6 +277,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** {@link TextView} for deleting text. */
 	private TextView tvClear;
 
+	/** {@link Button} holding send button. */
+	private Button bSend;
 	/** {@link View} holding custom sender. */
 	private View vCustomSender;
 	/** {@link View} holding flashsms. */
@@ -304,6 +309,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				v = View.VISIBLE;
 			}
 			WebSMS.this.tvClear.setVisibility(v);
+			WebSMS.this.bSend.setEnabled(b1 && b2);
 			WebSMS.this.invalidateOptionsMenu();
 		}
 
@@ -608,6 +614,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		me = this;
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
+		// set default prefs
+		p.edit().putBoolean(
+				PREFS_HIDE_SEND_BUTTON,
+				p.getBoolean(PREFS_HIDE_SEND_BUTTON, de.ub0r.android.lib.Utils
+						.isApi(Build.VERSION_CODES.HONEYCOMB))).commit();
+
 		// inflate XML
 		this.setContentView(R.layout.main);
 
@@ -623,6 +635,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		this.tvPaste = (TextView) this.findViewById(R.id.text_paste);
 		this.tvClear = (TextView) this.findViewById(R.id.text_clear);
 
+		this.bSend = (Button) this.findViewById(R.id.send);
 		this.vCustomSender = this.findViewById(R.id.custom_sender);
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
@@ -686,6 +699,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		v.setOnClickListener(this);
 		v.setOnLongClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
+		this.bSend.setOnClickListener(this);
 		this.tvPaste.setOnClickListener(this);
 		this.tvClear.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.twCount);
@@ -1054,6 +1068,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private void setButtons() {
 		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null
 				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+			final boolean sSend = !PreferenceManager
+					.getDefaultSharedPreferences(this).getBoolean(
+							PREFS_HIDE_SEND_BUTTON, false);
 			final boolean sFlashsms = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_FLASHSMS);
 			final boolean sCustomsender = prefsSubConnectorSpec
@@ -1061,7 +1078,16 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 
-			if (bShowExtras && (sFlashsms || sCustomsender || sSendLater)) {
+			if (sSend || (bShowExtras && // .
+					(sFlashsms || sCustomsender || sSendLater))) {
+				if (sSend) {
+					this.bSend.setVisibility(View.VISIBLE);
+					this.bSend.setEnabled(!TextUtils.isEmpty(this.etText
+							.getText())
+							&& !TextUtils.isEmpty(this.etTo.getText()));
+				} else {
+					this.bSend.setVisibility(View.GONE);
+				}
 				if (sFlashsms) {
 					this.vFlashSMS.setVisibility(View.VISIBLE);
 				} else {
@@ -1247,6 +1273,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	public final void onClick(final View v) {
 		CharSequence s;
 		switch (v.getId()) {
+		case R.id.send:
+			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
+			return;
 		case R.id.select:
 			this.startActivityForResult(ContactsWrapper.getInstance()
 					.getPickPhoneIntent(), ARESULT_PICK_PHONE);

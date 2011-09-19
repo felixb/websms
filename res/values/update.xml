@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v4.1: bring back send button (hide it in settings)</item>
 		<item>v4.0.1: fix FC</item>
 		<item>v4.0: prepare for honeycomb devices, ui redesign, check message length for supported connectors, read phone\'s telephone number/prefix, fixes and improvements, translation updates</item>
 		<item>v3.7.4: fix FCs, translation update</item>
