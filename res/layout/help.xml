@@ -31,6 +31,10 @@
 			<TextView android:text="@string/help_conenctors"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:paddingTop="5dip" android:textAppearance="?android:attr/textAppearanceMedium" />
+			<TextView android:text="@string/help_connectors_matrix"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:autoLink="web" />
 			<TextView android:id="@+id/help_prefs" android:text="@string/help_prefs"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:paddingTop="5dip" android:textAppearance="?android:attr/textAppearanceMedium"

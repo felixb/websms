@@ -20,5 +20,6 @@
 	<string name="help_title">Introducing WebSMS</string>
 	<string name="get_connectors">Get Connectors</string>
 	<string name="help_conenctors">There is a huge number of Connectors available in Android Market.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend cherry-sms for almost everybody. Users with non latin alphabets might want to try my-cool-sms first.</string>
+	<string name="help_connectors_matrix">You might want to check the Connector Matrix for more informations about avaiable Connectors: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix</string>
 	<string name="help_prefs">To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.</string>
 </resources>
