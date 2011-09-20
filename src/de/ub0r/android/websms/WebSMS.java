@@ -1088,17 +1088,17 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				} else {
 					this.bSend.setVisibility(View.GONE);
 				}
-				if (sFlashsms) {
+				if (bShowExtras && sFlashsms) {
 					this.vFlashSMS.setVisibility(View.VISIBLE);
 				} else {
 					this.vFlashSMS.setVisibility(View.GONE);
 				}
-				if (sCustomsender) {
+				if (bShowExtras && sCustomsender) {
 					this.vCustomSender.setVisibility(View.VISIBLE);
 				} else {
 					this.vCustomSender.setVisibility(View.GONE);
 				}
-				if (sSendLater) {
+				if (bShowExtras && sSendLater) {
 					this.vSendLater.setVisibility(View.VISIBLE);
 				} else {
 					this.vSendLater.setVisibility(View.GONE);
@@ -1310,13 +1310,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 			return;
 		case R.id.send_later:
-			this.setButtons();
 			final ToggleButton sl = (ToggleButton) this.vSendLater;
 			if (sl.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
 				lastSendLater = -1;
 			}
+			this.setButtons();
 			return;
 		case R.id.emo:
 			this.showDialog(DIALOG_EMO);
@@ -2048,16 +2048,19 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					me.updateBalance();
 				}
 
-				boolean runningConnectors = getConnectors(
+				ConnectorSpec[] running = getConnectors(
 						ConnectorSpec.CAPABILITIES_UPDATE,
 						ConnectorSpec.STATUS_ENABLED
-								| ConnectorSpec.STATUS_UPDATING).length != 0;
+								| ConnectorSpec.STATUS_UPDATING);
+				Log.d(TAG, "running connectors: " + running.length);
+				boolean runningConnectors = running.length != 0;
 				if (!runningConnectors) {
-					runningConnectors = getConnectors(
+					ConnectorSpec[] booting = getConnectors(
 							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
 							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING).// .
-					length != 0;
+									| ConnectorSpec.STATUS_BOOTSTRAPPING);
+					Log.d(TAG, "booting connectors: " + booting.length);
+					runningConnectors = booting.length != 0;
 				}
 				if (runningConnectors) {
 					me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
