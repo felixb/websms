@@ -29,9 +29,9 @@ import android.widget.LinearLayout;
 import com.google.ads.Ad;
 import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
+import com.google.ads.AdRequest.ErrorCode;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
-import com.google.ads.AdRequest.ErrorCode;
 
 import de.ub0r.android.lib.Log;
 
@@ -46,6 +46,9 @@ public final class Ads {
 
 	/** Size of an large ad. */
 	// private final static int AD_HSIZE = 728;
+
+	/** The previously used ad unit id */
+	private static String previousAdUnitId;
 
 	/**
 	 * Default constructor.
@@ -88,20 +91,23 @@ public final class Ads {
 		AdView adv;
 		View v = adframe.getChildAt(0);
 		if (v != null && v instanceof AdView) {
-			adv = (AdView) v;
+			// We have an existing adview
+			if (previousAdUnitId == unitId) {
+				// No change to unitId, use existing AdView
+				adv = (AdView) v;
+			} else {
+				// unitId has changed, create a new AdView and replace the old
+				adv = createAdView(activity, unitId);
+				adframe.removeView(v);
+				adframe.addView(adv);
+			}
 		} else {
-			AdSize as = AdSize.BANNER;
-			// TODO
-			// final DisplayMetrics metrics = new DisplayMetrics();
-			// this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			// if (metrics.heightPixels > AD_HSIZE && metrics.widthPixels >
-			// AD_HSIZE) {
-			// as = AdSize.IAB_LEADERBOARD;
-			// }
-			// metrics = null;
-			adv = new AdView(activity, as, unitId);
+			// This is our first time creating an AdView
+			adv = createAdView(activity, unitId);
 			adframe.addView(adv);
 		}
+
+		previousAdUnitId = unitId;
 
 		final AdRequest ar = new AdRequest();
 		if (keywords != null) {
@@ -138,5 +144,20 @@ public final class Ads {
 		Log.d(TAG, "send request");
 		adv.loadAd(ar);
 		Log.d(TAG, "loadAd() end");
+	}
+
+	private static AdView createAdView(final Activity activity,
+			final String unitId) {
+		AdSize as = AdSize.BANNER;
+		// TODO
+		// final DisplayMetrics metrics = new DisplayMetrics();
+		// this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		// if (metrics.heightPixels > AD_HSIZE && metrics.widthPixels >
+		// AD_HSIZE) {
+		// as = AdSize.IAB_LEADERBOARD;
+		// }
+		// metrics = null;
+		AdView adv = new AdView(activity, as, unitId);
+		return adv;
 	}
 }
