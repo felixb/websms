@@ -108,9 +108,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** Threshold for ad requests filled by the active connector. */
 	private static final double AD_THRESHOLD_CONNECTOR = 0.5;
 
-	/** Current unit id. */
-	private String unitId = null;
-
 	/** Ad's unit id. */
 	private static final String AD_UNITID = "a14c74c342a3f76";
 
@@ -1734,23 +1731,25 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		if (prefsNoAds) {
 			// do not display any ads for donators
 			return;
-		}
-
-		if (!prefsNoAds) {
-			if (this.unitId == null) {
-				this.unitId = AD_UNITID;
-				if (Math.random() > AD_THRESHOLD_CONNECTOR) {
-					// half of the requests are filled by the active connector
-					if (prefsConnectorSpec != null) {
-						final String s = prefsConnectorSpec.getAdUnitId();
+		} else {
+			// choose ad unit id and load an ad
+			String unitId = AD_UNITID;
+			if (Math.random() > AD_THRESHOLD_CONNECTOR) {
+				// half of the requests are filled by the active connector
+				if (prefsConnectorSpec != null) {
+					final String s = prefsConnectorSpec.getAdUnitId();
+					if (s != null) {
+						unitId = s;
 						Log.d(TAG, "load connectors ads: " + s);
-						if (s != null) {
-							this.unitId = s;
-						}
 					}
+				} else {
+					Log.d(TAG, "load main app ads, as no valid connector spec currently");
 				}
+
+			} else {
+				Log.d(TAG, "load main app ads");
 			}
-			Ads.loadAd(this, R.id.ad, this.unitId, AD_KEYWORDS);
+			Ads.loadAd(this, R.id.ad, unitId, AD_KEYWORDS);
 		}
 	}
 
@@ -2040,6 +2039,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					prefsSubConnectorSpec = connector.getSubConnector(p
 							.getString(PREFS_SUBCONNECTOR_ID, ""));
 					me.setButtons();
+					me.displayAds();
 				}
 
 				final String b = c.getBalance();
