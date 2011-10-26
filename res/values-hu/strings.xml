@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-       <!--
+<!--
                Copyright (C) 2009-2011 Felix Bechstein
        -->
-       <!--
+<!--
                This file is part of WebSMS. This program is free software; you can
                redistribute it and/or modify it under the terms of the GNU General
                Public License as published by the Free Software Foundation; either
                version 3 of the License, or (at your option) any later version.
        -->
-       <!--
+<!--
                This program is distributed in the hope that it will be useful, but
                WITHOUT ANY WARRANTY; without even the implied warranty of
                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -16,7 +16,7 @@
                copy of the GNU General Public License along with this program; If
                not, see <http://www.gnu.org/licenses/>.
        -->
-      <!--
+<!--
                This file is generated automatically by ub0rlib/php.
                Visit http://ub0r.de/translate/websms/edit.php?lang=hu&file=strings.xml to edit the file.
        -->
@@ -51,7 +51,7 @@
   <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a "Kiegészítő választása" gombbal.</string>
   <string name="log_noreadyconnector" formatted="false">Nincs kiegészítő telepítve, vagy nincs beállítva. Kérlek ellenőrizd a beállításokat.</string>
   <string name="log_error_saving_message" formatted="false">Hiba, az elküldött üzenet frissítésénél az adatbázisban!</string>
-  <string name="log_error_char_nonvalid" formatted="false">Hiba, ssatoló nem megengedett karaktereket küldött</string>
+  <string name="log_error_char_nonvalid" formatted="false" orig="Connector does not provide valid characters">Hiba, csatoló nem megengedett karaktereket küldött</string>
   <string name="log_error_char_notsendable" formatted="false">Az üzenet nem engedett karaktereket tartalmaz</string>
   <string name="try_send_invalid_characters_" formatted="false">Hibás karakterek küldése</string>
   <string name="try_send_invalid_characters_hint" formatted="false">Hibás karakterek küldésének erőltetése.</string>
@@ -134,4 +134,14 @@
     <item>Sötét</item>
     <item>Világos</item>
   </string-array>
+  <string name="standard_connector_" formatted="false" orig="Standard Connector">Alapértelmezett csatoló</string>
+  <string name="log_error_connector_not_found" formatted="false" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Csatoló nem elérhető, zárd be és nyisd meg újra az alkalmazást, hogy a csatolók újra betöltődjenek.</string>
+  <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">SMS küldés sikertelen volt: ErrorCode=</string>
+  <string name="common_" formatted="false" orig="Common">Általános</string>
+  <string name="connectors_" formatted="false" orig="Connectors">Csatolók</string>
+  <string name="alternative_layout_hint" formatted="false" orig="Move send bar to the top. Needs restart.">Küldés gomb elhelyezése a laptetejére. Újra indítás szükséges.</string>
+  <string name="textsize_" formatted="false" orig="Text size">Szöveg méret</string>
+  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">"Extra" gomb elrejtése</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extra" gomb elrejtése a fő oldalon.</string>
+  <string name="restore_" formatted="false" orig="Restore last message">Utolsó üzenet visszaállítása</string>
 </resources>
