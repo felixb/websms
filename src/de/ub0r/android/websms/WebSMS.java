@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -66,10 +66,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -81,7 +82,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.Changelog;
 import de.ub0r.android.lib.DonationHelper;
@@ -90,10 +90,10 @@ import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 import de.ub0r.android.websms.connector.common.Utils;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Main {@link FragmentActivity}.
@@ -190,6 +190,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
 	/** Preference's name: signature. */
 	private static final String PREFS_SIGNATURE = "signature";
+
+	/** Preference's name: last time help was shown. */
+	private static final String PREFS_LASTHELP = "last_help";
 
 	/** Preference's name: to. */
 	private static final String PREFS_TO = "to";
@@ -374,11 +377,10 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 										+ newText.length());
 						s.replace(0, s.length(), newText);
 						if (me != null) {
-							String sigText = sig.length() > 0 ? me
-									.getString(
-											R.string.connector_message_length_reached_signature,
-											sig.length())
-									: "";
+							String sigText = sig.length() > 0 ? me.getString(
+									R.string.// .
+									connector_message_length_reached_signature,
+									sig.length()) : "";
 							String messageText = me.getString(
 									R.string.connector_message_length_reached,
 									maxLength, prefsConnectorSpec.getName(),
@@ -594,7 +596,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings( { "unchecked", "deprecation" })
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -612,10 +614,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		// set default prefs
-		p.edit().putBoolean(
-				PREFS_HIDE_SEND_BUTTON,
-				p.getBoolean(PREFS_HIDE_SEND_BUTTON, de.ub0r.android.lib.Utils
-						.isApi(Build.VERSION_CODES.HONEYCOMB))).commit();
+		p.edit()
+				.putBoolean(
+						PREFS_HIDE_SEND_BUTTON,
+						p.getBoolean(PREFS_HIDE_SEND_BUTTON,
+								de.ub0r.android.lib.Utils
+										.isApi(Build.VERSION_CODES.HONEYCOMB)))
+				.commit();
 
 		// inflate XML
 		this.setContentView(R.layout.main);
@@ -672,8 +677,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 							.getString(PREFS_DEFPREFIX, "+49");
 					final String defSender = p.getString(PREFS_SENDER, "");
 					for (ConnectorSpec c : CONNECTORS) {
-						runCommand(me, c, ConnectorCommand.update(defPrefix,
-								defSender));
+						runCommand(me, c,
+								ConnectorCommand.update(defPrefix, defSender));
 					}
 				}
 			} catch (Exception e) {
@@ -749,7 +754,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		}
 
 		if (showIntro) {
-			this.startActivity(new Intent(this, HelpActivity.class));
+			// skip help for at least 2min
+			if (System.currentTimeMillis() > p.getLong(PREFS_LASTHELP, 0L)
+					+ de.ub0r.android.lib.Utils.MINUTES_IN_MILLIS * 2) {
+				p.edit().putLong(PREFS_LASTHELP, System.currentTimeMillis())
+						.commit();
+				this.startActivity(new Intent(this, HelpActivity.class));
+			}
 		}
 
 		if (prefsConnectorSpec == null) {
@@ -841,8 +852,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					(short) (ConnectorSpec.STATUS_ENABLED | // .
 					ConnectorSpec.STATUS_READY));
 			for (ConnectorSpec cs : css) {
-				runCommand(this, cs, ConnectorCommand.bootstrap(defPrefix,
-						defSender));
+				runCommand(this, cs,
+						ConnectorCommand.bootstrap(defPrefix, defSender));
 			}
 		} else {
 			// check is count of connectors changed
@@ -1167,7 +1178,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** Save prefs. */
 	final void savePreferences() {
 		if (prefsConnectorSpec != null) {
-			PreferenceManager.getDefaultSharedPreferences(this).edit()
+			PreferenceManager
+					.getDefaultSharedPreferences(this)
+					.edit()
 					.putString(PREFS_CONNECTOR_ID,
 							prefsConnectorSpec.getPackage()).commit();
 		}
@@ -1252,7 +1265,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 						ConnectorCommand command = new ConnectorCommand(intent);
 						ConnectorSpec specs = new ConnectorSpec(intent);
 						specs.setErrorMessage(// TODO: localize
-								"Connector did not react on message");
+						"Connector did not react on message");
 						WebSMSReceiver.handleSendCommand(specs, context,
 								intent, command);
 					}
@@ -1502,7 +1515,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				connectors.length > 1
 						|| (connectors.length == 1 && connectors[0]
 								.getSubConnectorCount() > 1));
-		boolean hasText = this.etText.getText().length() > 0;
+		boolean hasText = this.etText != null
+				&& !TextUtils.isEmpty(this.etText.getText());
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
 		menu.findItem(R.id.item_draft).setVisible(hasText);
 		final boolean showRestore = !TextUtils.isEmpty(PreferenceManager
@@ -1514,9 +1528,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			Log.w(TAG, "error removing item: " + ITEM_RESTORE, e);
 		}
 		if (showRestore) {
-			menu
-					.add(0, ITEM_RESTORE, android.view.Menu.NONE,
-							R.string.restore_);
+			menu.add(0, ITEM_RESTORE, android.view.Menu.NONE, // .
+					R.string.restore_);
 			menu.findItem(ITEM_RESTORE).setIcon(
 					android.R.drawable.ic_menu_revert);
 		}
@@ -1542,9 +1555,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.item_settings:
 			if (de.ub0r.android.lib.Utils.isApi(// .
 					Build.VERSION_CODES.HONEYCOMB)) {
-				this
-						.startActivity(new Intent(this,
-								Preferences11Activity.class));
+				this.startActivity(new Intent(this, // .
+						Preferences11Activity.class));
 			} else {
 				this.startActivity(new Intent(this, PreferencesActivity.class));
 			}
@@ -1686,12 +1698,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			return builder.create();
 		case DIALOG_SENDLATER_DATE:
 			Calendar c = Calendar.getInstance();
-			return new DatePickerDialog(this, this, c.get(Calendar.YEAR), c
-					.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+			return new DatePickerDialog(this, this, c.get(Calendar.YEAR),
+					c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		case DIALOG_SENDLATER_TIME:
 			c = Calendar.getInstance();
-			return new MyTimePickerDialog(this, this, c
-					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
+			return new MyTimePickerDialog(this, this,
+					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
 		case DIALOG_EMO:
 			return this.createEmoticonsDialog();
 		default:
@@ -1743,7 +1755,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 						Log.d(TAG, "load connectors ads: " + s);
 					}
 				} else {
-					Log.d(TAG, "load main app ads, as no valid connector spec currently");
+					Log.i(TAG, "load main app ads,"
+							+ " as no valid connector spec currently");
 				}
 
 			} else {
@@ -2018,13 +2031,13 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					// update connectors balance if needed
 					if (c.getBalance() == null && c.isReady() && !c.isRunning()
 							&& c.hasCapabilities(// .
-									ConnectorSpec.CAPABILITIES_UPDATE)
+							ConnectorSpec.CAPABILITIES_UPDATE)
 							&& p.getBoolean(PREFS_AUTOUPDATE, true)) {
 						final String defPrefix = p.getString(PREFS_DEFPREFIX,
 								"+49");
 						final String defSender = p.getString(PREFS_SENDER, "");
-						runCommand(me, c, ConnectorCommand.update(defPrefix,
-								defSender));
+						runCommand(me, c,
+								ConnectorCommand.update(defPrefix, defSender));
 					}
 				}
 			}

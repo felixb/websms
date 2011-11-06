@@ -95,9 +95,9 @@
     android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 	</application>
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="13" />
-	<supports-screens android:smallScreens="true"
-		android:normalScreens="true" android:largeScreens="true"
-		android:anyDensity="true" />
+	<supports-screens android:anyDensity="true"
+		android:smallScreens="true" android:normalScreens="true"
+		android:largeScreens="true"	android:xlargeScreens="true" />
 	<uses-feature android:name="android.hardware.touchscreen"
 		android:required="false" />
 	<uses-feature android:name="android.hardware.location.network"
