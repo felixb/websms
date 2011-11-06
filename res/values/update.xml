@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: fix hiding Extras, minor UI fixes</item>
+		<item>v4.2: fix hiding Extras, minor UI fixes, internal fixes</item>
 		<item>v4.1: bring back send button (hide it in settings)</item>
 		<item>v4.0.1: fix FC</item>
 		<item>v4.0: prepare for honeycomb devices, ui redesign, check message length for supported connectors, read phone\'s telephone number/prefix, fixes and improvements, translation updates</item>

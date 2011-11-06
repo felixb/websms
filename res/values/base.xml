@@ -18,7 +18,7 @@
 	-->
 <resources>
 	<string name="app_name">WebSMS</string>
-	<string name="app_version">4.1</string>
+	<string name="app_version">4.2</string>
 	<string name="website">http://code.google.com/p/websmsdroid/</string>
 	<string name="source">http://github.com/felixb/websms</string>
 	<string name="faq_">FAQ</string>
