@@ -69,12 +69,12 @@
 		<activity android:name="CaptchaActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r" />
-		<activity android:name="de.ub0r.android.lib.DonationHelper"
+		<activity android:name="de.ub0r.android.lib.DonationFragmentActivity"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
-		<activity android:name="de.ub0r.android.lib.Changelog"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
+			android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>

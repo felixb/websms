@@ -83,7 +83,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import de.ub0r.android.lib.Base64Coder;
-import de.ub0r.android.lib.Changelog;
+import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.apis.ContactsWrapper;
@@ -642,21 +642,21 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
 
-		if (Changelog.isNewVersion(this)) {
+		if (ChangelogHelper.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
 		}
-		Changelog.showChangelog(this);
+		ChangelogHelper.showChangelog(this, true);
 
 		Object o = this.getPackageManager().getLaunchIntentForPackage(
 				"de.ub0r.android.smsdroid");
 		if (o == null) {
 			final Intent intent = Market.getInstallAppIntent(this,
 					"de.ub0r.android.smsdroid", Market.ALT_SMSDROID);
-			Changelog.showNotes(this, "get SMSdroid", null, intent);
+			ChangelogHelper.showNotes(this, true, "get SMSdroid", null, intent);
 		} else {
-			Changelog.showNotes(this, null, null, null);
+			ChangelogHelper.showNotes(this, true, null, null, null);
 		}
 		o = null;
 
@@ -1562,7 +1562,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 			return true;
 		case R.id.item_donate:
-			this.startActivity(new Intent(this, DonationHelper.class));
+			DonationHelper.startDonationActivity(this, true);
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
