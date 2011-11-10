@@ -17,8 +17,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms" android:versionName="4.2"
-	android:versionCode="3138" android:installLocation="auto">
+	package="de.ub0r.android.websms" android:versionName="4.2.1"
+	android:versionCode="3139" android:installLocation="auto">
 	<application android:name=".WebSMSApp" android:label="@string/app_name"
 		android:icon="@drawable/icon" android:hardwareAccelerated="true">
 		<activity android:name="WebSMS" android:label="@string/app_name"
@@ -69,12 +69,12 @@
 		<activity android:name="CaptchaActivity"
 			android:configChanges="orientation|keyboardHidden"
 			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r" />
-		<activity android:name="de.ub0r.android.lib.DonationHelper"
+		<activity android:name="de.ub0r.android.lib.DonationFragmentActivity"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
-		<activity android:name="de.ub0r.android.lib.Changelog"
+			android:windowSoftInputMode="adjustResize" />
+		<activity android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
 			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
+			android:windowSoftInputMode="adjustResize" />
 		<receiver android:name="WebSMSReceiver" android:enabled="true"
 			android:exported="true">
 			<intent-filter>
