@@ -53,7 +53,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	private static final String SORT = WRAPPER.getContentSort();
 
 	/** List of number types. */
-	final String[] types;
+	private final String[] types;
 
 	/**
 	 * Constructor.
