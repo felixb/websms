@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: minor UI fix</item>
+		<item>v4.2.2: minor UI fix</item>
 		<item>v4.2.1: minor UI fix</item>
 		<item>v4.2: fix hiding Extras, minor UI fixes, internal fixes, update translations</item>
 		<item>v4.1: bring back send button (hide it in settings)</item>
