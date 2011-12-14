@@ -21,7 +21,7 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="About">Über</string>
+  <string name="about_" formatted="false" orig="About">Rreth</string>
   <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
   <string name="faq_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
@@ -147,6 +147,6 @@
   <string name="common_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Common">Allgemein</string>
   <string name="connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connectors">Connectoren</string>
   <string name="update_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Update">Update</string>
-	<string name="connector_message_length_reached" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Maximale Anzahl von %1$d Zeichen für Connector %2$s erreicht. %3$s</string>
-	<string name="connector_message_length_reached_signature" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">(Davon %1$d Zeichen für die Signatur).</string>
+  <string name="connector_message_length_reached" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Maximale Anzahl von %1$d Zeichen für Connector %2$s erreicht. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">(Davon %1$d Zeichen für die Signatur).</string>
 </resources>
