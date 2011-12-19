@@ -66,7 +66,7 @@
   <string name="settings_common" formatted="false" orig="Preferences - Common">Общие настройки</string>
   <string name="appearance_" formatted="false">Внешний вид</string>
   <string name="behavior_" formatted="false" orig="Behavior">Поведение</string>
-  <string name="appearance_and_behavior_" formatted="false" orig="Appearance &amp;amp; behavior">Внешний вид и поведение</string>
+  <string name="appearance_and_behavior_" formatted="false" orig="Appearance &amp; behavior" username="ergodroid">Внешний вид и поведение</string>
   <string name="autosend_" formatted="false" orig="Autosend">Автоотправка</string>
   <string name="show_titlebar_" formatted="false" orig="Show title bar">Показывать уведомления</string>
   <string name="show_titlebar_hint" formatted="false" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показывать уведомления в статусбаре. Без этого фоновые процессы не будут видны</string>
@@ -140,4 +140,13 @@
     <item>Чёрная</item>
     <item>Светлая</item>
   </string-array>
+  <string name="standard_connector_" formatted="false" orig="Standard Connector">Стандартный коннектор</string>
+  <string name="common_" formatted="false" orig="Common">Общие</string>
+  <string name="connectors_" formatted="false" orig="Connectors">Коннекторы</string>
+  <string name="textsize_" formatted="false" orig="Text size">Размер текста</string>
+  <string name="update_" formatted="false" orig="Update">Обновить</string>
+  <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default">Размер в текста пикселях. Оставьте пустым для значения по умолчанию</string>
+  <string name="connector_message_length_reached" formatted="false" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Достигнуто максимальное количество %1$d символов для коннекторов %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" orig="(Of which %1$d characters were your signature).">(из них %1$d символов для подписи)</string>
+  <string name="log_error_connector_not_found" formatted="false" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Коннектор не найден, пожалуйста откройте и закройте настройки WebSMS, чтобы перезагрузить коннекторы</string>
 </resources>
