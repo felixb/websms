@@ -28,17 +28,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 import android.widget.Toast;
 import de.ub0r.android.lib.Log;
-import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorService;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Receives commands coming as broadcast from WebSMS.
@@ -51,10 +52,6 @@ public class ConnectorSMS extends Connector {
 
 	/** Preference key: enabled. */
 	private static final String PREFS_ENABLED = "enable_sms";
-
-	/** {@link TelephonyWrapper}. */
-	private static final TelephonyWrapper TWRAPPER = TelephonyWrapper
-			.getInstance();
 
 	/** Message set action. */
 	public static final String MESSAGE_SENT_ACTION = // .
@@ -106,15 +103,16 @@ public class ConnectorSMS extends Connector {
 			final String[] r = command.getRecipients();
 			final String text = command.getText();
 			Log.d(TAG, "text: " + text);
-			int[] l = TWRAPPER.calculateLength(text, false);
+			int[] l = SmsMessage.calculateLength(text, false);
 			Log.i(TAG, "text7: " + text.length() + ", " + l[0] + " " + l[1]
 					+ " " + l[2] + " " + l[3]);
-			l = TWRAPPER.calculateLength(text, true);
+			l = SmsMessage.calculateLength(text, true);
 			Log.i(TAG, "text8: " + text.length() + ", " + l[0] + " " + l[1]
 					+ " " + l[2] + " " + l[3]);
+			SmsManager smsmgr = SmsManager.getDefault();
 			for (String t : r) {
 				Log.d(TAG, "send messages to: " + t);
-				final ArrayList<String> messages = TWRAPPER.divideMessage(text);
+				final ArrayList<String> messages = smsmgr.divideMessage(text);
 				final int c = messages.size();
 				final ArrayList<PendingIntent> sentIntents = // .
 				new ArrayList<PendingIntent>(c);
@@ -133,7 +131,7 @@ public class ConnectorSMS extends Connector {
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				nm.notify(ConnectorService.NOTIFICATION_PENDING,
 						ConnectorService.getNotification(context, command));
-				TWRAPPER.sendMultipartTextMessage(Utils.getRecipientsNumber(t),
+				smsmgr.sendMultipartTextMessage(Utils.getRecipientsNumber(t),
 						null, messages, sentIntents, null);
 			}
 		} catch (Exception e) {

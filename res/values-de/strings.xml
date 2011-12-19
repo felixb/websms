@@ -27,7 +27,8 @@
   <string name="faq_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
   <string name="feedback_" formatted="false">Feedback</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
-  <string name="twitter_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Folge auf Twitter.\nBekomme darüber Update-Infos, etc.</string>
+  <string name="google_plus_hint" formatted="false">Folge mir auf Google+.\nErhalte Infos über Updates etc.</string>
+  <string name="twitter_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Folge mir auf Twitter.\nErhalte Infos über Updates etc.</string>
   <string name="author_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Author of Connectors:">Autor der Connectoren:</string>
   <string name="change_connector_" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="Change provider">Wechsle Provider</string>
