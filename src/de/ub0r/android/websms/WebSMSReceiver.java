@@ -194,10 +194,10 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		buf = null;
 
 		Notification n = new Notification(R.drawable.stat_notify_sms_failed,
-				context.getString(R.string.notify_failed_),
-				System.currentTimeMillis());
-		final Intent i = new Intent(Intent.ACTION_SENDTO,
-				Uri.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)), context,
+				context.getString(R.string.notify_failed_), System
+						.currentTimeMillis());
+		final Intent i = new Intent(Intent.ACTION_SENDTO, Uri
+				.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)), context,
 				WebSMS.class);
 		// add pending intent
 		i.putExtra(Intent.EXTRA_TEXT, command.getText());
@@ -332,15 +332,15 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 					+ "' AND " + BODY + " like '" + text.replace("'", "_")
 					+ "'", null, DATE + " DESC");
 			if (c != null && c.moveToFirst()) {
-				final Uri u = URI_SMS.buildUpon().appendPath(c.getString(0))
+				final Uri u = URI_SENT.buildUpon().appendPath(c.getString(0))
 						.build();
 				Log.d(TAG, "skip saving draft: " + u);
 				inserted.add(u.toString());
 			} else {
 				final ContentValues cv = new ContentValues(values);
 				cv.put(ADDRESS, address);
-				// save sms to content://sms/
-				inserted.add(cr.insert(URI_SMS, cv).toString());
+				// save sms to content://sms/sent
+				inserted.add(cr.insert(URI_SENT, cv).toString());
 			}
 			if (c != null && !c.isClosed()) {
 				c.close();
