@@ -53,18 +53,20 @@
 	<string name="connector_sms_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
 	<string-array name="lang_values">
 		<item></item>
-		<item>en</item>
 		<item>de</item>
-		<item>es</item>
+		<item>en</item>
 		<item>hu</item>
 		<item>ru</item>
+		<item>sk</item>
+		<item>es</item>
 	</string-array>
 	<string-array name="lang_">
 		<item>Default language</item>
-		<item>English</item>
 		<item>German</item>
-		<item>Spanish</item>
+		<item>English</item>
 		<item>Hungarian</item>
 		<item>Russian</item>
+		<item>Slovak</item>
+		<item>Spanish</item>
 	</string-array>
 </resources>
