@@ -21,4 +21,34 @@
                Visit http://ub0r.de/translate/websms/edit.php?lang=sk&file=strings.xml to edit the file.
        -->
 <resources>
+  <string name="about_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="About">O aplikácii</string>
+  <string name="about_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="About this app">O tejto aplikácii</string>
+  <string name="about" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS umožňuje posielať bezplatné a lacné SMS cez webové služby. Podporuje mnoho poskytovateľov, ktorých rozhranie môžete stiahnuť cez Market v nastaveniach WebSMS.</string>
+  <string name="faq_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Some tips and tricks, how to set up this app.">Tipy a triky ako nastaviť aplikáciu.</string>
+  <string name="feedback_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Feedback">Spätná väzba</string>
+  <string name="feedback_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Report bugs, request features ...">Správy o chybách, požiadavky na nové funkcie...</string>
+  <string name="google_plus_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Follow me on Google+.\nGet update notifications etc.">Sledujte nás na Google+.\nZískajte info o nových verziách a.i.</string>
+  <string name="twitter_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Follow me on twitter.\nGet update notifications etc.">Sledujte nás na twitteri.\nZískajte info o nových verziách a.i.</string>
+  <string name="author_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Author of Connectors:">Autor rozhrania:</string>
+  <string name="change_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Change provider">Zmeniť poskytovateľa</string>
+  <string name="change_connector_nl" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Change\nprovider">Zmeniť\nposkytovateľa</string>
+  <string name="click_for_update" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="(update: click)">(aktualizovať: klikni tu)</string>
+  <string name="defprefix_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Default int. prefix">Predvoľba krajiny</string>
+  <string name="defprefix_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="e.g. +49">napr. +421</string>
+  <string name="more_apps_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="More Apps..">Viac aplikácií</string>
+  <string name="more_connectors_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="More Connectors..">Viac rozhraní..</string>
+  <string name="more_connectors_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Nájdite viac rozhraní na Markete. Reštartuje WebSMS po inštalácií!</string>
+  <string name="more_connectors__" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Even more Connectors..">Ešte viac rozhraní..</string>
+  <string name="more_connectors__hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Chýba Vám rozhranie nejakej webovej služby? Pozrite si FAQ pre jeho získanie.</string>
+  <string name="standard_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Standard Connector">Základné rozhranie</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Set standard Connector">Nastaviť základné rozhranie</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Nastavte aktuálne rozhranie ako základné rozhranie. WebSMS sa tým automaticky vynuluje.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Clear standard Connector">Vymazať základné rozhranie</string>
+  <string name="license" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - pozrite na http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="License:">Licencia:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Prosím zadajte platný prefix ako predvoľbu krajiny. Napr. "+421".</string>
+  <string name="log_wrong_sender" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Zlé číslo odosielateľa! Nastavte číslo v medzinár. formáte napr. +421907123456.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nevybrali ste žiadne rozhranie. Vyberte ho kliknutím na "Zmeniť poskytovateľa".</string>
+  <string name="log_noreadyconnector" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="No Connector installed or ready. Please check preferences.">Žiadne rozhranie nie je nainštalované alebo nastavené. Skontrolujte nastavenia.</string>
 </resources>
