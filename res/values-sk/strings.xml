@@ -76,4 +76,6 @@
   <string name="hide_send_in_menu_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Skrytie tlačidla "Odoslať" z hlavnej obrazovky. Nutný reštart.</string>
   <string name="hide_emo_button" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button">Skryť tlač. "Smajlíky"</string>
   <string name="hide_emo_button_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Skrytie tlačidla "Smajlíky" z hlavnej obrazovky.</string>
+  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skryť tlač. "Klikni pre aktual."</string>
+  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Skrytie tlačidla "Klikni pre aktualizáciu" z hlavnej obrazovky.</string>
 </resources>
