@@ -76,6 +76,39 @@
   <string name="hide_send_in_menu_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Skrytie tlačidla "Odoslať" z hlavnej obrazovky. Nutný reštart.</string>
   <string name="hide_emo_button" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button">Skryť tlač. "Smajlíky"</string>
   <string name="hide_emo_button_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Skrytie tlačidla "Smajlíky" z hlavnej obrazovky.</string>
-  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skryť tlač. "Klikni pre aktual."</string>
+  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skryť tlač. "Klikni pre aktualiz."</string>
   <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Skrytie tlačidla "Klikni pre aktualizáciu" z hlavnej obrazovky.</string>
+  <string name="hide_bg_connector_" formatted="false" orig="Hide connector name">Skryť názov rozhrania</string>
+  <string name="hide_bg_connector_hint" formatted="false" orig="Hide active connector\'s name in background.">Skrytie názvu aktuálneho rozhrania z hlavnej obrazovky.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Skryť tlač. "Vložiť"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Skrytie tlačidla "Vložiť" z textového poľa.</string>
+  <string name="autoexit_" formatted="false" orig="Autoexit">Autom. ukončenie</string>
+  <string name="autoexit_hint" formatted="false" orig="Exit WebSMS when sending sms.">Automatické ukončenie WebSMS po odoslaní sms.</string>
+  <string name="mobile_only_" formatted="false" orig="Show mobiles only">Zobraziť iba s tel. číslom</string>
+  <string name="mobile_only_hint" formatted="false" orig="Show mobile numbers only.">Zobraziť iba kontakty s telefónnym číslom</string>
+  <string name="vibrate_on_fail" formatted="false" orig="Vibrate if sending fails">Vibrovať pri chybe odosielania</string>
+  <string name="vibrate_on_send" formatted="false" orig="Vibrate after sending">Vibrovať po odoslaní</string>
+  <string name="sound_on_fail" formatted="false" orig="Play sound if sending fails">Prehrať zvuk pri chybe odosielania</string>
+  <string name="website_" formatted="false" orig="Website:">Webstránka:</string>
+  <string name="text_hint" formatted="false" orig="Text">Text</string>
+  <string name="send_later" formatted="false" orig="Send later">Odoslať neskôr</string>
+  <string name="emo_" formatted="false" orig="Emoticons">Smajlíky</string>
+  <string name="connectors_switch" formatted="false" orig="Switched connector:">Prepnúť rozhranie</string>
+  <string name="enable_sms_hint" formatted="false" orig="The SMS Connector will send normal SMS (e.g. via GSM).">SMS rozhranie bude odosielať štandardné SMS (pomocou GSM)</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Prilepiť zo schránky</string>
+  <string name="restore_" formatted="false" orig="Restore last message">Obnoviť poslednú správu</string>
+  <string name="theme_" formatted="false" orig="Theme">Motív</string>
+  <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Táto správa obsahuje neprípustné znaky</string>
+  <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">Nemôžem odoslať SMS: Kód chyby=</string>
+  <string name="appearance_" formatted="false" orig="Appearance">Nastavenia vzhľadu</string>
+  <string name="behavior_" formatted="false" orig="Behavior">Nastavenia správania</string>
+  <string name="appearance_and_behavior_" formatted="false" orig="Appearance &amp; behavior">Vzhľad a správanie</string>
+  <string name="alternative_layout_" formatted="false" orig="Alternative layout">Rozdielne usporiadanie</string>
+  <string name="alternative_layout_hint" formatted="false" orig="Move send bar to the top. Needs restart.">Presunutie lišty odosielania navrch. Je potrebný reštart.</string>
+  <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default">Veľkosť textu v pixeloch. Nechajte prázdne pre predvolenú</string>
+  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">Skryť tlač. "Extra"</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Skrytie tlačidla "Extra" z hlavnej obrazovky.</string>
+  <string name="free_" formatted="false" orig="Balances:">Kredit:</string>
+  <string name="to_hint" formatted="false" orig="Name or Number">Meno alebo číslo</string>
+  <string name="extras_" formatted="false" orig="Extras">Extra</string>
 </resources>
