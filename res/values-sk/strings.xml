@@ -53,7 +53,7 @@
   <string name="log_noreadyconnector" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="No Connector installed or ready. Please check preferences.">Žiadne rozhranie nie je nainštalované alebo nastavené. Skontrolujte nastavenia.</string>
   <string name="sender_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Your mobile number">Vaše tel. číslo</string>
   <string name="send_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Send">Odoslať</string>
-  <string name="save_draft_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Save draft">Uložiť koncept</string>
+  <string name="save_draft_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Save draft">Ulož koncept</string>
   <string name="settings" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Preferences">Nastavenia</string>
   <string name="settings_connectors" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Preferences - Connectors">Nastavenia - Rozhrania</string>
   <string name="connectors_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connectors">Rozhrania</string>
@@ -95,7 +95,7 @@
   <string name="emo_" formatted="false" orig="Emoticons">Smajlíky</string>
   <string name="connectors_switch" formatted="false" orig="Switched connector:">Prepnúť rozhranie</string>
   <string name="enable_sms_hint" formatted="false" orig="The SMS Connector will send normal SMS (e.g. via GSM).">SMS rozhranie bude odosielať štandardné SMS (pomocou GSM)</string>
-  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]">[ Prilepiť zo schránky</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]" username="Martin &lt; mato.jurik1@gmail.com &gt;">[ Prilepiť zo schránky ]</string>
   <string name="restore_" formatted="false" orig="Restore last message">Obnoviť poslednú správu</string>
   <string name="theme_" formatted="false" orig="Theme">Motív</string>
   <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Táto správa obsahuje neprípustné znaky</string>
@@ -111,4 +111,43 @@
   <string name="free_" formatted="false" orig="Balances:">Kredit:</string>
   <string name="to_hint" formatted="false" orig="Name or Number">Meno alebo číslo</string>
   <string name="extras_" formatted="false" orig="Extras">Extra</string>
+  <string name="notify_failed" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Failed to send SMS: ">Chyba pri odosielaní SMS:</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Rozhranie nie je nájdené, prosím, otvorte a zatvorte nastavenia WebSMS na vynútené obnovenie rozhraní.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Try send invalid">Odoslať s chybami</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Try to send messages with invalid.">Pokúsi sa odoslať správy s neplatnými znakmi.</string>
+  <string name="notify_failed_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="failed sending SMS">chyba pri odosielaní SMS</string>
+  <string name="save_chars_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Save chars">Ulož znaky</string>
+  <string name="settings_common" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Preferences - Common">Nastavenia - Všeobecné</string>
+  <string name="common_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Common">Všeobecné</string>
+  <string name="autosend_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Autosend">Autom. odosielanie</string>
+  <string name="show_titlebar_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Show title bar">Zobraziť záhlavie</string>
+  <string name="show_titlebar_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Zobraziť záhlavie v hlavnej obrazovke. Bez záhlavia neuvidíte činnosti vykonávané na pozadí.</string>
+  <string name="drop_sent_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Don\'t save sent SMS">Neukladať odoslané SMS</string>
+  <string name="enable_autosend_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Enable autosend">Použiť autom. odosielanie</string>
+  <string name="enable_autosend_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Enable SMSdroid\'s autosend feature.">Použiť funkcie SMSdroidu pre autom. odosielanie</string>
+  <string name="use_selected_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Use selected Connector">Použiť zvolené rozhranie</string>
+  <string name="default_recipient_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Default recipient">Predvolený príjemca</string>
+  <string name="default_recipient_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Default recipient filled into address bar on app start.">Pridanie predvoleného príjemcu do adresného riadku po spustení aplikácie.</string>
+  <string name="signature_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Signature">Podpis</string>
+  <string name="signature_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis bude pridaný do každej správy. V prípade potreby začnite podpis použitím " ".</string>
+  <string name="autoupdate_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Autoupdate">Aut. stav kreditu</string>
+  <string name="autoupdate_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Update account balances on start.">Obnoviť stav kreditu po štarte.</string>
+  <string name="source_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Sourcescode:">Zdrojový kód:</string>
+  <string name="flashsms" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Flash SMS">Flash SMS</string>
+  <string name="custom_sender" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Custom sender">Vlastný odosielateľ</string>
+  <string name="captcha_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Captcha">Captcha</string>
+  <string name="captcha_solve_it" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Please enter the text below:">Prosím, zadajte uvedený text:</string>
+  <string name="status_disabled" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Status: disabled\n(Updated when returning to main screen)">Stav: vypnuté\n(Aktualizované sa pri návrate na hlavnú obrazovku)</string>
+  <string name="status_enabled" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Status: enabled\n(Updated when returning to main screen)">Stav: zapnuté\n(Aktualizované pri návrate na hlavnú obrazovku)</string>
+  <string name="status_ready" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Status: ready\n(Updated when returning to main screen)">Stav: pripravené\n(Aktualizované pri návrate na hlavnú obrazovku)</string>
+  <string name="connector_vanished" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector vanished!">Rozhranie sa stratilo!</string>
+  <string name="connector_sms_name" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="SMS">SMS</string>
+  <string name="enable_sms" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Enable SMS">Štandardné SMS</string>
+  <string name="update_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Update">Aktualizovať</string>
+  <string name="connector_message_length_reached" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">%1$d je maximálny počet znakov pre rozhranie %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="(Of which %1$d characters were your signature).">(Z toho %1$d znakov bol váš podpis).</string>
+  <string name="log_error_saving_message" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Error updating sent message in Database!">Chyba pri ukladaní správy do databázy!</string>
+  <string name="drop_sent_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Don\'t save sent messages in global database.">Nie je možné uložiť odoslané správy do databázy.</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Použiť zvolené rozhranie pre autom. odosielanie. Názov poskytovateľa sa nezobrazí.</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector does not provide valid characters">Rozhranie neposkytuje prípustné znaky</string>
 </resources>
