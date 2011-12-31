@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v4.2.5: fix FC on android 1.6</item>
 		<item>v4.2.4: fix FC on android 1.6</item>
 		<item>v4.2.3: minor fixes, update translations</item>
 		<item>v4.2.2: minor UI fix</item>
