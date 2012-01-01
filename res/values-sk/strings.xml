@@ -129,7 +129,7 @@
   <string name="default_recipient_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Default recipient">Predvolený príjemca</string>
   <string name="default_recipient_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Default recipient filled into address bar on app start.">Pridanie predvoleného príjemcu do adresného riadku po spustení aplikácie.</string>
   <string name="signature_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Signature">Podpis</string>
-  <string name="signature_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis bude pridaný do každej správy. V prípade potreby začnite podpis použitím " ".</string>
+  <string name="signature_hint" formatted="false" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis bude pridaný do každej správy. V prípade potreby začnite podpis použitím medzery kedže nie je automaticky oddelený od textu správy.</string>
   <string name="autoupdate_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Autoupdate">Aut. stav kreditu</string>
   <string name="autoupdate_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Update account balances on start.">Obnoviť stav kreditu po štarte.</string>
   <string name="source_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Sourcescode:">Zdrojový kód:</string>
