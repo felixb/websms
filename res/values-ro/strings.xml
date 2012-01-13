@@ -18,7 +18,136 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=ru&file=strings.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/ro/strings.xml to edit the file.
        -->
 <resources>
+  <string name="log_noselectedconnector" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Niciun Conector nu este selectat. Alegeți unul cu opțiunea „Schimbă Provider”</string>
+  <string name="about_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="About">Despre</string>
+  <string name="about" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS vă permite să trimiteți mesaje scrise gratuie sau la preț redus prin servicii web. Căutați link-ul pentru a descărca mai mulți provideri în preferințele aplicației WebSMS.</string>
+  <string name="about_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="About this app">Despre această aplicație</string>
+  <string name="faq_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Câteva sfaturi cum să configurați această aplicație.</string>
+  <string name="feedback_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Feedback">Feedback</string>
+  <string name="feedback_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Report bugs, request features ...">Raportați probleme, cereți noi opțiuni ...</string>
+  <string name="google_plus_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Aboneați-vă la pagina mea pe Google+ pentru a primi notificări.</string>
+  <string name="twitter_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Aboneați-vă la feed-ul meu de twitter pentru a primi notificări.</string>
+  <string name="author_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Author of Connectors:">Autorul Conectorilor:</string>
+  <string name="change_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Change provider">Schimbă Conectorul</string>
+  <string name="change_connector_nl" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Change\nprovider">Schimbă\nConectorul</string>
+  <string name="click_for_update" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="(update: click)">(actualizare: clic)</string>
+  <string name="defprefix_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Default int. prefix">Prefix int. implicit</string>
+  <string name="defprefix_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="e.g. +49">ex. +40 sau +373</string>
+  <string name="more_apps_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="More Apps..">Alte Aplicații..</string>
+  <string name="more_connectors_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="More Connectors..">Alți Conectori..</string>
+  <string name="more_connectors_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Caută mai mulți Conectori în Android Market. Repornește WebSMS după instalare!</string>
+  <string name="more_connectors__" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Even more Connectors..">Și mai mulți Conectori..</string>
+  <string name="more_connectors__hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Vă lipsește un Conector pentru careva serviciu? Vedeți FAQ-ul pentru a-l obține.</string>
+  <string name="standard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Standard Connector">Conector Standart</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Set standard Connector">Setează Conectorul standart</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Setează conectorul curent ca cel standart. WebSMS îl va seta înapoi în mod automat.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Clear standard Connector">Șterge Conectorul standart</string>
+  <string name="free_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Balances:">Solduri:</string>
+  <string name="license" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - vezi http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="License:">Licență:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Introduceți, vă rog, un cod valid de țară ca prefix implicit. Ex.: „+40” sau „+373”.</string>
+  <string name="log_wrong_sender" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Expeditor greșit! Setați-l în formă internațională, spre exemplu +37369111111</string>
+  <string name="log_noreadyconnector" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="No Connector installed or ready. Please check preferences.">Niciun Conector nu este instalat sau activ. Verificați preferințele.</string>
+  <string name="log_error_saving_message" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Error updating sent message in Database!">Eroare la actualizarea mesajului în baza de date!</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Connector does not provide valid characters">Conectorul nu oferă caractere valide</string>
+  <string name="log_error_char_notsendable" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="This message contains not sendable characters">Acest mesaj conține caractere ce nu pot fi expediate</string>
+  <string name="log_error_sms" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Could not send SMS: ErrorCode=">Trimiterea a eșuat: ErrorCode=</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Conectorul nu a fost găsit, deschideți și închideți preferințele WebSMS pentru a forța reîncărcarea conectorilor.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Try send invalid">Încearcă să trimiți invalid</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Try to send messages with invalid.">Încearcă să trimiți mesaj cu caractere invalide.</string>
+  <string name="notify_failed" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Failed to send SMS: ">Trimiterea mesajului a eșuat:</string>
+  <string name="notify_failed_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="failed sending SMS">trimitere eșuată</string>
+  <string name="sender_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Your mobile number">Numărul tău mobil</string>
+  <string name="send_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Send">Trimite</string>
+  <string name="save_draft_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Save draft">Salvează</string>
+  <string name="save_chars_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Save chars">Salvează caractere</string>
+  <string name="settings" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Preferences">Preferințe</string>
+  <string name="settings_common" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Preferences - Common">Preferințe - Generale</string>
+  <string name="common_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Common">General</string>
+  <string name="appearance_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Appearance">Aspect</string>
+  <string name="behavior_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Behavior">Comportament</string>
+  <string name="appearance_and_behavior_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Appearance &amp; behavior">Aspect și comportament</string>
+  <string name="autosend_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Autosend">Trimitere automată</string>
+  <string name="show_titlebar_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Show title bar">Arată bara de titlu</string>
+  <string name="show_titlebar_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Arată bara de titlu în ecranul principal. Fără bara de titlu e imposibil să vezi activitățile de fond.</string>
+  <string name="settings_connectors" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Preferences - Connectors">Preferințe - Conectori</string>
+  <string name="connectors_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Connectors">Conectori</string>
+  <string name="alternative_layout_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Alternative layout">Aspect alternativ</string>
+  <string name="alternative_layout_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Mută bara de trimitere în antet (necesită repornire).</string>
+  <string name="textsize_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Text size">Mărime text</string>
+  <string name="textsize_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Text size in pixels; leave empty for default">Mărimea textului în pixeli; implicit - lăsați vid</string>
+  <string name="hide_change_connector_button" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">Ascunde butonul „Schimbă Conectorul”</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Ascunde butonul „Schimbă Conectorul” pe ecranul principal.</string>
+  <string name="hide_send_button" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">Ascunde butonul „Trimite”</string>
+  <string name="hide_send_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Ascunde butonul „Trimite” pe ecranul principal.</string>
+  <string name="hide_cancel_button" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button">Ascunde butonul „Revocă”</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Ascunde butonul „Revocă” pe ecranul principal.</string>
+  <string name="hide_extras_button_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">Ascunde butonul „Extra”</string>
+  <string name="hide_extras_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">Ascunde butonul „Extra” pe ecranul principal.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">Ascunde butonul „Alege”</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Ascunde butonul „Alege recipienți” pe ecranul principal.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">Ascunde butonul „Șterge”</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Ascunde butonul „Șterge recipienți” pe ecranul principal.</string>
+  <string name="hide_send_in_menu" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Send\&quot; menu item">Ascunde „Trimite” din meniu</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Ascunde „Trimite” din meniu principal (necesită repornire).</string>
+  <string name="hide_emo_button" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">Ascunde butonul „Emoticons”</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Ascunde butonul „Emoticons” pe ecranul principal.</string>
+  <string name="hide_update_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">Ascunde „Clic pentru actualizare” pe ecranul principal.</string>
+  <string name="hide_update" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">Ascunde „Clic pentru actualizare”</string>
+  <string name="hide_bg_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide connector name">Ascunde numele Conectorului</string>
+  <string name="hide_bg_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide active connector\'s name in background.">Ascunde numele conectorului activ în fond.</string>
+  <string name="hide_paste_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Ascunde butonul „Lipește” pe câmpul de text.</string>
+  <string name="drop_sent_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Don\'t save sent SMS">Nu salva mesaje trimise</string>
+  <string name="drop_sent_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Nu salva mesaje trimise în baza de date globală.</string>
+  <string name="enable_autosend_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Enable autosend">Activează trimitere automată</string>
+  <string name="enable_autosend_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Activează opțiunea de trimitere automată.</string>
+  <string name="use_selected_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Use selected Connector">Folosește Conectorul selectat</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Folosește Conectorul curent pentru trimitere automată. Dezactivați pentru a afișa o selecție.</string>
+  <string name="default_recipient_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Default recipient">Recipient implicit</string>
+  <string name="default_recipient_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Default recipient filled into address bar on app start.">Recipient implicit completat în bara de adresă la pornire.</string>
+  <string name="signature_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Signature">Semnătură</string>
+  <string name="signature_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Text atașat tutoror mesajelor. Nu include spații. Începeți semnătura cu „ ” dacă e nevoie.</string>
+  <string name="autoupdate_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Autoupdate">Actualizare automată</string>
+  <string name="autoupdate_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Update account balances on start.">Actualizarea balanețelor conturilor la pornire.</string>
+  <string name="autoexit_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Autoexit">Ieșire automată</string>
+  <string name="autoexit_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Exit WebSMS when sending sms.">Închide WebSMS după trimiterea mesajului.</string>
+  <string name="mobile_only_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Show mobiles only">Doar numere mobile</string>
+  <string name="mobile_only_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Show mobile numbers only.">Afișează doar numere mobile.</string>
+  <string name="vibrate_on_fail" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Vibrate if sending fails">Vibrează dacă trimiterea eșuează.</string>
+  <string name="vibrate_on_send" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Vibrate after sending">Vibrează după trimitere</string>
+  <string name="sound_on_fail" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Play sound if sending fails">Reproduce un sunet la eșuare</string>
+  <string name="source_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Sourcescode:">Surse:</string>
+  <string name="website_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Website:">Sit web:</string>
+  <string name="to_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Name or Number">Nume sau Număr</string>
+  <string name="text_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Text">Text</string>
+  <string name="extras_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Extras">Extra</string>
+  <string name="flashsms" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Flash SMS">Flash SMS</string>
+  <string name="custom_sender" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Custom sender">Expeditor modificat</string>
+  <string name="send_later" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Send later">Trimite mai târziu</string>
+  <string name="emo_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Emoticons">Emoticons</string>
+  <string name="connectors_switch" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Switched connector:">Conector schimbat:</string>
+  <string name="captcha_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Captcha">Captcha</string>
+  <string name="captcha_solve_it" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Please enter the text below:">Introduceți textul de mai jos:</string>
+  <string name="status_disabled" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Status: disabled\n(Updated when returning to main screen)">Statut: dezactivat\n(Actualizat la revenirea pe ecranul principal)</string>
+  <string name="status_enabled" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Status: enabled\n(Updated when returning to main screen)">Statut: activat\n(Actualizat la revenirea pe ecranul principal)</string>
+  <string name="status_ready" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Status: ready\n(Updated when returning to main screen)">Statut: gata\n(Actualizat la revenirea pe ecranul principal)</string>
+  <string name="connector_vanished" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Connector vanished!">Conectorul a dispărut!</string>
+  <string name="enable_sms" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Enable SMS">SMS activ</string>
+  <string name="connector_sms_name" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="SMS">SMS</string>
+  <string name="enable_sms_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Conectorul SMS va trimite mesaje normale SMS (prin GSM).</string>
+  <string name="hide_paste_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Ascunde butonul „Lipește”</string>
+  <string-array name="themes" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;">
+    <item>Negru</item>
+    <item>Luminos</item>
+  </string-array>
+  <string name="paste_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="[ Paste from clipboard ]">[ Lipește din clipboard ]</string>
+  <string name="restore_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Restore last message">Restabilește ultimul mesaj</string>
+  <string name="update_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Update">Actualizare</string>
+  <string name="theme_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Theme">Temă</string>
+  <string name="connector_message_length_reached" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Ați atins numărul maxim de %1$d caractere pentru conectorul %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(dintre care %1$d caractere constiuie semnătura).</string>
 </resources>
