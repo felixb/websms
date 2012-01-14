@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
@@ -1570,10 +1571,25 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.item_update:
 			this.updateFreecount();
 			return true;
+		case android.R.id.home:
+			String s = this.getSupportActionBar().getSubtitle().toString();
+			if (s.contains(",")) {
+				Builder b = new Builder(this);
+				String bs = this.getString(R.string.free_);
+				b.setTitle(bs.replaceAll(":", ""));
+				b.setMessage(this.getSupportActionBar().getSubtitle()
+						.toString().replace(bs, "").replaceAll(", ", "\n")
+						.trim());
+				b.setCancelable(true);
+				b.show();
+				return true;
+			} else {
+				return false;
+			}
 		case ITEM_RESTORE:
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(this);
-			final String s = p.getString(PREFS_BACKUPLASTTEXT, null);
+			s = p.getString(PREFS_BACKUPLASTTEXT, null);
 			if (!TextUtils.isEmpty(s)) {
 				this.etText.setText(s);
 			}
