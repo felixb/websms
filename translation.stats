@@ -2,7 +2,7 @@ res/values/help.xml:5
 res/values/market.xml:5
 res/values/notes.xml:4
 res/values/strings.xml:128
-res/values/update.xml:55
+res/values/update.xml:56
 res/values-de/help.xml:5
 res/values-de/market.xml:5
 res/values-de/notes.xml:3
@@ -31,7 +31,7 @@ res/values-sk/help.xml:0
 res/values-sk/market.xml:0
 res/values-sk/notes.xml:3
 res/values-sk/strings.xml:128
-res/values:197
+res/values:198
 res/values-de:141
 res/values-es:110
 res/values-hu:130
