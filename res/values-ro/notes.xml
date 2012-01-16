@@ -23,7 +23,7 @@
 <resources>
   <string-array name="notes_from_dev" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;">
     <item>Pentru a citi mesaje primite puteți încerca să folosiți SMSdroid.</item>
-    <item>Dec. 2010 Ciornă: Ciornele sunt salvate în baza de date android. Folosiți SMSdroid sau aplicația de mesagerie android pentru a le trimite mai târziu.</item>
-    <item notranslation="true"></item>
+    <item>Dec. 2010 Ciorne: Ciornele sunt salvate în baza de date android. Folosiți SMSdroid sau aplicația de mesagerie android pentru a le trimite mai târziu.</item>
+    <item notranslation="true"/>
   </string-array>
 </resources>
