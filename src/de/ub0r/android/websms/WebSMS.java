@@ -730,8 +730,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					.getSystemService(TELEPHONY_SERVICE);
 			String number = tm.getLine1Number();
 			Log.i(TAG, "line1: " + number);
-			Editor e = p.edit();
-			if (!TextUtils.isEmpty(number)) {
+
+			if (number.startsWith("00")) {
+				number = number.replaceFirst("00", "+");
+			}
+			if (!TextUtils.isEmpty(number) && (number.startsWith("+"))) {
+				Editor e = p.edit();
 				if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))) {
 					Log.i(TAG, "set number=" + number);
 					e.putString(PREFS_SENDER, number);
@@ -747,8 +751,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 								+ number);
 					}
 				}
+				e.commit();
 			}
-			e.commit();
 		}
 
 		// check default prefix

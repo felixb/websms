@@ -1,119 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Copyright (C) 2009-2011 Felix Bechstein
-	-->
-	<!--
+<!-- Copyright (C) 2009-2012 Felix Bechstein -->
+<!--
 		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
 		Public License as published by the Free Software Foundation; either
 		version 3 of the License, or (at your option) any later version.
-	-->
-	<!--
+-->
+<!--
 		This program is distributed in the hope that it will be useful, but
 		WITHOUT ANY WARRANTY; without even the implied warranty of
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 		General Public License for more details. You should have received a
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
-	-->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical">
-	<ScrollView android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:layout_weight="1"
-		android:fillViewport="true">
-		<LinearLayout android:orientation="vertical"
-			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<LinearLayout android:id="@+id/ad"
-				android:layout_alignParentBottom="true" android:visibility="gone"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:gravity="center_horizontal" />
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="fill_parent" android:layout_height="wrap_content">
-				<RelativeLayout android:layout_width="0dip"
-					android:layout_height="wrap_content" android:layout_weight="1">
-					<MultiAutoCompleteTextView android:text=""
-						android:id="@+id/to" android:hint="@string/to_hint"
-						android:layout_width="fill_parent" android:layout_height="51dip"
-						android:nextFocusRight="@+id/text" android:nextFocusDown="@+id/text"
-						android:imeOptions="actionNext" android:singleLine="true"
-						android:layout_weight="1" style="@style/TextAppearance.Multicomplete" />
-					<ImageButton android:id="@+id/clear"
-						android:layout_height="42dip" android:layout_width="42dip"
-						android:src="@android:drawable/ic_menu_close_clear_cancel"
-						android:background="@android:drawable/btn_default_small"
-						android:scaleType="fitXY" android:layout_alignParentRight="true"
-						android:layout_marginTop="4dip" android:focusable="true" />
-					<ImageButton android:id="@+id/select"
-						android:layout_height="42dip" android:layout_width="42dip"
-						android:src="@drawable/ic_menu_invite" android:scaleType="fitXY"
-						android:background="@android:drawable/btn_default_small"
-						android:layout_toLeftOf="@+id/clear"
-						android:layout_alignWithParentIfMissing="true"
-						android:layout_marginTop="4dip" android:focusable="true" />
-				</RelativeLayout>
-				<ImageButton android:id="@+id/emo" android:layout_width="51dip"
-					android:layout_height="51dip" android:src="@drawable/ic_menu_emoticons"
-					android:scaleType="fitXY" android:background="@android:drawable/btn_default_small"
-					android:focusable="true" />
-			</LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-			<RelativeLayout android:layout_width="fill_parent"
-				android:layout_height="fill_parent" android:layout_weight="1"
-				android:addStatesFromChildren="true">
-				<EditText android:id="@+id/text" android:layout_width="fill_parent"
-					android:layout_height="fill_parent" android:layout_weight="1"
-					android:hint="@string/text_hint" android:imeOptions="actionDone|flagNoEnterAction"
-					android:nextFocusRight="@+id/send_" android:gravity="top"
-					android:autoText="true" android:minLines="3"
-					android:inputType="textMultiLine|textAutoCorrect|textCapSentences" />
-				<TextView android:id="@+id/text_" android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:paddingLeft="3dip"
-					android:paddingRight="3dip" android:paddingBottom="3dip"
-					android:layout_alignParentRight="true" android:layout_alignBottom="@id/text"
-					android:textStyle="bold" android:background="#88000000"
-					android:textColor="#ffffffff" />
-				<TextView android:id="@+id/text_clear" android:text=" [x] "
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:paddingLeft="3dip" android:paddingRight="3dip"
-					android:paddingBottom="3dip" android:layout_alignParentLeft="true"
-					android:layout_alignBottom="@id/text" android:textStyle="bold"
-					android:background="#88000000" android:textColor="#ffffffff"
-					android:clickable="true" android:focusable="true" />
-				<TextView android:id="@+id/text_paste" android:text="@string/paste_"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:paddingLeft="3dip" android:paddingRight="3dip"
-					android:paddingBottom="3dip" android:layout_toRightOf="@+id/text_clear"
-					android:layout_alignBottom="@id/text" android:textStyle="bold"
-					android:background="#88000000" android:textColor="#ffffffff"
-					android:clickable="true" android:focusable="true"
-					android:layout_marginRight="2dip" />
-				<TextView android:id="@+id/text_connector"
-					android:layout_width="fill_parent" android:layout_height="fill_parent"
-					android:layout_alignBottom="@id/text" android:layout_alignTop="@id/text"
-					android:textStyle="bold" android:textColor="#40606060"
-					android:textSize="40dip" android:layout_weight="1" android:gravity="center" />
-			</RelativeLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:fillViewport="true" >
 
-			<LinearLayout android:id="@+id/extraButtons"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="0" style="@android:style/ButtonBar">
-				<Button android:id="@+id/send" android:text="@string/send_"
-					android:layout_width="fill_parent" android:layout_height="fill_parent"
-					android:layout_weight="1" />
-				<ToggleButton android:textOn="@string/flashsms"
-					android:textOff="@string/flashsms" android:id="@+id/flashsms"
-					android:layout_width="fill_parent" android:layout_height="fill_parent"
-					android:layout_weight="1" android:visibility="gone" />
-				<ToggleButton android:textOn="@string/custom_sender"
-					android:textOff="@string/custom_sender" android:id="@+id/custom_sender"
-					android:layout_width="fill_parent" android:layout_height="fill_parent"
-					android:layout_weight="1" android:visibility="gone" />
-				<ToggleButton android:textOn="@string/send_later"
-					android:textOff="@string/send_later" android:id="@+id/send_later"
-					android:layout_width="fill_parent" android:layout_height="fill_parent"
-					android:layout_weight="1" android:visibility="gone" />
-			</LinearLayout>
-		</LinearLayout>
-	</ScrollView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/ad"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/to"
+                        style="@style/TextAppearance.Multicomplete"
+                        android:layout_width="fill_parent"
+                        android:layout_height="51dip"
+                        android:layout_weight="1"
+                        android:hint="@string/to_hint"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/text"
+                        android:nextFocusRight="@+id/text"
+                        android:singleLine="true"
+                        android:text="" />
+
+                    <ImageButton
+                        android:id="@+id/clear"
+                        android:layout_width="42dip"
+                        android:layout_height="42dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="4dip"
+                        android:background="@android:drawable/btn_default_small"
+                        android:focusable="true"
+                        android:scaleType="fitXY"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+                    <ImageButton
+                        android:id="@+id/select"
+                        android:layout_width="42dip"
+                        android:layout_height="42dip"
+                        android:layout_alignWithParentIfMissing="true"
+                        android:layout_marginTop="4dip"
+                        android:layout_toLeftOf="@+id/clear"
+                        android:background="@android:drawable/btn_default_small"
+                        android:focusable="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_menu_invite" />
+                </RelativeLayout>
+
+                <ImageButton
+                    android:id="@+id/emo"
+                    android:layout_width="51dip"
+                    android:layout_height="51dip"
+                    android:background="@android:drawable/btn_default_small"
+                    android:focusable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_menu_emoticons" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:addStatesFromChildren="true" >
+
+                <EditText
+                    android:id="@+id/text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:autoText="true"
+                    android:gravity="top"
+                    android:hint="@string/text_hint"
+                    android:imeOptions="actionDone|flagNoEnterAction"
+                    android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                    android:minLines="3"
+                    android:nextFocusRight="@+id/send_" />
+
+                <TextView
+                    android:id="@+id/text_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/text"
+                    android:layout_alignParentRight="true"
+                    android:background="#88000000"
+                    android:paddingBottom="3dip"
+                    android:paddingLeft="3dip"
+                    android:paddingRight="3dip"
+                    android:textColor="#ffffffff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/text"
+                    android:layout_alignParentLeft="true"
+                    android:background="#88000000"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="3dip"
+                    android:paddingLeft="3dip"
+                    android:paddingRight="3dip"
+                    android:text=" [x] "
+                    android:textColor="#ffffffff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_paste"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/text"
+                    android:layout_marginRight="2dip"
+                    android:layout_toRightOf="@+id/text_clear"
+                    android:background="#88000000"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="3dip"
+                    android:paddingLeft="3dip"
+                    android:paddingRight="3dip"
+                    android:text="@string/paste_"
+                    android:textColor="#ffffffff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_connector"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignBottom="@id/text"
+                    android:layout_alignTop="@id/text"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#40606060"
+                    android:textSize="40dip"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/extraButtons"
+                style="@android:style/ButtonBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" >
+
+                <Button
+                    android:id="@+id/send"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/send_" />
+
+                <ToggleButton
+                    android:id="@+id/flashsms"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:textOff="@string/flashsms"
+                    android:textOn="@string/flashsms"
+                    android:visibility="gone" />
+
+                <ToggleButton
+                    android:id="@+id/custom_sender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:textOff="@string/custom_sender"
+                    android:textOn="@string/custom_sender"
+                    android:visibility="gone" />
+
+                <ToggleButton
+                    android:id="@+id/send_later"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:textOff="@string/send_later"
+                    android:textOn="@string/send_later"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
