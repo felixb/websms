@@ -178,6 +178,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
 	/** Prefernece's name: hide paste button. */
 	private static final String PREFS_HIDE_PASTE = "hide_paste";
+	/** Prefernece's name: show toast on balance update. */
+	static final String PREFS_SHOW_BALANCE_TOAST = "show_balance_toast";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: try to send invalid characters. */
@@ -2007,9 +2009,17 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				Log.d(TAG, "update connector with name: " + c.getName());
 				c.setErrorMessage((String) null); // fix sticky error status
 				c.update(connector);
-				final String em = c.getErrorMessage();
-				if (em != null && me != null) {
-					Toast.makeText(me, em, Toast.LENGTH_LONG).show();
+				if (me != null) {
+					final SharedPreferences p = PreferenceManager
+							.getDefaultSharedPreferences(me);
+					final String em = c.getErrorMessage();
+					if (em != null) {
+						Toast.makeText(me, em, Toast.LENGTH_LONG).show();
+					} else if (p.getBoolean(PREFS_SHOW_BALANCE_TOAST, false)
+							&& !TextUtils.isEmpty(c.getBalance())) {
+						Toast.makeText(me, c.getName() + ": " + c.getBalance(),
+								Toast.LENGTH_LONG).show();
+					}
 				}
 			} else {
 				final String pkg = connector.getPackage();

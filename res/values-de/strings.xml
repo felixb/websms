@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-               Copyright (C) 2009-2011 Felix Bechstein
+               Copyright (C) 2009-2012 Felix Bechstein
        -->
 <!--
                This file is part of WebSMS. This program is free software; you can
@@ -76,6 +76,8 @@
   <string name="alternative_layout_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Verschiebe die Senden-Leiste nach oben. Benötigt Neustart.</string>
   <string name="textsize_" formatted="false">Schriftgrad</string>
   <string name="textsize_hint" formatted="false">Schriftgrad in Punkten; leer lassen für Standard</string>
+  <string name="show_balance_toast_">Zeige Guthaben-Toast</string>
+  <string name="show_balance_toast_hint">Zeige Toast-Benachrichtigung, wenn das Guthaben aktualisiert wurde.</string>
   <string name="hide_change_connector_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider"-Button ausblenden</string>
   <string name="hide_change_connector_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider"-Button auf dem Hauptbildschirm ausblenden.</string>
   <string name="hide_send_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">"Senden"-Button ausblenden</string>

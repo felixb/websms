@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009-2011 Felix Bechstein
+		Copyright (C) 2009-2012 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -76,6 +76,8 @@
 	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
 	<string name="textsize_">Text size</string>
 	<string name="textsize_hint">Text size in pixels; leave empty for default</string>
+	<string name="show_balance_toast_">Show balance toast</string>
+	<string name="show_balance_toast_hint">Show toast notification on balance update.</string>
 	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
 	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
 	<string name="hide_send_button">Hide \"Send\" button</string>
