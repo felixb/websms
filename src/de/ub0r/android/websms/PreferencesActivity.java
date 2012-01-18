@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2011 Felix Bechstein
+ * Copyright (C) 2010-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -169,9 +169,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 	static final int getTheme(final Context context) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		final String s = p.getString(PREFS_THEME, THEME_BLACK);
+		final String s = p.getString(PREFS_THEME, null);
 		if (s != null && THEME_LIGHT.equals(s)) {
 			return R.style.Theme_SherlockUb0r_Light;
+		} else if (s != null && THEME_BLACK.equals(s)) {
+			return R.style.Theme_SherlockUb0r;
 		} else if (Utils.isApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
 			return R.style.Theme_SherlockUb0r_Light;
 		} else {
