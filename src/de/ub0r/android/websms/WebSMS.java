@@ -731,10 +731,11 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			String number = tm.getLine1Number();
 			Log.i(TAG, "line1: " + number);
 
-			if (number.startsWith("00")) {
+			if (number != null && number.startsWith("00")) {
 				number = number.replaceFirst("00", "+");
 			}
-			if (!TextUtils.isEmpty(number) && (number.startsWith("+"))) {
+			if (number != null && !TextUtils.isEmpty(number)
+					&& (number.startsWith("+"))) {
 				Editor e = p.edit();
 				if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))) {
 					Log.i(TAG, "set number=" + number);
