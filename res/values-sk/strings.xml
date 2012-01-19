@@ -18,7 +18,7 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=sk&file=strings.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/sk/strings.xml to edit the file.
        -->
 <resources>
   <string name="about_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="About">O aplikácii</string>
@@ -150,4 +150,6 @@
   <string name="drop_sent_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Don\'t save sent messages in global database.">Nie je možné uložiť odoslané správy do databázy.</string>
   <string name="use_selected_connector_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Použiť zvolené rozhranie pre autom. odosielanie. Názov poskytovateľa sa nezobrazí.</string>
   <string name="log_error_char_nonvalid" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector does not provide valid characters">Rozhranie neposkytuje prípustné znaky</string>
+  <string name="show_balance_toast_" formatted="false" orig="Show balance toast">Zobraziť vysk. okno s kreditom</string>
+  <string name="show_balance_toast_hint" formatted="false" orig="Show toast notification on balance update.">Zobrazenie vykakovacieho okna pri obnove zostatku kreditu</string>
 </resources>
