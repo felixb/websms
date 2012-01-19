@@ -181,7 +181,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** Prefernece's name: show toast on balance update. */
 	static final String PREFS_SHOW_BALANCE_TOAST = "show_balance_toast";
 	/** Cache {@link ConnectorSpec}s. */
-	private static final String PREFS_CONNECTORS = "connectors";
+	public static final String PREFS_CONNECTORS = "connectors";
 	/** Preference's name: try to send invalid characters. */
 	private static final String PREFS_TRY_SEND_INVALID = "try_send_invalid";
 	/** Preference's name: drop sent messages. */
@@ -215,7 +215,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private static final int SLEEP_BEFORE_EXIT = 75;
 
 	/** Buffersize for saving and loading Connectors. */
-	private static final int BUFSIZE = 4096;
+	public static final int BUFSIZE = 4096;
 
 	/** Minimum length for showing sms length. */
 	private static final int TEXT_LABLE_MIN_LEN = 20;
