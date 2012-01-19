@@ -6,12 +6,10 @@ import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 
 /**
- * 
  * A SMSLengthCalculator that just delegates to
  * TelephonyWrapper.getInstance().calculateLength
  * 
  * @author Fintan Fairmichael
- * 
  */
 public class DefaultSMSLengthCalculator implements SMSLengthCalculator {
 	private static final long serialVersionUID = -1021281060248896432L;
