@@ -1,4 +1,4 @@
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import android.app.TimePickerDialog;
 import android.content.Context;

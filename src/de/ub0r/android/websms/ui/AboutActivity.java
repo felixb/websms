@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2011 Felix Bechstein
+ * Copyright (C) 2009-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItem;
 import android.widget.TextView;
+import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
 /**
@@ -42,7 +43,7 @@ public final class AboutActivity extends FragmentActivity {
 				+ this.getString(R.string.app_name) + " v"
 				+ this.getString(R.string.app_version));
 		StringBuffer authors = new StringBuffer();
-		final ConnectorSpec[] css = WebSMS.getConnectors(
+		final ConnectorSpec[] css = ComposerActivity.getConnectors(
 				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE);
 		String a;
 		for (ConnectorSpec cs : css) {
@@ -67,7 +68,7 @@ public final class AboutActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in Action Bar clicked; go home
-			Intent intent = new Intent(this, WebSMS.class);
+			Intent intent = new Intent(this, ComposerActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			this.startActivity(intent);
 			return true;

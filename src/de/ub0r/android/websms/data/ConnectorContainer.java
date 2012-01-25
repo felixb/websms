@@ -34,9 +34,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.Log;
-import de.ub0r.android.websms.WebSMS;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Container for all available {@link ConnectorSpec}s.
@@ -46,6 +44,13 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 public final class ConnectorContainer {
 	/** Tag for output. */
 	private static final String TAG = "container";
+	/** Buffer size for saving and loading Connectors. */
+	private static final int BUFSIZE = 4096;
+	/** Cache {@link ConnectorSpec}s. */
+	private static final String PREFS_CONNECTORS = "container_connectors";
+	/** Cache slected {@link ConnectorSpec}. */
+	private static final String PREFS_SELECTED = "selected";
+
 	/** Single instance. */
 	private static ConnectorContainer instance = null;
 
@@ -57,11 +62,14 @@ public final class ConnectorContainer {
 	private ConnectorSpec selected = null;
 
 	/**
+	 * @param context
+	 *            {@link Context}
 	 * @return {@link ConnectorContainer}
 	 */
-	public ConnectorContainer getInstance() {
+	public ConnectorContainer getInstance(final Context context) {
 		if (instance == null) {
 			instance = new ConnectorContainer();
+			instance.readFromCache(context);
 		}
 		return instance;
 	}
@@ -124,23 +132,23 @@ public final class ConnectorContainer {
 	 * @param capabilities
 	 *            capabilities needed
 	 * @param status
-	 *            status required {@link SubConnectorSpec}
+	 *            status required by SubConnector
 	 * @return {@link ConnectorSpec}s
 	 */
 	public ConnectorSpec[] getConnectors(final int capabilities,
 			final int status) {
 		synchronized (this.connectors) {
 			final int l = this.connectors.size();
-			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(l);
+			final ArrayList<ConnectorSpec> r = new ArrayList<ConnectorSpec>();
 			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
 				c = this.connectors.get(i);
 				if (c.hasCapabilities((short) capabilities)
 						&& c.hasStatus((short) status)) {
-					ret.add(c);
+					r.add(c);
 				}
 			}
-			return ret.toArray(new ConnectorSpec[0]);
+			return r.toArray(new ConnectorSpec[0]);
 		}
 	}
 
@@ -171,18 +179,19 @@ public final class ConnectorContainer {
 		synchronized (this.connectors) {
 			Editor editor = PreferenceManager.getDefaultSharedPreferences(
 					context).edit();
+			editor.putString(PREFS_SELECTED, this.getSelected().getPackage());
 			try {
 				final ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ObjectOutputStream objOut = new ObjectOutputStream(
-						new BufferedOutputStream(out, WebSMS.BUFSIZE));
+						new BufferedOutputStream(out, BUFSIZE));
 				objOut.writeObject(this.connectors);
 				objOut.close();
 				final String s = String.valueOf(Base64Coder.encode(out
 						.toByteArray()));
 				Log.d(TAG, s);
-				editor.putString(WebSMS.PREFS_CONNECTORS, s);
+				editor.putString(PREFS_CONNECTORS, s);
 			} catch (Exception e) {
-				editor.remove(WebSMS.PREFS_CONNECTORS);
+				editor.remove(PREFS_CONNECTORS);
 				Log.e(TAG, "IO", e);
 			}
 			editor.commit();
@@ -196,19 +205,19 @@ public final class ConnectorContainer {
 	 *            {@link Context}
 	 */
 	@SuppressWarnings("unchecked")
-	public void readFromCache(final Context context) {
+	private void readFromCache(final Context context) {
 		this.connectors.clear();
 		this.ids.clear();
 		synchronized (this.connectors) {
 			SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
-			String s = p.getString(WebSMS.PREFS_CONNECTORS, null);
+			String s = p.getString(PREFS_CONNECTORS, null);
 			if (!TextUtils.isEmpty(s)) {
 				ArrayList<ConnectorSpec> cache;
 				try {
 					cache = (ArrayList<ConnectorSpec>) (new ObjectInputStream(
 							new BufferedInputStream(new ByteArrayInputStream(
-									Base64Coder.decode(s)), WebSMS.BUFSIZE)))
+									Base64Coder.decode(s)), BUFSIZE)))
 							.readObject();
 					int l = cache.size();
 					for (int i = 0; i < l; i++) {
@@ -220,6 +229,7 @@ public final class ConnectorContainer {
 					Log.e(TAG, "error reading cache", e);
 				}
 			}
+			this.setSelected(p.getString(PREFS_SELECTED, null));
 		}
 	}
 }

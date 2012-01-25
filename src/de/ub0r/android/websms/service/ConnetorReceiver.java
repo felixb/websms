@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2011 Felix Bechstein
+ * Copyright (C) 2010-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.service;
 
 import java.util.ArrayList;
 
@@ -36,18 +36,21 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.widget.Toast;
+import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
+import de.ub0r.android.websms.ui.CaptchaActivity;
+import de.ub0r.android.websms.ui.ComposerActivity;
 
 /**
  * Fetch all incoming Broadcasts and forward them to WebSMS.
  * 
  * @author flx
  */
-public final class WebSMSReceiver extends BroadcastReceiver {
+public final class ConnetorReceiver extends BroadcastReceiver {
 	/** Tag for debug output. */
 	private static final String TAG = "bcr";
 
@@ -90,7 +93,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** SMS DB: type - sent. */
 	static final int MESSAGE_TYPE_SENT = 2;
 	/** SMS DB: type - draft. */
-	static final int MESSAGE_TYPE_DRAFT = 3;
+	public static final int MESSAGE_TYPE_DRAFT = 3;
 
 	/** Next notification ID. */
 	private static int nextNotificationID = 1;
@@ -113,7 +116,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			return;
 		}
 		if (Connector.ACTION_INFO.equals(action)) {
-			WebSMSReceiver.handleInfoAction(context, intent);
+			ConnetorReceiver.handleInfoAction(context, intent);
 		} else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
 			final Intent i = new Intent(context, CaptchaActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -141,7 +144,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 
 		try {
-			WebSMS.addConnector(specs);
+			ComposerActivity.addConnector(specs);
 		} catch (Exception e) {
 			Log.e(TAG, "error while receiving broadcast", e);
 		}
@@ -164,7 +167,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	static void handleSendCommand(final ConnectorSpec specs,
+	public static void handleSendCommand(final ConnectorSpec specs,
 			final Context context, final Intent intent,
 			final ConnectorCommand command) {
 
@@ -172,7 +175,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(context);
-			if (p.getBoolean(WebSMS.PREFS_SEND_VIBRATE, false)) {
+			if (p.getBoolean(ComposerActivity.PREFS_SEND_VIBRATE, false)) {
 				final Vibrator v = (Vibrator) context
 						.getSystemService(Context.VIBRATOR_SERVICE);
 				if (v != null) {
@@ -198,10 +201,10 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 				System.currentTimeMillis());
 		final Intent i = new Intent(Intent.ACTION_SENDTO,
 				Uri.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)), context,
-				WebSMS.class);
+				ComposerActivity.class);
 		// add pending intent
 		i.putExtra(Intent.EXTRA_TEXT, command.getText());
-		i.putExtra(WebSMS.EXTRA_ERRORMESSAGE, specs.getErrorMessage());
+		i.putExtra(ComposerActivity.EXTRA_ERRORMESSAGE, specs.getErrorMessage());
 		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
 		final PendingIntent cIntent = PendingIntent.getActivity(context, 0, i,
 				PendingIntent.FLAG_CANCEL_CURRENT);
@@ -217,9 +220,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		final boolean vibrateOnFail = p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE,
+		final boolean vibrateOnFail = p.getBoolean(ComposerActivity.PREFS_FAIL_VIBRATE,
 				false);
-		final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
+		final String s = p.getString(ComposerActivity.PREFS_FAIL_SOUND, null);
 		Uri soundOnFail;
 		if (s == null || s.length() <= 0) {
 			soundOnFail = null;
@@ -260,13 +263,14 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 * @param msgType
 	 *            sent or draft?
 	 */
-	static void saveMessage(final ConnectorSpec specs, final Context context,
-			final ConnectorCommand command, final int msgType) {
+	public static void saveMessage(final ConnectorSpec specs,
+			final Context context, final ConnectorCommand command,
+			final int msgType) {
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
 		}
 		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				WebSMS.PREFS_DROP_SENT, false)) {
+				ComposerActivity.PREFS_DROP_SENT, false)) {
 			Log.i(TAG, "drop sent messages");
 			return;
 		}

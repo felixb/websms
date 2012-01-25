@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import java.util.List;
 
@@ -26,6 +26,9 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import de.ub0r.android.lib.IPreferenceContainer;
 import de.ub0r.android.lib.Utils;
+import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.R.string;
+import de.ub0r.android.websms.R.xml;
 
 /**
  * {@link PreferenceActivity} for API>=11.
@@ -50,7 +53,7 @@ public final class Preferences11Activity extends PreferenceActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		WebSMS.doPreferences = true;
+		ComposerActivity.doPreferences = true;
 	}
 
 	/**

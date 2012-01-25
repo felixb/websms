@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +27,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import de.ub0r.android.lib.Market;
+import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.R.id;
+import de.ub0r.android.websms.R.layout;
+import de.ub0r.android.websms.R.string;
 
 /**
  * {@link FragmentActivity} showing intro.
@@ -49,8 +53,8 @@ public final class HelpActivity extends FragmentActivity implements
 
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		if (TextUtils.isEmpty(p.getString(WebSMS.PREFS_SENDER, null)) || // .
-				TextUtils.isEmpty(p.getString(WebSMS.PREFS_DEFPREFIX, null))) {
+		if (TextUtils.isEmpty(p.getString(ComposerActivity.PREFS_SENDER, null)) || // .
+				TextUtils.isEmpty(p.getString(ComposerActivity.PREFS_DEFPREFIX, null))) {
 			this.findViewById(R.id.help_prefs).setVisibility(View.VISIBLE);
 		}
 	}

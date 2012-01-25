@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -41,6 +41,10 @@ import de.ub0r.android.lib.IPreferenceContainer;
 import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.Utils;
+import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.R.string;
+import de.ub0r.android.websms.R.style;
+import de.ub0r.android.websms.R.xml;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -97,10 +101,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 		final SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(pc.getContext());
 
-		final Preference ps = pc.findPreference(WebSMS.PREFS_SENDER);
-		final Preference pp = pc.findPreference(WebSMS.PREFS_DEFPREFIX);
+		final Preference ps = pc.findPreference(ComposerActivity.PREFS_SENDER);
+		final Preference pp = pc.findPreference(ComposerActivity.PREFS_DEFPREFIX);
 		if (ps != null) {
-			Log.d(TAG, "found: " + WebSMS.PREFS_SENDER);
+			Log.d(TAG, "found: " + ComposerActivity.PREFS_SENDER);
 			ps.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				@Override
 				public boolean onPreferenceChange(final Preference preference,
@@ -114,7 +118,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 								.show();
 						return false;
 					} else if (TextUtils.isEmpty(prefs.getString(
-							WebSMS.PREFS_DEFPREFIX, null))) {
+							ComposerActivity.PREFS_DEFPREFIX, null))) {
 						final String p = Utils.getPrefixFromTelephoneNumber(n);
 						final Editor e = prefs.edit();
 						if (pp != null) {
@@ -122,7 +126,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 							epp.getEditText().setText(p);
 							epp.setText(p);
 						}
-						e.putString(WebSMS.PREFS_DEFPREFIX, p).commit();
+						e.putString(ComposerActivity.PREFS_DEFPREFIX, p).commit();
 						Log.i(TAG, "set prefix=" + p);
 					}
 					return true;
@@ -131,7 +135,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 		}
 
 		if (pp != null) {
-			Log.d(TAG, "found: " + WebSMS.PREFS_DEFPREFIX);
+			Log.d(TAG, "found: " + ComposerActivity.PREFS_DEFPREFIX);
 			pp.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				@Override
 				public boolean onPreferenceChange(final Preference preference,
@@ -155,7 +159,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	@Override
 	public final void onResume() {
 		super.onResume();
-		WebSMS.doPreferences = true;
+		ComposerActivity.doPreferences = true;
 		addConnectorPreferences(this);
 	}
 
@@ -166,7 +170,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 *            {@link Context}
 	 * @return theme
 	 */
-	static final int getTheme(final Context context) {
+	public static final int getTheme(final Context context) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, null);
@@ -204,7 +208,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in Action Bar clicked; go home
-			Intent intent = new Intent(this, WebSMS.class);
+			Intent intent = new Intent(this, ComposerActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			this.startActivity(intent);
 			return true;
@@ -262,13 +266,13 @@ public class PreferencesActivity extends PreferenceActivity implements
 					final SharedPreferences p = PreferenceManager
 							.getDefaultSharedPreferences(// .
 							pc.getContext());
-					final String c = p.getString(WebSMS.PREFS_CONNECTOR_ID, "");
-					final String sc = p.getString(WebSMS.PREFS_SUBCONNECTOR_ID,
+					final String c = p.getString(ComposerActivity.PREFS_CONNECTOR_ID, "");
+					final String sc = p.getString(ComposerActivity.PREFS_SUBCONNECTOR_ID,
 							"");
 					Log.i(TAG, "set std connector: " + c + "/" + sc);
 					final Editor e = p.edit();
-					e.putString(WebSMS.PREFS_STANDARD_CONNECTOR, c);
-					e.putString(WebSMS.PREFS_STANDARD_SUBCONNECTOR, sc);
+					e.putString(ComposerActivity.PREFS_STANDARD_CONNECTOR, c);
+					e.putString(ComposerActivity.PREFS_STANDARD_SUBCONNECTOR, sc);
 					e.commit();
 					return true;
 				}
@@ -284,8 +288,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 							.getDefaultSharedPreferences(// .
 							pc.getContext());
 					final Editor e = p.edit();
-					e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
-					e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
+					e.remove(ComposerActivity.PREFS_STANDARD_CONNECTOR);
+					e.remove(ComposerActivity.PREFS_STANDARD_SUBCONNECTOR);
 					e.commit();
 					return true;
 				}
@@ -307,7 +311,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 			Log.d(TAG, "settings_connectors not found; exit");
 			return;
 		}
-		final ConnectorSpec[] css = WebSMS.getConnectors(
+		final ConnectorSpec[] css = ComposerActivity.getConnectors(
 				ConnectorSpec.CAPABILITIES_PREFS, // .
 				ConnectorSpec.STATUS_INACTIVE);
 		if (css.length == 0) {

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -27,6 +27,9 @@ import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 import de.ub0r.android.lib.DbUtils;
 import de.ub0r.android.lib.apis.ContactsWrapper;
+import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.R.id;
+import de.ub0r.android.websms.R.layout;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**

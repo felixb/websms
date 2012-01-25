@@ -16,45 +16,44 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.view.MenuItem;
+import android.preference.PreferenceFragment;
+import de.ub0r.android.lib.IPreferenceContainer;
 
 /**
- * Preferences.
+ * {@link PreferenceFragment} for API>=11.
  * 
  * @author flx
  */
-public class PreferencesBehaviorActivity extends PreferenceActivity {
+public final class HeaderPreferenceFragment extends PreferenceFragment
+		implements IPreferenceContainer {
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(R.style.Theme_Sherlock);
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.prefs_behavior);
-		this.setTitle(this.getString(R.string.settings) + " > "
-				+ this.getString(R.string.behavior_));
+
+		final Activity a = this.getActivity();
+		int res = a.getResources().getIdentifier(
+				this.getArguments().getString("resource"), "xml",
+				a.getPackageName());
+		this.addPreferencesFromResource(res);
+
+		PreferencesActivity.registerPreferenceChecker(this);
+		PreferencesActivity.addConnectorPreferences(this);
+		PreferencesActivity.registerOnPreferenceChangeListener(this);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean onOptionsItemSelected(final MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in Action Bar clicked; go home
-			Intent intent = new Intent(this, WebSMS.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			this.startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+	public Context getContext() {
+		return this.getActivity();
 	}
 }

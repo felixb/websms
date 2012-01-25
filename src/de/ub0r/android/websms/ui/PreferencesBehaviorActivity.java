@@ -16,8 +16,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; If not, see <http://www.gnu.org/licenses/>.
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.ui;
 
+import de.ub0r.android.websms.R;
+import de.ub0r.android.websms.R.string;
+import de.ub0r.android.websms.R.style;
+import de.ub0r.android.websms.R.xml;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -28,7 +32,7 @@ import android.view.MenuItem;
  * 
  * @author flx
  */
-public class PreferencesAppearanceActivity extends PreferenceActivity {
+public class PreferencesBehaviorActivity extends PreferenceActivity {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -36,9 +40,9 @@ public class PreferencesAppearanceActivity extends PreferenceActivity {
 	public final void onCreate(final Bundle savedInstanceState) {
 		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
-		this.addPreferencesFromResource(R.xml.prefs_appearance);
+		this.addPreferencesFromResource(R.xml.prefs_behavior);
 		this.setTitle(this.getString(R.string.settings) + " > "
-				+ this.getString(R.string.appearance_));
+				+ this.getString(R.string.behavior_));
 	}
 
 	/**
@@ -49,7 +53,7 @@ public class PreferencesAppearanceActivity extends PreferenceActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in Action Bar clicked; go home
-			Intent intent = new Intent(this, WebSMS.class);
+			Intent intent = new Intent(this, ComposerActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			this.startActivity(intent);
 			return true;

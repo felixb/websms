@@ -18,10 +18,10 @@
  */
 
 /**
- * This package is holding the application.
+ * This package is holding all service related classes.
  * 
  * @version 5.0
  * @author flx
  */
-package de.ub0r.android.websms;
+package de.ub0r.android.websms.service;
 

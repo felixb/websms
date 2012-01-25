@@ -20,11 +20,11 @@
 	<PreferenceCategory android:title="@string/appearance_and_behavior_">
 		<PreferenceScreen android:title="@string/appearance_">
 			<intent android:action="android.intent.action.MAIN"
-				android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.PreferencesAppearanceActivity" />
+				android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.ui.PreferencesAppearanceActivity" />
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/behavior_">
 			<intent android:action="android.intent.action.MAIN"
-				android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.PreferencesBehaviorActivity" />
+				android:targetPackage="de.ub0r.android.websms" android:targetClass="de.ub0r.android.websms.ui.PreferencesBehaviorActivity" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
