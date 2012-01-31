@@ -17,7 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto"
     package="de.ub0r.android.websms"
-    android:versionCode="3132"
+    android:versionCode="3740"
     android:versionName="3.7.4" >
 
     <application
@@ -115,7 +115,8 @@
 
     <uses-sdk
         android:minSdkVersion="3"
-        android:targetSdkVersion="3" />
+        android:targetSdkVersion="3"
+        android:maxSdkVersion="3" />
 
     <supports-screens
         android:anyDensity="true"
