@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v3.7.5: fix for new connectors</item>
 		<item>v3.7.4: fix FCs, translation update</item>
 		<item>v3.7.3: set text size, fix moving connectors, translation updates</item>
 		<item>v3.7.2: translation update</item>
