@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v4.2.7: fix notification for android 1.6-3.2, update translations</item>
 		<item>v4.2.6: show balance dialog on icon click, show balance on update as toast notification, add romanian translation</item>
 		<item>v4.2.5: fix FC on android 1.6</item>
 		<item>v4.2.4: fix FC on android 1.6</item>

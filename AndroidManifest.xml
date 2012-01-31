@@ -1,117 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Copyright (C) 2009-2011 Felix Bechstein
-	-->
-	<!--
-		This file is part of AndGMXsms. This program is free software; you can
+<!-- 		Copyright (C) 2009-2012 Felix Bechstein -->
+<!--
+		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
 		Public License as published by the Free Software Foundation; either
 		version 3 of the License, or (at your option) any later version.
-	-->
-	<!--
+-->
+<!--
 		This program is distributed in the hope that it will be useful, but
 		WITHOUT ANY WARRANTY; without even the implied warranty of
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 		General Public License for more details. You should have received a
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
-	-->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="de.ub0r.android.websms" android:versionName="4.2.6"
-	android:versionCode="3147" android:installLocation="auto">
-	<application android:name=".WebSMSApp" android:label="@string/app_name"
-		android:icon="@drawable/icon" android:hardwareAccelerated="true">
-		<activity android:name="WebSMS" android:label="@string/app_name"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="stateHidden|adjustResize"
-			android:launchMode="singleTop" android:theme="@style/Theme.SherlockUb0r">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="vnd.android-dir/mms-sms" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.SENDTO" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="sms" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.SENDTO" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="smsto" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.SEND" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="text/plain" />
-				<data android:mimeType="text/x-vcard" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".PreferencesActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name=".Preferences11Activity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name=".PreferencesAppearanceActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name=".PreferencesBehaviorActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name=".AboutActivity" android:theme="@style/Theme.SherlockUb0r_Light" />
-		<activity android:name=".HelpActivity"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r_Light" />
-		<activity android:name="CaptchaActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.SherlockUb0r" />
-		<activity android:name="de.ub0r.android.lib.DonationFragmentActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<activity android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:windowSoftInputMode="adjustResize" />
-		<receiver android:name="WebSMSReceiver" android:enabled="true"
-			android:exported="true">
-			<intent-filter>
-				<action android:name="de.ub0r.android.websms.connector.INFO" />
-				<action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
-			</intent-filter>
-		</receiver>
+    android:installLocation="auto"
+    package="de.ub0r.android.websms"
+    android:versionCode="4271"
+    android:versionName="4.2.7" >
 
-		<receiver android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
-			android:enabled="true" android:exported="true">
-			<intent-filter>
-				<action android:name="de.ub0r.android.websms.RUN_SEND" />
-				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
-			</intent-filter>
-		</receiver>
-	<activity android:name="com.google.ads.AdActivity"
-    android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-	</application>
-	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="13" />
-	<supports-screens android:anyDensity="true"
-		android:smallScreens="true" android:normalScreens="true"
-		android:largeScreens="true"	android:xlargeScreens="true" />
-	<uses-feature android:name="android.hardware.touchscreen"
-		android:required="false" />
-	<uses-feature android:name="android.hardware.location.network"
-		android:required="false" />
-	<uses-feature android:name="android.hardware.location"
-		android:required="false" />
-	<uses-feature android:name="android.hardware.telephony"
-		android:required="false" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_CONTACTS" />
-	<uses-permission android:name="android.permission.WRITE_SMS" />
-	<uses-permission android:name="android.permission.READ_SMS" />
-	<uses-permission android:name="android.permission.SEND_SMS" />
-	<uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<!-- AdMob SDK permissions -->
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-</manifest> 
+    <application
+        android:name=".WebSMSApp"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name="WebSMS"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.SherlockUb0r"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android-dir/mms-sms" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="sms" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="smsto" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/x-vcard" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PreferencesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Preferences11Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PreferencesAppearanceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PreferencesBehaviorActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/Theme.SherlockUb0r_Light" />
+        <activity
+            android:name=".HelpActivity"
+            android:theme="@style/Theme.SherlockUb0r_Light"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="CaptchaActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.SherlockUb0r"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="de.ub0r.android.lib.DonationFragmentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize" />
+
+        <receiver
+            android:name="WebSMSReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="de.ub0r.android.websms.connector.INFO" />
+                <action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="de.ub0r.android.websms.RUN_SEND" />
+                <action android:name="de.ub0r.android.websms.connector.UPDATE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+    </application>
+
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="13" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- AdMob SDK permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+</manifest>
