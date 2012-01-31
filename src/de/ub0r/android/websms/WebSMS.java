@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,6 +47,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -62,10 +63,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -77,9 +79,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.AdapterView.OnItemClickListener;
 import de.ub0r.android.lib.Base64Coder;
-import de.ub0r.android.lib.Changelog;
+import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.apis.ContactsWrapper;
@@ -87,9 +88,9 @@ import de.ub0r.android.lib.apis.TelephonyWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * Main Activity.
@@ -600,21 +601,31 @@ public class WebSMS extends Activity implements OnClickListener,
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
 
-		if (Changelog.isNewVersion(this)) {
+		if (ChangelogHelper.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
 		}
-		Changelog.showChangelog(this);
+		ChangelogHelper.showChangelog(this, false);
 
-		Object o = this.getPackageManager().getLaunchIntentForPackage(
-				"de.ub0r.android.smsdroid");
+		Object o = null;
+		try {
+			o = this.getPackageManager().getLaunchIntentForPackage(
+					"de.ub0r.android.smsdroid");
+			if (o == null && 1 == 2) {
+				throw new NameNotFoundException("de.ub0r.android.smsdroid");
+			}
+		} catch (NameNotFoundException e1) {
+			// nothing to do
+			Log.w(TAG, "package not found", e1);
+		}
 		if (o == null) {
 			final Intent intent = Market.getInstallAppIntent(this,
 					"de.ub0r.android.smsdroid", Market.ALT_SMSDROID);
-			Changelog.showNotes(this, "get SMSdroid", null, intent);
+			ChangelogHelper
+					.showNotes(this, false, "get SMSdroid", null, intent);
 		} else {
-			Changelog.showNotes(this, null, null, null);
+			ChangelogHelper.showNotes(this, false, null, null, null);
 		}
 		o = null;
 
@@ -635,8 +646,8 @@ public class WebSMS extends Activity implements OnClickListener,
 							.getString(PREFS_DEFPREFIX, "+49");
 					final String defSender = p.getString(PREFS_SENDER, "");
 					for (ConnectorSpec c : CONNECTORS) {
-						runCommand(me, c, ConnectorCommand.update(defPrefix,
-								defSender));
+						runCommand(me, c,
+								ConnectorCommand.update(defPrefix, defSender));
 					}
 				}
 			} catch (Exception e) {
@@ -764,8 +775,8 @@ public class WebSMS extends Activity implements OnClickListener,
 					(short) (ConnectorSpec.STATUS_ENABLED | // .
 					ConnectorSpec.STATUS_READY));
 			for (ConnectorSpec cs : css) {
-				runCommand(this, cs, ConnectorCommand.bootstrap(defPrefix,
-						defSender));
+				runCommand(this, cs,
+						ConnectorCommand.bootstrap(defPrefix, defSender));
 			}
 		} else {
 			// check is count of connectors changed
@@ -1125,7 +1136,9 @@ public class WebSMS extends Activity implements OnClickListener,
 	/** Save prefs. */
 	final void savePreferences() {
 		if (prefsConnectorSpec != null) {
-			PreferenceManager.getDefaultSharedPreferences(this).edit()
+			PreferenceManager
+					.getDefaultSharedPreferences(this)
+					.edit()
 					.putString(PREFS_CONNECTOR_ID,
 							prefsConnectorSpec.getPackage()).commit();
 		}
@@ -1207,7 +1220,7 @@ public class WebSMS extends Activity implements OnClickListener,
 						ConnectorCommand command = new ConnectorCommand(intent);
 						ConnectorSpec specs = new ConnectorSpec(intent);
 						specs.setErrorMessage(// TODO: localize
-								"Connector did not react on message");
+						"Connector did not react on message");
 						WebSMSReceiver.handleSendCommand(specs, context,
 								intent, command);
 					}
@@ -1464,7 +1477,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final boolean onPrepareOptionsMenu(final Menu menu) {
@@ -1481,7 +1494,7 @@ public class WebSMS extends Activity implements OnClickListener,
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
@@ -1501,7 +1514,7 @@ public class WebSMS extends Activity implements OnClickListener,
 			this.startActivity(new Intent(this, Preferences.class));
 			return true;
 		case R.id.item_donate:
-			this.startActivity(new Intent(this, DonationHelper.class));
+			DonationHelper.startDonationActivity(this, false);
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
@@ -1634,12 +1647,12 @@ public class WebSMS extends Activity implements OnClickListener,
 			return builder.create();
 		case DIALOG_SENDLATER_DATE:
 			Calendar c = Calendar.getInstance();
-			return new DatePickerDialog(this, this, c.get(Calendar.YEAR), c
-					.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+			return new DatePickerDialog(this, this, c.get(Calendar.YEAR),
+					c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		case DIALOG_SENDLATER_TIME:
 			c = Calendar.getInstance();
-			return new MyTimePickerDialog(this, this, c
-					.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
+			return new MyTimePickerDialog(this, this,
+					c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true);
 		case DIALOG_EMO:
 			return this.createEmoticonsDialog();
 		default:
@@ -1962,13 +1975,13 @@ public class WebSMS extends Activity implements OnClickListener,
 					// update connectors balance if needed
 					if (c.getBalance() == null && c.isReady() && !c.isRunning()
 							&& c.hasCapabilities(// .
-									ConnectorSpec.CAPABILITIES_UPDATE)
+							ConnectorSpec.CAPABILITIES_UPDATE)
 							&& p.getBoolean(PREFS_AUTOUPDATE, true)) {
 						final String defPrefix = p.getString(PREFS_DEFPREFIX,
 								"+49");
 						final String defSender = p.getString(PREFS_SENDER, "");
-						runCommand(me, c, ConnectorCommand.update(defPrefix,
-								defSender));
+						runCommand(me, c,
+								ConnectorCommand.update(defPrefix, defSender));
 					}
 				}
 			}
