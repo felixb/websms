@@ -18,7 +18,7 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=help.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/de/help.xml to edit the file.
        -->
 <resources>
 	<string name="help_title" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Einführung: WebSMS</string>
