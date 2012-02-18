@@ -18,7 +18,7 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=de&file=market.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/de/market.xml to edit the file.
        -->
 <resources>
   <string name="market_about" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="WebSMS lets you send free and very cheap TXT/SMS via different webservices.\n\nYou will need at least one WebSMS Connector (plugin/extension) from the market to connect this app to the webservice of your choice.\nPricing depends on the webservice provider connected with the connector.\nThe &quot;SMS&quot; Connector shipped with the app itself sends messages via standard GSM method and is billed by your operator. It is installed for backup reasons and deactivated by default.">Mit WebSMS kannst du kostenlose und sehr günstige SMS über verschiedene Webservices versenden.\n\nDu brauchst mindestens einen WebSMS Connector (Plugin) um WebSMS mit dem Webservice deiner Wahl zu verbinden.\nDie Kosten hängen vom gewählten Anbieter ab.\nDer "SMS" Connector, der mit WebSMS mit kommt, sendet SMS über die normale GSM Methode und wird daher ganz normal abgerechnet. Er ist nur als Backup gedacht und ist standardmäßig deaktiviert.</string>

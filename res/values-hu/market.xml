@@ -18,7 +18,7 @@
        -->
       <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=hu&file=market.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/hu/market.xml to edit the file.
        -->
 <resources>
   <string name="market_about" formatted="false" username="Tamás Béres &lt;berestamas2@gmail.com&gt;" orig="WebSMS let\'s you send free and very cheap TXT/SMS via different webservices.\n\nYou will need at least one WebSMS Connector (plugin/extension) from the market to connect this app to the webservice of your choice.\nPricing depends on the webservice provider connected with the connector.\nThe &quot;SMS&quot; Connector shipped with the app itself sends messages via standard GSM method and is billed by your operator. It is installed for backup reasons and deactivated by default.">WebSMS-el ingyen, vagy nagyon olcsón tudsz smseket küldeni különböző webes szolgáltatókon keresztül.\n\nLegalább egy csatolóra szükséged lesz a program használatához, ezeket szintén ingyen letöltheted a marketről.\nAz smsek díja több mindentől függ, pl a kiválasztott webes szolgáltatódtól.\nAz sms csatoló ami már benne van az alap programban, a rendes mobilhálózatodat használja, amiért a telefonszolgáltatódnál fizetsz. Alapértelmezetként ki van kapcsolva.</string>

@@ -18,7 +18,7 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/edit.php?lang=it&file=market.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/it/market.xml to edit the file.
        -->
 <resources>
   <string name="market_about" formatted="false" username="carloraudino@fedoraproject.org" orig="WebSMS lets you send free and very cheap TXT/SMS via different webservices.\n\nYou will need at least one WebSMS Connector (plugin/extension) from the market to connect this app to the webservice of your choice.\nPricing depends on the webservice provider connected with the connector.\nThe &quot;SMS&quot; Connector shipped with the app itself sends messages via standard GSM method and is billed by your operator. It is installed for backup reasons and deactivated by default.">WebSMS permette l\'invio di SMS gratis o a basso costo via differenti servizi web.\n\nÈ necessario almeno un Connector WebSMS (plugin/estensione) scaricabile dal market per connettere l\'applicazione al servizio web scelto.\nI costi dipendono dal provider del servizio web usato.\nIl Connector "SMS" incluso nell\'applicazione invia messaggi col metodo standard GSM, al costo addebitato dal proprio operatore telefonico.\nÈ installato come riserva e non attivo per impostazione predefinita.</string>
