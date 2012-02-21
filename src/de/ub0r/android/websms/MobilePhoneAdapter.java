@@ -105,8 +105,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Cursor runQueryOnBackgroundThread(// .
-			final CharSequence constraint) {
+	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
 		String where = null;
 		if (constraint != null) {
 			where = WRAPPER.getContentWhere(constraint.toString());

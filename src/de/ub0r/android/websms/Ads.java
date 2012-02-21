@@ -34,6 +34,7 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 
 import de.ub0r.android.lib.Log;
+import de.ub0r.android.lib.Utils;
 
 /**
  * Class managing ads.
@@ -78,8 +79,7 @@ public final class Ads {
 		if (adframe == null) {
 			Log.e(TAG, "adframe=null");
 			return;
-		} else if (Integer.parseInt(Build.VERSION.SDK) // .
-		<= Build.VERSION_CODES.FROYO) {
+		} else if (!Utils.isApi(Build.VERSION_CODES.GINGERBREAD)) {
 			Log.d(TAG, "API " + Build.VERSION.SDK + " <= FROYO");
 			WebViewDatabase webViewDB = WebViewDatabase.getInstance(activity);
 			if (webViewDB == null) {

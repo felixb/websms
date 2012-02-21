@@ -135,8 +135,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	}
 
 	/** Default SMS length calculator. */
-	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = // .
-	new DefaultSMSLengthCalculator();
+	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -161,11 +160,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** Preference's name: sound on failed sending. */
 	static final String PREFS_FAIL_SOUND = "fail_sound";
 	/** Preferemce's name: hide select recipients button. */
-	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = // .
-	"hide_select_recipients_button";
+	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = "hide_select_recipients_button";
 	/** Preferemce's name: hide clear recipients button. */
-	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = // .
-	"hide_clear_recipients_button";
+	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = "hide_clear_recipients_button";
 	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
 	/** Preference's name: hide send button. */
@@ -229,8 +226,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private static String prefsConnectorID = null;
 
 	/** List of available {@link ConnectorSpec}s. */
-	private static final ArrayList<ConnectorSpec> CONNECTORS = // .
-	new ArrayList<ConnectorSpec>();
+	private static final ArrayList<ConnectorSpec> CONNECTORS = new ArrayList<ConnectorSpec>();
 
 	/** true if preferences got opened. */
 	static boolean doPreferences = false;
@@ -256,8 +252,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private static final int EMOTICONS_PADDING = 5;
 
 	/** Intent's extra for error messages. */
-	static final String EXTRA_ERRORMESSAGE = // .
-	"de.ub0r.android.intent.extra.ERRORMESSAGE";
+	static final String EXTRA_ERRORMESSAGE = "de.ub0r.android.intent.extra.ERRORMESSAGE";
 	/** Intent's extra for sending message automatically. */
 	static final String EXTRA_AUTOSEND = "AUTOSEND";
 
@@ -379,10 +374,11 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 										+ newText.length());
 						s.replace(0, s.length(), newText);
 						if (me != null) {
-							String sigText = sig.length() > 0 ? me.getString(
-									R.string.// .
-									connector_message_length_reached_signature,
-									sig.length()) : "";
+							String sigText = sig.length() > 0 ? me
+									.getString(
+											R.string.connector_message_length_reached_signature,
+											sig.length())
+									: "";
 							String messageText = me.getString(
 									R.string.connector_message_length_reached,
 									maxLength, prefsConnectorSpec.getName(),
@@ -862,9 +858,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 			final String defSender = p.getString(PREFS_SENDER, "");
 			final ConnectorSpec[] css = getConnectors(
-					ConnectorSpec.CAPABILITIES_BOOTSTRAP, // .
-					(short) (ConnectorSpec.STATUS_ENABLED | // .
-					ConnectorSpec.STATUS_READY));
+					ConnectorSpec.CAPABILITIES_BOOTSTRAP,
+					(short) (ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY));
 			for (ConnectorSpec cs : css) {
 				runCommand(this, cs,
 						ConnectorCommand.bootstrap(defPrefix, defSender));
@@ -922,8 +917,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		Log.d(TAG, "updateBalance()");
 		final StringBuilder buf = new StringBuilder();
 		final ConnectorSpec[] css = getConnectors(
-				ConnectorSpec.CAPABILITIES_UPDATE, // .
-				ConnectorSpec.STATUS_ENABLED);
+				ConnectorSpec.CAPABILITIES_UPDATE, ConnectorSpec.STATUS_ENABLED);
 		String singleb = null;
 		for (ConnectorSpec cs : css) {
 			final String b = cs.getBalance();
@@ -1045,8 +1039,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
 					.getString(PREFS_SUBCONNECTOR_ID, ""));
 			if (prefsSubConnectorSpec == null) {
-				prefsSubConnectorSpec = prefsConnectorSpec.// .
-						getSubConnectors()[0];
+				prefsSubConnectorSpec = prefsConnectorSpec.getSubConnectors()[0];
 			}
 		} else {
 			ConnectorSpec[] connectors = getConnectors(
@@ -1054,8 +1047,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					ConnectorSpec.STATUS_ENABLED);
 			if (connectors.length == 1) {
 				prefsConnectorSpec = connectors[0];
-				prefsSubConnectorSpec = prefsConnectorSpec // .
-						.getSubConnectors()[0];
+				prefsSubConnectorSpec = prefsConnectorSpec.getSubConnectors()[0];
 				Toast.makeText(
 						this,
 						this.getString(R.string.connectors_switch) + " "
@@ -1091,8 +1083,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 
-			if (sSend || (bShowExtras && // .
-					(sFlashsms || sCustomsender || sSendLater))) {
+			if (sSend
+					|| (bShowExtras && (sFlashsms || sCustomsender || sSendLater))) {
 				if (sSend) {
 					this.bSend.setVisibility(View.VISIBLE);
 					this.bSend.setEnabled(!TextUtils.isEmpty(this.etText
@@ -1197,9 +1189,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 		final String defSender = p.getString(PREFS_SENDER, "");
 		final ConnectorSpec[] css = getConnectors(
-				ConnectorSpec.CAPABILITIES_UPDATE, // .
-				(short) (ConnectorSpec.STATUS_ENABLED | // .
-				ConnectorSpec.STATUS_READY));
+				ConnectorSpec.CAPABILITIES_UPDATE,
+				(short) (ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY));
 		for (ConnectorSpec cs : css) {
 			if (cs.isRunning()) {
 				// skip running connectors
@@ -1235,8 +1226,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			break;
 		case ConnectorCommand.TYPE_SEND:
 			sendOrdered = true;
-			intent.setAction(connector.getPackage() // .
-					+ Connector.ACTION_RUN_SEND);
+			intent.setAction(connector.getPackage() + Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			WebSMSReceiver.saveMessage(connector, me, command,
@@ -1250,9 +1240,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		default:
 			break;
 		}
-		if (me != null && prefsConnectorSpec != null
-				&& (t == ConnectorCommand.TYPE_BOOTSTRAP || // .
-				t == ConnectorCommand.TYPE_UPDATE)) {
+		if (me != null
+				&& prefsConnectorSpec != null
+				&& (t == ConnectorCommand.TYPE_BOOTSTRAP || t == ConnectorCommand.TYPE_UPDATE)) {
 			me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 		}
 		intent.setFlags(intent.getFlags()
@@ -1261,8 +1251,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		if (sendOrdered) {
 			context.sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
 				@Override
-				public void onReceive(final Context context, // .
-						final Intent intent) {
+				public void onReceive(final Context context, final Intent intent) {
 					if (this.getResultCode() != Activity.RESULT_OK) {
 						ConnectorCommand command = new ConnectorCommand(intent);
 						ConnectorSpec specs = new ConnectorSpec(intent);
@@ -1470,8 +1459,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 					Toast.LENGTH_SHORT).show();
 		} else {
 			builder.setItems(items, new DialogInterface.OnClickListener() {
-				public void onClick(final DialogInterface d, // .
-						final int item) {
+				public void onClick(final DialogInterface d, final int item) {
 					WebSMS.this.saveSelectedConnector(items[item]);
 				}
 			});
@@ -1530,8 +1518,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			Log.w(TAG, "error removing item: " + ITEM_RESTORE, e);
 		}
 		if (showRestore) {
-			menu.add(0, ITEM_RESTORE, android.view.Menu.NONE, // .
-					R.string.restore_);
+			menu.add(0, ITEM_RESTORE, android.view.Menu.NONE, R.string.restore_);
 			menu.findItem(ITEM_RESTORE).setIcon(
 					android.R.drawable.ic_menu_revert);
 		}
@@ -1555,10 +1542,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			this.saveChars();
 			return true;
 		case R.id.item_settings:
-			if (de.ub0r.android.lib.Utils.isApi(// .
-					Build.VERSION_CODES.HONEYCOMB)) {
-				this.startActivity(new Intent(this, // .
-						Preferences11Activity.class));
+			if (de.ub0r.android.lib.Utils.isApi(Build.VERSION_CODES.HONEYCOMB)) {
+				this.startActivity(new Intent(this, Preferences11Activity.class));
 			} else {
 				this.startActivity(new Intent(this, PreferencesActivity.class));
 			}
@@ -1813,7 +1798,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 *            selected {@link SubConnectorSpec} ID
 	 * @return true if message was sent
 	 */
-	private boolean send(final ConnectorSpec connector, // .
+	private boolean send(final ConnectorSpec connector,
 			final String subconnector) {
 		if (connector == null || TextUtils.isEmpty(subconnector)) {
 			Log.e(TAG, "connector: " + connector);
@@ -1842,8 +1827,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		}
 
 		if (!p.getBoolean(PREFS_TRY_SEND_INVALID, false)
-				&& connector.hasCapabilities(// .
-						ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
+				&& connector
+						.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
 			final String valid = connector.getValidCharacters();
 			if (valid == null) {
 				Log.i(TAG, "valid: " + valid);
@@ -2054,9 +2039,10 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 							.getDefaultSharedPreferences(me);
 
 					// update connectors balance if needed
-					if (c.getBalance() == null && c.isReady() && !c.isRunning()
-							&& c.hasCapabilities(// .
-							ConnectorSpec.CAPABILITIES_UPDATE)
+					if (c.getBalance() == null
+							&& c.isReady()
+							&& !c.isRunning()
+							&& c.hasCapabilities(ConnectorSpec.CAPABILITIES_UPDATE)
 							&& p.getBoolean(PREFS_AUTOUPDATE, true)) {
 						final String defPrefix = p.getString(PREFS_DEFPREFIX,
 								"+49");
@@ -2105,8 +2091,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				} else {
 					me.setProgressBarIndeterminateVisibility(Boolean.FALSE);
 				}
-				if (prefsConnectorSpec != null && // .
-						prefsConnectorSpec.equals(c)) {
+				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
 					me.setButtons();
 				}
 			}

@@ -49,8 +49,8 @@ public final class HelpActivity extends FragmentActivity implements
 
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		if (TextUtils.isEmpty(p.getString(WebSMS.PREFS_SENDER, null)) || // .
-				TextUtils.isEmpty(p.getString(WebSMS.PREFS_DEFPREFIX, null))) {
+		if (TextUtils.isEmpty(p.getString(WebSMS.PREFS_SENDER, null))
+				|| TextUtils.isEmpty(p.getString(WebSMS.PREFS_DEFPREFIX, null))) {
 			this.findViewById(R.id.help_prefs).setVisibility(View.VISIBLE);
 		}
 	}

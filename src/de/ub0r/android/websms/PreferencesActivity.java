@@ -64,11 +64,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private static final String PREFS_TEXTSIZE = "textsizen";
 
 	/** Preference's name: set standard connector. */
-	private static final String PREFS_STANDARD_CONNECTOR_SET = // .
-	"set_std_connector";
+	private static final String PREFS_STANDARD_CONNECTOR_SET = "set_std_connector";
 	/** Preference's name: clear standard connector. */
-	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = // .
-	"clear_std_connector";
+	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = "clear_std_connector";
 
 	/**
 	 * {@inheritDoc}
@@ -246,8 +244,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				Market.ALT_APPS);
 		Preference pr = pc.findPreference("send_logs");
 		if (pr != null) {
-			pr.setOnPreferenceClickListener(// .
-			new Preference.OnPreferenceClickListener() {
+			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(final Preference preference) {
 					Log.collectAndSendLog(pc.getActivity());
 					return true;
@@ -256,12 +253,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 		}
 		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_SET);
 		if (pr != null) {
-			pr.setOnPreferenceClickListener(// .
-			new Preference.OnPreferenceClickListener() {
+			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(final Preference preference) {
 					final SharedPreferences p = PreferenceManager
-							.getDefaultSharedPreferences(// .
-							pc.getContext());
+							.getDefaultSharedPreferences(pc.getContext());
 					final String c = p.getString(WebSMS.PREFS_CONNECTOR_ID, "");
 					final String sc = p.getString(WebSMS.PREFS_SUBCONNECTOR_ID,
 							"");
@@ -276,13 +271,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 		}
 		pr = pc.findPreference(PreferencesActivity.PREFS_STANDARD_CONNECTOR_CLEAR);
 		if (pr != null) {
-			pr.setOnPreferenceClickListener(// .
-			new Preference.OnPreferenceClickListener() {
+			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(final Preference preference) {
 					Log.i(TAG, "clear std connector");
 					final SharedPreferences p = PreferenceManager
-							.getDefaultSharedPreferences(// .
-							pc.getContext());
+							.getDefaultSharedPreferences(pc.getContext());
 					final Editor e = p.edit();
 					e.remove(WebSMS.PREFS_STANDARD_CONNECTOR);
 					e.remove(WebSMS.PREFS_STANDARD_SUBCONNECTOR);
@@ -307,9 +300,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 			Log.d(TAG, "settings_connectors not found; exit");
 			return;
 		}
-		final ConnectorSpec[] css = WebSMS.getConnectors(
-				ConnectorSpec.CAPABILITIES_PREFS, // .
-				ConnectorSpec.STATUS_INACTIVE);
+		final ConnectorSpec[] css = WebSMS
+				.getConnectors(ConnectorSpec.CAPABILITIES_PREFS,
+						ConnectorSpec.STATUS_INACTIVE);
 		if (css.length == 0) {
 			Log.i(TAG, "css.length == 0");
 		}
@@ -330,8 +323,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				cp.setTitle(pc.getContext().getString(R.string.settings)
 						+ " - " + cs.getName());
 				final String action = cs.getPackage() + Connector.ACTION_PREFS;
-				cp.setOnPreferenceClickListener(// .
-				new OnPreferenceClickListener() {
+				cp.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(final Preference preference) {
 						try {
@@ -339,8 +331,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 							return true;
 						} catch (ActivityNotFoundException e) {
 							Toast.makeText(pc.getContext(),
-									R.string.// .
-									log_error_connector_not_found,
+									R.string.log_error_connector_not_found,
 									Toast.LENGTH_LONG).show();
 							return false;
 						}
