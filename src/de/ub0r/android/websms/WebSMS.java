@@ -196,20 +196,19 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 
 	/** Preference's name: last time help was shown. */
 	private static final String PREFS_LASTHELP = "last_help";
-
-	/** Preference's name: to. */
-	private static final String PREFS_TO = "to";
-	/** Preference's name: text. */
-	private static final String PREFS_TEXT = "text";
 	/** Preference's name: selected {@link ConnectorSpec} ID. */
 	static final String PREFS_CONNECTOR_ID = "connector_id";
 	/** Preference's name: selected {@link SubConnectorSpec} ID. */
 	static final String PREFS_SUBCONNECTOR_ID = "subconnector_id";
-
 	/** Preference's name: standard connector. */
 	static final String PREFS_STANDARD_CONNECTOR = "std_connector";
 	/** Preference's name: standard sub connector. */
 	static final String PREFS_STANDARD_SUBCONNECTOR = "std_subconnector";
+
+	/** Preference's name: to. */
+	private static final String EXTRA_TO = "to";
+	/** Preference's name: text. */
+	private static final String EXTRA_TEXT = "text";
 
 	/** Sleep before autoexit. */
 	private static final int SLEEP_BEFORE_EXIT = 75;
@@ -263,9 +262,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	static final String EXTRA_AUTOSEND = "AUTOSEND";
 
 	/** Persistent Message store. */
-	private static String lastMsg = null;
+	private String lastMsg = null;
 	/** Persistent Recipient store. */
-	private static String lastTo = null;
+	private String lastTo = null;
 	/** Backup for params: custom sender. */
 	private static String lastCustomSender = null;
 	/** Backup for params: send later. */
@@ -440,7 +439,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		// check for extras
 		String s = intent.getStringExtra("address");
 		if (!TextUtils.isEmpty(s)) {
-			lastTo = s;
+			this.lastTo = s;
 		}
 		s = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (s == null) {
@@ -469,7 +468,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		}
 		if (s != null) {
 			((EditText) this.findViewById(R.id.text)).setText(s);
-			lastMsg = s;
+			this.lastMsg = s;
 		}
 		s = intent.getStringExtra(EXTRA_ERRORMESSAGE);
 		if (s != null) {
@@ -479,8 +478,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				.getDefaultSharedPreferences(this);
 		if (p.getBoolean(PREFS_AUTOSEND, true)) {
 			s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
-			if (s != null && lastMsg != null && lastMsg.length() > 0
-					&& lastTo != null && lastTo.length() > 0) {
+			if (s != null && this.lastMsg != null && this.lastMsg.length() > 0
+					&& this.lastTo != null && this.lastTo.length() > 0) {
 				// all data is here
 				if (p.getBoolean(PREFS_USE_CURRENT_CON, true)) {
 					// push it to current active connector
@@ -554,7 +553,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 		}
 		((EditText) this.findViewById(R.id.to)).setText(s);
-		lastTo = s;
+		this.lastTo = s;
 	}
 
 	/**
@@ -693,8 +692,10 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 
 		this.reloadPrefs();
 
-		lastTo = p.getString(PREFS_TO, "");
-		lastMsg = p.getString(PREFS_TEXT, "");
+		if (savedInstanceState != null) {
+			this.lastTo = savedInstanceState.getString(EXTRA_TO);
+			this.lastMsg = savedInstanceState.getString(EXTRA_TEXT);
+		}
 
 		// register Listener
 		this.vCustomSender.setOnClickListener(this);
@@ -780,6 +781,16 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 * {@inheritDoc}
 	 */
 	@Override
+	protected void onSaveInstanceState(final Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(EXTRA_TO, this.lastTo);
+		outState.putString(EXTRA_TEXT, this.lastMsg);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected final void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
 		if (requestCode == ARESULT_PICK_PHONE) {
@@ -793,22 +804,17 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 							.getNameAndNumber(this.getContentResolver(), u)
 							+ ", ";
 					String t = this.etTo.getText().toString().trim();
-					if (t.length() == 0) {
-						if (TextUtils.isEmpty(lastTo)) {
-							lastTo = PreferenceManager
-									.getDefaultSharedPreferences(this)
-									.getString(PREFS_TO, "");
-						}
-						t = lastTo.trim();
+					if (TextUtils.isEmpty(t) && !TextUtils.isEmpty(this.lastTo)) {
+						t = this.lastTo.trim();
 					}
-					if (t.length() == 0) {
+					if (TextUtils.isEmpty(t)) {
 						t = phone;
 					} else if (t.endsWith(",")) {
 						t += " " + phone;
 					} else {
 						t += ", " + phone;
 					}
-					lastTo = t;
+					this.lastTo = t;
 					this.etTo.setText(t);
 				} catch (IllegalStateException e) {
 					Log.e(TAG, "failed resolving name and number", e);
@@ -879,29 +885,29 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 
 		this.setButtons();
 
-		if (lastTo == null || lastTo.length() == 0) {
+		if (this.lastTo == null || this.lastTo.length() == 0) {
 			final SharedPreferences p = PreferenceManager
 					.getDefaultSharedPreferences(this);
-			lastTo = p.getString(PREFS_DEFAULT_RECIPIENT, null);
+			this.lastTo = p.getString(PREFS_DEFAULT_RECIPIENT, null);
 		}
 
 		// reload text/recipient from local store
 		if (TextUtils.isEmpty(this.etText.getText())) {
-			if (lastMsg != null) {
-				this.etText.setText(lastMsg);
+			if (this.lastMsg != null) {
+				this.etText.setText(this.lastMsg);
 			} else {
 				this.etText.setText("");
 			}
 		}
 		if (TextUtils.isEmpty(this.etTo.getText())) {
-			if (lastTo != null) {
-				this.etTo.setText(lastTo);
+			if (this.lastTo != null) {
+				this.etTo.setText(this.lastTo);
 			} else {
 				this.etTo.setText("");
 			}
 		}
 
-		if (lastTo != null && lastTo.length() > 0) {
+		if (this.lastTo != null && this.lastTo.length() > 0) {
 			this.etText.requestFocus();
 			this.etText.setSelection(this.etText.getText().length());
 		} else {
@@ -949,17 +955,8 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	protected final void onPause() {
 		super.onPause();
 		// store input data to persitent stores
-		lastMsg = this.etText.getText().toString();
-		lastTo = this.etTo.getText().toString();
-
-		// store input data to preferences
-		final Editor editor = PreferenceManager.getDefaultSharedPreferences(
-				this).edit();
-		// common
-		editor.putString(PREFS_TO, lastTo);
-		editor.putString(PREFS_TEXT, lastMsg);
-		// commit changes
-		editor.commit();
+		this.lastMsg = this.etText.getText().toString();
+		this.lastTo = this.etTo.getText().toString();
 
 		this.savePreferences();
 	}
@@ -1158,27 +1155,24 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 *            backup text to {@link SharedPreferences}
 	 */
 	private void reset(final boolean backupText) {
-		lastMsg = this.etText.getText().toString();
+		this.lastMsg = this.etText.getText().toString();
 
 		// save user preferences
 		final SharedPreferences.Editor editor = PreferenceManager
 				.getDefaultSharedPreferences(this).edit();
 		if (backupText) {
-			if (!TextUtils.isEmpty(lastMsg)) {
-				editor.putString(PREFS_BACKUPLASTTEXT, lastMsg);
+			if (!TextUtils.isEmpty(this.lastMsg)) {
+				editor.putString(PREFS_BACKUPLASTTEXT, this.lastMsg);
 			}
 		} else {
 			editor.remove(PREFS_BACKUPLASTTEXT);
 		}
-		editor.putString(PREFS_TO, "");
-		editor.putString(PREFS_TEXT, "");
-		// commit changes
 		editor.commit();
 
 		this.etText.setText("");
 		this.etTo.setText("");
-		lastMsg = null;
-		lastTo = null;
+		this.lastMsg = null;
+		this.lastTo = null;
 		lastCustomSender = null;
 		lastSendLater = -1;
 	}
@@ -1311,12 +1305,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 
 			if (i <= 0) {
-				lastTo = null;
+				this.lastTo = null;
 				this.etTo.setText("");
 			} else {
-				lastTo = ss.substring(0, i) + ", ";
-				this.etTo.setText(lastTo);
-				this.etTo.setSelection(lastTo.length());
+				this.lastTo = ss.substring(0, i) + ", ";
+				this.etTo.setText(this.lastTo);
+				this.etTo.setSelection(this.lastTo.length());
 			}
 			return;
 		case R.id.custom_sender:
@@ -1343,7 +1337,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			s = this.cbmgr.getText();
 			this.etText.setText(s);
 			this.etText.setSelection(s.length());
-			lastMsg = s.toString();
+			this.lastMsg = s.toString();
 			return;
 		default:
 			return;
@@ -1357,7 +1351,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	public final boolean onLongClick(final View v) {
 		switch (v.getId()) {
 		case R.id.clear:
-			lastTo = null;
+			this.lastTo = null;
 			this.etTo.setText("");
 			return true;
 		default:
