@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2011 Felix Bechstein, Lado Kumsiashvili
+ * Copyright (C) 2010-2012 Felix Bechstein, Lado Kumsiashvili
  * 
  * This file is part of WebSMS.
  * 
@@ -435,16 +435,19 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		// check for extras
 		String s = intent.getStringExtra("address");
 		if (!TextUtils.isEmpty(s)) {
+			Log.d(TAG, "got address: " + s);
 			this.lastTo = s;
 		}
 		s = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (s == null) {
+			Log.d(TAG, "got sms_body: " + s);
 			s = intent.getStringExtra("sms_body");
 		}
 		if (s == null) {
 			final Uri stream = (Uri) intent
 					.getParcelableExtra(Intent.EXTRA_STREAM);
 			if (stream != null) {
+				Log.d(TAG, "got stream: " + stream);
 				try {
 					InputStream is = this.getContentResolver().openInputStream(
 							stream);
@@ -463,34 +466,43 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			}
 		}
 		if (s != null) {
+			Log.d(TAG, "set text: " + s);
 			((EditText) this.findViewById(R.id.text)).setText(s);
 			this.lastMsg = s;
 		}
 		s = intent.getStringExtra(EXTRA_ERRORMESSAGE);
 		if (s != null) {
+			Log.e(TAG, "show error: " + s);
 			Toast.makeText(this, s, Toast.LENGTH_LONG).show();
 		}
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		if (p.getBoolean(PREFS_AUTOSEND, true)) {
 			s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
+			Log.d(TAG, "try autosend..");
 			if (s != null && this.lastMsg != null && this.lastMsg.length() > 0
 					&& this.lastTo != null && this.lastTo.length() > 0) {
 				// all data is here
+				Log.d(TAG, "do autosend");
 				if (p.getBoolean(PREFS_USE_CURRENT_CON, true)) {
 					// push it to current active connector
+					Log.d(TAG, "use current connector");
 					final String subc = WebSMS.getSelectedSubConnectorID();
 					if (prefsConnectorSpec != null && subc != null) {
+						Log.d(TAG, "autosend: call send()");
 						if (this.send(prefsConnectorSpec, subc)
 								&& !this.isFinishing()) {
+							Log.d(TAG, "sent successfully");
 							this.finish();
 						}
 					}
 				} else {
 					// show connector chooser
+					Log.d(TAG, "show connector chooser");
 					final AlertDialog.Builder b = new AlertDialog.Builder(this);
 					b.setTitle(R.string.change_connector_);
 					final String[] items = this.getConnectorMenuItems();
+					Log.d(TAG, "show #items: " + items.length);
 					b.setItems(items, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(final DialogInterface dialog,
@@ -505,6 +517,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 							final String subc = WebSMS
 									.getSelectedSubConnectorID();
 							boolean sent = false;
+							Log.d(TAG, "autosend: call send()");
 							if (prefsConnectorSpec != null && subc != null) {
 								sent = WebSMS.this.send(prefsConnectorSpec,
 										subc);
@@ -513,6 +526,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 							WebSMS.this.saveSelectedConnector(pr0, pr1);
 							// quit
 							if (sent && !WebSMS.this.isFinishing()) {
+								Log.d(TAG, "sent successfully");
 								WebSMS.this.finish();
 							}
 						}
@@ -532,6 +546,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 *            scheme specific part
 	 */
 	private void parseSchemeSpecificPart(final String part) {
+		Log.d(TAG, "parseSchemeSpecificPart(" + part + ")");
 		String s = part;
 		if (s == null) {
 			return;
@@ -548,6 +563,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				s = n + " <" + s + ">, ";
 			}
 		}
+		Log.d(TAG, "parseSchemeSpecificPart(" + part + "): " + s);
 		((EditText) this.findViewById(R.id.to)).setText(s);
 		this.lastTo = s;
 	}
