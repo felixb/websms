@@ -54,8 +54,7 @@ public class ConnectorSMS extends Connector {
 	private static final String PREFS_ENABLED = "enable_sms";
 
 	/** Message set action. */
-	public static final String MESSAGE_SENT_ACTION = // .
-	"com.android.mms.transaction.MESSAGE_SENT";
+	public static final String MESSAGE_SENT_ACTION = "com.android.mms.transaction.MESSAGE_SENT";
 
 	/**
 	 * {@inheritDoc}
@@ -114,8 +113,8 @@ public class ConnectorSMS extends Connector {
 				Log.d(TAG, "send messages to: " + t);
 				final ArrayList<String> messages = smsmgr.divideMessage(text);
 				final int c = messages.size();
-				final ArrayList<PendingIntent> sentIntents = // .
-				new ArrayList<PendingIntent>(c);
+				final ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>(
+						c);
 				for (int i = 0; i < c; i++) {
 					final String m = messages.get(i);
 					Log.d(TAG, "devided messages: " + m);

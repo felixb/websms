@@ -56,15 +56,13 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** {@link Uri} for saving sent messages. */
 	private static final Uri URI_SENT = Uri.parse("content://sms/sent");
 	/** Projection for getting the id. */
-	private static final String[] PROJECTION_ID = // .
-	new String[] { BaseColumns._ID };
+	private static final String[] PROJECTION_ID = new String[] { BaseColumns._ID };
 
 	/** Intent's scheme to send sms. */
 	private static final String INTENT_SCHEME_SMSTO = "smsto";
 
 	/** ACTION for publishing information about sent websms. */
-	private static final String ACTION_CM_WEBSMS = // .
-	"de.ub0r.android.callmeter.SAVE_WEBSMS";
+	private static final String ACTION_CM_WEBSMS = "de.ub0r.android.callmeter.SAVE_WEBSMS";
 	/** Extra holding uri of sent sms. */
 	private static final String EXTRA_WEBSMS_URI = "uri";
 	/** Extra holding name of connector. */
@@ -146,8 +144,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			Log.e(TAG, "error while receiving broadcast", e);
 		}
 		// save send messages
-		if (command != null && // .
-				command.getType() == ConnectorCommand.TYPE_SEND) {
+		if (command != null && command.getType() == ConnectorCommand.TYPE_SEND) {
 			handleSendCommand(specs, context, intent, command);
 		}
 	}
@@ -232,8 +229,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 		n.sound = soundOnFail;
 
-		NotificationManager mNotificationMgr = // .
-		(NotificationManager) context
+		NotificationManager mNotificationMgr = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationMgr.notify(getNotificationID(), n);
 	}
