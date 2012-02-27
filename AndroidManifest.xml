@@ -29,7 +29,6 @@
             android:name="WebSMS"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
             android:theme="@style/Theme.SherlockUb0r"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
