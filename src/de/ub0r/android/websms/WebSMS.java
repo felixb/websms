@@ -793,7 +793,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(EXTRA_TO, this.lastTo);
 		outState.putString(EXTRA_TEXT, this.lastMsg);
