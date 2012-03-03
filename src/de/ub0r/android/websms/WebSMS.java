@@ -480,8 +480,12 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		if (p.getBoolean(PREFS_AUTOSEND, true)) {
 			s = intent.getStringExtra(WebSMS.EXTRA_AUTOSEND);
 			Log.d(TAG, "try autosend..");
-			if (s != null && this.lastMsg != null && this.lastMsg.length() > 0
-					&& this.lastTo != null && this.lastTo.length() > 0) {
+			Log.d(TAG, "s: " + s);
+			Log.d(TAG, "lastMsg: " + this.lastMsg);
+			Log.d(TAG, "lastTo: " + this.lastTo);
+
+			if (s != null && !TextUtils.isEmpty(this.lastMsg)
+					&& !TextUtils.isEmpty(this.lastTo)) {
 				// all data is here
 				Log.d(TAG, "do autosend");
 				if (p.getBoolean(PREFS_USE_CURRENT_CON, true)) {
@@ -616,6 +620,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		this.requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		this.setTheme(PreferencesActivity.getTheme(this));
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate(" + savedInstanceState + ")");
 
 		// Restore preferences
 		de.ub0r.android.lib.Utils.setLocale(this);
@@ -793,7 +798,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(EXTRA_TO, this.lastTo);
 		outState.putString(EXTRA_TEXT, this.lastMsg);
@@ -841,6 +846,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	@Override
 	protected final void onNewIntent(final Intent intent) {
 		super.onNewIntent(intent);
+		Log.d(TAG, "onNewIntent(" + intent + ")");
 		this.parseIntent(intent);
 	}
 
