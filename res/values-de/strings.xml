@@ -58,7 +58,7 @@
   <string name="try_send_invalid_characters_" formatted="false">Versuchen, ungültige zu senden</string>
   <string name="try_send_invalid_characters_hint" formatted="false">Versuchen, Nachrichten mit ungültigen Zeichen zu senden.</string>
   <string name="notify_failed" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Failed to send SMS: ">Fehler beim Senden der SMS: </string>
-  <string name="notify_failed_" formatted="false">fehler beim Senden der SMS</string>
+  <string name="notify_failed_" formatted="false" orig="failed sending SMS">Fehler beim Senden der SMS</string>
   <string name="sender_" formatted="false">Mobilnummer</string>
   <string name="send_" formatted="false">Senden</string>
   <string name="save_draft_" formatted="false">Entwurf speichern</string>
