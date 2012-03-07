@@ -18,7 +18,8 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/de/help.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/ru/help.xml to edit the file.
        -->
 <resources>
+  <string name="help_title" formatted="false" orig="Introducing WebSMS">Thanks for your help Dale! I got the gallery part wiokrng at least. the comment block however is acting a little interesting. but ill work through that. On a side note i have a perl back end generating the XML from  watched\' directories. this allows me just to drop in any file and it will populate the XML that your code displays. Very handy! thanks again!here\'s my  fixed\' code//codefunction initSlides(evt:Event):void {if (mc.numChildren &gt; 0 ){mc.removeChildAt(0);//mc.removeChildAt(1);}var newSlides:slidingImage = new slidingImage(mc, myloadXml.imagesArray);</string>
 </resources>
