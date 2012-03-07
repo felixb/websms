@@ -23,7 +23,7 @@ res/values-ro/help.xml:5
 res/values-ro/market.xml:5
 res/values-ro/notes.xml:3
 res/values-ro/strings.xml:128
-res/values-ru/help.xml:1
+res/values-ru/help.xml:0
 res/values-ru/market.xml:3
 res/values-ru/notes.xml:3
 res/values-ru/strings.xml:130
@@ -37,5 +37,5 @@ res/values-es:110
 res/values-hu:130
 res/values-it:128
 res/values-ro:141
-res/values-ru:137
+res/values-ru:136
 res/values-sk:133
