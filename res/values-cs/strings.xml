@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+               Copyright (C) 2009-2011 Felix Bechstein
+       -->
+<!--
+               This file is part of WebSMS. This program is free software; you can
+               redistribute it and/or modify it under the terms of the GNU General
+               Public License as published by the Free Software Foundation; either
+               version 3 of the License, or (at your option) any later version.
+       -->
+<!--
+               This program is distributed in the hope that it will be useful, but
+               WITHOUT ANY WARRANTY; without even the implied warranty of
+               MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+               General Public License for more details. You should have received a
+               copy of the GNU General Public License along with this program; If
+               not, see <http://www.gnu.org/licenses/>.
+       -->
+<!--
+               This file is generated automatically by ub0rlib/php.
+               Visit http://ub0r.de/translate/websms/sk/strings.xml to edit the file.
+       -->
+<resources>
+  <string name="about_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="About">O aplikaci</string>
+  <string name="about_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="About this app">O této aplikaci</string>
+  <string name="about" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS umožňuje bezplatně a levně odesílat SMS přes webové služby. Podporuje mnoho poskytovatelů, jejichž seznam a možnost stažení najdete na Marketu v nastavení WebSMS.</string>
+  <string name="faq_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Some tips and tricks, how to set up this app.">Tipy a triky pro nastavení aplikace.</string>
+  <string name="feedback_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Feedback">Zpětná vazba</string>
+  <string name="feedback_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Report bugs, request features ...">Zprávy o chybách, požadavky na nové funkce...</string>
+  <string name="google_plus_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Follow me on Google+.\nGet update notifications etc.">Sledujte nás na Google+.\nZískejte informace o nových verzích aj.</string>
+  <string name="twitter_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Follow me on twitter.\nGet update notifications etc.">Sledujte nás na twitteru.\nZískejte informace o nových verzích aj.</string>
+  <string name="author_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Author of Connectors:">Autor rozhraní:</string>
+  <string name="change_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Change provider">Změnit poskytovatele</string>
+  <string name="change_connector_nl" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Change\nprovider">Změnit\nposkytovalete</string>
+  <string name="click_for_update" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="(update: click)">(aktualizovat: klikni zde)</string>
+  <string name="defprefix_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Default int. prefix">Předvolba země</string>
+  <string name="defprefix_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="e.g. +49">např. +420</string>
+  <string name="more_apps_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="More Apps..">Více aplikací</string>
+  <string name="more_connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="More Connectors..">Více rozhraní..</string>
+  <string name="more_connectors_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Najděte více rozhraní na Marketu. Restartujte WebSMS po instalaci!</string>
+  <string name="more_connectors__" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Even more Connectors..">Ještě více rozhraní..</string>
+  <string name="more_connectors__hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Chybí Vám rozhraní některé webové služby? Přečtěte si FAQ pro jeho získání.</string>
+  <string name="standard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Standard Connector">Základní rozhraní</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Set standard Connector">Nastavit základní rozhraní</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Nastavit aktuální rozhraní jako základní rozhraní. WebSMS se automaticky nastaví.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Clear standard Connector">Vymazat základní rozhraní</string>
+  <string name="license" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - navštivte http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="License:">Licence:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Prosím zadejte platnou předvolbu Vaší země. Např. &quot;+420&quot;.</string>
+  <string name="log_wrong_sender" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Špatné číslo odesílatele! Zadejte číslo v mezinárodním formátu, např. +420907123456.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nevybrali jste žádné rozhraní. Vyberte ho kliknutím na &quot;Změnit poskytovatele&quot;.</string>
+  <string name="log_noreadyconnector" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="No Connector installed or ready. Please check preferences.">Není nainstalované nebo nastavené žádné rozhraní. Prosím zkontrolujte nastavení aplikace.</string>
+  <string name="sender_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Your mobile number">Vaše tel. číslo</string>
+  <string name="send_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Send">Odeslat</string>
+  <string name="save_draft_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Save draft">Ulož koncept</string>
+  <string name="settings" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Preferences">Nastavení</string>
+  <string name="settings_connectors" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Preferences - Connectors">Nastavení - Rozhraní</string>
+  <string name="connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connectors">Rozhraní</string>
+  <string name="textsize_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Text size">Velikost textu</string>
+  <string name="hide_change_connector_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Chg. provider\&quot; button">Skrýt tlač. \&quot;Zm. poskytovatele\&quot;"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Skrýt tlačítko \&quot;Změnit poskytovatele\&quot; na hlavní obrazovce.</string>
+  <string name="hide_send_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button">Skrýt tlač. \&quot;Odeslat\&quot;</string>
+  <string name="hide_send_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Skrýt tlačítko \&quot;Odeslat\&quot; na hlavní obrazovce.</string>
+  <string-array name="themes" username="Petr &lt; svobodnik.petr@gmail.com &gt;">
+    <item>Tmavý</item>
+    <item>Světlý</item>
+  </string-array>
+  <string name="hide_cancel_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button">Skrýt tlač. \&quot;Zrušit\&quot;</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Skrýt tlačítko \&quot;Zrušit\&quot; na hlavní obrazovce.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select\&quot; button">Skrýt tlač. \&quot;Vybrat\&quot;</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Skrýt tlačítko \&quot;Vybrat příjemce\&quot; na hlavní obrazovce.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear\&quot; button">Skrýt tlač. \&quot;Vymazat\&quot;</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Skrýt tlačítko \&quot;Vymazat příjemce\&quot; na hlavní obrazovce.</string>
+  <string name="hide_send_in_menu" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; menu item">Skrýt tlač. \&quot;Odeslat\&quot;</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Skrýt tlačítko \&quot;Odeslat\&quot; na hlavní obrazovce. Nutný restart.</string>
+  <string name="hide_emo_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button">Skrýt tlač. \&quot;Smajlíci\&quot;</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Skrýt tlačítko \&quot;Smajlíci\&quot; na hlavní obrazovce.</string>
+  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skrýt tlač. \&quot;Klikni pro aktualizaci\&quot;</string>
+  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Skrýt tlačítko \&quot;Klikni pro aktualizaci\&quot; na hlavní obrazovce.</string>
+  <string name="hide_bg_connector_" formatted="false" orig="Hide connector name">Skrýt název rozhraní</string>
+  <string name="hide_bg_connector_hint" formatted="false" orig="Hide active connector\'s name in background.">Skrýt název aktuálního rozhraní na hlavní obrazovce.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Skrýt tlač. \&quot;Vložit\&quot;</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Skrýt tlačítko \&quot;Vložit\&quot; z textového pole.</string>
+  <string name="autoexit_" formatted="false" orig="Autoexit">Autom. ukončení</string>
+  <string name="autoexit_hint" formatted="false" orig="Exit WebSMS when sending sms.">Automatické ukončení WebSMS po odeslaní sms.</string>
+  <string name="mobile_only_" formatted="false" orig="Show mobiles only">Zobrazit pouze mobilní</string>
+  <string name="mobile_only_hint" formatted="false" orig="Show mobile numbers only.">Zobrazit pouze kontakty s telefonním číslem.</string>
+  <string name="vibrate_on_fail" formatted="false" orig="Vibrate if sending fails">Vibrovat při chybě odeslání</string>
+  <string name="vibrate_on_send" formatted="false" orig="Vibrate after sending">Vibrovat po odeslání</string>
+  <string name="sound_on_fail" formatted="false" orig="Play sound if sending fails">Přehrát zvuk při chybě odeslání</string>
+  <string name="website_" formatted="false" orig="Website:">Webová stránka:</string>
+  <string name="text_hint" formatted="false" orig="Text">Text</string>
+  <string name="send_later" formatted="false" orig="Send later">Odeslat později</string>
+  <string name="emo_" formatted="false" orig="Emoticons">Smajlíci</string>
+  <string name="connectors_switch" formatted="false" orig="Switched connector:">Přepnout rozhraní</string>
+  <string name="enable_sms_hint" formatted="false" orig="The SMS Connector will send normal SMS (e.g. via GSM).">SMS rozhraní bude odesílat standardní SMS (přes GSM)</string>
+  <string name="paste_" formatted="false" orig="[ Paste from clipboard ]" username="Petr &lt; svobodnik.petr@gmail.com &gt;">&lt; Vložit ze schránky &gt;</string>
+  <string name="restore_" formatted="false" orig="Restore last message">Obnovit poslední zprávu</string>
+  <string name="theme_" formatted="false" orig="Theme">Motiv</string>
+  <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Táto zpráva obsahuje nepovolené znaky</string>
+  <string name="log_error_sms" formatted="false" orig="Could not send SMS: ErrorCode=">Problém při odeslání SMS: Kód chyby=</string>
+  <string name="appearance_" formatted="false" orig="Appearance">Nastavení vzhledu</string>
+  <string name="behavior_" formatted="false" orig="Behavior">Nastavení chování</string>
+  <string name="appearance_and_behavior_" formatted="false" orig="Appearance &amp; behavior">Vzhled a chování</string>
+  <string name="alternative_layout_" formatted="false" orig="Alternative layout">Alternativní uspořádání</string>
+  <string name="alternative_layout_hint" formatted="false" orig="Move send bar to the top. Needs restart.">Přesunout lištu pro odeslání nahoru. Nutný restart.</string>
+  <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default">Velikost textu v pixelech. Prázdná hodnota je výchozí.</string>
+  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">Skrýt tlač. \&quot;Extra\&quot;</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Skrýt tlačítko \&quot;Extra\&quot; na hlavní obrazovce.</string>
+  <string name="free_" formatted="false" orig="Balances:">Kredit:</string>
+  <string name="to_hint" formatted="false" orig="Name or Number">Jméno nebo číslo</string>
+  <string name="extras_" formatted="false" orig="Extras">Extra</string>
+  <string name="notify_failed" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Failed to send SMS: ">Chyba při odesílání SMS:</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Nenalezeno žádné rozhraní, prosím otevřete a zavřete nastavení WebSMS, tím se znovu načtou dostupná rozhraní.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Try send invalid">Odeslat s chybami</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Try to send messages with invalid.">Pokusit se odeslat zprávu s neplatnými znaky.</string>
+  <string name="notify_failed_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="failed sending SMS">chyba při odesílání SMS</string>
+  <string name="save_chars_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Save chars">Uložit znaky</string>
+  <string name="settings_common" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Preferences - Common">Nastavení - Všeobecné</string>
+  <string name="common_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Common">Všeobecné</string>
+  <string name="autosend_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Autosend">Autom. odeslání</string>
+  <string name="show_titlebar_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Show title bar">Zobrazit záhlaví</string>
+  <string name="show_titlebar_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Zobrazit záhlaví na hlavní obrazovce. Bez záhlaví není možné vidět činnosti, které probíhají na pozadí.</string>
+  <string name="drop_sent_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Don\'t save sent SMS">Neukládat odeslané SMS</string>
+  <string name="enable_autosend_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Enable autosend">Povolit automatické odeslání</string>
+  <string name="enable_autosend_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Enable SMSdroid\'s autosend feature.">Použít funkci automatické odeslání, které nabízí aplikace SMSdroid.</string>
+  <string name="use_selected_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Use selected Connector">Použít vybrané rozhraní</string>
+  <string name="default_recipient_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Default recipient">Výchozí příjemce</string>
+  <string name="default_recipient_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Default recipient filled into address bar on app start.">Přidat výchozího příjemce do adresního řádku po spuštění aplikace.</string>
+  <string name="signature_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Signature">Podpis</string>
+  <string name="signature_hint" formatted="false" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis je připojen je každé zprávě. Nepřidává žádné další mezery. Pokud potřebujete přidat podpis dříve, uveďte \&quot; \&quot;.</string>
+  <string name="autoupdate_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Autoupdate">Automatický stav kreditu</string>
+  <string name="autoupdate_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Update account balances on start.">Aktualizovat stav kreditu po spuštění.</string>
+  <string name="source_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Sourcescode:">Zdrojový kód:</string>
+  <string name="flashsms" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Flash SMS">Flash SMS</string>
+  <string name="custom_sender" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Custom sender">Vlastní odesílatel</string>
+  <string name="captcha_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Captcha">Captcha</string>
+  <string name="captcha_solve_it" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Please enter the text below:">Prosím, zadejte níže uvedený text:</string>
+  <string name="status_disabled" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Status: disabled\n(Updated when returning to main screen)">Stav: vypnutý\n(Aktualizovaný při návratu na hlavní obrazovku)</string>
+  <string name="status_enabled" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Status: enabled\n(Updated when returning to main screen)">Stav: zapnutý\n(Aktualizovaný při návratu na hlavní obrazovku)</string>
+  <string name="status_ready" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Status: ready\n(Updated when returning to main screen)">Stav: připravený\n(Aktualizovaný při návratu na hlavní obrazovku)</string>
+  <string name="connector_vanished" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connector vanished!">Rozhraní zmizelo!</string>
+  <string name="connector_sms_name" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="SMS">SMS</string>
+  <string name="enable_sms" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Enable SMS">Povolit SMS</string>
+  <string name="update_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Update">Aktualizovat</string>
+  <string name="connector_message_length_reached" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">%1$d je maximální počet znaků pro rozhraní %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="(Of which %1$d characters were your signature).">(Z toho %1$d znaků byl Váš podpis).</string>
+  <string name="log_error_saving_message" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Error updating sent message in Database!">Chyba při ukládaní zprávy do databáze!</string>
+  <string name="drop_sent_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Don\'t save sent messages in global database.">Neukládat odeslané zprávy do souhrnné databáze.</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Použít současně zvolené rozhraní pro automatické odeslání. Nebude možné vybrat rozhraní.</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connector does not provide valid characters">Rozhraní neposkytuje povolené znaky</string>
+  <string name="show_balance_toast_" formatted="false" orig="Show balance toast">Zobrazit zprávu s informací o kreditu.</string>
+  <string name="show_balance_toast_hint" formatted="false" orig="Show toast notification on balance update.">Zobrazit informaci po aktualizaci stavu kreditu.</string>
+</resources>
