@@ -3,6 +3,10 @@ res/values/market.xml:5
 res/values/notes.xml:4
 res/values/strings.xml:130
 res/values/update.xml:58
+res/values-cs/help.xml:5
+res/values-cs/market.xml:5
+res/values-cs/notes.xml:4
+res/values-cs/strings.xml:130
 res/values-de/help.xml:5
 res/values-de/market.xml:5
 res/values-de/notes.xml:3
@@ -32,6 +36,7 @@ res/values-sk/market.xml:0
 res/values-sk/notes.xml:3
 res/values-sk/strings.xml:130
 res/values:202
+res/values-cs:144
 res/values-de:143
 res/values-es:110
 res/values-hu:130
