@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: fix pasting long texts, add czech translation</item>
 		<item>v4.2.8: fix "resend old messages", fix autosend for most users</item>
 		<item>v4.2.7: fix notification for android 1.6-3.2, update translations</item>
 		<item>v4.2.6: show balance dialog on icon click, show balance on update as toast notification, add romanian translation</item>
