@@ -1347,6 +1347,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		case R.id.text_paste:
 			s = this.cbmgr.getText();
 			this.etText.setText(s);
+			s = this.etText.getText();
 			this.etText.setSelection(s.length());
 			this.lastMsg = s.toString();
 			return;
