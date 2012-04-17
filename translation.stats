@@ -35,6 +35,10 @@ res/values-sk/help.xml:0
 res/values-sk/market.xml:0
 res/values-sk/notes.xml:3
 res/values-sk/strings.xml:130
+res/values-uk/help.xml:0
+res/values-uk/market.xml:0
+res/values-uk/notes.xml:0
+res/values-uk/strings.xml:0
 res/values:203
 res/values-cs:144
 res/values-de:143
@@ -44,3 +48,4 @@ res/values-it:128
 res/values-ro:141
 res/values-ru:136
 res/values-sk:133
+res/values-uk:0
