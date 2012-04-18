@@ -18,7 +18,27 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/ru/strings.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/uk/strings.xml to edit the file.
        -->
 <resources>
+  <string name="about_" formatted="false" username="Ukrainian" orig="About">Про</string>
+  <string name="about" formatted="false" username="Ukrainian" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS дозволяє вам надсилати безкоштовні та дешеві смс\'ки за допомогою веб-сервісів. Підтримується велика к-сть постачальників. Знайдіть посиланя аби завантажити їх з маркету у налаштуваннях WebSMS</string>
+  <string name="about_hint" formatted="false" username="Ukrainian" orig="About this app">Про цей застос.</string>
+  <string name="faq_hint" formatted="false" username="Ukrainian" orig="Some tips and tricks, how to set up this app.">Деякі поради щодо того як налаштувати цей застос.</string>
+  <string name="feedback_" formatted="false" username="Ukrainian" orig="Feedback">Зворотн. зв\'яз.</string>
+  <string name="feedback_hint" formatted="false" username="Ukrainian" orig="Report bugs, request features ...">Повідмом. про помилки, порадити функції ...</string>
+  <string name="google_plus_hint" formatted="false" username="Ukrainian" orig="Follow me on Google+.\nGet update notifications etc.">Слідкувати за мною у Google+.\nОтримати інфу про оновлення тощо.</string>
+  <string name="twitter_hint" formatted="false" username="Ukrainian" orig="Follow me on twitter.\nGet update notifications etc.">Слідкувати за мною у Твіттері.\nОтримати інфу про оновлення тощо.</string>
+  <string name="author_" formatted="false" username="Ukrainian" orig="Author:">Автор:</string>
+  <string name="change_connector_" formatted="false" username="Ukrainian" orig="Change provider">Змінити провайдера</string>
+  <string name="author_connectors_" formatted="false" username="Ukrainian" orig="Author of Connectors:">Автор Приєдувачів:</string>
+  <string name="change_connector_nl" formatted="false" username="Ukrainian" orig="Change\nprovider">Змінити провайдера</string>
+  <string name="click_for_update" formatted="false" username="Ukrainian" orig="(update: click)">(оновл.: клац-ть)</string>
+  <string name="defprefix_" formatted="false" username="Ukrainian" orig="Default int. prefix">Міжн. префікс за промовч.</string>
+  <string name="defprefix_hint" formatted="false" username="Ukrainian" orig="e.g. +49">напр. +380</string>
+  <string name="more_apps_" formatted="false" username="Ukrainian" orig="More Apps..">Більше Застосунків...</string>
+  <string name="more_connectors_" formatted="false" username="Ukrainian" orig="More Connectors..">Більше Приєднувачів...</string>
+  <string name="more_connectors_hint" formatted="false" username="Ukrainian" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Шукайте інших Приєднувачів у Маркеті. Перезавантажте WebSMS після інсталяції!</string>
+  <string name="more_connectors__" formatted="false" username="Ukrainian" orig="Even more Connectors..">Ще більше Приєднувачів...</string>
+  <string name="more_connectors__hint" formatted="false" username="Ukrainian" orig="You are missing a connector for some service? View the FAQ to get it.">У вас немає приєднувача для деяких сервісів? Пергляньте ЧАП аби їз отримати.</string>
 </resources>
