@@ -15,6 +15,10 @@ res/values-es/help.xml:0
 res/values-es/market.xml:0
 res/values-es/notes.xml:3
 res/values-es/strings.xml:107
+res/values-fr/help.xml:0
+res/values-fr/market.xml:0
+res/values-fr/notes.xml:0
+res/values-fr/strings.xml:0
 res/values-hu/help.xml:0
 res/values-hu/market.xml:5
 res/values-hu/notes.xml:3
@@ -43,6 +47,7 @@ res/values:203
 res/values-cs:144
 res/values-de:143
 res/values-es:110
+res/values-fr:0
 res/values-hu:130
 res/values-it:128
 res/values-ro:141
