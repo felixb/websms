@@ -2,16 +2,16 @@ package de.ub0r.android.websms;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.ub0r.android.lib.apis.TelephonyWrapper;
+import android.telephony.SmsMessage;
 import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 
 /**
- * A SMSLengthCalculator that just delegates to
- * TelephonyWrapper.getInstance().calculateLength
+ * A SMSLengthCalculator that just delegates to SmsMessage.calculateLength().
  * 
- * @author Fintan Fairmichael
+ * @author Fintan Fairmichael / Felix Bechstein
  */
 public class DefaultSMSLengthCalculator implements SMSLengthCalculator {
+	/** Serial Version UID. */
 	private static final long serialVersionUID = -1021281060248896432L;
 
 	@Override
@@ -26,10 +26,10 @@ public class DefaultSMSLengthCalculator implements SMSLengthCalculator {
 	@Override
 	public int[] calculateLength(final String messageBody,
 			final boolean use7bitOnly) {
-		return TelephonyWrapper.getInstance().calculateLength(messageBody,
-				use7bitOnly);
+		return SmsMessage.calculateLength(messageBody, use7bitOnly);
 	}
 
+	/** Parcel stuff. */
 	public static final Parcelable.Creator<DefaultSMSLengthCalculator> CREATOR = new Parcelable.Creator<DefaultSMSLengthCalculator>() {
 		public DefaultSMSLengthCalculator createFromParcel(final Parcel in) {
 			return new DefaultSMSLengthCalculator();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2011 Felix Bechstein
+ * Copyright (C) 2009-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -22,13 +22,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
@@ -36,7 +39,7 @@ import de.ub0r.android.websms.connector.common.Log;
 /**
  * @author flx
  */
-public final class CaptchaActivity extends FragmentActivity implements
+public final class CaptchaActivity extends SherlockActivity implements
 		OnClickListener {
 	/** Tag for output. */
 	private static final String TAG = "cpt";
@@ -65,6 +68,9 @@ public final class CaptchaActivity extends FragmentActivity implements
 		this.setTitle(this.connector.getName() + " - "
 				+ this.getString(R.string.captcha_));
 		this.setContentView(R.layout.captcha);
+		Utils.fixActionBarBackground(this.getSupportActionBar(),
+				this.getResources(), R.drawable.bg_striped,
+				R.drawable.bg_striped_img);
 		final Parcelable p = extras
 				.getParcelable(Connector.EXTRA_CAPTCHA_DRAWABLE);
 		if (p != null && p instanceof Bitmap) {

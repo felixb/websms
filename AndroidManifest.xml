@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 		Copyright (C) 2009-2012 Felix Bechstein -->
+<!-- Copyright (C) 2009-2012 Felix Bechstein -->
 <!--
 		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
@@ -29,7 +29,8 @@
             android:name="WebSMS"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:theme="@style/Theme.SherlockUb0r"
+            android:theme="@style/Theme.SherlockWebSMS_Light"
+            android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,23 +85,25 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/Theme.SherlockUb0r_Light" />
+            android:theme="@style/Theme.SherlockWebSMS_Light" />
         <activity
             android:name=".HelpActivity"
-            android:theme="@style/Theme.SherlockUb0r_Light"
+            android:theme="@style/Theme.SherlockWebSMS_Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="CaptchaActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.SherlockUb0r"
+            android:theme="@style/Theme.SherlockWebSMS_Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="de.ub0r.android.lib.DonationFragmentActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.SherlockWebSMS_Light"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.SherlockWebSMS_Light"
             android:windowSoftInputMode="adjustResize" />
 
         <receiver
@@ -128,8 +131,8 @@
     </application>
 
     <uses-sdk
-        android:minSdkVersion="4"
-        android:targetSdkVersion="13" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="15" />
 
     <supports-screens
         android:anyDensity="true"

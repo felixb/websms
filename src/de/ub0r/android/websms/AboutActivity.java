@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2011 Felix Bechstein
+ * Copyright (C) 2009-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -20,17 +20,20 @@ package de.ub0r.android.websms;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
 /**
- * Display About {@link FragmentActivity}.
+ * Display About Activity.
  * 
  * @author flx
  */
-public final class AboutActivity extends FragmentActivity {
+public final class AboutActivity extends SherlockActivity {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -38,6 +41,9 @@ public final class AboutActivity extends FragmentActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.about);
+		Utils.fixActionBarBackground(this.getSupportActionBar(),
+				this.getResources(), R.drawable.bg_striped,
+				R.drawable.bg_striped_img);
 		this.setTitle(this.getString(R.string.about_) + " "
 				+ this.getString(R.string.app_name) + " v"
 				+ this.getString(R.string.app_version));

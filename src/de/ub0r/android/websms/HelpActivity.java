@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2011 Felix Bechstein
+ * Copyright (C) 2009-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -21,19 +21,22 @@ package de.ub0r.android.websms;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import de.ub0r.android.lib.Market;
+import de.ub0r.android.lib.Utils;
 
 /**
  * {@link FragmentActivity} showing intro.
  * 
  * @author flx
  */
-public final class HelpActivity extends FragmentActivity implements
+public final class HelpActivity extends SherlockActivity implements
 		OnClickListener {
 	/**
 	 * {@inheritDoc}
@@ -42,6 +45,9 @@ public final class HelpActivity extends FragmentActivity implements
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.help);
+		Utils.fixActionBarBackground(this.getSupportActionBar(),
+				this.getResources(), R.drawable.bg_striped,
+				R.drawable.bg_striped_img);
 		this.setTitle(R.string.help_title);
 
 		this.findViewById(R.id.ok).setOnClickListener(this);

@@ -55,11 +55,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBar;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
-import android.support.v4.view.Window;
 import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -73,7 +68,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -83,6 +77,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
+
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
@@ -97,11 +98,11 @@ import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 import de.ub0r.android.websms.connector.common.Utils;
 
 /**
- * Main {@link FragmentActivity}.
+ * Main Activity.
  * 
  * @author flx
  */
-public class WebSMS extends FragmentActivity implements OnClickListener,
+public class WebSMS extends SherlockActivity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
@@ -274,8 +275,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	/** {@link TextView} for deleting text. */
 	private TextView tvClear;
 
-	/** {@link Button} holding send button. */
-	private Button bSend;
 	/** {@link View} holding custom sender. */
 	private View vCustomSender;
 	/** {@link View} holding flashsms. */
@@ -306,7 +305,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 				v = View.VISIBLE;
 			}
 			WebSMS.this.tvClear.setVisibility(v);
-			WebSMS.this.bSend.setEnabled(b1 && b2);
 			WebSMS.this.invalidateOptionsMenu();
 		}
 
@@ -656,7 +654,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		this.tvPaste = (TextView) this.findViewById(R.id.text_paste);
 		this.tvClear = (TextView) this.findViewById(R.id.text_clear);
 
-		this.bSend = (Button) this.findViewById(R.id.send);
 		this.vCustomSender = this.findViewById(R.id.custom_sender);
 		this.vFlashSMS = this.findViewById(R.id.flashsms);
 		this.vSendLater = this.findViewById(R.id.send_later);
@@ -722,7 +719,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		v.setOnClickListener(this);
 		v.setOnLongClickListener(this);
 		this.findViewById(R.id.emo).setOnClickListener(this);
-		this.bSend.setOnClickListener(this);
 		this.tvPaste.setOnClickListener(this);
 		this.tvClear.setOnClickListener(this);
 		this.etText.addTextChangedListener(this.twCount);
@@ -792,6 +788,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		if (prefsConnectorSpec == null) {
 			this.setProgressBarIndeterminateVisibility(Boolean.FALSE);
 		}
+		de.ub0r.android.lib.Utils.fixActionBarBackground(
+				this.getSupportActionBar(), this.getResources(),
+				R.drawable.bg_striped, R.drawable.bg_striped_img);
 	}
 
 	/**
@@ -1095,9 +1094,6 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	private void setButtons() {
 		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null
 				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
-			final boolean sSend = !PreferenceManager
-					.getDefaultSharedPreferences(this).getBoolean(
-							PREFS_HIDE_SEND_BUTTON, false);
 			final boolean sFlashsms = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_FLASHSMS);
 			final boolean sCustomsender = prefsSubConnectorSpec
@@ -1105,16 +1101,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			final boolean sSendLater = prefsSubConnectorSpec
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 
-			if (sSend
-					|| (bShowExtras && (sFlashsms || sCustomsender || sSendLater))) {
-				if (sSend) {
-					this.bSend.setVisibility(View.VISIBLE);
-					this.bSend.setEnabled(!TextUtils.isEmpty(this.etText
-							.getText())
-							&& !TextUtils.isEmpty(this.etTo.getText()));
-				} else {
-					this.bSend.setVisibility(View.GONE);
-				}
+			if (bShowExtras && (sFlashsms || sCustomsender || sSendLater)) {
 				if (bShowExtras && sFlashsms) {
 					this.vFlashSMS.setVisibility(View.VISIBLE);
 				} else {
@@ -1376,7 +1363,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 	 */
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
-		this.getMenuInflater().inflate(R.menu.menu, menu);
+		this.getSupportMenuInflater().inflate(R.menu.menu, menu);
 		if (prefsNoAds) {
 			menu.removeItem(R.id.item_donate);
 		}
@@ -1565,7 +1552,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			this.saveChars();
 			return true;
 		case R.id.item_settings:
-			if (de.ub0r.android.lib.Utils.isApi(Build.VERSION_CODES.HONEYCOMB)) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				this.startActivity(new Intent(this, Preferences11Activity.class));
 			} else {
 				this.startActivity(new Intent(this, PreferencesActivity.class));
@@ -1832,10 +1819,9 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 		// fetch text/recipient
 		final String to = this.etTo.getText().toString();
 		String text = this.etText.getText().toString();
-		if (to.length() == 0 || text.length() == 0) {
+		if (TextUtils.isEmpty(to) || TextUtils.isEmpty(text)) {
 			Log.e(TAG, "to: " + to);
 			Log.e(TAG, "text: " + text);
-			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		text = text.trim();

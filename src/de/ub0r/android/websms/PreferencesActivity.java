@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -168,14 +167,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, null);
-		if (s != null && THEME_LIGHT.equals(s)) {
-			return R.style.Theme_SherlockUb0r_Light;
-		} else if (s != null && THEME_BLACK.equals(s)) {
-			return R.style.Theme_SherlockUb0r;
-		} else if (Utils.isApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
-			return R.style.Theme_SherlockUb0r_Light;
+		if (s != null && THEME_BLACK.equals(s)) {
+			return R.style.Theme_SherlockWebSMS;
 		} else {
-			return R.style.Theme_SherlockUb0r;
+			return R.style.Theme_SherlockWebSMS_Light;
 		}
 	}
 

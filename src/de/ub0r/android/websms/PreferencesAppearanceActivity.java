@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2011 Felix Bechstein
+ * Copyright (C) 2010-2012 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -34,7 +34,6 @@ public class PreferencesAppearanceActivity extends PreferenceActivity {
 	 */
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
-		this.setTheme(R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.prefs_appearance);
 		this.setTitle(this.getString(R.string.settings) + " > "
