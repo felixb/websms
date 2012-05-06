@@ -17,8 +17,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto"
     package="de.ub0r.android.websms"
-    android:versionCode="7440000"
-    android:versionName="4.4" >
+    android:versionCode="7441000"
+    android:versionName="4.4.1" >
 
     <application
         android:name=".WebSMSApp"
