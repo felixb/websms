@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: fix dark themed action bar</item>
 		<item>v4.4: fix pasting long texts, add czech translation, update to abs 4.0</item>
 		<item>v4.2.8: fix "resend old messages", fix autosend for most users</item>
 		<item>v4.2.7: fix notification for android 1.6-3.2, update translations</item>
