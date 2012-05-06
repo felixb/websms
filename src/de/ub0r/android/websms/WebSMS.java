@@ -786,7 +786,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		}
 
 		if (prefsConnectorSpec == null) {
-			this.setProgressBarIndeterminateVisibility(Boolean.FALSE);
+			this.setSupportProgressBarIndeterminateVisibility(false);
 		}
 		de.ub0r.android.lib.Utils.fixActionBarBackground(
 				this.getSupportActionBar(), this.getResources(),
@@ -1252,7 +1252,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		if (me != null
 				&& prefsConnectorSpec != null
 				&& (t == ConnectorCommand.TYPE_BOOTSTRAP || t == ConnectorCommand.TYPE_UPDATE)) {
-			me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
+			me.setSupportProgressBarIndeterminateVisibility(true);
 		}
 		intent.setFlags(intent.getFlags()
 				| Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
@@ -2096,9 +2096,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					runningConnectors = booting.length != 0;
 				}
 				if (runningConnectors) {
-					me.setProgressBarIndeterminateVisibility(Boolean.TRUE);
+					me.setSupportProgressBarIndeterminateVisibility(true);
 				} else {
-					me.setProgressBarIndeterminateVisibility(Boolean.FALSE);
+					me.setSupportProgressBarIndeterminateVisibility(false);
 				}
 				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
 					me.setButtons();
