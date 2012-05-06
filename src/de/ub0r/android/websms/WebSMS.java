@@ -1565,11 +1565,7 @@ public class WebSMS extends FragmentActivity implements OnClickListener,
 			this.saveChars();
 			return true;
 		case R.id.item_settings:
-			if (de.ub0r.android.lib.Utils.isApi(Build.VERSION_CODES.HONEYCOMB)) {
-				this.startActivity(new Intent(this, Preferences11Activity.class));
-			} else {
-				this.startActivity(new Intent(this, PreferencesActivity.class));
-			}
+			this.startActivity(new Intent(this, PreferencesActivity.class));
 			return true;
 		case R.id.item_donate:
 			DonationHelper.startDonationActivity(this, true);

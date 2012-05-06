@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 		Copyright (C) 2009-2012 Felix Bechstein -->
+<!-- Copyright (C) 2009-2012 Felix Bechstein -->
 <!--
 		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
@@ -15,8 +15,8 @@
 		not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto"
     package="de.ub0r.android.websms"
+    android:installLocation="auto"
     android:versionCode="4280"
     android:versionName="4.2.8" >
 
@@ -68,10 +68,6 @@
         </activity>
         <activity
             android:name=".PreferencesActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Preferences11Activity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -129,7 +125,7 @@
 
     <uses-sdk
         android:minSdkVersion="4"
-        android:targetSdkVersion="13" />
+        android:targetSdkVersion="15" />
 
     <supports-screens
         android:anyDensity="true"

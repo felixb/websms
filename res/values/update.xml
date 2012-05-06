@@ -18,7 +18,7 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string-array name="updates">
+	<string-array name="updates" translateable="false">
 		<item>HEAD: fix pasting long texts, add czech translation</item>
 		<item>v4.2.8: fix "resend old messages", fix autosend for most users</item>
 		<item>v4.2.7: fix notification for android 1.6-3.2, update translations</item>
