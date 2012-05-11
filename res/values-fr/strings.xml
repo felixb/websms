@@ -50,4 +50,8 @@
   <string name="license_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="License:">License :</string>
   <string name="log_wrong_defprefix" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Veuillez entrer un code international comme préfixe par défaut. P. ex. "+41"</string>
   <string name="log_wrong_sender" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Expéditeur invalide ! Ecrivez le au format international, comme +4917012345678.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Aucun connecteur sélectionné. Veuillez en choisir un avec "Changer de fournisseur".</string>
+  <string name="log_noreadyconnector" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="No Connector installed or ready. Please check preferences.">Aucun connecteur installé ou prêt. Veuillez vérifier les préférences.</string>
+  <string name="log_error_saving_message" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Error updating sent message in Database!">Erreur lors de l\'ajout du message envoyé à la base de données !</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Connector does not provide valid characters">Le connecteur fourni des caractères invalides</string>
 </resources>
