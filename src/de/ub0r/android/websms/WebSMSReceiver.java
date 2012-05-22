@@ -343,6 +343,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 				if (c != null && !c.isClosed()) {
 					c.close();
 				}
+			} catch (SQLiteException e) {
+				Log.e(TAG, "failed saving message", e);
 			} catch (IllegalArgumentException e) {
 				Log.e(TAG, "failed saving message", e);
 				Toast.makeText(context, R.string.log_error_saving_message,

@@ -65,9 +65,10 @@ public final class CaptchaActivity extends SherlockActivity implements
 			this.finish();
 			return;
 		}
+		this.setContentView(R.layout.captcha);
 		this.setTitle(this.connector.getName() + " - "
 				+ this.getString(R.string.captcha_));
-		this.setContentView(R.layout.captcha);
+		this.getSupportActionBar().setHomeButtonEnabled(true);
 		Utils.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);

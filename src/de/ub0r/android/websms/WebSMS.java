@@ -78,7 +78,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -166,8 +165,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = "hide_clear_recipients_button";
 	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
-	/** Preference's name: hide send button. */
-	private static final String PREFS_HIDE_SEND_BUTTON = "hide_send_button";
 	/** Preference's name: hide cancel button. */
 	private static final String PREFS_HIDE_CANCEL_BUTTON = "hide_cancel_button";
 	/** Preference's name: hide extras button. */
@@ -630,23 +627,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		me = this;
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		// set default prefs
-		p.edit()
-				.putBoolean(
-						PREFS_HIDE_SEND_BUTTON,
-						p.getBoolean(PREFS_HIDE_SEND_BUTTON,
-								de.ub0r.android.lib.Utils
-										.isApi(Build.VERSION_CODES.HONEYCOMB)))
-				.commit();
 
 		// inflate XML
 		this.setContentView(R.layout.main);
-
-		final ActionBar ab = this.getSupportActionBar();
-
-		ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE
-				| ActionBar.DISPLAY_SHOW_HOME, ActionBar.DISPLAY_SHOW_TITLE
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		this.getSupportActionBar().setHomeButtonEnabled(true);
 
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
