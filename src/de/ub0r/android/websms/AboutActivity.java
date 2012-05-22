@@ -41,6 +41,7 @@ public final class AboutActivity extends SherlockActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.about);
+		this.getSupportActionBar().setHomeButtonEnabled(true);
 		Utils.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
