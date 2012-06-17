@@ -21,4 +21,38 @@
                Visit http://ub0r.de/translate/websms/fr/strings.xml to edit the file.
        -->
 <resources>
+  <string name="about" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS vous permet d\'envoyer des SMS gratuits ou bon marché via des services web. Beaucoup de fournisseurs de service sont supportés. Vous trouverez le lien vers ceux-ci sur le Play Store (Android Market), dans les préférences de WebSMS.</string>
+  <string name="about_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="About">À propos de</string>
+  <string name="about_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="About this app">À propos de cette application</string>
+  <string name="faq_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Quelques trucs et astuces pour configurer cette application.</string>
+  <string name="feedback_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Feedback">Retour</string>
+  <string name="feedback_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Report bugs, request features ...">Annonce de bugs, demande de nouvelles fonctionnalités ...</string>
+  <string name="google_plus_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Suivez-moi sur Google+.\nRecevez des notifications de mise à jour, etc.</string>
+  <string name="twitter_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Suivez-moi sur Twitter.\nRecevez des notifications, etc.</string>
+  <string name="author_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Author:">Auteur :</string>
+  <string name="author_connectors_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Author of Connectors:">Auteur des connecteurs :</string>
+  <string name="change_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Change provider">Changer de fournisseur</string>
+  <string name="change_connector_nl" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Change\nprovider">Changer\nde fournisseur</string>
+  <string name="click_for_update" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="(update: click)">(mise à jour : cliquer)</string>
+  <string name="defprefix_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Default int. prefix">Préfixe international par défaut</string>
+  <string name="defprefix_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="e.g. +49">ex. +41</string>
+  <string name="more_apps_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="More Apps..">Plus d\'applications...</string>
+  <string name="more_connectors_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="More Connectors..">Plus de connecteurs...</string>
+  <string name="more_connectors_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Chercher d\'autres connecteurs sur le Play Store. Redémarrez WebSMS après installation.</string>
+  <string name="more_connectors__" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Even more Connectors..">Encore plus de connecteurs...</string>
+  <string name="more_connectors__hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Vous ne trouvez pas le connecteur pour un service ? Consultez la FAQ pour l\'obtenir.</string>
+  <string name="standard_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Standard Connector">Connecteur standard</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Set standard Connector">Définir le connecteur standard</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Définir le connecteur courant comme connecteur standard. WebSMS revendra automatiquement sur ce connecteur.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Clear standard Connector">Effacer connecteur standard</string>
+  <string name="free_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Balances:">Crédits:</string>
+  <string name="license" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - voir http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="License:">License :</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Veuillez entrer un code international comme préfixe par défaut. P. ex. "+41"</string>
+  <string name="log_wrong_sender" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Expéditeur invalide ! Ecrivez le au format international, comme +4917012345678.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Aucun connecteur sélectionné. Veuillez en choisir un avec "Changer de fournisseur".</string>
+  <string name="log_noreadyconnector" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="No Connector installed or ready. Please check preferences.">Aucun connecteur installé ou prêt. Veuillez vérifier les préférences.</string>
+  <string name="log_error_saving_message" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Error updating sent message in Database!">Erreur lors de l\'ajout du message envoyé à la base de données !</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Connector does not provide valid characters">Le connecteur fourni des caractères invalides</string>
+  <string name="autosend_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Autosend">Envoi automatique</string>
 </resources>

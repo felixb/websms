@@ -17,22 +17,22 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="app_name">WebSMS</string>
-	<string name="app_version">4.4.1</string>
-	<string name="website">http://code.google.com/p/websmsdroid/</string>
-	<string name="source">http://github.com/felixb/websms</string>
-	<string name="faq_">FAQ</string>
-	<string name="google_plus_">Google+</string>
-	<string name="twitter_">twitter</string>
-	<string name="author0">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nFintan Fairmichael &lt;fintanf@gmail.com&gt;\nJake Wharton &lt;https://github.com/JakeWharton/ActionBarSherlock/&gt; (ActionBar)\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)\nAlfonso Picón &lt;apictor@gmail.com&gt; (Spanish)\nBéres Tamás &lt;berestamas2@gmail.com&gt; (Hungarian)\nXim &lt;ximonline@gmail.com&gt; (Russian)\nLaurentiu Lozan &lt;lozanro@gmail.com&gt; (Romanian)\nand many more...</string>
-	<string name="changelog_">Changelog</string>
-	<string name="debug_">Debug</string>
-	<string-array name="themes_values">
+	<string name="app_name" translatable="false">WebSMS</string>
+	<string name="app_version" translatable="false">4.4.1</string>
+	<string name="website" translatable="false">http://code.google.com/p/websmsdroid/</string>
+	<string name="source" translatable="false">http://github.com/felixb/websms</string>
+	<string name="faq_" translatable="false">FAQ</string>
+	<string name="google_plus_" translatable="false">Google+</string>
+	<string name="twitter_" translatable="false">twitter</string>
+	<string name="author0" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nFintan Fairmichael &lt;fintanf@gmail.com&gt;\nJake Wharton &lt;https://github.com/JakeWharton/ActionBarSherlock/&gt; (ActionBar)\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)\nAlfonso Picón &lt;apictor@gmail.com&gt; (Spanish)\nBéres Tamás &lt;berestamas2@gmail.com&gt; (Hungarian)\nXim &lt;ximonline@gmail.com&gt; (Russian)\nLaurentiu Lozan &lt;lozanro@gmail.com&gt; (Romanian)\nand many more...</string>
+	<string name="changelog_" translatable="false">Changelog</string>
+	<string name="debug_" translatable="false">Debug</string>
+	<string-array name="themes_values" translatable="false">
 		<item>black</item>
 		<item>light</item>
 	</string-array>
 	<!-- keep the emoticons array synced with code! -->
-	<string-array name="emoticons">
+	<string-array name="emoticons" translatable="false">
 		<item>O:-)</item>
 		<item>8-)</item>
 		<item>;-(</item>
@@ -50,8 +50,8 @@
 		<item>o.O</item>
 		<item>:O</item>
 	</string-array>
-	<string name="connector_sms_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string-array name="lang_values">
+	<string name="connector_sms_author" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string-array name="lang_values" translatable="false">
 		<item></item>
 		<item>cs</item>
 		<item>de</item>
@@ -61,8 +61,9 @@
 		<item>ru</item>		
 		<item>sk</item>
 		<item>es</item>
+		<item>uk</item>
 	</string-array>
-	<string-array name="lang_">
+	<string-array name="lang_" translatable="false">
 		<item>Default language</item>
 		<item>Czech</item>
 		<item>German</item>
@@ -72,5 +73,6 @@
 		<item>Russian</item>		
 		<item>Slovak</item>
 		<item>Spanish</item>
+		<item>Ukrainian</item>
 	</string-array>
 </resources>
