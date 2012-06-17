@@ -32,7 +32,7 @@ import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.Utils;
 
 /**
- * {@link FragmentActivity} showing intro.
+ * {@link SherlockActivity} showing intro.
  * 
  * @author flx
  */
