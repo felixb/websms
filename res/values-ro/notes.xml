@@ -21,9 +21,6 @@
                Visit http://ub0r.de/translate/websms/ro/notes.xml to edit the file.
        -->
 <resources>
-  <string-array name="notes_from_dev" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;">
-    <item>Pentru a citi mesaje primite puteți încerca să folosiți SMSdroid.</item>
-    <item>Dec. 2010 Ciorne: Ciornele sunt salvate în baza de date android. Folosiți SMSdroid sau aplicația de mesagerie android pentru a le trimite mai târziu.</item>
-    <item notranslation="true"/>
-  </string-array>
+  <string name="notes_smsdroid">Pentru a citi mesaje primite puteți încerca să folosiți SMSdroid.</string>
+  <string name="notes_drafts">Dec. 2010 Ciorne: Ciornele sunt salvate în baza de date android. Folosiți SMSdroid sau aplicația de mesagerie android pentru a le trimite mai târziu.</string>
 </resources>

@@ -21,9 +21,6 @@
                Visit http://ub0r.de/translate/websms/uk/notes.xml to edit the file.
        -->
 <resources>
-  <string-array name="notes_from_dev" username="Ukrainian">
-    <item>Вам би варто використовувати SMSdroid для читання вхідних повідомлень</item>
-    <item>Гру. 2010 Нариси: Нарис зберігаються у датабазі повідомлень андроїда. Викор. SMSdroid або ж станд. смс застосунок андроїда аби переслати їх пізніше</item>
-    <item notranslation="true"></item>
-  </string-array>
+  <string name="notes_smsdroid">Вам би варто використовувати SMSdroid для читання вхідних повідомлень</string>
+  <string name="notes_drafts">Гру. 2010 Нариси: Нарис зберігаються у датабазі повідомлень андроїда. Викор. SMSdroid або ж станд. смс застосунок андроїда аби переслати їх пізніше</string>
 </resources>

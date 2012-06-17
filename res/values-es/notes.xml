@@ -21,9 +21,6 @@
                Visit http://ub0r.de/translate/websms/es/notes.xml to edit the file.
        -->
 <resources>
-  <string-array name="notes_from_dev" username="flx &lt;f+translator@ub0r.de&gt;">
-    <item>Quizás quiera utilizar SMSdroid para leer los mensajes recibidos.</item>
-    <item>Diciembre de 2010 Borradores: Los borradores se guardan en la base de datos de mensajes de Android. Utilice SMSdroid o la aplicación de mensajería de Android para enviarlos más tarde.</item>
-    <item notranslation="true"></item>
-  </string-array>
+  <string name="notes_smsdroid">Quizás quiera utilizar SMSdroid para leer los mensajes recibidos.</string>
+  <string name="notes_drafts">Diciembre de 2010 Borradores: Los borradores se guardan en la base de datos de mensajes de Android. Utilice SMSdroid o la aplicación de mensajería de Android para enviarlos más tarde.</string>
 </resources>

@@ -21,9 +21,6 @@
                Visit http://ub0r.de/translate/websms/it/notes.xml to edit the file.
        -->
 <resources>
-  <string-array name="notes_from_dev" username="carloraudino@fedoraproject.org">
-    <item>Potresti usare SMSdroid per leggere i messaggi ricevuti.</item>
-    <item>Dic. 2010 Bozze: Le bozze vengono salvate nel database messaggi di android. Usare SMSdroid o l\'applicazione messaggi per leggerli successivamente.</item>
-    <item notranslation="true"></item>
-  </string-array>
+  <string name="notes_smsdroid">Potresti usare SMSdroid per leggere i messaggi ricevuti.</string>
+  <string name="notes_drafts">Dic. 2010 Bozze: Le bozze vengono salvate nel database messaggi di android. Usare SMSdroid o l\'applicazione messaggi per leggerli successivamente.</string>
 </resources>

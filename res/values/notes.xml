@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009-2010 Felix Bechstein
+		Copyright (C) 2009-2012 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,9 +17,11 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string-array name="notes_from_dev">
-		<item>You may want to use SMSdroid to read incoming messages.</item>
-		<item>Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.</item>
+	<string name="notes_smsdroid">You may want to use SMSdroid to read incoming messages.</string>
+	<string name="notes_drafts">Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.</string>
+	<string-array name="notes_from_dev" translatable="false">
+		<item>@string/notes_smsdroid</item>
+		<item>@string/notes_drafts</item>
 		<item></item>
 	</string-array>
 </resources>

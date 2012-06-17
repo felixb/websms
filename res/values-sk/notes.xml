@@ -21,9 +21,6 @@
                Visit http://ub0r.de/translate/websms/sk/notes.xml to edit the file.
        -->
 <resources>
-  <string-array name="notes_from_dev" username="Martin &lt; mato.jurik1@gmail.com &gt;">
-    <item>Môžete použiť SMSdroid na čítanie prichádzajúcich správ.</item>
-    <item>Dec. 2010 Koncepty: Koncepty sú uložené v databáze android správ. Použite SMSdroid alebo predvolenú SMS aplikáciu pre ich  neskoršie odoslanie.</item>
-    <item notranslation="true"></item>
-  </string-array>
+  <string name="notes_smsdroid">Môžete použiť SMSdroid na čítanie prichádzajúcich správ.</string>
+  <string name="notes_drafts">Dec. 2010 Koncepty: Koncepty sú uložené v databáze android správ. Použite SMSdroid alebo predvolenú SMS aplikáciu pre ich  neskoršie odoslanie.</string>
 </resources>
