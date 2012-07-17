@@ -24,7 +24,7 @@
   <string name="about_" formatted="false" orig="About">Über</string>
   <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
-  <string name="faq_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
+  <string name="faq_hint" formatted="false" username="Test " orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
   <string name="feedback_" formatted="false">Feedback</string>
   <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Fehlermeldungen, Funktionsanfragen ...</string>
   <string name="google_plus_hint" formatted="false">Folge mir auf Google+.\nErhalte Infos über Updates etc.</string>
