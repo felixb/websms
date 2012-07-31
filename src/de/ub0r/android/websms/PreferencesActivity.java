@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -48,6 +47,7 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec;
  * 
  * @author flx
  */
+@SuppressWarnings("deprecation")
 public class PreferencesActivity extends PreferenceActivity implements
 		IPreferenceContainer {
 	/** Tag for output. */
@@ -57,8 +57,6 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private static final String PREFS_THEME = "theme";
 	/** Theme: black. */
 	private static final String THEME_BLACK = "black";
-	/** Theme: light. */
-	private static final String THEME_LIGHT = "light";
 	/** Preference's name: text size. */
 	private static final String PREFS_TEXTSIZE = "textsizen";
 
@@ -84,7 +82,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	}
 
 	/**
-	 * Register {@link OnSharedPreferenceChangeListener}.
+	 * Register {@link OnPreferenceChangeListener}.
 	 * 
 	 * @param pc
 	 *            {@link IPreferenceContainer}
@@ -241,7 +239,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(final Preference preference) {
-					Log.collectAndSendLog(pc.getActivity());
+					Log.collectAndSendLog(pc.getActivity(), pc.getContext()
+							.getString(R.string.sendlog_install_), pc
+							.getContext().getString(R.string.sendlog_install),
+							pc.getContext().getString(R.string.sendlog_run_),
+							pc.getContext().getString(R.string.sendlog_run));
 					return true;
 				}
 			});

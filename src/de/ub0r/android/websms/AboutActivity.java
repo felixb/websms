@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
 /**
@@ -42,7 +41,7 @@ public final class AboutActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.about);
 		this.getSupportActionBar().setHomeButtonEnabled(true);
-		Utils.fixActionBarBackground(this.getSupportActionBar(),
+		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
 		this.setTitle(this.getString(R.string.about_) + " "
