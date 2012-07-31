@@ -86,7 +86,6 @@ import com.actionbarsherlock.view.Window;
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
-import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
@@ -647,18 +646,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			editor.remove(PREFS_CONNECTORS); // remove cache
 			editor.commit();
 		}
-		ChangelogHelper.showChangelog(this, true);
-
-		Object o = this.getPackageManager().getLaunchIntentForPackage(
-				"de.ub0r.android.smsdroid");
-		if (o == null) {
-			final Intent intent = Market.getInstallAppIntent(this,
-					"de.ub0r.android.smsdroid", Market.ALT_SMSDROID);
-			ChangelogHelper.showNotes(this, true, "get SMSdroid", null, intent);
-		} else {
-			ChangelogHelper.showNotes(this, true, null, null, null);
-		}
-		o = null;
+		ChangelogHelper.showChangelog(this,
+				this.getString(R.string.changelog_),
+				this.getString(R.string.app_name), R.array.updates,
+				R.array.notes_from_dev);
 
 		// get cached Connectors
 		String s = p.getString(PREFS_CONNECTORS, null);
@@ -772,9 +763,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		if (prefsConnectorSpec == null) {
 			this.setSupportProgressBarIndeterminateVisibility(false);
 		}
-		de.ub0r.android.lib.Utils.fixActionBarBackground(
-				this.getSupportActionBar(), this.getResources(),
-				R.drawable.bg_striped, R.drawable.bg_striped_img);
+		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
+				this.getResources(), R.drawable.bg_striped,
+				R.drawable.bg_striped_img);
 	}
 
 	/**
@@ -1267,9 +1258,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	public final void onClick(final View v) {
 		CharSequence s;
 		switch (v.getId()) {
-		case R.id.send:
-			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
-			return;
 		case R.id.select:
 			this.startActivityForResult(ContactsWrapper.getInstance()
 					.getPickPhoneIntent(), ARESULT_PICK_PHONE);
@@ -1529,6 +1517,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		Log.d(TAG, "onOptionsItemSelected(" + item.getItemId() + ")");
 		switch (item.getItemId()) {
 		case R.id.item_send:
+			Log.d(TAG, "send button clicked");
 			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
 			return true;
 		case R.id.item_draft:
@@ -1545,7 +1534,19 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 			return true;
 		case R.id.item_donate:
-			DonationHelper.startDonationActivity(this, true);
+			DonationHelper.showDonationDialog(
+					this,
+					this.getString(R.string.donate),
+					this.getString(R.string.donate_url),
+					this.getString(R.string.donate_),
+					this.getString(R.string.did_paypal_donation),
+					this.getString(R.string.remove_ads_),
+					this.getResources().getStringArray(
+							R.array.donation_messages_market),
+					this.getResources().getStringArray(
+							R.array.donation_messages_paypal),
+					this.getResources().getStringArray(
+							R.array.donation_messages_load));
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
@@ -1796,6 +1797,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	private boolean send(final ConnectorSpec connector,
 			final String subconnector) {
+		Log.d(TAG, "send(" + connector + "," + subconnector + ")");
 		if (connector == null || TextUtils.isEmpty(subconnector)) {
 			Log.e(TAG, "connector: " + connector);
 			Log.e(TAG, "subconnector: " + subconnector);

@@ -29,7 +29,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import de.ub0r.android.lib.Market;
-import de.ub0r.android.lib.Utils;
 
 /**
  * {@link SherlockActivity} showing intro.
@@ -45,7 +44,7 @@ public final class HelpActivity extends SherlockActivity implements
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.help);
-		Utils.fixActionBarBackground(this.getSupportActionBar(),
+		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
 		this.setTitle(R.string.help_title);

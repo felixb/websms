@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
@@ -69,7 +68,7 @@ public final class CaptchaActivity extends SherlockActivity implements
 		this.setTitle(this.connector.getName() + " - "
 				+ this.getString(R.string.captcha_));
 		this.getSupportActionBar().setHomeButtonEnabled(true);
-		Utils.fixActionBarBackground(this.getSupportActionBar(),
+		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
 		final Parcelable p = extras
