@@ -21,4 +21,6 @@
                Visit http://ub0r.de/translate/websms/fr/notes.xml to edit the file.
        -->
 <resources>
+  <string name="notes_smsdroid" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="You may want to use SMSdroid to read incoming messages.">Vous pouvez utiliser SMSdroid pour lire les messages entrants.</string>
+  <string name="notes_drafts" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.">Dec. 2010 Brouillons: les brouillons sont enregistrés dans la base de données des messages d\'Android. Utilisez SMSdroid ou l\'application de messagerie native d\'Android pour les envoyer plus tard.</string>
 </resources>
