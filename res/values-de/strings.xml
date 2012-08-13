@@ -119,8 +119,6 @@
   <string name="vibrate_on_fail" formatted="false">Vibration wenn Senden fehlgeschlagen</string>
   <string name="vibrate_on_send" formatted="false">Vibration wenn erfolgreich gesendet</string>
   <string name="sound_on_fail" formatted="false">Ton wenn Senden fehlgeschlagen</string>
-  <string name="source_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Sourcescode:">Quelltext:</string>
-  <string name="website_" formatted="false">Website:</string>
   <string name="to_hint" formatted="false">Name oder Nummer</string>
   <string name="text_hint" formatted="false">Text</string>
   <string name="extras_" formatted="false">Extras</string>
