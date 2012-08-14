@@ -65,8 +65,8 @@
   <string name="save_draft_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Save draft">Sauvegarder brouillon</string>
   <string name="save_chars_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Save chars">Sauvegarder caractères</string>
   <string name="settings" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Preferences">Préférences</string>
-  <string name="settings_common" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Preferences - Common">Préférences - Commun</string>
-  <string name="common_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Common">Commun</string>
+  <string name="settings_common" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Preferences - Common">Préférences - Général</string>
+  <string name="common_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Common">Général</string>
   <string name="appearance_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Appearance">Apparence</string>
   <string name="behavior_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Behavior">Comportement</string>
   <string name="appearance_and_behavior_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Appearance &amp; behavior">Apparence </string>
