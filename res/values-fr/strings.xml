@@ -63,7 +63,7 @@
   <string name="send_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Send">Envoyer</string>
   <string name="sender_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Your mobile number">Votre numéro de mobile</string>
   <string name="save_draft_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Save draft">Sauvegarder brouillon</string>
-  <string name="save_chars_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Save chars">Sauvegarder caractères</string>
+  <string name="save_chars_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Save chars">Economiser caractères</string>
   <string name="settings" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Preferences">Préférences</string>
   <string name="settings_common" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Preferences - Common">Préférences - Général</string>
   <string name="common_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Common">Général</string>
@@ -88,8 +88,8 @@
   <string name="hide_extras_button_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">Cacher bouton "Extras"</string>
   <string name="hide_extras_button_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">Cacher le bouton "Extras" sur l\'écran principal.</string>
   <string name="show_titlebar_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Show title bar">Afficher la barre de titre</string>
-  <string name="hide_select_recipients_button_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">Cacher bouton "Sélectionner"</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Cacher le bouton "Sélectionner les destinataires" sur l\'écran principal.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">Cacher bouton "Destinataires"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Cacher le bouton "Ajout de destinataires" sur l\'écran principal.</string>
   <string name="hide_clear_recipients_button_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">Cacher bouton "Effacer"</string>
   <string name="hide_clear_recipients_button_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Cacher le bouton "Effacer les destinataires" sur l\'écran principal.</string>
   <string name="hide_send_in_menu" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Send\&quot; menu item">Cacher bouton "Envoyer"</string>
@@ -98,27 +98,27 @@
   <string name="hide_emo_button_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Cacher le bouton "Emoticons" sur l\'écran principal.</string>
   <string name="hide_update" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">Cacher "Cliquer pour mise à jour"</string>
   <string name="hide_update_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">Cacher le bouton "Cliquer pour mise à jour" sur l\'écran principal.</string>
-  <string name="hide_bg_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide connector name">Cacher nom connecteur</string>
-  <string name="hide_bg_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide active connector\'s name in background.">Cacher connecteur active sur fond d\'écran</string>
+  <string name="hide_bg_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide connector name">Retirer nom connecteur</string>
+  <string name="hide_bg_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide active connector\'s name in background.">Retirer le nom du connecteur actif sur le fond d\'écran</string>
   <string name="hide_paste_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Cache bouton "Coller"</string>
   <string name="hide_paste_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Cacher le bouton "coller" sur les champs texte.</string>
-  <string name="drop_sent_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent SMS">Ne pas sauvegarder les SMS envoyés</string>
+  <string name="drop_sent_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent SMS">Ne pas stocker SMS envoyés</string>
   <string name="drop_sent_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Ne pas sauvegarder les messages envoyés dans la base de données globale</string>
-  <string name="enable_autosend_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable autosend">Activer l\'envoi-automatique</string>
-  <string name="enable_autosend_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Activer la fonctionnalité d\'envoi-automatique de SMSdroid</string>
+  <string name="enable_autosend_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable autosend">Activer l\'envoi automatique</string>
+  <string name="enable_autosend_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Activer la fonctionnalité d\'envoi automatique de SMSdroid</string>
   <string name="use_selected_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Use selected Connector">Utiliser connecteur sélectionné</string>
-  <string name="use_selected_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Utiliser le connecteur sélectionner pour l\'envoi-automatique. Décocher pour obtenir un menu de choix.</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Utiliser le connecteur sélectionné pour la fonction d\'envoi automatique. Décocher pour obtenir un menu de sélection.</string>
   <string name="default_recipient_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Default recipient">Destinataire par défaut</string>
   <string name="default_recipient_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Default recipient filled into address bar on app start.">Destinataire par défaut à inscrire dans la barre d\'adresse au démarrage de l\'application.</string>
   <string name="signature_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Signature">Signature</string>
-  <string name="signature_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Texte ajouté à la fin de chaque message. Aucun espace supplémentaire n\'est ajouté. Ajoutez " " au début si nécessaire.</string>
-  <string name="autoupdate_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Autoupdate">Auto-mise-à-jour</string>
+  <string name="signature_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Texte ajouté à la fin de chaque message. Aucun espace supplémentaire n\'est ajouté. Ajoutez en vous-même au début si nécessaire.</string>
+  <string name="autoupdate_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Autoupdate">Mise-à-jour automatique</string>
   <string name="autoupdate_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Update account balances on start.">Mettre à jour le solde de crédits au démarrage.</string>
   <string name="autoexit_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Exit WebSMS when sending sms.">Sortir de WebSMS après l\'envoi d\'un sms.</string>
   <string name="mobile_only_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Show mobiles only">Montrer mobiles seulement</string>
   <string name="mobile_only_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Show mobile numbers only.">Ne montrer que les numéros de téléphone mobiles</string>
   <string name="vibrate_on_fail" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Vibrate if sending fails">Vibrer en cas d\'échec d\'envoi</string>
-  <string name="vibrate_on_send" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Vibrate after sending">Vibrer après l\'envoi</string>
+  <string name="vibrate_on_send" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Vibrate after sending">Vibrer après envoi réussi</string>
   <string name="sound_on_fail" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Play sound if sending fails">Signal sonore en cas d\'échec d\'envoi</string>
   <string name="source_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Sourcescode:">Code source :</string>
   <string name="website_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Website:">Site web :</string>
@@ -127,8 +127,8 @@
   <string name="extras_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Extras">Extras</string>
   <string name="flashsms" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Flash SMS">Flash SMS</string>
   <string name="custom_sender" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Custom sender">Destinataire custom</string>
-  <string name="autoexit_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Autoexit">Auto-arrêt</string>
-  <string name="send_later" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Send later">Envoyer plus tard</string>
+  <string name="autoexit_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Autoexit">Arrêt automatique</string>
+  <string name="send_later" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Send later">Envoie différé</string>
   <string name="emo_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Emoticons">Emoticons</string>
   <string name="connectors_switch" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Switched connector:">Connecteur activé :</string>
   <string name="captcha_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Captcha">Captcha</string>
@@ -156,5 +156,9 @@
   <string name="custom_language_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Set a custom language.">Défini la langue de votre choix pour l\'application</string>
   <string name="custom_language_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Custom language">Langue de votre choix</string>
   <string name="try_send_invalid_characters_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Try send invalid">Essaie d\'envoi à l\'état invalide</string>
-  <string name="try_send_invalid_characters_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Try to send messages with invalid.">Essayer d\'envoyer malgré l\'état invalide.</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Try to send messages with invalid.">Essayer d\'envoyer le message malgré la présence de caractères invalides.</string>
+  <string-array name="themes" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;">
+    <item>Foncé</item>
+    <item>Clair</item>
+  </string-array>
 </resources>
