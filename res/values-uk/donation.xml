@@ -18,25 +18,9 @@
 	-->
 <resources>
   <string name="donate" formatted="false" username="rkononenko" orig="Donate">Пожертвувати</string>
-  <string name="remove_ads_" formatted="false" username="rkononenko" orig="Remove ads">Вилучити рекламу</string>
   <string name="donate_" formatted="false" username="rkononenko" orig="Donate (%s)">Пожертвувати (%s)</string>
-  <string name="donate_paypal_" formatted="false" username="rkononenko" orig="Donate (Paypal)">Пожертвувати (Paypal)</string>
-  <string name="donate_market_" formatted="false" username="rkononenko" orig="Donate (Market)">Пожертвувати (GooglePlay)</string>
   <string name="donate_remove_ads_" formatted="false" username="rkononenko" orig="Donate/remove ads">Пожертв./вилучити рекл.</string>
   <string name="did_paypal_donation" formatted="false" username="rkononenko" orig="I already did a donation via Paypal">Я вже пожертвував через Paypal</string>
-  <string name="postdonate" formatted="false" username="rkononenko" orig="To remove ads, you need to load the &lt;i&gt;noads&lt;/i&gt; code. It is available as soon the donation arrives. Please be patient and drop me a mail if it does not work within one day.">Аби вилучити рекламу, вам слвід завантажити <i>noads</i> код. Він доступний відразу після того як пожертва надходить. Будь ласка будьте терплячі та напишіть мені імейл якщо реклама не зникни напротяці дня</string>
-  <string name="google_id_" formatted="false" username="rkononenko" orig="To verify your donation your google address is required:">Аби підтвердити вашу пожертву, необхідна ваша google адреса</string>
-  <string name="donator_id_" formatted="false" username="rkononenko" orig="To verify your donation your paypal mail address is required.">Аби підтвердити вашу пожертву, необхідна ваша PayPal поштова адреса</string>
-  <string name="donator_id_hint" formatted="false" username="rkononenko" orig="Paypal address">PayPal адреса</string>
-  <string name="donator_id_missing" formatted="false" username="rkononenko" orig="Paypal address is missing">Невистачає PayPal адреси</string>
-  <string name="load_hash_" formatted="false" username="rkononenko" orig="Load &lt;i&gt;noads&lt;/i&gt; code">Завантажити <i>noads</i> код</string>
-  <string name="sig_loaded" formatted="false" username="rkononenko" orig="Ads removed!">Рекламу усунуто!</string>
-  <string name="sig_failed" formatted="false" username="rkononenko" orig="Failed to remove ads!">Не вдалося усунути реклау!</string>
-  <string name="accept_" formatted="false" username="rkononenko" orig="Accept Terms">Прийняти умови</string>
-  <string name="accept_missing" formatted="false" username="rkononenko" orig="Please accept terms before sending the data.">Будь ласка прийміть умови перед відправленням дати.</string>
-  <string name="terms" formatted="false" username="rkononenko" orig="The app will send your donation id along with the md5-hash of your IMEI to the server (http://ub0r.de/donation/). The data is needed to verify your donation.\nThe data is never given to third party and used only for verifying your donation.">Застосунок відішле ID вашої пожертви разом з md5-хешем вашого IMEI на сервер (http://ub05.de/donation/). Дата потрібна аби підтвердити вашу пожертву. Дата ніколи не продаєтсья третім особам та використовуєтсья лише для перевірки пожертви.</string>
   <string name="notify_" formatted="false" username="rkononenko" orig="Forgot to remove the ads?">Забув вилучити рекламу?</string>
-  <string name="notify_text" formatted="false" username="rkononenko" orig="To finally remove the ads, you nead to load the &lt;b&gt;noads&lt;/b&gt; Code. Click to proceed.">Аби нарешті вилучити рекламу, вам треба ввести <b>noads</b> код. Клацніте аби\nпродовжити.</string>
-  <string name="predonate" formatted="false" username="rkononenko" orig="This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating. I\'ll remove the ads for you as soon as possible.\nThank you!\n\nThe donation will remove the ads in all apps provided by me.">Це застосунок з відкритим кодом, випущена за ліцензією GPLv3. Це безкоштовний застосунок і таким залишиться. Якщо ж він вам по-справжньому подобається, або якщо вам набридла реклама, будь ласка зробіть пожертву. Я вилучу рекламу для вас якомога швидше. \nДякую!\n\nПожертва вилучить рекламу в усіх застосунка створених мною</string>
   <string name="predonate_market" formatted="false" username="rkononenko" orig="This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating.\nThank you!\n\nThe donation will remove the ads in all apps provided by me.">Це застосунок з відкритим кодом, випущена за ліцензією GPLv3. Це безкоштовний застосунок і таким залишиться. Якщо ж він вам по-справжньому подобається, або якщо вам набридла реклама, будь ласка зробіть пожертву.\nДякую!\n\nПожертва вилучить рекламу в усіх застосунка створених мною</string>
 </resources>
