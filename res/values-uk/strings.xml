@@ -148,4 +148,17 @@
   <string name="status_disabled" formatted="false" username="rkononenko" orig="Status: disabled\n(Updated when returning to main screen)">Статус: вимкнуто\n (Оновлено після повернення до головного меню)</string>
   <string name="status_enabled" formatted="false" username="rkononenko" orig="Status: enabled\n(Updated when returning to main screen)">Статус: увімкнуто\n (Оновлено після повернення до головного меню)</string>
   <string name="status_ready" formatted="false" username="rkononenko" orig="Status: ready\n(Updated when returning to main screen)">Статус: готовий\n (Оновлено після повернення до головного меню)</string>
+  <string name="debug_" formatted="false" username="rkononenko" orig="Debug">Debug</string>
+  <string name="send_logs_hint" formatted="false" username="rkononenko" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Пересилайте ваші лог-фали розробнику. \nРобіте це лише якщо вас попрохали про це</string>
+  <string name="send_logs_" formatted="false" username="rkononenko" orig="Send logs">Пересилайте лог-файли</string>
+  <string name="sendlog_run_" formatted="false" username="rkononenko" orig="Run SendLog">Запустити Sendlog</string>
+  <string name="custom_language_" formatted="false" username="rkononenko" orig="Custom language">Обрати мову</string>
+  <string name="custom_language_hint" formatted="false" username="rkononenko" orig="Set a custom language.">Обрати мову</string>
+  <string-array name="themes" username="rkononenko">
+    <item>Чорне</item>
+    <item>Біляве</item>
+  </string-array>
+  <string name="sendlog_install" formatted="false" username="rkononenko" orig="Install the free SendLog application to collect the device log and send it to the developer.">Інсталюйте безкоштовну SendLog програму, щоб зібрати лог-пристою та відіслати це до розробника</string>
+  <string name="sendlog_install_" formatted="false" username="rkononenko" orig="Install SendLog">Інталювати SendLog</string>
+  <string name="sendlog_run" formatted="false" username="rkononenko" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog збуре логи пристрою та перешле їх розробнику. \nУ вас буде можливість переглятути та змінити дату перед відправленням</string>
 </resources>
