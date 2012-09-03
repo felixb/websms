@@ -182,10 +182,13 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		// Display notification if sending failed
 		final String[] r = command.getRecipients();
 		final int l = r.length;
-		StringBuilder buf = new StringBuilder(r[0]);
-		for (int i = 1; i < l; i++) {
-			buf.append(", ");
-			buf.append(r[i]);
+		StringBuilder buf = new StringBuilder();
+		if (l > 0) {
+			buf.append(r[0]);
+			for (int i = 1; i < l; i++) {
+				buf.append(", ");
+				buf.append(r[i]);
+			}
 		}
 		final String to = buf.toString();
 		buf = null;

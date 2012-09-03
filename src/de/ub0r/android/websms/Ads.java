@@ -45,10 +45,7 @@ public final class Ads {
 	/** Tag for output. */
 	private static final String TAG = "ads";
 
-	/** Size of an large ad. */
-	// private final static int AD_HSIZE = 728;
-
-	/** The previously used ad unit id */
+	/** The previously used ad unit id. */
 	private static String previousAdUnitId;
 
 	/**
@@ -146,18 +143,18 @@ public final class Ads {
 		Log.d(TAG, "loadAd() end");
 	}
 
+	/**
+	 * Create {@link AdView}.
+	 * 
+	 * @param activity
+	 *            {@link Activity}
+	 * @param unitId
+	 *            admob unit id
+	 * @return {@link AdView}
+	 */
 	private static AdView createAdView(final Activity activity,
 			final String unitId) {
-		AdSize as = AdSize.BANNER;
-		// TODO
-		// final DisplayMetrics metrics = new DisplayMetrics();
-		// this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		// if (metrics.heightPixels > AD_HSIZE && metrics.widthPixels >
-		// AD_HSIZE) {
-		// as = AdSize.IAB_LEADERBOARD;
-		// }
-		// metrics = null;
-		AdView adv = new AdView(activity, as, unitId);
+		AdView adv = new AdView(activity, AdSize.SMART_BANNER, unitId);
 		return adv;
 	}
 }

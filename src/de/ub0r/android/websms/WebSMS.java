@@ -794,7 +794,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					final String phone = ContactsWrapper.getInstance()
 							.getNameAndNumber(this.getContentResolver(), u)
 							+ ", ";
-					String t = this.etTo.getText().toString().trim();
+					String t = null;
+					if (this.etTo != null) {
+						this.etTo.getText().toString().trim();
+					}
 					if (TextUtils.isEmpty(t) && !TextUtils.isEmpty(this.lastTo)) {
 						t = this.lastTo.trim();
 					}
@@ -1537,16 +1540,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			DonationHelper.showDonationDialog(
 					this,
 					this.getString(R.string.donate),
-					this.getString(R.string.donate_url),
 					this.getString(R.string.donate_),
 					this.getString(R.string.did_paypal_donation),
-					this.getString(R.string.remove_ads_),
 					this.getResources().getStringArray(
-							R.array.donation_messages_market),
-					this.getResources().getStringArray(
-							R.array.donation_messages_paypal),
-					this.getResources().getStringArray(
-							R.array.donation_messages_load));
+							R.array.donation_messages_market));
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
