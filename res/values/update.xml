@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v4.5.1: fix dark theme again</item>
 		<item>v4.5: update translations</item>
 		<item>v4.4.2: fix non clickable icon, fix FCs</item>
 		<item>v4.4.1: fix dark themed action bar</item>
