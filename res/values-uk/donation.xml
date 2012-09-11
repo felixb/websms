@@ -21,6 +21,5 @@
   <string name="donate_" formatted="false" username="rkononenko" orig="Donate (%s)">Пожертвувати (%s)</string>
   <string name="donate_remove_ads_" formatted="false" username="rkononenko" orig="Donate/remove ads">Пожертв./вилучити рекл.</string>
   <string name="did_paypal_donation" formatted="false" username="rkononenko" orig="I already did a donation via Paypal">Я вже пожертвував через Paypal</string>
-  <string name="notify_" formatted="false" username="rkononenko" orig="Forgot to remove the ads?">Забув вилучити рекламу?</string>
   <string name="predonate_market" formatted="false" username="rkononenko" orig="This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating.\nThank you!\n\nThe donation will remove the ads in all apps provided by me.">Це застосунок з відкритим кодом, випущена за ліцензією GPLv3. Це безкоштовний застосунок і таким залишиться. Якщо ж він вам по-справжньому подобається, або якщо вам набридла реклама, будь ласка зробіть пожертву.\nДякую!\n\nПожертва вилучить рекламу в усіх застосунка створених мною</string>
 </resources>
