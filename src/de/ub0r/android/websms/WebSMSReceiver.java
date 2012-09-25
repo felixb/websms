@@ -139,7 +139,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 
 		try {
-			WebSMS.addConnector(specs);
+			WebSMS.addConnector(specs, command);
 		} catch (Exception e) {
 			Log.e(TAG, "error while receiving broadcast", e);
 		}

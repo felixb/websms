@@ -287,6 +287,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Show cancel button. */
 	private static boolean prefsShowCancel = true;
 
+	/** An estimate of the number of connectors that are remaining to be added. */
+	private static int newConnectorsExpected = 0;
+
 	/** TextWatcher en-/disable send/cancel buttons. */
 	private TextWatcher twButtons = new TextWatcher() {
 		/**
@@ -631,6 +634,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.setContentView(R.layout.main);
 		this.getSupportActionBar().setHomeButtonEnabled(true);
 
+		// indeterminate progress bar is spinning by default so stop it,
+		// updateProgressBar will start it again if necessary
+		this.setSupportProgressBarIndeterminateVisibility(false);
+
 		this.etTo = (MultiAutoCompleteTextView) this.findViewById(R.id.to);
 		this.etText = (EditText) this.findViewById(R.id.text);
 		this.etTextLabel = (TextView) this.findViewById(R.id.text_);
@@ -760,9 +767,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 		}
 
-		if (prefsConnectorSpec == null) {
-			this.setSupportProgressBarIndeterminateVisibility(false);
-		}
 		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
@@ -835,6 +839,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		final Intent i = new Intent(Connector.ACTION_CONNECTOR_UPDATE);
 		i.setFlags(i.getFlags() | Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 		Log.d(TAG, "send broadcast: " + i.getAction());
+		newConnectorsExpected = this.getInstalledConnectorsCount()
+				- CONNECTORS.size();
+		updateProgressBar();
 		this.sendBroadcast(i);
 	}
 
@@ -865,10 +872,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 		} else {
 			// check is count of connectors changed
-			final List<ResolveInfo> ri = this.getPackageManager()
-					.queryBroadcastReceivers(
-							new Intent(Connector.ACTION_CONNECTOR_UPDATE), 0);
-			final int s1 = ri.size();
+			final int s1 = this.getInstalledConnectorsCount();
 			final int s2 = CONNECTORS.size();
 			if (s1 != s2) {
 				Log.d(TAG, "clear connector cache (" + s1 + "/" + s2 + ")");
@@ -1227,11 +1231,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		default:
 			break;
 		}
-		if (me != null
-				&& prefsConnectorSpec != null
-				&& (t == ConnectorCommand.TYPE_BOOTSTRAP || t == ConnectorCommand.TYPE_UPDATE)) {
-			me.setSupportProgressBarIndeterminateVisibility(true);
-		}
+		updateProgressBar();
 		intent.setFlags(intent.getFlags()
 				| Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 		Log.d(TAG, "send broadcast: " + intent.getAction());
@@ -1975,7 +1975,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param connector
 	 *            connector
 	 */
-	static final void addConnector(final ConnectorSpec connector) {
+	static final void addConnector(final ConnectorSpec connector,
+			final ConnectorCommand command) {
 		synchronized (CONNECTORS) {
 			if (connector == null || connector.getPackage() == null
 					|| connector.getName() == null) {
@@ -1986,7 +1987,14 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				Log.d(TAG, "update connector with id: " + c.getPackage());
 				Log.d(TAG, "update connector with name: " + c.getName());
 				c.setErrorMessage((String) null); // fix sticky error status
+				short wasRunningStatus = c.getRunningStatus();
 				c.update(connector);
+				if (command.getType() == ConnectorCommand.TYPE_NONE) {
+					// if this info is not a response to a command then
+					// preserve the running status
+					Log.d(TAG, "preserving running status if any");
+					c.addStatus(wasRunningStatus);
+				}
 				if (me != null) {
 					final SharedPreferences p = PreferenceManager
 							.getDefaultSharedPreferences(me);
@@ -2000,6 +2008,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					}
 				}
 			} else {
+				--newConnectorsExpected;
 				final String pkg = connector.getPackage();
 				final String name = connector.getName();
 				if (connector.getSubConnectorCount() == 0 || name == null
@@ -2065,26 +2074,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				if (b != null && (ob == null || !b.equals(ob))) {
 					me.updateBalance();
 				}
-
-				ConnectorSpec[] running = getConnectors(
-						ConnectorSpec.CAPABILITIES_UPDATE,
-						ConnectorSpec.STATUS_ENABLED
-								| ConnectorSpec.STATUS_UPDATING);
-				Log.d(TAG, "running connectors: " + running.length);
-				boolean runningConnectors = running.length != 0;
-				if (!runningConnectors) {
-					ConnectorSpec[] booting = getConnectors(
-							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
-							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING);
-					Log.d(TAG, "booting connectors: " + booting.length);
-					runningConnectors = booting.length != 0;
-				}
-				if (runningConnectors) {
-					me.setSupportProgressBarIndeterminateVisibility(true);
-				} else {
-					me.setSupportProgressBarIndeterminateVisibility(false);
-				}
+				updateProgressBar();
 				if (prefsConnectorSpec != null && prefsConnectorSpec.equals(c)) {
 					me.setButtons();
 				}
@@ -2188,6 +2178,49 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				}
 			}
 			return ret.toArray(new ConnectorSpec[0]);
+		}
+	}
+
+	/**
+	 * Get the number of connector applications that are installed on the
+	 * system.
+	 * 
+	 * @return the number of connector applications
+	 */
+	private int getInstalledConnectorsCount() {
+		final List<ResolveInfo> ri = this.getPackageManager()
+				.queryBroadcastReceivers(
+						new Intent(Connector.ACTION_CONNECTOR_UPDATE), 0);
+		return ri.size();
+	}
+
+	/**
+	 * Enables or disables indeterminate progress bar based on the current state
+	 */
+	private static void updateProgressBar() {
+		if (me != null) {
+			boolean needProgressBar = false;
+			if (newConnectorsExpected > 0) {
+				Log.d(TAG, "expecting connector info: " + newConnectorsExpected);
+				needProgressBar = true;
+			} else {
+				ConnectorSpec[] running = getConnectors(
+						ConnectorSpec.CAPABILITIES_UPDATE,
+						ConnectorSpec.STATUS_ENABLED
+								| ConnectorSpec.STATUS_UPDATING);
+				Log.d(TAG, "running connectors: " + running.length);
+				if (running.length != 0) {
+					needProgressBar = true;
+				} else {
+					ConnectorSpec[] booting = getConnectors(
+							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
+							ConnectorSpec.STATUS_ENABLED
+									| ConnectorSpec.STATUS_BOOTSTRAPPING);
+					Log.d(TAG, "booting connectors: " + booting.length);
+					needProgressBar = (booting.length != 0);
+				}
+			}
+			me.setSupportProgressBarIndeterminateVisibility(needProgressBar);
 		}
 	}
 }
