@@ -1106,7 +1106,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				t += " - " + prefsSubConnectorSpec.getName();
 			}
 			this.setTitle(t);
-			String s = prefsConnectorSpec.getName();
+			String s = t;
 			if (lastSendLater > 0L) {
 				Calendar cal = Calendar.getInstance();
 				cal.setTimeInMillis(lastSendLater);
