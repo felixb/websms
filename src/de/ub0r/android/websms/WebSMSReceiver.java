@@ -19,6 +19,7 @@
 package de.ub0r.android.websms;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -100,6 +101,16 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** LED blink off (ms) for notification. */
 	private static final int NOTIFICATION_LED_OFF = 2000;
 
+	/** Tag for notification about resending */
+	private static final String NOTIFICATION_RESENDING_TAG = "resending";
+	/** Tag for notification about cancelling a resend */
+	private static final String NOTIFICATION_CANCELLING_RESEND_TAG = "cancelling_resend";
+
+	private static final long RESEND_DELAY_MS = 5000;
+
+	/** List of ids of messages that should not be resent any more. */
+	private static List<Long> resendCancelledMsgIds = new ArrayList<Long>();
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -112,11 +123,15 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		}
 		if (Connector.ACTION_INFO.equals(action)) {
 			WebSMSReceiver.handleInfoAction(context, intent);
+
 		} else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
 			final Intent i = new Intent(context, CaptchaActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			i.putExtras(intent.getExtras());
 			context.startActivity(i);
+
+		} else if (Connector.ACTION_CANCEL.equals(action)) {
+			WebSMSReceiver.handleCancelAction(context, intent);
 		}
 	}
 
@@ -150,7 +165,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * Save sent message or display error notification if failed sending.
+	 * Handle result of message sending.
 	 * 
 	 * @param specs
 	 *            {@link ConnectorSpec}
@@ -165,10 +180,13 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			final Context context, final Intent intent,
 			final ConnectorCommand command) {
 
+		boolean isHandled = false;
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
 		if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
+			// Sent successfully
 			saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
-			final SharedPreferences p = PreferenceManager
-					.getDefaultSharedPreferences(context);
 			if (p.getBoolean(WebSMS.PREFS_SEND_VIBRATE, false)) {
 				final Vibrator v = (Vibrator) context
 						.getSystemService(Context.VIBRATOR_SERVICE);
@@ -177,21 +195,77 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 					v.cancel();
 				}
 			}
-			return;
+			isHandled = true;
+			messageCompleted(context, command);
 		}
-		// Display notification if sending failed
-		final String[] r = command.getRecipients();
-		final int l = r.length;
-		StringBuilder buf = new StringBuilder();
-		if (l > 0) {
-			buf.append(r[0]);
-			for (int i = 1; i < l; i++) {
-				buf.append(", ");
-				buf.append(r[i]);
+
+		if (!isHandled) {
+			// Resend if possible (network might be down temporarily or an odd
+			// failure on the provider's web side)
+			final int maxResendCount = Integer.parseInt(p.getString(
+					WebSMS.PREFS_MAX_RESEND_COUNT, "0"));
+			if (maxResendCount > 0) {
+				int wasResendCount = command.getResendCount();
+
+				if (wasResendCount < maxResendCount
+						&& !isResendCancelled(command.getMsgId())) {
+
+					// schedule resend
+					command.setResendCount(wasResendCount + 1);
+					displayResendingNotification(context, command);
+					WebSMS.reRunCommand(context, specs, command,
+							RESEND_DELAY_MS);
+
+					isHandled = true;
+				}
 			}
 		}
-		final String to = buf.toString();
-		buf = null;
+
+		if (!isHandled) {
+			// Display notification if sending failed
+			displaySendingFailedNotification(specs, context, command);
+			final String em = specs.getErrorMessage();
+			if (em != null) {
+				Toast.makeText(context, em, Toast.LENGTH_LONG).show();
+			}
+			isHandled = true;
+			messageCompleted(context, command);
+		}
+	}
+
+	/**
+	 * Handle cancellation request.
+	 * 
+	 * @param context
+	 *            context
+	 * @param intent
+	 *            intent
+	 */
+	private static void handleCancelAction(final Context context,
+			final Intent intent) {
+		final ConnectorCommand command = new ConnectorCommand(intent);
+		cancelResend(command.getMsgId());
+		displayCancellingResendNotification(context, command);
+	}
+
+	/**
+	 * Displays notification if sending failed
+	 * 
+	 * @param specs
+	 *            {@link ConnectorSpec}
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	private static void displaySendingFailedNotification(
+			final ConnectorSpec specs, final Context context,
+			final ConnectorCommand command) {
+
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
+		String to = Utils.joinRecipients(command.getRecipients(), ", ");
 
 		Notification n = new Notification(R.drawable.stat_notify_sms_failed,
 				context.getString(R.string.notify_failed_),
@@ -215,8 +289,6 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		n.ledOnMS = NOTIFICATION_LED_ON;
 		n.ledOffMS = NOTIFICATION_LED_OFF;
 
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(context);
 		final boolean vibrateOnFail = p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE,
 				false);
 		final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
@@ -235,6 +307,139 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		NotificationManager mNotificationMgr = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationMgr.notify(getNotificationID(), n);
+	}
+
+	/**
+	 * Displays (or updates) notification about resending a failed message.
+	 * 
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	private static void displayResendingNotification(final Context context,
+			final ConnectorCommand command) {
+
+		long msgId = command.getMsgId();
+
+		Notification n = new Notification(R.drawable.stat_notify_resending,
+				context.getString(R.string.notify_failed_now_resending),
+				System.currentTimeMillis());
+
+		// Clicking on the notification will send a cancellation request
+		final Intent i = new Intent(Connector.ACTION_CANCEL);
+		command.setToIntent(i);
+		PendingIntent pIntent = PendingIntent.getBroadcast(context,
+				(int) msgId, i, PendingIntent.FLAG_UPDATE_CURRENT);
+		n.setLatestEventInfo(context,
+				context.getString(R.string.resending_failed_msg_),
+				getResendSummary(context, command), pIntent);
+
+		n.flags |= Notification.FLAG_NO_CLEAR;
+		n.flags |= Notification.FLAG_ONGOING_EVENT;
+
+		NotificationManager mNotificationMgr = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		// There might be several messages being resent,
+		// so we use msgId to distinguish them
+		mNotificationMgr.notify(NOTIFICATION_RESENDING_TAG, (int) msgId, n);
+	}
+
+	/**
+	 * Displays notification about cancelling a resend.
+	 * 
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	private static void displayCancellingResendNotification(
+			final Context context, final ConnectorCommand command) {
+
+		long msgId = command.getMsgId();
+
+		Notification n = new Notification(R.drawable.stat_notify_resending,
+				context.getString(R.string.cancelling_resend),
+				System.currentTimeMillis());
+
+		// on click, do nothing
+		PendingIntent pIntent = PendingIntent.getActivity(context, (int) msgId,
+				new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+
+		n.setLatestEventInfo(context,
+				context.getString(R.string.cancelling_resend),
+				getResendSummary(context, command), pIntent);
+
+		n.flags |= Notification.FLAG_AUTO_CANCEL;
+		n.flags |= Notification.FLAG_ONGOING_EVENT;
+
+		NotificationManager mNotificationMgr = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationMgr.cancel(NOTIFICATION_RESENDING_TAG, (int) msgId);
+		mNotificationMgr.notify(NOTIFICATION_CANCELLING_RESEND_TAG,
+				(int) msgId, n);
+	}
+
+	/**
+	 * Returns a brief description of a resend attempt.
+	 * 
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 * @return description
+	 */
+	private static String getResendSummary(final Context context,
+			final ConnectorCommand command) {
+		String to = Utils.joinRecipients(command.getRecipients(), ", ");
+		return context.getString(R.string.attempt) + ": "
+				+ command.getResendCount() + ", "
+				+ context.getString(R.string.to) + ": " + to;
+	}
+
+	/**
+	 * Cleans up after a message sending has been completed (successfully or
+	 * not).
+	 * 
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	private static void messageCompleted(final Context context,
+			final ConnectorCommand command) {
+		long msgId = command.getMsgId();
+
+		// clear notification
+		NotificationManager mNotificationMgr = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationMgr.cancel(NOTIFICATION_RESENDING_TAG, (int) msgId);
+		mNotificationMgr
+				.cancel(NOTIFICATION_CANCELLING_RESEND_TAG, (int) msgId);
+
+		// clear flags
+		resendCancelledMsgIds.remove(msgId);
+	}
+
+	/**
+	 * Checks if this message should not be sent any more.
+	 * 
+	 * @param msgId
+	 *            message id
+	 * @return cancelled
+	 */
+	private static boolean isResendCancelled(final long msgId) {
+		return resendCancelledMsgIds.contains(msgId);
+	}
+
+	/**
+	 * Marks the message as cancelled so that it does not get resent any more.
+	 * 
+	 * @param msgId
+	 *            message id
+	 */
+	private static void cancelResend(final long msgId) {
+		resendCancelledMsgIds.add(msgId);
 	}
 
 	/**

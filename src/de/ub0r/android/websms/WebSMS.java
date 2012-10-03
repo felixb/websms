@@ -54,6 +54,7 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
@@ -187,6 +188,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	private static final String PREFS_DEFAULT_RECIPIENT = "default_recipient";
 	/** Preference's name: signature. */
 	private static final String PREFS_SIGNATURE = "signature";
+	/** Preference's name: max resend count. */
+	static final String PREFS_MAX_RESEND_COUNT = "max_resend_count";
+	/** Preference's name: internal id of the last message. */
+	static final String PREFS_LAST_MSG_ID = "last_msg_id";
 
 	/** Preference's name: last time help was shown. */
 	private static final String PREFS_LASTHELP = "last_help";
@@ -289,6 +294,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
 	/** An estimate of the number of connectors that are remaining to be added. */
 	private static int newConnectorsExpected = 0;
+
+	private Handler threadHandler;
 
 	/** TextWatcher en-/disable send/cancel buttons. */
 	private TextWatcher twButtons = new TextWatcher() {
@@ -618,6 +625,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.setTheme(PreferencesActivity.getTheme(this));
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate(" + savedInstanceState + ")");
+		this.threadHandler = new Handler();
 
 		// Restore preferences
 		de.ub0r.android.lib.Utils.setLocale(this);
@@ -1196,13 +1204,13 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * Send a command as broadcast.
 	 * 
 	 * @param context
-	 *            WebSMS required for performance issues
+	 *            Current context
 	 * @param connector
 	 *            {@link ConnectorSpec}
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	static final void runCommand(final WebSMS context,
+	static final void runCommand(final Context context,
 			final ConnectorSpec connector, final ConnectorCommand command) {
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
@@ -1251,6 +1259,30 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}, null, Activity.RESULT_CANCELED, null, null);
 		} else {
 			context.sendBroadcast(intent);
+		}
+	}
+
+	/**
+	 * Resend a command as broadcast.
+	 * 
+	 * @param context
+	 *            Current context
+	 * @param connector
+	 *            {@link ConnectorSpec}
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 * @param delayMs
+	 *            delay in milliseconds
+	 */
+	static final void reRunCommand(final Context context,
+			final ConnectorSpec connector, final ConnectorCommand command,
+			final long delayMs) {
+		if (me != null) {
+			me.threadHandler.postDelayed(new Runnable() {
+				public void run() {
+					runCommand(context, connector, command);
+				}
+			}, delayMs);
 		}
 	}
 
@@ -1776,8 +1808,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.displayAds();
 
 		final String[] tos = Utils.parseRecipients(to);
-		final ConnectorCommand command = ConnectorCommand.send(null, null,
-				null, tos, text, false);
+		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
+				null, null, null, tos, text, false);
 		WebSMSReceiver.saveMessage(null, this, command,
 				WebSMSReceiver.MESSAGE_TYPE_DRAFT);
 		this.reset(false);
@@ -1854,8 +1886,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		final String defSender = p.getString(PREFS_SENDER, "");
 
 		final String[] tos = Utils.parseRecipients(to);
-		final ConnectorCommand command = ConnectorCommand.send(subconnector,
-				defPrefix, defSender, tos, text, flashSMS);
+		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
+				subconnector, defPrefix, defSender, tos, text, flashSMS);
 		command.setCustomSender(lastCustomSender);
 		command.setSendLater(lastSendLater);
 
@@ -2000,7 +2032,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 							.getDefaultSharedPreferences(me);
 					final String em = c.getErrorMessage();
 					if (em != null) {
-						Toast.makeText(me, em, Toast.LENGTH_LONG).show();
+						if (command.getType() != ConnectorCommand.TYPE_SEND) {
+							Toast.makeText(me, em, Toast.LENGTH_LONG).show();
+						}
 					} else if (p.getBoolean(PREFS_SHOW_BALANCE_TOAST, false)
 							&& !TextUtils.isEmpty(c.getBalance())) {
 						Toast.makeText(me, c.getName() + ": " + c.getBalance(),
@@ -2195,7 +2229,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	}
 
 	/**
-	 * Enables or disables indeterminate progress bar based on the current state
+	 * Enables or disables indeterminate progress bar based on the current
+	 * state.
 	 */
 	private static void updateProgressBar() {
 		if (me != null) {
@@ -2222,5 +2257,22 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 			me.setSupportProgressBarIndeterminateVisibility(needProgressBar);
 		}
+	}
+
+	/**
+	 * Generates unique id for the next message.
+	 * 
+	 * @param context
+	 *            Current context
+	 * @return message id
+	 */
+	private static synchronized long nextMsgId(final Context context) {
+		final SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		long nextMsgId = p.getLong(PREFS_LAST_MSG_ID, 0) + 1;
+		SharedPreferences.Editor editor = p.edit();
+		editor.putLong(PREFS_LAST_MSG_ID, nextMsgId);
+		editor.commit();
+		return nextMsgId;
 	}
 }
