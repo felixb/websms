@@ -41,9 +41,9 @@ res/values-ro/notes.xml:2
 res/values-ro/strings.xml:128
 res/values-ru/donation.xml:0
 res/values-ru/help.xml:0
-res/values-ru/market.xml:3
+res/values-ru/market.xml:4
 res/values-ru/notes.xml:2
-res/values-ru/strings.xml:130
+res/values-ru/strings.xml:133
 res/values-sk/donation.xml:0
 res/values-sk/help.xml:0
 res/values-sk/market.xml:0
@@ -62,6 +62,6 @@ res/values-fr:156
 res/values-hu:129
 res/values-it:137
 res/values-ro:140
-res/values-ru:135
+res/values-ru:139
 res/values-sk:132
 res/values-uk:156

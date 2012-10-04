@@ -152,4 +152,7 @@
   <string name="google_plus_hint" formatted="false" username="ergodroid" orig="Follow me on Google+.\nGet update notifications etc.">Присоединяетесь к Google+ и получайте уведомления об обновлениях и пр.</string>
   <string name="show_balance_toast_hint" formatted="false" username="ergodroid" orig="Show toast notification on balance update.">Показывать всплывающее уведомление при обновлении информации о балансе</string>
   <string name="show_balance_toast_" formatted="false" username="ergodroid" orig="Show balance toast">Уведомление о балансе</string>
+  <string name="sendlog_install_" formatted="false" username="kavdiev" orig="Install SendLog">Установить SendLog</string>
+  <string name="sendlog_run_" formatted="false" username="kavdiev" orig="Run SendLog">Запустить SendLog</string>
+  <string name="send_logs_" formatted="false" username="kavdiev" orig="Send logs">Отправить запись</string>
 </resources>
