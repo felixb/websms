@@ -113,7 +113,8 @@
             <intent-filter>
                 <action android:name="de.ub0r.android.websms.connector.INFO" />
                 <action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
-            </intent-filter>
+                <action android:name="de.ub0r.android.websms.connector.CANCEL" />
+                </intent-filter>
         </receiver>
         <receiver
             android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
