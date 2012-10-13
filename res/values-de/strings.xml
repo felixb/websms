@@ -161,4 +161,11 @@
   <string name="source_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Sourcescode:">Quelltext:</string>
   <string name="custom_language_" formatted="false">Andere Sprache</string>
   <string name="custom_language_hint" formatted="false">Eine andere Sprache einstellen.</string>
+  <string name="max_resend_count_" formatted="false">Max Versuche</string>
+  <string name="max_resend_count_hint" formatted="false">Maximale Anzahl Versuche die Nachricht erneut zu senden, wenn Senden fehl schlägt.</string>
+  <string name="notify_failed_now_resending" formatted="false">WebSMS: Senden fehlgeschlagen, versuche erneut</string>
+  <string name="resending_failed_msg_" formatted="false">WebSMS: Erneutes senden</string>
+  <string name="cancelling_resend" formatted="false">WebSMS: Erneutes senden abgebrochen ...</string>
+  <string name="attempt" formatted="false">Versuch</string>
+  <string name="to" formatted="false">An</string>
 </resources>
