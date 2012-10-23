@@ -22,6 +22,11 @@
         android:showAsAction="always|never"
         android:title="@string/update_"/>
     <item
+        android:id="@+id/item_connector"
+        android:icon="@android:drawable/ic_menu_share"
+        android:showAsAction="ifRoom|never"
+        android:title="@string/change_connector_"/>
+    <item
         android:id="@+id/item_send"
         android:icon="@drawable/ic_menu_send"
         android:showAsAction="ifRoom|never"
@@ -31,11 +36,6 @@
         android:icon="@android:drawable/ic_menu_save"
         android:showAsAction="never"
         android:title="@string/save_draft_"/>
-    <item
-        android:id="@+id/item_connector"
-        android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="never"
-        android:title="@string/change_connector_"/>
     <item
         android:id="@+id/item_savechars"
         android:icon="@android:drawable/ic_menu_sort_alphabetically"
