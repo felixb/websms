@@ -114,6 +114,7 @@
                 <action android:name="de.ub0r.android.websms.connector.INFO" />
                 <action android:name="de.ub0r.android.websms.connector.CAPTCHA_REQUEST" />
                 <action android:name="de.ub0r.android.websms.connector.CANCEL" />
+                <action android:name="de.ub0r.android.websms.connector.RESEND" />
                 </intent-filter>
         </receiver>
         <receiver
