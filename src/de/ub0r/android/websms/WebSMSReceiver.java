@@ -21,6 +21,7 @@ package de.ub0r.android.websms;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,6 +34,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
@@ -132,6 +134,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 		} else if (Connector.ACTION_CANCEL.equals(action)) {
 			WebSMSReceiver.handleCancelAction(context, intent);
+
+		} else if (Connector.ACTION_RESEND.equals(action)) {
+			WebSMSReceiver.handleResendAction(context, intent);
 		}
 	}
 
@@ -213,8 +218,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 					// schedule resend
 					command.setResendCount(wasResendCount + 1);
 					displayResendingNotification(context, command);
-					WebSMS.reRunCommand(context, specs, command,
-							RESEND_DELAY_MS);
+					scheduleMessageResend(specs, context, command);
 
 					isHandled = true;
 				}
@@ -224,10 +228,6 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (!isHandled) {
 			// Display notification if sending failed
 			displaySendingFailedNotification(specs, context, command);
-			final String em = specs.getErrorMessage();
-			if (em != null) {
-				Toast.makeText(context, em, Toast.LENGTH_LONG).show();
-			}
 			isHandled = true;
 			messageCompleted(context, command);
 		}
@@ -246,6 +246,29 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		final ConnectorCommand command = new ConnectorCommand(intent);
 		cancelResend(command.getMsgId());
 		displayCancellingResendNotification(context, command);
+	}
+
+	/**
+	 * Handle resend request.
+	 * 
+	 * @param context
+	 *            context
+	 * @param intent
+	 *            intent
+	 */
+	private static void handleResendAction(final Context context,
+			final Intent intent) {
+
+		final ConnectorSpec connector = new ConnectorSpec(intent);
+		final ConnectorCommand command = new ConnectorCommand(intent);
+		long msgId = command.getMsgId();
+
+		if (!isResendCancelled(msgId)) {
+			WebSMS.runCommand(context, connector, command);
+		} else {
+			displaySendingFailedNotification(connector, context, command);
+			messageCompleted(context, command);
+		}
 	}
 
 	/**
@@ -307,6 +330,12 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		NotificationManager mNotificationMgr = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationMgr.notify(getNotificationID(), n);
+
+		// show a toast as well
+		final String em = specs.getErrorMessage();
+		if (em != null) {
+			Toast.makeText(context, em, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	/**
@@ -563,4 +592,32 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			command.setMsgUris(inserted.toArray(new String[] {}));
 		}
 	}
+
+	/**
+	 * Schedules resend of a message.
+	 * 
+	 * @param specs
+	 *            {@link ConnectorSpec}
+	 * @param context
+	 *            context
+	 * @param command
+	 *            {@link ConnectorCommand}
+	 */
+	private static void scheduleMessageResend(final ConnectorSpec specs,
+			final Context context, final ConnectorCommand command) {
+
+		long msgId = command.getMsgId();
+
+		final Intent resendIntent = new Intent(Connector.ACTION_RESEND);
+		command.setToIntent(resendIntent);
+		specs.setToIntent(resendIntent);
+
+		AlarmManager alarmMgr = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				SystemClock.elapsedRealtime() + RESEND_DELAY_MS, PendingIntent
+						.getBroadcast(context, (int) msgId, resendIntent,
+								PendingIntent.FLAG_CANCEL_CURRENT));
+	}
+
 }

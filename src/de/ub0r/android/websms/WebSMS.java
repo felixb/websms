@@ -1228,8 +1228,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			intent.setAction(connector.getPackage() + Connector.ACTION_RUN_SEND);
 			connector.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
-			WebSMSReceiver.saveMessage(connector, me, command,
-					WebSMSReceiver.MESSAGE_TYPE_DRAFT);
+			if (command.getResendCount() == 0) {
+				WebSMSReceiver.saveMessage(connector, me, command,
+						WebSMSReceiver.MESSAGE_TYPE_DRAFT);
+			}
 			break;
 		case ConnectorCommand.TYPE_UPDATE:
 			intent.setAction(connector.getPackage()
@@ -1259,30 +1261,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}, null, Activity.RESULT_CANCELED, null, null);
 		} else {
 			context.sendBroadcast(intent);
-		}
-	}
-
-	/**
-	 * Resend a command as broadcast.
-	 * 
-	 * @param context
-	 *            Current context
-	 * @param connector
-	 *            {@link ConnectorSpec}
-	 * @param command
-	 *            {@link ConnectorCommand}
-	 * @param delayMs
-	 *            delay in milliseconds
-	 */
-	static final void reRunCommand(final Context context,
-			final ConnectorSpec connector, final ConnectorCommand command,
-			final long delayMs) {
-		if (me != null) {
-			me.threadHandler.postDelayed(new Runnable() {
-				public void run() {
-					runCommand(context, connector, command);
-				}
-			}, delayMs);
 		}
 	}
 

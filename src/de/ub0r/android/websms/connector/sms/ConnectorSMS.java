@@ -101,6 +101,7 @@ public class ConnectorSMS extends Connector {
 		try {
 			final String[] r = command.getRecipients();
 			final String text = command.getText();
+			final long msgId = command.getMsgId();
 			Log.d(TAG, "text: " + text);
 			int[] l = SmsMessage.calculateLength(text, false);
 			Log.i(TAG, "text7: " + text.length() + ", " + l[0] + " " + l[1]
@@ -123,8 +124,9 @@ public class ConnectorSMS extends Connector {
 							context, ConnectorSMS.class);
 					command.setToIntent(sent);
 					specs.setToIntent(sent);
-					sentIntents.add(PendingIntent.getBroadcast(context, 0,
-							sent, 0));
+					sentIntents.add(PendingIntent.getBroadcast(context,
+							(int) msgId, sent,
+							PendingIntent.FLAG_UPDATE_CURRENT));
 				}
 				final NotificationManager nm = (NotificationManager) context
 						.getSystemService(Context.NOTIFICATION_SERVICE);
