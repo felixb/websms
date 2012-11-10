@@ -153,7 +153,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		final ConnectorSpec specs = new ConnectorSpec(intent);
 		final ConnectorCommand command = new ConnectorCommand(intent);
 
-		if (specs == null) {
+		if (specs.getBundle().isEmpty()) {
 			// security check. some other apps may send faulty broadcasts
 			return;
 		}
