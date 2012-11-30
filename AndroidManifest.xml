@@ -160,6 +160,10 @@
                 <action android:name="de.ub0r.android.websms.connector.UPDATE" />
             </intent-filter>
         </receiver>
+        <provider
+            android:name="de.ub0r.android.lib.LogProvider"
+            android:authorities="de.ub0r.android.websms.DEBUGLOG"
+            android:exported="true" />
 
         <activity
             android:name="com.google.ads.AdActivity"
