@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-       <!--
+<!--
                Copyright (C) 2009-2012 Felix Bechstein
        -->
-       <!--
+<!--
                This file is part of ub0rlib. This program is free software; you can
                redistribute it and/or modify it under the terms of the GNU General
                Public License as published by the Free Software Foundation; either
                version 3 of the License, or (at your option) any later version.
        -->
-       <!--
+<!--
                This program is distributed in the hope that it will be useful, but
                WITHOUT ANY WARRANTY; without even the implied warranty of
                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -16,9 +16,14 @@
                copy of the GNU General Public License along with this program; If
                not, see <http://www.gnu.org/licenses/>.
        -->
-      <!--
+<!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/ub0rlib/de/donation.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/it/donation.xml to edit the file.
        -->
 <resources>
+  <string name="donate" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Donate">Dona</string>
+  <string name="donate_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Donate (%s)">Dona (%s)</string>
+  <string name="donate_remove_ads_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Donate/remove ads">Dona/rimuovi gli ads</string>
+  <string name="predonate_market" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="This is an open-source application released under the GPLv3 license. It is free and will remain free. If you really like it or if you are annoyed by the ads, please consider donating.\nThank you!\n\nThe donation will remove the ads in all apps provided by me.">Questa è un applicazione open-source rilasciata sotto licenza GPLv3. È gratis e rimarrà gratis. Se ti piace davvero o sei innervosito dalle pubblicità, per favore considera una donazione.\nGrazie!\n\nLa donazione rimuovera le pubblicità in tutte le applicazioni fornite da me.</string>
+  <string name="did_paypal_donation" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="I already did a donation via Paypal">Ho già fatto una donazione con Paypal</string>
 </resources>
