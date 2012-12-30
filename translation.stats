@@ -24,11 +24,11 @@ res/values-fr/help.xml:5
 res/values-fr/market.xml:5
 res/values-fr/notes.xml:2
 res/values-fr/strings.xml:146
-res/values-hu/donation.xml:0
-res/values-hu/help.xml:0
+res/values-hu/donation.xml:5
+res/values-hu/help.xml:5
 res/values-hu/market.xml:5
 res/values-hu/notes.xml:2
-res/values-hu/strings.xml:122
+res/values-hu/strings.xml:146
 res/values-it/donation.xml:5
 res/values-it/help.xml:5
 res/values-it/market.xml:5
@@ -59,7 +59,7 @@ res/values-cs:142
 res/values-de:163
 res/values-es:109
 res/values-fr:163
-res/values-hu:129
+res/values-hu:163
 res/values-it:165
 res/values-ro:140
 res/values-ru:139
