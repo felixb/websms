@@ -127,7 +127,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 				+ Phone.TYPE_MOBILE : null;
 		Uri u = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(s));
 		Cursor cursor = this.mContentResolver.query(u, PROJECTION, where, null,
-				null);
+				Phone.DISPLAY_NAME);
 		return cursor;
 	}
 
