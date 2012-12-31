@@ -3,7 +3,7 @@ res/values/help.xml:5
 res/values/market.xml:5
 res/values/notes.xml:2
 res/values/strings.xml:146
-res/values/update.xml:64
+res/values/update.xml:65
 res/values-cs/donation.xml:0
 res/values-cs/help.xml:5
 res/values-cs/market.xml:5
@@ -54,7 +54,7 @@ res/values-uk/help.xml:5
 res/values-uk/market.xml:5
 res/values-uk/notes.xml:2
 res/values-uk/strings.xml:139
-res/values:227
+res/values:228
 res/values-cs:142
 res/values-de:163
 res/values-es:109
