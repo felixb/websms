@@ -144,4 +144,28 @@
   <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">"Extra" gomb elrejtése</string>
   <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extra" gomb elrejtése a fő oldalon.</string>
   <string name="restore_" formatted="false" orig="Restore last message">Utolsó üzenet visszaállítása</string>
+  <string name="google_plus_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Kövess engem Google+-on.\nÉrtesülj frissítésekről stb.</string>
+  <string name="alternative_layout_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Alternative layout">Alternatív elrendezés</string>
+  <string name="textsize_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Text size in pixels; leave empty for default">Szöveg mérete pixelben; hagyja üresen az alapértelmezetthez</string>
+  <string name="show_balance_toast_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Show balance toast">Mutassa az egyenleget</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Show toast notification on balance update.">Értesítsen egyenlegváltozáskor</string>
+  <string name="update_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Update">Frissítés</string>
+  <string name="connector_message_length_reached" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Elérte a maximális %1$d karakterszámot a %2$s modulnál. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(Melyből %1$d karakter az aláírás).</string>
+  <string name="debug_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Debug">Hibakeresés</string>
+  <string name="send_logs_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Send logs">Naplózás küldése</string>
+  <string name="send_logs_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Az eszköz naplózásának elküldése a fejlesztőnek.\nCsak akkor küldje, ha kérjük erre.</string>
+  <string name="sendlog_run_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Run SendLog">SendLog futtatása</string>
+  <string name="sendlog_run" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog összegyűjti az eszköz naplózását és elküldi a fejlesztőnek.\nAlkalma lesz elküldés előtt ellenőrizni és módosítani azt.</string>
+  <string name="sendlog_install_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Install SendLog">SendLog telepítése</string>
+  <string name="sendlog_install" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Install the free SendLog application to collect the device log and send it to the developer.">Az ingyenes SendLog alkalmazás telepítése, hogy összegyűjtse, majd elküldje a naplózást a fejlesztőnek.</string>
+  <string name="custom_language_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Custom language">Nyelv megváltoztatása</string>
+  <string name="custom_language_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Set a custom language.">Nyelv beállítása.</string>
+  <string name="max_resend_count_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Max resend attempts">Maximális újraküldési próbálkozás</string>
+  <string name="max_resend_count_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Maximum number of attempts to resend a failed message.">Sikertelen üzenetküldéskor az újraküldések maximális száma.</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: küldés sikertelen, újraküldés</string>
+  <string name="resending_failed_msg_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: Üzenet újraküldése</string>
+  <string name="cancelling_resend" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: Újraküldés visszavonása</string>
+  <string name="attempt" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Attempt">Próbálkozás</string>
+  <string name="to" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="To">Címzett</string>
 </resources>

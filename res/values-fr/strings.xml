@@ -161,4 +161,11 @@
     <item>Foncé</item>
     <item>Clair</item>
   </string-array>
+  <string name="to" formatted="false" username="full_interest" orig="To">À</string>
+  <string name="cancelling_resend" formatted="false" username="full_interest" orig="WebSMS: Cancelling resend ...">WebSMS: Annulation du renvoi...</string>
+  <string name="attempt" formatted="false" username="full_interest" orig="Attempt">Tentative</string>
+  <string name="resending_failed_msg_" formatted="false" username="full_interest" orig="WebSMS: Resending message">WebSMS: Renvoi du message</string>
+  <string name="notify_failed_now_resending" formatted="false" username="full_interest" orig="WebSMS: sending failed, resending">WebSMS: Envoi échoué, renvoi</string>
+  <string name="max_resend_count_hint" formatted="false" username="full_interest" orig="Maximum number of attempts to resend a failed message.">Nombre maximum d\'essais pour envoyer un message échoué.</string>
+  <string name="max_resend_count_" formatted="false" username="full_interest" orig="Max resend attempts">Nombre de tentative de renvoi max</string>
 </resources>

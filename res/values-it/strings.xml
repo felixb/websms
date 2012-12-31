@@ -153,4 +153,22 @@
   <string name="source_" formatted="false" username="carloraudino@fedoraproject.org" orig="Sourcescode:">Codice sorgente:</string>
   <string name="custom_language_" formatted="false" username="carloraudino@fedoraproject.org" orig="Custom language">Personalizza lingua</string>
   <string name="custom_language_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Set a custom language.">Imposta una lingua personalizzata.</string>
+  <string name="google_plus_hint" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Seguimi su Google+.\nOttieni le notifiche degli aggiornamenti etc.</string>
+  <string name="standard_connector_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Standard Connector">Connector Predefinito</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Connector non trovato, per favore apri e chiudi le preferenze di WebSMS per forzare il caricamento dei connector.</string>
+  <string name="common_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Common">Comuni</string>
+  <string name="connectors_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Connectors">Connector</string>
+  <string name="show_balance_toast_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Show balance toast">Mostra la notifica del bilancio</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Show toast notification on balance update.">Mostra una notifica all\'aggiornamento del bilancio.</string>
+  <string name="update_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Update">Aggiorna</string>
+  <string name="connector_message_length_reached" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Hai raggiunto il numero massimo di %1$d caratteri per il connettore %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(Dei quali %1$d caratteri sono la tua firma).</string>
+  <string name="sendlog_run" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog raggrupperà il log del dispositivo e lo manderà allo sviluppatore.\nTu avrai l\'opportunità di guardare e modificare i dati che saranno inviati.</string>
+  <string name="max_resend_count_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Max resend attempts">Massimi tentativi di reinvio</string>
+  <string name="max_resend_count_hint" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Maximum number of attempts to resend a failed message.">Massimo numero di tentativi di reinviare un messaggio fallito.</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: invio fallito, reinvio</string>
+  <string name="resending_failed_msg_" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: Reinvio il messaggio</string>
+  <string name="cancelling_resend" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: Annullando il reinvio ...</string>
+  <string name="attempt" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="Attempt">Tentativo</string>
+  <string name="to" formatted="false" username="Nicolo Balzarotti &lt;anothersms@gmail.com&gt;" orig="To">A</string>
 </resources>
