@@ -22,36 +22,36 @@
        -->
 <resources>
   <string name="about_" formatted="false" username="Ukrainian" orig="About">Про</string>
-  <string name="about" formatted="false" username="Ukrainian" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS дозволяє вам надсилати безкоштовні та дешеві смс\'ки за допомогою веб-сервісів. Підтримується велика к-сть постачальників. Знайдіть посиланя аби завантажити їх з маркету у налаштуваннях WebSMS</string>
-  <string name="about_hint" formatted="false" username="Ukrainian" orig="About this app">Про цей застос.</string>
-  <string name="faq_hint" formatted="false" username="Ukrainian" orig="Some tips and tricks, how to set up this app.">Деякі поради щодо того як налаштувати цей застос.</string>
+  <string name="about" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS дозволяє вам надсилати безкоштовні та дешеві смс\'ки за допомогою веб-сервісів. Підтримується велика к-сть постачальників. Знайдіть посилання аби завантажити їх з маркету у налаштуваннях WebSMS</string>
+  <string name="about_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="About this app">Про цю програму.</string>
+  <string name="faq_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Деякі поради щодо того як налаштувати цю програму.</string>
   <string name="feedback_" formatted="false" username="Ukrainian" orig="Feedback">Зворотн. зв\'яз.</string>
-  <string name="feedback_hint" formatted="false" username="Ukrainian" orig="Report bugs, request features ...">Повідмом. про помилки, порадити функції ...</string>
-  <string name="google_plus_hint" formatted="false" username="Ukrainian" orig="Follow me on Google+.\nGet update notifications etc.">Слідкувати за мною у Google+.\nОтримати інфу про оновлення тощо.</string>
-  <string name="twitter_hint" formatted="false" username="Ukrainian" orig="Follow me on twitter.\nGet update notifications etc.">Слідкувати за мною у Твіттері.\nОтримати інфу про оновлення тощо.</string>
+  <string name="feedback_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Report bugs, request features ...">Звіти про помилки, запити функцій ...</string>
+  <string name="google_plus_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Слідкуйте за мною у Google+.\nОтримуйте сповіщення про оновлення.</string>
+  <string name="twitter_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Слідкуйте за мною у Твіттері.\nОтримуйте сповіщення про оновлення.</string>
   <string name="author_" formatted="false" username="Ukrainian" orig="Author:">Автор:</string>
   <string name="change_connector_" formatted="false" username="Ukrainian" orig="Change provider">Змінити провайдера</string>
   <string name="author_connectors_" formatted="false" username="Ukrainian" orig="Author of Connectors:">Автор Приєдувачів:</string>
   <string name="change_connector_nl" formatted="false" username="Ukrainian" orig="Change\nprovider">Змінити провайдера</string>
   <string name="click_for_update" formatted="false" username="Ukrainian" orig="(update: click)">(оновл.: клац-ть)</string>
-  <string name="defprefix_" formatted="false" username="Ukrainian" orig="Default int. prefix">Міжн. префікс за промовч.</string>
+  <string name="defprefix_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Default int. prefix">Міжн. типовий префікс</string>
   <string name="defprefix_hint" formatted="false" username="Ukrainian" orig="e.g. +49">напр. +380</string>
-  <string name="more_apps_" formatted="false" username="Ukrainian" orig="More Apps..">Більше Застосунків...</string>
+  <string name="more_apps_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="More Apps..">Більше програм...</string>
   <string name="more_connectors_" formatted="false" username="Ukrainian" orig="More Connectors..">Більше Приєднувачів...</string>
-  <string name="more_connectors_hint" formatted="false" username="Ukrainian" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Шукайте інших Приєднувачів у Маркеті. Перезавантажте WebSMS після інсталяції!</string>
+  <string name="more_connectors_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Шукайте інші Приєднувачі у Маркеті. Перевантажте WebSMS після встановлення!</string>
   <string name="more_connectors__" formatted="false" username="Ukrainian" orig="Even more Connectors..">Ще більше Приєднувачів...</string>
-  <string name="more_connectors__hint" formatted="false" username="Ukrainian" orig="You are missing a connector for some service? View the FAQ to get it.">У вас немає приєднувача для деяких сервісів? Пергляньте ЧАП аби їз отримати.</string>
+  <string name="more_connectors__hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">У вас немає приєднувача для деяких сервісів? Пергляньте ЧАП аби отримати їх.</string>
   <string name="standard_connector_" formatted="false" username="rkononenko" orig="Standard Connector">Стандартний Приєднувач</string>
   <string name="set_stdandard_connector_" formatted="false" username="rkononenko" orig="Set standard Connector">Встановити стандартний Приєднувач</string>
-  <string name="set_stdandard_connector_hint" formatted="false" username="rkononenko" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Зробити поточний Приєднувач приєднувачем за промовчанням. WebSMS перемкнеться автоматично</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Зробити поточний Приєднувач як стандартний. WebSMS перемкнеться автоматично</string>
   <string name="clear_stdandard_connector_" formatted="false" username="rkononenko" orig="Clear standard Connector">Очистити стандарний Приєдтувач</string>
   <string name="free_" formatted="false" username="rkononenko" orig="Balances:">Баланс:</string>
-  <string name="license" formatted="false" username="rkononenko" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.tx</string>
+  <string name="license" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - читайте на http://www.gnu.org/licenses/gpl-3.0.tx</string>
   <string name="license_" formatted="false" username="rkononenko" orig="License:">Ліцензія:</string>
   <string name="log_wrong_sender" formatted="false" username="rkononenko" orig="Wrong sender! Set it in international form like +4917012345678.">Невірний відправник! Встановіть відправника у міжнародній формі, напр. +380 066 2342</string>
   <string name="log_noselectedconnector" formatted="false" username="rkononenko" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не обрано жодного Приєднувача. Будь ласка оберіть такий що має опцію "Змінити Провайдера".</string>
   <string name="log_noreadyconnector" formatted="false" username="rkononenko" orig="No Connector installed or ready. Please check preferences.">Не встановлено жодного Приєднувача. Будь ласка перевірте налаштування.</string>
-  <string name="log_error_saving_message" formatted="false" username="rkononenko" orig="Error updating sent message in Database!">Помилка під час оновлення відправлених смс\'ок у датабазі!</string>
+  <string name="log_error_saving_message" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Error updating sent message in Database!">Помилка під час оновлення відправлених смс\'ок у базі!</string>
   <string name="log_error_char_nonvalid" formatted="false" username="rkononenko" orig="Connector does not provide valid characters">Приєднувач не надав дійсних символів</string>
   <string name="log_error_char_notsendable" formatted="false" username="rkononenko" orig="This message contains not sendable characters">Це повідомлення містить недійсні символи</string>
   <string name="theme_" formatted="false" username="rkononenko" orig="Theme">Тема</string>
@@ -64,17 +64,17 @@
   <string name="enable_sms" formatted="false" username="rkononenko" orig="Enable SMS">Увімкнути СМС</string>
   <string name="connector_sms_name" formatted="false" username="rkononenko" orig="SMS">СМС</string>
   <string name="connector_vanished" formatted="false" username="rkononenko" orig="Connector vanished!">Приєднувач зник!</string>
-  <string name="log_wrong_defprefix" formatted="false" username="rkononenko" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Будь ласка введіть дійсний код-країни як префікс за промовчанням. Напр. "+380".</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Будь ласка, введіть вірний код країни як типовий префікс. Напр. "+380".</string>
   <string name="log_error_sms" formatted="false" username="rkononenko" orig="Could not send SMS: ErrorCode=">Не вдалося відправити СМС: КодПомилки=</string>
-  <string name="log_error_connector_not_found" formatted="false" username="rkononenko" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Приєднувач не знайдено, будь ласка відчиніть та зачиніть налаштування WebSMS аби силою перезавантажити Приєднувачі.</string>
-  <string name="try_send_invalid_characters_" formatted="false" username="rkononenko" orig="Try send invalid">Спробуйте "не дійсне відправлення"</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Приєднувач не знайдено, будь ласка відкрите та закрийте налаштування WebSMS аби примусово перевантажити Приєднувачі.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Try send invalid">Спробуйте надіслати недійсне</string>
   <string name="try_send_invalid_characters_hint" formatted="false" username="rkononenko" orig="Try to send messages with invalid.">Спробуйте відправити недійсне повідомлення</string>
   <string name="notify_failed" formatted="false" username="rkononenko" orig="Failed to send SMS: ">Не вдалося відпарвити СМС:</string>
   <string name="notify_failed_" formatted="false" username="rkononenko" orig="failed sending SMS">Відправлення СМС зазнало невдачі:</string>
-  <string name="sender_" formatted="false" username="rkononenko" orig="Your mobile number">Номер вашого мобільноо</string>
+  <string name="sender_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Your mobile number">Ваш мобільний номер</string>
   <string name="send_" formatted="false" username="rkononenko" orig="Send">Відпр.</string>
   <string name="save_draft_" formatted="false" username="rkononenko" orig="Save draft">Зберегти як чернетку</string>
-  <string name="save_chars_" formatted="false" username="rkononenko" orig="Save chars">Зберегти симв.</string>
+  <string name="save_chars_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Save chars">Зберегти символи</string>
   <string name="settings" formatted="false" username="rkononenko" orig="Preferences">Налаштування</string>
   <string name="settings_common" formatted="false" username="rkononenko" orig="Preferences - Common">Налаштування - звич.</string>
   <string name="common_" formatted="false" username="rkononenko" orig="Common">Звич.</string>
@@ -82,12 +82,12 @@
   <string name="behavior_" formatted="false" username="rkononenko" orig="Behavior">Поведінка</string>
   <string name="appearance_and_behavior_" formatted="false" username="rkononenko" orig="Appearance &amp; behavior">Вигляд та поведінка</string>
   <string name="autosend_" formatted="false" username="rkononenko" orig="Autosend">Автовідпр.</string>
-  <string name="show_titlebar_" formatted="false" username="rkononenko" orig="Show title bar">Показ. штабу заголовку</string>
+  <string name="show_titlebar_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Show title bar">Показувати рядок заголовку</string>
   <string name="settings_connectors" formatted="false" username="rkononenko" orig="Preferences - Connectors">Налаштування - Приєднувачі</string>
-  <string name="show_titlebar_hint" formatted="false" username="rkononenko" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показ. штабу заголовку у основному вікні. Без штабу заголовку, ви не зможете побач. фонові дії.</string>
+  <string name="show_titlebar_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показувати рядок заголовку у основному вікні. Без рядку заголовку ви не зможете побачити фонову активність.</string>
   <string name="connectors_" formatted="false" username="rkononenko" orig="Connectors">Приєднувачі</string>
-  <string name="alternative_layout_" formatted="false" username="rkononenko" orig="Alternative layout">Альтернативна розбивка</string>
-  <string name="alternative_layout_hint" formatted="false" username="rkononenko" orig="Move send bar to the top. Needs restart.">Перемістити штабу відбравлення наверх. Потребує перезавантаження.</string>
+  <string name="alternative_layout_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Alternative layout">Альтернативна розмітка</string>
+  <string name="alternative_layout_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Перемістити панель відправлення вгору. Потрібне перевантаження.</string>
   <string name="textsize_" formatted="false" username="rkononenko" orig="Text size">Розмір тексту</string>
   <string name="textsize_hint" formatted="false" username="rkononenko" orig="Text size in pixels; leave empty for default">Розмір тексту у пікселях; залиште порожнім для типового розміру</string>
   <string name="show_balance_toast_" formatted="false" username="rkononenko" orig="Show balance toast">Показ. тостовий баланс</string>
@@ -154,11 +154,18 @@
   <string name="sendlog_run_" formatted="false" username="rkononenko" orig="Run SendLog">Запустити Sendlog</string>
   <string name="custom_language_" formatted="false" username="rkononenko" orig="Custom language">Обрати мову</string>
   <string name="custom_language_hint" formatted="false" username="rkononenko" orig="Set a custom language.">Обрати мову</string>
-  <string-array name="themes" username="rkononenko">
-    <item>Чорне</item>
-    <item>Біляве</item>
+  <string-array name="themes" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;">
+    <item>Чорна</item>
+    <item>Світла</item>
   </string-array>
   <string name="sendlog_install" formatted="false" username="rkononenko" orig="Install the free SendLog application to collect the device log and send it to the developer.">Інсталюйте безкоштовну SendLog програму, щоб зібрати лог-пристою та відіслати це до розробника</string>
   <string name="sendlog_install_" formatted="false" username="rkononenko" orig="Install SendLog">Інталювати SendLog</string>
   <string name="sendlog_run" formatted="false" username="rkononenko" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog збуре логи пристрою та перешле їх розробнику. \nУ вас буде можливість переглятути та змінити дату перед відправленням</string>
+  <string name="max_resend_count_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Max resend attempts">Найбільше число спроб надсилань</string>
+  <string name="max_resend_count_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Maximum number of attempts to resend a failed message.">Найбльіше число спроб повторно надіслати невдале повідомлення.</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: надсилання провалилося, повторно надсилаємо</string>
+  <string name="resending_failed_msg_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: повторне надсилання</string>
+  <string name="cancelling_resend" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: Скасування повторного надсилання…</string>
+  <string name="attempt" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Attempt">Спробувати</string>
+  <string name="to" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="To">До</string>
 </resources>
