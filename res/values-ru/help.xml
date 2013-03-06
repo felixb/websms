@@ -18,7 +18,9 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/de/help.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/ru/help.xml to edit the file.
        -->
 <resources>
+  <string name="help_title" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Introducing WebSMS">Представляем WebSMS</string>
+  <string name="get_connectors" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Get Connectors">Получить Коннекторы</string>
 </resources>

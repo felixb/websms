@@ -21,22 +21,22 @@
                Visit http://ub0r.de/translate/websms/ru/strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false">О программе</string>
-  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет отправлять бесплатные или дешёвые SMS через интернет. Поддерживаются многие провайдеры через коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
-  <string name="about_hint" formatted="false">Описание программы</string>
-  <string name="faq_hint" formatted="false" username="ergodroid" orig="Some tips and tricks, how to set up this app.">Советы и подсказки по настройке приложения</string>
+  <string name="about_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="About">Информация</string>
+  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">WebSMS позволяет отправлять бесплатные или дешёвые СМС через веб-сервисы. Поддерживается большое количество провайдеров. По ссылке в настройках WebSMS можно скачать их из Google Play.</string>
+  <string name="about_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="About this app">О программе</string>
+  <string name="faq_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Некоторые советы и рекомендации по настройке приложения.</string>
   <string name="feedback_" formatted="false">Отзывы</string>
-  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Сообщите о найденной ошибке, отправьте запрос на расширение функционала...</string>
-  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc.">Следите за WebSMS в Twitter и узнавайте об обновлениях</string>
+  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ..." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Сообщить об ошибкаx, внести предложения ...</string>
+  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Читайте в twitter.\nУведомления об обновлениях и т.д.</string>
   <string name="author_" formatted="false">Автор:</string>
   <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Автор коннектора:</string>
   <string name="change_connector_" formatted="false" orig="Change provider">Сменить провайдера</string>
   <string name="change_connector_nl" formatted="false">Сменить\nпровайдера</string>
   <string name="click_for_update" formatted="false">(обновить: нажмите)</string>
-  <string name="defprefix_" formatted="false" orig="Default int. prefix">Внутренний префикс</string>
+  <string name="defprefix_" formatted="false" orig="Default int. prefix" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Международный префикс по умолчанию</string>
   <string name="defprefix_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="e.g. +49">Например: +7</string>
-  <string name="more_apps_" formatted="false" orig="More Apps..">Другие приложения</string>
-  <string name="more_connectors_" formatted="false" username="ergodroid@gmail.com" orig="More Connectors..">Другие коннекторы</string>
+  <string name="more_apps_" formatted="false" orig="More Apps.." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Другие приложения..</string>
+  <string name="more_connectors_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="More Connectors..">Другие коннекторы..</string>
   <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Загрузите другие Коннекторы на Маркете. Перезапустите WebSMS после установки!</string>
   <string name="more_connectors__" formatted="false" orig="Even more Connectors..">Ещё больше Коннекторов</string>
   <string name="more_connectors__hint" formatted="false" orig="You are missing a connector for some service? View the FAQ to get it.">Если не нашли нужный Коннектор для своего провайдера, то смотрите FAQ как получить его.</string>
@@ -149,7 +149,7 @@
   <string name="connector_message_length_reached" formatted="false" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Достигнуто максимальное количество %1$d символов для коннекторов %2$s. %3$s</string>
   <string name="connector_message_length_reached_signature" formatted="false" orig="(Of which %1$d characters were your signature).">(из них %1$d символов для подписи)</string>
   <string name="log_error_connector_not_found" formatted="false" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Коннектор не найден, пожалуйста откройте и закройте настройки WebSMS, чтобы перезагрузить коннекторы</string>
-  <string name="google_plus_hint" formatted="false" username="ergodroid" orig="Follow me on Google+.\nGet update notifications etc.">Присоединяетесь к Google+ и получайте уведомления об обновлениях и пр.</string>
+  <string name="google_plus_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Читайте на Google+.\nУведомления об обновлениях и т.д.</string>
   <string name="show_balance_toast_hint" formatted="false" username="ergodroid" orig="Show toast notification on balance update.">Показывать всплывающее уведомление при обновлении информации о балансе</string>
   <string name="show_balance_toast_" formatted="false" username="ergodroid" orig="Show balance toast">Уведомление о балансе</string>
   <string name="sendlog_install_" formatted="false" username="kavdiev" orig="Install SendLog">Установить SendLog</string>
