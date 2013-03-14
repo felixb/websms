@@ -48,7 +48,7 @@
   <string name="license_" formatted="false">Лицензия:</string>
   <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Введите правильный код страны как префикс по умолчанию. Например, "+7".</string>
   <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Неверный номер отправителя! Введите его в международном формате +79170123456.</string>
-  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Не выбран Коннектор. Выберите нужный в "Сменить провайдера".</string>
+  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Не выбран Коннектор. Выберите нужный в \'Сменить провайдера\'.</string>
   <string name="log_noreadyconnector" formatted="false" orig="No Connector installed or ready. Please check preferences." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Коннектор не установлен или не готов. Проверьте настройки.</string>
   <string name="log_error_saving_message" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Error updating sent message in Database!">Ошибка сохранения отправленного сообщения в базе данных!</string>
   <string name="log_error_char_nonvalid" formatted="false" orig="Connector does not provide valid characters">Коннектор не предоставляет допустимые символы</string>
@@ -74,7 +74,7 @@
   <string name="alternative_layout_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Alternative layout">Кнопки вверху</string>
   <string name="alternative_layout_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Панель с кнопками располагается вверху. Требуется перезапуск.</string>
   <string name="hide_change_connector_button" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">Скрыть \'Сменить провайдера\'</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Скрыть кнопку \'Сменить провайдера" в главном окне.</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Скрыть кнопку \'Сменить провайдера\' в главном окне.</string>
   <string name="hide_send_button" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">Скрыть \'Отправить\'</string>
   <string name="hide_send_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Скрыть кнопку \'Отправить\' в главном окне.</string>
   <string name="hide_cancel_button" formatted="false" orig="Hide \&quot;Cancel\&quot; button" username="ergodroid">Скрыть \'Отмена\'</string>
