@@ -207,8 +207,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 		if (!isHandled) {
 			// Resend if possible (network might be down temporarily or an odd
 			// failure on the provider's web side)
-			final int maxResendCount = Integer.parseInt(p.getString(
-					WebSMS.PREFS_MAX_RESEND_COUNT, "0"));
+			final int maxResendCount = de.ub0r.android.lib.Utils.parseInt(
+					p.getString(WebSMS.PREFS_MAX_RESEND_COUNT, "0"), 0);
 			if (maxResendCount > 0) {
 				int wasResendCount = command.getResendCount();
 

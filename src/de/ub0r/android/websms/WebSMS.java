@@ -1293,7 +1293,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			} else {
 				this.lastTo = ss.substring(0, i) + ", ";
 				this.etTo.setText(this.lastTo);
-				s = this.etText.getText();
+				s = this.etTo.getText();
 				this.etTo.setSelection(s.length());
 				this.lastTo = s.toString();
 			}
