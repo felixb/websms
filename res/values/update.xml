@@ -19,7 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
-		<item>HEAD: fix FCs, update translations</item>
+		<item>vWebSMS-4.5.4: fix FCs, update translations</item>
 		<item>v4.5.3: ignore non latin characters in search, update translation</item>
 		<item>v4.5.2: automatically resend messages (thanks to Michael Blinov)</item>
 		<item>v4.5.1: fix dark theme again</item>
