@@ -22,5 +22,5 @@
        -->
 <resources>
   <string name="notes_smsdroid">Вам би варто використовувати SMSdroid для читання вхідних повідомлень</string>
-  <string name="notes_drafts">Гру. 2010 Нариси: Нарис зберігаються у датабазі повідомлень андроїда. Викор. SMSdroid або ж станд. смс застосунок андроїда аби переслати їх пізніше</string>
+  <string name="notes_drafts" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.">Грудень 2010 Чернетки: чернетки зберігаються у базі повідомлень андроїда. Використовуйте SMSdroid або станд. смс програму андроїда, щоб надіслати їх пізніше</string>
 </resources>

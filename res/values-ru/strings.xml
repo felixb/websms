@@ -21,24 +21,24 @@
                Visit http://ub0r.de/translate/websms/ru/strings.xml to edit the file.
        -->
 <resources>
-  <string name="about_" formatted="false">О программе</string>
-  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS позволяет отправлять бесплатные или дешёвые SMS через интернет. Поддерживаются многие провайдеры через коннекторы, которые можно скачать из Маркета по ссылке в настройках.</string>
-  <string name="about_hint" formatted="false">Описание программы</string>
-  <string name="faq_hint" formatted="false" username="ergodroid" orig="Some tips and tricks, how to set up this app.">Советы и подсказки по настройке приложения</string>
+  <string name="about_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="About">Информация</string>
+  <string name="about" formatted="false" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">WebSMS позволяет отправлять бесплатные или дешёвые СМС через веб-сервисы. Поддерживается большое количество провайдеров. По ссылке в настройках WebSMS можно скачать их из Google Play.</string>
+  <string name="about_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="About this app">О программе</string>
+  <string name="faq_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Некоторые советы и рекомендации по настройке приложения.</string>
   <string name="feedback_" formatted="false">Отзывы</string>
-  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ...">Сообщите о найденной ошибке, отправьте запрос на расширение функционала...</string>
-  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc.">Следите за WebSMS в Twitter и узнавайте об обновлениях</string>
+  <string name="feedback_hint" formatted="false" orig="Report bugs, request features ..." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Сообщить об ошибкаx, внести предложения ...</string>
+  <string name="twitter_hint" formatted="false" orig="Follow me on twitter.\nGet update notifications etc." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Читайте в twitter.\nУведомления об обновлениях и т.д.</string>
   <string name="author_" formatted="false">Автор:</string>
   <string name="author_connectors_" formatted="false" orig="Author of Connectors:">Автор коннектора:</string>
   <string name="change_connector_" formatted="false" orig="Change provider">Сменить провайдера</string>
   <string name="change_connector_nl" formatted="false">Сменить\nпровайдера</string>
   <string name="click_for_update" formatted="false">(обновить: нажмите)</string>
-  <string name="defprefix_" formatted="false" orig="Default int. prefix">Внутренний префикс</string>
-  <string name="defprefix_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="e.g. +49">Например: +7</string>
-  <string name="more_apps_" formatted="false" orig="More Apps..">Другие приложения</string>
-  <string name="more_connectors_" formatted="false" username="ergodroid@gmail.com" orig="More Connectors..">Другие коннекторы</string>
-  <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Загрузите другие Коннекторы на Маркете. Перезапустите WebSMS после установки!</string>
-  <string name="more_connectors__" formatted="false" orig="Even more Connectors..">Ещё больше Коннекторов</string>
+  <string name="defprefix_" formatted="false" orig="Default int. prefix" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Международный префикс по умолчанию</string>
+  <string name="defprefix_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="e.g. +49">например, +7</string>
+  <string name="more_apps_" formatted="false" orig="More Apps.." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Другие приложения..</string>
+  <string name="more_connectors_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="More Connectors..">Другие коннекторы..</string>
+  <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Market. Restart WebSMS after installing!" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Ищите другие Коннекторы в Google Play. Перезапустите WebSMS после установки!</string>
+  <string name="more_connectors__" formatted="false" orig="Even more Connectors.." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Ещё больше Коннекторов..</string>
   <string name="more_connectors__hint" formatted="false" orig="You are missing a connector for some service? View the FAQ to get it.">Если не нашли нужный Коннектор для своего провайдера, то смотрите FAQ как получить его.</string>
   <string name="set_stdandard_connector_" formatted="false" orig="Set standard Connector">Установить стандартный Коннектор</string>
   <string name="set_stdandard_connector_hint" formatted="false" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Установить текущий Коннектор как стандартный. WebSMS переключится обратно автоматически.</string>
@@ -46,18 +46,18 @@
   <string name="free_" formatted="false">Баланс:</string>
   <string name="license" formatted="false">GPLv3 - смотрите http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Лицензия:</string>
-  <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Пожалуйста, введите правильный код страны. Например: +7</string>
-  <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678.">Неверный номер отправителя! Введите в международном формате напр.: +79161234567</string>
-  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не выбран Коннектор. Выберете в "Сменить провайдера.</string>
-  <string name="log_noreadyconnector" formatted="false" orig="No Connector installed or ready. Please check preferences.">Коннектор не установлен или не настроен. Проверьте настройки.</string>
-  <string name="log_error_saving_message" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Error updating sent message in Database!">Ошибка сохранения отправленного SMS в базе данных!</string>
+  <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Введите правильный код страны как префикс по умолчанию. Например, "+7".</string>
+  <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Неверный номер отправителя! Введите его в международном формате +79170123456.</string>
+  <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Не выбран Коннектор. Выберите нужный в \'Сменить провайдера\'.</string>
+  <string name="log_noreadyconnector" formatted="false" orig="No Connector installed or ready. Please check preferences." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Коннектор не установлен или не готов. Проверьте настройки.</string>
+  <string name="log_error_saving_message" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Error updating sent message in Database!">Ошибка сохранения отправленного сообщения в базе данных!</string>
   <string name="log_error_char_nonvalid" formatted="false" orig="Connector does not provide valid characters">Коннектор не предоставляет допустимые символы</string>
   <string name="log_error_char_notsendable" formatted="false" orig="This message contains not sendable characters">Данное сообщение содержит недопустимые символы</string>
-  <string name="log_error_sms" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Could not send SMS: ErrorCode=">Невозможно отправить SMS: ErrorCode=</string>
+  <string name="log_error_sms" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Could not send SMS: ErrorCode=">Невозможно отправить СМС: КодОшибки=</string>
   <string name="try_send_invalid_characters_" formatted="false" orig="Try send invalid">Попытаться отправить недопустимые символы</string>
   <string name="try_send_invalid_characters_hint" formatted="false" orig="Try to send messages with invalid.">Попытаться отправить сообщение, содержащее недопустимые символы</string>
-  <string name="notify_failed" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Failed to send SMS: ">Ошибка отправки SMS: </string>
-  <string name="notify_failed_" formatted="false">Ошибка отправки СМС</string>
+  <string name="notify_failed" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Failed to send SMS: ">Ошибка отправки СМС:</string>
+  <string name="notify_failed_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="failed sending SMS">сбой отправки СМС</string>
   <string name="sender_" formatted="false" orig="Your mobile number">Ваш номер телефона</string>
   <string name="send_" formatted="false">Отправить</string>
   <string name="save_draft_" formatted="false" orig="Save draft">Сохранить черновик</string>
@@ -72,13 +72,13 @@
   <string name="show_titlebar_hint" formatted="false" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Показывать уведомления в статусбаре. Без этого фоновые процессы не будут видны</string>
   <string name="settings_connectors" formatted="false" orig="Preferences - Connectors">Настройки коннекторов</string>
   <string name="alternative_layout_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Alternative layout">Кнопки вверху</string>
-  <string name="alternative_layout_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Панель с кнопками располагается вверху</string>
+  <string name="alternative_layout_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Панель с кнопками располагается вверху. Требуется перезапуск.</string>
   <string name="hide_change_connector_button" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">Скрыть \'Сменить провайдера\'</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Не показывать кнопку \'Сменить провайдера"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Скрыть кнопку \'Сменить провайдера\' в главном окне.</string>
   <string name="hide_send_button" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">Скрыть \'Отправить\'</string>
-  <string name="hide_send_button_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Не показывать кнопку \'Отправить\'</string>
+  <string name="hide_send_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Скрыть кнопку \'Отправить\' в главном окне.</string>
   <string name="hide_cancel_button" formatted="false" orig="Hide \&quot;Cancel\&quot; button" username="ergodroid">Скрыть \'Отмена\'</string>
-  <string name="hide_cancel_button_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Не показывать кнопку \'Отмена\'</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Скрыть кнопку \'Отмена\' в главном окне.</string>
   <string name="hide_extras_button_" formatted="false" username="ergodroid" orig="Hide \&quot;Extras\&quot; button">Скрыть \'Отправитель\'</string>
   <string name="hide_extras_button_hint" formatted="false" username="ergodroid" orig="Hide \&quot;Extras\&quot; button on main screen.">Не показывать кнопку \'Отправитель\'</string>
   <string name="hide_select_recipients_button_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">Скрыть \'Получатель\'</string>
@@ -88,19 +88,19 @@
   <string name="hide_send_in_menu" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Send\&quot; menu item">Скрыть пункт \'Отправить\'</string>
   <string name="hide_send_in_menu_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Не показывать \'Отправить\' в главном меню. Необходим перезапуск.</string>
   <string name="hide_emo_button" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">Скрыть \'Смайлики\'</string>
-  <string name="hide_emo_button_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Не показывать кнопку \'Смайлики\' в главном окне</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Скрыть кнопку \'Смайлики\' в главном окне.</string>
   <string name="hide_update" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">Скрыть \'обновить: нажмите\'</string>
-  <string name="hide_update_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">Не показывать \'обновить: нажмите\' в заголовке</string>
+  <string name="hide_update_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">Скрыть \'обновить: нажмите\' в главном окне.</string>
   <string name="hide_bg_connector_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide connector name">Скрыть название коннектора</string>
-  <string name="hide_bg_connector_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Hide active connector\'s name in background.">Не показывает название активного коннектора на заднем фоне</string>
-  <string name="hide_paste_" formatted="false" username="ergodroid" orig="Hide &quot;paste&quot; button">Скрыть \'Вставить\'</string>
+  <string name="hide_bg_connector_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide active connector\'s name in background.">Скрыть название активного коннектора в фоне.</string>
+  <string name="hide_paste_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Скрыть кнопку \'Вставить\'</string>
   <string name="hide_paste_hint" formatted="false" username="ergodroid" orig="Hide &quot;paste&quot; button on text field.">Не показывать кнопку \'Вставить\' (из буфера обмена) в поле \'Введите текст\'</string>
-  <string name="drop_sent_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Don\'t save sent SMS">Не сохранять отправленные SMS</string>
-  <string name="drop_sent_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Не сохранять отправленные SMS в общей базе</string>
+  <string name="drop_sent_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent SMS">Не сохранять отправленные СМС</string>
+  <string name="drop_sent_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Не сохранять отправленные сообщения в общей базе.</string>
   <string name="enable_autosend_" formatted="false" orig="Enable autosend">Автоотправка</string>
   <string name="enable_autosend_hint" formatted="false" orig="Enable SMSdroid\'s autosend feature.">Включить функцию автоотправки SMSdroid</string>
   <string name="use_selected_connector_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Use selected Connector">Использовать выбранный коннектор</string>
-  <string name="use_selected_connector_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Использовать текущий коннектор для автоотправки. Не будет показываться меню выбора SMS приложений</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Использовать текущий Коннектор для автоотправки. Отключите для показа меню выбора.</string>
   <string name="default_recipient_" formatted="false">Получатель по умолчанию</string>
   <string name="default_recipient_hint" formatted="false" orig="Default recipient filled into address bar on app start.">Вписывается автоматически в поле получателя при старте программы</string>
   <string name="signature_" formatted="false">Подпись</string>
@@ -108,14 +108,14 @@
   <string name="autoupdate_" formatted="false">Автообновление</string>
   <string name="autoupdate_hint" formatted="false" orig="Update account balances on start.">Обновляет баланс при старте</string>
   <string name="autoexit_" formatted="false">Автовыход</string>
-  <string name="autoexit_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Exit WebSMS when sending sms.">Автоматическое закрытие программы после отправки SMS</string>
+  <string name="autoexit_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Exit WebSMS when sending sms.">Выйти из программы после отправки СМС.</string>
   <string name="mobile_only_" formatted="false" orig="Show mobiles only">Только мобильные</string>
   <string name="mobile_only_hint" formatted="false" orig="Show mobile numbers only.">Показывать номера только мобильных телефонов</string>
   <string name="vibrate_on_fail" formatted="false" orig="Vibrate if sending fails">Вибрировать при ошибке</string>
   <string name="vibrate_on_send" formatted="false" orig="Vibrate after sending">Вибрировать после отправки</string>
   <string name="sound_on_fail" formatted="false" orig="Play sound if sending fails">Звуковой сигнал при ошибке</string>
-  <string name="source_" formatted="false" orig="Sourcescode:">Исходный код программы:</string>
-  <string name="website_" formatted="false">Сайт:</string>
+  <string name="source_" formatted="false" orig="Sourcescode:" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Исходный код:</string>
+  <string name="website_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Website:">Веб-сайт:</string>
   <string name="to_hint" formatted="false" orig="Name or Number">Кому:</string>
   <string name="text_hint" formatted="false" orig="Text">Введите текст</string>
   <string name="extras_" formatted="false" orig="Extras">Опции</string>
@@ -130,29 +130,42 @@
   <string name="status_enabled" formatted="false">Статус: включён\n(Обновляется при переходе в главное окно)</string>
   <string name="status_ready" formatted="false" orig="Status: ready\n(Updated when returning to main screen)">Статус: готов\n(Обновляется при переходе в главное окно)</string>
   <string name="connector_vanished" formatted="false" orig="Connector vanished!">Коннектор исчез!</string>
-  <string name="connector_sms_name" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="SMS">SMS</string>
-  <string name="enable_sms" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Enable SMS">Обычные SMS</string>
-  <string name="enable_sms_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Отправлять SMS через сотового оператора (если интернет недоступен)</string>
+  <string name="connector_sms_name" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="SMS">СМС</string>
+  <string name="enable_sms" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Enable SMS">Обычные СМС</string>
+  <string name="enable_sms_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="The SMS Connector will send normal SMS (e.g. via GSM).">Отправлять обычные СМС (через сотового оператора)</string>
   <string name="paste_" formatted="false" orig="[ Paste from clipboard ]" username="ergodroid">[Вставить]</string>
   <string name="restore_" formatted="false" orig="Restore last message">Восстановить последнее сообщение</string>
   <string name="theme_" formatted="false" orig="Theme">Тема</string>
-  <string-array name="themes">
-    <item>Чёрная</item>
+  <string-array name="themes" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">
+    <item>Тёмная</item>
     <item>Светлая</item>
   </string-array>
   <string name="standard_connector_" formatted="false" orig="Standard Connector">Стандартный коннектор</string>
   <string name="common_" formatted="false" orig="Common">Общие</string>
   <string name="connectors_" formatted="false" orig="Connectors">Коннекторы</string>
-  <string name="textsize_" formatted="false" orig="Text size">Размер текста</string>
+  <string name="textsize_" formatted="false" orig="Text size" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Размер шрифта</string>
   <string name="update_" formatted="false" orig="Update">Обновить</string>
-  <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default" username="ergodroid">Размер текста в пикселях. Оставьте пустым для значения по умолчанию</string>
+  <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Размер шрифта в пикселях; оставьте пустым по умолчанию</string>
   <string name="connector_message_length_reached" formatted="false" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Достигнуто максимальное количество %1$d символов для коннекторов %2$s. %3$s</string>
   <string name="connector_message_length_reached_signature" formatted="false" orig="(Of which %1$d characters were your signature).">(из них %1$d символов для подписи)</string>
-  <string name="log_error_connector_not_found" formatted="false" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Коннектор не найден, пожалуйста откройте и закройте настройки WebSMS, чтобы перезагрузить коннекторы</string>
-  <string name="google_plus_hint" formatted="false" username="ergodroid" orig="Follow me on Google+.\nGet update notifications etc.">Присоединяетесь к Google+ и получайте уведомления об обновлениях и пр.</string>
+  <string name="log_error_connector_not_found" formatted="false" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Коннектор не найден, пожалуйста, откройте и закройте настройки WebSMS, чтобы принудительно перезагрузить коннекторы.</string>
+  <string name="google_plus_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Читайте на Google+.\nУведомления об обновлениях и т.д.</string>
   <string name="show_balance_toast_hint" formatted="false" username="ergodroid" orig="Show toast notification on balance update.">Показывать всплывающее уведомление при обновлении информации о балансе</string>
   <string name="show_balance_toast_" formatted="false" username="ergodroid" orig="Show balance toast">Уведомление о балансе</string>
   <string name="sendlog_install_" formatted="false" username="kavdiev" orig="Install SendLog">Установить SendLog</string>
   <string name="sendlog_run_" formatted="false" username="kavdiev" orig="Run SendLog">Запустить SendLog</string>
-  <string name="send_logs_" formatted="false" username="kavdiev" orig="Send logs">Отправить запись</string>
+  <string name="send_logs_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Send logs">Отправить журналы</string>
+  <string name="debug_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Debug">Отладить</string>
+  <string name="send_logs_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Отправить журналы устройства разработчику.\nОтправляйте только в том случае, если Вас об этом попросят.</string>
+  <string name="sendlog_run" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog получит журнал устройства и отправит его разработчику.\nУ Вас будет возможность просмотреть и изменить отправляемые данные.</string>
+  <string name="sendlog_install" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Install the free SendLog application to collect the device log and send it to the developer.">Установить бесплатное приложение SendLog для получения журнала устройства и отправки его разработчику.</string>
+  <string name="custom_language_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Custom language">Пользовательский язык</string>
+  <string name="custom_language_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Set a custom language.">Установить пользовательский язык.</string>
+  <string name="max_resend_count_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Maximum number of attempts to resend a failed message.">Максимальное количество попыток повторной отправки сообщений.</string>
+  <string name="max_resend_count_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Max resend attempts">Максимальное количество попыток</string>
+  <string name="cancelling_resend" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: отмена повторной отправки ...</string>
+  <string name="resending_failed_msg_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: Повторная отправка сообщения</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: сбой отправки, повторная отправка</string>
+  <string name="attempt" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Attempt">Попытка</string>
+  <string name="to" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="To">Кому</string>
 </resources>

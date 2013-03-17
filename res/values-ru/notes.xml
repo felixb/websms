@@ -21,6 +21,6 @@
                Visit http://ub0r.de/translate/websms/ru/notes.xml to edit the file.
        -->
 <resources>
-  <string name="notes_smsdroid">Вы можете использовать SMSdroid чтобы прочитать входящие сообщения.</string>
-  <string name="notes_drafts">Дек. 2010 Черновики: Черновики сохраняются в базе данных сообщений андройда. Используйте SMSdroid или стандартное приложение сообщений для android чтобы отправить их позже.</string>
+  <string name="notes_smsdroid" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="You may want to use SMSdroid to read incoming messages.">Вы можете использовать SMSdroid для чтения входящих сообщений.</string>
+  <string name="notes_drafts" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Dec. 2010 Drafts: Drafts are saved in android\'s message database. Use SMSdroid or android\'s messaging app to send them later.">Дек. 2010 Черновики: Черновики сохраняются в базе данных сообщений Android. Используйте SMSdroid или стандартное СМС-приложение Android, чтобы отправить их позже.</string>
 </resources>
