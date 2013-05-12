@@ -28,7 +28,6 @@
   <string name="feedback_" formatted="false" username="Ukrainian" orig="Feedback">Зворотн. зв\'яз.</string>
   <string name="feedback_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Report bugs, request features ...">Звіти про помилки, запити функцій ...</string>
   <string name="google_plus_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Слідкуйте за мною у Google+.\nОтримуйте сповіщення про оновлення.</string>
-  <string name="twitter_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Слідкуйте за мною у Твіттері.\nОтримуйте сповіщення про оновлення.</string>
   <string name="author_" formatted="false" username="Ukrainian" orig="Author:">Автор:</string>
   <string name="change_connector_" formatted="false" username="Ukrainian" orig="Change provider">Змінити провайдера</string>
   <string name="author_connectors_" formatted="false" username="Ukrainian" orig="Author of Connectors:">Автор Приєдувачів:</string>

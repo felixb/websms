@@ -27,7 +27,6 @@
   <string name="faq_hint" formatted="false">Tippek és trükkök, a program használatához.</string>
   <string name="feedback_" formatted="false">Visszajelzés</string>
   <string name="feedback_hint" formatted="false">Hibajelentés küldése, új funkciók kérése ...</string>
-  <string name="twitter_hint" formatted="false">Kövess a twitteren.\nFrissítések, infók, stb.</string>
   <string name="author_" formatted="false">Készítette:</string>
   <string name="author_connectors_" formatted="false">Kiegészítő készítője:</string>
   <string name="change_connector_" formatted="false">Szolgáltató váltása</string>

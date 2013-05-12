@@ -27,7 +27,6 @@
   <string name="faq_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Some tips and tricks, how to set up this app.">Alcuni trucchi e suggerimenti su come impostare l\'applicazione.</string>
   <string name="feedback_" formatted="false" username="antoniogallo@alice.de" orig="Feedback">Feedback</string>
   <string name="feedback_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Report bugs, request features ...">Segnala bug, richiedi funzioni ...</string>
-  <string name="twitter_hint" formatted="false" username="antoniogallo@alice.de" orig="Follow me on twitter.\nGet update notifications etc.">Seguimi su Twitter.
 \nRicevi notifiche su aggiornamenti ecc.</string>
   <string name="author_" formatted="false" username="antoniogallo@alice.de" orig="Author:">Autore:</string>
   <string name="author_connectors_" formatted="false" username="carloraudino@fedoraproject.org" orig="Author of Connectors:">Sviluppatore dei Connector:</string>

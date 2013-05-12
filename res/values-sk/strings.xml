@@ -28,7 +28,6 @@
   <string name="feedback_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Feedback">Spätná väzba</string>
   <string name="feedback_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Report bugs, request features ...">Správy o chybách, požiadavky na nové funkcie...</string>
   <string name="google_plus_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Follow me on Google+.\nGet update notifications etc.">Sledujte nás na Google+.\nZískajte info o nových verziách a.i.</string>
-  <string name="twitter_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Follow me on twitter.\nGet update notifications etc.">Sledujte nás na twitteri.\nZískajte info o nových verziách a.i.</string>
   <string name="author_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Author of Connectors:">Autor rozhrania:</string>
   <string name="change_connector_" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Change provider">Zmeniť poskytovateľa</string>

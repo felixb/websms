@@ -29,7 +29,6 @@
   <string name="feedback_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Feedback">Feedback</string>
   <string name="feedback_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Report bugs, request features ...">Raportați probleme, cereți noi opțiuni ...</string>
   <string name="google_plus_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Aboneați-vă la pagina mea pe Google+ pentru a primi notificări.</string>
-  <string name="twitter_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Aboneați-vă la feed-ul meu de twitter pentru a primi notificări.</string>
   <string name="author_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Author of Connectors:">Autorul Conectorilor:</string>
   <string name="change_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Change provider">Schimbă Conectorul</string>
