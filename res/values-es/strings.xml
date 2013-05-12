@@ -27,7 +27,6 @@
   <string name="faq_hint" formatted="false">Algunos trucos y consejos acerca de cómo configurar esta aplicación.</string>
   <string name="feedback_" formatted="false" orig="Feedback">Danos tu opinión</string>
   <string name="feedback_hint" formatted="false">Avise sobre errores, sugiera características...</string>
-  <string name="twitter_hint" formatted="false">Sígame en twitter.\nObtenga notificaciones sobre actualizaciones, etc.</string>
   <string name="author_" formatted="false" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false">Autor de los Conectores:</string>
   <string name="change_connector_" formatted="false">Cambiar proveedor</string>

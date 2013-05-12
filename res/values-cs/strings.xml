@@ -28,7 +28,6 @@
   <string name="feedback_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Feedback">Zpětná vazba</string>
   <string name="feedback_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Report bugs, request features ...">Zprávy o chybách, požadavky na nové funkce...</string>
   <string name="google_plus_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Follow me on Google+.\nGet update notifications etc.">Sledujte nás na Google+.\nZískejte informace o nových verzích aj.</string>
-  <string name="twitter_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Follow me on twitter.\nGet update notifications etc.">Sledujte nás na twitteru.\nZískejte informace o nových verzích aj.</string>
   <string name="author_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Author:">Autor:</string>
   <string name="author_connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Author of Connectors:">Autor rozhraní:</string>
   <string name="change_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Change provider">Změnit poskytovatele</string>

@@ -28,7 +28,6 @@
   <string name="feedback_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Feedback">Retour</string>
   <string name="feedback_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Report bugs, request features ...">Annonce de bugs, demande de nouvelles fonctionnalités ...</string>
   <string name="google_plus_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Suivez-moi sur Google+.\nRecevez des notifications de mise à jour, etc.</string>
-  <string name="twitter_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Follow me on twitter.\nGet update notifications etc.">Suivez-moi sur Twitter.\nRecevez des notifications, etc.</string>
   <string name="author_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Author:">Auteur :</string>
   <string name="author_connectors_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="Author of Connectors:">Auteur des connecteurs :</string>
   <string name="change_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Change provider">Changer de fournisseur</string>
