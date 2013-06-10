@@ -151,4 +151,20 @@
   <string name="log_error_char_nonvalid" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector does not provide valid characters">Rozhranie neposkytuje prípustné znaky</string>
   <string name="show_balance_toast_" formatted="false" orig="Show balance toast">Zobraziť vysk. okno s kreditom</string>
   <string name="show_balance_toast_hint" formatted="false" orig="Show toast notification on balance update.">Zobrazenie vykakovacieho okna pri obnove zostatku kreditu</string>
+  <string name="debug_" formatted="false" username="mato.jurik1@gmail.com" orig="Debug">Ladenie</string>
+  <string name="send_logs_" formatted="false" username="mato.jurik1@gmail.com" orig="Send logs">Odoslať protokoly</string>
+  <string name="send_logs_hint" formatted="false" username="mato.jurik1@gmail.com" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Odoslať protokoly z Vášho zariadenia vývojárovi.\nLen v prípade ak ste boli požiadaný o ich odoslanie.</string>
+  <string name="sendlog_run_" formatted="false" username="mato.jurik1@gmail.com" orig="Run SendLog">Spustiť SendLog</string>
+  <string name="sendlog_install_" formatted="false" username="mato.jurik1@gmail.com" orig="Install SendLog">Nainštalovať SendLog</string>
+  <string name="sendlog_run" formatted="false" username="mato.jurik1@gmail.com" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog získa protokol zo zariadenia a odošle ich vývojárovi.\nPred jeho odoslaním budete mať možnosť popísať a upraviť tieto údaje.</string>
+  <string name="sendlog_install" formatted="false" username="mato.jurik1@gmail.com" orig="Install the free SendLog application to collect the device log and send it to the developer.">Nainštalujte aplikáciu SendLog na získanie protokolu zo zariadenia a jeho odoslanie vývojárovi.</string>
+  <string name="custom_language_" formatted="false" username="mato.jurik1@gmail.com" orig="Custom language">Nastaviť jazyk</string>
+  <string name="custom_language_hint" formatted="false" username="mato.jurik1@gmail.com" orig="Set a custom language.">Nastavte si jazyk aplikácie.</string>
+  <string name="max_resend_count_" formatted="false" username="mato.jurik1@gmail.com" orig="Max resend attempts">Max. počet pokusov o odoslanie</string>
+  <string name="max_resend_count_hint" formatted="false" username="mato.jurik1@gmail.com" orig="Maximum number of attempts to resend a failed message.">Maximálny počet opakovaných pokusov o odoslanie správy pri neúspešnom odoslaní.</string>
+  <string name="notify_failed_now_resending" formatted="false" username="mato.jurik1@gmail.com" orig="WebSMS: sending failed, resending">WebSMS: odoslanie zlyhalo, opakované odoslanie</string>
+  <string name="resending_failed_msg_" formatted="false" username="mato.jurik1@gmail.com" orig="WebSMS: Resending message">WebSMS: Opakované odosielanie</string>
+  <string name="cancelling_resend" formatted="false" username="mato.jurik1@gmail.com" orig="WebSMS: Cancelling resend ...">WebSMS: Prebieha zrušenie opakovaného odoslania ...</string>
+  <string name="attempt" formatted="false" username="mato.jurik1@gmail.com" orig="Attempt">Pokus</string>
+  <string name="to" formatted="false" username="mato.jurik1@gmail.com" orig="To">Komu</string>
 </resources>
