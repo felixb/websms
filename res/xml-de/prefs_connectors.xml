@@ -18,6 +18,17 @@
     android:key="container" >
 
     <PreferenceCategory
+        android:key="settings_promoted_connectors"
+        android:title="@string/promoted_connectors_" >
+        <PreferenceScreen
+            android:summary="@string/promoted_connectors_smsflatrate_hint"
+            android:title="@string/promoted_connectors_smsflatrate_" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://play.google.com/store/apps/details?id=de.ub0r.android.websms.connector.smsflatratenet" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="settings_connectors"
         android:title="@string/connectors_" >
         <CheckBoxPreference

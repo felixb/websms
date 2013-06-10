@@ -18,6 +18,8 @@
  */
 package de.ub0r.android.websms;
 
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,7 +52,14 @@ public final class HelpActivity extends SherlockActivity implements
 		this.setTitle(R.string.help_title);
 
 		this.findViewById(R.id.ok).setOnClickListener(this);
-		this.findViewById(R.id.connectors).setOnClickListener(this);
+		View v = this.findViewById(R.id.connectors);
+		if (v != null) {
+			v.setOnClickListener(this);
+		}
+		v = this.findViewById(R.id.connectors_de);
+		if (v != null) {
+			v.setOnClickListener(this);
+		}
 
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -87,6 +96,35 @@ public final class HelpActivity extends SherlockActivity implements
 			Market.searchApp(this, "websms+connector",
 					"http://code.google.com/p/websmsdroid/downloads"
 							+ "/list?can=2&q=label%3AConnector");
+			return;
+		case R.id.connectors_de:
+			Builder b = new Builder(this);
+			b.setItems(R.array.get_connectors_items,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(final DialogInterface dialog,
+								final int which) {
+							switch (which) {
+							case 0:
+								Market.installApp(
+										HelpActivity.this,
+										"de.ub0r.android.websms.connector.smsflatratenet",
+										"http://code.google.com/p/websmsdroid/downloads/list?can=3&q=smsflatrate");
+								break;
+							case 1:
+								Market.searchApp(
+										HelpActivity.this,
+										"websms+connector",
+										"http://code.google.com/p/websmsdroid/downloads"
+												+ "/list?can=2&q=label%3AConnector");
+								break;
+							default:
+								throw new IllegalStateException(
+										"invalid option selected: " + which);
+							}
+						}
+					});
+			b.show();
 			return;
 		default:
 			return;

@@ -1,77 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Copyright (C) 2009-2010 Felix Bechstein
-	-->
-	<!--
+<!-- Copyright (C) 2009-2010 Felix Bechstein -->
+<!--
 		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
 		Public License as published by the Free Software Foundation; either
 		version 3 of the License, or (at your option) any later version.
-	-->
-	<!--
+-->
+<!--
 		This program is distributed in the hope that it will be useful, but
 		WITHOUT ANY WARRANTY; without even the implied warranty of
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 		General Public License for more details. You should have received a
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
-	-->
+-->
 <resources>
-	<string name="app_name" translatable="false">WebSMS</string>
-	<string name="app_version" translatable="false">WebSMS-4.5.4</string>
-	<string name="website" translatable="false">http://code.google.com/p/websmsdroid/</string>
-	<string name="source" translatable="false">http://github.com/felixb/websms</string>
-	<string name="faq_" translatable="false">FAQ</string>
-	<string name="google_plus_" translatable="false">Google+</string>
-	<string name="author0" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nFintan Fairmichael &lt;fintanf@gmail.com&gt;\nJake Wharton &lt;https://github.com/JakeWharton/ActionBarSherlock/&gt; (ActionBar)\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)\nAlfonso Picón &lt;apictor@gmail.com&gt; (Spanish)\nBéres Tamás &lt;berestamas2@gmail.com&gt; (Hungarian)\nXim &lt;ximonline@gmail.com&gt; (Russian)\nLaurentiu Lozan &lt;lozanro@gmail.com&gt; (Romanian)\nand many more...</string>
-	<string name="changelog_" translatable="false">Changelog</string>
-	<string name="debug_" translatable="false">Debug</string>
-	<string-array name="themes_values" translatable="false">
-		<item>black</item>
-		<item>light</item>
-	</string-array>
-	<!-- keep the emoticons array synced with code! -->
-	<string-array name="emoticons" translatable="false">
-		<item>O:-)</item>
-		<item>8-)</item>
-		<item>;-(</item>
-		<item>:-?</item>
-		<item>:-)</item>
-		<item>:-*</item>
-		<item>:-D</item>
-		<item>:-X</item>
-		<item>:-$</item>
-		<item>:-(</item>
-		<item>:o</item>
-		<item>:-P</item>
-		<item>:-\\</item>
-		<item>;-)</item>
-		<item>o.O</item>
-		<item>:O</item>
-	</string-array>
-	<string name="connector_sms_author" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;</string>
-	<string-array name="lang_values" translatable="false">
-		<item></item>
-		<item>cs</item>
-		<item>de</item>
-		<item>en</item>
-		<item>hu</item>
-		<item>ro</item>
-		<item>ru</item>		
-		<item>sk</item>
-		<item>es</item>
-		<item>uk</item>
-	</string-array>
-	<string-array name="lang_" translatable="false">
-		<item>Default language</item>
-		<item>Czech</item>
-		<item>German</item>
-		<item>English</item>
-		<item>Hungarian</item>
-		<item>Romanian</item>
-		<item>Russian</item>		
-		<item>Slovak</item>
-		<item>Spanish</item>
-		<item>Ukrainian</item>
-	</string-array>
+
+    <string name="app_name" translatable="false">WebSMS</string>
+    <string name="app_version" translatable="false">WebSMS-4.5.4</string>
+    <string name="website" translatable="false">http://code.google.com/p/websmsdroid/</string>
+    <string name="source" translatable="false">http://github.com/felixb/websms</string>
+    <string name="faq_" translatable="false">FAQ</string>
+    <string name="google_plus_" translatable="false">Google+</string>
+    <string name="author0" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nFintan Fairmichael &lt;fintanf@gmail.com&gt;\nJake Wharton &lt;https://github.com/JakeWharton/ActionBarSherlock/&gt; (ActionBar)\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)\nAlfonso Picón &lt;apictor@gmail.com&gt; (Spanish)\nBéres Tamás &lt;berestamas2@gmail.com&gt; (Hungarian)\nXim &lt;ximonline@gmail.com&gt; (Russian)\nLaurentiu Lozan &lt;lozanro@gmail.com&gt; (Romanian)\nand many more&#8320;</string>
+    <string name="changelog_" translatable="false">Changelog</string>
+    <string name="debug_" translatable="false">Debug</string>
+
+    <string-array name="themes_values" translatable="false">
+        <item>black</item>
+        <item>light</item>
+    </string-array>
+    <!-- keep the emoticons array synced with code! -->
+    <string-array name="emoticons" translatable="false">
+        <item>O:-)</item>
+        <item>8-)</item>
+        <item>;-(</item>
+        <item>:-?</item>
+        <item>:-)</item>
+        <item>:-*</item>
+        <item>:-D</item>
+        <item>:-X</item>
+        <item>:-$</item>
+        <item>:-(</item>
+        <item>:o</item>
+        <item>:-P</item>
+        <item>:-\\</item>
+        <item>;-)</item>
+        <item>o.O</item>
+        <item>:O</item>
+    </string-array>
+
+    <string name="connector_sms_author" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+
+    <string-array name="get_connectors_items" translatable="false">
+        <item>@string/promoted_connectors_smsflatrate_</item>
+        <item>@string/more_connectors_</item>
+    </string-array>
+
 </resources>

@@ -36,7 +36,7 @@
   <string name="defprefix_hint" formatted="false">p.l. +36</string>
   <string name="more_apps_" formatted="false">Még több program..</string>
   <string name="more_connectors_" formatted="false">Még több kiegészítő..</string>
-  <string name="more_connectors_hint" formatted="false">Keress még több kiegészítőt az android marketen. Indítsd újra a WebSMS-t a telepítés után!</string>
+  <string name="more_connectors_hint" formatted="false">Keress még több kiegészítőt az Google Play Store. Indítsd újra a WebSMS-t a telepítés után!</string>
   <string name="more_connectors__" formatted="false">Még több kiegészítő..</string>
   <string name="more_connectors__hint" formatted="false">Hiányzik egy kiegészítő egy szolgáltatóhoz? Olvasd el a GYIK-ot.</string>
   <string name="set_stdandard_connector_" formatted="false">Alapértelmezett csatoló beállítása</string>

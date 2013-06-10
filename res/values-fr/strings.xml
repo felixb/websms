@@ -21,7 +21,7 @@
                Visit http://ub0r.de/translate/websms/fr/strings.xml to edit the file.
        -->
 <resources>
-  <string name="about" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS vous permet d\'envoyer des SMS gratuits ou bon marché via des services web. Beaucoup de fournisseurs de service sont supportés. Vous trouverez le lien vers ceux-ci sur le Play Store (Android Market), dans les préférences de WebSMS.</string>
+  <string name="about" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS vous permet d\'envoyer des SMS gratuits ou bon marché via des services web. Beaucoup de fournisseurs de service sont supportés. Vous trouverez le lien vers ceux-ci sur le Google Play Store, dans les préférences de WebSMS.</string>
   <string name="about_" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="About">À propos de</string>
   <string name="about_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="About this app">À propos de cette application</string>
   <string name="faq_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Quelques trucs et astuces pour configurer cette application.</string>

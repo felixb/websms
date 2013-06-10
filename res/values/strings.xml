@@ -71,6 +71,9 @@
 	<string name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
 	<string name="settings_connectors">Preferences - Connectors</string>
 	<string name="connectors_">Connectors</string>
+	<string name="promoted_connectors_">Promoted Connectors</string>
+	<string name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
+	<string name="promoted_connectors_smsflatrate_hint">20SMS/month free, 1€ balance for WebSMS users</string>
 	<string name="alternative_layout_">Alternative layout</string>
 	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
 	<string name="textsize_">Text size</string>

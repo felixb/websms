@@ -31,6 +31,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -64,6 +65,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private static final String PREFS_STANDARD_CONNECTOR_SET = "set_std_connector";
 	/** Preference's name: clear standard connector. */
 	private static final String PREFS_STANDARD_CONNECTOR_CLEAR = "clear_std_connector";
+	/** Preference's name: promoted_connectors. */
+	private static final String PREFS_PROMOTED_CONNECTORS = "settings_promoted_connectors";
 
 	/**
 	 * {@inheritDoc}
@@ -291,12 +294,16 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 */
 	static void addConnectorPreferences(final IPreferenceContainer pc) {
 		Log.d(TAG, "addConnectorPreferences()");
+		PreferenceGroup container = (PreferenceGroup) pc
+				.findPreference("container");
 		PreferenceCategory pcat = (PreferenceCategory) pc
 				.findPreference("settings_connectors");
 		if (pcat == null) {
 			Log.d(TAG, "settings_connectors not found; exit");
 			return;
 		}
+		Preference pr = pc
+				.findPreference(PreferencesActivity.PREFS_PROMOTED_CONNECTORS);
 		final ConnectorSpec[] css = WebSMS
 				.getConnectors(ConnectorSpec.CAPABILITIES_PREFS,
 						ConnectorSpec.STATUS_INACTIVE);
@@ -310,6 +317,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 			if (pkg == null) {
 				Log.w(TAG, "pkg == null");
 				continue;
+			}
+			if (pr != null
+					&& container != null
+					&& pkg.equals("de.ub0r.android.websms.connector.smsflatratenet")) {
+				// remove promoted connector category
+				// if any of them is installed already
+				container.removePreference(pr);
+				pr = null;
 			}
 			cp = pcat.findPreference(pkg);
 			if (cp != null) {
