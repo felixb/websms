@@ -23,7 +23,7 @@
 <resources>
 	<string name="help_title" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Einführung: WebSMS</string>
 	<string name="get_connectors" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Connectoren installieren</string>
-	<string name="help_conenctors" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Es gibt eine große Auswahl an Connectoren im Google Play Store.\nDrücke den Knopf unten und installiere den Connector, der dir am besten passt.\nFür die meisten Nutzer ohne einen Account bei einem der Anbieter, kann ich smsflatrate.net empfehlen. Nutzer mit nich lateinischen Zeichen sollten sich my-cool-sms als erstes ansehen.</string>
+	<string name="help_conenctors" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Es gibt eine große Auswahl an Connectoren im Google Play Store.\nDrücke den Knopf unten und installiere den Connector, der dir am besten passt.\nFür die meisten Nutzer ohne einen Account bei einem der Anbieter, kann ich smsflatrate.net empfehlen. Bei smsflatrate.net hast du monatlich 20 gratis SMS. WebSMS Nutzer bekommen 1 Euro Startguthaben. Nutzer mit nicht lateinischen Zeichen sollten sich my-cool-sms als erstes ansehen.</string>
 	<string name="help_connectors_matrix" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Du kannst in der Connector Matrix mehr Informationen über verfügbare Connectoren einsehen: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix</string>
   <string name="help_prefs" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Zum Starten musst du wenigstens deine eigene Rufnummer und dein internationales Prefix in den Einstellungen von WebSMS setzen.</string>
 </resources>

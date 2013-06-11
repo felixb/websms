@@ -294,14 +294,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 */
 	static void addConnectorPreferences(final IPreferenceContainer pc) {
 		Log.d(TAG, "addConnectorPreferences()");
-		PreferenceGroup container = (PreferenceGroup) pc
-				.findPreference("container");
 		PreferenceCategory pcat = (PreferenceCategory) pc
 				.findPreference("settings_connectors");
 		if (pcat == null) {
 			Log.d(TAG, "settings_connectors not found; exit");
 			return;
 		}
+		PreferenceGroup container = (PreferenceGroup) pc
+				.findPreference("container");
 		Preference pr = pc
 				.findPreference(PreferencesActivity.PREFS_PROMOTED_CONNECTORS);
 		final ConnectorSpec[] css = WebSMS
@@ -309,6 +309,12 @@ public class PreferencesActivity extends PreferenceActivity implements
 						ConnectorSpec.STATUS_INACTIVE);
 		if (css.length == 0) {
 			Log.i(TAG, "css.length == 0");
+			// hide standard connector preferences
+			PreferenceGroup stdConnectors = (PreferenceGroup) pc
+					.findPreference("std_connector");
+			if (stdConnectors != null && container != null) {
+				container.removePreference(stdConnectors);
+			}
 		}
 		String pkg;
 		Preference cp;

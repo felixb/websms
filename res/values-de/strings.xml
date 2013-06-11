@@ -146,7 +146,8 @@
   <string name="standard_connector_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Standard Connector">Standard Connector</string>
   <string name="common_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Common">Allgemein</string>
   <string name="connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Connectors">Connectoren</string>
-  <string name="promoted_connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Promoted Connectors</string>
+  <string name="installed_connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Installierte Connectoren</string>
+  <string name="promoted_connectors_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">Promoted Connectoren</string>
   <string name="promoted_connectors_smsflatrate_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">smsflatrate.net</string>
   <string name="promoted_connectors_smsflatrate_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;">20SMS/Monat frei, 1€ Guthaben für WebSMS Nutzer</string>
   <string name="update_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Update">Update</string>

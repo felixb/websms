@@ -30,7 +30,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="settings_connectors"
-        android:title="@string/connectors_" >
+        android:title="@string/installed_connectors_" >
         <CheckBoxPreference
             android:key="enable_sms"
             android:summary="@string/enable_sms_hint"
@@ -39,7 +39,9 @@
         <!-- other connectors getting added dynamicaly -->
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/standard_connector_" >
+    <PreferenceCategory
+        android:key="std_connector"
+        android:title="@string/standard_connector_" >
         <PreferenceScreen
             android:key="set_std_connector"
             android:summary="@string/set_stdandard_connector_hint"
