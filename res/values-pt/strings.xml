@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+		Copyright (C) 2009-2012 Felix Bechstein
+	-->
+<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+  <string name="about_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="About">Sobre</string>
+  <string name="about" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">O WebSMS permite-lhe enviar SMS gratuitamente ou a baixo custo através de diversos serviços web. Existem diversos serviços disponíveis. Nas preferências do WebSMS, pode encontrar a ligação à Google Play Strore para obter os serviços.</string>
+  <string name="about_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="About this app">Sobre esta aplicação</string>
+  <string name="faq_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Dicas de utilização sobre esta aplicação.</string>
+  <string name="feedback_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Feedback">Comentários</string>
+  <string name="feedback_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Report bugs, request features ...">Reportar erros e pedir funcionalidades...</string>
+  <string name="google_plus_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Seguir no Google+.\nObter notificações e muito mais..</string>
+  <string name="author_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Author:">Autor:</string>
+  <string name="author_connectors_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Author of Connectors:">Autor dos conectores:</string>
+  <string name="change_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Change provider">Alterar serviço</string>
+  <string name="change_connector_nl" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Change\nprovider">Alterar\nserviço</string>
+  <string name="click_for_update" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="(update: click)">(atualizar: clique)</string>
+  <string name="defprefix_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Default int. prefix">Prefixo internacional</string>
+  <string name="defprefix_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="e.g. +49">ex.: +351</string>
+  <string name="more_apps_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="More Apps..">Mais aplicações...</string>
+  <string name="more_connectors_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="More Connectors..">Mais conectores...</string>
+  <string name="more_connectors_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Procure os conectores na Google Play Store. Reinicie o WebSMS após a instalação!</string>
+  <string name="more_connectors__" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Even more Connectors..">Ainda mais conectores...</string>
+  <string name="more_connectors__hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Precisa de algum conector não disponível? Aceda às FAQ para saber mais...</string>
+  <string name="standard_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Standard Connector">Conector padrão</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set standard Connector">Definir conector padrão</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Definir conector atual como padrão. O WebSMS irá ativar o conector automaticamente.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Clear standard Connector">Limpar conector padrão</string>
+  <string name="free_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Balances:">Saldo:</string>
+  <string name="license" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - consulte http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="license_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="License:">Licença:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Introduza um código válido como prefixo padrão. Ex.: +351</string>
+  <string name="log_wrong_sender" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Inválido. Defina um formato internacional como +351123456789</string>
+  <string name="log_noselectedconnector" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nenhum conector selecionado! Adicione o conector com "Alterar serviço".</string>
+  <string name="log_noreadyconnector" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="No Connector installed or ready. Please check preferences.">Nenhum conector instalado ou preparado. Verifique as preferências.</string>
+  <string name="log_error_saving_message" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Error updating sent message in Database!">Erro ao atualizar as mensagens enviadas na base de dados!</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Connector does not provide valid characters">O conector não disponibiliza caracteres válidos.</string>
+  <string name="log_error_char_notsendable" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="This message contains not sendable characters">Esta mensagem não contém caracteres com possibilidade de envio.</string>
+  <string name="log_error_sms" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Could not send SMS: ErrorCode=">Mensagem não enviada: Erro=</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Conector não encontrado. Aceda às prefrências do WebSMS para forçar  o carregamento dos conectores.</string>
+  <string name="notify_failed" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Failed to send SMS: ">Falha no envio da SMS:</string>
+  <string name="notify_failed_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="failed sending SMS">falha ao enviar SMS</string>
+  <string name="sender_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Your mobile number">O seu número de telefone</string>
+  <string name="send_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Send">Enviar</string>
+  <string name="save_draft_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Save draft">Guardar rascunho</string>
+  <string name="save_chars_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Save chars">Guardar caracteres</string>
+  <string name="settings" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Preferences">Preferências</string>
+  <string name="settings_common" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Preferences - Common">Preferências - Geral</string>
+  <string name="common_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Common">Geral</string>
+  <string name="appearance_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Appearance">Aparência</string>
+  <string name="behavior_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Behavior">Comportamento</string>
+  <string name="appearance_and_behavior_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Appearance &amp; behavior">Aparência e comportamento</string>
+  <string name="autosend_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Autosend">Envio automático</string>
+  <string name="show_titlebar_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show title bar">Mostrar barra de título</string>
+  <string name="show_titlebar_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Mostrar barra de título na janela. Sem a barra de título, não existe forma de ver as atividades em segundo plano.</string>
+  <string name="settings_connectors" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Preferences - Connectors">Preferências - Conectores</string>
+  <string name="connectors_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Connectors">Conectores</string>
+  <string name="alternative_layout_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Alternative layout">Esquema alternativo</string>
+  <string name="alternative_layout_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Move send bar to the top. Needs restart.">Mover barra de envio para cima. Tem que reiniciar.</string>
+  <string name="textsize_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Text size">Tamanho do texto</string>
+  <string name="textsize_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Text size in pixels; leave empty for default">Tamanho em pixeis. Deixe em branco para utilizar o formato padrão.</string>
+  <string name="show_balance_toast_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show balance toast">Mostrar notificação</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show toast notification on balance update.">Mostrar notificação ao atualizar o saldo.</string>
+  <string name="hide_change_connector_button" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">Ocultar "Alterar serviço"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Ocultar botão "Alterar serviço" no ecrã principal.</string>
+  <string name="hide_send_button" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">Ocultar "Enviar"</string>
+  <string name="hide_send_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Ocultar botão "Enviar" no ecrã principal.</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Ocultar botão "Cancelar" no ecrã principal.</string>
+  <string name="hide_extras_button_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">Ocultar "Extras"</string>
+  <string name="hide_extras_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">Ocultar botão "Extras" no ecrã principal.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">Ocultar "Selecionar"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Ocultar botão "Selecionar destinatário" no ecrã principal.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">Ocultar "Limpar"</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Ocultar botão "Limpar destinatário" no ecrã principal.</string>
+  <string name="hide_send_in_menu" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Send\&quot; menu item">Ocultar item de menu "Enviar"</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Ocultar "Enviar" no menu principal. Tem que reiniciar.</string>
+  <string name="hide_emo_button" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">Ocultar "Ícone emotivo"</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Ocultar botão "Ícone emotivo" no ecrã principal.</string>
+  <string name="hide_update" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">Ocultar "Clique para atualizar"</string>
+  <string name="hide_update_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">Ocultar botão "Clique para atualizar" no ecrã principal.</string>
+  <string name="signature_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Signature">Assinatura</string>
+  <string name="autoupdate_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Autoupdate">Atualização automática</string>
+  <string name="autoexit_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Autoexit">Sair automaticamente</string>
+  <string name="to_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Name or Number">Nome ou número</string>
+  <string name="extras_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Extras">Extras</string>
+  <string name="text_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Text">Texto</string>
+  <string name="emo_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Emoticons">Ícone emotivo</string>
+  <string name="send_later" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Send later">Enviar mais tarde</string>
+  <string name="captcha_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Captcha">Captcha</string>
+  <string name="enable_sms" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Enable SMS">Ativar SMS</string>
+  <string name="connector_sms_name" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="SMS">SMS</string>
+  <string name="theme_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Theme">Tema</string>
+  <string name="debug_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Debug">Depuração</string>
+  <string name="website_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Website:">Sítio web:</string>
+  <string name="source_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Sourcescode:">Código fonte:</string>
+  <string name="custom_language_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Custom language">Idioma personalizado</string>
+  <string name="custom_language_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set a custom language.">Definir idioma personalizado.</string>
+  <string name="attempt" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Attempt">Tentativa</string>
+  <string name="to" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="To">Para</string>
+  <string-array name="themes" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;">
+    <item>Escuro</item>
+    <item>Claro</item>
+  </string-array>
+  <string name="hide_cancel_button" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button">Ocultar "Cancelar"</string>
+  <string name="hide_bg_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide connector name">Ocultar nome do conector</string>
+  <string name="hide_bg_connector_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide active connector\'s name in background.">Ocultar o nome do conector ativo.</string>
+  <string name="hide_paste_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Ocultar "Colar"</string>
+  <string name="hide_paste_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Ocultar botão "Colar" no campo de texto.</string>
+  <string name="drop_sent_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Don\'t save sent SMS">Não guardar SMS enviadas</string>
+  <string name="drop_sent_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Não guardar mensagens enviadas na base de dados.</string>
+  <string name="enable_autosend_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Enable autosend">Ativar envio automático</string>
+  <string name="enable_autosend_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Ativar o envio automático de mensagens do SMSdroid.</string>
+  <string name="use_selected_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Use selected Connector">Utilizar conector selecionado</string>
+  <string name="use_selected_connector_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Utilizar conector selecionado para enviar automaticamente. Desative para mostrar o seletor.</string>
+  <string name="default_recipient_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Default recipient">Destinatário padrão</string>
+  <string name="default_recipient_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Default recipient filled into address bar on app start.">Preencher destinatário padrão na barra de endereço.</string>
+  <string name="autoupdate_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Update account balances on start.">Atualizar saldo da conta ao iniciar.</string>
+  <string name="autoexit_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Exit WebSMS when sending sms.">Sair do WebSMS após envio da SMS.</string>
+  <string name="mobile_only_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show mobiles only">Apenas móveis</string>
+  <string name="mobile_only_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Show mobile numbers only.">Mostrar apenas números móveis.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Try send invalid">Tentar enviar inválidas</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Try to send messages with invalid.">Tentar enviar mensagens inválidas.</string>
+  <string name="signature_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Texto a anexar nas mensagens. Se necessário pode iniciar a assinatura com " ".</string>
+  <string name="vibrate_on_fail" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Vibrate if sending fails">Vibrar se o envio falhar</string>
+  <string name="vibrate_on_send" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Vibrate after sending">Vibrar após o envio</string>
+  <string name="sound_on_fail" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Play sound if sending fails">Som ao falhar o envio</string>
+  <string name="custom_sender" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Custom sender">Remetente personalizado</string>
+  <string name="connectors_switch" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Switched connector:">Conector trocado:</string>
+  <string name="captcha_solve_it" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Please enter the text below:">Introduza o texto em baixo:</string>
+  <string name="status_disabled" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Status: disabled\n(Updated when returning to main screen)">Estado: inativo\n(Atualizado se voltar ao menu principal)</string>
+  <string name="status_enabled" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Status: enabled\n(Updated when returning to main screen)">Estado: ativo\n(Atualizado se voltar ao menu principal)</string>
+  <string name="status_ready" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Status: ready\n(Updated when returning to main screen)">Estado: pronto\n(Atualizado se voltar ao menu principal)</string>
+  <string name="connector_vanished" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Connector vanished!">O conector desapareceu!</string>
+  <string name="enable_sms_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="The SMS Connector will send normal SMS (e.g. via GSM).">O conector SMS irá enviar mensagens normais (ex.: GSM).</string>
+  <string name="paste_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="[ Paste from clipboard ]">[Colar da área de transferência]</string>
+  <string name="restore_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Restore last message">Recuperar última mensagem</string>
+  <string name="update_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Update">Atualização</string>
+  <string name="connector_message_length_reached" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Atingiu o tamanho máximo de %1$d caracteres para o conector %2$s. %3$s</string>
+  <string name="connector_message_length_reached_signature" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(Dos quais %1$d caracteres são da sua assinatura).</string>
+  <string name="send_logs_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Send logs">Enviar registos</string>
+  <string name="send_logs_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Enviar registos do dispositivo ao programador.\nNão o faça a menos que seja solicitado.</string>
+  <string name="sendlog_run_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Run SendLog">Executar SendLog</string>
+  <string name="sendlog_run" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">O SendLog irá recolher e enviar os registos do dispositivo ao programador.\nPode rever e alterar os dados enviados.</string>
+  <string name="sendlog_install_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Install SendLog">Instalar SendLog</string>
+  <string name="sendlog_install" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Install the free SendLog application to collect the device log and send it to the developer.">Instale a aplicação SendLog para recolher e enviar os registos do dispositivo ao programador.</string>
+  <string name="max_resend_count_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Max resend attempts">Reenvios máximos</string>
+  <string name="max_resend_count_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Maximum number of attempts to resend a failed message.">Número máximo de tentativas de reenvio para SMS falhadas.</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: falha ao enviar. A reenviar..</string>
+  <string name="cancelling_resend" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: cancelamento de reenvio...</string>
+  <string name="resending_failed_msg_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: reenvio de mensagem</string>
+  <string name="flashsms" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Flash SMS">Flash SMS</string>
+</resources>

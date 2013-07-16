@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+		Copyright (C) 2009-2011 Felix Bechstein
+	-->
+<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+  <string name="help_title" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Introducing WebSMS">Introdução ao WebSMS</string>
+  <string name="get_connectors" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Get Connectors">Obter conectores</string>
+  <string name="help_conenctors" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="There is a huge number of Connectors available in Android Market.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend cherry-sms for almost everybody. Users with non latin alphabets might want to try my-cool-sms first.">Existem diversos conectores disponíveis na Google Play Store.\nPrima o botão abaixo para instalar o conector que melhor se ajusta às suas necessidades. Os utilizadores que não possuam conta em qualquer um dos serviços, recomendamos o serviço cherry-sms. Os utilizadores que utilizem caracteres não latinos podem experimentar o serviço my-cool-sms</string>
+  <string name="help_connectors_matrix" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="You might want to check the Connector Matrix for more informations about avaiable Connectors: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix">Analise o Conector Matrix para saber mais informações sobre os conectores disponíveis:</string>
+  <string name="help_prefs" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.">Para iniciar, tem que definir o seu número de telemóvel e o prefixo internacional nas preferências do WebSMS.</string>
+</resources>
