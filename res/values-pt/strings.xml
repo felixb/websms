@@ -18,7 +18,7 @@
 	-->
 <resources>
   <string name="about_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="About">Sobre</string>
-  <string name="about" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">O WebSMS permite-lhe enviar SMS gratuitamente ou a baixo custo através de diversos serviços web. Existem diversos serviços disponíveis. Nas preferências do WebSMS, pode encontrar a ligação à Google Play Strore para obter os serviços.</string>
+  <string name="about" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">O WebSMS permite-lhe enviar SMS gratuitamente ou a baixo custo através de diversos serviços web. Existem diversos serviços disponíveis. Nas preferências do WebSMS, pode encontrar a ligação à Google Play Store para obter os serviços.</string>
   <string name="about_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="About this app">Sobre esta aplicação</string>
   <string name="faq_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Dicas de utilização sobre esta aplicação.</string>
   <string name="feedback_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Feedback">Comentários</string>
