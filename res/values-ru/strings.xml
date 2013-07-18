@@ -45,7 +45,7 @@
   <string name="free_" formatted="false">Баланс:</string>
   <string name="license" formatted="false">GPLv3 - смотрите http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Лицензия:</string>
-  <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Введите правильный код страны как префикс по умолчанию. Например, "+7".</string>
+  <string name="log_wrong_defprefix" formatted="false" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Введите правильный код страны как префикс по умолчанию. Например, \"+7\".</string>
   <string name="log_wrong_sender" formatted="false" orig="Wrong sender! Set it in international form like +4917012345678." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Неверный номер отправителя! Введите его в международном формате +79170123456.</string>
   <string name="log_noselectedconnector" formatted="false" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Не выбран Коннектор. Выберите нужный в \'Сменить провайдера\'.</string>
   <string name="log_noreadyconnector" formatted="false" orig="No Connector installed or ready. Please check preferences." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Коннектор не установлен или не готов. Проверьте настройки.</string>
@@ -103,7 +103,7 @@
   <string name="default_recipient_" formatted="false">Получатель по умолчанию</string>
   <string name="default_recipient_hint" formatted="false" orig="Default recipient filled into address bar on app start.">Вписывается автоматически в поле получателя при старте программы</string>
   <string name="signature_" formatted="false">Подпись</string>
-  <string name="signature_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Текст в конце каждого сообщения. Пробел не добавляется. Используйте " " если необходимо.</string>
+  <string name="signature_hint" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Текст в конце каждого сообщения. Пробел не добавляется. Используйте \" \" если необходимо.</string>
   <string name="autoupdate_" formatted="false">Автообновление</string>
   <string name="autoupdate_hint" formatted="false" orig="Update account balances on start.">Обновляет баланс при старте</string>
   <string name="autoexit_" formatted="false">Автовыход</string>

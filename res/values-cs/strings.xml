@@ -57,7 +57,7 @@
   <string name="settings_connectors" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Preferences - Connectors">Nastavení - Rozhraní</string>
   <string name="connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connectors">Rozhraní</string>
   <string name="textsize_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Text size">Velikost textu</string>
-  <string name="hide_change_connector_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Chg. provider\&quot; button">Skrýt tlač. \&quot;Zm. poskytovatele\&quot;"</string>
+  <string name="hide_change_connector_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Chg. provider\&quot; button">Skrýt tlač. \&quot;Zm. poskytovatele\&quot;\"</string>
   <string name="hide_change_connector_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Skrýt tlačítko \&quot;Změnit poskytovatele\&quot; na hlavní obrazovce.</string>
   <string name="hide_send_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button">Skrýt tlač. \&quot;Odeslat\&quot;</string>
   <string name="hide_send_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Skrýt tlačítko \&quot;Odeslat\&quot; na hlavní obrazovce.</string>

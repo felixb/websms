@@ -48,7 +48,7 @@
   <string name="license" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - читайте на http://www.gnu.org/licenses/gpl-3.0.tx</string>
   <string name="license_" formatted="false" username="rkononenko" orig="License:">Ліцензія:</string>
   <string name="log_wrong_sender" formatted="false" username="rkononenko" orig="Wrong sender! Set it in international form like +4917012345678.">Невірний відправник! Встановіть відправника у міжнародній формі, напр. +380 066 2342</string>
-  <string name="log_noselectedconnector" formatted="false" username="rkononenko" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не обрано жодного Приєднувача. Будь ласка оберіть такий що має опцію "Змінити Провайдера".</string>
+  <string name="log_noselectedconnector" formatted="false" username="rkononenko" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Не обрано жодного Приєднувача. Будь ласка оберіть такий що має опцію \"Змінити Провайдера\".</string>
   <string name="log_noreadyconnector" formatted="false" username="rkononenko" orig="No Connector installed or ready. Please check preferences.">Не встановлено жодного Приєднувача. Будь ласка перевірте налаштування.</string>
   <string name="log_error_saving_message" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Error updating sent message in Database!">Помилка під час оновлення відправлених смс\'ок у базі!</string>
   <string name="log_error_char_nonvalid" formatted="false" username="rkononenko" orig="Connector does not provide valid characters">Приєднувач не надав дійсних символів</string>
@@ -63,7 +63,7 @@
   <string name="enable_sms" formatted="false" username="rkononenko" orig="Enable SMS">Увімкнути СМС</string>
   <string name="connector_sms_name" formatted="false" username="rkononenko" orig="SMS">СМС</string>
   <string name="connector_vanished" formatted="false" username="rkononenko" orig="Connector vanished!">Приєднувач зник!</string>
-  <string name="log_wrong_defprefix" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Будь ласка, введіть вірний код країни як типовий префікс. Напр. "+380".</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Будь ласка, введіть вірний код країни як типовий префікс. Напр. \"+380\".</string>
   <string name="log_error_sms" formatted="false" username="rkononenko" orig="Could not send SMS: ErrorCode=">Не вдалося відправити СМС: КодПомилки=</string>
   <string name="log_error_connector_not_found" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Приєднувач не знайдено, будь ласка відкрите та закрийте налаштування WebSMS аби примусово перевантажити Приєднувачі.</string>
   <string name="try_send_invalid_characters_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Try send invalid">Спробуйте надіслати недійсне</string>
@@ -91,28 +91,28 @@
   <string name="textsize_hint" formatted="false" username="rkononenko" orig="Text size in pixels; leave empty for default">Розмір тексту у пікселях; залиште порожнім для типового розміру</string>
   <string name="show_balance_toast_" formatted="false" username="rkononenko" orig="Show balance toast">Показ. тостовий баланс</string>
   <string name="show_balance_toast_hint" formatted="false" username="rkononenko" orig="Show toast notification on balance update.">Показати тостове повідомл. під час оновлення балансу.</string>
-  <string name="hide_change_connector_button" formatted="false" username="rkononenko" orig="Hide \&quot;Chg. provider\&quot; button">Сховати кнопку "Змін. провайдера"</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Change provider\&quot; button on main screen.">Сховати кнопку "Змін. провайдера" з основного екрану</string>
-  <string name="hide_send_button" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; button">Сховати кнопку "Відправити"</string>
-  <string name="hide_send_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; button in main screen.">Сховати кнопку "Відправити" з основного екрану</string>
-  <string name="hide_cancel_button" formatted="false" username="rkononenko" orig="Hide \&quot;Cancel\&quot; button">Сховати кнопку "Скасувати"</string>
-  <string name="hide_cancel_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Cancel\&quot; button on main screen.">Сховати кнопку "Скасувати" з основного екрану</string>
-  <string name="hide_extras_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Extras\&quot; button">Сховати кнопку "Додаткове"</string>
-  <string name="hide_extras_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Extras\&quot; button on main screen.">Сховати кнопку "Додаткове" з основного екрану</string>
-  <string name="hide_select_recipients_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Select\&quot; button">Сховати кнопку "Обрати"</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Сховати кнопку "Обрати отримувача" з основного екрану</string>
-  <string name="hide_clear_recipients_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Clear\&quot; button">Сховати кнопку "Очистити" з основного екрану</string>
-  <string name="hide_clear_recipients_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Сховати кнопку "Очистити отримувачів" з основного екрану</string>
-  <string name="hide_send_in_menu" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; menu item">Сховати пункт меню "Відправлення"</string>
-  <string name="hide_send_in_menu_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Сховати пункт "Відправленя" з головн. меню. Потребує перезав.</string>
-  <string name="hide_emo_button" formatted="false" username="rkononenko" orig="Hide \&quot;Emoticons\&quot; button">Сховати кнопку "Емоціконки"</string>
-  <string name="hide_emo_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Сховати пункт "Емоціконки" з головн. меню.</string>
-  <string name="hide_update" formatted="false" username="rkononenko" orig="Hide \&quot;Click for update\&quot;">Сховати пункт "Клацніть для оновлення"</string>
-  <string name="hide_update_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Click for update\&quot; on main screen.">Сховати пункт "Клацніть для оновлення" з головн. меню.</string>
+  <string name="hide_change_connector_button" formatted="false" username="rkononenko" orig="Hide \&quot;Chg. provider\&quot; button">Сховати кнопку \"Змін. провайдера\"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Change provider\&quot; button on main screen.">Сховати кнопку \"Змін. провайдера\" з основного екрану</string>
+  <string name="hide_send_button" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; button">Сховати кнопку \"Відправити\"</string>
+  <string name="hide_send_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; button in main screen.">Сховати кнопку \"Відправити\" з основного екрану</string>
+  <string name="hide_cancel_button" formatted="false" username="rkononenko" orig="Hide \&quot;Cancel\&quot; button">Сховати кнопку \"Скасувати\"</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Cancel\&quot; button on main screen.">Сховати кнопку \"Скасувати\" з основного екрану</string>
+  <string name="hide_extras_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Extras\&quot; button">Сховати кнопку \"Додаткове\"</string>
+  <string name="hide_extras_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Extras\&quot; button on main screen.">Сховати кнопку \"Додаткове\" з основного екрану</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Select\&quot; button">Сховати кнопку \"Обрати\"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Сховати кнопку \"Обрати отримувача\" з основного екрану</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="rkononenko" orig="Hide \&quot;Clear\&quot; button">Сховати кнопку \"Очистити\" з основного екрану</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Сховати кнопку \"Очистити отримувачів\" з основного екрану</string>
+  <string name="hide_send_in_menu" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; menu item">Сховати пункт меню \"Відправлення\"</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Сховати пункт \"Відправленя\" з головн. меню. Потребує перезав.</string>
+  <string name="hide_emo_button" formatted="false" username="rkononenko" orig="Hide \&quot;Emoticons\&quot; button">Сховати кнопку \"Емоціконки\"</string>
+  <string name="hide_emo_button_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Сховати пункт \"Емоціконки\" з головн. меню.</string>
+  <string name="hide_update" formatted="false" username="rkononenko" orig="Hide \&quot;Click for update\&quot;">Сховати пункт \"Клацніть для оновлення\"</string>
+  <string name="hide_update_hint" formatted="false" username="rkononenko" orig="Hide \&quot;Click for update\&quot; on main screen.">Сховати пункт \"Клацніть для оновлення\" з головн. меню.</string>
   <string name="hide_bg_connector_" formatted="false" username="rkononenko" orig="Hide connector name">Сховати ім\'я приєднувача</string>
   <string name="hide_bg_connector_hint" formatted="false" username="rkononenko" orig="Hide active connector\'s name in background.">Сховати активне ім\'я приєднувача на задній план</string>
-  <string name="hide_paste_" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button">Сховати кнопку "вставити"</string>
-  <string name="hide_paste_hint" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button on text field.">Сховати кнопку "вставити" з текстового поля</string>
+  <string name="hide_paste_" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button">Сховати кнопку \"вставити\"</string>
+  <string name="hide_paste_hint" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button on text field.">Сховати кнопку \"вставити\" з текстового поля</string>
   <string name="drop_sent_" formatted="false" username="rkononenko" orig="Don\'t save sent SMS">Не зберігати відравл. смс\'ки</string>
   <string name="drop_sent_hint" formatted="false" username="rkononenko" orig="Don\'t save sent messages in global database.">Не зберігати відравл. смс\'ки у глобальну датабазу.</string>
   <string name="enable_autosend_" formatted="false" username="rkononenko" orig="Enable autosend">Увімкн. автовідправлення</string>
@@ -122,7 +122,7 @@
   <string name="default_recipient_" formatted="false" username="rkononenko" orig="Default recipient">Отримувач за промовч.</string>
   <string name="default_recipient_hint" formatted="false" username="rkononenko" orig="Default recipient filled into address bar on app start.">Помістити отримувача за промовч.в адресний рядок під час запуску застосунку.</string>
   <string name="signature_" formatted="false" username="rkononenko" orig="Signature">Підпис</string>
-  <string name="signature_hint" formatted="false" username="rkononenko" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Текст для приєдання до кожної СМС\'ки. У ньому не буде додаткової прогалини. Якщо треба почніть свій підпис з " "</string>
+  <string name="signature_hint" formatted="false" username="rkononenko" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Текст для приєдання до кожної СМС\'ки. У ньому не буде додаткової прогалини. Якщо треба почніть свій підпис з \" \"</string>
   <string name="autoupdate_" formatted="false" username="rkononenko" orig="Autoupdate">Автооновлення</string>
   <string name="autoupdate_hint" formatted="false" username="rkononenko" orig="Update account balances on start.">Оновити рахунок балансу під час запуску.</string>
   <string name="autoexit_" formatted="false" username="rkononenko" orig="Autoexit">Автовихід</string>

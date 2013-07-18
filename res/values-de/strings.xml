@@ -46,9 +46,9 @@
   <string name="free_" formatted="false">Guthaben:</string>
   <string name="license" formatted="false">GPLv3 - siehe http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Lizenz:</string>
-  <string name="log_wrong_defprefix" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Bitte setze ein korrektes Länderpräfix als Standardpräfix, z.B. "+49".</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Bitte setze ein korrektes Länderpräfix als Standardpräfix, z.B. \"+49\".</string>
   <string name="log_wrong_sender" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Falscher Absender! Das Format muss im internationalen Format sein, z.B. +4917012345678.</string>
-  <string name="log_noselectedconnector" formatted="false">Kein Connector ausgewählt. Bitte wähle einen mit "Anderer Provider".</string>
+  <string name="log_noselectedconnector" formatted="false">Kein Connector ausgewählt. Bitte wähle einen mit \"Anderer Provider\".</string>
   <string name="log_noreadyconnector" formatted="false">Kein Connector installiert oder bereit. Bitte überprüfe deine Einstellungen.</string>
   <string name="log_error_saving_message" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Error updating sent message in Database!">Fehler beim Aktualisieren der Nachricht in der Datenbank!</string>
   <string name="log_error_char_nonvalid" formatted="false">Der Connector stellt keine erlaubten Zeichen bereit</string>
@@ -77,28 +77,28 @@
   <string name="textsize_hint" formatted="false">Schriftgrad in Punkten; leer lassen für Standard</string>
   <string name="show_balance_toast_">Zeige Guthaben-Toast</string>
   <string name="show_balance_toast_hint">Zeige Toast-Benachrichtigung, wenn das Guthaben aktualisiert wurde.</string>
-  <string name="hide_change_connector_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">"Anderer Provider"-Button ausblenden</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">"Anderer Provider"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_send_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">"Senden"-Button ausblenden</string>
-  <string name="hide_send_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">"Senden"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_cancel_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button">"Abbrechen"-Button ausblenden</string>
-  <string name="hide_cancel_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">"Abbrechen"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_extras_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">"Extras"-Button ausblenden</string>
-  <string name="hide_extras_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extras"-Button auf dem Hauptbildschirm  ausblenden</string>
-  <string name="hide_select_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">"Empfänger auswählen"-Button ausblenden</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">"Empfänger auswählen"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_clear_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">"Empfänger löschen"-Button ausblenden</string>
-  <string name="hide_clear_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">"Empfänger löschen"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_send_in_menu" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; menu item">"Senden" im Menü ausblenden</string>
-  <string name="hide_send_in_menu_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">"Senden" im Hauptmenü ausblenden. Neustart erforderlich.</string>
-  <string name="hide_emo_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">"Smiley"-Button ausblenden</string>
-  <string name="hide_emo_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">"Smiley"-Button auf dem Hauptbildschirm ausblenden.</string>
-  <string name="hide_update" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">"Klick zum Update" ausblenden</string>
-  <string name="hide_update_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">"Klick zum Update" auf Hauptbildschirm ausblenden.</string>
+  <string name="hide_change_connector_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">\"Anderer Provider\"-Button ausblenden</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">\"Anderer Provider\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_send_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button">\"Senden\"-Button ausblenden</string>
+  <string name="hide_send_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">\"Senden\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_cancel_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button">\"Abbrechen\"-Button ausblenden</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">\"Abbrechen\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_extras_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button">\"Extras\"-Button ausblenden</string>
+  <string name="hide_extras_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Extras\&quot; button on main screen.">\"Extras\"-Button auf dem Hauptbildschirm  ausblenden</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select\&quot; button">\"Empfänger auswählen\"-Button ausblenden</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">\"Empfänger auswählen\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear\&quot; button">\"Empfänger löschen\"-Button ausblenden</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">\"Empfänger löschen\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_send_in_menu" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; menu item">\"Senden\" im Menü ausblenden</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">\"Senden\" im Hauptmenü ausblenden. Neustart erforderlich.</string>
+  <string name="hide_emo_button" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button">\"Smiley\"-Button ausblenden</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">\"Smiley\"-Button auf dem Hauptbildschirm ausblenden.</string>
+  <string name="hide_update" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot;">\"Klick zum Update\" ausblenden</string>
+  <string name="hide_update_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide \&quot;Click for update\&quot; on main screen.">\"Klick zum Update\" auf Hauptbildschirm ausblenden.</string>
   <string name="hide_bg_connector_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide connector name">Connectornamen ausblenden</string>
   <string name="hide_bg_connector_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Hide active connector\'s name in background.">Namen des aktiven Connectors im Hintergrund ausblenden.</string>
-  <string name="hide_paste_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button">"Einfügen"-Button ausblenden</string>
-  <string name="hide_paste_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">"Einfügen"-Button ausblenden.</string>
+  <string name="hide_paste_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button">\"Einfügen\"-Button ausblenden</string>
+  <string name="hide_paste_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">\"Einfügen\"-Button ausblenden.</string>
   <string name="drop_sent_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent SMS">Gesendete SMS nicht speichern</string>
   <string name="drop_sent_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent messages in global database.">Gesendete Nachrichten nicht in der globalen Datenbank speichern.</string>
   <string name="enable_autosend_" formatted="false">Aktiviere Autosend</string>
@@ -108,7 +108,7 @@
   <string name="default_recipient_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Default recipient">Standard-Empfänger</string>
   <string name="default_recipient_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Default recipient filled into address bar on app start.">Standard-Empfänger, der beim App-Start in die Adressleiste eingetragen wird.</string>
   <string name="signature_" formatted="false">Signatur</string>
-  <string name="signature_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Text, der an jede Nachricht angehängt wird. (Ohne extra Leerzeichen, beginne die Signatur mit " " wenn nötig.)</string>
+  <string name="signature_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Text, der an jede Nachricht angehängt wird. (Ohne extra Leerzeichen, beginne die Signatur mit \" \" wenn nötig.)</string>
   <string name="autoupdate_" formatted="false">Autom. aktualisieren</string>
   <string name="autoupdate_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Update account balances on start.">Aktualisiere Kontoguthaben beim Start.</string>
   <string name="autoexit_" formatted="false">Autom. Beenden</string>
