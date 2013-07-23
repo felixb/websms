@@ -723,7 +723,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		boolean checkPrefix = true;
 		boolean showIntro = false;
 		if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))
-				&& TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
+				&& TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))
+				&& CONNECTORS.size() == 0) {
 			checkPrefix = false;
 			showIntro = true;
 		}
