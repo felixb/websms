@@ -17,7 +17,7 @@
 <resources>
 
     <string name="app_name" translatable="false">WebSMS</string>
-    <string name="app_version" translatable="false">4.6</string>
+    <string name="app_version" translatable="false">4.7</string>
     <string name="website" translatable="false">http://code.google.com/p/websmsdroid/</string>
     <string name="source" translatable="false">http://github.com/felixb/websms</string>
     <string name="faq_" translatable="false">FAQ</string>
