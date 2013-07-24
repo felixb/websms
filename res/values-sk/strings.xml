@@ -158,8 +158,6 @@
   <string name="sendlog_install_" formatted="false" username="mato.jurik1@gmail.com" orig="Install SendLog">Nainštalovať SendLog</string>
   <string name="sendlog_run" formatted="false" username="mato.jurik1@gmail.com" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog získa protokol zo zariadenia a odošle ich vývojárovi.\nPred jeho odoslaním budete mať možnosť popísať a upraviť tieto údaje.</string>
   <string name="sendlog_install" formatted="false" username="mato.jurik1@gmail.com" orig="Install the free SendLog application to collect the device log and send it to the developer.">Nainštalujte aplikáciu SendLog na získanie protokolu zo zariadenia a jeho odoslanie vývojárovi.</string>
-  <string name="custom_language_" formatted="false" username="mato.jurik1@gmail.com" orig="Custom language">Nastaviť jazyk</string>
-  <string name="custom_language_hint" formatted="false" username="mato.jurik1@gmail.com" orig="Set a custom language.">Nastavte si jazyk aplikácie.</string>
   <string name="max_resend_count_" formatted="false" username="mato.jurik1@gmail.com" orig="Max resend attempts">Max. počet pokusov o odoslanie</string>
   <string name="max_resend_count_hint" formatted="false" username="mato.jurik1@gmail.com" orig="Maximum number of attempts to resend a failed message.">Maximálny počet opakovaných pokusov o odoslanie správy pri neúspešnom odoslaní.</string>
   <string name="notify_failed_now_resending" formatted="false" username="mato.jurik1@gmail.com" orig="WebSMS: sending failed, resending">WebSMS: odoslanie zlyhalo, opakované odoslanie</string>

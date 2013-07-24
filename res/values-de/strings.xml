@@ -162,8 +162,6 @@
   <string name="sendlog_install" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Install the free SendLog application to collect the device log and send it to the developer.">Installiere die freie SendLog-App um Daten von deinem Gerät an den Entwickler zu senden.</string>
   <string name="website_" formatted="false">Website:</string>
   <string name="source_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Sourcescode:">Quelltext:</string>
-  <string name="custom_language_" formatted="false">Andere Sprache</string>
-  <string name="custom_language_hint" formatted="false">Eine andere Sprache einstellen.</string>
   <string name="max_resend_count_" formatted="false">Max Versuche</string>
   <string name="max_resend_count_hint" formatted="false">Maximale Anzahl Versuche die Nachricht erneut zu senden, wenn Senden fehl schlägt.</string>
   <string name="notify_failed_now_resending" formatted="false">WebSMS: Senden fehlgeschlagen, versuche erneut</string>

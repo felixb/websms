@@ -151,8 +151,6 @@
   <string name="send_logs_hint" formatted="false" username="rkononenko" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Пересилайте ваші лог-фали розробнику. \nРобіте це лише якщо вас попрохали про це</string>
   <string name="send_logs_" formatted="false" username="rkononenko" orig="Send logs">Пересилайте лог-файли</string>
   <string name="sendlog_run_" formatted="false" username="rkononenko" orig="Run SendLog">Запустити Sendlog</string>
-  <string name="custom_language_" formatted="false" username="rkononenko" orig="Custom language">Обрати мову</string>
-  <string name="custom_language_hint" formatted="false" username="rkononenko" orig="Set a custom language.">Обрати мову</string>
   <string-array name="themes" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;">
     <item>Чорна</item>
     <item>Світла</item>

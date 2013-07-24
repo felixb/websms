@@ -107,8 +107,6 @@
   <string name="debug_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Debug">Depuração</string>
   <string name="website_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Website:">Sítio web:</string>
   <string name="source_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Sourcescode:">Código fonte:</string>
-  <string name="custom_language_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Custom language">Idioma personalizado</string>
-  <string name="custom_language_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set a custom language.">Definir idioma personalizado.</string>
   <string name="attempt" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Attempt">Tentativa</string>
   <string name="to" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="To">Para</string>
   <string-array name="themes" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;">
