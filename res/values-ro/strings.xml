@@ -42,7 +42,7 @@
   <string name="more_connectors__" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Even more Connectors..">Și mai mulți Conectori..</string>
   <string name="more_connectors__hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Vă lipsește un Conector pentru careva serviciu? Vedeți FAQ-ul pentru a-l obține.</string>
   <string name="standard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Standard Connector">Conector Standart</string>
-  <string name="set_stdandard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Set standard Connector">Setează Conectorul standart</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Set standard Connector">Setează Conectorul standard</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Setează conectorul curent ca cel standart. WebSMS îl va seta înapoi în mod automat.</string>
   <string name="clear_stdandard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Clear standard Connector">Șterge Conectorul standart</string>
   <string name="free_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Balances:">Solduri:</string>
@@ -149,4 +149,14 @@
   <string name="theme_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Theme">Temă</string>
   <string name="connector_message_length_reached" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">Ați atins numărul maxim de %1$d caractere pentru conectorul %2$s. %3$s</string>
   <string name="connector_message_length_reached_signature" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(dintre care %1$d caractere constiuie semnătura).</string>
+  <string name="show_balance_toast_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Show balance toast">Arata notificare despre balanta</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Show toast notification on balance update.">Arata notificare la modificarea balantei</string>
+  <string name="debug_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Debug">Corecteaza</string>
+  <string name="send_logs_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Send logs">Trimite log-uri</string>
+  <string name="send_logs_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Trimite log-urile telefonului tau catre producator. Fa asta doar daca ti-a fost cerut expres.</string>
+  <string name="sendlog_run_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Run SendLog">Ruleaza SendLog</string>
+  <string name="custom_language_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Custom language">Limba</string>
+  <string name="custom_language_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Set a custom language.">Seteaza o limba.</string>
+  <string name="max_resend_count_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Max resend attempts">Numar maxim de incercari de retrimitere</string>
+  <string name="notify_failed_now_resending" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: trimitere esuata, retrimitere</string>
 </resources>

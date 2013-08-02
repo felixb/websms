@@ -45,9 +45,9 @@
   <string name="free_" formatted="false">Saldo:</string>
   <string name="license" formatted="false">GPLv3 - leer http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Licencia:</string>
-  <string name="log_wrong_defprefix" formatted="false">Por favor, introduzca un código válido como prefijo internacional por defecto. Ej: "+34".</string>
+  <string name="log_wrong_defprefix" formatted="false">Por favor, introduzca un código válido como prefijo internacional por defecto. Ej: \"+34\".</string>
   <string name="log_wrong_sender" formatted="false">¡Remitente incorrecto! Introdúzcalo en formato internacional, similar a +3417012345689.</string>
-  <string name="log_noselectedconnector" formatted="false">Ningún Conector seleccionado. Por favor, escoja uno con "Cambiar proveedor".</string>
+  <string name="log_noselectedconnector" formatted="false">Ningún Conector seleccionado. Por favor, escoja uno con \"Cambiar proveedor\".</string>
   <string name="log_noreadyconnector" formatted="false">Ningún Conector ha sido instalado todavía. Por favor, compruebe las preferencias.</string>
   <string name="log_error_saving_message" formatted="false">¡Error al guardar el mensaje enviado en la base de datos!</string>
   <string name="log_error_char_nonvalid" formatted="false">El conector no proporciona caracteres válidos</string>
@@ -86,8 +86,8 @@
   <string name="hide_update_hint" formatted="false">Oculta \"Click para actualizar\" de la pantalla principal.</string>
   <string name="hide_bg_connector_" formatted="false">Ocultar el nombre del conector</string>
   <string name="hide_bg_connector_hint" formatted="false">Ocultar el nombre del conector actual en el  fondo.</string>
-  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Ocultar el botón "pegar"</string>
-  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Ocultar el botón "pegar" en campo de texto</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Ocultar el botón \"pegar\"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Ocultar el botón \"pegar\" en campo de texto</string>
   <string name="enable_autosend_" formatted="false" orig="Enable autosend">Habilitar envio automático</string>
   <string name="default_recipient_" formatted="false">Destinatario por defecto</string>
   <string name="default_recipient_hint" formatted="false">Destinatario por defecto que aparecerá en la barra de direcciones al comienzo.</string>

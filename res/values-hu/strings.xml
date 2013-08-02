@@ -45,9 +45,9 @@
   <string name="free_" formatted="false">Egyenleg:</string>
   <string name="license" formatted="false">GPLv3 - lásd http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false">Licensz:</string>
-  <string name="log_wrong_defprefix" formatted="false">Kérlek adj meg egy érvényes ország előhívót alapértelmezett előhívónak. P.l. "+36".</string>
+  <string name="log_wrong_defprefix" formatted="false">Kérlek adj meg egy érvényes ország előhívót alapértelmezett előhívónak. P.l. \"+36\".</string>
   <string name="log_wrong_sender" formatted="false">Hibás szám! Nemzetközi telefonszámformátumot használj pl.: +36301112233.</string>
-  <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a "Kiegészítő választása" gombbal.</string>
+  <string name="log_noselectedconnector" formatted="false">Nincs kiegészítő kiválasztva. Kérlek válassz egyet a \"Kiegészítő választása\" gombbal.</string>
   <string name="log_noreadyconnector" formatted="false">Nincs kiegészítő telepítve, vagy nincs beállítva. Kérlek ellenőrizd a beállításokat.</string>
   <string name="log_error_saving_message" formatted="false">Hiba, az elküldött üzenet frissítésénél az adatbázisban!</string>
   <string name="log_error_char_nonvalid" formatted="false" orig="Connector does not provide valid characters">Hiba, csatoló nem megengedett karaktereket küldött</string>
@@ -87,7 +87,7 @@
   <string name="hide_update_hint" formatted="false">Elrejtés \"Kattints a frissítéshez\" a főképernyőn.</string>
   <string name="hide_bg_connector_" formatted="false">Kiegészítő nevének...</string>
   <string name="hide_bg_connector_hint" formatted="false">Aktív kiegészítő nevének elrejtése a háttérben.</string>
-  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Elrejtés "beillesztés" gomb</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Elrejtés \"beillesztés\" gomb</string>
   <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Beillesztés gomb elrejtése</string>
   <string name="drop_sent_" formatted="false" orig="Don\'t save sent SMS">Elküldöttet ne mentse</string>
   <string name="drop_sent_hint" formatted="false" orig="Don\'t save sent messages in global database.">Elküldött leveleket ne mentse el az adattárba</string>
@@ -140,8 +140,8 @@
   <string name="connectors_" formatted="false" orig="Connectors">Csatolók</string>
   <string name="alternative_layout_hint" formatted="false" orig="Move send bar to the top. Needs restart.">Küldés gomb elhelyezése a laptetejére. Újra indítás szükséges.</string>
   <string name="textsize_" formatted="false" orig="Text size">Szöveg méret</string>
-  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">"Extra" gomb elrejtése</string>
-  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">"Extra" gomb elrejtése a fő oldalon.</string>
+  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">\"Extra\" gomb elrejtése</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">\"Extra\" gomb elrejtése a fő oldalon.</string>
   <string name="restore_" formatted="false" orig="Restore last message">Utolsó üzenet visszaállítása</string>
   <string name="google_plus_hint" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Kövess engem Google+-on.\nÉrtesülj frissítésekről stb.</string>
   <string name="alternative_layout_" formatted="false" username="Ferenc Takács &lt;orkester85@gmail.com&gt;" orig="Alternative layout">Alternatív elrendezés</string>
