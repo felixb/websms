@@ -60,6 +60,9 @@
 	<string name="send_">Send</string>
 	<string name="save_draft_">Save draft</string>
 	<string name="save_chars_">Save chars</string>
+	<string name="save_chars_remove_spaces_">Remove blanks</string>
+	<string name="save_chars_remove_diacritics_">Remove accents and diacritics</string>
+	<string name="save_chars_remove_both_">Remove blanks, accents and diacritics</string>
 	<string name="settings">Preferences</string>
 	<string name="settings_common">Preferences - Common</string>
 	<string name="common_">Common</string>

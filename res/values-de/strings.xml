@@ -62,6 +62,9 @@
   <string name="send_" formatted="false">Senden</string>
   <string name="save_draft_" formatted="false">Entwurf speichern</string>
   <string name="save_chars_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Save chars">Zeichen einsparen</string>
+  <string name="save_chars_remove_spaces_">Leerzeichen entfernen</string>
+  <string name="save_chars_remove_diacritics_">Akzente und Umlaute entfernen</string>
+  <string name="save_chars_remove_both_">Leerzeichen, Akzente und Umlaute entfernen</string>
   <string name="settings" formatted="false">Einstellungen</string>
   <string name="settings_common" formatted="false">Einstellungen - Allgemein</string>
   <string name="appearance_" formatted="false">Darstellung</string>

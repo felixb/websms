@@ -17,6 +17,7 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="container"
 	android:title="@string/behavior_">
 	<CheckBoxPreference android:key="send_vibrate"
 		android:title="@string/vibrate_on_send" />
@@ -30,6 +31,11 @@
 		android:defaultValue="true" />
 	<CheckBoxPreference android:key="autoexit"
 		android:title="@string/autoexit_" android:summary="@string/autoexit_hint" />
+	<ListPreference android:key="save_chars"
+	    android:title="@string/save_chars_"
+	    android:entries="@array/remove_chars_entries"
+	    android:entryValues="@array/remove_chars_vales"
+	    android:defaultValue="remove_spaces"/>
 	<CheckBoxPreference android:key="try_send_invalid"
 		android:title="@string/try_send_invalid_characters_" android:summary="@string/try_send_invalid_characters_hint" />
 	<CheckBoxPreference android:key="drop_sent"

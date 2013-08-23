@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -1471,12 +1473,27 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	private void saveChars() {
 		String s = this.etText.getText().toString().trim();
-		if (s.length() == 0 || s.indexOf(" ") < 0) {
+		if (s.length() == 0) {
 			return;
 		}
+
+		String choice = PreferenceManager.getDefaultSharedPreferences(this)
+				.getString("save_chars", "remove_spaces");
+
+		if (choice.contains("remove_diacritics")) {
+			s = this.removeDiacritics(s);
+		}
+
+		if (choice.contains("remove_spaces")) {
+			s = this.removeSpaces(s);
+		}
+
+		this.etText.setText(s);
+	}
+
+	private String removeSpaces(final String s) {
 		StringBuilder buf = new StringBuilder();
 		final String[] ss = s.split(" ");
-		s = null;
 		for (String ts : ss) {
 			final int l = ts.length();
 			if (l == 0) {
@@ -1488,7 +1505,20 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 			buf.append(ts.substring(1));
 		}
-		this.etText.setText(buf.toString());
+
+		return buf.toString();
+	}
+
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	private String removeDiacritics(final String s) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			return s;
+		}
+
+		String text = Normalizer.normalize(s, Normalizer.Form.NFD);
+		text = text.replaceAll("[^\\p{ASCII}]", "");
+		return text;
+
 	}
 
 	/**

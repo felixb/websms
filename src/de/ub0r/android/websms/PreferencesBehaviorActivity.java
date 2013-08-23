@@ -19,8 +19,10 @@
 package de.ub0r.android.websms;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.view.MenuItem;
 
 /**
@@ -38,6 +40,12 @@ public class PreferencesBehaviorActivity extends PreferenceActivity {
 		this.addPreferencesFromResource(R.xml.prefs_behavior);
 		this.setTitle(this.getString(R.string.settings) + " > "
 				+ this.getString(R.string.behavior_));
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			PreferenceGroup pg = (PreferenceGroup) this
+					.findPreference("container");
+			pg.removePreference(this.findPreference("remove_diacritics"));
+		}
 	}
 
 	/**

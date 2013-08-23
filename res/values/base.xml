@@ -57,4 +57,15 @@
         <item>@string/more_connectors_</item>
     </string-array>
 
+    <string-array name="remove_chars_entries" translatable="false">
+        <item>@string/save_chars_remove_spaces_</item>
+        <item>@string/save_chars_remove_diacritics_</item>
+        <item>@string/save_chars_remove_both_</item>
+    </string-array>
+
+    <string-array name="remove_chars_vales" translatable="false">
+        <item>remove_spaces</item>
+        <item>remove_diacritics</item>
+        <item>remove_spaces,remove_diacritics</item>
+    </string-array>
 </resources>
