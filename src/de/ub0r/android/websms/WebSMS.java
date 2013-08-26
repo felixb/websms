@@ -1169,6 +1169,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.lastTo = null;
 		lastCustomSender = null;
 		lastSendLater = -1;
+		this.setButtons();
 	}
 
 	/** Save prefs. */
