@@ -279,11 +279,11 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	private TextView tvClear;
 
 	/** {@link View} holding custom sender. */
-	private View vCustomSender;
+	private ToggleButton vCustomSender;
 	/** {@link View} holding flashsms. */
-	private View vFlashSMS;
+	private ToggleButton vFlashSMS;
 	/** {@link View} holding send later. */
-	private View vSendLater;
+	private ToggleButton vSendLater;
 
 	/** {@link ClipboardManager}. */
 	private ClipboardManager cbmgr;
@@ -654,9 +654,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.tvPaste = (TextView) this.findViewById(R.id.text_paste);
 		this.tvClear = (TextView) this.findViewById(R.id.text_clear);
 
-		this.vCustomSender = this.findViewById(R.id.custom_sender);
-		this.vFlashSMS = this.findViewById(R.id.flashsms);
-		this.vSendLater = this.findViewById(R.id.send_later);
+		this.vCustomSender = (ToggleButton) this
+				.findViewById(R.id.custom_sender);
+		this.vFlashSMS = (ToggleButton) this.findViewById(R.id.flashsms);
+		this.vSendLater = (ToggleButton) this.findViewById(R.id.send_later);
 
 		if (ChangelogHelper.isNewVersion(this)) {
 			SharedPreferences.Editor editor = p.edit();
@@ -1102,8 +1103,11 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				}
 				if (bShowExtras && sCustomsender) {
 					this.vCustomSender.setVisibility(View.VISIBLE);
+					this.vCustomSender.setChecked(!TextUtils
+							.isEmpty(lastCustomSender));
 				} else {
 					this.vCustomSender.setVisibility(View.GONE);
+					this.vCustomSender.setChecked(false);
 				}
 				if (bShowExtras && sSendLater) {
 					this.vSendLater.setVisibility(View.VISIBLE);
@@ -1128,6 +1132,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				s += "\n@"
 						+ DateFormat.getDateFormat(this).format(cal.getTime());
 				s += " " + DateFormat.getTimeFormat(this).format(cal.getTime());
+				this.vSendLater.setChecked(true);
+			} else {
+				this.vSendLater.setChecked(false);
 			}
 			Log.d(TAG, "set backgroundtext: " + s);
 			((TextView) this.findViewById(R.id.text_connector)).setText(s);
@@ -1303,16 +1310,14 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 			return;
 		case R.id.custom_sender:
-			final ToggleButton cs = (ToggleButton) this.vCustomSender;
-			if (cs.isChecked()) {
+			if (this.vCustomSender.isChecked()) {
 				this.showDialog(DIALOG_CUSTOMSENDER);
 			} else {
 				lastCustomSender = null;
 			}
 			return;
 		case R.id.send_later:
-			final ToggleButton sl = (ToggleButton) this.vSendLater;
-			if (sl.isChecked()) {
+			if (this.vSendLater.isChecked()) {
 				this.showDialog(DIALOG_SENDLATER_DATE);
 			} else {
 				lastSendLater = -1;
