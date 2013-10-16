@@ -34,6 +34,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -495,6 +496,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 */
 	static void saveMessage(final ConnectorSpec specs, final Context context,
 			final ConnectorCommand command, final int msgType) {
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			return; // API19+ does not allow writing to content://sms anymore
+		}
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
 			return;
 		}

@@ -1542,7 +1542,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		boolean hasText = this.etText != null
 				&& !TextUtils.isEmpty(this.etText.getText());
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
-		menu.findItem(R.id.item_draft).setVisible(hasText);
+		// only allow to save drafts on API18-
+		menu.findItem(R.id.item_draft).setVisible(
+				Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
+						&& hasText);
 		final boolean showRestore = !TextUtils.isEmpty(PreferenceManager
 				.getDefaultSharedPreferences(this).getString(
 						PREFS_BACKUPLASTTEXT, null));

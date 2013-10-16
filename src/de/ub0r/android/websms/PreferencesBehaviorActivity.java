@@ -42,9 +42,16 @@ public class PreferencesBehaviorActivity extends PreferenceActivity {
 				+ this.getString(R.string.behavior_));
 
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			// removing diacritics is not supported in API8-
 			PreferenceGroup pg = (PreferenceGroup) this
 					.findPreference("container");
 			pg.removePreference(this.findPreference("remove_diacritics"));
+		}
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			// writing to content://sms is not supported in API19+
+			PreferenceGroup pg = (PreferenceGroup) this
+					.findPreference("container");
+			pg.removePreference(this.findPreference("drop_sent"));
 		}
 	}
 
