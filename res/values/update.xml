@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: allow removing diacritics, minor UI changes</item>
 		<item>v4.7: hide intro if connector is installed, add Portuguese translation (thanks to Sérgio Marques), update translations</item>
 		<item>v4.6: promote smsflatrate.net connector with 20SMS/month free, inner changes, update translations</item>
 		<item>v4.5.4: fix FCs, update translations</item>
