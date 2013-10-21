@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
+<!--
 		Copyright (C) 2009-2012 Felix Bechstein
 	-->
-	<!--
+<!--
 		This file is part of WebSMS. This program is free software; you can
 		redistribute it and/or modify it under the terms of the GNU General
 		Public License as published by the Free Software Foundation; either
 		version 3 of the License, or (at your option) any later version.
 	-->
-	<!--
+<!--
 		This program is distributed in the hope that it will be useful, but
 		WITHOUT ANY WARRANTY; without even the implied warranty of
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -17,4 +17,25 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
+  <string name="about_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="About">Hakkında</string>
+  <string name="about" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS ağ servisleri üzerinden ücretsiz ve ucuz SMS göndermenizi sağlar. Desteklenen birçok sağlayıcıları vardır. WebSMS\'in tercihleri içinde bunları marketten indirmek için bağlantıları bulun.</string>
+  <string name="about_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="About this app">Bu uygulama hakkında</string>
+  <string name="faq_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Some tips and tricks, how to set up this app.">Bu uygulamayı ayarlamak için bazı ipuçları ve püf noktaları.</string>
+  <string name="feedback_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Feedback">Geribildirim</string>
+  <string name="feedback_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Report bugs, request features ...">Hataları, istediğiniz özellikleri bildirin ...</string>
+  <string name="google_plus_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Google+ beni takip edin.\nGüncelleme bildirimleri vb. alın.</string>
+  <string name="author_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Author:">Yazar:</string>
+  <string name="author_connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Author of Connectors:">Konnektör Yazarı:</string>
+  <string name="change_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Change provider">Sağlayıcı değiştir</string>
+  <string name="change_connector_nl" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Change\nprovider">Sağlayıcı\ndeğiştir</string>
+  <string name="click_for_update" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="(update: click)">(güncelleme: tıklayın)</string>
+  <string name="defprefix_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Default int. prefix">Varsayılan uluslararası önek</string>
+  <string name="defprefix_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="e.g. +49">örneğin +49</string>
+  <string name="more_apps_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="More Apps..">Daha fazla uygulama ..</string>
+  <string name="more_connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="More Connectors..">Daha fazla Konnektör..</string>
+  <string name="more_connectors_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Marketten daha fazla Konnektör arayın. Yükledikten sonra WebSMS\'i yeniden başlatın!</string>
+  <string name="more_connectors__" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Even more Connectors..">Daha da fazla Konnektör..</string>
+  <string name="more_connectors__hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Bazı hizmetler için bir konnektör mü eksik? Almak için SSS bölümünü görüntüleyebilirsiniz.</string>
+  <string name="standard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Standard Connector">Standard Konnektör</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Set standard Connector">Standart Konnektör ayarla</string>
 </resources>
