@@ -38,4 +38,15 @@
   <string name="more_connectors__hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Bazı hizmetler için bir konnektör mü eksik? Almak için SSS bölümünü görüntüleyebilirsiniz.</string>
   <string name="standard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Standard Connector">Standard Konnektör</string>
   <string name="set_stdandard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Set standard Connector">Standart Konnektör ayarla</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Standart Konnektörü olarak mevcut konnektör ayarlayın. WebSMS otomatik olarak geri dönecektir.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Clear standard Connector">Standart Könnektörü temizle</string>
+  <string name="license" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - Bakınız http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="free_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Balances:">Bakiye:</string>
+  <string name="license_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="License:">Lisans:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Varsayılan önek olarak geçerli bir ülke kodu girin. Örneğin \"+49\".</string>
+  <string name="log_wrong_sender" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Yanlış gönderen! +4917012345678 Gibi uluslararası şeklinde ayarlayın.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Hiçbir Konnektör seçilmemiş. \"Sağlayıcı Değiştir\" ile birini seçin.</string>
+  <string name="log_noreadyconnector" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="No Connector installed or ready. Please check preferences.">Hiçbir Könnektör yüklü veya hazır değil. Tercihlerinizi kontrol edin.</string>
+  <string name="log_error_saving_message" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Error updating sent message in Database!">Veritabanında gönderilmiş mesaj güncellemesi yapılırken hata oluştu.</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connector does not provide valid characters">Könnektörler geçerli karakterleri sağlamıyor.</string>
 </resources>

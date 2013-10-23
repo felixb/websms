@@ -54,11 +54,11 @@ res/values-sk/help.xml:0
 res/values-sk/market.xml:0
 res/values-sk/notes.xml:2
 res/values-sk/strings.xml:145
-res/values-tr/donation.xml:0
-res/values-tr/help.xml:0
+res/values-tr/donation.xml:1
+res/values-tr/help.xml:2
 res/values-tr/market.xml:5
 res/values-tr/notes.xml:2
-res/values-tr/strings.xml:21
+res/values-tr/strings.xml:32
 res/values-uk/donation.xml:5
 res/values-uk/help.xml:5
 res/values-uk/market.xml:5
@@ -75,5 +75,5 @@ res/values-pt:162
 res/values-ro:149
 res/values-ru:162
 res/values-sk:147
-res/values-tr:28
+res/values-tr:42
 res/values-uk:162
