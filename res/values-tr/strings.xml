@@ -49,4 +49,37 @@
   <string name="log_noreadyconnector" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="No Connector installed or ready. Please check preferences.">Hiçbir Könnektör yüklü veya hazır değil. Tercihlerinizi kontrol edin.</string>
   <string name="log_error_saving_message" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Error updating sent message in Database!">Veritabanında gönderilmiş mesaj güncellemesi yapılırken hata oluştu.</string>
   <string name="log_error_char_nonvalid" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connector does not provide valid characters">Könnektörler geçerli karakterleri sağlamıyor.</string>
+  <string name="log_error_char_notsendable" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="This message contains not sendable characters">Bu mesaj gönderilemez karakterler içeriyor</string>
+  <string name="log_error_sms" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Could not send SMS: ErrorCode=">SMS gönderilemedi: HataKodu=</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Konnektörler bulunamadı, lütfen Konnektörleri zorla tekrar yüklemek için WebSMS tercihlerini açın ve kapatın.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Try send invalid">Geçersiz göndermeyi deneyin</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Try to send messages with invalid.">Mesajı geçersiz ile göndermeyi deneyin</string>
+  <string name="notify_failed" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Failed to send SMS: ">SMS gönderilemedi:</string>
+  <string name="notify_failed_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="failed sending SMS">SMS gönderimi başarısız</string>
+  <string name="sender_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Your mobile number">Cep telefonu numaranız</string>
+  <string name="send_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Send">Gönder</string>
+  <string name="save_draft_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Save draft">Taslak kaydet</string>
+  <string name="save_chars_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Save chars">Karakterleri kaydet</string>
+  <string name="settings" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences">Tercihler</string>
+  <string name="settings_common" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences - Common">Tercihler - Ortak</string>
+  <string name="common_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Common">Ortak</string>
+  <string name="appearance_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Appearance">Görünüm</string>
+  <string name="behavior_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Behavior">Davranış</string>
+  <string name="appearance_and_behavior_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Appearance &amp; behavior">Görünüm ve davranış</string>
+  <string name="autosend_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Autosend">Otogönder</string>
+  <string name="show_titlebar_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show title bar">Başlık çubuğunu göster</string>
+  <string name="show_titlebar_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Ana görünümünde başlık çubuğunu göster. Başlık çubuğu olmadan, arka plan etkinliği görmek mümkün değildir.</string>
+  <string name="settings_connectors" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences - Connectors">Tercihler - Konnektörler</string>
+  <string name="connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connectors">Konnektörler</string>
+  <string name="alternative_layout_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Alternative layout">Alternatif görünüm düzeni</string>
+  <string name="alternative_layout_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Move send bar to the top. Needs restart.">Gönderim çubuğunu en üste taşı. Yeniden başlatma gereklidir.</string>
+  <string name="textsize_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Text size">Metin boyutu</string>
+  <string name="textsize_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Text size in pixels; leave empty for default">Piksel olarak metin boyutu; varsayılan için boş bırakın</string>
+  <string name="show_balance_toast_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show balance toast">Bakiye uyarısı göster</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show toast notification on balance update.">Bakiye güncellemesinde uyarılarda göster</string>
+  <string name="hide_change_connector_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">\"Sağlayıcı Değiştir\" butonunu gösterme</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Ana ekranda \"Sağlayıcı değiştir\" butonunu gösterme.</string>
+  <string name="hide_send_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Send\&quot; button">\"Gönder\" butonunu gösterme</string>
+  <string name="hide_send_button_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Ana ekranda \"Gönder\" butonunu gösterme.</string>
+  <string name="hide_cancel_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Cancel\&quot; button">\"İptal\" butonunu gösterme</string>
 </resources>
