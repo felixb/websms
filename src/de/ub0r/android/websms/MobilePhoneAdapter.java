@@ -124,7 +124,8 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	public final Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
 		String s = constraint == null ? null : constraint.toString();
 		String where = prefsMobilesOnly ? Phone.TYPE + " = "
-				+ Phone.TYPE_MOBILE : null;
+				+ Phone.TYPE_MOBILE + " OR "
+				+ Phone.TYPE + " = " + Phone.TYPE_WORK_MOBILE : null;
 		Uri u = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(s));
 		Cursor cursor = this.mContentResolver.query(u, PROJECTION, where, null,
 				Phone.DISPLAY_NAME);
