@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+		Copyright (C) 2009-2012 Felix Bechstein
+	-->
+<!--
+		This file is part of WebSMS. This program is free software; you can
+		redistribute it and/or modify it under the terms of the GNU General
+		Public License as published by the Free Software Foundation; either
+		version 3 of the License, or (at your option) any later version.
+	-->
+<!--
+		This program is distributed in the hope that it will be useful, but
+		WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		General Public License for more details. You should have received a
+		copy of the GNU General Public License along with this program; If
+		not, see <http://www.gnu.org/licenses/>.
+	-->
+<resources>
+  <string name="about_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="About">Hakkında</string>
+  <string name="about" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS ağ servisleri üzerinden ücretsiz ve ucuz SMS göndermenizi sağlar. Desteklenen birçok sağlayıcıları vardır. WebSMS\'in tercihleri içinde bunları marketten indirmek için bağlantıları bulun.</string>
+  <string name="about_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="About this app">Bu uygulama hakkında</string>
+  <string name="faq_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Some tips and tricks, how to set up this app.">Bu uygulamayı ayarlamak için bazı ipuçları ve püf noktaları.</string>
+  <string name="feedback_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Feedback">Geribildirim</string>
+  <string name="feedback_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Report bugs, request features ...">Hataları, istediğiniz özellikleri bildirin ...</string>
+  <string name="google_plus_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Follow me on Google+.\nGet update notifications etc.">Google+ beni takip edin.\nGüncelleme bildirimleri vb. alın.</string>
+  <string name="author_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Author:">Yazar:</string>
+  <string name="author_connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Author of Connectors:">Konnektör Yazarı:</string>
+  <string name="change_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Change provider">Sağlayıcı değiştir</string>
+  <string name="change_connector_nl" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Change\nprovider">Sağlayıcı\ndeğiştir</string>
+  <string name="click_for_update" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="(update: click)">(güncelleme: tıklayın)</string>
+  <string name="defprefix_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Default int. prefix">Varsayılan uluslararası önek</string>
+  <string name="defprefix_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="e.g. +49">örneğin +49</string>
+  <string name="more_apps_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="More Apps..">Daha fazla uygulama ..</string>
+  <string name="more_connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="More Connectors..">Daha fazla Konnektör..</string>
+  <string name="more_connectors_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Marketten daha fazla Konnektör arayın. Yükledikten sonra WebSMS\'i yeniden başlatın!</string>
+  <string name="more_connectors__" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Even more Connectors..">Daha da fazla Konnektör..</string>
+  <string name="more_connectors__hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Bazı hizmetler için bir konnektör mü eksik? Almak için SSS bölümünü görüntüleyebilirsiniz.</string>
+  <string name="standard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Standard Connector">Standard Konnektör</string>
+  <string name="set_stdandard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Set standard Connector">Standart Konnektör ayarla</string>
+  <string name="set_stdandard_connector_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Standart Konnektörü olarak mevcut konnektör ayarlayın. WebSMS otomatik olarak geri dönecektir.</string>
+  <string name="clear_stdandard_connector_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Clear standard Connector">Standart Könnektörü temizle</string>
+  <string name="license" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - Bakınız http://www.gnu.org/licenses/gpl-3.0.txt</string>
+  <string name="free_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Balances:">Bakiye:</string>
+  <string name="license_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="License:">Lisans:</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Varsayılan önek olarak geçerli bir ülke kodu girin. Örneğin \"+49\".</string>
+  <string name="log_wrong_sender" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Yanlış gönderen! +4917012345678 Gibi uluslararası şeklinde ayarlayın.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Hiçbir Konnektör seçilmemiş. \"Sağlayıcı Değiştir\" ile birini seçin.</string>
+  <string name="log_noreadyconnector" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="No Connector installed or ready. Please check preferences.">Hiçbir Könnektör yüklü veya hazır değil. Tercihlerinizi kontrol edin.</string>
+  <string name="log_error_saving_message" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Error updating sent message in Database!">Veritabanında gönderilmiş mesaj güncellemesi yapılırken hata oluştu.</string>
+  <string name="log_error_char_nonvalid" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connector does not provide valid characters">Könnektörler geçerli karakterleri sağlamıyor.</string>
+  <string name="log_error_char_notsendable" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="This message contains not sendable characters">Bu mesaj gönderilemez karakterler içeriyor</string>
+  <string name="log_error_sms" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Could not send SMS: ErrorCode=">SMS gönderilemedi: HataKodu=</string>
+  <string name="log_error_connector_not_found" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.">Konnektörler bulunamadı, lütfen Konnektörleri zorla tekrar yüklemek için WebSMS tercihlerini açın ve kapatın.</string>
+  <string name="try_send_invalid_characters_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Try send invalid">Geçersiz göndermeyi deneyin</string>
+  <string name="try_send_invalid_characters_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Try to send messages with invalid.">Mesajı geçersiz ile göndermeyi deneyin</string>
+  <string name="notify_failed" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Failed to send SMS: ">SMS gönderilemedi:</string>
+  <string name="notify_failed_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="failed sending SMS">SMS gönderimi başarısız</string>
+  <string name="sender_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Your mobile number">Cep telefonu numaranız</string>
+  <string name="send_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Send">Gönder</string>
+  <string name="save_draft_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Save draft">Taslak kaydet</string>
+  <string name="save_chars_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Save chars">Karakterleri kaydet</string>
+  <string name="settings" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences">Tercihler</string>
+  <string name="settings_common" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences - Common">Tercihler - Ortak</string>
+  <string name="common_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Common">Ortak</string>
+  <string name="appearance_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Appearance">Görünüm</string>
+  <string name="behavior_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Behavior">Davranış</string>
+  <string name="appearance_and_behavior_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Appearance &amp; behavior">Görünüm ve davranış</string>
+  <string name="autosend_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Autosend">Otogönder</string>
+  <string name="show_titlebar_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show title bar">Başlık çubuğunu göster</string>
+  <string name="show_titlebar_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Ana görünümünde başlık çubuğunu göster. Başlık çubuğu olmadan, arka plan etkinliği görmek mümkün değildir.</string>
+  <string name="settings_connectors" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Preferences - Connectors">Tercihler - Konnektörler</string>
+  <string name="connectors_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Connectors">Konnektörler</string>
+  <string name="alternative_layout_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Alternative layout">Alternatif görünüm düzeni</string>
+  <string name="alternative_layout_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Move send bar to the top. Needs restart.">Gönderim çubuğunu en üste taşı. Yeniden başlatma gereklidir.</string>
+  <string name="textsize_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Text size">Metin boyutu</string>
+  <string name="textsize_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Text size in pixels; leave empty for default">Piksel olarak metin boyutu; varsayılan için boş bırakın</string>
+  <string name="show_balance_toast_" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show balance toast">Bakiye uyarısı göster</string>
+  <string name="show_balance_toast_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Show toast notification on balance update.">Bakiye güncellemesinde uyarılarda göster</string>
+  <string name="hide_change_connector_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Chg. provider\&quot; button">\"Sağlayıcı Değiştir\" butonunu gösterme</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Ana ekranda \"Sağlayıcı değiştir\" butonunu gösterme.</string>
+  <string name="hide_send_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Send\&quot; button">\"Gönder\" butonunu gösterme</string>
+  <string name="hide_send_button_hint" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Ana ekranda \"Gönder\" butonunu gösterme.</string>
+  <string name="hide_cancel_button" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Hide \&quot;Cancel\&quot; button">\"İptal\" butonunu gösterme</string>
+</resources>
