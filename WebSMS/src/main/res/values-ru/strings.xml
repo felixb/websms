@@ -165,4 +165,11 @@
   <string name="notify_failed_now_resending" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: сбой отправки, повторная отправка</string>
   <string name="attempt" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Attempt">Попытка</string>
   <string name="to" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="To">Кому</string>
+  <string name="installed_connectors_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Installed Connectors">Установленные коннекторы</string>
+  <string name="promoted_connectors_smsflatrate_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="smsflatrate.net">smsflatrate.net</string>
+  <string name="promoted_connectors_smsflatrate_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="20SMS/month free, 1€ balance for WebSMS users">20 СМС в месяц бесплатно, баланс 1€ для WebSMS пользователей</string>
+  <string name="save_chars_remove_spaces_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Remove blanks">Стереть пробелы</string>
+  <string name="save_chars_remove_diacritics_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Remove accents and diacritics">Стереть ударения и диакритики</string>
+  <string name="save_chars_remove_both_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Remove blanks, accents and diacritics">Стереть пробелы, ударения и диакритики</string>
+  <string name="promoted_connectors_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Promoted Connectors">Рекламируемые коннекторы</string>
 </resources>
