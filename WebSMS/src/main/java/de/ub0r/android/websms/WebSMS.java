@@ -18,24 +18,6 @@
  */
 package de.ub0r.android.websms;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -85,6 +67,24 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.ChangelogHelper;
@@ -1786,7 +1786,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * Show AdView on top or on bottom.
 	 */
 	private void displayAds() {
-		if (prefsNoAds) {
+        return;
+		/*if (prefsNoAds) {
 			// do not display any ads for donators
 			return;
 		} else {
@@ -1809,7 +1810,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				Log.d(TAG, "load main app ads");
 			}
 			Ads.loadAd(this, R.id.ad, unitId, AD_KEYWORDS);
-		}
+		}*/
 	}
 
 	/**

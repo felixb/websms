@@ -18,12 +18,13 @@
  */
 package de.ub0r.android.websms;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import java.util.List;
+
 import de.ub0r.android.lib.IPreferenceContainer;
 import de.ub0r.android.lib.Utils;
 
@@ -52,6 +53,12 @@ public final class Preferences11Activity extends PreferenceActivity implements
 		super.onResume();
 		WebSMS.doPreferences = true;
 	}
+
+    @Override
+    protected boolean isValidFragment (String fragmentName)
+    {
+        return true;
+    }
 
 	/**
 	 * {@inheritDoc}
