@@ -18,9 +18,6 @@
  */
 package de.ub0r.android.websms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -35,11 +32,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -113,6 +115,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/** List of ids of messages that should not be resent any more. */
 	private static List<Long> resendCancelledMsgIds = new ArrayList<Long>();
+
+    private static long old_TimeStamp = 0;
+    private static long new_TimeStamp = 0;
 
 	/**
 	 * {@inheritDoc}
@@ -203,6 +208,13 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 			}
 			isHandled = true;
 			messageCompleted(context, command);
+
+            // TODO FIXME!
+            /*Intent intent = new Intent();
+            intent.setAction("de.ub0r.WebSMS.Delivered");
+            Bundle extra = new Bundle();
+            extra.putString("address", );*/
+
 		}
 
 		if (!isHandled) {
@@ -497,6 +509,26 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	static void saveMessage(final ConnectorSpec specs, final Context context,
 			final ConnectorCommand command, final int msgType) {
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+
+            // Get the current time
+            new_TimeStamp = System.currentTimeMillis();
+
+            // Only broadcast it if the delta is greater than 1 second
+            if(new_TimeStamp - old_TimeStamp > 1000) {
+                // Create a broadcast for SMSDroid
+                Intent intent = new Intent();
+                intent.setAction("de.ub0r.android.websms.SEND_SUCCESSFULL");
+                Bundle extras = new Bundle();
+                extras.putStringArray("address", command.getRecipients());
+                extras.putString("body", command.getText());
+                intent.putExtras(extras);
+                // Broadcast it!
+                context.sendBroadcast(intent);
+            }
+
+            // Copy the time
+            old_TimeStamp = new_TimeStamp;
+
 			return; // API19+ does not allow writing to content://sms anymore
 		}
 		if (command.getType() != ConnectorCommand.TYPE_SEND) {
