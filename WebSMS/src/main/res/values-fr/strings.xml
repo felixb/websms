@@ -102,7 +102,7 @@
   <string name="hide_paste_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Cache bouton \"Coller\"</string>
   <string name="hide_paste_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Cacher le bouton \"coller\" sur les champs texte.</string>
   <string name="drop_sent_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent SMS">Ne pas stocker SMS envoyés</string>
-  <string name="drop_sent_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Ne pas sauvegarder les messages envoyés dans la base de données globale</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Ne pas sauvegarder les messages envoyés dans la base de données globale</string>
   <string name="enable_autosend_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable autosend">Activer l\'envoi automatique</string>
   <string name="enable_autosend_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Activer la fonctionnalité d\'envoi automatique de SMSdroid</string>
   <string name="use_selected_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Use selected Connector">Utiliser connecteur sélectionné</string>

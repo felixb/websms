@@ -95,7 +95,7 @@
   <string name="hide_paste_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Скрыть кнопку \'Вставить\'</string>
   <string name="hide_paste_hint" formatted="false" username="ergodroid" orig="Hide &quot;paste&quot; button on text field.">Не показывать кнопку \'Вставить\' (из буфера обмена) в поле \'Введите текст\'</string>
   <string name="drop_sent_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent SMS">Не сохранять отправленные СМС</string>
-  <string name="drop_sent_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Не сохранять отправленные сообщения в общей базе.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Не сохранять отправленные сообщения в общей базе.</string>
   <string name="enable_autosend_" formatted="false" orig="Enable autosend">Автоотправка</string>
   <string name="enable_autosend_hint" formatted="false" orig="Enable SMSdroid\'s autosend feature.">Включить функцию автоотправки SMSdroid</string>
   <string name="use_selected_connector_" formatted="false" username="ergodroid &lt;ergodroid@gmail.com&gt;" orig="Use selected Connector">Использовать выбранный коннектор</string>

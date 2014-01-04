@@ -103,7 +103,8 @@
   <string name="hide_paste_" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button">\"Einfügen\"-Button ausblenden</string>
   <string name="hide_paste_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">\"Einfügen\"-Button ausblenden.</string>
   <string name="drop_sent_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent SMS">Gesendete SMS nicht speichern</string>
-  <string name="drop_sent_hint" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent messages in global database.">Gesendete Nachrichten nicht in der globalen Datenbank speichern.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Don\'t save sent messages in global database.">Gesendete Nachrichten nicht in der globalen Datenbank speichern.</string>
+  <string name="drop_sent_hint_v19">Gesendete Nachrichten nicht in der globalen Datenbank speichern.\nSpeichern von gesendeten SMS ist nur über SMSdroid oder über AppOps möglich.</string>
   <string name="enable_autosend_" formatted="false">Aktiviere Autosend</string>
   <string name="enable_autosend_hint" formatted="false">Aktiviere SMSdroid\'s Autosend Funktion.</string>
   <string name="use_selected_connector_" formatted="false">Ausgewählten Connector verwenden</string>
@@ -172,4 +173,7 @@
   <string name="cancelling_resend" formatted="false">WebSMS: Erneutes senden abgebrochen ...</string>
   <string name="attempt" formatted="false">Versuch</string>
   <string name="to" formatted="false">An</string>
+  <string name="permission_save_to_db">Nachrichten in Datenbank speichern</string>
+  <string name="permission_save_to_db_description">Nachrichten anderer Apps in Datenbank speichern</string>
+
 </resources>

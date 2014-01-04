@@ -107,7 +107,9 @@
 	<string name="hide_paste_">Hide "paste" button</string>
 	<string name="hide_paste_hint">Hide "paste" button on text field.</string>
 	<string name="drop_sent_">Don\'t save sent SMS</string>
-	<string name="drop_sent_hint">Don\'t save sent messages in global database.</string>
+	<string name="drop_sent_hint" translatable="false">@string/drop_sent_hint_v1</string>
+	<string name="drop_sent_hint_v1">Don\'t save sent messages in global database.</string>
+    <string name="drop_sent_hint_v19">Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.</string>
 	<string name="enable_autosend_">Enable autosend</string>
 	<string name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
 	<string name="use_selected_connector_">Use selected Connector</string>
@@ -167,4 +169,6 @@
 	<string name="cancelling_resend">WebSMS: Cancelling resend ...</string>
 	<string name="attempt">Attempt</string>
 	<string name="to">To</string>
+	<string name="permission_save_to_db">Save messages to database</string>
+	<string name="permission_save_to_db_description">Save messages sent by other apps to android message database</string>
 </resources>

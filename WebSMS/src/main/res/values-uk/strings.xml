@@ -114,7 +114,7 @@
   <string name="hide_paste_" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button">Сховати кнопку \"вставити\"</string>
   <string name="hide_paste_hint" formatted="false" username="rkononenko" orig="Hide &quot;paste&quot; button on text field.">Сховати кнопку \"вставити\" з текстового поля</string>
   <string name="drop_sent_" formatted="false" username="rkononenko" orig="Don\'t save sent SMS">Не зберігати відравл. смс\'ки</string>
-  <string name="drop_sent_hint" formatted="false" username="rkononenko" orig="Don\'t save sent messages in global database.">Не зберігати відравл. смс\'ки у глобальну датабазу.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="rkononenko" orig="Don\'t save sent messages in global database.">Не зберігати відравл. смс\'ки у глобальну датабазу.</string>
   <string name="enable_autosend_" formatted="false" username="rkononenko" orig="Enable autosend">Увімкн. автовідправлення</string>
   <string name="enable_autosend_hint" formatted="false" username="rkononenko" orig="Enable SMSdroid\'s autosend feature.">Дозволити опцію автовідправлення SMSdroid\'у</string>
   <string name="use_selected_connector_" formatted="false" username="rkononenko" orig="Use selected Connector">Викор. обраного Приєднувача</string>

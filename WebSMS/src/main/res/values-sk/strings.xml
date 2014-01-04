@@ -146,7 +146,7 @@
   <string name="connector_message_length_reached" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Reached maximum length of %1$d characters for connector %2$s. %3$s">%1$d je maximálny počet znakov pre rozhranie %2$s. %3$s</string>
   <string name="connector_message_length_reached_signature" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="(Of which %1$d characters were your signature).">(Z toho %1$d znakov bol váš podpis).</string>
   <string name="log_error_saving_message" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Error updating sent message in Database!">Chyba pri ukladaní správy do databázy!</string>
-  <string name="drop_sent_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Don\'t save sent messages in global database.">Nie je možné uložiť odoslané správy do databázy.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Don\'t save sent messages in global database.">Nie je možné uložiť odoslané správy do databázy.</string>
   <string name="use_selected_connector_hint" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Use currently selected Connector for autosend. Disable to show a chooser.">Použiť zvolené rozhranie pre autom. odosielanie. Názov poskytovateľa sa nezobrazí.</string>
   <string name="log_error_char_nonvalid" formatted="false" username="Martin &lt; mato.jurik1@gmail.com &gt;" orig="Connector does not provide valid characters">Rozhranie neposkytuje prípustné znaky</string>
   <string name="show_balance_toast_" formatted="false" orig="Show balance toast">Zobraziť vysk. okno s kreditom</string>
