@@ -20,10 +20,6 @@
     android:versionCode="7471000"
     android:versionName="4.7.1" >
 
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="18" />
-
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -126,16 +122,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="CaptchaActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.SherlockWebSMS_Light"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="de.ub0r.android.lib.DonationFragmentActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.SherlockWebSMS_Light"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="de.ub0r.android.lib.ChangelogFragmentActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/Theme.SherlockWebSMS_Light"
             android:windowSoftInputMode="adjustResize" />
