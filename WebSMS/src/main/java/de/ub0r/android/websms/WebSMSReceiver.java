@@ -28,8 +28,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
@@ -38,6 +36,7 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.provider.Telephony;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -521,25 +520,11 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                boolean sendBroadcast = true;
-                PackageManager pm = context.getPackageManager();
-                assert pm != null;
-                try {
-                    PackageInfo info = pm
-                            .getPackageInfo("de.ub0r.android.smsdroid", 0);
-                    if (info.versionCode <= 7151000) {
-                        Log.w(TAG, "old version of SMSdroid");
-                        sendBroadcast = false;
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    Log.d(TAG, "smsdroid not installed");
-                    sendBroadcast = false;
-                }
-
                 // API19+ does not allow writing to content://sms anymore
                 // anyway, give it a try, if SMSdroid is not installed
                 // AppOps might let the app write the message
-                if (sendBroadcast) {
+                if (Telephony.Sms.getDefaultSmsPackage(context)
+                        .equals("de.ub0r.android.smsdroid")) {
                     Log.d(TAG, "send broadcast to SMSdroid");
                     Intent intent = new Intent();
                     intent.setAction("de.ub0r.android.websms.SEND_SUCCESSFUL");
