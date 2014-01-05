@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>HEAD: Android 4.4: save sent messages via SMSdroid or enabled AppOpps</item>
 		<item>v4.7.1: allow removing diacritics, minor UI changes, prepare for Android 4.4</item>
 		<item>v4.7: hide intro if connector is installed, add Portuguese translation (thanks to Sérgio Marques), update translations</item>
 		<item>v4.6: promote smsflatrate.net connector with 20SMS/month free, inner changes, update translations</item>
