@@ -119,7 +119,7 @@
   <string name="hide_paste_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide &quot;paste&quot; button">Ocultar \"Colar\"</string>
   <string name="hide_paste_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Ocultar botão \"Colar\" no campo de texto.</string>
   <string name="drop_sent_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Don\'t save sent SMS">Não guardar SMS enviadas</string>
-  <string name="drop_sent_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Não guardar mensagens enviadas na base de dados.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Não guardar mensagens enviadas na base de dados.</string>
   <string name="enable_autosend_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Enable autosend">Ativar envio automático</string>
   <string name="enable_autosend_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Ativar funcionalidade de envio automático do SMSdroid.</string>
   <string name="use_selected_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Use selected Connector">Utilizar conector selecionado</string>

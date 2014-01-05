@@ -19,17 +19,17 @@
     <item
         android:id="@+id/item_update"
         android:icon="@drawable/ic_menu_refresh"
-        android:showAsAction="always|never"
+        android:showAsAction="always|withText"
         android:title="@string/update_"/>
     <item
         android:id="@+id/item_connector"
         android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="ifRoom|never"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/change_connector_"/>
     <item
         android:id="@+id/item_send"
         android:icon="@drawable/ic_menu_send"
-        android:showAsAction="ifRoom|never"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/send_"/>
     <item
         android:id="@+id/item_draft"

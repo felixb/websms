@@ -97,7 +97,7 @@
   <string name="hide_paste_" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide &quot;paste&quot; button">Nascondi pulsante \"Incolla\"</string>
   <string name="hide_paste_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Hide &quot;paste&quot; button on text field.">Nasconde il pulsante \"Incolla\" nel campo del testo.</string>
   <string name="drop_sent_" formatted="false" username="carloraudino@fedoraproject.org" orig="Don\'t save sent SMS">Non salvare l\'SMS inviato</string>
-  <string name="drop_sent_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Don\'t save sent messages in global database.">Non salva i messaggi inviati nel database globale.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="carloraudino@fedoraproject.org" orig="Don\'t save sent messages in global database.">Non salva i messaggi inviati nel database globale.</string>
   <string name="enable_autosend_" formatted="false" username="carloraudino@fedoraproject.org" orig="Enable autosend">Abilita autoinvio</string>
   <string name="enable_autosend_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Enable SMSdroid\'s autosend feature.">Abilita la funzione di invio automatico di SMSdroid.</string>
   <string name="use_selected_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Use selected Connector">Usa connector selezionato</string>

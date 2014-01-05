@@ -18,9 +18,6 @@
  */
 package de.ub0r.android.websms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -39,7 +36,12 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.provider.Telephony;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -48,7 +50,7 @@ import de.ub0r.android.websms.connector.common.Utils;
 
 /**
  * Fetch all incoming Broadcasts and forward them to WebSMS.
- * 
+ *
  * @author flx
  */
 public final class WebSMSReceiver extends BroadcastReceiver {
@@ -114,7 +116,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/** List of ids of messages that should not be resent any more. */
 	private static List<Long> resendCancelledMsgIds = new ArrayList<Long>();
 
-	/**
+    /**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -143,7 +145,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Fetch INFO broadcast.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param intent
@@ -172,7 +174,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Handle result of message sending.
-	 * 
+	 *
 	 * @param specs
 	 *            {@link ConnectorSpec}
 	 * @param context
@@ -236,7 +238,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Handle cancellation request.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param intent
@@ -251,7 +253,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Handle resend request.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param intent
@@ -274,7 +276,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Displays notification if sending failed
-	 * 
+	 *
 	 * @param specs
 	 *            {@link ConnectorSpec}
 	 * @param context
@@ -341,7 +343,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Displays (or updates) notification about resending a failed message.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param command
@@ -377,7 +379,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Displays notification about cancelling a resend.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param command
@@ -412,7 +414,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Returns a brief description of a resend attempt.
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param command
@@ -430,7 +432,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	/**
 	 * Cleans up after a message sending has been completed (successfully or
 	 * not).
-	 * 
+	 *
 	 * @param context
 	 *            context
 	 * @param command
@@ -453,7 +455,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Checks if this message should not be sent any more.
-	 * 
+	 *
 	 * @param msgId
 	 *            message id
 	 * @return cancelled
@@ -464,7 +466,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Marks the message as cancelled so that it does not get resent any more.
-	 * 
+	 *
 	 * @param msgId
 	 *            message id
 	 */
@@ -474,7 +476,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Get a fresh and unique ID for a new notification.
-	 * 
+	 *
 	 * @return return the ID
 	 */
 	private static synchronized int getNotificationID() {
@@ -484,7 +486,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Save Message to internal database.
-	 * 
+	 *
 	 * @param specs
 	 *            {@link ConnectorSpec}
 	 * @param context
@@ -496,22 +498,43 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 	 */
 	static void saveMessage(final ConnectorSpec specs, final Context context,
 			final ConnectorCommand command, final int msgType) {
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			return; // API19+ does not allow writing to content://sms anymore
-		}
-		if (command.getType() != ConnectorCommand.TYPE_SEND) {
-			return;
-		}
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				WebSMS.PREFS_DROP_SENT, false)) {
-			Log.i(TAG, "drop sent messages");
-			return;
-		}
-		final ContentResolver cr = context.getContentResolver();
-		final ContentValues values = new ContentValues();
-		values.put(TYPE, msgType);
+        if (command.getType() != ConnectorCommand.TYPE_SEND) {
+            return;
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+                WebSMS.PREFS_DROP_SENT, false)) {
+            Log.i(TAG, "drop sent messages");
+            return;
+        }
 
-		if (msgType == MESSAGE_TYPE_SENT) {
+        // save message to android's internal sms database
+        final ContentResolver cr = context.getContentResolver();
+        final ContentValues values = new ContentValues();
+        values.put(TYPE, msgType);
+
+        if (msgType == MESSAGE_TYPE_SENT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+                if (specs.getName().equals("SMS")) {
+                    // drop messages from "SMS" connector. it gets saved internally.
+                    return;
+                }
+
+                // API19+ does not allow writing to content://sms anymore
+                // anyway, give it a try, if SMSdroid is not installed
+                // AppOps might let the app write the message
+                if (Telephony.Sms.getDefaultSmsPackage(context)
+                        .equals("de.ub0r.android.smsdroid")) {
+                    Log.d(TAG, "send broadcast to SMSdroid");
+                    Intent intent = new Intent();
+                    intent.setAction("de.ub0r.android.websms.SEND_SUCCESSFUL");
+                    intent.putExtra("address", command.getRecipients());
+                    intent.putExtra("body", command.getText());
+                    context.sendBroadcast(intent);
+                    return;
+                }
+            }
+
 			final String[] uris = command.getMsgUris();
 			if (uris != null && uris.length > 0) {
 				for (String s : uris) {
@@ -541,7 +564,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 				}
 				return; // skip legacy saving
 			}
-		}
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return; // skip saving drafts on API19+
+        }
 
 		final String text = command.getText();
 
@@ -599,7 +624,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
 	/**
 	 * Schedules resend of a message.
-	 * 
+	 *
 	 * @param specs
 	 *            {@link ConnectorSpec}
 	 * @param context

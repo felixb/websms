@@ -101,7 +101,7 @@
   <string name="hide_bg_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide active connector\'s name in background.">Ascunde numele conectorului activ în fond.</string>
   <string name="hide_paste_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Hide &quot;paste&quot; button on text field.">Ascunde butonul „Lipește” pe câmpul de text.</string>
   <string name="drop_sent_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Don\'t save sent SMS">Nu salva mesaje trimise</string>
-  <string name="drop_sent_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Nu salva mesaje trimise în baza de date globală.</string>
+  <string name="drop_sent_hint_v1" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Don\'t save sent messages in global database.">Nu salva mesaje trimise în baza de date globală.</string>
   <string name="enable_autosend_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Enable autosend">Activează trimitere automată</string>
   <string name="enable_autosend_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Enable SMSdroid\'s autosend feature.">Activează opțiunea de trimitere automată.</string>
   <string name="use_selected_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Use selected Connector">Folosește Conectorul selectat</string>

@@ -18,23 +18,10 @@
  */
 package de.ub0r.android.websms;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -81,10 +68,23 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.ChangelogHelper;
@@ -1544,7 +1544,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
 		// only allow to save drafts on API18-
 		menu.findItem(R.id.item_draft).setVisible(
-				Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
+				Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
 						&& hasText);
 		final boolean showRestore = !TextUtils.isEmpty(PreferenceManager
 				.getDefaultSharedPreferences(this).getString(
