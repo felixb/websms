@@ -165,4 +165,14 @@
   <string name="notify_failed_now_resending" formatted="false" username="full_interest" orig="WebSMS: sending failed, resending">WebSMS: Envoi échoué, renvoi</string>
   <string name="max_resend_count_hint" formatted="false" username="full_interest" orig="Maximum number of attempts to resend a failed message.">Nombre maximum d\'essais pour envoyer un message échoué.</string>
   <string name="max_resend_count_" formatted="false" username="full_interest" orig="Max resend attempts">Nombre de tentative de renvoi max</string>
+  <string name="save_chars_remove_spaces_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Remove blanks">Enlever les espaces</string>
+  <string name="save_chars_remove_both_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Remove blanks, accents and diacritics">Enlever les espaces, les accents et les signes diacritiques.</string>
+  <string name="save_chars_remove_diacritics_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Remove accents and diacritics">Enlever les accents et les signes diacritiques.</string>
+  <string name="permission_save_to_db" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Save messages to database">Enregistrer les messages dans la base de donnée</string>
+  <string name="permission_save_to_db_description" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Save messages sent by other apps to android message database">Enregistrer les messages envoyés par les autres applications dans la base de donnée d\'Android</string>
+  <string name="drop_sent_hint_v19" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.">Ne pas enregistrer les messages envoyés dans la base de donnée globale.\nL\'enregistrement des messages est seulement disponible via lorsque SMSdroid est l\'application SMS par défaut, ou avec AppOps.</string>
+  <string name="installed_connectors_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Installed Connectors">Connecteurs installés</string>
+  <string name="promoted_connectors_smsflatrate_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="smsflatrate.net">smsflatrate.net</string>
+  <string name="promoted_connectors_smsflatrate_hint" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="20SMS/month free, 1€ balance for WebSMS users">20SMS gratuits par mois, 1€ d\'avoir par utilisateur de WebSMS</string>
+  <string name="promoted_connectors_" formatted="false" username="Thanh Phong Lê &lt;thanhphong.k.le@gmail.com&gt;" orig="Promoted Connectors">Connecteurs favoris</string>
 </resources>
