@@ -19,6 +19,7 @@
 	-->
 <resources>
 	<string-array name="updates">
+		<item>v4.8.1: fix landscape menu</item>
 		<item>v4.8: Android 4.4: save sent messages via SMSdroid or enabled AppOpps</item>
 		<item>v4.7.1: allow removing diacritics, minor UI changes, prepare for Android 4.4</item>
 		<item>v4.7: hide intro if connector is installed, add Portuguese translation (thanks to Sérgio Marques), update translations</item>
