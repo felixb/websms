@@ -559,10 +559,10 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                     if (Telephony.Sms.getDefaultSmsPackage(context)
                             .equals("de.ub0r.android.smsdroid")) {
                         Log.d(TAG, "send broadcast to SMSdroid");
-                        Intent intent = new Intent();
-                        intent.setAction("de.ub0r.android.websms.SEND_SUCCESSFUL");
+                        Intent intent = new Intent("de.ub0r.android.websms.SEND_SUCCESSFUL");
                         intent.putExtra("address", command.getRecipients());
                         intent.putExtra("body", command.getText());
+                        intent.putExtra("connector_name", specs.getName());
                         context.sendBroadcast(intent);
                         return;
                     }
@@ -585,8 +585,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                                 "de.ub0r.android.websms.connector."
                                         + "sms")) {
                             final Intent intent = new Intent(ACTION_CM_WEBSMS);
-                            intent.setFlags(intent.getFlags()
-                                    | Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                             intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
                             intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs
                                     .getName().toLowerCase());
