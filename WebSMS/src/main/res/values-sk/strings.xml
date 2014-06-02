@@ -165,4 +165,14 @@
   <string name="cancelling_resend" formatted="false" username="mato.jurik1@gmail.com" orig="WebSMS: Cancelling resend ...">WebSMS: Prebieha zrušenie opakovaného odoslania ...</string>
   <string name="attempt" formatted="false" username="mato.jurik1@gmail.com" orig="Attempt">Pokus</string>
   <string name="to" formatted="false" username="mato.jurik1@gmail.com" orig="To">Komu</string>
+  <string name="save_chars_remove_spaces_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Remove blanks">Odstrániť medzery</string>
+  <string name="save_chars_remove_diacritics_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Remove accents and diacritics">Odstrániť diakritiku</string>
+  <string name="save_chars_remove_both_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Remove blanks, accents and diacritics">Odstrániť medzery a diakritiku</string>
+  <string name="installed_connectors_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Installed Connectors">Nainštalované rozhrania</string>
+  <string name="promoted_connectors_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Promoted Connectors">Sponzorované rozhrania</string>
+  <string name="promoted_connectors_smsflatrate_" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="smsflatrate.net">smsflatrate.net</string>
+  <string name="promoted_connectors_smsflatrate_hint" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="20SMS/month free, 1€ balance for WebSMS users">20 bezplatných SMS mesačne, 1€ kredit pre používateľov WebSMS</string>
+  <string name="permission_save_to_db" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Save messages to database">Uložiť SMS do databázy</string>
+  <string name="permission_save_to_db_description" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Save messages sent by other apps to android message database">Uloží správy odoslané z iných aplikácií do databázy správ v Androide</string>
+  <string name="drop_sent_hint_v19" formatted="false" username="Martin &lt;martin@droid.sk&gt;" orig="Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.">Neukladať odoslané správy no všeobecnej databázy.\nUkladanie správ je dostupné iba ak je ako predvolená aplikácia pre správy nastavená aplikácia SMSdroid alebo AppOps.</string>
 </resources>

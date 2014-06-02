@@ -3,7 +3,7 @@ res/values/help.xml:5
 res/values/market.xml:5
 res/values/notes.xml:2
 res/values/strings.xml:152
-res/values/update.xml:70
+res/values/update.xml:71
 res/values-cs/donation.xml:0
 res/values-cs/help.xml:5
 res/values-cs/market.xml:5
@@ -23,7 +23,7 @@ res/values-fr/donation.xml:5
 res/values-fr/help.xml:5
 res/values-fr/market.xml:5
 res/values-fr/notes.xml:2
-res/values-fr/strings.xml:143
+res/values-fr/strings.xml:153
 res/values-hu/donation.xml:5
 res/values-hu/help.xml:5
 res/values-hu/market.xml:5
@@ -53,7 +53,7 @@ res/values-sk/donation.xml:5
 res/values-sk/help.xml:5
 res/values-sk/market.xml:5
 res/values-sk/notes.xml:2
-res/values-sk/strings.xml:143
+res/values-sk/strings.xml:153
 res/values-tr/donation.xml:1
 res/values-tr/help.xml:2
 res/values-tr/market.xml:5
@@ -64,16 +64,16 @@ res/values-uk/help.xml:5
 res/values-uk/market.xml:5
 res/values-uk/notes.xml:2
 res/values-uk/strings.xml:143
-res/values:239
+res/values:240
 res/values-cs:141
 res/values-de:170
 res/values-es:108
-res/values-fr:160
+res/values-fr:170
 res/values-hu:160
 res/values-it:160
 res/values-pt:160
 res/values-ro:149
 res/values-ru:170
-res/values-sk:160
+res/values-sk:170
 res/values-tr:75
 res/values-uk:160
