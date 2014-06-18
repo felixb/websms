@@ -161,4 +161,14 @@
   <string name="cancelling_resend" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS: Cancelling resend ...">WebSMS: cancelamento de reenvio...</string>
   <string name="resending_failed_msg_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="WebSMS: Resending message">WebSMS: reenvio de mensagem</string>
   <string name="flashsms" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Flash SMS">Flash SMS</string>
+  <string name="save_chars_remove_spaces_" formatted="false" username="smarquespt@gmail.com" orig="Remove blanks">Remover espaços vazios</string>
+  <string name="save_chars_remove_diacritics_" formatted="false" username="smarquespt@gmail.com" orig="Remove accents and diacritics">Remover acentos e diacríticos</string>
+  <string name="save_chars_remove_both_" formatted="false" username="smarquespt@gmail.com" orig="Remove blanks, accents and diacritics">Remover espaços vazios, acentos e diacríticos</string>
+  <string name="installed_connectors_" formatted="false" username="smarquespt@gmail.com" orig="Installed Connectors">Conectores instalados</string>
+  <string name="promoted_connectors_" formatted="false" username="smarquespt@gmail.com" orig="Promoted Connectors">Conectores promovidos</string>
+  <string name="promoted_connectors_smsflatrate_" formatted="false" username="smarquespt@gmail.com" orig="smsflatrate.net">smsflatrate.net</string>
+  <string name="promoted_connectors_smsflatrate_hint" formatted="false" username="smarquespt@gmail.com" orig="20SMS/month free, 1€ balance for WebSMS users">20 SMS por mês, 1 € para utilizadores WebSMS</string>
+  <string name="drop_sent_hint_v19" formatted="false" username="smarquespt@gmail.com" orig="Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.">Não gravar mensagens enviadas na base de dados global.\nA gravação de mensagens só está disponível através do SMSDroid, se for aplicação padrão, ou com o AppOps.</string>
+  <string name="permission_save_to_db_description" formatted="false" username="smarquespt@gmail.com" orig="Save messages sent by other apps to android message database">Grava as mensagens enviadas com outras aplicações na base de dados do android.</string>
+  <string name="permission_save_to_db" formatted="false" username="smarquespt@gmail.com" orig="Save messages to database">Gravar mensagens na base de dados</string>
 </resources>
