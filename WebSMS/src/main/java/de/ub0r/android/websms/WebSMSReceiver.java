@@ -18,6 +18,7 @@
  */
 package de.ub0r.android.websms;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -84,6 +85,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * ACTION for publishing information about sent websms.
      */
     private static final String ACTION_CM_WEBSMS = "de.ub0r.android.callmeter.SAVE_WEBSMS";
+
+    private static final String ACTION_SMSDROID_WEBSMS = "de.ub0r.android.websms.SEND_SUCCESSFUL";
 
     /**
      * Extra holding uri of sent sms.
@@ -192,6 +195,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
         } else if (Connector.ACTION_CAPTCHA_REQUEST.equals(action)) {
             final Intent i = new Intent(context, CaptchaActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //noinspection ConstantConditions
             i.putExtras(intent.getExtras());
             context.startActivity(i);
 
@@ -209,8 +213,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * @param context context
      * @param intent  intent
      */
-    private static void handleInfoAction(final Context context,
-            final Intent intent) {
+    private static void handleInfoAction(final Context context, final Intent intent) {
         final ConnectorSpec specs = new ConnectorSpec(intent);
         final ConnectorCommand command = new ConnectorCommand(intent);
 
@@ -225,21 +228,19 @@ public final class WebSMSReceiver extends BroadcastReceiver {
             Log.e(TAG, "error while receiving broadcast", e);
         }
         // save send messages
-        if (command != null && command.getType() == ConnectorCommand.TYPE_SEND) {
-            handleSendCommand(specs, context, intent, command);
+        if (command.getType() == ConnectorCommand.TYPE_SEND) {
+            handleSendCommand(context, specs, command);
         }
     }
 
     /**
      * Handle result of message sending.
      *
-     * @param specs   {@link ConnectorSpec}
      * @param context context
-     * @param intent  intent
-     * @param command {@link ConnectorCommand}
+     * @param specs   {@link de.ub0r.android.websms.connector.common.ConnectorSpec}
+     * @param command {@link de.ub0r.android.websms.connector.common.ConnectorCommand}
      */
-    static void handleSendCommand(final ConnectorSpec specs,
-            final Context context, final Intent intent,
+    static void handleSendCommand(final Context context, final ConnectorSpec specs,
             final ConnectorCommand command) {
 
         boolean isHandled = false;
@@ -248,7 +249,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         if (!specs.hasStatus(ConnectorSpec.STATUS_ERROR)) {
             // Sent successfully
-            saveMessage(specs, context, command, MESSAGE_TYPE_SENT);
+            saveMessage(context, specs, command, MESSAGE_TYPE_SENT);
             if (p.getBoolean(WebSMS.PREFS_SEND_VIBRATE, false)) {
                 final Vibrator v = (Vibrator) context
                         .getSystemService(Context.VIBRATOR_SERVICE);
@@ -275,7 +276,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                     // schedule resend
                     command.setResendCount(wasResendCount + 1);
                     displayResendingNotification(context, command);
-                    scheduleMessageResend(specs, context, command);
+                    scheduleMessageResend(context, specs, command);
 
                     isHandled = true;
                 }
@@ -284,8 +285,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         if (!isHandled) {
             // Display notification if sending failed
-            displaySendingFailedNotification(specs, context, command);
-            isHandled = true;
+            displaySendingFailedNotification(context, specs, command);
             messageCompleted(context, command);
         }
     }
@@ -296,8 +296,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * @param context context
      * @param intent  intent
      */
-    private static void handleCancelAction(final Context context,
-            final Intent intent) {
+    private static void handleCancelAction(final Context context, final Intent intent) {
         final ConnectorCommand command = new ConnectorCommand(intent);
         cancelResend(command.getMsgId());
         displayCancellingResendNotification(context, command);
@@ -309,8 +308,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * @param context context
      * @param intent  intent
      */
-    private static void handleResendAction(final Context context,
-            final Intent intent) {
+    private static void handleResendAction(final Context context, final Intent intent) {
 
         final ConnectorSpec connector = new ConnectorSpec(intent);
         final ConnectorCommand command = new ConnectorCommand(intent);
@@ -319,7 +317,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
         if (!isResendCancelled(msgId)) {
             WebSMS.runCommand(context, connector, command);
         } else {
-            displaySendingFailedNotification(connector, context, command);
+            displaySendingFailedNotification(context, connector, command);
             messageCompleted(context, command);
         }
     }
@@ -327,13 +325,12 @@ public final class WebSMSReceiver extends BroadcastReceiver {
     /**
      * Displays notification if sending failed
      *
-     * @param specs   {@link ConnectorSpec}
      * @param context context
-     * @param command {@link ConnectorCommand}
+     * @param specs   {@link de.ub0r.android.websms.connector.common.ConnectorSpec}
+     * @param command {@link de.ub0r.android.websms.connector.common.ConnectorCommand}
      */
-    private static void displaySendingFailedNotification(
-            final ConnectorSpec specs, final Context context,
-            final ConnectorCommand command) {
+    private static void displaySendingFailedNotification(final Context context,
+            final ConnectorSpec specs, final ConnectorCommand command) {
 
         final SharedPreferences p = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -353,8 +350,9 @@ public final class WebSMSReceiver extends BroadcastReceiver {
         final PendingIntent cIntent = PendingIntent.getActivity(context, 0, i,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         n.setLatestEventInfo(context, context.getString(R.string.notify_failed)
-                + " " + specs.getErrorMessage(), to + ": " + command.getText(),
-                cIntent);
+                        + " " + specs.getErrorMessage(), to + ": " + command.getText(),
+                cIntent
+        );
         n.flags |= Notification.FLAG_AUTO_CANCEL;
 
         n.flags |= Notification.FLAG_SHOW_LIGHTS;
@@ -428,8 +426,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * @param context context
      * @param command {@link ConnectorCommand}
      */
-    private static void displayCancellingResendNotification(
-            final Context context, final ConnectorCommand command) {
+    private static void displayCancellingResendNotification(final Context context,
+            final ConnectorCommand command) {
 
         long msgId = command.getMsgId();
 
@@ -523,12 +521,12 @@ public final class WebSMSReceiver extends BroadcastReceiver {
     /**
      * Save Message to internal database.
      *
-     * @param specs   {@link ConnectorSpec}
-     * @param context {@link Context}
-     * @param command {@link ConnectorCommand}
+     * @param context {@link android.content.Context}
+     * @param specs   {@link de.ub0r.android.websms.connector.common.ConnectorSpec}
+     * @param command {@link de.ub0r.android.websms.connector.common.ConnectorCommand}
      * @param msgType sent or draft?
      */
-    static void saveMessage(final ConnectorSpec specs, final Context context,
+    static void saveMessage(final Context context, final ConnectorSpec specs,
             final ConnectorCommand command, final int msgType) {
         if (command.getType() != ConnectorCommand.TYPE_SEND) {
             return;
@@ -541,13 +539,14 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         // save message to android's internal sms database
         final ContentResolver cr = context.getContentResolver();
+        assert cr != null;
         final ContentValues values = new ContentValues();
         values.put(TYPE, msgType);
 
         if (msgType == MESSAGE_TYPE_SENT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
-                if (specs.getName().equals("SMS")) {
+                if (isRealSMS(specs)) {
                     // drop messages from "SMS" connector. it gets saved internally.
                     return;
                 }
@@ -558,12 +557,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                     // AppOps might let the app write the message
                     if (Telephony.Sms.getDefaultSmsPackage(context)
                             .equals("de.ub0r.android.smsdroid")) {
-                        Log.d(TAG, "send broadcast to SMSdroid");
-                        Intent intent = new Intent("de.ub0r.android.websms.SEND_SUCCESSFUL");
-                        intent.putExtra("address", command.getRecipients());
-                        intent.putExtra("body", command.getText());
-                        intent.putExtra("connector_name", specs.getName());
-                        context.sendBroadcast(intent);
+                        sendMessageToSMSdroid(context, specs, command);
                         return;
                     }
                 } catch (NullPointerException e) {
@@ -581,15 +575,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                         Log.d(TAG, "updated: " + updated);
                         if (updated > 0
                                 && specs != null
-                                && !specs.getPackage().equals(
-                                "de.ub0r.android.websms.connector."
-                                        + "sms")) {
-                            final Intent intent = new Intent(ACTION_CM_WEBSMS);
-                            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                            intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
-                            intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs
-                                    .getName().toLowerCase());
-                            context.sendBroadcast(intent);
+                                && !isRealSMS(specs)) {
+                            sendMessageToCallMeter(context, specs, u);
                         }
                     } catch (SQLiteException e) {
                         Log.e(TAG, "error updating sent message: " + u, e);
@@ -618,29 +605,40 @@ public final class WebSMSReceiver extends BroadcastReceiver {
         final String[] recipients = command.getRecipients();
         final ArrayList<String> inserted = new ArrayList<String>(
                 recipients.length);
-        for (int i = 0; i < recipients.length; i++) {
-            if (recipients[i] == null || recipients[i].trim().length() == 0) {
+        for (String recipient : recipients) {
+            if (recipient == null || recipient.trim().length() == 0) {
                 continue; // skip empty recipients
 
             }
-            String address = Utils.getRecipientsNumber(recipients[i]);
+            String address = Utils.getRecipientsNumber(recipient);
             Log.d(TAG, "TO: " + address);
             try {
                 final Cursor c = cr.query(URI_SMS, PROJECTION_ID,
                         TYPE + " = " + MESSAGE_TYPE_DRAFT + " AND " + ADDRESS
                                 + " = '" + address + "' AND " + BODY
                                 + " like '" + text.replace("'", "_") + "'",
-                        null, DATE + " DESC");
+                        null, DATE + " DESC"
+                );
                 if (c != null && c.moveToFirst()) {
                     final Uri u = URI_SENT.buildUpon()
                             .appendPath(c.getString(0)).build();
+                    assert u != null;
                     Log.d(TAG, "skip saving draft: " + u);
                     inserted.add(u.toString());
                 } else {
                     final ContentValues cv = new ContentValues(values);
                     cv.put(ADDRESS, address);
                     // save sms to content://sms/sent
-                    inserted.add(cr.insert(URI_SENT, cv).toString());
+                    Uri u = cr.insert(URI_SENT, cv);
+                    if (u != null) {
+                        inserted.add(u.toString());
+                        if (msgType == MESSAGE_TYPE_SENT) {
+                            // API19+ code may reach this point
+                            // SMSdroid is not default app
+                            // but message was saved as sent somehow
+                            sendMessageToCallMeter(context, specs, u);
+                        }
+                    }
                 }
                 if (c != null && !c.isClosed()) {
                     c.close();
@@ -654,19 +652,44 @@ public final class WebSMSReceiver extends BroadcastReceiver {
             }
         }
         if (msgType == MESSAGE_TYPE_DRAFT && inserted.size() > 0) {
-            command.setMsgUris(inserted.toArray(new String[]{}));
+            command.setMsgUris(inserted.toArray(new String[inserted.size()]));
         }
+    }
+
+    private static boolean isRealSMS(final ConnectorSpec specs) {
+        return specs.getPackage().equals("de.ub0r.android.websms.connector.sms");
+    }
+
+    private static void sendMessageToSMSdroid(final Context context, final ConnectorSpec specs,
+            final ConnectorCommand command) {
+        Log.d(TAG, "send broadcast to SMSdroid");
+        Intent intent = new Intent(ACTION_SMSDROID_WEBSMS);
+        intent.putExtra("address", command.getRecipients());
+        intent.putExtra("body", command.getText());
+        intent.putExtra("connector_name", specs.getName());
+        context.sendBroadcast(intent);
+    }
+
+    @SuppressLint("InlinedApi")
+    private static void sendMessageToCallMeter(final Context context, final ConnectorSpec specs,
+            final Uri u) {
+        Log.d(TAG, "send broadcast to CallMeter3G");
+        Intent intent = new Intent(ACTION_CM_WEBSMS);
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra(EXTRA_WEBSMS_URI, u.toString());
+        intent.putExtra(EXTRA_WEBSMS_CONNECTOR, specs.getName().toLowerCase());
+        context.sendBroadcast(intent);
     }
 
     /**
      * Schedules resend of a message.
      *
-     * @param specs   {@link ConnectorSpec}
      * @param context context
-     * @param command {@link ConnectorCommand}
+     * @param specs   {@link de.ub0r.android.websms.connector.common.ConnectorSpec}
+     * @param command {@link de.ub0r.android.websms.connector.common.ConnectorCommand}
      */
-    private static void scheduleMessageResend(final ConnectorSpec specs,
-            final Context context, final ConnectorCommand command) {
+    private static void scheduleMessageResend(final Context context, final ConnectorSpec specs,
+            final ConnectorCommand command) {
 
         long msgId = command.getMsgId();
 
@@ -678,8 +701,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
                 .getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + RESEND_DELAY_MS, PendingIntent
-                .getBroadcast(context, (int) msgId, resendIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT));
+                        .getBroadcast(context, (int) msgId, resendIntent,
+                                PendingIntent.FLAG_CANCEL_CURRENT)
+        );
     }
-
 }

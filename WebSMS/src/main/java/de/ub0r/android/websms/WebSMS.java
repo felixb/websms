@@ -1240,7 +1240,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			connector.setToIntent(intent);
 			connector.addStatus(ConnectorSpec.STATUS_SENDING);
 			if (command.getResendCount() == 0) {
-				WebSMSReceiver.saveMessage(connector, me, command,
+				WebSMSReceiver.saveMessage(me, connector, command,
 						WebSMSReceiver.MESSAGE_TYPE_DRAFT);
 			}
 			break;
@@ -1265,8 +1265,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 						ConnectorSpec specs = new ConnectorSpec(intent);
 						specs.setErrorMessage(// TODO: localize
 						"Connector did not react on message");
-						WebSMSReceiver.handleSendCommand(specs, context,
-								intent, command);
+						WebSMSReceiver.handleSendCommand(context, specs,
+                                command);
 					}
 				}
 			}, null, Activity.RESULT_CANCELED, null, null);
@@ -1828,7 +1828,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		final String[] tos = Utils.parseRecipients(to);
 		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
 				null, null, null, tos, text, false);
-		WebSMSReceiver.saveMessage(null, this, command,
+		WebSMSReceiver.saveMessage(this, null, command,
 				WebSMSReceiver.MESSAGE_TYPE_DRAFT);
 		this.reset(false);
 	}
