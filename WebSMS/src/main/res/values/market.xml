@@ -22,5 +22,4 @@
 	<string name="market_oss">This app is open source software build in spare time. Adding bad comments in market won\'t help much to make it better.\nPlease add your issues with this app on the app\'s website.</string>
 	<string name="market_smsdroid">As WebSMS is not able to read messages you might find SMSdroid useful.\nSMSdroid is an alternativ message reader for people who are sending messages with any other messaging app like WebSMS.</string>
 	<string name="market_translation">Feel free to help translating this app to your language here: http://ub0r.de/translate/websms/</string>
-	<string name="market_keywords">Keywords: freesms sms txt websms messages</string>
 </resources>
