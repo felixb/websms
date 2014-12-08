@@ -697,12 +697,17 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		s = null;
 		Log.d(TAG, "loaded connectors: " + CONNECTORS.size());
 
-		this.reloadPrefs();
+        if (savedInstanceState == null) {
+            this.revertPrefsToStdConnector();
+            // note: do not revert to std connector on orientation change
+        }
 
-		if (savedInstanceState != null) {
-			this.lastTo = savedInstanceState.getString(EXTRA_TO);
-			this.lastMsg = savedInstanceState.getString(EXTRA_TEXT);
-		}
+        this.reloadPrefs();
+
+        if (savedInstanceState != null) {
+            this.lastTo = savedInstanceState.getString(EXTRA_TO);
+            this.lastMsg = savedInstanceState.getString(EXTRA_TEXT);
+        }
 
 		// register Listener
 		this.vCustomSender.setOnClickListener(this);
@@ -1038,19 +1043,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			v.setVisibility(View.VISIBLE);
 		}
 
-		String s = p.getString(PREFS_STANDARD_CONNECTOR, "");
-		if (!TextUtils.isEmpty(s)) {
-			p.edit().putString(PREFS_CONNECTOR_ID, s).commit();
-		}
 		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
 		prefsConnectorSpec = getConnectorByID(prefsConnectorID);
 		if (prefsConnectorSpec != null
 				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
-			prefsSubConnectorSpec = null;
-			s = p.getString(PREFS_STANDARD_SUBCONNECTOR, "");
-			if (!TextUtils.isEmpty(s)) {
-				p.edit().putString(PREFS_SUBCONNECTOR_ID, s).commit();
-			}
 			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
 					.getString(PREFS_SUBCONNECTOR_ID, ""));
 			if (prefsSubConnectorSpec == null) {
@@ -1081,6 +1077,24 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.displayAds();
 		this.setButtons();
 	}
+
+    /**
+     * Updates preferences and replaces the selected connector with the default (standard) one.
+     * reloadPrefs() should be called afterwards to load the change.
+     */
+    private void revertPrefsToStdConnector() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String stdConnector = p.getString(PREFS_STANDARD_CONNECTOR, "");
+        String stdSubConnector = p.getString(PREFS_STANDARD_SUBCONNECTOR, "");
+
+        if (!TextUtils.isEmpty(stdConnector)) {
+            SharedPreferences.Editor e = p.edit();
+            e.putString(PREFS_CONNECTOR_ID, stdConnector);
+            e.putString(PREFS_SUBCONNECTOR_ID, stdSubConnector);
+            e.commit();
+        }
+    }
 
 	/**
 	 * Show/hide, enable/disable send buttons.
@@ -1288,6 +1302,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			return;
 		case R.id.text_clear:
 			this.reset(true);
+            this.revertPrefsToStdConnector();
 			this.reloadPrefs();
 			return;
 		case R.id.clear:
