@@ -1551,9 +1551,14 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				ConnectorSpec.CAPABILITIES_SEND,
                 ConnectorSpec.STATUS_READY | ConnectorSpec.STATUS_ENABLED,
                 true /*isIncludePseudoConnectors*/);
+
+        boolean isPrefsConnectorOk = prefsConnectorSpec != null && prefsSubConnectorSpec != null
+                && prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED);
         menu.findItem(R.id.item_connector).setVisible(
 				connectors.length > 1
-				|| (connectors.length == 1 && connectors[0].getSubConnectorCount() > 1));
+				|| (connectors.length == 1 && connectors[0].getSubConnectorCount() > 1)
+                || (connectors.length == 1 && !isPrefsConnectorOk));
+
 		boolean hasText = this.etText != null
 				&& !TextUtils.isEmpty(this.etText.getText());
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
@@ -2224,6 +2229,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					me.setButtons();
 				}
 			}
+            me.invalidateOptionsMenu();
 		}
 	}
 
