@@ -2126,13 +2126,15 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				c.setErrorMessage((String) null); // fix sticky error status
 				short wasRunningStatus = c.getRunningStatus();
 				c.update(connector);
-				if (command.getType() == ConnectorCommand.TYPE_NONE) {
-					// if this info is not a response to a command then
-					// preserve the running status
-					Log.d(TAG, "preserving running status if any");
-					c.addStatus(wasRunningStatus);
-				}
-				if (me != null) {
+                if (command.getType() == ConnectorCommand.TYPE_NONE
+                        && wasRunningStatus != 0
+                        && c.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+                    // if this info is not a response to a command then preserve the running status
+                    // unless we've learnt that this connector got disabled
+                    Log.d(TAG, "preserving running status");
+                    c.addStatus(wasRunningStatus);
+                }
+                if (me != null) {
 					final SharedPreferences p = PreferenceManager
 							.getDefaultSharedPreferences(me);
 					final String em = c.getErrorMessage();
