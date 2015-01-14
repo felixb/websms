@@ -687,13 +687,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 								Base64Coder.decode(s)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
 				if (p.getBoolean(PREFS_AUTOUPDATE, true)) {
-					final String defPrefix = p
-							.getString(PREFS_DEFPREFIX, "+49");
-					final String defSender = p.getString(PREFS_SENDER, "");
-					for (ConnectorSpec c : CONNECTORS) {
-						runCommand(me, c,
-								ConnectorCommand.update(defPrefix, defSender));
-					}
+                    updateFreecount();
 				}
 			} catch (Exception e) {
 				Log.d(TAG, "error loading connectors", e);
