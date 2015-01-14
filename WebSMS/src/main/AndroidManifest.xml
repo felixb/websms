@@ -61,7 +61,7 @@
             android:icon="@drawable/icon"
             android:label="@string/app_name">
         <activity
-                android:name="WebSMS"
+                android:name=".WebSMS"
                 android:configChanges="orientation|keyboardHidden"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.SherlockWebSMS_Light"
@@ -122,17 +122,33 @@
                 android:name=".AboutActivity"
                 android:theme="@style/Theme.SherlockWebSMS_Light"/>
         <activity
-                android:name=".HelpActivity"
+                android:name=".HelpIntroActivity"
                 android:theme="@style/Theme.SherlockWebSMS_Light"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
-                android:name="CaptchaActivity"
+                android:name=".HelpHtmlActivity"
+                android:theme="@style/Theme.SherlockWebSMS_Light"
+                android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+                android:name=".CaptchaActivity"
                 android:configChanges="orientation|keyboardHidden"
                 android:theme="@style/Theme.SherlockWebSMS_Light"
                 android:windowSoftInputMode="adjustResize"/>
+        <activity
+                android:name=".rules.PreferencesRulesActivity"
+                android:configChanges="orientation|keyboardHidden"
+                android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+                android:name=".rules.RulesEditorActivity"
+                android:theme="@style/Theme.SherlockWebSMS"
+                android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+                android:name=".rules.EditRuleActivity"
+                android:theme="@style/Theme.SherlockWebSMS"
+                android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <receiver
-                android:name="WebSMSReceiver"
+                android:name=".WebSMSReceiver"
                 android:enabled="true"
                 android:exported="true">
             <intent-filter>
@@ -143,7 +159,7 @@
             </intent-filter>
         </receiver>
         <receiver
-                android:name="de.ub0r.android.websms.connector.sms.ConnectorSMS"
+                android:name=".connector.sms.ConnectorSMS"
                 android:enabled="true"
                 android:exported="true">
             <intent-filter>
