@@ -35,9 +35,10 @@ public class PseudoConnectorRules {
     private static final String TAG = "rules";
 
     /* Preference keys - must match keys in prefs_rules.xml */
-    private static final String PREFS_KEY_ENABLED    = "enable_rules";
+    private static final String PREFS_KEY_ENABLED  = "enable_rules";
+    private static final String PREFS_KEY_SHOW_DECISION_TOAST = "rules_show_decision_toast";
     private static final String PREFS_KEY_TEST_ONLY  = "rules_test_only";
-    private static final String PREFS_KEY_RULES_LIST = "rules_list";
+    private static final String PREFS_KEY_RULES_LIST  = "rules_list";
 
     /** Singleton ConnectorSpec. */
     private static ConnectorSpec connectorSpec = null;
@@ -160,6 +161,14 @@ public class PseudoConnectorRules {
     public static boolean isEnabled(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(PREFS_KEY_ENABLED, false);
+    }
+
+    /**
+     * Returns whether the decision toast should be shown.
+     */
+    public static boolean isShowDecisionToast(Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(PREFS_KEY_SHOW_DECISION_TOAST, false);
     }
 
     /**

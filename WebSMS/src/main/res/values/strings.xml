@@ -179,6 +179,8 @@
     <string name="prefs_rules_enable_hint">Enable connector selection rules</string>
     <string name="prefs_rules_editor">Manage rules</string>
     <string name="prefs_rules_editor_hint">View and modify rules</string>
+    <string name="prefs_rules_show_decision_toast">Show decision toast</string>
+    <string name="prefs_rules_show_decision_toast_hint">Show toast notification with the chosen connector</string>
     <string name="prefs_rules_test_only">Test only</string>
     <string name="prefs_rules_test_only_hint">In test only mode, the name of the chosen connector will be shown but no messages will be sent</string>
     <string name="rules_editor_title">Rules Editor</string>
@@ -210,5 +212,6 @@
     <string name="edit_rule_radio_charset_ascii">English (Latin) characters only</string>
     <string name="edit_rule_connector">then use</string>
     <string name="err_no_matching_rules">No matching rules found</string>
+    <string name="rules_decision">Sending to \"%1$s\" using connector \"%2$s\"</string>
     <string name="rules_test_only">Test only mode: would send to \"%1$s\" using connector \"%2$s\"</string>
 </resources>

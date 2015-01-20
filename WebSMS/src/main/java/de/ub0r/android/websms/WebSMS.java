@@ -1083,7 +1083,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY, false));
 
-		prefsNoAds = DonationHelper.hideAds(this);
+        prefsNoAds = DonationHelper.hideAds(this);
 		this.displayAds();
 		this.setButtons();
 	}
@@ -1939,12 +1939,19 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
             if (PseudoConnectorRules.isTestOnly(this)) {
                 Toast.makeText(this,
-                    getString(R.string.rules_test_only, Utils.joinRecipients(tosForChosen,","), chosenConn.getName()),
+                    getString(R.string.rules_test_only,
+                            Utils.joinRecipients(tosForChosen,","), chosenConn.getName()),
                     Toast.LENGTH_LONG).show();
 
             } else {
+                if (PseudoConnectorRules.isShowDecisionToast(this)) {
+                    Toast.makeText(this,
+                            getString(R.string.rules_decision,
+                                    Utils.joinRecipients(tosForChosen, ","), chosenConn.getName()),
+                            Toast.LENGTH_LONG).show();
+                }
                 boolean ok = sendReal(chosenConn.getConnector(), chosenConn.getSubConnector(),
-                        tosForChosen, text);
+                    tosForChosen, text);
                 if (!ok) {
                     return false;
                 }

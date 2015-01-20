@@ -14,6 +14,10 @@
             android:targetClass="de.ub0r.android.websms.rules.RulesEditorActivity" />
     </Preference>
 
+    <CheckBoxPreference android:key="rules_show_decision_toast"
+        android:title="@string/prefs_rules_show_decision_toast"
+        android:summary="@string/prefs_rules_show_decision_toast_hint"/>
+
     <CheckBoxPreference android:key="rules_test_only"
         android:title="@string/prefs_rules_test_only"
         android:summary="@string/prefs_rules_test_only_hint"/>
