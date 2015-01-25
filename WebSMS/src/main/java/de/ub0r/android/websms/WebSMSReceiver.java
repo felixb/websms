@@ -657,7 +657,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
     }
 
     private static boolean isRealSMS(final ConnectorSpec specs) {
-        return specs.getPackage().equals("de.ub0r.android.websms.connector.sms");
+        // ConnectorSMS uses the WebSMS's package
+        return specs.getPackage().equals("de.ub0r.android.websms");
     }
 
     private static void sendMessageToSMSdroid(final Context context, final ConnectorSpec specs,

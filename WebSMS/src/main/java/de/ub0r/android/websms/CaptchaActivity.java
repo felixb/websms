@@ -71,15 +71,35 @@ public final class CaptchaActivity extends SherlockActivity implements
 		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
-		final Parcelable p = extras
-				.getParcelable(Connector.EXTRA_CAPTCHA_DRAWABLE);
+
+		final Parcelable p = extras.getParcelable(Connector.EXTRA_CAPTCHA_DRAWABLE);
 		if (p != null && p instanceof Bitmap) {
-			((ImageView) this.findViewById(R.id.captcha))
-					.setImageBitmap((Bitmap) p);
+            final ImageView ivCaptcha = (ImageView) this.findViewById(R.id.captcha);
+            final ImageView ivCaptchaFull = (ImageView) this.findViewById(R.id.captcha_full);
+            ivCaptcha.setImageBitmap((Bitmap) p);
+
+            ivCaptcha.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    ivCaptcha.setVisibility(View.GONE);
+                    ivCaptchaFull.setVisibility(View.VISIBLE);
+
+                    if (ivCaptchaFull.getDrawable() == null) {
+                        ivCaptchaFull.setImageBitmap((Bitmap) p);
+                    }
+                }
+            });
+            ivCaptchaFull.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    ivCaptcha.setVisibility(View.VISIBLE);
+                    ivCaptchaFull.setVisibility(View.GONE);
+                }
+            });
+
 		} else {
 			this.finish();
 			return;
 		}
+
 		final String t = extras.getString(Connector.EXTRA_CAPTCHA_MESSAGE);
 		if (t != null) {
 			((TextView) this.findViewById(R.id.text)).setText(t);

@@ -22,4 +22,49 @@
 	<string name="help_conenctors">There is a huge number of Connectors available in Google Play Store.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend cherry-sms for almost everybody. Users with non latin alphabets might want to try my-cool-sms first.</string>
 	<string name="help_connectors_matrix">You might want to check the Connector Matrix for more informations about avaiable Connectors: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix</string>
 	<string name="help_prefs">To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.</string>
+
+    <string name="help_html_title">Help - %s</string>
+    <string name="rules_editor_help">
+&lt;p&gt;Here you can define connector selection rules.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click \"+\" to add a rule&lt;/li&gt;
+&lt;li&gt;Click a rule to view or modify it&lt;/li&gt;
+&lt;li&gt;Long-click a rule to delete or move it&lt;/li&gt;
+&lt;li&gt;Return to the previous screen to save the changes&lt;/li&gt;
+&lt;li&gt;Click Cancel to forget all changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each rule defines which connector should be used if a message matches the given conditions. For example,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;if the recipient\'s number starts with +1323 then use connector X&lt;/li&gt;
+&lt;li&gt;if the recipient\'s number starts with +1 then use connector Y&lt;/li&gt;
+&lt;li&gt;if none of the above then use connector Z&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Rules are evaluated in the displayed order and when the &lt;b&gt;first&lt;/b&gt;
+matching rule is found, its target connector is used for sending the message.
+The remaining rules are ignored. In the above example, a message to +1323777 will be sent
+using connector X and a message to +1505888 will be sent using connector Y.
+It is recommended to add \"if none of the above\" as the last rule,
+which will define the default connector for all remaining recipients.&lt;/p&gt;
+&lt;p&gt;If you want to verify that your rules work correctly, you can tick \"Test only\"
+in Preferences and try sending messages to different recipients.
+In this mode, the chosen connector will be shown but no messages will actually be sent.&lt;/p&gt;
+    </string>
+    <string name="edit_rule_help">
+&lt;p&gt;Here you can view or modify details of a rule.&lt;/p&gt;
+&lt;p&gt;The first section defines which recipient numbers this rule shall apply to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;starts with - the rule applies if the recipient\'s number starts with the given prefix&lt;/li&gt;
+&lt;li&gt;Regular Expression - the rule applies if the recipient\'s number matches the Regular Expression&lt;/li&gt;
+&lt;li&gt;any number - the rule always applies (this is normally used for the last \"none of the above\" rule)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last section defines which connector shall be used in this case.&lt;/p&gt;
+&lt;p&gt;Optionally, you can limit the character set that this provider can accept.
+Some providers do not support non-English (e.g. Cyrillic) characters.
+In this case, you can click \"English (Latin) characters only\", which means that this connector
+will only be used if your message only contains digits, letters \"a-Z\" and basic punctuation (ASCII set).
+Otherwise (or if you don\'t know what this all means), leave it at default \"any characters\".&lt;/p&gt;
+&lt;p&gt;To save the rule, return to the previous screen.&lt;/p&gt;
+&lt;p&gt;To forget all changes, click Cancel.&lt;/p&gt;
+    </string>
+
 </resources>

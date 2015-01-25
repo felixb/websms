@@ -37,7 +37,7 @@ import de.ub0r.android.lib.Market;
  * 
  * @author flx
  */
-public final class HelpActivity extends SherlockActivity implements
+public final class HelpIntroActivity extends SherlockActivity implements
 		OnClickListener {
 	/**
 	 * {@inheritDoc}
@@ -45,7 +45,7 @@ public final class HelpActivity extends SherlockActivity implements
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.help);
+		this.setContentView(R.layout.help_intro);
 		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
@@ -107,13 +107,13 @@ public final class HelpActivity extends SherlockActivity implements
 							switch (which) {
 							case 0:
 								Market.installApp(
-										HelpActivity.this,
+										HelpIntroActivity.this,
 										"de.ub0r.android.websms.connector.smsflatratenet",
 										"http://code.google.com/p/websmsdroid/downloads/list?can=3&q=smsflatrate");
 								break;
 							case 1:
 								Market.searchApp(
-										HelpActivity.this,
+										HelpIntroActivity.this,
 										"websms+connector",
 										"http://code.google.com/p/websmsdroid/downloads"
 												+ "/list?can=2&q=label%3AConnector");

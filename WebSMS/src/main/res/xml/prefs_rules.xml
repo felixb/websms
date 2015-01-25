@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference android:key="enable_rules"
+        android:title="@string/prefs_rules_enable"
+        android:summary="@string/prefs_rules_enable_hint"/>
+
+    <Preference
+        android:title="@string/prefs_rules_editor"
+        android:summary="@string/prefs_rules_editor_hint">
+
+        <intent android:action="android.intent.action.VIEW"
+            android:targetPackage="de.ub0r.android.websms"
+            android:targetClass="de.ub0r.android.websms.rules.RulesEditorActivity" />
+    </Preference>
+
+    <CheckBoxPreference android:key="rules_show_decision_toast"
+        android:title="@string/prefs_rules_show_decision_toast"
+        android:summary="@string/prefs_rules_show_decision_toast_hint"/>
+
+    <CheckBoxPreference android:key="rules_test_only"
+        android:title="@string/prefs_rules_test_only"
+        android:summary="@string/prefs_rules_test_only_hint"/>
+
+</PreferenceScreen>

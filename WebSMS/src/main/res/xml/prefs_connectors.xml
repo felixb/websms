@@ -24,9 +24,15 @@
             android:key="enable_sms"
             android:summary="@string/enable_sms_hint"
             android:title="@string/enable_sms" />
-
         <!-- other connectors getting added dynamicaly -->
-
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefs_rules_category" >
+        <Preference android:title="@string/prefs_rules_link"
+            android:summary="@string/prefs_rules_link_hint">
+            <intent android:action="android.intent.action.VIEW"
+                android:targetPackage="de.ub0r.android.websms"
+                android:targetClass="de.ub0r.android.websms.rules.PreferencesRulesActivity" />
+        </Preference>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="std_connector"
