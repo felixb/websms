@@ -26,4 +26,44 @@
   <string name="help_conenctors" formatted="false" username="flx" orig="There is a huge number of Connectors available in Google Play Store.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend cherry-sms for almost everybody. Users with non latin alphabets might want to try my-cool-sms first.">Es gibt eine große Auswahl an Connectoren im Google Play Store.\nDrücke den Knopf unten und installiere den Connector, der dir am besten passt.\nFür die meisten Nutzer ohne einen Account bei einem der Anbieter, kann ich smsflatrate.net empfehlen. Bei smsflatrate.net hast du monatlich 20 gratis SMS. WebSMS Nutzer bekommen 1 Euro Startguthaben. Nutzer mit nicht lateinischen Zeichen sollten sich my-cool-sms als erstes ansehen.</string>
   <string name="help_connectors_matrix" formatted="false" username="paul-luca10@freenet.de" orig="You might want to check the Connector Matrix for more informations about avaiable Connectors: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix">Du kannst in der Connector Matrix mehr Informationen über verfügbare Connectoren einsehen: http://code.google.com/p/websmsdroid/wiki/ConnectorMatrix</string>
   <string name="help_prefs" formatted="false" username="paul-luca10@freenet.de" orig="To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.">Zum Starten musst du wenigstens deine eigene Rufnummer und dein internationales Prefix in den Einstellungen von WebSMS setzen.</string>
+  <string name="rules_editor_help">
+        &lt;p&gt;Hier kannst du Regeln für die Connectorauswahl definieren.&lt;/p&gt;
+        &lt;ul&gt;
+        &lt;li&gt;Klicke \"+\" um eine Regel hinzuzufügen&lt;/li&gt;
+        &lt;li&gt;klicke auf eine regel um sie anzusehen oder zu bearbeiten&lt;/li&gt;
+        &lt;li&gt;Klicke lange auf eine Regel um sie zu löschen oder zu verschieben&lt;/li&gt;
+        &lt;li&gt;Gehe zum vorhergehenden Bildschirm zurück um die Regeln zu speichern&lt;/li&gt;
+        &lt;li&gt;Klicke auf \"Abbrechen\" um alle Änderungen zu verwerfen&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p&gt;Jede Regel definiert, welcher Connector für welche Nachricht verwendet werden soll. Zum Beispiel,&lt;/p&gt;
+        &lt;ul&gt;
+        &lt;li&gt;Wenn eine Empfängernummer mit +49174 beginnt, dann nutze Connector X&lt;/li&gt;
+        &lt;li&gt;Wenn eine Empfängernummer mit +43 beginnt, dann nutze Connector Y&lt;/li&gt;
+        &lt;li&gt;Wenn keine Regel zutrifft, dann nutze Connector Z&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p&gt;Regeln werden in der angezeigten Reihenfolge verarbeitet. Die &lt;b&gt;erste zutreffende&lt;/b&gt; Regel entscheidet, mit welchem Connector die Nachricht gesendet werden soll.
+        Alle folgenden Regeln werden ignoriert. Im obigen Beispiel würde eine Nachricht an +4917412345 mit Connector X
+        und eine Nachticht an +43123456 mit Connector Y verschicht werden.
+        Es ist zu Empehlen, eine \"Wenn nichts zutrifft\" Regel am Ende hinzuzufügen,
+        diese definiert, mit welchem Connector alle anderen Nachrichten versendet werden sollen.&lt;/p&gt;
+        &lt;p&gt;Wenn du testen willst, ob deine Regeln deinen Wünschen entsprechen, kannst du den Testmodus in dein Einstellungen aktivieren und einfach versuchen an verschiedene Empfänger Nachrichten zu senden.
+        Im Testmodus wird nur angezeigt, mit welchem Connector eine Nachricht gesendet werden würde. Es werden aber keine Nachrichten versendet.&lt;/p&gt;
+    </string>
+    <string name="edit_rule_help"><![CDATA[
+        <p>Hier kannst du eine Regel ansehen oder verändern.</p>
+        <p>Der erste Abschnitt definiert, welche Nummer betroffen sein soll:</p>
+        <ul>
+        <li>startet mit - diese Regel trifft auf alle nummern mit einem bestimmten Prefix zu</li>
+        <li>Regulärer Ausdruck - diese Regel verwendet einen Regulären Ausdruck um eine Nummer zu überprüfen</li>
+        <li>beliebige Nummer - diese Regel trifft immer zu (sie wird normalerweise für die letzte \"Wenn nichts zutrifft\" Regel verwendet)</li>
+        </ul>
+        <p>Im letzten Abschnitt wird definiert, welcher Connector verwendet werden soll.</p>
+        <p>Optional kannst du die Verwendung einer Regel auf den Zeichensatz einschränken, den ein Provider akzeptiert.
+        Einige Provider erlauben keine nicht Deutschen Zeichen (z.B. Kyrillisch, Türkisch, …).
+        In diesem Fall kannst du \"Nur Deuschte (Latin) Zeichen\" anklicken. Das bedeutet, dass dieser Connector
+        nur Nachrichten zum versenden bekommt, die ausschließlich die folgenden Zeichen beinhalten: Zahlen, Buchstaben \"a-Z\" und Basissatzzeichen (ASCII).</p>
+        <p>Gehe zum vorhergehenden Bildschirm zurück um die Regel zu speichern.</p>
+        <p>Klicke auf \"Abbrechen\" um alle Änderungen zu verwerfen.</p>
+    ]]></string>
+
 </resources>
