@@ -18,6 +18,10 @@
  */
 package de.ub0r.android.websms;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -417,7 +421,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Show extra button. */
 	private static boolean bShowExtras = true;
 
-	/**
+    private AdView mAdView;
+
+    /**
 	 * Parse data pushed by {@link Intent}.
 	 * 
 	 * @param intent
@@ -789,6 +795,20 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
+
+
+        mAdView = (AdView) findViewById(R.id.ads);
+        mAdView.setVisibility(View.GONE);
+        if (!DonationHelper.hideAds(this)) {
+            mAdView.loadAd(new AdRequest.Builder().build());
+            mAdView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    mAdView.setVisibility(View.VISIBLE);
+                    super.onAdLoaded();
+                }
+            });
+        }
 	}
 
 	/**
@@ -870,6 +890,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	@Override
 	protected final void onResume() {
 		super.onResume();
+        mAdView.resume();
+
 		// set accounts' balance to gui
 		this.updateBalance();
 
@@ -975,18 +997,18 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	@Override
 	protected final void onPause() {
-		super.onPause();
-		// store input data to persitent stores
+        mAdView.pause();
+		// store input data to persistent stores
 		this.lastMsg = this.etText.getText().toString();
 		this.lastTo = this.etTo.getText().toString();
-
 		this.savePreferences();
+        super.onPause();
 	}
 
-	@Override
+    @Override
 	protected final void onDestroy() {
-		super.onDestroy();
-		final Editor editor = PreferenceManager.getDefaultSharedPreferences(
+        mAdView.destroy();
+     	final Editor editor = PreferenceManager.getDefaultSharedPreferences(
 				this).edit();
 		try {
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -1003,7 +1025,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			Log.e(TAG, "IO", e);
 		}
 		editor.commit();
-	}
+        super.onDestroy();
+    }
 
 	/**
 	 * Read static variables holding preferences.
