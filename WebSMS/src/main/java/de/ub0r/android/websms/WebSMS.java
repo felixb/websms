@@ -86,7 +86,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -115,34 +114,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
-
-	/** Threshold for ad requests filled by the active connector. */
-	private static final double AD_THRESHOLD_CONNECTOR = 0.5;
-
-	/** Ad's unit id. */
-	private static final String AD_UNITID = "a14c74c342a3f76";
-
-	/** Ad's keywords. */
-	public static final HashSet<String> AD_KEYWORDS = new HashSet<String>();
-	static {
-		AD_KEYWORDS.add("android");
-		AD_KEYWORDS.add("mobile");
-		AD_KEYWORDS.add("handy");
-		AD_KEYWORDS.add("cellphone");
-		AD_KEYWORDS.add("google");
-		AD_KEYWORDS.add("htc");
-		AD_KEYWORDS.add("samsung");
-		AD_KEYWORDS.add("motorola");
-		AD_KEYWORDS.add("market");
-		AD_KEYWORDS.add("app");
-		AD_KEYWORDS.add("message");
-		AD_KEYWORDS.add("txt");
-		AD_KEYWORDS.add("sms");
-		AD_KEYWORDS.add("mms");
-		AD_KEYWORDS.add("game");
-		AD_KEYWORDS.add("websms");
-		AD_KEYWORDS.add("amazon");
-	}
 
 	/** Default SMS length calculator. */
 	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
@@ -444,7 +415,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				if (scheme.equals("sms") || scheme.equals("smsto")) {
 					final String s = uri.getSchemeSpecificPart();
 					this.parseSchemeSpecificPart(s);
-					this.displayAds();
 				} else if (scheme.equals("content")) {
 					this.parseThreadId(uri.getLastPathSegment());
 				}
@@ -795,7 +765,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
         mAdView = (AdView) findViewById(R.id.ads);
         mAdView.setVisibility(View.GONE);
-        if (!DonationHelper.hideAds(this)) {
+        if (!prefsNoAds) {
             mAdView.loadAd(new AdRequest.Builder().build());
             mAdView.setAdListener(new AdListener() {
                 @Override
@@ -1103,7 +1073,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY, false));
 
         prefsNoAds = DonationHelper.hideAds(this);
-		this.displayAds();
 		this.setButtons();
 	}
 
@@ -1265,7 +1234,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	static final void runCommand(final Context context,
+	static void runCommand(final Context context,
 			final ConnectorSpec connector, final ConnectorCommand command) {
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
@@ -1447,7 +1416,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				ConnectorSpec.CAPABILITIES_SEND,
                 ConnectorSpec.STATUS_ENABLED,
                 isIncludePseudoConnectors);
-		final List<ConnectorLabel> items = new ArrayList<ConnectorLabel>(css.length * 2);
+		final List<ConnectorLabel> items = new ArrayList<>(css.length * 2);
 		SubConnectorSpec[] scs;
 		for (ConnectorSpec cs : css) {
 			scs = cs.getSubConnectors();
@@ -1746,11 +1715,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					j = x;
 				}
 				String t = et.getText().toString();
-				StringBuilder buf = new StringBuilder();
-				buf.append(t.substring(0, i));
-				buf.append(e);
-				buf.append(t.substring(j));
-				et.setText(buf.toString());
+                et.setText(t.substring(0, i) + e + t.substring(j));
 				et.setSelection(i + e.length());
 				d.dismiss();
 				et.requestFocus();
@@ -1822,36 +1787,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	}
 
 	/**
-	 * Show AdView on top or on bottom.
-	 */
-	private void displayAds() {
-		if (prefsNoAds) {
-			// do not display any ads for donators
-			return;
-		} else {
-			// choose ad unit id and load an ad
-			String unitId = AD_UNITID;
-			if (Math.random() > AD_THRESHOLD_CONNECTOR) {
-				// half of the requests are filled by the active connector
-				if (prefsConnectorSpec != null) {
-					final String s = prefsConnectorSpec.getAdUnitId();
-					if (s != null) {
-						unitId = s;
-						Log.d(TAG, "load connectors ads: " + s);
-					}
-				} else {
-					Log.i(TAG, "load main app ads,"
-							+ " as no valid connector spec currently");
-				}
-
-			} else {
-				Log.d(TAG, "load main app ads");
-			}
-			Ads.loadAd(this, R.id.ad, unitId, AD_KEYWORDS);
-		}
-	}
-
-	/**
 	 * Safe draft.
 	 */
 	private void saveDraft() {
@@ -1861,8 +1796,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		if (to.length() == 0 || text.length() == 0) {
 			return;
 		}
-
-		this.displayAds();
 
 		final String[] tos = Utils.parseRecipients(to);
 		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
@@ -1935,13 +1868,13 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
         // find connector for each of the recipients,
         // group together recipients that will use the same connector
-        Map<ConnectorLabel,List<String>> chosenMap = new HashMap<ConnectorLabel, List<String>>();
+        Map<ConnectorLabel,List<String>> chosenMap = new HashMap<>();
         try {
             for (String to : tos) {
                 ConnectorLabel chosenConn = rules.chooseConnector(this, to, text);
                 List<String> tosForChosen = chosenMap.get(chosenConn);
                 if (tosForChosen == null) {
-                    tosForChosen = new ArrayList<String>();
+                    tosForChosen = new ArrayList<>();
                     chosenMap.put(chosenConn, tosForChosen);
                 }
                 tosForChosen.add(to);
@@ -2004,7 +1937,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
                 && connector.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
             final String valid = connector.getValidCharacters();
             if (valid == null) {
-                Log.i(TAG, "valid: " + valid);
+                Log.i(TAG, "valid: null");
                 Toast.makeText(this, R.string.log_error_char_nonvalid,
                         Toast.LENGTH_LONG).show();
                 return false;
@@ -2023,8 +1956,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
                 return false;
             }
         }
-
-        this.displayAds();
 
         ToggleButton v = (ToggleButton) this.findViewById(R.id.flashsms);
         final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
@@ -2143,7 +2074,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param connector
 	 *            connector
 	 */
-	static final void addConnector(final ConnectorSpec connector,
+	static void addConnector(final ConnectorSpec connector,
 			final ConnectorCommand command) {
 		synchronized (CONNECTORS) {
 			if (connector == null || connector.getPackage() == null
@@ -2241,7 +2172,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
                         }
 
                         me.setButtons();
-                        me.displayAds();
                     }
                 }
 
@@ -2303,7 +2233,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
      *            whether pseudo connectors should be included
 	 * @return {@link ConnectorSpec}s
 	 */
-	public static final ConnectorSpec[] getConnectors(final int capabilities,
+	public static ConnectorSpec[] getConnectors(final int capabilities,
 			final int status,
             final boolean isIncludePseudoConnectors) {
         final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
@@ -2354,7 +2284,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	private static void updateProgressBar() {
 		if (me != null) {
-			boolean needProgressBar = false;
+			boolean needProgressBar;
 			if (newConnectorsExpected > 0) {
 				Log.d(TAG, "expecting connector info: " + newConnectorsExpected);
 				needProgressBar = true;
