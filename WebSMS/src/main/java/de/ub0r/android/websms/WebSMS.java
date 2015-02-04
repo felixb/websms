@@ -674,10 +674,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			editor.commit();
             rules.upgrade();
 		}
-		ChangelogHelper.showChangelog(this,
-				this.getString(R.string.changelog_),
-				this.getString(R.string.app_name), R.array.updates,
-				R.array.notes_from_dev);
 
 		// get cached Connectors
 		String s = p.getString(PREFS_CONNECTORS, null);
