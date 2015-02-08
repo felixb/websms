@@ -92,7 +92,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.ub0r.android.lib.Base64Coder;
-import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -114,6 +113,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
+
+    private static final String LAST_RUN = "last_run";
 
 	/** Default SMS length calculator. */
 	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
@@ -638,10 +639,11 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.vFlashSMS = (ToggleButton) this.findViewById(R.id.flashsms);
 		this.vSendLater = (ToggleButton) this.findViewById(R.id.send_later);
 
-		if (ChangelogHelper.isNewVersion(this)) {
+		if (isNewVersion()) {
+            Log.i(TAG, "detected version update");
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache
-			editor.commit();
+			editor.apply();
             rules.upgrade();
 		}
 
@@ -777,10 +779,16 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
         }
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    private boolean isNewVersion() {
+        SharedPreferences p = getPreferences(MODE_PRIVATE);
+        if (BuildConfig.VERSION_CODE != p.getInt(LAST_RUN, 0)) {
+            p.edit().putInt(LAST_RUN, BuildConfig.VERSION_CODE).apply();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
 	protected final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(EXTRA_TO, this.lastTo);
@@ -805,7 +813,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 							+ ", ";
 					String t = null;
 					if (this.etTo != null) {
-						this.etTo.getText().toString().trim();
+						t = this.etTo.getText().toString().trim();
 					}
 					if (TextUtils.isEmpty(t) && !TextUtils.isEmpty(this.lastTo)) {
 						t = this.lastTo.trim();
@@ -826,9 +834,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void onNewIntent(final Intent intent) {
 		super.onNewIntent(intent);
