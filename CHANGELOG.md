@@ -1,5 +1,9 @@
 # Changes
 
+##v4.9.1
+* fix connector cache
+* fix FC on Android 5.0
+
 ##v4.9
 * automatic connector selection (thanks to Mike!)
 * update translations
