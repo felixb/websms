@@ -17,6 +17,6 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-  <string name="notes_smsdroid">Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</string>
+  <string name="notes_smsdroid" username="Jason &lt;jasonalderman22@gmail.tld&gt;" orig="You may want to use SMSdroid to read incoming messages.">Du kannst SMSdroid verwenden, um eingehende Nachrichten zu lesen.</string>
   <string name="notes_drafts">Dez. 2010 Entwürfe: Entwürfe werden in Androids Nachrichten-Datenbank gespeichert. Verwende SMSdroid oder Androids Nachrichten-App, um sie später zu senden.</string>
 </resources>
