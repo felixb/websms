@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/edit_rule_number"/>
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton android:id="@+id/radio_number_prefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/edit_rule_radio_number_prefix" />
+
+            <EditText android:id="@+id/prefix"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:inputType="phone"
+                android:hint="@string/edit_rule_prefix_hint" />
+
+            <RadioButton android:id="@+id/radio_number_pattern"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/edit_rule_radio_number_pattern"/>
+
+            <EditText android:id="@+id/pattern"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:hint="@string/edit_rule_pattern_hint" />
+
+            <RadioButton android:id="@+id/radio_number_any"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/edit_rule_radio_number_any"/>
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@android:color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/edit_rule_charset"/>
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton android:id="@+id/radio_charset_any"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/edit_rule_radio_charset_any" />
+
+            <RadioButton android:id="@+id/radio_charset_ascii"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/edit_rule_radio_charset_ascii"/>
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@android:color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/edit_rule_connector"/>
+
+        <Spinner android:id="@+id/connector_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="left|center_vertical"/>
+
+    </LinearLayout>
+
+</ScrollView>

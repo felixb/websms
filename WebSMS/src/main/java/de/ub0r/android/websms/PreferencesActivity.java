@@ -306,7 +306,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 				.findPreference(PreferencesActivity.PREFS_PROMOTED_CONNECTORS);
 		final ConnectorSpec[] css = WebSMS
 				.getConnectors(ConnectorSpec.CAPABILITIES_PREFS,
-						ConnectorSpec.STATUS_INACTIVE);
+                        ConnectorSpec.STATUS_INACTIVE,
+                        false /*isIncludePseudoConnectors*/);
 		if (css.length == 0) {
 			Log.i(TAG, "css.length == 0");
 			// hide standard connector preferences

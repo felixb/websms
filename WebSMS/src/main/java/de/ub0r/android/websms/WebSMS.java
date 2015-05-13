@@ -18,6 +18,10 @@
  */
 package de.ub0r.android.websms;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -81,13 +85,13 @@ import java.io.ObjectOutputStream;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.ub0r.android.lib.Base64Coder;
-import de.ub0r.android.lib.ChangelogHelper;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -97,6 +101,8 @@ import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.SMSLengthCalculator;
 import de.ub0r.android.websms.connector.common.Utils;
+import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.rules.PseudoConnectorRules;
 
 /**
  * Main Activity.
@@ -108,33 +114,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Tag for output. */
 	public static final String TAG = "main";
 
-	/** Threshold for ad requests filled by the active connector. */
-	private static final double AD_THRESHOLD_CONNECTOR = 0.5;
-
-	/** Ad's unit id. */
-	private static final String AD_UNITID = "a14c74c342a3f76";
-
-	/** Ad's keywords. */
-	public static final HashSet<String> AD_KEYWORDS = new HashSet<String>();
-	static {
-		AD_KEYWORDS.add("android");
-		AD_KEYWORDS.add("mobile");
-		AD_KEYWORDS.add("handy");
-		AD_KEYWORDS.add("cellphone");
-		AD_KEYWORDS.add("google");
-		AD_KEYWORDS.add("htc");
-		AD_KEYWORDS.add("samsung");
-		AD_KEYWORDS.add("motorola");
-		AD_KEYWORDS.add("market");
-		AD_KEYWORDS.add("app");
-		AD_KEYWORDS.add("message");
-		AD_KEYWORDS.add("txt");
-		AD_KEYWORDS.add("sms");
-		AD_KEYWORDS.add("mms");
-		AD_KEYWORDS.add("game");
-		AD_KEYWORDS.add("websms");
-		AD_KEYWORDS.add("amazon");
-	}
+    private static final String LAST_RUN = "last_run";
 
 	/** Default SMS length calculator. */
 	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
@@ -195,7 +175,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Preference's name: internal id of the last message. */
 	static final String PREFS_LAST_MSG_ID = "last_msg_id";
 
-	/** Preference's name: last time help was shown. */
+	/** Preference's name: last time help intro was shown. */
 	private static final String PREFS_LASTHELP = "last_help";
 	/** Preference's name: selected {@link ConnectorSpec} ID. */
 	static final String PREFS_CONNECTOR_ID = "connector_id";
@@ -226,13 +206,15 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
 	private static SubConnectorSpec prefsSubConnectorSpec = null;
-	/** Save prefsConnectorSpec.getPackage() here. */
-	private static String prefsConnectorID = null;
 
 	/** List of available {@link ConnectorSpec}s. */
 	private static final ArrayList<ConnectorSpec> CONNECTORS = new ArrayList<ConnectorSpec>();
 
-	/** true if preferences got opened. */
+    /** List of available pseudo-connector. */
+    private static final List<ConnectorSpec> PSEUDO_CONNECTORS = new ArrayList<ConnectorSpec>();
+    private static PseudoConnectorRules rules = new PseudoConnectorRules();
+
+    /** true if preferences got opened. */
 	static boolean doPreferences = false;
 
 	/** Menu item: restore. */
@@ -411,7 +393,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Show extra button. */
 	private static boolean bShowExtras = true;
 
-	/**
+    private AdView mAdView;
+
+    /**
 	 * Parse data pushed by {@link Intent}.
 	 * 
 	 * @param intent
@@ -432,7 +416,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				if (scheme.equals("sms") || scheme.equals("smsto")) {
 					final String s = uri.getSchemeSpecificPart();
 					this.parseSchemeSpecificPart(s);
-					this.displayAds();
 				} else if (scheme.equals("content")) {
 					this.parseThreadId(uri.getLastPathSegment());
 				}
@@ -497,10 +480,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				if (p.getBoolean(PREFS_USE_CURRENT_CON, true)) {
 					// push it to current active connector
 					Log.d(TAG, "use current connector");
-					final String subc = WebSMS.getSelectedSubConnectorID();
-					if (prefsConnectorSpec != null && subc != null) {
+					if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
 						Log.d(TAG, "autosend: call send()");
-						if (this.send(prefsConnectorSpec, subc)
+						if (this.send(prefsConnectorSpec, prefsSubConnectorSpec)
 								&& !this.isFinishing()) {
 							Log.d(TAG, "sent successfully");
 							this.finish();
@@ -511,38 +493,36 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					Log.d(TAG, "show connector chooser");
 					final AlertDialog.Builder b = new AlertDialog.Builder(this);
 					b.setTitle(R.string.change_connector_);
-					final String[] items = this.getConnectorMenuItems();
+                    final ConnectorLabel[] items = this.getConnectorMenuItems(true /*isIncludePseudoConnectors*/);
 					Log.d(TAG, "show #items: " + items.length);
-					b.setItems(items, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog,
-								final int which) {
-							final String sel = items[which];
-							// save old selected connector
-							final ConnectorSpec pr0 = prefsConnectorSpec;
-							final SubConnectorSpec pr1 = prefsSubConnectorSpec;
-							// switch to selected
-							WebSMS.this.saveSelectedConnector(sel);
-							// send message
-							final String subc = WebSMS
-									.getSelectedSubConnectorID();
-							boolean sent = false;
-							Log.d(TAG, "autosend: call send()");
-							if (prefsConnectorSpec != null && subc != null) {
-								sent = WebSMS.this.send(prefsConnectorSpec,
-										subc);
-							}
-							// restore old connector
-							WebSMS.this.saveSelectedConnector(pr0, pr1);
-							// quit
-							if (sent && !WebSMS.this.isFinishing()) {
-								Log.d(TAG, "sent successfully");
-								WebSMS.this.finish();
-							}
-						}
-					});
-					b.setNegativeButton(android.R.string.cancel, null);
-					b.show();
+                    if (items.length > 0) {
+                        b.setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                final ConnectorLabel sel = items[which];
+                                // save old selected connector
+                                final ConnectorSpec pr0 = prefsConnectorSpec;
+                                final SubConnectorSpec pr1 = prefsSubConnectorSpec;
+                                // switch to selected
+                                WebSMS.this.saveSelectedConnector(sel.getConnector(), sel.getSubConnector());
+                                // send message
+                                boolean sent = false;
+                                Log.d(TAG, "autosend: call send()");
+                                if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
+                                    sent = WebSMS.this.send(prefsConnectorSpec, prefsSubConnectorSpec);
+                                }
+                                // restore old connector
+                                WebSMS.this.saveSelectedConnector(pr0, pr1);
+                                // quit
+                                if (sent && !WebSMS.this.isFinishing()) {
+                                    Log.d(TAG, "sent successfully");
+                                    WebSMS.this.finish();
+                                }
+                            }
+                        });
+                        b.setNegativeButton(android.R.string.cancel, null);
+                        b.show();
+                    }
 				}
 			}
 		}
@@ -659,20 +639,19 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		this.vFlashSMS = (ToggleButton) this.findViewById(R.id.flashsms);
 		this.vSendLater = (ToggleButton) this.findViewById(R.id.send_later);
 
-		if (ChangelogHelper.isNewVersion(this)) {
+		if (isNewVersion()) {
+            Log.i(TAG, "detected version update");
 			SharedPreferences.Editor editor = p.edit();
 			editor.remove(PREFS_CONNECTORS); // remove cache
-			editor.commit();
+			editor.apply();
+            rules.upgrade();
 		}
-		ChangelogHelper.showChangelog(this,
-				this.getString(R.string.changelog_),
-				this.getString(R.string.app_name), R.array.updates,
-				R.array.notes_from_dev);
 
 		// get cached Connectors
 		String s = p.getString(PREFS_CONNECTORS, null);
 		if (TextUtils.isEmpty(s)) {
 			this.updateConnectors();
+
 		} else if (CONNECTORS.size() == 0) {
 			// skip static remaining connectors
 			try {
@@ -682,27 +661,29 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 								Base64Coder.decode(s)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
 				if (p.getBoolean(PREFS_AUTOUPDATE, true)) {
-					final String defPrefix = p
-							.getString(PREFS_DEFPREFIX, "+49");
-					final String defSender = p.getString(PREFS_SENDER, "");
-					for (ConnectorSpec c : CONNECTORS) {
-						runCommand(me, c,
-								ConnectorCommand.update(defPrefix, defSender));
-					}
+                    updateFreecount();
 				}
 			} catch (Exception e) {
 				Log.d(TAG, "error loading connectors", e);
 			}
 		}
-		s = null;
 		Log.d(TAG, "loaded connectors: " + CONNECTORS.size());
 
-		this.reloadPrefs();
+        if (PSEUDO_CONNECTORS.size() == 0) {
+            PSEUDO_CONNECTORS.add(rules.getSpec(this));
+        }
 
-		if (savedInstanceState != null) {
-			this.lastTo = savedInstanceState.getString(EXTRA_TO);
-			this.lastMsg = savedInstanceState.getString(EXTRA_TEXT);
-		}
+        if (savedInstanceState == null) {
+            this.revertPrefsToStdConnector();
+            // note: do not revert to std connector on orientation change
+        }
+
+        this.reloadPrefs();
+
+        if (savedInstanceState != null) {
+            this.lastTo = savedInstanceState.getString(EXTRA_TO);
+            this.lastMsg = savedInstanceState.getString(EXTRA_TEXT);
+        }
 
 		// register Listener
 		this.vCustomSender.setOnClickListener(this);
@@ -770,24 +751,44 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		}
 
 		if (showIntro) {
-			// skip help for at least 2min
+			// skip help intro for at least 2min
 			if (System.currentTimeMillis() > p.getLong(PREFS_LASTHELP, 0L)
 					+ de.ub0r.android.lib.Utils.MINUTES_IN_MILLIS * 2) {
 				p.edit().putLong(PREFS_LASTHELP, System.currentTimeMillis())
 						.commit();
-				this.startActivity(new Intent(this, HelpActivity.class));
+				this.startActivity(new Intent(this, HelpIntroActivity.class));
 			}
 		}
 
 		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
 				this.getResources(), R.drawable.bg_striped,
 				R.drawable.bg_striped_img);
+
+
+        mAdView = (AdView) findViewById(R.id.ads);
+        mAdView.setVisibility(View.GONE);
+        if (!prefsNoAds) {
+            mAdView.loadAd(new AdRequest.Builder().build());
+            mAdView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    mAdView.setVisibility(View.VISIBLE);
+                    super.onAdLoaded();
+                }
+            });
+        }
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    private boolean isNewVersion() {
+        SharedPreferences p = getPreferences(MODE_PRIVATE);
+        if (BuildConfig.VERSION_CODE != p.getInt(LAST_RUN, 0)) {
+            p.edit().putInt(LAST_RUN, BuildConfig.VERSION_CODE).apply();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
 	protected final void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(EXTRA_TO, this.lastTo);
@@ -812,7 +813,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 							+ ", ";
 					String t = null;
 					if (this.etTo != null) {
-						this.etTo.getText().toString().trim();
+						t = this.etTo.getText().toString().trim();
 					}
 					if (TextUtils.isEmpty(t) && !TextUtils.isEmpty(this.lastTo)) {
 						t = this.lastTo.trim();
@@ -833,9 +834,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void onNewIntent(final Intent intent) {
 		super.onNewIntent(intent);
@@ -863,6 +861,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	@Override
 	protected final void onResume() {
 		super.onResume();
+        mAdView.resume();
+
 		// set accounts' balance to gui
 		this.updateBalance();
 
@@ -877,7 +877,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			final String defSender = p.getString(PREFS_SENDER, "");
 			final ConnectorSpec[] css = getConnectors(
 					ConnectorSpec.CAPABILITIES_BOOTSTRAP,
-					(short) (ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY));
+					ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY,
+                    false /*isIncludePseudoConnectors*/);
 			for (ConnectorSpec cs : css) {
 				runCommand(this, cs,
 						ConnectorCommand.bootstrap(defPrefix, defSender));
@@ -893,7 +894,10 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 		}
 
-		this.setButtons();
+        // get updated specs for pseudo-connectors
+        rules.updateSpec(this);     // this will update the singleton spec
+
+        this.setButtons();
 
 		if (this.lastTo == null || this.lastTo.length() == 0) {
 			final SharedPreferences p = PreferenceManager
@@ -932,7 +936,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		Log.d(TAG, "updateBalance()");
 		final StringBuilder buf = new StringBuilder();
 		final ConnectorSpec[] css = getConnectors(
-				ConnectorSpec.CAPABILITIES_UPDATE, ConnectorSpec.STATUS_ENABLED);
+				ConnectorSpec.CAPABILITIES_UPDATE,
+                ConnectorSpec.STATUS_ENABLED,
+                false /*isIncludePseudoConnectors*/);
 		String singleb = null;
 		for (ConnectorSpec cs : css) {
 			final String b = cs.getBalance();
@@ -962,18 +968,18 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	@Override
 	protected final void onPause() {
-		super.onPause();
-		// store input data to persitent stores
+        mAdView.pause();
+		// store input data to persistent stores
 		this.lastMsg = this.etText.getText().toString();
 		this.lastTo = this.etTo.getText().toString();
-
 		this.savePreferences();
+        super.onPause();
 	}
 
-	@Override
+    @Override
 	protected final void onDestroy() {
-		super.onDestroy();
-		final Editor editor = PreferenceManager.getDefaultSharedPreferences(
+        mAdView.destroy();
+     	final Editor editor = PreferenceManager.getDefaultSharedPreferences(
 				this).edit();
 		try {
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -990,7 +996,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			Log.e(TAG, "IO", e);
 		}
 		editor.commit();
-	}
+        super.onDestroy();
+    }
 
 	/**
 	 * Read static variables holding preferences.
@@ -1038,29 +1045,23 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			v.setVisibility(View.VISIBLE);
 		}
 
-		String s = p.getString(PREFS_STANDARD_CONNECTOR, "");
-		if (!TextUtils.isEmpty(s)) {
-			p.edit().putString(PREFS_CONNECTOR_ID, s).commit();
-		}
-		prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
-		prefsConnectorSpec = getConnectorByID(prefsConnectorID);
-		if (prefsConnectorSpec != null
-				&& prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
-			prefsSubConnectorSpec = null;
-			s = p.getString(PREFS_STANDARD_SUBCONNECTOR, "");
-			if (!TextUtils.isEmpty(s)) {
-				p.edit().putString(PREFS_SUBCONNECTOR_ID, s).commit();
-			}
-			prefsSubConnectorSpec = prefsConnectorSpec.getSubConnector(p
-					.getString(PREFS_SUBCONNECTOR_ID, ""));
+		String prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
+        ConnectorSpec cs = getConnectorByID(prefsConnectorID);
+		if (cs != null && cs.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+            prefsConnectorSpec = cs;
+
+            String prefsSubConnectorID = p.getString(PREFS_SUBCONNECTOR_ID, "");
+            prefsSubConnectorSpec = cs.getSubConnector(prefsSubConnectorID);
 			if (prefsSubConnectorSpec == null) {
-				prefsSubConnectorSpec = prefsConnectorSpec.getSubConnectors()[0];
+				prefsSubConnectorSpec = cs.getSubConnectors()[0];
 			}
 		} else {
 			ConnectorSpec[] connectors = getConnectors(
 					ConnectorSpec.CAPABILITIES_SEND,
-					ConnectorSpec.STATUS_ENABLED);
-			if (connectors.length == 1) {
+					ConnectorSpec.STATUS_ENABLED,
+                    true /*isIncludePseudoConnectors*/);
+			if (connectors.length == 1
+                    && connectors[0].getSubConnectors().length == 1) {
 				prefsConnectorSpec = connectors[0];
 				prefsSubConnectorSpec = prefsConnectorSpec.getSubConnectors()[0];
 				Toast.makeText(
@@ -1074,13 +1075,29 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 		}
 
-		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY,
-				false));
+		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY, false));
 
-		prefsNoAds = DonationHelper.hideAds(this);
-		this.displayAds();
+        prefsNoAds = DonationHelper.hideAds(this);
 		this.setButtons();
 	}
+
+    /**
+     * Updates preferences and replaces the selected connector with the default (standard) one.
+     * reloadPrefs() should be called afterwards to load the change.
+     */
+    private void revertPrefsToStdConnector() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String stdConnector = p.getString(PREFS_STANDARD_CONNECTOR, "");
+        String stdSubConnector = p.getString(PREFS_STANDARD_SUBCONNECTOR, "");
+
+        if (!TextUtils.isEmpty(stdConnector)) {
+            p.edit()
+                .putString(PREFS_CONNECTOR_ID, stdConnector)
+                .putString(PREFS_SUBCONNECTOR_ID, stdSubConnector)
+                .commit();
+        }
+    }
 
 	/**
 	 * Show/hide, enable/disable send buttons.
@@ -1141,13 +1158,13 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		} else {
 			this.setTitle(R.string.app_name);
 			((TextView) this.findViewById(R.id.text_connector)).setText("");
-			if (getConnectors(0, 0).length != 0) {
+			if (CONNECTORS.size() > 0) {
 				Toast.makeText(this, R.string.log_noselectedconnector,
 						Toast.LENGTH_SHORT).show();
 			}
 			this.findViewById(R.id.extraButtons).setVisibility(View.GONE);
 		}
-	}
+    }
 
 	/**
 	 * Resets persistent store.
@@ -1181,12 +1198,12 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
 	/** Save prefs. */
 	final void savePreferences() {
-		if (prefsConnectorSpec != null) {
-			PreferenceManager
-					.getDefaultSharedPreferences(this)
-					.edit()
-					.putString(PREFS_CONNECTOR_ID,
-							prefsConnectorSpec.getPackage()).commit();
+		if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
+			PreferenceManager.getDefaultSharedPreferences(this)
+    		    .edit()
+                .putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage())
+                .putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID())
+                .commit();
 		}
 	}
 
@@ -1200,7 +1217,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		final String defSender = p.getString(PREFS_SENDER, "");
 		final ConnectorSpec[] css = getConnectors(
 				ConnectorSpec.CAPABILITIES_UPDATE,
-				(short) (ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY));
+				ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_READY,
+                false /*isIncludePseudoConnectors*/);
 		for (ConnectorSpec cs : css) {
 			if (cs.isRunning()) {
 				// skip running connectors
@@ -1221,7 +1239,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param command
 	 *            {@link ConnectorCommand}
 	 */
-	static final void runCommand(final Context context,
+	static void runCommand(final Context context,
 			final ConnectorSpec connector, final ConnectorCommand command) {
 		connector.setErrorMessage((String) null);
 		final Intent intent = command.setToIntent(null);
@@ -1288,6 +1306,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			return;
 		case R.id.text_clear:
 			this.reset(true);
+            this.revertPrefsToStdConnector();
 			this.reloadPrefs();
 			return;
 		case R.id.clear:
@@ -1383,48 +1402,38 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			return;
 		}
 		// save user preferences
-		final Editor e = PreferenceManager.getDefaultSharedPreferences(
-				WebSMS.this).edit();
-		e.putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage());
-		e.putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID());
-		e.commit();
-	}
-
-	/**
-	 * Save selected connector.
-	 * 
-	 * @param name
-	 *            name of the item
-	 */
-	private void saveSelectedConnector(final String name) {
-		final SubConnectorSpec[] ret = ConnectorSpec
-				.getSubConnectorReturnArray();
-		this.saveSelectedConnector(getConnectorByName(name, ret), ret[0]);
+		PreferenceManager.getDefaultSharedPreferences(this)
+            .edit()
+		    .putString(PREFS_CONNECTOR_ID, prefsConnectorSpec.getPackage())
+		    .putString(PREFS_SUBCONNECTOR_ID, prefsSubConnectorSpec.getID())
+		    .commit();
 	}
 
 	/**
 	 * Get all enabled {@link ConnectorSpec}s as name.
-	 * 
-	 * @return array of {@link Connector} names.
+	 *
+     * @param isIncludePseudoConnectors
+     *            whether pseudo connectors should be included
+	 * @return array of {@link ConnectorLabel}.
 	 */
-	private String[] getConnectorMenuItems() {
+	public static ConnectorLabel[] getConnectorMenuItems(boolean isIncludePseudoConnectors) {
 		final ConnectorSpec[] css = getConnectors(
-				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_ENABLED);
-		final ArrayList<String> items = new ArrayList<String>(css.length * 2);
+				ConnectorSpec.CAPABILITIES_SEND,
+                ConnectorSpec.STATUS_ENABLED,
+                isIncludePseudoConnectors);
+		final List<ConnectorLabel> items = new ArrayList<>(css.length * 2);
 		SubConnectorSpec[] scs;
-		String n;
 		for (ConnectorSpec cs : css) {
 			scs = cs.getSubConnectors();
-			if (scs.length <= 1) {
-				items.add(cs.getName());
+			if (scs.length == 1) {
+				items.add(new ConnectorLabel(cs, scs[0], true /*isSingleSubConnector*/));
 			} else {
-				n = cs.getName() + " - ";
 				for (SubConnectorSpec sc : scs) {
-					items.add(n + sc.getName());
+                    items.add(new ConnectorLabel(cs, sc, false /*isSingleSubConnector*/));
 				}
 			}
 		}
-		return items.toArray(new String[items.size()]);
+		return items.toArray(new ConnectorLabel[items.size()]);
 	}
 
 	/**
@@ -1435,38 +1444,37 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setIcon(android.R.drawable.ic_menu_share);
 		builder.setTitle(R.string.change_connector_);
-		final String[] items = this.getConnectorMenuItems();
+		final ConnectorLabel[] items = this.getConnectorMenuItems(true /*isIncludePseudoConnectors*/);
 		final int l = items.length;
 
 		if (l == 0) {
-			Toast.makeText(this, R.string.log_noreadyconnector,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.log_noreadyconnector, Toast.LENGTH_LONG).show();
+
 		} else if (l == 1) {
-			this.saveSelectedConnector(items[0]);
+			this.saveSelectedConnector(items[0].getConnector(), items[0].getSubConnector());
+
 		} else if (l == 2) {
 			// Find actual connector, pick the other one from css
-			final SubConnectorSpec[] ret = ConnectorSpec
-					.getSubConnectorReturnArray();
-			final ConnectorSpec cs = getConnectorByName(items[0], ret);
-			final SubConnectorSpec subcs = ret[0];
-			String name;
-			if (prefsConnectorSpec == null || prefsSubConnectorSpec == null
-					|| cs == null || subcs == null) {
-				name = items[0];
-			} else if (cs.equals(prefsConnectorSpec)
-					&& subcs.getID().equals(prefsSubConnectorSpec.getID())) {
-				name = items[1];
+            ConnectorLabel newSelected;
+			if (prefsConnectorSpec == null || prefsSubConnectorSpec == null) {
+                newSelected = items[0];
+
+            } else if (prefsConnectorSpec.getPackage().equals(items[0].getConnector().getPackage())
+                && prefsSubConnectorSpec.getID().equals(items[0].getSubConnector().getID())) {
+                newSelected = items[1];
+
 			} else {
-				name = items[0];
+                newSelected = items[0];
 			}
-			this.saveSelectedConnector(name);
+			this.saveSelectedConnector(newSelected.getConnector(), newSelected.getSubConnector());
 			Toast.makeText(this,
-					this.getString(R.string.connectors_switch) + " " + name,
+					this.getString(R.string.connectors_switch) + " " + newSelected.getName(),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			builder.setItems(items, new DialogInterface.OnClickListener() {
-				public void onClick(final DialogInterface d, final int item) {
-					WebSMS.this.saveSelectedConnector(items[item]);
+				public void onClick(final DialogInterface d, final int idx) {
+					WebSMS.this.saveSelectedConnector(items[idx].getConnector(),
+                            items[idx].getSubConnector());
 				}
 			});
 			builder.create().show();
@@ -1533,12 +1541,17 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	@Override
 	public final boolean onPrepareOptionsMenu(final Menu menu) {
 		final ConnectorSpec[] connectors = getConnectors(
-				ConnectorSpec.CAPABILITIES_SEND, ConnectorSpec.STATUS_READY
-						| ConnectorSpec.STATUS_ENABLED);
-		menu.findItem(R.id.item_connector).setVisible(
+				ConnectorSpec.CAPABILITIES_SEND,
+                ConnectorSpec.STATUS_READY | ConnectorSpec.STATUS_ENABLED,
+                true /*isIncludePseudoConnectors*/);
+
+        boolean isPrefsConnectorOk = prefsConnectorSpec != null && prefsSubConnectorSpec != null
+                && prefsConnectorSpec.hasStatus(ConnectorSpec.STATUS_ENABLED);
+        menu.findItem(R.id.item_connector).setVisible(
 				connectors.length > 1
-						|| (connectors.length == 1 && connectors[0]
-								.getSubConnectorCount() > 1));
+				|| (connectors.length == 1 && connectors[0].getSubConnectorCount() > 1)
+                || (connectors.length == 1 && !isPrefsConnectorOk));
+
 		boolean hasText = this.etText != null
 				&& !TextUtils.isEmpty(this.etText.getText());
 		menu.findItem(R.id.item_savechars).setVisible(hasText);
@@ -1571,7 +1584,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		switch (item.getItemId()) {
 		case R.id.item_send:
 			Log.d(TAG, "send button clicked");
-			this.send(prefsConnectorSpec, WebSMS.getSelectedSubConnectorID());
+			this.send(prefsConnectorSpec, prefsSubConnectorSpec);
 			return true;
 		case R.id.item_draft:
 			this.saveDraft();
@@ -1707,11 +1720,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					j = x;
 				}
 				String t = et.getText().toString();
-				StringBuilder buf = new StringBuilder();
-				buf.append(t.substring(0, i));
-				buf.append(e);
-				buf.append(t.substring(j));
-				et.setText(buf.toString());
+                et.setText(t.substring(0, i) + e + t.substring(j));
 				et.setSelection(i + e.length());
 				d.dismiss();
 				et.requestFocus();
@@ -1783,36 +1792,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	}
 
 	/**
-	 * Show AdView on top or on bottom.
-	 */
-	private void displayAds() {
-		if (prefsNoAds) {
-			// do not display any ads for donators
-			return;
-		} else {
-			// choose ad unit id and load an ad
-			String unitId = AD_UNITID;
-			if (Math.random() > AD_THRESHOLD_CONNECTOR) {
-				// half of the requests are filled by the active connector
-				if (prefsConnectorSpec != null) {
-					final String s = prefsConnectorSpec.getAdUnitId();
-					if (s != null) {
-						unitId = s;
-						Log.d(TAG, "load connectors ads: " + s);
-					}
-				} else {
-					Log.i(TAG, "load main app ads,"
-							+ " as no valid connector spec currently");
-				}
-
-			} else {
-				Log.d(TAG, "load main app ads");
-			}
-			Ads.loadAd(this, R.id.ad, unitId, AD_KEYWORDS);
-		}
-	}
-
-	/**
 	 * Safe draft.
 	 */
 	private void saveDraft() {
@@ -1822,8 +1801,6 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		if (to.length() == 0 || text.length() == 0) {
 			return;
 		}
-
-		this.displayAds();
 
 		final String[] tos = Utils.parseRecipients(to);
 		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
@@ -1839,13 +1816,13 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param connector
 	 *            which connector should be used.
 	 * @param subconnector
-	 *            selected {@link SubConnectorSpec} ID
+	 *            which subconnector should be used
 	 * @return true if message was sent
 	 */
 	private boolean send(final ConnectorSpec connector,
-			final String subconnector) {
+			final SubConnectorSpec subconnector) {
 		Log.d(TAG, "send(" + connector + "," + subconnector + ")");
-		if (connector == null || TextUtils.isEmpty(subconnector)) {
+		if (connector == null || subconnector == null) {
 			Log.e(TAG, "connector: " + connector);
 			Log.e(TAG, "subconnector: " + subconnector);
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
@@ -1861,8 +1838,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		}
 		text = text.trim();
 		this.etText.setText(text);
-		final SharedPreferences p = PreferenceManager
-				.getDefaultSharedPreferences(this);
+
+		final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
 		final String signature = p.getString(PREFS_SIGNATURE, null);
 		if (signature != null && signature.length() > 0
 				&& !text.endsWith(signature)) {
@@ -1870,97 +1847,174 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			this.etText.setText(text);
 		}
 
-		if (!p.getBoolean(PREFS_TRY_SEND_INVALID, false)
-				&& connector
-						.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
-			final String valid = connector.getValidCharacters();
-			if (valid == null) {
-				Log.i(TAG, "valid: " + valid);
-				Toast.makeText(this, R.string.log_error_char_nonvalid,
-						Toast.LENGTH_LONG).show();
-				return false;
-			}
-			final Pattern checkPattern = Pattern.compile("[^"
-					+ Pattern.quote(valid) + "]+");
-			Log.d(TAG, "pattern: " + checkPattern.pattern());
-			final Matcher m = checkPattern.matcher(text);
-			if (m.find()) {
-				final String illigal = m.group();
-				Log.i(TAG, "invalid character: " + illigal);
-				Toast.makeText(
-						this,
-						this.getString(R.string.log_error_char_notsendable)
-								+ ": " + illigal, Toast.LENGTH_LONG).show();
-				return false;
-			}
-		}
-
-		this.displayAds();
-
-		ToggleButton v = (ToggleButton) this.findViewById(R.id.flashsms);
-		final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
-				&& v.isEnabled() && v.isChecked();
-		final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
-		final String defSender = p.getString(PREFS_SENDER, "");
-
 		final String[] tos = Utils.parseRecipients(to);
-		final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
-				subconnector, defPrefix, defSender, tos, text, flashSMS);
-		command.setCustomSender(lastCustomSender);
-		command.setSendLater(lastSendLater);
+        if (tos.length == 0) {
+            Log.e(TAG, "tos list empty");
+            return false;
+        }
 
-		boolean sent = false;
-		try {
-			if (connector.getSubConnector(subconnector).hasFeatures(
-					SubConnectorSpec.FEATURE_MULTIRECIPIENTS)
-					|| tos.length == 1) {
-				Log.d(TAG, "text: " + text);
-				Log.d(TAG, "to: ", tos);
-				runCommand(this, connector, command);
-			} else {
-				ConnectorCommand cc;
-				for (String t : tos) {
-					if (t.trim().length() < 1) {
-						continue;
-					}
-					cc = (ConnectorCommand) command.clone();
-					cc.setRecipients(t);
-					Log.d(TAG, "text: " + text);
-					Log.d(TAG, "to: ", tos);
-					runCommand(this, connector, cc);
-				}
-			}
-			sent = true;
-		} catch (Exception e) {
-			Log.e(TAG, "error running command", e);
-			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
-		}
-		if (sent) {
-			this.reset(false);
-			if (p.getBoolean(PREFS_AUTOEXIT, false)) {
-				try {
-					Thread.sleep(SLEEP_BEFORE_EXIT);
-				} catch (InterruptedException e) {
-					Log.e(TAG, null, e);
-				}
-				this.finish();
-			}
-			return true;
-		}
-		return false;
+        if (connector.getPackage().equals(PseudoConnectorRules.ID)) {
+            return sendByRules(tos, text);
+        } else {
+            return sendReal(connector, subconnector, tos, text);
+        }
 	}
 
-	/**
-	 * @return ID of selected {@link SubConnectorSpec}
-	 */
-	static String getSelectedSubConnectorID() {
-		if (prefsSubConnectorSpec == null) {
-			return null;
-		}
-		return prefsSubConnectorSpec.getID();
-	}
+    /**
+     * Send text to connector based on rules.
+     *
+     * @param tos
+     *            recipients
+     * @param text
+     *            message text
+     * @return true if message was sent
+     */
+    private boolean sendByRules(final String[] tos, final String text) {
 
-	/**
+        // find connector for each of the recipients,
+        // group together recipients that will use the same connector
+        Map<ConnectorLabel,List<String>> chosenMap = new HashMap<>();
+        try {
+            for (String to : tos) {
+                ConnectorLabel chosenConn = rules.chooseConnector(this, to, text);
+                List<String> tosForChosen = chosenMap.get(chosenConn);
+                if (tosForChosen == null) {
+                    tosForChosen = new ArrayList<>();
+                    chosenMap.put(chosenConn, tosForChosen);
+                }
+                tosForChosen.add(to);
+            }
+        } catch (WebSMSException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        // dispatch
+        for (Map.Entry<ConnectorLabel,List<String>> entry : chosenMap.entrySet()) {
+            ConnectorLabel chosenConn = entry.getKey();
+            String[] tosForChosen = entry.getValue().toArray(new String[entry.getValue().size()]);
+
+            if (PseudoConnectorRules.isTestOnly(this)) {
+                Toast.makeText(this,
+                    getString(R.string.rules_test_only,
+                            Utils.joinRecipients(tosForChosen,","), chosenConn.getName()),
+                    Toast.LENGTH_LONG).show();
+
+            } else {
+                if (PseudoConnectorRules.isShowDecisionToast(this)) {
+                    Toast.makeText(this,
+                            getString(R.string.rules_decision,
+                                    Utils.joinRecipients(tosForChosen, ","), chosenConn.getName()),
+                            Toast.LENGTH_LONG).show();
+                }
+                boolean ok = sendReal(chosenConn.getConnector(), chosenConn.getSubConnector(),
+                    tosForChosen, text);
+                if (!ok) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Send text after the real connector is chosen.
+     *
+     * @param connector
+     *            which connector should be used.
+     * @param subconnector
+     *            which subconnector should be used
+     * @param tos
+     *            recipients
+     * @param text
+     *            message text
+     * @return true if message was sent
+     */
+    private boolean sendReal(final ConnectorSpec connector,
+            final SubConnectorSpec subconnector,
+            final String[] tos,
+            final String text) {
+
+        Log.d(TAG, "sendReal(" + connector + "," + subconnector + ")");
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!p.getBoolean(PREFS_TRY_SEND_INVALID, false)
+                && connector.hasCapabilities(ConnectorSpec.CAPABILITIES_CHARACTER_CHECK)) {
+            final String valid = connector.getValidCharacters();
+            if (valid == null) {
+                Log.i(TAG, "valid: null");
+                Toast.makeText(this, R.string.log_error_char_nonvalid,
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+            final Pattern checkPattern = Pattern.compile("[^"
+                    + Pattern.quote(valid) + "]+");
+            Log.d(TAG, "pattern: " + checkPattern.pattern());
+            final Matcher m = checkPattern.matcher(text);
+            if (m.find()) {
+                final String illigal = m.group();
+                Log.i(TAG, "invalid character: " + illigal);
+                Toast.makeText(
+                        this,
+                        this.getString(R.string.log_error_char_notsendable)
+                                + ": " + illigal, Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        ToggleButton v = (ToggleButton) this.findViewById(R.id.flashsms);
+        final boolean flashSMS = (v.getVisibility() == View.VISIBLE)
+                && v.isEnabled() && v.isChecked();
+        final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
+        final String defSender = p.getString(PREFS_SENDER, "");
+
+        final ConnectorCommand command = ConnectorCommand.send(nextMsgId(this),
+                subconnector.getID(), defPrefix, defSender, tos, text, flashSMS);
+        command.setCustomSender(lastCustomSender);
+        command.setSendLater(lastSendLater);
+
+        boolean sent = false;
+        try {
+            if (subconnector.hasFeatures(
+                    SubConnectorSpec.FEATURE_MULTIRECIPIENTS)
+                    || tos.length == 1) {
+                Log.d(TAG, "text: " + text);
+                Log.d(TAG, "to: ", tos);
+                runCommand(this, connector, command);
+            } else {
+                ConnectorCommand cc;
+                for (String t : tos) {
+                    if (t.trim().length() < 1) {
+                        continue;
+                    }
+                    cc = (ConnectorCommand) command.clone();
+                    cc.setRecipients(t);
+                    Log.d(TAG, "text: " + text);
+                    Log.d(TAG, "to: ", tos);
+                    runCommand(this, connector, cc);
+                }
+            }
+            sent = true;
+        } catch (Exception e) {
+            Log.e(TAG, "error running command", e);
+            Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+        }
+        if (sent) {
+            this.reset(false);
+            if (p.getBoolean(PREFS_AUTOEXIT, false)) {
+                try {
+                    Thread.sleep(SLEEP_BEFORE_EXIT);
+                } catch (InterruptedException e) {
+                    Log.e(TAG, null, e);
+                }
+                this.finish();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
 	 * A Date was set.
 	 * 
 	 * @param view
@@ -2025,7 +2079,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @param connector
 	 *            connector
 	 */
-	static final void addConnector(final ConnectorSpec connector,
+	static void addConnector(final ConnectorSpec connector,
 			final ConnectorCommand command) {
 		synchronized (CONNECTORS) {
 			if (connector == null || connector.getPackage() == null
@@ -2039,13 +2093,15 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				c.setErrorMessage((String) null); // fix sticky error status
 				short wasRunningStatus = c.getRunningStatus();
 				c.update(connector);
-				if (command.getType() == ConnectorCommand.TYPE_NONE) {
-					// if this info is not a response to a command then
-					// preserve the running status
-					Log.d(TAG, "preserving running status if any");
-					c.addStatus(wasRunningStatus);
-				}
-				if (me != null) {
+                if (command.getType() == ConnectorCommand.TYPE_NONE
+                        && wasRunningStatus != 0
+                        && c.hasStatus(ConnectorSpec.STATUS_ENABLED)) {
+                    // if this info is not a response to a command then preserve the running status
+                    // unless we've learnt that this connector got disabled
+                    Log.d(TAG, "preserving running status");
+                    c.addStatus(wasRunningStatus);
+                }
+                if (me != null) {
 					final SharedPreferences p = PreferenceManager
 							.getDefaultSharedPreferences(me);
 					final String em = c.getErrorMessage();
@@ -2063,8 +2119,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				--newConnectorsExpected;
 				final String pkg = connector.getPackage();
 				final String name = connector.getName();
-				if (connector.getSubConnectorCount() == 0 || name == null
-						|| pkg == null) {
+				if (connector.getSubConnectorCount() == 0 || name == null || pkg == null) {
 					Log.w(TAG, "skipped adding defect connector: " + pkg);
 					return;
 				}
@@ -2099,27 +2154,31 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 							&& !c.isRunning()
 							&& c.hasCapabilities(ConnectorSpec.CAPABILITIES_UPDATE)
 							&& p.getBoolean(PREFS_AUTOUPDATE, true)) {
-						final String defPrefix = p.getString(PREFS_DEFPREFIX,
-								"+49");
+						final String defPrefix = p.getString(PREFS_DEFPREFIX, "+49");
 						final String defSender = p.getString(PREFS_SENDER, "");
 						runCommand(me, c,
 								ConnectorCommand.update(defPrefix, defSender));
 					}
 				}
 			}
-			if (me != null) {
-				final SharedPreferences p = PreferenceManager
-						.getDefaultSharedPreferences(me);
 
-				if (prefsConnectorSpec == null
-						&& prefsConnectorID.equals(connector.getPackage())) {
-					prefsConnectorSpec = connector;
+            if (me != null) {
+                if (prefsConnectorSpec == null) {
+                    final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(me);
+                    final String prefsConnectorID = p.getString(PREFS_CONNECTOR_ID, "");
 
-					prefsSubConnectorSpec = connector.getSubConnector(p
-							.getString(PREFS_SUBCONNECTOR_ID, ""));
-					me.setButtons();
-					me.displayAds();
-				}
+                    if (prefsConnectorID.equals(connector.getPackage())) {
+                        prefsConnectorSpec = connector;
+
+                        final String prefsSubConnectorID = p.getString(PREFS_SUBCONNECTOR_ID, "");
+                        prefsSubConnectorSpec = connector.getSubConnector(prefsSubConnectorID);
+                        if (prefsSubConnectorSpec == null) {
+                            prefsSubConnectorSpec = connector.getSubConnectors()[0];
+                        }
+
+                        me.setButtons();
+                    }
+                }
 
 				final String b = c.getBalance();
 				final String ob = c.getOldBalance();
@@ -2131,6 +2190,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					me.setButtons();
 				}
 			}
+            me.invalidateOptionsMenu();
 		}
 	}
 
@@ -2142,12 +2202,12 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 * @return {@link ConnectorSpec}
 	 */
 	private static ConnectorSpec getConnectorByID(final String id) {
+        if (id == null) {
+            return null;
+        }
+        ConnectorSpec c;
 		synchronized (CONNECTORS) {
-			if (id == null) {
-				return null;
-			}
 			final int l = CONNECTORS.size();
-			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
 				c = CONNECTORS.get(i);
 				if (id.equals(c.getPackage())) {
@@ -2155,54 +2215,15 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				}
 			}
 		}
-		return null;
-	}
-
-	/**
-	 * Get {@link ConnectorSpec} by name.
-	 * 
-	 * @param name
-	 *            name
-	 * @param returnSelectedSubConnector
-	 *            if not null, array[0] will be set to selected
-	 *            {@link SubConnectorSpec}
-	 * @return {@link ConnectorSpec}
-	 */
-	private static ConnectorSpec getConnectorByName(final String name,
-			final SubConnectorSpec[] returnSelectedSubConnector) {
-		synchronized (CONNECTORS) {
-			if (name == null) {
-				return null;
-			}
-			final int l = CONNECTORS.size();
-			ConnectorSpec c;
-			String n;
-			SubConnectorSpec[] scs;
-			for (int i = 0; i < l; i++) {
-				c = CONNECTORS.get(i);
-				n = c.getName();
-				if (name.startsWith(n)) {
-					if (name.length() == n.length()) {
-						if (returnSelectedSubConnector != null) {
-							returnSelectedSubConnector[0] = c
-									.getSubConnectors()[0];
-						}
-						return c;
-					} else if (returnSelectedSubConnector != null) {
-						scs = c.getSubConnectors();
-						if (scs == null || scs.length == 0) {
-							continue;
-						}
-						for (SubConnectorSpec sc : scs) {
-							if (name.endsWith(sc.getName())) {
-								returnSelectedSubConnector[0] = sc;
-								return c;
-							}
-						}
-					}
-				}
-			}
-		}
+        synchronized (PSEUDO_CONNECTORS) {
+            final int l = PSEUDO_CONNECTORS.size();
+            for (int i = 0; i < l; i++) {
+                c = PSEUDO_CONNECTORS.get(i);
+                if (id.equals(c.getPackage())) {
+                    return c;
+                }
+            }
+        }
 		return null;
 	}
 
@@ -2213,15 +2234,18 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 *            capabilities needed
 	 * @param status
 	 *            status required {@link SubConnectorSpec}
+     * @param isIncludePseudoConnectors
+     *            whether pseudo connectors should be included
 	 * @return {@link ConnectorSpec}s
 	 */
-	static final ConnectorSpec[] getConnectors(final int capabilities,
-			final int status) {
+	public static ConnectorSpec[] getConnectors(final int capabilities,
+			final int status,
+            final boolean isIncludePseudoConnectors) {
+        final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
+                CONNECTORS.size() + PSEUDO_CONNECTORS.size());
+        ConnectorSpec c;
 		synchronized (CONNECTORS) {
-			final ArrayList<ConnectorSpec> ret = new ArrayList<ConnectorSpec>(
-					CONNECTORS.size());
 			final int l = CONNECTORS.size();
-			ConnectorSpec c;
 			for (int i = 0; i < l; i++) {
 				c = CONNECTORS.get(i);
 				if (c.hasCapabilities((short) capabilities)
@@ -2229,8 +2253,22 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					ret.add(c);
 				}
 			}
-			return ret.toArray(new ConnectorSpec[0]);
 		}
+        if (isIncludePseudoConnectors && ret.size() > 0) {
+            // note: pseudo-connectors are only included if real connectors are also available
+            //       because pseudo-connectors do not make sense without them
+            synchronized (PSEUDO_CONNECTORS) {
+                final int l = PSEUDO_CONNECTORS.size();
+                for (int i = 0; i < l; i++) {
+                    c = PSEUDO_CONNECTORS.get(i);
+                    if (c.hasCapabilities((short) capabilities)
+                            && c.hasStatus((short) status)) {
+                        ret.add(c);
+                    }
+                }
+            }
+        }
+        return ret.toArray(new ConnectorSpec[ret.size()]);
 	}
 
 	/**
@@ -2247,28 +2285,27 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	}
 
 	/**
-	 * Enables or disables indeterminate progress bar based on the current
-	 * state.
+	 * Enables or disables indeterminate progress bar based on the current state.
 	 */
 	private static void updateProgressBar() {
 		if (me != null) {
-			boolean needProgressBar = false;
+			boolean needProgressBar;
 			if (newConnectorsExpected > 0) {
 				Log.d(TAG, "expecting connector info: " + newConnectorsExpected);
 				needProgressBar = true;
 			} else {
 				ConnectorSpec[] running = getConnectors(
 						ConnectorSpec.CAPABILITIES_UPDATE,
-						ConnectorSpec.STATUS_ENABLED
-								| ConnectorSpec.STATUS_UPDATING);
+						ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_UPDATING,
+                        false /*isIncludePseudoConnectors*/);
 				Log.d(TAG, "running connectors: " + running.length);
 				if (running.length != 0) {
 					needProgressBar = true;
 				} else {
 					ConnectorSpec[] booting = getConnectors(
 							ConnectorSpec.CAPABILITIES_BOOTSTRAP,
-							ConnectorSpec.STATUS_ENABLED
-									| ConnectorSpec.STATUS_BOOTSTRAPPING);
+							ConnectorSpec.STATUS_ENABLED | ConnectorSpec.STATUS_BOOTSTRAPPING,
+                            false /*isIncludePseudoConnectors*/);
 					Log.d(TAG, "booting connectors: " + booting.length);
 					needProgressBar = (booting.length != 0);
 				}

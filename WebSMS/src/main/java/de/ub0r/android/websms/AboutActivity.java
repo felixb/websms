@@ -49,7 +49,8 @@ public final class AboutActivity extends SherlockActivity {
 				+ this.getString(R.string.app_version));
 		StringBuffer authors = new StringBuffer();
 		final ConnectorSpec[] css = WebSMS.getConnectors(
-				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE);
+				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE,
+                true /*isIncludePseudoConnectors*/);
 		String a;
 		for (ConnectorSpec cs : css) {
 			a = cs.getAuthor();
