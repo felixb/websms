@@ -18,12 +18,12 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/de/donation.xml to edit the file.
+               Visit http://ub0r.de/translate/ub0rlib/de/donation.xml to edit the file.
        -->
 <resources>
   <string name="donate">Spenden</string>
   <string name="donate_">Spenden (%s)</string>
   <string name="donate_remove_ads_" formatted="false">Spenden/Werbung entfernen</string>
   <string name="predonate_market" formatted="false">Dies ist eine Open Source-App. Sie ist und bleibt frei. Wenn du die App wirklich magst oder dich die Werbung nervt, kannst du gerne etwas spenden.\nVielen Dank!\n\nSolltest du mehrere Apps von mir einsetzen, reicht eine Spende um überall die Werbung zu entfernen.</string>
-  <string name="did_paypal_donation" username="(android jg)" orig="I already did a donation via Paypal">pendet\n\n\n\n\n\nNever</string>
+  <string name="did_paypal_donation">Ich habe bereits via Paypal gespendet</string>
 </resources>
