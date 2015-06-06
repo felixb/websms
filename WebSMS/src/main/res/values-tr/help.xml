@@ -17,6 +17,6 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-  <string name="help_title" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Introducing WebSMS">WebSMS tanıtımı</string>
-  <string name="get_connectors" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Get Connectors">Konnektör edinin</string>
+  <string name="help_title" formatted="false" username="Can Örs" orig="Introducing WebSMS">WebSMS tanıtımı</string>
+  <string name="get_connectors" formatted="false" username="Can Örs" orig="Get Connectors">Konnektör edinin</string>
 </resources>

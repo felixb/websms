@@ -17,5 +17,5 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-  <string name="donate" formatted="false" username="Can Örs &lt;canors@yandex.com&gt;" orig="Donate">Bağış Yap</string>
+  <string name="donate" formatted="false" username="Can Örs" orig="Donate">Bağış Yap</string>
 </resources>
