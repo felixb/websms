@@ -131,7 +131,7 @@
   <string name="emo_" formatted="false">Smilies</string>
   <string name="connectors_switch" formatted="false">Connector wurde gewechselt:</string>
   <string name="captcha_" formatted="false">Captcha</string>
-  <string name="captcha_solve_it" formatted="false" username="0/43" orig="Please enter the text below:">Bitte gib den Text unten ein:</string>
+  <string name="captcha_solve_it" formatted="false">Bitte gib den Text unten ein:</string>
   <string name="status_disabled" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: disabled\n(Updated when returning to main screen)">Status: deaktiviert\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
   <string name="status_enabled" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: enabled\n(Updated when returning to main screen)">Status: aktiviert\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
   <string name="status_ready" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Status: ready\n(Updated when returning to main screen)">Status: bereit\n(Statusupdate bei Rückkehr zum Hauptbildschirm)</string>
@@ -142,7 +142,7 @@
   <string name="paste_" formatted="false">[ Aus Zwischenablage einfügen ]</string>
   <string name="restore_" formatted="false" username="flx &lt;f+translator@ub0r.de&gt;" orig="Restore last message">Letzte SMS wiederherstellen</string>
   <string name="theme_" formatted="false">Theme</string>
-  <string-array name="themes" username="0/43">
+  <string-array name="themes" username="flx &lt;f+translator@ub0r.de&gt;">
     <item>Dunkel</item>
     <item>Hell</item>
   </string-array>
@@ -189,11 +189,11 @@
   <string name="prefs_rules_test_only_hint">Im Testmodus wird nur der Name des Connectors gezeigt. Es werden keine Nachrichten gesendet.</string>
   <string name="rules_editor_title">Regeleditor</string>
   <string name="rules_editor_empty">Auf \"+\" klicken um eine Regel hinzuzufügen</string>
-  <string name="rule_summary_prefix">Wenn Empfängernummer mit <b>\"%s\"</b>&lt;br/&gt; startet</string>
-  <string name="rule_summary_pattern">Wenn Empfängernummer <b>\"%s\"</b>&lt;br/&gt; entspricht</string>
+  <string name="rule_summary_prefix">Wenn Empfängernummer mit &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt; startet</string>
+  <string name="rule_summary_pattern">Wenn Empfängernummer &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt; entspricht</string>
   <string name="rule_summary_default">Wenn keine der oberen Regeln zutrifft&lt;br/&gt;</string>
   <string name="rule_summary_ascii">und Text beinhaltet Deutsche (Latin) characters only&lt;br/&gt;</string>
-  <string name="rule_summary_connector">dann nutze <b>\"%s\"</b></string>
+  <string name="rule_summary_connector">dann nutze &lt;b&gt;\"%s\"&lt;/b&gt;</string>
   <string name="rule_add">Neue Regel hinzufügen</string>
   <string name="rule_delete">Löschen</string>
   <string name="rule_up">Nach oben</string>
@@ -205,17 +205,18 @@
   <string name="rule_invalid">Regeldefinition unvollständig. Bearbeiten fortsetzen?</string>
   <string name="edit_rule_title">Regel bearbeiten</string>
   <string name="new_rule_title">Neue Regel</string>
-  <string name="edit_rule_number" username="0/43" orig="If recipient\'s number">Wenn Empfängernummer</string>
+  <string name="edit_rule_number">Wenn Empfängernummer</string>
   <string name="edit_rule_radio_number_prefix">anfängt mit</string>
   <string name="edit_rule_radio_number_pattern">regulärem Ausdruck entspricht</string>
   <string name="edit_rule_radio_number_any">beliebige Nummer</string>
   <string name="edit_rule_prefix_hint">Prefix</string>
   <string name="edit_rule_pattern_hint">Muster</string>
-  <string name="edit_rule_charset" username="0/43" orig="and message contains">und Nachricht beinhaltet</string>
+  <string name="edit_rule_charset">und Nachricht beinhaltet</string>
   <string name="edit_rule_radio_charset_any">beliebige Zeichen</string>
   <string name="edit_rule_radio_charset_ascii">nur Deutsche (Latin) Zeichen</string>
   <string name="edit_rule_connector">dann nutze</string>
   <string name="err_no_matching_rules">Keine passende Regel gefunden</string>
   <string name="rules_decision">Sende Nachricht an \"%1$s\" mit Connector \"%2$s\"</string>
   <string name="rules_test_only">Testmodus: Würde Nachricht an \"%1$s\" mit Connector \"%2$s\" senden</string>
+
 </resources>
