@@ -18,7 +18,7 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/sk/strings.xml to edit the file.
+               Visit http://ub0r.de/translate/websms/cs/strings.xml to edit the file.
        -->
 <resources>
   <string name="about_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="About">O aplikaci</string>
@@ -46,9 +46,9 @@
   <string name="clear_stdandard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Clear standard Connector">Vymazat základní rozhraní</string>
   <string name="license" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt">GPLv3 - navštivte http://www.gnu.org/licenses/gpl-3.0.txt</string>
   <string name="license_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="License:">Licence:</string>
-  <string name="log_wrong_defprefix" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Prosím zadejte platnou předvolbu Vaší země. Např. &quot;+420&quot;.</string>
+  <string name="log_wrong_defprefix" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Please enter a valid countrycode as default prefix. E.g. &quot;+49&quot;.">Prosím zadejte platnou předvolbu Vaší země. Např. \"+420\".</string>
   <string name="log_wrong_sender" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Wrong sender! Set it in international form like +4917012345678.">Špatné číslo odesílatele! Zadejte číslo v mezinárodním formátu, např. +420907123456.</string>
-  <string name="log_noselectedconnector" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nevybrali jste žádné rozhraní. Vyberte ho kliknutím na &quot;Změnit poskytovatele&quot;.</string>
+  <string name="log_noselectedconnector" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Nevybrali jste žádné rozhraní. Vyberte ho kliknutím na \"Změnit poskytovatele\".</string>
   <string name="log_noreadyconnector" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="No Connector installed or ready. Please check preferences.">Není nainstalované nebo nastavené žádné rozhraní. Prosím zkontrolujte nastavení aplikace.</string>
   <string name="sender_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Your mobile number">Vaše tel. číslo</string>
   <string name="send_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Send">Odeslat</string>
@@ -57,30 +57,30 @@
   <string name="settings_connectors" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Preferences - Connectors">Nastavení - Rozhraní</string>
   <string name="connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Connectors">Rozhraní</string>
   <string name="textsize_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Text size">Velikost textu</string>
-  <string name="hide_change_connector_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Chg. provider\&quot; button">Skrýt tlač. \&quot;Zm. poskytovatele\&quot;\"</string>
-  <string name="hide_change_connector_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Skrýt tlačítko \&quot;Změnit poskytovatele\&quot; na hlavní obrazovce.</string>
-  <string name="hide_send_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button">Skrýt tlač. \&quot;Odeslat\&quot;</string>
-  <string name="hide_send_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Skrýt tlačítko \&quot;Odeslat\&quot; na hlavní obrazovce.</string>
-  <string-array name="themes" username="Petr &lt; svobodnik.petr@gmail.com &gt;">
+  <string name="hide_change_connector_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Chg. provider\&quot; button">Skrýt tlač. \"Zm. poskytovatele\"\"</string>
+  <string name="hide_change_connector_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Change provider\&quot; button on main screen.">Skrýt tlačítko \"Změnit poskytovatele\" na hlavní obrazovce.</string>
+  <string name="hide_send_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button">Skrýt tlač. \"Odeslat\"</string>
+  <string name="hide_send_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; button in main screen.">Skrýt tlačítko \"Odeslat\" na hlavní obrazovce.</string>
+  <string-array name="themes" username="R.pyrchala@seznam.cz">
     <item>Tmavý</item>
     <item>Světlý</item>
   </string-array>
-  <string name="hide_cancel_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button">Skrýt tlač. \&quot;Zrušit\&quot;</string>
-  <string name="hide_cancel_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Skrýt tlačítko \&quot;Zrušit\&quot; na hlavní obrazovce.</string>
-  <string name="hide_select_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select\&quot; button">Skrýt tlač. \&quot;Vybrat\&quot;</string>
-  <string name="hide_select_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Skrýt tlačítko \&quot;Vybrat příjemce\&quot; na hlavní obrazovce.</string>
-  <string name="hide_clear_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear\&quot; button">Skrýt tlač. \&quot;Vymazat\&quot;</string>
-  <string name="hide_clear_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Skrýt tlačítko \&quot;Vymazat příjemce\&quot; na hlavní obrazovce.</string>
-  <string name="hide_send_in_menu" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; menu item">Skrýt tlač. \&quot;Odeslat\&quot;</string>
-  <string name="hide_send_in_menu_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Skrýt tlačítko \&quot;Odeslat\&quot; na hlavní obrazovce. Nutný restart.</string>
-  <string name="hide_emo_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button">Skrýt tlač. \&quot;Smajlíci\&quot;</string>
-  <string name="hide_emo_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Skrýt tlačítko \&quot;Smajlíci\&quot; na hlavní obrazovce.</string>
-  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skrýt tlač. \&quot;Klikni pro aktualizaci\&quot;</string>
-  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Skrýt tlačítko \&quot;Klikni pro aktualizaci\&quot; na hlavní obrazovce.</string>
+  <string name="hide_cancel_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button">Skrýt tlač. \"Zrušit\"</string>
+  <string name="hide_cancel_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Cancel\&quot; button on main screen.">Skrýt tlačítko \"Zrušit\" na hlavní obrazovce.</string>
+  <string name="hide_select_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select\&quot; button">Skrýt tlač. \"Vybrat\"</string>
+  <string name="hide_select_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Select recipients\&quot; button on main screen.">Skrýt tlačítko \"Vybrat příjemce\" na hlavní obrazovce.</string>
+  <string name="hide_clear_recipients_button_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear\&quot; button">Skrýt tlač. \"Vymazat\"</string>
+  <string name="hide_clear_recipients_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Clear recipients\&quot; button on main screen.">Skrýt tlačítko \"Vymazat příjemce\" na hlavní obrazovce.</string>
+  <string name="hide_send_in_menu" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; menu item">Skrýt tlač. \"Odeslat\"</string>
+  <string name="hide_send_in_menu_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Send\&quot; in the main menu. Requires restart.">Skrýt tlačítko \"Odeslat\" na hlavní obrazovce. Nutný restart.</string>
+  <string name="hide_emo_button" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button">Skrýt tlač. \"Smajlíci\"</string>
+  <string name="hide_emo_button_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Hide \&quot;Emoticons\&quot; button on main screen.">Skrýt tlačítko \"Smajlíci\" na hlavní obrazovce.</string>
+  <string name="hide_update" formatted="false" orig="Hide \&quot;Click for update\&quot;">Skrýt tlač. \"Klikni pro aktualizaci\"</string>
+  <string name="hide_update_hint" formatted="false" orig="Hide \&quot;Click for update\&quot; on main screen.">Skrýt tlačítko \"Klikni pro aktualizaci\" na hlavní obrazovce.</string>
   <string name="hide_bg_connector_" formatted="false" orig="Hide connector name">Skrýt název rozhraní</string>
   <string name="hide_bg_connector_hint" formatted="false" orig="Hide active connector\'s name in background.">Skrýt název aktuálního rozhraní na hlavní obrazovce.</string>
-  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Skrýt tlač. \&quot;Vložit\&quot;</string>
-  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Skrýt tlačítko \&quot;Vložit\&quot; z textového pole.</string>
+  <string name="hide_paste_" formatted="false" orig="Hide &quot;paste&quot; button">Skrýt tlač. \"Vložit\"</string>
+  <string name="hide_paste_hint" formatted="false" orig="Hide &quot;paste&quot; button on text field.">Skrýt tlačítko \"Vložit\" z textového pole.</string>
   <string name="autoexit_" formatted="false" orig="Autoexit">Autom. ukončení</string>
   <string name="autoexit_hint" formatted="false" orig="Exit WebSMS when sending sms.">Automatické ukončení WebSMS po odeslaní sms.</string>
   <string name="mobile_only_" formatted="false" orig="Show mobiles only">Zobrazit pouze mobilní</string>
@@ -105,8 +105,8 @@
   <string name="alternative_layout_" formatted="false" orig="Alternative layout">Alternativní uspořádání</string>
   <string name="alternative_layout_hint" formatted="false" orig="Move send bar to the top. Needs restart.">Přesunout lištu pro odeslání nahoru. Nutný restart.</string>
   <string name="textsize_hint" formatted="false" orig="Text size in pixels; leave empty for default">Velikost textu v pixelech. Prázdná hodnota je výchozí.</string>
-  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">Skrýt tlač. \&quot;Extra\&quot;</string>
-  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Skrýt tlačítko \&quot;Extra\&quot; na hlavní obrazovce.</string>
+  <string name="hide_extras_button_" formatted="false" orig="Hide \&quot;Extras\&quot; button">Skrýt tlač. \"Extra\"</string>
+  <string name="hide_extras_button_hint" formatted="false" orig="Hide \&quot;Extras\&quot; button on main screen.">Skrýt tlačítko \"Extra\" na hlavní obrazovce.</string>
   <string name="free_" formatted="false" orig="Balances:">Kredit:</string>
   <string name="to_hint" formatted="false" orig="Name or Number">Jméno nebo číslo</string>
   <string name="extras_" formatted="false" orig="Extras">Extra</string>
@@ -120,7 +120,7 @@
   <string name="common_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Common">Všeobecné</string>
   <string name="autosend_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Autosend">Autom. odeslání</string>
   <string name="show_titlebar_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Show title bar">Zobrazit záhlaví</string>
-  <string name="show_titlebar_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Zobrazit záhlaví na hlavní obrazovce. Bez záhlaví není možné vidět činnosti, které probíhají na pozadí.</string>
+  <string name="show_titlebar_hint" formatted="false" username="R.pyrchala@seznam.cz" orig="Show title bar in main view. Without title bar, there is no way to see background activity.">Zobrazit záhlaví na hlavní obrazovce. Bez záhlaví není možné vidět činnosti, které probíhají na pozadí.</string>
   <string name="drop_sent_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Don\'t save sent SMS">Neukládat odeslané SMS</string>
   <string name="enable_autosend_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Enable autosend">Povolit automatické odeslání</string>
   <string name="enable_autosend_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Enable SMSdroid\'s autosend feature.">Použít funkci automatické odeslání, které nabízí aplikace SMSdroid.</string>
@@ -128,7 +128,7 @@
   <string name="default_recipient_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Default recipient">Výchozí příjemce</string>
   <string name="default_recipient_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Default recipient filled into address bar on app start.">Přidat výchozího příjemce do adresního řádku po spuštění aplikace.</string>
   <string name="signature_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Signature">Podpis</string>
-  <string name="signature_hint" formatted="false" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis je připojen je každé zprávě. Nepřidává žádné další mezery. Pokud potřebujete přidat podpis dříve, uveďte \&quot; \&quot;.</string>
+  <string name="signature_hint" formatted="false" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis je připojen je každé zprávě. Nepřidává žádné další mezery. Pokud potřebujete přidat podpis dříve, uveďte \" \".</string>
   <string name="autoupdate_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Autoupdate">Automatický stav kreditu</string>
   <string name="autoupdate_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Update account balances on start.">Aktualizovat stav kreditu po spuštění.</string>
   <string name="source_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Sourcescode:">Zdrojový kód:</string>
