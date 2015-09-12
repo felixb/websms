@@ -175,4 +175,47 @@
   <string name="drop_sent_hint_v19" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.">Не сохранять отправленные сообщения в глобальной базе данных.\nСохранение сообщений доступно только через SMSdroid, если он используется в качестве СМС приложения по умолчанию или через AppOps.</string>
   <string name="permission_save_to_db_description" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Save messages sent by other apps to android message database">Сохранять сообщения, отправленные другими приложениями в базу сообщений Android</string>
   <string name="permission_save_to_db" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Save messages to database">Сохранять сообщения в базу данных</string>
+  <string name="rule_delete" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Delete">Удалить</string>
+  <string name="rules_help" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Help">Справка</string>
+  <string name="rules_cancel" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Cancel">Отмена</string>
+  <string name="prefs_rules_category" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Smart Connectors">Умные Коннекторы</string>
+  <string name="prefs_rules_test_only" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Test only">Только тест</string>
+  <string name="edit_rule_prefix_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Prefix">Префикс</string>
+  <string name="prefs_rules_editor" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Manage rules">Управление правилами</string>
+  <string name="connector_rules_name" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="By Rules">По правилам</string>
+  <string name="prefs_rules_link" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="By Rules">По правилам</string>
+  <string name="err_no_matching_rules" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="No matching rules found">Соответствующих правил не найдено</string>
+  <string name="prefs_rules_enable" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Enable rules">Включить правила</string>
+  <string name="prefs_rules_editor_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="View and modify rules">Просмотр и изменение правил</string>
+  <string name="rules_editor_title" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Rules Editor">Редактор правил</string>
+  <string name="rules_editor_empty" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Click \&quot;+\&quot; to add rules">Нажмите \"+\" для добавления правил</string>
+  <string name="rule_summary_pattern" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="If recipient\'s number matches &lt;b&gt;\&quot;%s\&quot;&lt;/b&gt;&lt;br/&gt;">Если номер получателя соответствует <b>\"%s\"</b>&lt;br/&gt;</string>
+  <string name="rule_summary_prefix" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="If recipient\'s number starts with &lt;b&gt;\&quot;%s\&quot;&lt;/b&gt;&lt;br/&gt;">Если номер получателя начинается с <b>\"%s\"</b>&lt;br/&gt;</string>
+  <string name="rule_summary_connector" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="then use &lt;b&gt;\&quot;%s\&quot;&lt;/b&gt;">тогда используйте <b>\"%s\"</b></string>
+  <string name="rule_summary_ascii" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="and text contains English (Latin) characters only&lt;br/&gt;">и текст содержит только английские символы (латиницу)&lt;br/&gt;</string>
+  <string name="rule_add" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Add new rule">Добавить новое правило</string>
+  <string name="rule_invalid_field_empty" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Provide value">Укажите значение</string>
+  <string name="rule_invalid_field_regex" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Invalid expression">Недопустимое выражение</string>
+  <string name="edit_rule_pattern_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Pattern">Шаблон</string>
+  <string name="edit_rule_title" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Edit Rule">Изменить правило</string>
+  <string name="new_rule_title" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="New Rule">Новое правило</string>
+  <string name="edit_rule_radio_charset_ascii" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="English (Latin) characters only">Только английский (латинские) символы</string>
+  <string name="edit_rule_radio_charset_any" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="any characters">любые символы</string>
+  <string name="edit_rule_connector" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="then use">тогда используйте</string>
+  <string name="edit_rule_charset" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="and message contains">и сообщение содержит</string>
+  <string name="rules_decision" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Sending to \&quot;%1$s\&quot; using connector \&quot;%2$s\&quot;">Отправка \"%1$s\" используя коннектор \"%2$s\"</string>
+  <string name="rules_test_only" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Test only mode: would send to \&quot;%1$s\&quot; using connector \&quot;%2$s\&quot;">Режим только тест: отправит \"%1$s\" используя коннектор \"%2$s\"</string>
+  <string name="rule_summary_default" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="If none of the above rules apply&lt;br/&gt;">Если ни одно из вышеперечисленных правил не применяется&lt;br/&gt;</string>
+  <string name="rule_invalid" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Rule definition incomplete. Continue editing?">Неполное правило определения. Продолжить редактирование?</string>
+  <string name="edit_rule_number" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="If recipient\'s number">Если номер получателя</string>
+  <string name="edit_rule_radio_number_prefix" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="starts with">начинается с</string>
+  <string name="edit_rule_radio_number_pattern" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="matches Regular Expression">соответствует регулярному выражению</string>
+  <string name="edit_rule_radio_number_any" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="any number">любое число</string>
+  <string name="rule_up" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Move Up">Вверх</string>
+  <string name="rule_down" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Move Down">Вниз</string>
+  <string name="prefs_rules_show_decision_toast" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Show decision toast">Уведомление о решении</string>
+  <string name="prefs_rules_show_decision_toast_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Show toast notification with the chosen connector">Показывать всплывающее уведомление с выбранным коннектором</string>
+  <string name="prefs_rules_enable_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Enable connector selection rules">Включение правил выбора коннектора</string>
+  <string name="prefs_rules_test_only_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="In test only mode, the name of the chosen connector will be shown but no messages will be sent">В режиме только для теста будет показано имя выбранного коннектора, но никаких сообщений не будет отправлено</string>
+  <string name="prefs_rules_link_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Define rules to select Connector based on recipient\'s number etc">Определение правил выбора коннекторов, основанных на номере получателя и пр.</string>
 </resources>
