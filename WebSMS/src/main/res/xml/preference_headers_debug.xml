@@ -17,23 +17,7 @@
 	-->
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 	<header android:fragment="de.ub0r.android.websms.HeaderPreferenceFragment"
-		android:title="@string/common_">
-		<extra android:name="resource" android:value="prefs_common" />
-	</header>
-	<header android:fragment="de.ub0r.android.websms.HeaderPreferenceFragment"
-		android:title="@string/appearance_">
-		<extra android:name="resource" android:value="prefs_appearance" />
-	</header>
-	<header android:fragment="de.ub0r.android.websms.HeaderPreferenceFragment"
-		android:title="@string/behavior_">
-		<extra android:name="resource" android:value="prefs_behavior" />
-	</header>
-	<header android:fragment="de.ub0r.android.websms.HeaderPreferenceFragment"
-		android:title="@string/connectors_">
-		<extra android:name="resource" android:value="prefs_connectors" />
-	</header>
-	<header android:fragment="de.ub0r.android.websms.HeaderPreferenceFragment"
-		android:title="@string/about_">
-		<extra android:name="resource" android:value="prefs_about" />
+		android:title="@string/debug_">
+		<extra android:name="resource" android:value="prefs_debug" />
 	</header>
 </preference-headers>

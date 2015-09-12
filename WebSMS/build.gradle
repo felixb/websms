@@ -25,6 +25,7 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
+        buildConfigField 'boolean', 'DEBUG_LOG', 'true'
     }
 
     signingConfigs {
@@ -44,6 +45,7 @@ android {
 
             release {
                 signingConfig signingConfigs.release
+                buildConfigField 'boolean', 'DEBUG_LOG', 'false'
             }
         }
     }

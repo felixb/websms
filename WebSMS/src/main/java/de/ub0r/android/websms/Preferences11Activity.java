@@ -55,6 +55,9 @@ public final class Preferences11Activity extends PreferenceActivity implements
     @Override
     public void onBuildHeaders(final List<Header> target) {
         this.loadHeadersFromResource(R.xml.preference_headers, target);
+        if (BuildConfig.DEBUG_LOG) {
+            this.loadHeadersFromResource(R.xml.preference_headers_debug, target);
+        }
     }
 
     @Override

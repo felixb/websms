@@ -79,7 +79,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 		this.addPreferencesFromResource(R.xml.prefs_appearance_behavior);
 		this.addPreferencesFromResource(R.xml.prefs_connectors);
 		this.addPreferencesFromResource(R.xml.prefs_about);
-		this.addPreferencesFromResource(R.xml.prefs_debug);
+		if (BuildConfig.DEBUG_LOG) {
+			this.addPreferencesFromResource(R.xml.prefs_debug);
+		}
 		this.setTitle(R.string.settings);
 		registerPreferenceChecker(this);
 		registerOnPreferenceChangeListener(this);
@@ -165,7 +167,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 *            {@link Context}
 	 * @return theme
 	 */
-	static final int getTheme(final Context context) {
+	static int getTheme(final Context context) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, null);
@@ -183,7 +185,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 *            {@link Context}
 	 * @return theme
 	 */
-	static final int getTextsize(final Context context) {
+	static int getTextsize(final Context context) {
 		final SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_TEXTSIZE, null);
