@@ -36,9 +36,7 @@
   <string name="defprefix_hint" formatted="false" orig="e.g. +49">Es. +39</string>
   <string name="more_apps_" formatted="false" username="carloraudino@fedoraproject.org" orig="More Apps..">Altre app..</string>
   <string name="more_connectors_" formatted="false" orig="More Connectors..">Altri Connector..</string>
-  <string name="more_connectors_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Cerca altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
-  <string name="more_connectors__" formatted="false" username="carloraudino@fedoraproject.org" orig="Even more Connectors..">Ancora più Connector..</string>
-  <string name="more_connectors__hint" formatted="false" username="carloraudino@fedoraproject.org" orig="You are missing a connector for some service? View the FAQ to get it.">Manca un Connector per qualche servizio? Leggere le FAQ per trovarlo.</string>
+  <string name="more_connectors_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Cerca altri Connectors nel Market. Riavvia WebSMS dopo l\'installazione!</string>
   <string name="set_stdandard_connector_" formatted="false" username="carloraudino@fedoraproject.org" orig="Set standard Connector">Imposta Connector predefinito</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="antoniogallo@alice.de" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Imposta l\'attuale Connector come predefinito.</string>
   <string name="clear_stdandard_connector_" formatted="false" username="antoniogallo@alice.de" orig="Clear standard Connector">Cancella Connector come predefinito</string>

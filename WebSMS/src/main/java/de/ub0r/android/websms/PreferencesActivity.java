@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -36,9 +37,9 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import de.ub0r.android.lib.IPreferenceContainer;
 import de.ub0r.android.lib.Log;
-import de.ub0r.android.lib.Market;
 import de.ub0r.android.lib.Utils;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -223,6 +224,27 @@ public class PreferencesActivity extends PreferenceActivity implements
 		return this;
 	}
 
+	private static OnPreferenceClickListener getPreferenceLauncher(final Context context, final Intent intent) {
+		return new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(final Preference preference) {
+				try {
+					context.startActivity(intent);
+				} catch (ActivityNotFoundException e) {
+					Log.e(TAG, "error launching intent: " + intent, e);
+					Toast.makeText(context, R.string.error, Toast.LENGTH_LONG).show();
+				}
+				return true;
+			}
+		};
+	}
+
+	private static void registerPreferenceLauncher(final Preference p, final Context context, final Intent intent) {
+		if (p != null) {
+			p.setOnPreferenceClickListener(getPreferenceLauncher(context, intent));
+		}
+	}
+
 	/**
 	 * Check all {@link SharedPreferences} and register
 	 * {@link OnPreferenceChangeListener}.
@@ -231,13 +253,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 	 *            {@link IPreferenceContainer}
 	 */
 	static void registerPreferenceChecker(final IPreferenceContainer pc) {
-		Market.setOnPreferenceClickListener(pc.getActivity(),
-				pc.findPreference("more_connectors"), null, "websms+connector",
-				"http://code.google.com/p/websmsdroid/downloads"
-						+ "/list?can=2&q=label%3AConnector");
-		Market.setOnPreferenceClickListener(pc.getActivity(),
-				pc.findPreference("more_apps"), null, Market.SEARCH_APPS,
-				Market.ALT_APPS);
+		registerPreferenceLauncher(pc.findPreference("more_connectors"), pc.getContext(), new Intent(Intent.ACTION_VIEW,
+				Uri.parse("https://play.google.com/store/search?q=websms+connector")));
+		registerPreferenceLauncher(pc.findPreference("more_apps"), pc.getContext(), new Intent(Intent.ACTION_VIEW,
+				Uri.parse("https://play.google.com/store/apps/developer?id=Felix+Bechstein")));
+
 		Preference pr = pc.findPreference("send_logs");
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

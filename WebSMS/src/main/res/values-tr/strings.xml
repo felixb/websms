@@ -33,9 +33,7 @@
   <string name="defprefix_hint" formatted="false" username="Can Örs" orig="e.g. +49">örneğin +49</string>
   <string name="more_apps_" formatted="false" username="Can Örs" orig="More Apps..">Daha fazla uygulama ..</string>
   <string name="more_connectors_" formatted="false" username="Can Örs" orig="More Connectors..">Daha fazla Konnektör..</string>
-  <string name="more_connectors_hint" formatted="false" username="Can Örs" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Marketten daha fazla Konnektör arayın. Yükledikten sonra WebSMS\'i yeniden başlatın!</string>
-  <string name="more_connectors__" formatted="false" username="Can Örs" orig="Even more Connectors..">Daha da fazla Konnektör..</string>
-  <string name="more_connectors__hint" formatted="false" username="Can Örs" orig="You are missing a connector for some service? View the FAQ to get it.">Bazı hizmetler için bir konnektör mü eksik? Almak için SSS bölümünü görüntüleyebilirsiniz.</string>
+  <string name="more_connectors_hint" formatted="false" username="Can Örs" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Marketten daha fazla Konnektör arayın. Yükledikten sonra WebSMS\'i yeniden başlatın!</string>
   <string name="standard_connector_" formatted="false" username="Can Örs" orig="Standard Connector">Standard Konnektör</string>
   <string name="set_stdandard_connector_" formatted="false" username="Can Örs" orig="Set standard Connector">Standart Konnektör ayarla</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Can Örs" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Standart Konnektörü olarak mevcut konnektör ayarlayın. WebSMS otomatik olarak geri dönecektir.</string>

@@ -36,9 +36,7 @@
   <string name="defprefix_hint" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="e.g. +49">например, +7</string>
   <string name="more_apps_" formatted="false" orig="More Apps.." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Другие приложения..</string>
   <string name="more_connectors_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="More Connectors..">Другие коннекторы..</string>
-  <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Market. Restart WebSMS after installing!" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Ищите другие Коннекторы в Google Play. Перезапустите WebSMS после установки!</string>
-  <string name="more_connectors__" formatted="false" orig="Even more Connectors.." username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Ещё больше Коннекторов..</string>
-  <string name="more_connectors__hint" formatted="false" orig="You are missing a connector for some service? View the FAQ to get it.">Если не нашли нужный Коннектор для своего провайдера, то смотрите FAQ как получить его.</string>
+  <string name="more_connectors_hint" formatted="false" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Ищите другие Коннекторы в Google Play. Перезапустите WebSMS после установки!</string>
   <string name="set_stdandard_connector_" formatted="false" orig="Set standard Connector">Установить стандартный Коннектор</string>
   <string name="set_stdandard_connector_hint" formatted="false" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Установить текущий Коннектор как стандартный. WebSMS переключится обратно автоматически.</string>
   <string name="clear_stdandard_connector_" formatted="false" orig="Clear standard Connector">Очистить стандартный Коннектор</string>

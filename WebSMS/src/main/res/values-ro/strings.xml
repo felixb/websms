@@ -38,9 +38,7 @@
   <string name="defprefix_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="e.g. +49">ex. +40 sau +373</string>
   <string name="more_apps_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="More Apps..">Alte Aplicații..</string>
   <string name="more_connectors_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="More Connectors..">Alți Conectori..</string>
-  <string name="more_connectors_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Caută mai mulți Conectori în Google Play Store. Repornește WebSMS după instalare!</string>
-  <string name="more_connectors__" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Even more Connectors..">Și mai mulți Conectori..</string>
-  <string name="more_connectors__hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Vă lipsește un Conector pentru careva serviciu? Vedeți FAQ-ul pentru a-l obține.</string>
+  <string name="more_connectors_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Caută mai mulți Conectori în Google Play Store. Repornește WebSMS după instalare!</string>
   <string name="standard_connector_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Standard Connector">Conector Standart</string>
   <string name="set_stdandard_connector_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Set standard Connector">Setează Conectorul standard</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Setează conectorul curent ca cel standart. WebSMS îl va seta înapoi în mod automat.</string>

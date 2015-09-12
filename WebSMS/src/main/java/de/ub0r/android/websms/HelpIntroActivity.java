@@ -18,23 +18,23 @@
  */
 package de.ub0r.android.websms;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
-
-import de.ub0r.android.lib.Market;
-
 /**
  * {@link SherlockActivity} showing intro.
- * 
+ *
  * @author flx
  */
 public final class HelpIntroActivity extends SherlockActivity implements
@@ -93,9 +93,8 @@ public final class HelpIntroActivity extends SherlockActivity implements
 			this.finish();
 			return;
 		case R.id.connectors:
-			Market.searchApp(this, "websms+connector",
-					"http://code.google.com/p/websmsdroid/downloads"
-							+ "/list?can=2&q=label%3AConnector");
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse("https://play.google.com/store/search?q=websms+connector")));
 			return;
 		case R.id.connectors_de:
 			Builder b = new Builder(this);
@@ -106,18 +105,13 @@ public final class HelpIntroActivity extends SherlockActivity implements
 								final int which) {
 							switch (which) {
 							case 0:
-								Market.installApp(
-										HelpIntroActivity.this,
-										"de.ub0r.android.websms.connector.smsflatratenet",
-										"http://code.google.com/p/websmsdroid/downloads/list?can=3&q=smsflatrate");
-								break;
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "https://play.google.com/store/apps/details?id=de.ub0r.android.websms.connector.smsflatratenet")));
+                                break;
 							case 1:
-								Market.searchApp(
-										HelpIntroActivity.this,
-										"websms+connector",
-										"http://code.google.com/p/websmsdroid/downloads"
-												+ "/list?can=2&q=label%3AConnector");
-								break;
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "https://play.google.com/store/search?q=websms+connector")));
+                                break;
 							default:
 								throw new IllegalStateException(
 										"invalid option selected: " + which);

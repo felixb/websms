@@ -33,9 +33,7 @@
 	<string name="defprefix_hint">e.g. +49</string>
 	<string name="more_apps_">More Apps..</string>
 	<string name="more_connectors_">More Connectors..</string>
-	<string name="more_connectors_hint">Look for more Connectors in Market. Restart WebSMS after installing!</string>
-	<string name="more_connectors__">Even more Connectors..</string>
-	<string name="more_connectors__hint">You are missing a connector for some service? View the FAQ to get it.</string>
+	<string name="more_connectors_hint">Look for more Connectors in Google Play. Restart WebSMS after installing!</string>
 	<string name="standard_connector_">Standard Connector</string>
 	<string name="set_stdandard_connector_">Set standard Connector</string>
 	<string name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>

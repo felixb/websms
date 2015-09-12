@@ -37,9 +37,7 @@
   <string name="defprefix_hint" formatted="false" username="Ukrainian" orig="e.g. +49">напр. +380</string>
   <string name="more_apps_" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="More Apps..">Більше програм...</string>
   <string name="more_connectors_" formatted="false" username="Ukrainian" orig="More Connectors..">Більше Приєднувачів...</string>
-  <string name="more_connectors_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Шукайте інші Приєднувачі у Маркеті. Перевантажте WebSMS після встановлення!</string>
-  <string name="more_connectors__" formatted="false" username="Ukrainian" orig="Even more Connectors..">Ще більше Приєднувачів...</string>
-  <string name="more_connectors__hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">У вас немає приєднувача для деяких сервісів? Пергляньте ЧАП аби отримати їх.</string>
+  <string name="more_connectors_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Шукайте інші Приєднувачі у Маркеті. Перевантажте WebSMS після встановлення!</string>
   <string name="standard_connector_" formatted="false" username="rkononenko" orig="Standard Connector">Стандартний Приєднувач</string>
   <string name="set_stdandard_connector_" formatted="false" username="rkononenko" orig="Set standard Connector">Встановити стандартний Приєднувач</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Андрій Бандура  &lt;andriykopanytsya@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Зробити поточний Приєднувач як стандартний. WebSMS перемкнеться автоматично</string>

@@ -22,7 +22,7 @@
        -->
 <resources>
   <string name="about_" formatted="false" orig="About">Über</string>
-  <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Market.</string>
+  <string name="about" formatted="false" username="Andi &lt;communities@andi-fr.de&gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">Mit WebSMS kannst du sehr günstige bzw. kostenlose SMS via Webservices verschicken. Es werden viele verschiedene Provider unterstützt. In den Einstellungen findest du den Link zu den Connectoren im Google Play.</string>
   <string name="about_hint" formatted="false">Über diese App</string>
   <string name="faq_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Some tips and tricks, how to set up this app.">Ein paar Tipps und Tricks, wie man diese App konfiguriert.</string>
   <string name="feedback_" formatted="false">Feedback</string>
@@ -37,9 +37,7 @@
   <string name="defprefix_hint" formatted="false">z.B. +49</string>
   <string name="more_apps_" formatted="false">Mehr Apps..</string>
   <string name="more_connectors_" formatted="false">Mehr Connectoren..</string>
-  <string name="more_connectors_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Suche nach Connectoren im Market. Starte WebSMS neu nach der Installation!</string>
-  <string name="more_connectors__" formatted="false">Noch mehr Connectoren..</string>
-  <string name="more_connectors__hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Du kennst einen Service ohne einen passenden Connector? Erfahre, wie man ihn bekommt.</string>
+  <string name="more_connectors_hint" formatted="false" username="Schiri &lt;schirinowski@gmail.com&gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Suche nach Connectoren im Market. Starte WebSMS neu nach der Installation!</string>
   <string name="set_stdandard_connector_" formatted="false">Standard Connector setzen</string>
   <string name="set_stdandard_connector_hint" formatted="false">Setze den aktuellen Connector als Standard.</string>
   <string name="clear_stdandard_connector_" formatted="false">Standard Connector löschen</string>

@@ -55,13 +55,6 @@
             android:key="more_connectors"
             android:summary="@string/more_connectors_hint"
             android:title="@string/more_connectors_" />
-        <PreferenceScreen
-            android:summary="@string/more_connectors__hint"
-            android:title="@string/more_connectors__" >
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="http://code.google.com/p/websmsdroid/wiki/ConnectorsFAQ" />
-        </PreferenceScreen>
     </PreferenceCategory>
 
 </PreferenceScreen>

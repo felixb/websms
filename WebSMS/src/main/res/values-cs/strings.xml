@@ -23,7 +23,7 @@
 <resources>
   <string name="about_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="About">O aplikaci</string>
   <string name="about_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="About this app">O této aplikaci</string>
-  <string name="about" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS umožňuje bezplatně a levně odesílat SMS přes webové služby. Podporuje mnoho poskytovatelů, jejichž seznam a možnost stažení najdete na Marketu v nastavení WebSMS.</string>
+  <string name="about" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.">WebSMS umožňuje bezplatně a levně odesílat SMS přes webové služby. Podporuje mnoho poskytovatelů, jejichž seznam a možnost stažení najdete na Google Play v nastavení WebSMS.</string>
   <string name="faq_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Some tips and tricks, how to set up this app.">Tipy a triky pro nastavení aplikace.</string>
   <string name="feedback_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Feedback">Zpětná vazba</string>
   <string name="feedback_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Report bugs, request features ...">Zprávy o chybách, požadavky na nové funkce...</string>
@@ -37,9 +37,7 @@
   <string name="defprefix_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="e.g. +49">např. +420</string>
   <string name="more_apps_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="More Apps..">Více aplikací</string>
   <string name="more_connectors_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="More Connectors..">Více rozhraní..</string>
-  <string name="more_connectors_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Najděte více rozhraní na Marketu. Restartujte WebSMS po instalaci!</string>
-  <string name="more_connectors__" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Even more Connectors..">Ještě více rozhraní..</string>
-  <string name="more_connectors__hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Chybí Vám rozhraní některé webové služby? Přečtěte si FAQ pro jeho získání.</string>
+  <string name="more_connectors_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Najděte více rozhraní na Marketu. Restartujte WebSMS po instalaci!</string>
   <string name="standard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Standard Connector">Základní rozhraní</string>
   <string name="set_stdandard_connector_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Set standard Connector">Nastavit základní rozhraní</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Nastavit aktuální rozhraní jako základní rozhraní. WebSMS se automaticky nastaví.</string>

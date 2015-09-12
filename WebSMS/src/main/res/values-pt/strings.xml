@@ -33,9 +33,7 @@
   <string name="defprefix_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="e.g. +49">ex.: +351</string>
   <string name="more_apps_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="More Apps..">Mais aplicações...</string>
   <string name="more_connectors_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="More Connectors..">Mais conectores...</string>
-  <string name="more_connectors_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Procure os conectores na Google Play Store. Reinicie o WebSMS após a instalação!</string>
-  <string name="more_connectors__" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Even more Connectors..">Ainda mais conectores...</string>
-  <string name="more_connectors__hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Precisa de algum conector não disponível? Aceda às FAQ para saber mais...</string>
+  <string name="more_connectors_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Procure os conectores na Google Play Store. Reinicie o WebSMS após a instalação!</string>
   <string name="standard_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Standard Connector">Conector padrão</string>
   <string name="set_stdandard_connector_" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set standard Connector">Definir conector padrão</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Sérgio Marques &lt;smarquespt@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Definir conector atual como padrão. O WebSMS irá ativar o conector automaticamente.</string>

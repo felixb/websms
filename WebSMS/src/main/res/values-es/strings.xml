@@ -22,7 +22,7 @@
        -->
 <resources>
   <string name="about_" formatted="false">Acerca de</string>
-  <string name="about" formatted="false">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Market en el menú de preferencias de WebSMS.</string>
+  <string name="about" formatted="false">WebSMS le permite enviar SMS gratis y/o económicos a través de servicios web. Existen multitud de proveedores soportados. Encuentre el enlace para obtenerlos del Google Play en el menú de preferencias de WebSMS.</string>
   <string name="about_hint" formatted="false">Acerca de esta aplicación</string>
   <string name="faq_hint" formatted="false">Algunos trucos y consejos acerca de cómo configurar esta aplicación.</string>
   <string name="feedback_" formatted="false" orig="Feedback">Danos tu opinión</string>
@@ -36,9 +36,7 @@
   <string name="defprefix_hint" formatted="false">ej: +34</string>
   <string name="more_apps_" formatted="false">Más Aplicaciones..</string>
   <string name="more_connectors_" formatted="false">Más Conectores..</string>
-  <string name="more_connectors_hint" formatted="false">Busque más Conectores en el Market. ¡Reinicie WebSMS después de instalarlos!</string>
-  <string name="more_connectors__" formatted="false">Aún más Conectores..</string>
-  <string name="more_connectors__hint" formatted="false">¿Echa en falta conectores para algún servicio? Lea el FAQ para conseguirlos.</string>
+  <string name="more_connectors_hint" formatted="false">Busque más Conectores en el Google Play. ¡Reinicie WebSMS después de instalarlos!</string>
   <string name="set_stdandard_connector_" formatted="false">Set standard Connector</string>
   <string name="set_stdandard_connector_hint" formatted="false" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Establecer el conector actual como el predeterminado. WebSMS lo cambiará de nuevo automaticamente.</string>
   <string name="clear_stdandard_connector_" formatted="false" orig="Clear standard Connector">Borrar el conector estandar</string>

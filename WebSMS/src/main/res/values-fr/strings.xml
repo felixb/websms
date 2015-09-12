@@ -37,9 +37,7 @@
   <string name="defprefix_hint" formatted="false" username="Mayako Lyyn &lt;lyynou@gmail.com&gt;" orig="e.g. +49">ex. +41</string>
   <string name="more_apps_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="More Apps..">Plus d\'applications...</string>
   <string name="more_connectors_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="More Connectors..">Plus de connecteurs...</string>
-  <string name="more_connectors_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Look for more Connectors in Market. Restart WebSMS after installing!">Chercher d\'autres connecteurs sur le Play Store. Redémarrez WebSMS après installation.</string>
-  <string name="more_connectors__" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Even more Connectors..">Encore plus de connecteurs...</string>
-  <string name="more_connectors__hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="You are missing a connector for some service? View the FAQ to get it.">Vous ne trouvez pas le connecteur pour un service ? Consultez la FAQ pour l\'obtenir.</string>
+  <string name="more_connectors_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Look for more Connectors in Google Play. Restart WebSMS after installing!">Chercher d\'autres connecteurs sur le Play Store. Redémarrez WebSMS après installation.</string>
   <string name="standard_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Standard Connector">Connecteur standard</string>
   <string name="set_stdandard_connector_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Set standard Connector">Définir le connecteur standard</string>
   <string name="set_stdandard_connector_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Set current connector as standard Connector. WebSMS will switch back automatically.">Définir le connecteur courant comme connecteur standard. WebSMS reviendra automatiquement sur ce connecteur.</string>
