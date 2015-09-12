@@ -21,6 +21,7 @@ package de.ub0r.android.websms;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -122,6 +123,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	public static final String DONATION_URL
 			= "https://play.google.com/store/apps/details?id=de.ub0r.android.donator";
 
+	private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-1948477123608376/2064558085";
+	private static final int INTERSTITIAL_ADS_RATION = 10;
+
 	/** Static reference to running Activity. */
 	private static WebSMS me;
 	/** Preference's name: user's phone number. */
@@ -189,6 +193,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Preference's name: standard sub connector. */
 	static final String PREFS_STANDARD_SUBCONNECTOR = "std_subconnector";
 
+	private static final String PREFS_ADS_COUNTER = "ads_counter";
+
 	/** Preference's name: to. */
 	private static final String EXTRA_TO = "to";
 	/** Preference's name: text. */
@@ -205,6 +211,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
+	private static boolean prefsShowAds = false;
+	private static boolean prefsInterstitialAd = false;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
 	/** Preferences: selected {@link SubConnectorSpec}. */
@@ -397,6 +405,8 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	private static boolean bShowExtras = true;
 
     private AdView mAdView;
+
+	private InterstitialAd mInterstitialAd;
 
     /**
 	 * Parse data pushed by {@link Intent}.
@@ -770,7 +780,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 
         mAdView = (AdView) findViewById(R.id.ads);
         mAdView.setVisibility(View.GONE);
-        if (!prefsNoAds) {
+        if (!prefsNoAds && prefsShowAds) {
             mAdView.loadAd(new AdRequest.Builder().build());
             mAdView.setAdListener(new AdListener() {
                 @Override
@@ -779,12 +789,35 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
                     super.onAdLoaded();
                 }
             });
-        } else {
+
+			mInterstitialAd = new InterstitialAd(this);
+			mInterstitialAd.setAdUnitId(INTERSTITIAL_AD_UNIT_ID);
+
+			mInterstitialAd.setAdListener(new AdListener() {
+				@Override
+				public void onAdClosed() {
+					requestNewInterstitial();
+				}
+			});
+
+			requestNewInterstitial();
+        } else if (prefsNoAds) {
 			findViewById(R.id.cookie_consent).setVisibility(View.GONE);
 		}
 	}
 
-    private boolean isNewVersion() {
+	private void requestNewInterstitial() {
+		if (prefsInterstitialAd) {
+			Log.d(TAG, "request new interstitial ad");
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice("2FD55F382A3E8A84879767A864A1397C")
+					.build();
+
+			mInterstitialAd.loadAd(adRequest);
+		}
+	}
+
+	private boolean isNewVersion() {
         SharedPreferences p = getPreferences(MODE_PRIVATE);
         if (BuildConfig.VERSION_CODE != p.getInt(LAST_RUN, 0)) {
             p.edit().putInt(LAST_RUN, BuildConfig.VERSION_CODE).apply();
@@ -1082,6 +1115,17 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY, false));
 
         prefsNoAds = DonationHelper.hideAds(this);
+		if (!prefsNoAds) {
+			int counter = p.getInt(PREFS_ADS_COUNTER, 15) - 1;
+			if (counter >= 0) {
+				Log.d(TAG, "write PREFS_ADS_COUNTER: " + counter);
+				p.edit().putInt(PREFS_ADS_COUNTER, counter).commit();
+			}
+			prefsShowAds = counter <= 0;
+			final long random = System.currentTimeMillis() % INTERSTITIAL_ADS_RATION;
+			prefsInterstitialAd = random == 0;
+
+		}
 		this.setButtons();
 	}
 
@@ -1718,7 +1762,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					j = x;
 				}
 				String t = et.getText().toString();
-                et.setText(t.substring(0, i) + e + t.substring(j));
+				et.setText(t.substring(0, i) + e + t.substring(j));
 				et.setSelection(i + e.length());
 				d.dismiss();
 				et.requestFocus();
@@ -2000,17 +2044,25 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
         if (sent) {
             this.reset(false);
             if (p.getBoolean(PREFS_AUTOEXIT, false)) {
-                try {
-                    Thread.sleep(SLEEP_BEFORE_EXIT);
-                } catch (InterruptedException e) {
-                    Log.e(TAG, null, e);
-                }
-                this.finish();
-            }
-            return true;
+				try {
+					Thread.sleep(SLEEP_BEFORE_EXIT);
+				} catch (InterruptedException e) {
+					Log.e(TAG, null, e);
+				}
+				this.finish();
+			} else  {
+				showInterstitial();
+			}
+			return true;
         }
         return false;
     }
+
+	private void showInterstitial() {
+		if  (prefsShowAds && prefsInterstitialAd && mInterstitialAd.isLoaded()) {
+			mInterstitialAd.show();
+		}
+	}
 
     /**
 	 * A Date was set.
