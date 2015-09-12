@@ -55,6 +55,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -91,7 +92,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.lib.DonationHelper;
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.websms.connector.common.Connector;
@@ -661,7 +661,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 				ArrayList<ConnectorSpec> cache;
 				cache = (ArrayList<ConnectorSpec>) (new ObjectInputStream(
 						new BufferedInputStream(new ByteArrayInputStream(
-								Base64Coder.decode(s)), BUFSIZE))).readObject();
+								Base64.decode(s, Base64.DEFAULT)), BUFSIZE))).readObject();
 				CONNECTORS.addAll(cache);
 				if (p.getBoolean(PREFS_AUTOUPDATE, true)) {
                     updateFreecount();
@@ -990,8 +990,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 					new BufferedOutputStream(out, BUFSIZE));
 			objOut.writeObject(CONNECTORS);
 			objOut.close();
-			final String s = String.valueOf(Base64Coder.encode(out
-					.toByteArray()));
+			final String s = Base64.encodeToString(out.toByteArray(), Base64.DEFAULT);
 			Log.d(TAG, s);
 			editor.putString(PREFS_CONNECTORS, s);
 		} catch (Exception e) {

@@ -18,8 +18,6 @@
  */
 package de.ub0r.android.websms.connector.sms;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -31,7 +29,10 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
-import de.ub0r.android.lib.Log;
+
+import java.util.ArrayList;
+
+import de.ub0r.android.logg0r.Log;
 import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;

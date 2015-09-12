@@ -3,6 +3,7 @@ package de.ub0r.android.websms.rules;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,7 +13,6 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 
-import de.ub0r.android.lib.Base64Coder;
 import de.ub0r.android.websms.ConnectorLabel;
 import de.ub0r.android.websms.R;
 import de.ub0r.android.websms.WebSMS;
@@ -193,7 +193,7 @@ public class PseudoConnectorRules {
                 try {
                     PseudoConnectorRules.rules = (List<Rule>)
                             new ObjectInputStream(
-                                    new ByteArrayInputStream(Base64Coder.decode(rulesStr)))
+                                    new ByteArrayInputStream(Base64.decode(rulesStr, Base64.DEFAULT)))
                             .readObject();
                 } catch (Exception e) {
                     Log.e(TAG, "Failed to load rules", e);
@@ -213,7 +213,7 @@ public class PseudoConnectorRules {
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             new ObjectOutputStream(baos).writeObject(newRules);
-            String rulesStr = new String(Base64Coder.encode(baos.toByteArray()));
+            String rulesStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
             prefs.edit()
                 .putString(PREFS_KEY_RULES_LIST, rulesStr)

@@ -18,27 +18,17 @@
  */
 package de.ub0r.android.websms;
 
+import com.actionbarsherlock.app.ActionBar;
+
 import android.app.Application;
 import android.content.res.Resources;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 
-import com.actionbarsherlock.app.ActionBar;
-
-import de.ub0r.android.lib.Log;
-
 /**
  * @author flx
  */
 public final class WebSMSApp extends Application {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		Log.init("WebSMS");
-	}
 
 	/**
 	 * Fix ActionBar background. See http://b.android.com/15340.

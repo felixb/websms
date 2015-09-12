@@ -39,8 +39,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import de.ub0r.android.lib.IPreferenceContainer;
-import de.ub0r.android.lib.Log;
 import de.ub0r.android.lib.Utils;
+import de.ub0r.android.logg0r.Log;
+import de.ub0r.android.logg0r.LogCollector;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -264,9 +265,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 		if (pr != null) {
 			pr.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(final Preference preference) {
-					Log.collectAndSendLog(pc.getActivity(), pc.getContext()
-							.getString(R.string.sendlog_install_), pc
-							.getContext().getString(R.string.sendlog_install),
+					LogCollector.collectAndSendLogs(pc.getContext(),
+							"android@ub0r.de",
+							pc.getContext().getString(R.string.sendlog_install_),
+							pc.getContext().getString(R.string.sendlog_install),
 							pc.getContext().getString(R.string.sendlog_run_),
 							pc.getContext().getString(R.string.sendlog_run));
 					return true;
