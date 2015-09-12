@@ -18,12 +18,12 @@
  */
 package de.ub0r.android.websms;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
@@ -46,7 +46,7 @@ public final class AboutActivity extends SherlockActivity {
 				R.drawable.bg_striped_img);
 		this.setTitle(this.getString(R.string.about_) + " "
 				+ this.getString(R.string.app_name) + " v"
-				+ this.getString(R.string.app_version));
+				+ BuildConfig.VERSION_NAME);
 		StringBuffer authors = new StringBuffer();
 		final ConnectorSpec[] css = WebSMS.getConnectors(
 				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE,

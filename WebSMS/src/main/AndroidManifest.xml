@@ -16,9 +16,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.ub0r.android.websms"
-          android:installLocation="auto"
-          android:versionCode="7471005"
-          android:versionName="4.9.1">
+          android:installLocation="auto">
 
     <supports-screens
             android:anyDensity="true"

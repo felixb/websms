@@ -111,7 +111,6 @@
   <string name="vibrate_on_fail" formatted="false" orig="Vibrate if sending fails">Вибрировать при ошибке</string>
   <string name="vibrate_on_send" formatted="false" orig="Vibrate after sending">Вибрировать после отправки</string>
   <string name="sound_on_fail" formatted="false" orig="Play sound if sending fails">Звуковой сигнал при ошибке</string>
-  <string name="source_" formatted="false" orig="Sourcescode:" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;">Исходный код:</string>
   <string name="website_" formatted="false" username="Dmitriy Rublev &lt;kaktebyavirubit@gmail.com&gt;" orig="Website:">Веб-сайт:</string>
   <string name="to_hint" formatted="false" orig="Name or Number">Кому:</string>
   <string name="text_hint" formatted="false" orig="Text">Введите текст</string>

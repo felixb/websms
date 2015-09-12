@@ -113,7 +113,6 @@
   <string name="vibrate_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate if sending fails">Vibra all\'invio fallito</string>
   <string name="vibrate_on_send" formatted="false" username="carloraudino@fedoraproject.org" orig="Vibrate after sending">Vibra dopo l\'invio</string>
   <string name="sound_on_fail" formatted="false" username="carloraudino@fedoraproject.org" orig="Play sound if sending fails">Suono d\'avviso all\'invio fallito</string>
-  <string name="source_" formatted="false" username="carloraudino@fedoraproject.org" orig="Sourcescode:">Codice sorgente:</string>
   <string name="website_" formatted="false" username="carloraudino@fedoraproject.org" orig="Website:">Sito web:</string>
   <string name="to_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Name or Number">Nome o numero</string>
   <string name="text_hint" formatted="false" username="carloraudino@fedoraproject.org" orig="Text">Testo</string>

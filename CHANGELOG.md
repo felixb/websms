@@ -1,5 +1,10 @@
 # Changes
 
+##v4.9.2
+* add EU cookie consent banner
+* update translations
+* link to new website
+
 ##v4.9.1
 * fix connector cache
 * fix FC on Android 5.0

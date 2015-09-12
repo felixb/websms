@@ -17,9 +17,7 @@
 <resources>
 
     <string name="app_name" translatable="false">WebSMS</string>
-    <string name="app_version" translatable="false">4.9.1</string>
     <string name="website" translatable="false">http://github.com/felixb/websms</string>
-    <string name="source" translatable="false">http://github.com/felixb/websms</string>
     <string name="faq_" translatable="false">FAQ</string>
     <string name="google_plus_" translatable="false">Google+</string>
     <string name="author0" translatable="false">Felix Bechstein &lt;f@ub0r.de&gt;\nLado Kumsiashvili &lt;herrlado@gmail.com&gt;\nFintan Fairmichael &lt;fintanf@gmail.com&gt;\nJake Wharton &lt;https://github.com/JakeWharton/ActionBarSherlock/&gt; (ActionBar)\nRobert Priebs &lt;rpriebs@gmail.com&gt; (emoticons)\ncore.equip http://corequip.de (icons)\nAlfonso Picón &lt;apictor@gmail.com&gt; (Spanish)\nBéres Tamás &lt;berestamas2@gmail.com&gt; (Hungarian)\nXim &lt;ximonline@gmail.com&gt; (Russian)\nLaurentiu Lozan &lt;lozanro@gmail.com&gt; (Romanian)\nand many more&#8320;</string>

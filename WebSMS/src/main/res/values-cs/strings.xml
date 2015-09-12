@@ -129,7 +129,6 @@
   <string name="signature_hint" formatted="false" orig="Text attached on every message. No extra spacing is done. Start signature with \&quot; \&quot; if needed.">Podpis je připojen je každé zprávě. Nepřidává žádné další mezery. Pokud potřebujete přidat podpis dříve, uveďte \" \".</string>
   <string name="autoupdate_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Autoupdate">Automatický stav kreditu</string>
   <string name="autoupdate_hint" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Update account balances on start.">Aktualizovat stav kreditu po spuštění.</string>
-  <string name="source_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Sourcescode:">Zdrojový kód:</string>
   <string name="flashsms" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Flash SMS">Flash SMS</string>
   <string name="custom_sender" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Custom sender">Vlastní odesílatel</string>
   <string name="captcha_" formatted="false" username="Petr &lt; svobodnik.petr@gmail.com &gt;" orig="Captcha">Captcha</string>
