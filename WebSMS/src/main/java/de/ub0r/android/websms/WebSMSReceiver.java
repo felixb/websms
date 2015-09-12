@@ -20,7 +20,6 @@ package de.ub0r.android.websms;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -38,6 +37,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.Telephony;
+import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -141,6 +142,8 @@ public final class WebSMSReceiver extends BroadcastReceiver {
      * SMS DB: type - draft.
      */
     static final int MESSAGE_TYPE_DRAFT = 3;
+
+    public static final long[] VIBRATE_ON_FAIL_PATTERN = {0, 100, 100, 100, 100};
 
     /**
      * Next notification ID.
@@ -337,9 +340,7 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         String to = Utils.joinRecipients(command.getRecipients(), ", ");
 
-        Notification n = new Notification(R.drawable.stat_notify_sms_failed,
-                context.getString(R.string.notify_failed_),
-                System.currentTimeMillis());
+
         final Intent i = new Intent(Intent.ACTION_SENDTO,
                 Uri.parse(INTENT_SCHEME_SMSTO + ":" + Uri.encode(to)), context,
                 WebSMS.class);
@@ -349,35 +350,30 @@ public final class WebSMSReceiver extends BroadcastReceiver {
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
         final PendingIntent cIntent = PendingIntent.getActivity(context, 0, i,
                 PendingIntent.FLAG_CANCEL_CURRENT);
-        n.setLatestEventInfo(context, context.getString(R.string.notify_failed)
-                        + " " + specs.getErrorMessage(), to + ": " + command.getText(),
-                cIntent
-        );
-        n.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        n.flags |= Notification.FLAG_SHOW_LIGHTS;
-        n.ledARGB = NOTIFICATION_LED_COLOR;
-        n.ledOnMS = NOTIFICATION_LED_ON;
-        n.ledOffMS = NOTIFICATION_LED_OFF;
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.stat_notify_sms_failed)
+                .setContentTitle(context.getString(R.string.notify_failed)
+                        + " " + specs.getErrorMessage())
+                .setContentText(to + ": " + command.getText())
+                .setTicker(context.getString(R.string.notify_failed_))
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(cIntent)
+                .setAutoCancel(true)
+                .setLights(NOTIFICATION_LED_COLOR, NOTIFICATION_LED_ON, NOTIFICATION_LED_OFF);
 
-        final boolean vibrateOnFail = p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE,
-                false);
         final String s = p.getString(WebSMS.PREFS_FAIL_SOUND, null);
-        Uri soundOnFail;
-        if (s == null || s.length() <= 0) {
-            soundOnFail = null;
-        } else {
-            soundOnFail = Uri.parse(s);
+        if (!TextUtils.isEmpty(s)) {
+            b.setSound(Uri.parse(s));
         }
 
-        if (vibrateOnFail) {
-            n.defaults |= Notification.DEFAULT_VIBRATE;
+        if (p.getBoolean(WebSMS.PREFS_FAIL_VIBRATE, false)) {
+            b.setVibrate(VIBRATE_ON_FAIL_PATTERN);
         }
-        n.sound = soundOnFail;
 
         NotificationManager mNotificationMgr = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationMgr.notify(getNotificationID(), n);
+        mNotificationMgr.notify(getNotificationID(), b.build());
 
         // show a toast as well
         final String em = specs.getErrorMessage();
@@ -397,27 +393,26 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         long msgId = command.getMsgId();
 
-        Notification n = new Notification(R.drawable.stat_notify_resending,
-                context.getString(R.string.notify_failed_now_resending),
-                System.currentTimeMillis());
-
         // Clicking on the notification will send a cancellation request
         final Intent i = new Intent(Connector.ACTION_CANCEL);
         command.setToIntent(i);
         PendingIntent pIntent = PendingIntent.getBroadcast(context,
                 (int) msgId, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        n.setLatestEventInfo(context,
-                context.getString(R.string.resending_failed_msg_),
-                getResendSummary(context, command), pIntent);
 
-        n.flags |= Notification.FLAG_NO_CLEAR;
-        n.flags |= Notification.FLAG_ONGOING_EVENT;
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.stat_notify_resending)
+                .setContentTitle(context.getString(R.string.resending_failed_msg_))
+                .setContentText(getResendSummary(context, command))
+                .setContentIntent(pIntent)
+                .setTicker(context.getString(R.string.notify_failed_now_resending))
+                .setWhen(System.currentTimeMillis())
+                .setOngoing(true);
 
         NotificationManager mNotificationMgr = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         // There might be several messages being resent,
         // so we use msgId to distinguish them
-        mNotificationMgr.notify(NOTIFICATION_RESENDING_TAG, (int) msgId, n);
+        mNotificationMgr.notify(NOTIFICATION_RESENDING_TAG, (int) msgId, b.build());
     }
 
     /**
@@ -431,26 +426,24 @@ public final class WebSMSReceiver extends BroadcastReceiver {
 
         long msgId = command.getMsgId();
 
-        Notification n = new Notification(R.drawable.stat_notify_resending,
-                context.getString(R.string.cancelling_resend),
-                System.currentTimeMillis());
-
         // on click, do nothing
         PendingIntent pIntent = PendingIntent.getActivity(context, (int) msgId,
                 new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
-        n.setLatestEventInfo(context,
-                context.getString(R.string.cancelling_resend),
-                getResendSummary(context, command), pIntent);
-
-        n.flags |= Notification.FLAG_AUTO_CANCEL;
-        n.flags |= Notification.FLAG_ONGOING_EVENT;
+        NotificationCompat.Builder b = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.stat_notify_resending)
+                .setContentTitle(context.getString(R.string.cancelling_resend))
+                .setContentText(getResendSummary(context, command))
+                .setTicker(context.getString(R.string.cancelling_resend))
+                .setWhen(System.currentTimeMillis())
+                .setOngoing(true)
+                .setContentIntent(pIntent);
 
         NotificationManager mNotificationMgr = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationMgr.cancel(NOTIFICATION_RESENDING_TAG, (int) msgId);
         mNotificationMgr.notify(NOTIFICATION_CANCELLING_RESEND_TAG,
-                (int) msgId, n);
+                (int) msgId, b.build());
     }
 
     /**
