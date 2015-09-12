@@ -779,7 +779,9 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
                     super.onAdLoaded();
                 }
             });
-        }
+        } else {
+			findViewById(R.id.cookie_consent).setVisibility(View.GONE);
+		}
 	}
 
     private boolean isNewVersion() {
