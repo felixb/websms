@@ -114,10 +114,13 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	/** Tag for output. */
 	public static final String TAG = "main";
 
-    private static final String LAST_RUN = "last_run";
+	private static final String LAST_RUN = "last_run";
 
 	/** Default SMS length calculator. */
 	private static final SMSLengthCalculator SMS_LENGTH_CALCULATOR = new DefaultSMSLengthCalculator();
+
+	public static final String DONATION_URL
+			= "https://play.google.com/store/apps/details?id=de.ub0r.android.donator";
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -1600,13 +1603,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 			return true;
 		case R.id.item_donate:
-			DonationHelper.showDonationDialog(
-					this,
-					this.getString(R.string.donate),
-					this.getString(R.string.donate_),
-					this.getString(R.string.did_paypal_donation),
-					this.getResources().getStringArray(
-							R.array.donation_messages_market));
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(DONATION_URL)));
 			return true;
 		case R.id.item_connector:
 			this.changeConnectorMenu();
