@@ -117,7 +117,6 @@
   <string name="vibrate_on_fail" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Vibrate if sending fails">Vibrer en cas d\'échec d\'envoi</string>
   <string name="vibrate_on_send" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Vibrate after sending">Vibrer après envoi réussi</string>
   <string name="sound_on_fail" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Play sound if sending fails">Signal sonore en cas d\'échec d\'envoi</string>
-  <string name="source_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Sourcescode:">Code source :</string>
   <string name="website_" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Website:">Site web :</string>
   <string name="to_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Name or Number">Nom ou numéro</string>
   <string name="text_hint" formatted="false" username="Christian Knecht &lt;g.chrisk@gmail.com&gt;" orig="Text">Texte</string>

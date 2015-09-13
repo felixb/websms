@@ -117,7 +117,6 @@
   <string name="vibrate_on_fail" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Vibrate if sending fails">Vibrează dacă trimiterea eșuează.</string>
   <string name="vibrate_on_send" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Vibrate after sending">Vibrează după trimitere</string>
   <string name="sound_on_fail" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Play sound if sending fails">Reproduce un sunet la eșuare</string>
-  <string name="source_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Sourcescode:">Surse:</string>
   <string name="website_" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Website:">Sit web:</string>
   <string name="to_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Name or Number">Nume sau Număr</string>
   <string name="text_hint" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Text">Text</string>

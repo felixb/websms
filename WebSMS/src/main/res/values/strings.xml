@@ -159,7 +159,6 @@
 	<string name="sendlog_install_">Install SendLog</string>
 	<string name="sendlog_install">Install the free SendLog application to collect the device log and send it to the developer.</string>
 	<string name="website_">Website:</string>
-	<string name="source_">Sourcescode:</string>
 	<string name="max_resend_count_">Max resend attempts</string>
 	<string name="max_resend_count_hint">Maximum number of attempts to resend a failed message.</string>
 	<string name="notify_failed_now_resending">WebSMS: sending failed, resending</string>

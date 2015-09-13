@@ -130,7 +130,6 @@
   <string name="vibrate_on_fail" formatted="false" username="rkononenko" orig="Vibrate if sending fails">Вібрувати якщо відправлення зазнало невдачі.</string>
   <string name="vibrate_on_send" formatted="false" username="rkononenko" orig="Vibrate after sending">Вібрувати після відправлення</string>
   <string name="sound_on_fail" formatted="false" username="rkononenko" orig="Play sound if sending fails">Програвати мелодію якщо відправлення зазнало невдачі.</string>
-  <string name="source_" formatted="false" username="rkononenko" orig="Sourcescode:">Джерелокоду:</string>
   <string name="website_" formatted="false" username="rkononenko" orig="Website:">Вебсайт:</string>
   <string name="to_hint" formatted="false" username="rkononenko" orig="Name or Number">Ім\'я або номер</string>
   <string name="text_hint" formatted="false" username="rkononenko" orig="Text">Текст</string>

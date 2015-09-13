@@ -100,7 +100,6 @@
   <string name="vibrate_on_fail" formatted="false">Vibrar si falla el envío</string>
   <string name="vibrate_on_send" formatted="false">Vibrar despues de enviar el mensaje</string>
   <string name="sound_on_fail" formatted="false">Reproducir sonido si falla el envío</string>
-  <string name="source_" formatted="false">Código fuente:</string>
   <string name="website_" formatted="false">Página web:</string>
   <string name="to_hint" formatted="false">Nombre o Número</string>
   <string name="text_hint" formatted="false">Texto</string>

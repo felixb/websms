@@ -106,7 +106,6 @@
   <string name="vibrate_on_fail" formatted="false">Vibrálás hibás küldésnél</string>
   <string name="vibrate_on_send" formatted="false">Vibrálás küldés után</string>
   <string name="sound_on_fail" formatted="false">Hang hibás küldés esetén.</string>
-  <string name="source_" formatted="false">Forráskód:</string>
   <string name="website_" formatted="false">Weboldal:</string>
   <string name="to_hint" formatted="false">Név vagy szám</string>
   <string name="text_hint" formatted="false">Szöveg</string>

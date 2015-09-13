@@ -22,6 +22,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
+        versionName '4.9.2'
+        versionCode 9492000
         buildConfigField 'boolean', 'DEBUG_LOG', 'true'
     }
 
