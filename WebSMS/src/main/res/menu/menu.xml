@@ -14,42 +14,44 @@
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_update"
-        android:icon="@drawable/ic_menu_refresh"
-        android:showAsAction="always"
-        android:title="@string/update_"/>
+            android:id="@+id/item_update"
+            android:title="@string/update_"
+            android:icon="@drawable/ic_menu_refresh"
+            app:showAsAction="always"/>
     <item
-        android:id="@+id/item_connector"
-        android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="ifRoom"
-        android:title="@string/change_connector_"/>
+            android:id="@+id/item_connector"
+            android:title="@string/change_connector_"
+            android:icon="@android:drawable/ic_menu_share"
+            app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/item_send"
-        android:icon="@drawable/ic_menu_send"
-        android:showAsAction="always"
-        android:title="@string/send_"/>
+            android:id="@+id/item_send"
+            android:title="@string/send_"
+            android:icon="@drawable/ic_menu_send"
+            app:showAsAction="always"/>
     <item
-        android:id="@+id/item_draft"
-        android:icon="@android:drawable/ic_menu_save"
-        android:showAsAction="never"
-        android:title="@string/save_draft_"/>
+            android:id="@+id/item_draft"
+            android:title="@string/save_draft_"
+            android:icon="@android:drawable/ic_menu_save"
+            app:showAsAction="never"/>
     <item
-        android:id="@+id/item_savechars"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
-        android:showAsAction="never"
-        android:title="@string/save_chars_"/>
+            android:id="@+id/item_savechars"
+            android:title="@string/save_chars_"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
+            app:showAsAction="never"/>
     <item
-        android:id="@+id/item_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:showAsAction="never"
-        android:title="@string/settings"/>
+            android:id="@+id/item_settings"
+            android:title="@string/settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            app:showAsAction="never"/>
     <item
-        android:id="@+id/item_donate"
-        android:icon="@drawable/ic_menu_star"
-        android:showAsAction="never"
-        android:title="@string/donate_remove_ads_"/>
+            android:id="@+id/item_donate"
+            android:title="@string/donate_remove_ads_"
+            android:icon="@drawable/ic_menu_star"
+            app:showAsAction="never"/>
 
 </menu>

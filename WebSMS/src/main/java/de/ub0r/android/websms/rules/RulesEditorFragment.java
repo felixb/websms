@@ -3,8 +3,14 @@ package de.ub0r.android.websms.rules;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,12 +18,6 @@ import android.widget.BaseAdapter;
 import android.widget.Checkable;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import de.ub0r.android.websms.WebSMS;
 /**
  * Rules Editor fragment.
  */
-public class RulesEditorFragment extends SherlockListFragment {
+public class RulesEditorFragment extends ListFragment {
 
     private static final String SAVE_RULES                = "RulesEditorFragment$rules";
     private static final String SAVE_ACTION_MODE_RULE_IDX = "RulesEditorFragment$actionModeRuleIdx";
@@ -65,7 +65,8 @@ public class RulesEditorFragment extends SherlockListFragment {
             this.actionModeRuleIdx = savedInstanceState.getInt(SAVE_ACTION_MODE_RULE_IDX);
 
             if (this.actionModeRuleIdx != -1) {
-                this.actionMode = getSherlockActivity().startActionMode(new ActionModeCallback());
+                this.actionMode = ((AppCompatActivity) getActivity())
+                        .startSupportActionMode(new ActionModeCallback());
             }
         }
     }
@@ -97,7 +98,8 @@ public class RulesEditorFragment extends SherlockListFragment {
                     return false;
                 }
                 actionModeRuleIdx = position;
-                actionMode = getSherlockActivity().startActionMode(new ActionModeCallback());
+                actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(
+                        new ActionModeCallback());
                 getListAdapter().notifyDataSetChanged();    // to update selection
                 return true;
             }
@@ -145,8 +147,7 @@ public class RulesEditorFragment extends SherlockListFragment {
             case R.id.help:
                 startActivity(
                         HelpHtmlActivity.createStartIntent(getActivity().getApplicationContext(),
-                                getString(R.string.help_html_title,
-                                        getSherlockActivity().getSupportActionBar().getTitle()),
+                                getString(R.string.help_html_title, getActivity().getTitle()),
                                 getString(R.string.rules_editor_help)));
                 return true;
         }
@@ -181,7 +182,6 @@ public class RulesEditorFragment extends SherlockListFragment {
         }
     }
 
-
     private void filterValidRules() {
         List<Rule> filteredRules = new ArrayList<Rule>(this.rules.size());
         for (Rule rule : this.rules) {
@@ -204,12 +204,11 @@ public class RulesEditorFragment extends SherlockListFragment {
     }
 
 
-    private final class ActionModeCallback
-            implements ActionMode.Callback {
+    private final class ActionModeCallback implements ActionMode.Callback {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            getSherlockActivity().getSupportMenuInflater()
+            getActivity().getMenuInflater()
                 .inflate(R.menu.rules_editor_context_menu, menu);
             return true;
         }
@@ -230,32 +229,32 @@ public class RulesEditorFragment extends SherlockListFragment {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            if (item.getItemId() == R.id.rule_delete) {
-                rules.remove(actionModeRuleIdx);
-                actionModeRuleIdx = -1;
-                mode.finish();
-                getListAdapter().notifyDataSetChanged();
-                return true;
-
-            } else if (item.getItemId() == R.id.rule_up) {
-                if (actionModeRuleIdx > 0) {
-                    Rule rule = rules.remove(actionModeRuleIdx);
-                    --actionModeRuleIdx;
-                    rules.add(actionModeRuleIdx, rule);
+            switch (item.getItemId()) {
+                case R.id.rule_delete:
+                    rules.remove(actionModeRuleIdx);
+                    actionModeRuleIdx = -1;
+                    mode.finish();
                     getListAdapter().notifyDataSetChanged();
-                }
-                return true;
-
-            } else if (item.getItemId() == R.id.rule_down) {
-                if (actionModeRuleIdx < rules.size() - 1) {
-                    Rule rule = rules.remove(actionModeRuleIdx);
-                    ++actionModeRuleIdx;
-                    rules.add(actionModeRuleIdx, rule);
-                    getListAdapter().notifyDataSetChanged();
-                }
-                return true;
+                    return true;
+                case R.id.rule_up:
+                    if (actionModeRuleIdx > 0) {
+                        Rule rule = rules.remove(actionModeRuleIdx);
+                        --actionModeRuleIdx;
+                        rules.add(actionModeRuleIdx, rule);
+                        getListAdapter().notifyDataSetChanged();
+                    }
+                    return true;
+                case R.id.rule_down:
+                    if (actionModeRuleIdx < rules.size() - 1) {
+                        Rule rule = rules.remove(actionModeRuleIdx);
+                        ++actionModeRuleIdx;
+                        rules.add(actionModeRuleIdx, rule);
+                        getListAdapter().notifyDataSetChanged();
+                    }
+                    return true;
+                default:
+                    return false;
             }
-            return false;
         }
     }
 

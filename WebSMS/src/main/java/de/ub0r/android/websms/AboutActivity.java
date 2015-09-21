@@ -18,68 +18,59 @@
  */
 package de.ub0r.android.websms;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 
 /**
  * Display About Activity.
- * 
+ *
  * @author flx
  */
-public final class AboutActivity extends SherlockActivity {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.about);
-		this.getSupportActionBar().setHomeButtonEnabled(true);
-		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
-				this.getResources(), R.drawable.bg_striped,
-				R.drawable.bg_striped_img);
-		this.setTitle(this.getString(R.string.about_) + " "
-				+ this.getString(R.string.app_name) + " v"
-				+ BuildConfig.VERSION_NAME);
-		StringBuffer authors = new StringBuffer();
-		final ConnectorSpec[] css = WebSMS.getConnectors(
-				ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE,
-                true /*isIncludePseudoConnectors*/);
-		String a;
-		for (ConnectorSpec cs : css) {
-			a = cs.getAuthor();
-			if (a != null && a.length() > 0) {
-				authors.append(cs.getName());
-				authors.append(":\t");
-				authors.append(a);
-				authors.append("\n");
-			}
-		}
-		a = null;
-		((TextView) this.findViewById(R.id.author_connectors)).setText(authors
-				.toString().trim());
-	}
+public final class AboutActivity extends AppCompatActivity {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in Action Bar clicked; go home
-			Intent intent = new Intent(this, WebSMS.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			this.startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.about);
+        this.setTitle(this.getString(R.string.about_) + " "
+                + this.getString(R.string.app_name));
+        getSupportActionBar().setSubtitle("v" + BuildConfig.VERSION_NAME);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        StringBuffer authors = new StringBuffer();
+        final ConnectorSpec[] css = WebSMS.getConnectors(
+                ConnectorSpec.CAPABILITIES_NONE, ConnectorSpec.STATUS_INACTIVE,
+                true /*isIncludePseudoConnectors*/);
+        String a;
+        for (ConnectorSpec cs : css) {
+            a = cs.getAuthor();
+            if (a != null && a.length() > 0) {
+                authors.append(cs.getName());
+                authors.append(":\t");
+                authors.append(a);
+                authors.append("\n");
+            }
+        }
+        a = null;
+        ((TextView) this.findViewById(R.id.author_connectors)).setText(authors
+                .toString().trim());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in Action Bar clicked; go home
+                Intent intent = new Intent(this, WebSMS.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

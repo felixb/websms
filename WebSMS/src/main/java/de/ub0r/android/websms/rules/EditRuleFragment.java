@@ -1,10 +1,14 @@
 package de.ub0r.android.websms.rules;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,11 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-
-import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -31,7 +30,7 @@ import de.ub0r.android.websms.WebSMS;
  * Fragment for editing new or existing rules.
  */
 public class EditRuleFragment
-        extends SherlockDialogFragment
+        extends AppCompatDialogFragment
         implements ConfirmDialogFragment.DialogListener {
 
     private static final String ARG_RULE_IDX = "rule_idx";
@@ -249,8 +248,7 @@ public class EditRuleFragment
             case R.id.help:
                 this.startActivity(
                     HelpHtmlActivity.createStartIntent(getActivity().getApplicationContext(),
-                            getString(R.string.help_html_title,
-                                    getSherlockActivity().getSupportActionBar().getTitle()),
+                            getString(R.string.help_html_title, getActivity().getTitle()),
                             getString(R.string.edit_rule_help)));
                 return true;
         }
@@ -327,7 +325,7 @@ public class EditRuleFragment
                     android.R.string.ok, android.R.string.cancel,
                     ConfirmDialogFragment.ACTION_OK,
                     this);
-            dialogFragment.show(getSherlockActivity().getSupportFragmentManager(),
+            dialogFragment.show(getActivity().getSupportFragmentManager(),
                     ConfirmDialogFragment.FRAG_TAG);
             return false;
         } else {

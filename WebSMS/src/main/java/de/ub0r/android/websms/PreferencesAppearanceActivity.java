@@ -29,9 +29,6 @@ import android.view.MenuItem;
  * @author flx
  */
 public class PreferencesAppearanceActivity extends PreferenceActivity {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,9 +37,6 @@ public class PreferencesAppearanceActivity extends PreferenceActivity {
 				+ this.getString(R.string.appearance_));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {

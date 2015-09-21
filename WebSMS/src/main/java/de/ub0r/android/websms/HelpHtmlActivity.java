@@ -3,14 +3,13 @@ package de.ub0r.android.websms;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
-
-import com.actionbarsherlock.app.SherlockActivity;
 
 /**
  * Activity for displaying html help pages.
  */
-public class HelpHtmlActivity extends SherlockActivity {
+public class HelpHtmlActivity extends AppCompatActivity {
 
     private static final String INTENT_TITLE = "title";
     private static final String INTENT_CONTENT   = "content";
@@ -26,8 +25,6 @@ public class HelpHtmlActivity extends SherlockActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.help_html);
-        WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
-                this.getResources(), R.drawable.bg_striped, R.drawable.bg_striped_img);
         this.setTitle(getIntent().getStringExtra(INTENT_TITLE));
 
         WebView webView = (WebView) findViewById(R.id.help_content);

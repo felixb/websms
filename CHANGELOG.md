@@ -1,5 +1,9 @@
 # Changes
 
+##v4.9.2.1
+* fix FC in rule editor
+* migrate from ActionBarSherlock to AppCompat
+
 ##v4.9.2
 * add EU cookie consent banner
 * update translations

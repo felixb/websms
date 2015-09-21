@@ -18,8 +18,10 @@
  */
 package de.ub0r.android.websms;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import de.ub0r.android.lib.IPreferenceContainer;
@@ -29,11 +31,9 @@ import de.ub0r.android.lib.IPreferenceContainer;
  * 
  * @author flx
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public final class HeaderPreferenceFragment extends PreferenceFragment
 		implements IPreferenceContainer {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,9 +49,6 @@ public final class HeaderPreferenceFragment extends PreferenceFragment
 		PreferencesActivity.registerOnPreferenceChangeListener(this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Context getContext() {
 		return this.getActivity();

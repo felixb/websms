@@ -2,8 +2,8 @@ package de.ub0r.android.websms.rules;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import de.ub0r.android.websms.R;
 /**
  * Rules Editor activity.
  */
-public class RulesEditorActivity extends SherlockFragmentActivity {
+public class RulesEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

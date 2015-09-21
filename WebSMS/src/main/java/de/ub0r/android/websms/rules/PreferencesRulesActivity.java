@@ -12,9 +12,6 @@ import de.ub0r.android.websms.WebSMS;
  */
 public class PreferencesRulesActivity extends PreferenceActivity {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @SuppressWarnings("deprecation")
     public final void onCreate(final Bundle savedInstanceState) {
@@ -23,9 +20,6 @@ public class PreferencesRulesActivity extends PreferenceActivity {
         this.setTitle(R.string.settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean onOptionsItemSelected(final android.view.MenuItem item) {
         switch (item.getItemId()) {

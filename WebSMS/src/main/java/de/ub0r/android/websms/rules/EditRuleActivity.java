@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.InputMethodManager;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import de.ub0r.android.websms.R;
 /**
  * Activity for editing new or existing rules.
  */
-public class EditRuleActivity extends SherlockFragmentActivity {
+public class EditRuleActivity extends AppCompatActivity {
 
     private static final String INTENT_RULE_IDX = "rule_idx";
     private static final String INTENT_RULE     = "rule";

@@ -173,9 +173,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 				.getDefaultSharedPreferences(context);
 		final String s = p.getString(PREFS_THEME, null);
 		if (s != null && THEME_BLACK.equals(s)) {
-			return R.style.Theme_SherlockWebSMS;
+			return R.style.Theme_WebSMS;
 		} else {
-			return R.style.Theme_SherlockWebSMS_Light;
+			return R.style.Theme_WebSMS_Light;
 		}
 	}
 

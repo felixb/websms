@@ -23,11 +23,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,6 +45,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -57,10 +53,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -110,7 +109,7 @@ import de.ub0r.android.websms.rules.PseudoConnectorRules;
  * 
  * @author flx
  */
-public class WebSMS extends SherlockActivity implements OnClickListener,
+public class WebSMS extends AppCompatActivity implements OnClickListener,
 		OnDateSetListener, OnTimeSetListener, OnLongClickListener {
 	/** Tag for output. */
 	public static final String TAG = "main";
@@ -773,12 +772,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 			}
 		}
 
-		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
-				this.getResources(), R.drawable.bg_striped,
-				R.drawable.bg_striped_img);
-
-
-        mAdView = (AdView) findViewById(R.id.ads);
+		mAdView = (AdView) findViewById(R.id.ads);
         mAdView.setVisibility(View.GONE);
         if (!prefsNoAds && prefsShowAds) {
             mAdView.loadAd(new AdRequest.Builder().build());
@@ -1426,7 +1420,7 @@ public class WebSMS extends SherlockActivity implements OnClickListener,
 	 */
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
-		this.getSupportMenuInflater().inflate(R.menu.menu, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		if (prefsNoAds) {
 			menu.removeItem(R.id.item_donate);
 		}

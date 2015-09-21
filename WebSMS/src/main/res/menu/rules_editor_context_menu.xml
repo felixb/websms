@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/rule_delete"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="@string/rule_delete"
-        android:showAsAction="always"/>
+          android:icon="@android:drawable/ic_menu_delete"
+          android:title="@string/rule_delete"
+          app:showAsAction="always"/>
 
     <item android:id="@+id/rule_up"
-        android:icon="@android:drawable/arrow_up_float"
-        android:title="@string/rule_up"
-        android:showAsAction="ifRoom"/>
+          android:icon="@android:drawable/arrow_up_float"
+          android:title="@string/rule_up"
+          app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/rule_down"
-        android:icon="@android:drawable/arrow_down_float"
-        android:title="@string/rule_down"
-        android:showAsAction="ifRoom"/>
+          android:icon="@android:drawable/arrow_down_float"
+          android:title="@string/rule_down"
+          app:showAsAction="ifRoom"/>
 
 </menu>

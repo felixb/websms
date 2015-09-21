@@ -22,14 +22,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
@@ -38,7 +37,7 @@ import de.ub0r.android.websms.connector.common.Log;
 /**
  * @author flx
  */
-public final class CaptchaActivity extends SherlockActivity implements
+public final class CaptchaActivity extends AppCompatActivity implements
 		OnClickListener {
 	/** Tag for output. */
 	private static final String TAG = "cpt";
@@ -46,9 +45,6 @@ public final class CaptchaActivity extends SherlockActivity implements
 	/** Connector which sent the request. */
 	private ConnectorSpec connector = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		this.setTheme(PreferencesActivity.getTheme(this));
@@ -60,17 +56,10 @@ public final class CaptchaActivity extends SherlockActivity implements
 			return;
 		}
 		this.connector = new ConnectorSpec(this.getIntent());
-		if (this.connector == null) {
-			this.finish();
-			return;
-		}
 		this.setContentView(R.layout.captcha);
 		this.setTitle(this.connector.getName() + " - "
 				+ this.getString(R.string.captcha_));
 		this.getSupportActionBar().setHomeButtonEnabled(true);
-		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
-				this.getResources(), R.drawable.bg_striped,
-				R.drawable.bg_striped_img);
 
 		final Parcelable p = extras.getParcelable(Connector.EXTRA_CAPTCHA_DRAWABLE);
 		if (p != null && p instanceof Bitmap) {
@@ -108,9 +97,6 @@ public final class CaptchaActivity extends SherlockActivity implements
 		this.findViewById(R.id.cancel).setOnClickListener(this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.cancel:
@@ -121,9 +107,6 @@ public final class CaptchaActivity extends SherlockActivity implements
 		this.finish();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -141,9 +124,6 @@ public final class CaptchaActivity extends SherlockActivity implements
 		this.sendBroadcast(intent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {

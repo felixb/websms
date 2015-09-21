@@ -5,15 +5,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatDialogFragment;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 
 /**
  * Dialog Fragment with a message and Confirm / Decline buttons.
  * Target Fragment must implement the DialogListener interface.
  */
 public class ConfirmDialogFragment
-        extends SherlockDialogFragment {
+        extends AppCompatDialogFragment {
 
     public static final String FRAG_TAG  = "ConfirmDialogFragment";
 
@@ -29,8 +29,8 @@ public class ConfirmDialogFragment
 
 
     public interface DialogListener {
-        public void onConfirmOk(int dialogId);
-        public void onConfirmCancelled(int dialogId);
+        void onConfirmOk(int dialogId);
+        void onConfirmCancelled(int dialogId);
     }
 
 

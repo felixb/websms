@@ -18,9 +18,6 @@
  */
 package de.ub0r.android.websms;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,27 +25,23 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * {@link SherlockActivity} showing intro.
+ * Activity showing intro.
  *
  * @author flx
  */
-public final class HelpIntroActivity extends SherlockActivity implements
+public final class HelpIntroActivity extends AppCompatActivity implements
 		OnClickListener {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.help_intro);
-		WebSMSApp.fixActionBarBackground(this.getSupportActionBar(),
-				this.getResources(), R.drawable.bg_striped,
-				R.drawable.bg_striped_img);
 		this.setTitle(R.string.help_title);
 
 		this.findViewById(R.id.ok).setOnClickListener(this);
@@ -69,9 +62,6 @@ public final class HelpIntroActivity extends SherlockActivity implements
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
@@ -83,9 +73,6 @@ public final class HelpIntroActivity extends SherlockActivity implements
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {

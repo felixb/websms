@@ -54,7 +54,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-            android:name=".WebSMSApp"
             android:hardwareAccelerated="true"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name">
@@ -62,7 +61,7 @@
                 android:name=".WebSMS"
                 android:configChanges="orientation|keyboardHidden"
                 android:label="@string/app_name"
-                android:theme="@style/Theme.SherlockWebSMS_Light"
+                android:theme="@style/Theme.WebSMS_Light"
                 android:uiOptions="splitActionBarWhenNarrow"
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -118,19 +117,19 @@
                 android:windowSoftInputMode="adjustResize"/>
         <activity
                 android:name=".AboutActivity"
-                android:theme="@style/Theme.SherlockWebSMS_Light"/>
+                android:theme="@style/Theme.WebSMS_Light"/>
         <activity
                 android:name=".HelpIntroActivity"
-                android:theme="@style/Theme.SherlockWebSMS_Light"
+                android:theme="@style/Theme.WebSMS_Light"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
                 android:name=".HelpHtmlActivity"
-                android:theme="@style/Theme.SherlockWebSMS_Light"
+                android:theme="@style/Theme.WebSMS_Light"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
                 android:name=".CaptchaActivity"
                 android:configChanges="orientation|keyboardHidden"
-                android:theme="@style/Theme.SherlockWebSMS_Light"
+                android:theme="@style/Theme.WebSMS_Light"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
                 android:name=".rules.PreferencesRulesActivity"
@@ -138,11 +137,11 @@
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
                 android:name=".rules.RulesEditorActivity"
-                android:theme="@style/Theme.SherlockWebSMS"
+                android:theme="@style/Theme.WebSMS"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
                 android:name=".rules.EditRuleActivity"
-                android:theme="@style/Theme.SherlockWebSMS"
+                android:theme="@style/Theme.WebSMS"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <receiver
