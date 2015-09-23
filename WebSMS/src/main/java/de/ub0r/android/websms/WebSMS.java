@@ -123,7 +123,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			= "https://play.google.com/store/apps/details?id=de.ub0r.android.donator";
 
 	private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-1948477123608376/2064558085";
-	private static final int INTERSTITIAL_ADS_RATION = 10;
+	private static final int INTERSTITIAL_ADS_RATION = 7;
 
 	/** Static reference to running Activity. */
 	private static WebSMS me;
@@ -594,7 +594,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 						null);
 			}
 			if (cursor != null && cursor.moveToFirst()) {
-				String a = null;
+				String a;
 				do {
 					a = cursor.getString(1);
 				} while (a == null && cursor.moveToNext());
@@ -753,7 +753,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 								+ number);
 					}
 				}
-				e.commit();
+				e.apply();
 			}
 		}
 
@@ -767,7 +767,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			if (System.currentTimeMillis() > p.getLong(PREFS_LASTHELP, 0L)
 					+ de.ub0r.android.lib.Utils.MINUTES_IN_MILLIS * 2) {
 				p.edit().putLong(PREFS_LASTHELP, System.currentTimeMillis())
-						.commit();
+						.apply();
 				this.startActivity(new Intent(this, HelpIntroActivity.class));
 			}
 		}
@@ -1026,7 +1026,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			editor.remove(PREFS_CONNECTORS);
 			Log.e(TAG, "IO", e);
 		}
-		editor.commit();
+		editor.apply();
         super.onDestroy();
     }
 
@@ -1113,11 +1113,11 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			int counter = p.getInt(PREFS_ADS_COUNTER, 15) - 1;
 			if (counter >= 0) {
 				Log.d(TAG, "write PREFS_ADS_COUNTER: " + counter);
-				p.edit().putInt(PREFS_ADS_COUNTER, counter).commit();
+				p.edit().putInt(PREFS_ADS_COUNTER, counter).apply();
 			}
 			prefsShowAds = counter <= 0;
 			final long random = System.currentTimeMillis() % INTERSTITIAL_ADS_RATION;
-			prefsInterstitialAd = random == 0;
+			prefsInterstitialAd = random == 0 && !p.getBoolean(PREFS_AUTOEXIT, false);
 
 		}
 		this.setButtons();
@@ -1137,7 +1137,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
             p.edit()
                 .putString(PREFS_CONNECTOR_ID, stdConnector)
                 .putString(PREFS_SUBCONNECTOR_ID, stdSubConnector)
-                .commit();
+                .apply();
         }
     }
 
@@ -1155,12 +1155,12 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 					.hasFeatures(SubConnectorSpec.FEATURE_SENDLATER);
 
 			if (bShowExtras && (sFlashsms || sCustomsender || sSendLater)) {
-				if (bShowExtras && sFlashsms) {
+				if (sFlashsms) {
 					this.vFlashSMS.setVisibility(View.VISIBLE);
 				} else {
 					this.vFlashSMS.setVisibility(View.GONE);
 				}
-				if (bShowExtras && sCustomsender) {
+				if (sCustomsender) {
 					this.vCustomSender.setVisibility(View.VISIBLE);
 					this.vCustomSender.setChecked(!TextUtils
 							.isEmpty(lastCustomSender));
@@ -1168,7 +1168,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 					this.vCustomSender.setVisibility(View.GONE);
 					this.vCustomSender.setChecked(false);
 				}
-				if (bShowExtras && sSendLater) {
+				if (sSendLater) {
 					this.vSendLater.setVisibility(View.VISIBLE);
 				} else {
 					this.vSendLater.setVisibility(View.GONE);
@@ -1227,7 +1227,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 		} else {
 			editor.remove(PREFS_BACKUPLASTTEXT);
 		}
-		editor.commit();
+		editor.apply();
 
 		this.etText.setText("");
 		this.etTo.setText("");
@@ -1520,7 +1520,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 				}
 			});
 			builder.create().show();
-			return;
 		}
 	}
 
@@ -1672,7 +1671,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			if (!TextUtils.isEmpty(s)) {
 				this.etText.setText(s);
 			}
-			p.edit().remove(PREFS_BACKUPLASTTEXT).commit();
+			p.edit().remove(PREFS_BACKUPLASTTEXT).apply();
 			return true;
 		default:
 			return false;
@@ -1765,9 +1764,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 		return d;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final Dialog onCreateDialog(final int id) {
 		AlertDialog.Builder builder;
@@ -2371,7 +2367,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 		long nextMsgId = p.getLong(PREFS_LAST_MSG_ID, 0) + 1;
 		SharedPreferences.Editor editor = p.edit();
 		editor.putLong(PREFS_LAST_MSG_ID, nextMsgId);
-		editor.commit();
+		editor.apply();
 		return nextMsgId;
 	}
 }
