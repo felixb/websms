@@ -22,8 +22,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionName '4.9.2'
-        versionCode 9492000
+        versionName '4.9.3'
+        versionCode 9493000
         buildConfigField 'boolean', 'DEBUG_LOG', 'true'
     }
 
@@ -61,5 +61,5 @@ dependencies {
     compile 'de.ub0r.android.lib:lib:1.1.0'
     compile 'de.ub0r.android.logg0r:logg0r:2.0.0'
     compile 'de.ub0r.android.websms.connector.common:WebSMSAPI:1.1'
-    compile 'de.ub0r.android.eucookieconsent:library:0.1.0@aar'
+    compile 'de.ub0r.android.eucookieconsent:library:0.1.1@aar'
 }
