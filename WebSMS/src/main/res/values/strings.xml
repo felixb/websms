@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009-2012 Felix Bechstein
+		Copyright (C) 2009-2015 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,198 +17,199 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="about_">About</string>
-	<string name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
-	<string name="about_hint">About this app</string>
-	<string name="faq_hint">Some tips and tricks, how to set up this app.</string>
-	<string name="feedback_">Feedback</string>
-	<string name="feedback_hint">Report bugs, request features ...</string>
-	<string name="google_plus_hint">Follow me on Google+.\nGet update notifications etc.</string>
-	<string name="author_">Author:</string>
-	<string name="author_connectors_">Author of Connectors:</string>
-	<string name="change_connector_">Change provider</string>
-	<string name="change_connector_nl">Change\nprovider</string>
-	<string name="click_for_update">(update: click)</string>
-	<string name="defprefix_">Default int. prefix</string>
-	<string name="defprefix_hint">e.g. +49</string>
-	<string name="more_apps_">More Apps..</string>
-	<string name="more_connectors_">More Connectors..</string>
-	<string name="more_connectors_hint">Look for more Connectors in Google Play. Restart WebSMS after installing!</string>
-	<string name="standard_connector_">Standard Connector</string>
-	<string name="set_stdandard_connector_">Set standard Connector</string>
-	<string name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
-	<string name="clear_stdandard_connector_">Clear standard Connector</string>
-	<string name="free_">Balances:</string>
-	<string name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
-	<string name="license_">License:</string>
-	<string name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
-	<string name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
-	<string name="log_noselectedconnector">No Connector selected. Please choose one with "Change Provider".</string>
-	<string name="log_noreadyconnector">No Connector installed or ready. Please check preferences.</string>
-	<string name="log_error_saving_message">Error updating sent message in Database!</string>
-	<string name="log_error_char_nonvalid">Connector does not provide valid characters</string>
-	<string name="log_error_char_notsendable">This message contains not sendable characters</string>
-	<string name="log_error_sms">Could not send SMS: ErrorCode=</string>
-	<string name="log_error_connector_not_found">Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.</string>
-	<string name="try_send_invalid_characters_">Try send invalid</string>
-	<string name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
-	<string name="notify_failed">Failed to send SMS: </string>
-	<string name="notify_failed_">failed sending SMS</string>
-	<string name="sender_">Your mobile number</string>
-	<string name="send_">Send</string>
-	<string name="save_draft_">Save draft</string>
-	<string name="save_chars_">Save chars</string>
-	<string name="save_chars_remove_spaces_">Remove blanks</string>
-	<string name="save_chars_remove_diacritics_">Remove accents and diacritics</string>
-	<string name="save_chars_remove_both_">Remove blanks, accents and diacritics</string>
-	<string name="settings">Preferences</string>
-	<string name="settings_common">Preferences - Common</string>
-	<string name="common_">Common</string>
-	<string name="appearance_">Appearance</string>
-	<string name="behavior_">Behavior</string>
-	<string name="appearance_and_behavior_">Appearance &amp; behavior</string>
-	<string name="autosend_">Autosend</string>
-	<string name="show_titlebar_">Show title bar</string>
-	<string name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
-	<string name="settings_connectors">Preferences - Connectors</string>
-	<string name="connectors_">Connectors</string>
-	<string name="installed_connectors_">Installed Connectors</string>
-	<string name="promoted_connectors_">Promoted Connectors</string>
-	<string name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
-	<string name="promoted_connectors_smsflatrate_hint">20SMS/month free, 1€ balance for WebSMS users</string>
-	<string name="alternative_layout_">Alternative layout</string>
-	<string name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
-	<string name="textsize_">Text size</string>
-	<string name="textsize_hint">Text size in pixels; leave empty for default</string>
-	<string name="show_balance_toast_">Show balance toast</string>
-	<string name="show_balance_toast_hint">Show toast notification on balance update.</string>
-	<string name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
-	<string name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
-	<string name="hide_send_button">Hide \"Send\" button</string>
-	<string name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
-	<string name="hide_cancel_button">Hide \"Cancel\" button</string>
-	<string name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
-	<string name="hide_extras_button_">Hide \"Extras\" button</string>
-	<string name="hide_extras_button_hint">Hide \"Extras\" button on main screen.</string>
-	<string name="hide_select_recipients_button_">Hide \"Select\" button</string>
-	<string name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
-	<string name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
-	<string name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
-	<string name="hide_send_in_menu">Hide \"Send\" menu item</string>
-	<string name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
-	<string name="hide_emo_button">Hide \"Emoticons\" button</string>
-	<string name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
-	<string name="hide_update">Hide \"Click for update\"</string>
-	<string name="hide_update_hint">Hide \"Click for update\" on main screen.</string>
-	<string name="hide_bg_connector_">Hide connector name</string>
-	<string name="hide_bg_connector_hint">Hide active connector\'s name in background.</string>
-	<string name="hide_paste_">Hide "paste" button</string>
-	<string name="hide_paste_hint">Hide "paste" button on text field.</string>
-	<string name="drop_sent_">Don\'t save sent SMS</string>
-	<string name="drop_sent_hint" translatable="false">@string/drop_sent_hint_v1</string>
-	<string name="drop_sent_hint_v1">Don\'t save sent messages in global database.</string>
-    <string name="drop_sent_hint_v19">Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.</string>
-	<string name="enable_autosend_">Enable autosend</string>
-	<string name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
-	<string name="use_selected_connector_">Use selected Connector</string>
-	<string name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
-	<string name="default_recipient_">Default recipient</string>
-	<string name="default_recipient_hint">Default recipient filled into address bar on app start.</string>
-	<string name="signature_">Signature</string>
-	<string name="signature_hint">Text attached on every message. No extra spacing is done. Start signature with \" \" if needed.</string>
-	<string name="autoupdate_">Autoupdate</string>
-	<string name="autoupdate_hint">Update account balances on start.</string>
-	<string name="autoexit_">Autoexit</string>
-	<string name="autoexit_hint">Exit WebSMS when sending sms.</string>
-	<string name="mobile_only_">Show mobiles only</string>
-	<string name="mobile_only_hint">Show mobile numbers only.</string>
-	<string name="vibrate_on_fail">Vibrate if sending fails</string>
-	<string name="vibrate_on_send">Vibrate after sending</string>
-	<string name="sound_on_fail">Play sound if sending fails</string>
-	<string name="to_hint">Name or Number</string>
-	<string name="text_hint">Text</string>
-	<string name="extras_">Extras</string>
-	<string name="flashsms">Flash SMS</string>
-	<string name="custom_sender">Custom sender</string>
-	<string name="send_later">Send later</string>
-	<string name="emo_">Emoticons</string>
-	<string name="connectors_switch">Switched connector:</string>
-	<string name="captcha_">Captcha</string>
-	<string name="captcha_solve_it">Please enter the text below:</string>
-	<string name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
-	<string name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
-	<string name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
-	<string name="connector_vanished">Connector vanished!</string>
-	<string name="connector_sms_name">SMS</string>
-	<string name="enable_sms">Enable SMS</string>
-	<string name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
-	<string name="paste_">[ Paste from clipboard ]</string>
-	<string name="restore_">Restore last message</string>
-	<string name="update_">Update</string>
-	<string name="theme_">Theme</string>
-	<string-array name="themes">
-		<item>Black</item>
-		<item>Light</item>
-	</string-array>
-	<string name="connector_message_length_reached">Reached maximum length of %1$d characters for connector %2$s. %3$s</string>
-	<string name="connector_message_length_reached_signature">(Of which %1$d characters were your signature).</string>
-	<string name="send_logs_">Send logs</string>
-	<string name="send_logs_hint">Send your device\'s logs to the developer.\nDo this only if you were asked to do so.</string>
-	<string name="sendlog_run_">Run SendLog</string>
-	<string name="sendlog_run">SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.</string>
-	<string name="sendlog_install_">Install SendLog</string>
-	<string name="sendlog_install">Install the free SendLog application to collect the device log and send it to the developer.</string>
-	<string name="website_">Website:</string>
-	<string name="max_resend_count_">Max resend attempts</string>
-	<string name="max_resend_count_hint">Maximum number of attempts to resend a failed message.</string>
-	<string name="notify_failed_now_resending">WebSMS: sending failed, resending</string>
-	<string name="resending_failed_msg_">WebSMS: Resending message</string>
-	<string name="cancelling_resend">WebSMS: Cancelling resend ...</string>
-	<string name="attempt">Attempt</string>
-	<string name="to">To</string>
-	<string name="permission_save_to_db">Save messages to database</string>
-	<string name="permission_save_to_db_description">Save messages sent by other apps to android message database</string>
-    <string name="connector_rules_name">By Rules</string>
-    <string name="prefs_rules_category">Smart Connectors</string>
-    <string name="prefs_rules_link">By Rules</string>
-    <string name="prefs_rules_link_hint">Define rules to select Connector based on recipient\'s number etc</string>
-    <string name="prefs_rules_enable">Enable rules</string>
-    <string name="prefs_rules_enable_hint">Enable connector selection rules</string>
-    <string name="prefs_rules_editor">Manage rules</string>
-    <string name="prefs_rules_editor_hint">View and modify rules</string>
-    <string name="prefs_rules_show_decision_toast">Show decision toast</string>
-    <string name="prefs_rules_show_decision_toast_hint">Show toast notification with the chosen connector</string>
-    <string name="prefs_rules_test_only">Test only</string>
-    <string name="prefs_rules_test_only_hint">In test only mode, the name of the chosen connector will be shown but no messages will be sent</string>
-    <string name="rules_editor_title">Rules Editor</string>
-    <string name="rules_editor_empty">Click \"+\" to add rules</string>
-    <string name="rule_summary_prefix">If recipient\'s number starts with &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
-    <string name="rule_summary_pattern">If recipient\'s number matches &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
-    <string name="rule_summary_default">If none of the above rules apply&lt;br/&gt;</string>
-    <string name="rule_summary_ascii">and text contains English (Latin) characters only&lt;br/&gt;</string>
-    <string name="rule_summary_connector">then use &lt;b&gt;\"%s\"&lt;/b&gt;</string>
-    <string name="rule_add">Add new rule</string>
-    <string name="rule_delete">Delete</string>
-    <string name="rule_up">Move Up</string>
-    <string name="rule_down">Move Down</string>
-    <string name="rules_help">Help</string>
-    <string name="rules_cancel">Cancel</string>
-    <string name="rule_invalid_field_empty">Provide value</string>
-    <string name="rule_invalid_field_regex">Invalid expression</string>
-    <string name="rule_invalid">Rule definition incomplete. Continue editing?</string>
-    <string name="edit_rule_title">Edit Rule</string>
-    <string name="new_rule_title">New Rule</string>
-    <string name="edit_rule_number">If recipient\'s number</string>
-    <string name="edit_rule_radio_number_prefix">starts with</string>
-    <string name="edit_rule_radio_number_pattern">matches Regular Expression</string>
-    <string name="edit_rule_radio_number_any">any number</string>
-    <string name="edit_rule_prefix_hint">Prefix</string>
-    <string name="edit_rule_pattern_hint">Pattern</string>
-    <string name="edit_rule_charset">and message contains</string>
-    <string name="edit_rule_radio_charset_any">any characters</string>
-    <string name="edit_rule_radio_charset_ascii">English (Latin) characters only</string>
-    <string name="edit_rule_connector">then use</string>
-    <string name="err_no_matching_rules">No matching rules found</string>
-    <string name="rules_decision">Sending to \"%1$s\" using connector \"%2$s\"</string>
-    <string name="rules_test_only">Test only mode: would send to \"%1$s\" using connector \"%2$s\"</string>
+    <string formatted="false" name="about_">About</string>
+    <string formatted="false" name="about">WebSMS enables you to send free and cheap SMS via webservices. There are many providers supported. Find the link to fetch them from market in WebSMS\'s preferences.</string>
+    <string formatted="false" name="about_hint">About this app</string>
+    <string formatted="false" name="faq_hint">Some tips and tricks, how to set up this app.</string>
+    <string formatted="false" name="feedback_">Feedback</string>
+    <string formatted="false" name="feedback_hint">Report bugs, request features ...</string>
+    <string formatted="false" name="google_plus_hint">Follow me on Google+.\nGet update notifications etc.</string>
+    <string formatted="false" name="author_">Author:</string>
+    <string formatted="false" name="author_connectors_">Author of Connectors:</string>
+    <string formatted="false" name="change_connector_">Change provider</string>
+    <string formatted="false" name="change_connector_nl">Change\nprovider</string>
+    <string formatted="false" name="click_for_update">(update: click)</string>
+    <string formatted="false" name="defprefix_">Default int. prefix</string>
+    <string formatted="false" name="defprefix_hint">e.g. +49</string>
+    <string formatted="false" name="more_apps_">More Apps..</string>
+    <string formatted="false" name="more_connectors_">More Connectors..</string>
+    <string formatted="false" name="more_connectors_hint">Look for more Connectors in Google Play. Restart WebSMS after installing!</string>
+    <string formatted="false" name="standard_connector_">Standard Connector</string>
+    <string formatted="false" name="set_stdandard_connector_">Set standard Connector</string>
+    <string formatted="false" name="set_stdandard_connector_hint">Set current connector as standard Connector. WebSMS will switch back automatically.</string>
+    <string formatted="false" name="clear_stdandard_connector_">Clear standard Connector</string>
+    <string formatted="false" name="free_">Balances:</string>
+    <string formatted="false" name="license">GPLv3 - see http://www.gnu.org/licenses/gpl-3.0.txt</string>
+    <string formatted="false" name="license_">License:</string>
+    <string formatted="false" name="log_wrong_defprefix">Please enter a valid countrycode as default prefix. E.g. "+49".</string>
+    <string formatted="false" name="log_wrong_sender">Wrong sender! Set it in international form like +4917012345678.</string>
+    <string formatted="false" name="log_noselectedconnector">No Connector selected. Please choose one with "Change Provider".</string>
+    <string formatted="false" name="log_noreadyconnector">No Connector installed or ready. Please check preferences.</string>
+    <string formatted="false" name="log_error_saving_message">Error updating sent message in Database!</string>
+    <string formatted="false" name="log_error_char_nonvalid">Connector does not provide valid characters</string>
+    <string formatted="false" name="log_error_char_notsendable">This message contains not sendable characters</string>
+    <string formatted="false" name="log_error_sms">Could not send SMS: ErrorCode=</string>
+    <string formatted="false" name="log_error_connector_not_found">Connector not found, please open and close WebSMS\'s preferences to force reloading connectors.</string>
+    <string formatted="false" name="try_send_invalid_characters_">Try send invalid</string>
+    <string formatted="false" name="try_send_invalid_characters_hint">Try to send messages with invalid.</string>
+    <string formatted="false" name="notify_failed">Failed to send SMS: </string>
+    <string formatted="false" name="notify_failed_">failed sending SMS</string>
+    <string formatted="false" name="sender_">Your mobile number</string>
+    <string formatted="false" name="send_">Send</string>
+    <string formatted="false" name="save_draft_">Save draft</string>
+    <string formatted="false" name="save_chars_">Save chars</string>
+    <string formatted="false" name="save_chars_remove_spaces_">Remove blanks</string>
+    <string formatted="false" name="save_chars_remove_diacritics_">Remove accents and diacritics</string>
+    <string formatted="false" name="save_chars_remove_both_">Remove blanks, accents and diacritics</string>
+    <string formatted="false" name="settings">Preferences</string>
+    <string formatted="false" name="settings_common">Preferences - Common</string>
+    <string formatted="false" name="common_">Common</string>
+    <string formatted="false" name="appearance_">Appearance</string>
+    <string formatted="false" name="behavior_">Behavior</string>
+    <string formatted="false" name="appearance_and_behavior_">Appearance &amp; behavior</string>
+    <string formatted="false" name="autosend_">Autosend</string>
+    <string formatted="false" name="show_titlebar_">Show title bar</string>
+    <string formatted="false" name="show_titlebar_hint">Show title bar in main view. Without title bar, there is no way to see background activity.</string>
+    <string formatted="false" name="settings_connectors">Preferences - Connectors</string>
+    <string formatted="false" name="connectors_">Connectors</string>
+    <string formatted="false" name="installed_connectors_">Installed Connectors</string>
+    <string formatted="false" name="promoted_connectors_">Promoted Connectors</string>
+    <string formatted="false" name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
+    <string formatted="false" name="promoted_connectors_smsflatrate_hint">20SMS/month free, 1€ balance for WebSMS users</string>
+    <string formatted="false" name="alternative_layout_">Alternative layout</string>
+    <string formatted="false" name="alternative_layout_hint">Move send bar to the top. Needs restart.</string>
+    <string formatted="false" name="textsize_">Text size</string>
+    <string formatted="false" name="textsize_hint">Text size in pixels; leave empty for default</string>
+    <string formatted="false" name="show_balance_toast_">Show balance toast</string>
+    <string formatted="false" name="show_balance_toast_hint">Show toast notification on balance update.</string>
+    <string formatted="false" name="hide_change_connector_button">Hide \"Chg. provider\" button</string>
+    <string formatted="false" name="hide_change_connector_button_hint">Hide \"Change provider\" button on main screen.</string>
+    <string formatted="false" name="hide_send_button">Hide \"Send\" button</string>
+    <string formatted="false" name="hide_send_button_hint">Hide \"Send\" button in main screen.</string>
+    <string formatted="false" name="hide_cancel_button">Hide \"Cancel\" button</string>
+    <string formatted="false" name="hide_cancel_button_hint">Hide \"Cancel\" button on main screen.</string>
+    <string formatted="false" name="hide_extras_button_">Hide \"Extras\" button</string>
+    <string formatted="false" name="hide_extras_button_hint">Hide \"Extras\" button on main screen.</string>
+    <string formatted="false" name="hide_select_recipients_button_">Hide \"Select\" button</string>
+    <string formatted="false" name="hide_select_recipients_button_hint">Hide \"Select recipients\" button on main screen.</string>
+    <string formatted="false" name="hide_clear_recipients_button_">Hide \"Clear\" button</string>
+    <string formatted="false" name="hide_clear_recipients_button_hint">Hide \"Clear recipients\" button on main screen.</string>
+    <string formatted="false" name="hide_send_in_menu">Hide \"Send\" menu item</string>
+    <string formatted="false" name="hide_send_in_menu_hint">Hide \"Send\" in the main menu. Requires restart.</string>
+    <string formatted="false" name="hide_emo_button">Hide \"Emoticons\" button</string>
+    <string formatted="false" name="hide_emo_button_hint">Hide \"Emoticons\" button on main screen.</string>
+    <string formatted="false" name="hide_update">Hide \"Click for update\"</string>
+    <string formatted="false" name="hide_update_hint">Hide \"Click for update\" on main screen.</string>
+    <string formatted="false" name="hide_bg_connector_">Hide connector name</string>
+    <string formatted="false" name="hide_bg_connector_hint">Hide active connector\'s name in background.</string>
+    <string formatted="false" name="hide_paste_">Hide "paste" button</string>
+    <string formatted="false" name="hide_paste_hint">Hide "paste" button on text field.</string>
+    <string formatted="false" name="drop_sent_">Don\'t save sent SMS</string>
+    <string formatted="false" name="drop_sent_hint" translatable="false">@string/drop_sent_hint_v1</string>
+    <string formatted="false" name="drop_sent_hint_v1">Don\'t save sent messages in global database.</string>
+    <string formatted="false" name="drop_sent_hint_v19">Don\'t save sent messages in global database.\nSaving messages is only available via SMSdroid as default SMS app or with AppOps.</string>
+    <string formatted="false" name="enable_autosend_">Enable autosend</string>
+    <string formatted="false" name="enable_autosend_hint">Enable SMSdroid\'s autosend feature.</string>
+    <string formatted="false" name="use_selected_connector_">Use selected Connector</string>
+    <string formatted="false" name="use_selected_connector_hint">Use currently selected Connector for autosend. Disable to show a chooser.</string>
+    <string formatted="false" name="default_recipient_">Default recipient</string>
+    <string formatted="false" name="default_recipient_hint">Default recipient filled into address bar on app start.</string>
+    <string formatted="false" name="signature_">Signature</string>
+    <string formatted="false" name="signature_hint">Text attached on every message. No extra spacing is done. Start signature with \" \" if needed.</string>
+    <string formatted="false" name="autoupdate_">Autoupdate</string>
+    <string formatted="false" name="autoupdate_hint">Update account balances on start.</string>
+    <string formatted="false" name="autoexit_">Autoexit</string>
+    <string formatted="false" name="autoexit_hint">Exit WebSMS when sending sms.</string>
+    <string formatted="false" name="mobile_only_">Show mobiles only</string>
+    <string formatted="false" name="mobile_only_hint">Show mobile numbers only.</string>
+    <string formatted="false" name="vibrate_on_fail">Vibrate if sending fails</string>
+    <string formatted="false" name="vibrate_on_send">Vibrate after sending</string>
+    <string formatted="false" name="sound_on_fail">Play sound if sending fails</string>
+    <string formatted="false" name="to_hint">Name or Number</string>
+    <string formatted="false" name="text_hint">Text</string>
+    <string formatted="false" name="extras_">Extras</string>
+    <string formatted="false" name="flashsms">Flash SMS</string>
+    <string formatted="false" name="custom_sender">Custom sender</string>
+    <string formatted="false" name="send_later">Send later</string>
+    <string formatted="false" name="emo_">Emoticons</string>
+    <string formatted="false" name="connectors_switch">Switched connector:</string>
+    <string formatted="false" name="captcha_">Captcha</string>
+    <string formatted="false" name="captcha_solve_it">Please enter the text below:</string>
+    <string formatted="false" name="status_disabled">Status: disabled\n(Updated when returning to main screen)</string>
+    <string formatted="false" name="status_enabled">Status: enabled\n(Updated when returning to main screen)</string>
+    <string formatted="false" name="status_ready">Status: ready\n(Updated when returning to main screen)</string>
+    <string formatted="false" name="connector_vanished">Connector vanished!</string>
+    <string formatted="false" name="connector_sms_name">SMS</string>
+    <string formatted="false" name="enable_sms">Enable SMS</string>
+    <string formatted="false" name="enable_sms_hint">The SMS Connector will send normal SMS (e.g. via GSM).</string>
+    <string formatted="false" name="paste_">[ Paste from clipboard ]</string>
+    <string formatted="false" name="restore_">Restore last message</string>
+    <string formatted="false" name="update_">Update</string>
+    <string formatted="false" name="theme_">Theme</string>
+    <string-array name="themes">
+        <item>Black</item>
+        <item>Light</item>
+    </string-array>
+    <string formatted="false" name="connector_message_length_reached">Reached maximum length of %1$d characters for connector %2$s. %3$s</string>
+    <string formatted="false" name="connector_message_length_reached_signature">(Of which %1$d characters were your signature).</string>
+    <string formatted="false" name="send_logs_">Send logs</string>
+    <string formatted="false" name="send_logs_hint">Send your device\'s logs to the developer.\nDo this only if you were asked to do so.</string>
+    <string formatted="false" name="sendlog_run_">Run SendLog</string>
+    <string formatted="false" name="sendlog_run">SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.</string>
+    <string formatted="false" name="sendlog_install_">Install SendLog</string>
+    <string formatted="false" name="sendlog_install">Install the free SendLog application to collect the device log and send it to the developer.</string>
+    <string formatted="false" name="website_">Website:</string>
+    <string formatted="false" name="max_resend_count_">Max resend attempts</string>
+    <string formatted="false" name="max_resend_count_hint">Maximum number of attempts to resend a failed message.</string>
+    <string formatted="false" name="notify_failed_now_resending">WebSMS: sending failed, resending</string>
+    <string formatted="false" name="resending_failed_msg_">WebSMS: Resending message</string>
+    <string formatted="false" name="cancelling_resend">WebSMS: Cancelling resend ...</string>
+    <string formatted="false" name="attempt">Attempt</string>
+    <string formatted="false" name="to">To</string>
+    <string formatted="false" name="permission_save_to_db">Save messages to database</string>
+    <string formatted="false" name="permission_save_to_db_description">Save messages sent by other apps to android message database</string>
+    <string formatted="false" name="connector_rules_name">By Rules</string>
+    <string formatted="false" name="prefs_rules_category">Smart Connectors</string>
+    <string formatted="false" name="prefs_rules_link">By Rules</string>
+    <string formatted="false" name="prefs_rules_link_hint">Define rules to select Connector based on recipient\'s number etc</string>
+    <string formatted="false" name="prefs_rules_enable">Enable rules</string>
+    <string formatted="false" name="prefs_rules_enable_hint">Enable connector selection rules</string>
+    <string formatted="false" name="prefs_rules_editor">Manage rules</string>
+    <string formatted="false" name="prefs_rules_editor_hint">View and modify rules</string>
+    <string formatted="false" name="prefs_rules_show_decision_toast">Show decision toast</string>
+    <string formatted="false" name="prefs_rules_show_decision_toast_hint">Show toast notification with the chosen connector</string>
+    <string formatted="false" name="prefs_rules_test_only">Test only</string>
+    <string formatted="false" name="prefs_rules_test_only_hint">In test only mode, the name of the chosen connector will be shown but no messages will be sent</string>
+    <string formatted="false" name="rules_editor_title">Rules Editor</string>
+    <string formatted="false" name="rules_editor_empty">Click \"+\" to add rules</string>
+    <string formatted="false" name="rule_summary_prefix">If recipient\'s number starts with &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
+    <string formatted="false" name="rule_summary_pattern">If recipient\'s number matches &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
+    <string formatted="false" name="rule_summary_default">If none of the above rules apply&lt;br/&gt;</string>
+    <string formatted="false" name="rule_summary_ascii">and text contains English (Latin) characters only&lt;br/&gt;</string>
+    <string formatted="false" name="rule_summary_connector">then use &lt;b&gt;\"%s\"&lt;/b&gt;</string>
+    <string formatted="false" name="rule_add">Add new rule</string>
+    <string formatted="false" name="rule_delete">Delete</string>
+    <string formatted="false" name="rule_up">Move Up</string>
+    <string formatted="false" name="rule_down">Move Down</string>
+    <string formatted="false" name="rules_help">Help</string>
+    <string formatted="false" name="rules_cancel">Cancel</string>
+    <string formatted="false" name="rule_invalid_field_empty">Provide value</string>
+    <string formatted="false" name="rule_invalid_field_regex">Invalid expression</string>
+    <string formatted="false" name="rule_invalid">Rule definition incomplete. Continue editing?</string>
+    <string formatted="false" name="edit_rule_title">Edit Rule</string>
+    <string formatted="false" name="new_rule_title">New Rule</string>
+    <string formatted="false" name="edit_rule_number">If recipient\'s number</string>
+    <string formatted="false" name="edit_rule_radio_number_prefix">starts with</string>
+    <string formatted="false" name="edit_rule_radio_number_pattern">matches Regular Expression</string>
+    <string formatted="false" name="edit_rule_radio_number_any">any number</string>
+    <string formatted="false" name="edit_rule_prefix_hint">Prefix</string>
+    <string formatted="false" name="edit_rule_pattern_hint">Pattern</string>
+    <string formatted="false" name="edit_rule_charset">and message contains</string>
+    <string formatted="false" name="edit_rule_radio_charset_any">any characters</string>
+    <string formatted="false" name="edit_rule_radio_charset_ascii">English (Latin) characters only</string>
+    <string formatted="false" name="edit_rule_connector">then use</string>
+    <string formatted="false" name="err_no_matching_rules">No matching rules found</string>
+    <string formatted="false" name="rules_decision">Sending to \"%1$s\" using connector \"%2$s\"</string>
+    <string formatted="false" name="rules_test_only">Test only mode: would send to \"%1$s\" using connector \"%2$s\"</string>
+    <string formatted="false" name="donate_remove_ads_">Donate/remove ads</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-               Copyright (C) 2009-2011 Felix Bechstein
+               Copyright (C) 2009-2015 Felix Bechstein
        -->
 <!--
                This file is part of WebSMS. This program is free software; you can
@@ -18,7 +18,6 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/ro/help.xml to edit the file.
        -->
 <resources>
   <string name="get_connectors" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="Get Connectors">Găsește Conectori</string>

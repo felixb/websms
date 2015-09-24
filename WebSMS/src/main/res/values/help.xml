@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		Copyright (C) 2009-2011 Felix Bechstein
+		Copyright (C) 2009-2015 Felix Bechstein
 	-->
 	<!--
 		This file is part of WebSMS. This program is free software; you can
@@ -17,14 +17,13 @@
 		not, see <http://www.gnu.org/licenses/>.
 	-->
 <resources>
-	<string name="help_title">Introducing WebSMS</string>
-	<string name="get_connectors">Get Connectors</string>
-	<string name="help_conenctors">There is a huge number of Connectors available in Google Play Store.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend my-cool-sms.</string>
-	<string name="help_connectors_matrix">You might want to check the Connector Matrix for more informations about avaiable Connectors: https://github.com/felixb/websms/blob/master/ConnectorMatrix.md</string>
-	<string name="help_prefs">To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.</string>
-
-    <string name="help_html_title">Help - %s</string>
-    <string name="rules_editor_help">
+    <string formatted="false" name="help_title">Introducing WebSMS</string>
+    <string formatted="false" name="get_connectors">Get Connectors</string>
+    <string formatted="false" name="help_conenctors">There is a huge number of Connectors available in Google Play Store.\nPress the button below and install the Connector which suits you best.\nFor users without an account at any of the service, I recommend my-cool-sms.</string>
+    <string formatted="false" name="help_connectors_matrix">You might want to check the Connector Matrix for more informations about avaiable Connectors: https://github.com/felixb/websms/blob/master/ConnectorMatrix.md</string>
+    <string formatted="false" name="help_prefs">To get started, you need at least set your own mobile number and international prefix in WebSMS\'s preferences.</string>
+    <string formatted="false" name="help_html_title">Help - %s</string>
+    <string formatted="false" name="rules_editor_help">
 &lt;p&gt;Here you can define connector selection rules.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Click \"+\" to add a rule&lt;/li&gt;
@@ -49,7 +48,7 @@ which will define the default connector for all remaining recipients.&lt;/p&gt;
 in Preferences and try sending messages to different recipients.
 In this mode, the chosen connector will be shown but no messages will actually be sent.&lt;/p&gt;
     </string>
-    <string name="edit_rule_help">
+    <string formatted="false" name="edit_rule_help">
 &lt;p&gt;Here you can view or modify details of a rule.&lt;/p&gt;
 &lt;p&gt;The first section defines which recipient numbers this rule shall apply to:&lt;/p&gt;
 &lt;ul&gt;

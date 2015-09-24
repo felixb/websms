@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-               Copyright (C) 2009-2011 Felix Bechstein
+               Copyright (C) 2009-2015 Felix Bechstein
        -->
 <!--
                This file is part of WebSMS. This program is free software; you can
@@ -18,7 +18,6 @@
        -->
 <!--
                This file is generated automatically by ub0rlib/php.
-               Visit http://ub0r.de/translate/websms/ro/strings.xml to edit the file.
        -->
 <resources>
   <string name="log_noselectedconnector" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="No Connector selected. Please choose one with &quot;Change Provider&quot;.">Niciun Conector nu este selectat. Alegeți unul cu opțiunea „Schimbă Provider”</string>
@@ -148,12 +147,9 @@
   <string name="connector_message_length_reached_signature" formatted="false" username="Laurentiu Lozan &lt;lozanro@gmail.com&gt;" orig="(Of which %1$d characters were your signature).">(dintre care %1$d caractere constiuie semnătura).</string>
   <string name="show_balance_toast_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Show balance toast">Arata notificare despre balanta</string>
   <string name="show_balance_toast_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Show toast notification on balance update.">Arata notificare la modificarea balantei</string>
-  <string name="debug_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Debug">Corecteaza</string>
   <string name="send_logs_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Send logs">Trimite log-uri</string>
   <string name="send_logs_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Send your device\'s logs to the developer.\nDo this only if you were asked to do so.">Trimite log-urile telefonului tau catre producator. Fa asta doar daca ti-a fost cerut expres.</string>
   <string name="sendlog_run_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Run SendLog">Ruleaza SendLog</string>
-  <string name="custom_language_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Custom language">Limba</string>
-  <string name="custom_language_hint" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Set a custom language.">Seteaza o limba.</string>
   <string name="max_resend_count_" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="Max resend attempts">Numar maxim de incercari de retrimitere</string>
   <string name="notify_failed_now_resending" formatted="false" username="Andrei Mazilu &lt;andrei.mazilu23@gmail.com&gt;" orig="WebSMS: sending failed, resending">WebSMS: trimitere esuata, retrimitere</string>
   <string name="save_chars_remove_spaces_" formatted="false" username="Ciprian Tomoiagă &lt;ciprian.tomoiaga@gmail.com&gt;" orig="Remove blanks">Elimină spațiile goale.</string>
@@ -174,4 +170,5 @@
   <string name="promoted_connectors_" formatted="false" username="Ciprian Tomoiagă &lt;ciprian.tomoiaga@gmail.com&gt;" orig="Promoted Connectors">Conectori promovați</string>
   <string name="sendlog_run" formatted="false" username="Ciprian Tomoiagă &lt;ciprian.tomoiaga@gmail.com&gt;" orig="SendLog will collect the device log and send it to the developer.\nYou will have an opportunity to review and modify the data being sent.">SendLog va colecta jurnalul aparatului și îl va trimite dezvoltatorului aplicației.\nPoți revizui și modifica datele trimise.</string>
   <string name="sendlog_install" formatted="false" username="Ciprian Tomoiagă &lt;ciprian.tomoiaga@gmail.com&gt;" orig="Install the free SendLog application to collect the device log and send it to the developer.">Instalează aplicația gratuită SendLog pentru a colecta jurnalul aparatului și a-l trimite dezvoltatorului aplicației.</string>
+  <string name="donate_remove_ads_" formatted="false" username="Ciprian Tomoiagă &lt;ciprian.tomoiaga@gmail.com&gt;" orig="Donate/remove ads">Donează/elimină reclamele</string>
 </resources>
