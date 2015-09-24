@@ -62,7 +62,6 @@
                 android:configChanges="orientation|keyboardHidden"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.WebSMS_Light"
-                android:uiOptions="splitActionBarWhenNarrow"
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

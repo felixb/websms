@@ -62,7 +62,7 @@
 
                     <MultiAutoCompleteTextView
                         android:id="@+id/to"
-                        style="@style/TextAppearance.Multicomplete"
+                        style="@style/TextAppearance.MultiComplete"
                         android:layout_width="fill_parent"
                         android:layout_height="51dip"
                         android:hint="@string/to_hint"
