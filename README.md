@@ -11,3 +11,7 @@ Check out the [FAQ](https://github.com/felixb/websms/blob/master/FAQ.md)
 ## Translation
 
 Help translating the app on [crowdin](https://crowdin.com/project/websms/invite)
+
+## Building a connector
+
+Documentation about creating a connector is hosted wihtin the [websms-api](https://github.com/felixb/websms-api) project.
