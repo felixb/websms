@@ -2049,7 +2049,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
     }
 
 	private void showInterstitial() {
-		if  (prefsShowAds && prefsInterstitialAd && mInterstitialAd.isLoaded()) {
+		if  (prefsShowAds && prefsInterstitialAd && mInterstitialAd != null && mInterstitialAd.isLoaded()) {
 			mInterstitialAd.show();
 		}
 	}
