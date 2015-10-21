@@ -17,4 +17,10 @@
 		copy of the GNU General Public License along with this program; If
 		not, see <http://www.gnu.org/licenses/>.
 	-->
-<resources/>
+<resources>
+  <string formatted="false" name="help_title">Introducción de WebSMS</string>
+  <string formatted="false" name="get_connectors">Adquiriendo conectores</string>
+  <string formatted="false" name="help_conenctors">Hay un gran número de conectores disponibles en Google Play Store. \nPress el botón de abajo e instalar el conector que le conviene mejor. \nFor usuarios sin una cuenta en cualquiera de los servicios, te recomiendo my-cool-sms.</string>
+  <string formatted="false" name="help_connectors_matrix">Puede consultar la matriz de conector para más informaciones sobre disponibles conectores: https://github.com/felixb/websms/blob/master/ConnectorMatrix.md</string>
+  <string formatted="false" name="help_prefs">Para empezar, necesita establecer al menos su propio número de móvil y el prefijo internacional en preferencias de WebSMS.</string>
+</resources>

@@ -75,6 +75,7 @@
   <string formatted="false" name="connectors_">Conectores</string>
   <string formatted="false" name="installed_connectors_">Conectores instalados</string>
   <string formatted="false" name="promoted_connectors_">Conectores promovidos</string>
+  <string formatted="false" name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
   <string formatted="false" name="promoted_connectors_smsflatrate_hint">20 SMS por mês, 1 € para utilizadores WebSMS</string>
   <string formatted="false" name="alternative_layout_">Esquema alternativo</string>
   <string formatted="false" name="alternative_layout_hint">Mover barra de envio para cima. Tem que reiniciar.</string>
@@ -126,15 +127,19 @@
   <string formatted="false" name="sound_on_fail">Som ao falhar o envio</string>
   <string formatted="false" name="to_hint">Nome ou número</string>
   <string formatted="false" name="text_hint">Texto</string>
+  <string formatted="false" name="extras_">Extras</string>
+  <string formatted="false" name="flashsms">Flash SMS</string>
   <string formatted="false" name="custom_sender">Remetente personalizado</string>
   <string formatted="false" name="send_later">Enviar mais tarde</string>
   <string formatted="false" name="emo_">Ícone emotivo</string>
   <string formatted="false" name="connectors_switch">Conector trocado:</string>
+  <string formatted="false" name="captcha_">Captcha</string>
   <string formatted="false" name="captcha_solve_it">Introduza o texto em baixo:</string>
   <string formatted="false" name="status_disabled">Estado: inativo\n(Atualizado se voltar ao menu principal)</string>
   <string formatted="false" name="status_enabled">Estado: ativo\n(Atualizado se voltar ao menu principal)</string>
   <string formatted="false" name="status_ready">Estado: pronto\n(Atualizado se voltar ao menu principal)</string>
   <string formatted="false" name="connector_vanished">O conector desapareceu!</string>
+  <string formatted="false" name="connector_sms_name">SMS</string>
   <string formatted="false" name="enable_sms">Ativar SMS</string>
   <string formatted="false" name="enable_sms_hint">O conector SMS irá enviar mensagens normalmente (ex.: GSM).</string>
   <string formatted="false" name="paste_">[Colar da área de transferência]</string>
@@ -163,5 +168,49 @@
   <string formatted="false" name="to">Para</string>
   <string formatted="false" name="permission_save_to_db">Gravar mensagens na base de dados</string>
   <string formatted="false" name="permission_save_to_db_description">Grava as mensagens enviadas com outras aplicações na base de dados do android.</string>
+  <string formatted="false" name="connector_rules_name">Por regras</string>
+  <string formatted="false" name="prefs_rules_category">Conectores inteligentes</string>
+  <string formatted="false" name="prefs_rules_link">Por regras</string>
+  <string formatted="false" name="prefs_rules_link_hint">Define as regras para selecionar o conector, tendo por base o número do destinatário ou outras opções.</string>
+  <string formatted="false" name="prefs_rules_enable">Ativar regras</string>
+  <string formatted="false" name="prefs_rules_enable_hint">Ativa as regras de seleção de conectores</string>
+  <string formatted="false" name="prefs_rules_editor">Gerir regras</string>
+  <string formatted="false" name="prefs_rules_editor_hint">Ver e modificar as regras</string>
+  <string formatted="false" name="prefs_rules_show_decision_toast">Mostrar \'toast\' de decisão</string>
+  <string formatted="false" name="prefs_rules_show_decision_toast_hint">Mostra uma notificação com o conector escolhido</string>
+  <string formatted="false" name="prefs_rules_test_only">Testar</string>
+  <string formatted="false" name="prefs_rules_test_only_hint">No modo de testes, o nome do conector será mostrado mas as mensagens não serão enviadas</string>
+  <string formatted="false" name="rules_editor_title">Editor de regras</string>
+  <string formatted="false" name="rules_editor_empty">Clique \'+\' para adicionar regras</string>
+  <string formatted="false" name="rule_summary_prefix">Se o número do destinatário iniciar com &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_pattern">Se o número do destinatário coincidir com &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_default">Se nenhuma das acima indicadas&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_ascii">e o texto apenas contém caracteres ingleses (latinos)&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_connector">utilizar &lt;b&gt;\"%s\"&lt;/b&gt;</string>
+  <string formatted="false" name="rule_add">Adicionar regra</string>
+  <string formatted="false" name="rule_delete">Apagar</string>
+  <string formatted="false" name="rule_up">Mover acima</string>
+  <string formatted="false" name="rule_down">Mover abaixo</string>
+  <string formatted="false" name="rules_help">Ajuda</string>
+  <string formatted="false" name="rules_cancel">Cancelar</string>
+  <string formatted="false" name="rule_invalid_field_empty">Indique o valor</string>
+  <string formatted="false" name="rule_invalid_field_regex">Expressão inválida</string>
+  <string formatted="false" name="rule_invalid">Definição de regra incompleta. Continuar edição?</string>
+  <string formatted="false" name="edit_rule_title">Editar regra</string>
+  <string formatted="false" name="new_rule_title">Nova regra</string>
+  <string formatted="false" name="edit_rule_number">Se o número do destinatário</string>
+  <string formatted="false" name="edit_rule_radio_number_prefix">começa com</string>
+  <string formatted="false" name="edit_rule_radio_number_pattern">coincide com a expressão regular</string>
+  <string formatted="false" name="edit_rule_radio_number_any">qualquer número</string>
+  <string formatted="false" name="edit_rule_prefix_hint">Prefixo</string>
+  <string formatted="false" name="edit_rule_pattern_hint">Padrão</string>
+  <string formatted="false" name="edit_rule_charset">e a mensagem contém</string>
+  <string formatted="false" name="edit_rule_radio_charset_any">quaisquer caracteres</string>
+  <string formatted="false" name="edit_rule_radio_charset_ascii">ingleses (latinos)</string>
+  <string formatted="false" name="edit_rule_connector">utilizar</string>
+  <string formatted="false" name="err_no_matching_rules">Regra coincidente não encontrada</string>
+  <string formatted="false" name="rules_decision">Enviar para \"%1$s\" utilizando o conector \"%2$s\"</string>
+  <string formatted="false" name="rules_test_only">Modo de testes: gostaria de enviar \"%1$s\" utilizando o conector \"%2$s\"?
+</string>
   <string formatted="false" name="donate_remove_ads_">Doar e remover publicidade</string>
 </resources>

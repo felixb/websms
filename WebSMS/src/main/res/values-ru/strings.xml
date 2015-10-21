@@ -75,6 +75,7 @@
   <string formatted="false" name="connectors_">Коннекторы</string>
   <string formatted="false" name="installed_connectors_">Установленные коннекторы</string>
   <string formatted="false" name="promoted_connectors_">Рекламируемые коннекторы</string>
+  <string formatted="false" name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
   <string formatted="false" name="promoted_connectors_smsflatrate_hint">20 СМС в месяц бесплатно, баланс 1€ для WebSMS пользователей</string>
   <string formatted="false" name="alternative_layout_">Кнопки вверху</string>
   <string formatted="false" name="alternative_layout_hint">Панель с кнопками располагается вверху. Требуется перезапуск.</string>
@@ -127,6 +128,7 @@
   <string formatted="false" name="to_hint">Кому:</string>
   <string formatted="false" name="text_hint">Введите текст</string>
   <string formatted="false" name="extras_">Опции</string>
+  <string formatted="false" name="flashsms">Flash SMS</string>
   <string formatted="false" name="custom_sender">Отправитель</string>
   <string formatted="false" name="send_later">Отправить позже</string>
   <string formatted="false" name="emo_">Смайлики</string>

@@ -23,4 +23,29 @@
   <string formatted="false" name="help_conenctors">Existem diversos conectores disponíveis na Google Play Store.\nPrima o botão abaixo para instalar o conector que melhor se ajusta às suas necessidades. Os utilizadores que não possuam conta em qualquer um dos serviços, recomendamos o serviço cherry-sms. Os utilizadores que utilizem caracteres não latinos podem experimentar o serviço my-cool-sms</string>
   <string formatted="false" name="help_connectors_matrix">Analise o Conector Matrix para saber mais informações sobre os conectores disponíveis:</string>
   <string formatted="false" name="help_prefs">Para iniciar, tem que definir o seu número de telemóvel e o prefixo internacional nas preferências do WebSMS.</string>
+  <string formatted="false" name="help_html_title">Ajuda - %s</string>
+  <string formatted="false" name="rules_editor_help">
+&lt;p&gt;Aqui pode definir as regras da seleção dos conectores.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Clique \"+\" para adicionar uma regra&lt;/li&gt;
+&lt;li&gt;Clique na regra para a ver ou modificar&lt;/li&gt;
+&lt;li&gt;Clique longo na regra para a apagar ou mover&lt;/li&gt;
+&lt;li&gt;Regresse ao ecrã anterior para guardar as alterações&lt;/li&gt;
+&lt;li&gt;Clique Cancelar para rejeitar as alterações&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cada uma das regras define o conector a utilizar se a mensagem coincidir com as condições indicadas. Por exemplo,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;se o número do destinatário iniciar com +1323, utilizar o conector X&lt;/li&gt;
+&lt;li&gt;se o número do destinatário iniciar com +1, utilizar o conector Y&lt;/li&gt;
+&lt;li&gt;se nenhuma das acima indicadas, utilizar o conector Z&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As regras são avaliadas pela ordem de exibição e quando a &lt;b&gt;primeira&lt;/b&gt;
+regra for encontrada, é escolhido o conector a utilizar para o envio da mensagem.
+As regras remanescentes serão ignoradas. No exemplo acima, uma mensagem com o destinatário +1323777 será enviada utilizando o conector X e uma mensagem com o destinatário +1505888 será enviada utilizando o conector Y.
+Recomenda-se a utilização da regra \"nenhuma das acima\" como a última regra, pois assim será utilizado o conector padrão para todos os destinatários que não cumpram as regras indicadas.&lt;/p&gt;
+&lt;p&gt;Se quiser verificar se as suas regras funcionam corretamente, clique \"Testar\"
+nas Preferências e tente enviar uma mensagens a diferentes destinatários.
+Neste modo, o conector selecionado será mostrado, mas as mensagens não serão enviadas.&lt;/p&gt;
+  
+    </string>
 </resources>
