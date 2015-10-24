@@ -132,6 +132,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
     private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 1;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 2;
+    private static final int PERMISSIONS_REQUEST_SEND_SMS = 3;
 
     /** Static reference to running Activity. */
 	private static WebSMS me;
@@ -799,6 +800,16 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
                 }
                 return;
             }
+			case PERMISSIONS_REQUEST_SEND_SMS: {
+				// ignore denied permission for now, user is unable to send sms..
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// just try again.
+					send(prefsConnectorSpec, prefsSubConnectorSpec);
+				}
+				return;
+			}
+
         }
     }
 
@@ -841,6 +852,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	private boolean requestPermission(final String permission, final int requestCode,
 			final int message, final DialogInterface.OnClickListener onCancelListener) {
+		Log.i(TAG, "requesting permission: " + permission);
 		if (ContextCompat.checkSelfPermission(this, permission)
 				!= PackageManager.PERMISSION_GRANTED) {
 			if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
@@ -1922,6 +1934,12 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	 */
 	private boolean send(final ConnectorSpec connector,
 			final SubConnectorSpec subconnector) {
+		if (connector.getPackage().equals("de.ub0r.android.websms")) {
+			if (!requestPermission(Manifest.permission.SEND_SMS, PERMISSIONS_REQUEST_SEND_SMS, R.string.permissions_send_sms, null)) {
+				return false;
+			}
+		}
+
 		Log.d(TAG, "send(" + connector + "," + subconnector + ")");
 		if (connector == null || subconnector == null) {
 			Log.e(TAG, "connector: " + connector);
