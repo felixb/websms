@@ -42,9 +42,11 @@ android {
                 versionNameSuffix " debug"
             }
 
-            release {
-                signingConfig signingConfigs.release
-                buildConfigField 'boolean', 'DEBUG_LOG', 'false'
+            if (project.hasProperty("releaseKeystorePassword")) {
+                release {
+                    signingConfig signingConfigs.release
+                    buildConfigField 'boolean', 'DEBUG_LOG', 'false'
+                }
             }
         }
     }
