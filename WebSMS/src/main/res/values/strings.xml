@@ -212,4 +212,7 @@
     <string formatted="false" name="rules_decision">Sending to \"%1$s\" using connector \"%2$s\"</string>
     <string formatted="false" name="rules_test_only">Test only mode: would send to \"%1$s\" using connector \"%2$s\"</string>
     <string formatted="false" name="donate_remove_ads_">Donate/remove ads</string>
+    <string name="permissions_">Permissions</string>
+    <string name="permissions_read_phone_state">Read phone state: this permission is necessary to fetch your phone number from the device. The phone number is used as sender for outgoing messages.\nThe app still works when this permission is denied.</string>
+    <string name="permissions_read_contacts">Read contacts: this permission is necessary to auto complete names and numbers in the recipient input field.\nThe app still works when this permission is denied.</string>
 </resources>

@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,6 +38,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -45,6 +47,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
@@ -106,7 +111,7 @@ import de.ub0r.android.websms.rules.PseudoConnectorRules;
 
 /**
  * Main Activity.
- * 
+ *
  * @author flx
  */
 public class WebSMS extends AppCompatActivity implements OnClickListener,
@@ -125,7 +130,10 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-1948477123608376/2064558085";
 	private static final int INTERSTITIAL_ADS_RATION = 7;
 
-	/** Static reference to running Activity. */
+    private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 1;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 2;
+
+    /** Static reference to running Activity. */
 	private static WebSMS me;
 	/** Preference's name: user's phone number. */
 	static final String PREFS_SENDER = "sender";
@@ -147,9 +155,9 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	static final String PREFS_FAIL_VIBRATE = "fail_vibrate";
 	/** Preference's name: sound on failed sending. */
 	static final String PREFS_FAIL_SOUND = "fail_sound";
-	/** Preferemce's name: hide select recipients button. */
+	/** Preference's name: hide select recipients button. */
 	private static final String PREFS_HIDE_SELECT_RECIPIENTS_BUTTON = "hide_select_recipients_button";
-	/** Preferemce's name: hide clear recipients button. */
+	/** Preference's name: hide clear recipients button. */
 	private static final String PREFS_HIDE_CLEAR_RECIPIENTS_BUTTON = "hide_clear_recipients_button";
 	/** Preference's name: hide emoticons button. */
 	private static final String PREFS_HIDE_EMO_BUTTON = "hide_emo_button";
@@ -159,9 +167,9 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	private static final String PREFS_HIDE_EXTRAS_BUTTON = "hide_extras_button";
 	/** Preference's name: hide bg connector. */
 	private static final String PREFS_HIDE_BG_CONNECTOR = "hide_bg_connector";
-	/** Prefernece's name: hide paste button. */
+	/** Preference's name: hide paste button. */
 	private static final String PREFS_HIDE_PASTE = "hide_paste";
-	/** Prefernece's name: show toast on balance update. */
+	/** Preference's name: show toast on balance update. */
 	static final String PREFS_SHOW_BALANCE_TOAST = "show_balance_toast";
 	/** Cache {@link ConnectorSpec}s. */
 	private static final String PREFS_CONNECTORS = "connectors";
@@ -374,8 +382,8 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 						if (me != null) {
 							String sigText = sig.length() > 0 ? me
 									.getString(
-											R.string.connector_message_length_reached_signature,
-											sig.length())
+                                            R.string.connector_message_length_reached_signature,
+                                            sig.length())
 									: "";
 							String messageText = me.getString(
 									R.string.connector_message_length_reached,
@@ -409,7 +417,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
     /**
 	 * Parse data pushed by {@link Intent}.
-	 * 
+	 *
 	 * @param intent
 	 *            {@link Intent}
 	 */
@@ -521,7 +529,8 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
                                 boolean sent = false;
                                 Log.d(TAG, "autosend: call send()");
                                 if (prefsConnectorSpec != null && prefsSubConnectorSpec != null) {
-                                    sent = WebSMS.this.send(prefsConnectorSpec, prefsSubConnectorSpec);
+                                    sent = WebSMS.this.send(prefsConnectorSpec,
+                                            prefsSubConnectorSpec);
                                 }
                                 // restore old connector
                                 WebSMS.this.saveSelectedConnector(pr0, pr1);
@@ -543,7 +552,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	/**
 	 * parseSchemeSpecificPart from {@link Uri} and initialize WebSMS
 	 * properties.
-	 * 
+	 *
 	 * @param part
 	 *            scheme specific part
 	 */
@@ -572,7 +581,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Load data from Conversation.
-	 * 
+	 *
 	 * @param threadId
 	 *            ThreadId
 	 */
@@ -725,36 +734,11 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			showIntro = true;
 		}
 
+		requestPermission(Manifest.permission.READ_CONTACTS, PERMISSIONS_REQUEST_READ_CONTACTS,
+				R.string.permissions_read_contacts, null);
 		if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))
 				|| TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
-			TelephonyManager tm = (TelephonyManager) this
-					.getSystemService(TELEPHONY_SERVICE);
-			String number = tm.getLine1Number();
-			Log.i(TAG, "line1: " + number);
-
-			if (number != null && number.startsWith("00")) {
-				number = number.replaceFirst("00", "+");
-			}
-			if (number != null && !TextUtils.isEmpty(number)
-					&& (number.startsWith("+"))) {
-				Editor e = p.edit();
-				if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))) {
-					Log.i(TAG, "set number=" + number);
-					e.putString(PREFS_SENDER, number);
-				}
-				if (TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
-					String prefix = de.ub0r.android.lib.Utils
-							.getPrefixFromTelephoneNumber(number);
-					if (!TextUtils.isEmpty(prefix)) {
-						Log.i(TAG, "set prefix=" + prefix);
-						e.putString(PREFS_DEFPREFIX, prefix);
-					} else {
-						Log.w(TAG, "unable to get prefix from number: "
-								+ number);
-					}
-				}
-				e.apply();
-			}
+			fetchSenderAndPrefixFromPhoneNumber();
 		}
 
 		// check default prefix
@@ -797,6 +781,90 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			requestNewInterstitial();
         } else if (prefsNoAds) {
 			findViewById(R.id.cookie_consent).setVisibility(View.GONE);
+		}
+	}
+
+    @Override
+    public void onRequestPermissionsResult(
+            final int requestCode,
+            @NonNull final String permissions[],
+            @NonNull final int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_PHONE_STATE: {
+                // ignore denied permission for now, user might set up sender/prefix by hand
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // just try again.
+                    fetchSenderAndPrefixFromPhoneNumber();
+                }
+                return;
+            }
+        }
+    }
+
+    private void fetchSenderAndPrefixFromPhoneNumber() {
+		final TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+		if (tm == null) {
+			return;
+		}
+
+		if (!requestPermission(android.Manifest.permission.READ_PHONE_STATE,
+				PERMISSIONS_REQUEST_READ_PHONE_STATE, R.string.permissions_read_phone_state, null)) {
+			return;
+		}
+
+		String number = tm.getLine1Number();
+		Log.i(TAG, "line1: " + number);
+
+		if (number != null && number.startsWith("00")) {
+			number = number.replaceFirst("00", "+");
+		}
+		if (number != null && !TextUtils.isEmpty(number) && (number.startsWith("+"))) {
+			final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+			final Editor e = p.edit();
+			if (TextUtils.isEmpty(p.getString(PREFS_SENDER, null))) {
+				Log.i(TAG, "set number=" + number);
+				e.putString(PREFS_SENDER, number);
+			}
+			if (TextUtils.isEmpty(p.getString(PREFS_DEFPREFIX, null))) {
+				String prefix = de.ub0r.android.lib.Utils.getPrefixFromTelephoneNumber(number);
+				if (!TextUtils.isEmpty(prefix)) {
+					Log.i(TAG, "set prefix=" + prefix);
+					e.putString(PREFS_DEFPREFIX, prefix);
+				} else {
+					Log.w(TAG, "unable to get prefix from number: " + number);
+				}
+			}
+			e.apply();
+		}
+	}
+
+	private boolean requestPermission(final String permission, final int requestCode,
+			final int message, final DialogInterface.OnClickListener onCancelListener) {
+		if (ContextCompat.checkSelfPermission(this, permission)
+				!= PackageManager.PERMISSION_GRANTED) {
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+				new Builder(this)
+						.setTitle(R.string.permissions_)
+						.setMessage(message)
+						.setCancelable(false)
+						.setNegativeButton(android.R.string.cancel, onCancelListener)
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(final DialogInterface dialogInterface,
+											final int i) {
+										ActivityCompat.requestPermissions(WebSMS.this,
+												new String[]{permission}, requestCode);
+									}
+								})
+						.show();
+			} else {
+				ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+			}
+			return false;
+		} else {
+			return true;
 		}
 	}
 
@@ -1106,7 +1174,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			}
 		}
 
-		MobilePhoneAdapter.setMoileNubersObly(p.getBoolean(PREFS_MOBILES_ONLY, false));
+		MobilePhoneAdapter.setMobileNumbersOnly(p.getBoolean(PREFS_MOBILES_ONLY, false));
 
         prefsNoAds = DonationHelper.hideAds(this);
 		if (!prefsNoAds) {
@@ -1210,7 +1278,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Resets persistent store.
-	 * 
+	 *
 	 * @param backupText
 	 *            backup text to {@link SharedPreferences}
 	 */
@@ -1273,7 +1341,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Send a command as broadcast.
-	 * 
+	 *
 	 * @param context
 	 *            Current context
 	 * @param connector
@@ -1429,7 +1497,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Save selected connector.
-	 * 
+	 *
 	 * @param cs
 	 *            {@link ConnectorSpec}
 	 * @param scs
@@ -1486,7 +1554,8 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setIcon(android.R.drawable.ic_menu_share);
 		builder.setTitle(R.string.change_connector_);
-		final ConnectorLabel[] items = this.getConnectorMenuItems(true /*isIncludePseudoConnectors*/);
+		final ConnectorLabel[] items = this.getConnectorMenuItems(
+                true /*isIncludePseudoConnectors*/);
 		final int l = items.length;
 
 		if (l == 0) {
@@ -1680,7 +1749,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Create a Emoticons {@link Dialog}.
-	 * 
+	 *
 	 * @return Emoticons {@link Dialog}
 	 */
 	private Dialog createEmoticonsDialog() {
@@ -1800,7 +1869,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Log text.
-	 * 
+	 *
 	 * @param text
 	 *            text as resID
 	 */
@@ -1810,7 +1879,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Log text.
-	 * 
+	 *
 	 * @param text
 	 *            text
 	 */
@@ -1844,7 +1913,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Send text.
-	 * 
+	 *
 	 * @param connector
 	 *            which connector should be used.
 	 * @param subconnector
@@ -2056,7 +2125,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
     /**
 	 * A Date was set.
-	 * 
+	 *
 	 * @param view
 	 *            DatePicker View
 	 * @param year
@@ -2085,7 +2154,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * A Time was set.
-	 * 
+	 *
 	 * @param view
 	 *            TimePicker View
 	 * @param hour
@@ -2115,7 +2184,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Add or update a {@link ConnectorSpec}.
-	 * 
+	 *
 	 * @param connector
 	 *            connector
 	 */
@@ -2236,7 +2305,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Get {@link ConnectorSpec} by ID.
-	 * 
+	 *
 	 * @param id
 	 *            ID
 	 * @return {@link ConnectorSpec}
@@ -2269,7 +2338,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Get {@link ConnectorSpec}s by capabilities and/or status.
-	 * 
+	 *
 	 * @param capabilities
 	 *            capabilities needed
 	 * @param status
@@ -2314,13 +2383,13 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	/**
 	 * Get the number of connector applications that are installed on the
 	 * system.
-	 * 
+	 *
 	 * @return the number of connector applications
 	 */
 	private int getInstalledConnectorsCount() {
 		final List<ResolveInfo> ri = this.getPackageManager()
 				.queryBroadcastReceivers(
-						new Intent(Connector.ACTION_CONNECTOR_UPDATE), 0);
+                        new Intent(Connector.ACTION_CONNECTOR_UPDATE), 0);
 		return ri.size();
 	}
 
@@ -2356,7 +2425,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/**
 	 * Generates unique id for the next message.
-	 * 
+	 *
 	 * @param context
 	 *            Current context
 	 * @return message id

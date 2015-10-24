@@ -136,7 +136,7 @@ public class MobilePhoneAdapter extends ResourceCursorAdapter {
 	 * @param b
 	 *            set to true, if only mobile numbers should be displayed.
 	 */
-	static final void setMoileNubersObly(final boolean b) {
+	static void setMobileNumbersOnly(final boolean b) {
 		prefsMobilesOnly = b;
 	}
 }
