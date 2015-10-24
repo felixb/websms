@@ -883,10 +883,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	private void requestNewInterstitial() {
 		if (prefsInterstitialAd) {
 			Log.d(TAG, "request new interstitial ad");
-			AdRequest adRequest = new AdRequest.Builder()
-					.addTestDevice("2FD55F382A3E8A84879767A864A1397C")
-					.build();
-
+			AdRequest adRequest = new AdRequest.Builder().build();
 			mInterstitialAd.loadAd(adRequest);
 		}
 	}
@@ -1198,7 +1195,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			prefsShowAds = counter <= 0;
 			final long random = System.currentTimeMillis() % INTERSTITIAL_ADS_RATION;
 			prefsInterstitialAd = random == 0 && !p.getBoolean(PREFS_AUTOEXIT, false);
-
 		}
 		this.setButtons();
 	}
