@@ -1,6 +1,10 @@
 # Changes
 
-##v4.9.2.1
+##v4.9.4
+* fix permissions on Android 6.0
+* update translations
+
+##v4.9.3
 * fix FC in rule editor
 * migrate from ActionBarSherlock to AppCompat
 

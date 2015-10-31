@@ -212,4 +212,8 @@
   <string formatted="false" name="rules_decision">Sende Nachricht an \"%1$s\" mit Connector \"%2$s\"</string>
   <string formatted="false" name="rules_test_only">Testmodus: Würde Nachricht an \"%1$s\" mit Connector \"%2$s\" senden</string>
   <string formatted="false" name="donate_remove_ads_">Spenden/Werbung entfernen</string>
+  <string formatted="false" name="permissions_">Zugriffsberechtigungen</string>
+  <string formatted="false" name="permissions_read_phone_state">Telefonzustand lesen: Diese Berechtigung ist erforderlich, um Ihre Telefonnummer vom Gerät zu laden. Die Telefonnummer dient als Absender für ausgehende Nachrichten. \nDie App funktioniert, auch wenn diese Berechtigung verweigert wird.</string>
+  <string formatted="false" name="permissions_read_contacts">Kontakte lesen: Diese Berechtigung ist notwendig, um Namen und Nummern im Eingabefeld für Empfänger zu vervollständigen. \nDie App funktioniert, auch wenn diese Berechtigung verweigert wird.</string>
+  <string formatted="false" name="permissions_send_sms">SMS senden: Diese Berechtigung ist erforderlich für den SMS Connector.\nDer SMS-Connector funktioniert jedoch nicht ohne diese Berechtigung. Der Rest der App funktioniert, auch wenn diese Berechtigung verweigert wird.</string>
 </resources>
