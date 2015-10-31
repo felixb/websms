@@ -17,13 +17,13 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionName '4.9.3'
-        versionCode 9493000
+        versionName '4.9.4'
+        versionCode 9494000
         buildConfigField 'boolean', 'DEBUG_LOG', 'true'
     }
 
