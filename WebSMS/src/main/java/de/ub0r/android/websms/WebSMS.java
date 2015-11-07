@@ -1930,12 +1930,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	 */
 	private boolean send(final ConnectorSpec connector,
 			final SubConnectorSpec subconnector) {
-		if (connector.getPackage().equals("de.ub0r.android.websms")) {
-			if (!requestPermission(Manifest.permission.SEND_SMS, PERMISSIONS_REQUEST_SEND_SMS, R.string.permissions_send_sms, null)) {
-				return false;
-			}
-		}
-
 		Log.d(TAG, "send(" + connector + "," + subconnector + ")");
 		if (connector == null || subconnector == null) {
 			Log.e(TAG, "connector: " + connector);
@@ -1943,6 +1937,12 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
 			return false;
 		}
+		if (BuildConfig.APPLICATION_ID.equals(connector.getPackage()) && !requestPermission(
+				Manifest.permission.SEND_SMS, PERMISSIONS_REQUEST_SEND_SMS,
+				R.string.permissions_send_sms, null)) {
+			return false;
+		}
+
 		// fetch text/recipient
 		final String to = this.etTo.getText().toString();
 		String text = this.etText.getText().toString();

@@ -1,5 +1,8 @@
 # Changes
 
+##v4.9.5
+* fix FC when sending messages
+
 ##v4.9.4
 * fix permissions on Android 6.0
 * update translations
