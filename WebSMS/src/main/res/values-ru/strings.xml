@@ -76,7 +76,7 @@
   <string formatted="false" name="installed_connectors_">Установленные коннекторы</string>
   <string formatted="false" name="promoted_connectors_">Рекламируемые коннекторы</string>
   <string formatted="false" name="promoted_connectors_smsflatrate_">smsflatrate.net</string>
-  <string formatted="false" name="promoted_connectors_smsflatrate_hint">20 СМС в месяц бесплатно, баланс 1€ для WebSMS пользователей</string>
+  <string formatted="false" name="promoted_connectors_smsflatrate_hint">20 СМС в месяц бесплатно, баланс 1€ для пользователей WebSMS</string>
   <string formatted="false" name="alternative_layout_">Кнопки вверху</string>
   <string formatted="false" name="alternative_layout_hint">Панель с кнопками располагается вверху. Требуется перезапуск.</string>
   <string formatted="false" name="textsize_">Размер шрифта</string>
@@ -113,7 +113,7 @@
   <string formatted="false" name="use_selected_connector_">Использовать выбранный коннектор</string>
   <string formatted="false" name="use_selected_connector_hint">Использовать текущий Коннектор для автоотправки. Отключите для показа меню выбора.</string>
   <string formatted="false" name="default_recipient_">Получатель по умолчанию</string>
-  <string formatted="false" name="default_recipient_hint">Вписывается автоматически в поле получателя при старте программы</string>
+  <string formatted="false" name="default_recipient_hint">Получатель по умолчанию автоматически вписывается в поле получателя при старте программы.</string>
   <string formatted="false" name="signature_">Подпись</string>
   <string formatted="false" name="signature_hint">Текст в конце каждого сообщения. Пробел не добавляется. Используйте \" \" если необходимо.</string>
   <string formatted="false" name="autoupdate_">Автообновление</string>
@@ -132,7 +132,7 @@
   <string formatted="false" name="custom_sender">Отправитель</string>
   <string formatted="false" name="send_later">Отправить позже</string>
   <string formatted="false" name="emo_">Смайлики</string>
-  <string formatted="false" name="connectors_switch">Включённый коннектор:</string>
+  <string formatted="false" name="connectors_switch">Включенный коннектор:</string>
   <string formatted="false" name="captcha_">Защита от спама</string>
   <string formatted="false" name="captcha_solve_it">Введите текст с картинки:</string>
   <string formatted="false" name="status_disabled">Статус: отключён\n(Обновляется при переходе в главное окно)</string>
@@ -150,7 +150,7 @@
     <item>Тёмная</item>
     <item>Светлая</item>
   </string-array>
-  <string formatted="false" name="connector_message_length_reached">Достигнуто максимальное количество %1$d символов для коннекторов %2$s. %3$s</string>
+  <string formatted="false" name="connector_message_length_reached">Достигнуто максимальное количество %1$d символов для коннектора %2$s. %3$s</string>
   <string formatted="false" name="connector_message_length_reached_signature">(из них %1$d символов для подписи)</string>
   <string formatted="false" name="send_logs_">Отправить журналы</string>
   <string formatted="false" name="send_logs_hint">Отправить журналы устройства разработчику.\nОтправляйте только в том случае, если Вас об этом попросят.</string>
@@ -160,7 +160,7 @@
   <string formatted="false" name="sendlog_install">Установить бесплатное приложение SendLog для получения журнала устройства и отправки его разработчику.</string>
   <string formatted="false" name="website_">Веб-сайт:</string>
   <string formatted="false" name="max_resend_count_">Максимальное количество попыток</string>
-  <string formatted="false" name="max_resend_count_hint">Максимальное количество попыток повторной отправки сообщений.</string>
+  <string formatted="false" name="max_resend_count_hint">Максимальное количество попыток повторной отправки сообщений в случае сбоя.</string>
   <string formatted="false" name="notify_failed_now_resending">WebSMS: сбой отправки, повторная отправка</string>
   <string formatted="false" name="resending_failed_msg_">WebSMS: Повторная отправка сообщения</string>
   <string formatted="false" name="cancelling_resend">WebSMS: отмена повторной отправки ...</string>
@@ -182,11 +182,11 @@
   <string formatted="false" name="prefs_rules_test_only_hint">В режиме только для теста будет показано имя выбранного коннектора, но никаких сообщений не будет отправлено</string>
   <string formatted="false" name="rules_editor_title">Редактор правил</string>
   <string formatted="false" name="rules_editor_empty">Нажмите \"+\" для добавления правил</string>
-  <string formatted="false" name="rule_summary_prefix">Если номер получателя начинается с <b>"%s"</b>&lt;br/&gt;</string>
-  <string formatted="false" name="rule_summary_pattern">Если номер получателя соответствует <b>"%s"</b>&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_prefix">Если номер получателя начинается с &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
+  <string formatted="false" name="rule_summary_pattern">Если номер получателя соответствует &lt;b&gt;\"%s\"&lt;/b&gt;&lt;br/&gt;</string>
   <string formatted="false" name="rule_summary_default">Если ни одно из вышеперечисленных правил не применяется&lt;br/&gt;</string>
   <string formatted="false" name="rule_summary_ascii">и текст содержит только английские символы (латиницу)&lt;br/&gt;</string>
-  <string formatted="false" name="rule_summary_connector">тогда используйте <b>"%s"</b></string>
+  <string formatted="false" name="rule_summary_connector">тогда использовать &lt;b&gt;\"%s\"&lt;/b&gt;</string>
   <string formatted="false" name="rule_add">Добавить новое правило</string>
   <string formatted="false" name="rule_delete">Удалить</string>
   <string formatted="false" name="rule_up">Вверх</string>
@@ -207,7 +207,7 @@
   <string formatted="false" name="edit_rule_charset">и сообщение содержит</string>
   <string formatted="false" name="edit_rule_radio_charset_any">любые символы</string>
   <string formatted="false" name="edit_rule_radio_charset_ascii">Только английский (латинские) символы</string>
-  <string formatted="false" name="edit_rule_connector">тогда используйте</string>
+  <string formatted="false" name="edit_rule_connector">тогда использовать</string>
   <string formatted="false" name="err_no_matching_rules">Соответствующих правил не найдено</string>
   <string formatted="false" name="rules_decision">Отправка \"%1$s\" используя коннектор \"%2$s\"</string>
   <string formatted="false" name="rules_test_only">Режим только тест: отправит \"%1$s\" используя коннектор \"%2$s\"</string>

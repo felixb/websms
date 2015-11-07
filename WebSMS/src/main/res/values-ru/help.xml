@@ -20,7 +20,7 @@
 <resources>
   <string formatted="false" name="help_title">Представляем WebSMS</string>
   <string formatted="false" name="get_connectors">Получить Коннекторы</string>
-  <string formatted="false" name="help_conenctors">В Google Play доступно огромное количество Коннекторов.\nНажмите на кнопку ниже и установите Коннектор, который подходит вам лучше всего.\nДля пользователей, не имеющих счета в какой-либо службе, я рекомендую cherry-sms. Пользователям с не латинскими алфавитами в первую очередь стоит попробовать my-cool-sms.</string>
+  <string formatted="false" name="help_conenctors">В Google Play доступно огромное количество Коннекторов.\nНажмите на кнопку ниже и установите Коннектор, который подходит вам лучше всего.\nДля пользователей, не имеющих счета в какой-либо службе, я рекомендую my-cool-sms.</string>
   <string formatted="false" name="help_connectors_matrix">Посмотрите Connector Matrix для получения более подробной информации о доступных Коннекторах: https://github.com/felixb/websms/blob/master/ConnectorMatrix.md</string>
   <string formatted="false" name="help_prefs">Для начала, Вам необходимо, как минимум, указать собственный номер мобильного телефона и международный префикс в настройках WebSMS.</string>
   <string formatted="false" name="help_html_title">Справка - %s</string>
