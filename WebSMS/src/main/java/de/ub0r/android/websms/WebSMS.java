@@ -201,8 +201,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 	/** Preference's name: standard sub connector. */
 	static final String PREFS_STANDARD_SUBCONNECTOR = "std_subconnector";
 
-	private static final String PREFS_ADS_COUNTER = "ads_counter";
-
 	/** Preference's name: to. */
 	private static final String EXTRA_TO = "to";
 	/** Preference's name: text. */
@@ -219,7 +217,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 	/** Preferences: hide ads. */
 	private static boolean prefsNoAds = false;
-	private static boolean prefsShowAds = false;
 	private static boolean prefsInterstitialAd = false;
 	/** Preferences: selected {@link ConnectorSpec}. */
 	private static ConnectorSpec prefsConnectorSpec = null;
@@ -759,7 +756,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
 		mAdView = (AdView) findViewById(R.id.ads);
         mAdView.setVisibility(View.GONE);
-        if (!prefsNoAds && prefsShowAds) {
+        if (!prefsNoAds) {
             mAdView.loadAd(new AdRequest.Builder().build());
             mAdView.setAdListener(new AdListener() {
                 @Override
@@ -780,7 +777,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 			});
 
 			requestNewInterstitial();
-        } else if (prefsNoAds) {
+        } else {
 			findViewById(R.id.cookie_consent).setVisibility(View.GONE);
 		}
 	}
@@ -1187,12 +1184,6 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
 
         prefsNoAds = DonationHelper.hideAds(this);
 		if (!prefsNoAds) {
-			int counter = p.getInt(PREFS_ADS_COUNTER, 15) - 1;
-			if (counter >= 0) {
-				Log.d(TAG, "write PREFS_ADS_COUNTER: " + counter);
-				p.edit().putInt(PREFS_ADS_COUNTER, counter).apply();
-			}
-			prefsShowAds = counter <= 0;
 			final long random = System.currentTimeMillis() % INTERSTITIAL_ADS_RATION;
 			prefsInterstitialAd = random == 0 && !p.getBoolean(PREFS_AUTOEXIT, false);
 		}
@@ -2132,7 +2123,7 @@ public class WebSMS extends AppCompatActivity implements OnClickListener,
     }
 
 	private void showInterstitial() {
-		if  (prefsShowAds && prefsInterstitialAd && mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+		if  (!prefsNoAds && prefsInterstitialAd && mInterstitialAd != null && mInterstitialAd.isLoaded()) {
 			mInterstitialAd.show();
 		}
 	}
