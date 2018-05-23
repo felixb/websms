@@ -1,3 +1,7 @@
+# Discontinued
+
+This app is discontinued and removed from all distribution channels.
+
 # WebSMS
 
 WebSMS is a simple app allowing you to send text messages to anybody via different kinds of web services.
